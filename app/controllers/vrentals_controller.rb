@@ -46,7 +46,7 @@ class VrentalsController < ApplicationController
   def create
     @vrental = Vrental.new(vrental_params)
     # @owner = Owner.find(params[:owner_id])
-    # @vrental.owner = @owner
+    @vrental.profile = current_profile
     if @vrental.save
       redirect_to vrental_path(@vrental)
     else

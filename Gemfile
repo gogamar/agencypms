@@ -92,6 +92,7 @@ gem 'devise-i18n'
 gem 'flag-icons-rails'
 gem 'pry-byebug'
 gem 'rails-html-sanitizer'
+gem "pundit"
 
 # for heroku stack heroku-22
 group :production do
