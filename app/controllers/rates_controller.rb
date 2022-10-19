@@ -21,7 +21,6 @@ class RatesController < ApplicationController
     @rate = Rate.new
   end
 
-x # GET /rates/1/edit
   def edit
   end
 
