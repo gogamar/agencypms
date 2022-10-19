@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Perfils</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Logo</th>
+      <th scope="col">Nom comercial</th>
+      <th scope="col">Nom registrat</th>
+      <th scope="col">Adreça</th>
+      <th scope="col">CIF</th>
+      <th scope="col">Modificar</th>
+      <th scope="col">Esborrar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @profiles.each_with_index do |profile, index| %>
+        <tr>
+        <th scope="row"> <%= index + 1 %></th>
+        <% if profile.photo.attached? %>
+        <td><%= cl_image_tag profile.photo.key, height: 40 %></td>
+        <% else %>
+        <td>Sense logo</td>
+        <% end %>
+        <td><%= profile.businessname %></td>
+        <td><%= profile.companyname %></td>
+        <td><%= profile.address %></td>
+        <td><%= profile.vat%></td>
+        <td><%= link_to 'Modificar', edit_profile_path(profile) %></td>
+        <td><%= link_to 'Eliminar el perfil', profile, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest perfil?"} %></td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<%= link_to 'Afegir un perfil nou', new_profile_path, class: "btn btn-secondary" %>

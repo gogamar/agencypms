@@ -15,6 +15,16 @@ module Contractes
     end
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+    config.i18n.default_locale = :ca
+
+    # allowing html tags and attributes so that sanitize doesn't strip it all
+    # config.action_view.sanitized_allowed_tags = ['strong', 'em', 'a', 'tr', 'td', 'th', 'table', 'thead', 'tbody', 'hr', 'span']
+    # config.action_view.sanitized_allowed_attributes = ['href', 'title', 'colspan', 'style', 'class']
+
+    config.action_view.sanitized_allowed_attributes = Rails::Html::SafeListSanitizer.allowed_attributes = ['href', 'title', 'colspan', 'style', 'class', 'src']
+    config.action_view.sanitized_allowed_tags = Rails::Html::SafeListSanitizer.allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'img', 'strong', 'em', 'a', 'tr', 'td', 'th', 'table', 'thead', 'tbody', 'hr', 'span']
+
 
     # Configuration for the application, engines, and railties goes here.
     #

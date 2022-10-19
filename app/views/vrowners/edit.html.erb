@@ -1,0 +1,12 @@
+<h1>Modificar el propietari</h1>
+<div class="d-flex flex-column">
+  <div class="pt-4">
+    <%= render 'form', vrowner: @vrowner %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Veure el propietari', @vrowner, class: 'btn btn-confirm' %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Tornar', vrowners_path, class: 'btn btn-back' %>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Fullname:</strong>
+  <%= @vrowner.fullname %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @vrowner.address %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @vrowner.document %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @vrowner.account %>
+</p>
+
+<%= link_to 'Modificar', edit_vrowner_path(@vrowner) %> |
+<%= link_to 'Tornar', vrowners_path %>

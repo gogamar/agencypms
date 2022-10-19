@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="d-flex flex-column justify-content-center p-5">
+    <h3 class="text-center">Contractes</h3>
+    <div class="d-flex justify-content-end pb-4">
+      <%# link_to 'Afegir un contracte nou', new_rental_agreement_path(@rental), class: "btn btn-confirm" %>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Data firma</th>
+            <th scope="col">Data inici</th>
+            <th scope="col">Preu</th>
+            <th scope="col">Diposit</th>
+            <th scope="col">Descripció</th>
+            <th scope="col">Immoble</th>
+            <th scope="col">Propietari</th>
+            <th scope="col">Inquili</th>
+            <th scope="col">Plantilla</th>
+            <th scope="col">Més detalls</th>
+            <th scope="col">Modificar</th>
+            <th scope="col">Esborrar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @agreements.each_with_index do |agreement, index| %>
+              <tr>
+              <th scope="row"> <%= index + 1 %></th>
+              <td><%= agreement.signdate %></td>
+              <td><%= agreement.start_date %></td>
+              <td><%= agreement.price %></td>
+              <td><%= agreement.deposit %></td>
+              <td><%= agreement.contentarea %></td>
+              <td><%= agreement.rental.address %></td>
+              <td><%= agreement.rental.owner.fullname %></td>
+              <td><%= agreement.renter.fullname %></td>
+              <td><%= agreement.rentaltemplate.title %></td>
+              <td><%= link_to 'Més detalls', agreement %></td>
+              <td><%= link_to 'Modificar', edit_agreement_path(agreement) %></td>
+              <td><%= button_to "Esborrar", agreement, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Are you sure?" } } %></td>
+            </tr>
+          <% end %>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>

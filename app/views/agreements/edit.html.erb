@@ -1,0 +1,12 @@
+<h1>Modificar el contracte</h1>
+<div class="d-flex flex-column">
+  <div class="pt-4">
+    <%= render 'form', agreement: @agreement %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Veure el contracte', @agreement, class: 'btn btn-confirm' %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Tornar', agreements_path, class: 'btn btn-back' %>
+  </div>
+</div>

@@ -60,6 +60,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "wkhtmltopdf-binary"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
@@ -75,4 +76,24 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+end
+
+# don't know if I need cssbundling
+# gem "cssbundling-rails"
+# gem 'flatpickr_rails', '~> 1.1'
+gem 'rails-i18n'
+gem 'bootstrap-datepicker-rails'
+gem "cloudinary"
+gem "mini_magick"
+gem 'ckeditor'
+gem 'beds24', github: 'gogamar/beds24'
+gem 'wicked_pdf'
+gem 'devise-i18n'
+gem 'flag-icons-rails'
+gem 'pry-byebug'
+gem 'rails-html-sanitizer'
+
+# for heroku stack heroku-22
+group :production do
+    gem 'wkhtmltopdf-heroku', '2.12.6.1.pre.jammy'
 end

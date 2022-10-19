@@ -1,0 +1,222 @@
+ca:
+  locale: "Català"
+  nights: "nits"
+  from: "Des de"
+  to: "Fins a"
+  arrival_day: "Dia entrada"
+  min: "Min."
+  week: "Setmana"
+  night_7: "Nit (7)"
+  night_5: "Nit (5-6)"
+  washer: "rentadora"
+  oven: "forn"
+  toaster: "torradora"
+  microwave: "microones"
+  hair_dryer: "secador de cabells"
+  iron_board: "planxa"
+  garden: "jardí comunitari"
+  wifi: "wifi"
+  refrigerator: "nevera"
+  grill: "barbacoa"
+  ocean_view: "vista al mar"
+  dishwasher: "rentaplats"
+  pool_private: "piscina privada"
+  pets_considered: "s'accepten mascotes"
+  air_conditioning: "aire acondicionat"
+  freezer: "congelador"
+  elevator: "ascensor"
+  beach_view: "vista al mar"
+  private_yard: "jardí privat"
+  smoke_detector: "detector de fum"
+  pets_not_allowed: "no s'accepten mascotes"
+  balcony: "balcó"
+  parking_included: "parking inclòs"
+  parking_possible: "parking possible al carrer"
+  deck_patio_uncovered: "terrassa"
+  kettle: "bullidor d'aigua"
+  beach_front: "primera línia del mar"
+  pool: "piscina comunitària"
+  coffee_maker: "cafetera"
+  roof_terrace: "terrassa comunitària"
+  tv: "TV"
+  fireplace: "xemeneia"
+  ceiling_fan: "ventilador del sostre"
+  saturdays: "Ds.-Ds."
+  everyday: "Qualsevol dia"
+  date:
+    abbr_day_names:
+      - Dg
+      - Dl
+      - Dm
+      - Dc
+      - Dj
+      - Dv
+      - Ds
+    abbr_month_names:
+      -
+      - Gen
+      - Feb
+      - Mar
+      - Abr
+      - Mai
+      - Jun
+      - Jul
+      - Ago
+      - Set
+      - Oct
+      - Nov
+      - Des
+    day_names:
+      - Diumenge
+      - Dilluns
+      - Dimarts
+      - Dimecres
+      - Dijous
+      - Divendres
+      - Dissabte
+    formats:
+      default: "%d-%m-%Y"
+      long: "%a, %d de %B de %Y"
+      short: "%d de %b"
+    month_names:
+      -
+      - Gener
+      - Febrer
+      - Març
+      - Abril
+      - Maig
+      - Juny
+      - Juliol
+      - Agost
+      - Setembre
+      - Octubre
+      - Novembre
+      - Desembre
+    order:
+      - :day
+      - :month
+      - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: aproximadament 1 hora
+        other: aproximadament %{count} hores
+      about_x_months:
+        one: aproximadament 1 mes
+        other: aproximadament %{count} mesos
+      about_x_years:
+        one: aproximadament 1 any
+        other: aproximadament %{count} anys
+      almost_x_years:
+        one: quasi 1 any
+        other: quasi %{count} anys
+      half_a_minute: mig minut
+      less_than_x_seconds:
+        one: menys d'1 segon
+        other: menys de %{count} segons
+      less_than_x_minutes:
+        one: menys d'1 minut
+        other: menys de %{count} minuts
+      over_x_years:
+        one: més d'1 any
+        other: més de %{count} anys
+      x_seconds:
+        one: 1 segon
+        other: "%{count} segons"
+      x_minutes:
+        one: 1 minut
+        other: "%{count} minuts"
+      x_days:
+        one: 1 dia
+        other: "%{count} dies"
+      x_months:
+        one: 1 mes
+        other: "%{count} mesos"
+      x_years:
+        one: 1 year
+        other: "%{count} years"
+    prompts:
+      second: segon
+      minute: minut
+      hour: hora
+      day: dia
+      month: mes
+      year: any
+  hello: "Hola"
+  welcome: "Benvinguts!"
+  services_html: "Donem uns <em>serveis magnifics</em>"
+  create_profile: "Crea un perfil"
+  pages:
+    home:
+      hello: "Hola mòn"
+      welcome: "Benvinguts!"
+      services_html: "Donem uns <em>serveis magnifics</em>"
+  features:
+    form:
+      name:
+  vrentals:
+    show:
+      saturdays: "Ds.-Ds."
+      everyday: "Qualsevol dia"
+  rates:
+    index:
+      saturdays: "Ds.-Ds."
+      everyday: "Qualsevol dia"
+  vragreements:
+    form:
+      vrowner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com."
+  vrentaltemplates:
+    form:
+      ca: "Català"
+      es: "Castellà"
+      fr: "Francès"
+      en: "Anglès"
+  # activerecord:
+  #   attributes:
+  #     rentals:
+  #     owner_html: "Seleccionar el propietari o #{link_to 'Afegir propietari nou', new_owner_path, target: "_blank"}."
+  #     address: 'Adreça, codi postal i municipi'
+  #   global:
+  #     forms:
+  #       submit: Desar
+  activerecord:
+    attributes:
+      rental:
+        address: "Adreça"
+        city: "Municipi"
+        cadastre: "Cadastre"
+        energy: "Certificat d'eficiencia energètica"
+        description: "Descripció"
+      profile_session:
+        new:
+          profile: "Crear perfil"
+        city: "Municipi"
+        cadastre: "Cadastre"
+        energy: "Certificat d'eficiencia energètica"
+        description: "Descripció"
+      vrowner:
+        vrowner: "Propietari"
+        address: "Adreça"
+        phone: "Telèfon"
+        email: "Email"
+        account: "Compte bancari"
+      vragreement:
+        vrowner: "Propietari"
+        vrental: "Casa o apartament"
+        phone: "Telèfon"
+        email: "Email"
+        account: "Compte bancari"
+        vrowner_bookings: "Reserves per el propietari"
+      vrental:
+        vrowner: "Propietari"
+        address: "Adreça"
+        habitability: "Cédula de habitabilitat"
+        cadastre: "Cadastre"
+        licence: "Número HUT"
+        description: "Descripció"
+      vrentaltemplate:
+        language: "Idioma"
+
+  global:
+    forms:
+      submit: "Desar"

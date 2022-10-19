@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Tarifa per <%= @vrental.name %></h3>
+<p>
+  <strong>Des de:</strong>
+  <%= @rate.firstnight %>
+</p>
+
+<p>
+  <strong>Fins a:</strong>
+  <%= @rate.lastnight %>
+</p>
+
+<p>
+  <strong>Preu:</strong>
+  <%= @rate.priceweek %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_vrental_rate_path(@vrental, @rate) %> |

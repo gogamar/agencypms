@@ -1,0 +1,20 @@
+
+<%= simple_form_for [@vrental] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :name, required: true %>
+    <%= f.association :vrowner, label_method: :fullname %>
+    <%= f.input :status, as: :radio_buttons, collection: ['inactive', 'proposal', 'active'] %>
+    <%= f.input :address %>
+    <%= f.input :cadastre %>
+    <%= f.input :habitability %>
+    <%= f.input :licence %>
+    <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
+  </div>
+<% end %>

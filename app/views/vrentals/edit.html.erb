@@ -1,0 +1,12 @@
+<h1>Modificar l'immoble</h1>
+<div class="d-flex flex-column">
+  <div class="pt-4">
+    <%= render 'form', vrental: @vrental %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Veure l\'immoble', @vrental, class: 'btn btn-confirm' %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Tornar', vrentals_path, class: 'btn btn-back' %>
+  </div>
+</div>

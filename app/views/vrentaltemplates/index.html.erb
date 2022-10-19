@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Models de contracte</h1>
+<%= link_to 'Afegir un model de contracte nou', new_vrentaltemplate_path, class: "btn btn-confirm text-end" %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Plantilla</th>
+      <th scope="col">Idioma</th>
+      <th scope="col">Més detalls</th>
+      <th scope="col">Modificar</th>
+      <th scope="col">Copiar</th>
+      <th scope="col">Esborrar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vrentaltemplates.each_with_index do |vrentaltemplate, index| %>
+        <tr>
+        <th scope="row"> <%= index + 1 %></th>
+        <td><%= vrentaltemplate.title %></td>
+        <td><%= vrentaltemplate.language %></td>
+        <td><%= link_to 'Veure el model', vrentaltemplate, class: "btn btn-back" %></td>
+        <td><%= link_to 'Modificar', edit_vrentaltemplate_path(vrentaltemplate) %></td>
+        <td><%= link_to 'Copiar model', copy_vrentaltemplate_path(vrentaltemplate), class: "btn btn-back"  %></td>
+        <td><%= link_to 'Esborrar', vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"} %></td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>

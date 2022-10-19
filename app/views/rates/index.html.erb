@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tarifes </h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">HUT</th>
+      <th scope="col">Des de</th>
+      <th scope="col">Fins a</th>
+      <th scope="col">Preu setmana</th>
+      <th scope="col">Preu nit</th>
+      <th scope="col">Estada mínima</th>
+      <th scope="col">Check-in/out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rates.each_with_index do |rate, index| %>
+        <tr>
+        <th scope="row"> <%= index + 1 %></th>
+        <td><%= rate.vrental.name %></td>
+        <td><%= rate.firstnight %></td>
+        <td><%= rate.lastnight %></td>
+        <td><%= rate.priceweek %></td>
+        <td><%= rate.pricenight %></td>
+        <td><%= rate.min_stay %></td>
+        <td><%= t(".#{rate.arrival_day}") %></td>
+        <td><%= link_to 'Més detalls', rate %></td>
+        <td><%= link_to 'Modificar', edit_rate_path(rate) %></td>
+        <td><%= button_to "Esborrar", rate, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar?" } } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<%= link_to 'Afegir una tarifa nova', new_rate_path %>

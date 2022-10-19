@@ -1,0 +1,10 @@
+<%= turbo_frame_tag owner do %>
+  <div class="owner-card">
+    <h3><%= owner.fullname %></h3>
+    <p><%= owner.address %></p>
+    <div class="owner-actions">
+      <%= link_to "Edit", edit_owner_path(owner), class: "mr2", data: { turbo_frame: dom_id(owner) } %>
+      <%= button_to "Delete", owner, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Are you sure?" } } %>
+    </div>
+  </div>
+<% end %>

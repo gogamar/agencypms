@@ -1,0 +1,128 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Immoble <%= @vrental.name %></h1>
+
+
+<p>
+  <strong>Número HUT:</strong>
+  <%= @vrental.licence %>
+</p>
+
+<p>
+  <strong>Adreça:</strong>
+  <%= @vrental.address %>
+</p>
+
+<p>
+  <strong>Cadastre:</strong>
+  <%= @vrental.cadastre %>
+</p>
+
+<p>
+  <strong>Cédula:</strong>
+  <%= @vrental.habitability %>
+</p>
+
+<p>
+  <strong>Comissió:</strong>
+  <%= @vrental.commission %>
+</p>
+
+<p>
+  <strong>Descripció:</strong>
+  <%= @vrental.description %>
+</p>
+
+<%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-back" %> |
+<%= link_to 'Tornar', vrentals_path %>
+
+<br>
+<br>
+
+<h4>Caracteristiques:</h4>
+<table class="table table-sm">
+  <tbody>
+  <% @vrental.features.each do |feature| %>
+  <tr>
+    <td><%= t "#{feature.name}" %></td>
+    <td><%= link_to 'Esborrar', feature_path(feature), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'Afegir una caracteristica nova', new_vrental_feature_path(@vrental), class: "btn btn-back" %>
+
+<br><br><br>
+
+<h4>Tarifes del <%= @vrental.name %> per l'any 2022 </h4>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Des de</th>
+      <th scope="col">Fins a</th>
+      <th scope="col">Preu setmana</th>
+      <th scope="col">Preu nit</th>
+      <th scope="col">Estada mínima</th>
+      <th scope="col">Check-in/out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rates.each_with_index do |rate, index| %>
+        <% if rate.firstnight >= Date.new(2022,1,1) && rate.lastnight < Date.new(2022,12,31) %>
+        <tr>
+        <th scope="row"> <%= index + 1 %></th>
+        <td><%= l(rate.firstnight, format: :long) %></td>
+        <td><%= l(rate.lastnight, format: :long) %></td>
+        <td><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <% if rate.min_stay > 5 %>
+        <td class="nowrap"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <% else %>
+        <td class="nowrap"><%= number_to_currency((rate.priceweek / 6.25), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <% end %>
+        <td><%= rate.min_stay %></td>
+        <td><%= t(".#{rate.arrival_day}") %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+</table>
+
+<h4>Tarifes del <%= @vrental.name %> per l'any 2023 </h4>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Des de</th>
+      <th scope="col">Fins a</th>
+      <th scope="col">Preu setmana</th>
+      <th scope="col">Preu nit</th>
+      <th scope="col">Estada mínima</th>
+      <th scope="col">Check-in/out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rates.each_with_index do |rate, index| %>
+        <% if rate.firstnight >= Date.new(2023,1,1) %>
+        <tr>
+        <th scope="row"> <%= index + 1 %></th>
+        <td><%= l(rate.firstnight, format: :long) %></td>
+        <td><%= l(rate.lastnight, format: :long) %></td>
+        <td><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= rate.min_stay %></td>
+        <td><%= t(".#{rate.arrival_day}") %></td>
+        <td><%= link_to 'Més detalls', rate %></td>
+        <td><%= link_to 'Modificar', edit_rate_path(rate) %></td>
+        <td><%= link_to 'Esborrar', rate_path(rate), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+</table>
+
+<%= link_to 'Afegir una tarifa nova', new_vrental_rate_path(@vrental) %>

@@ -1,0 +1,44 @@
+<div class="container">
+<%= simple_form_for(@profile) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <div class="w-50">
+      <%= f.input :companytype, label: 'Tipus d\'empresa', priority: [ "Immobiliària" ], collection: [ "Immobiliària", "Lloguer turístic"]%>
+    </div>
+      <%= f.input :businessname, label: 'Nom comercial de la empresa' %>
+      <%= f.input :officeaddress, label: 'Adreça de l\'oficina' %>
+      <%= f.input :officezip, label: 'Codi postal de l\'oficina' %>
+      <%= f.input :officecity, label: 'Municipi de l\'oficina' %>
+      <%= f.input :officephone, label: 'Telèfon de l\'oficina' %>
+      <%= f.input :companyname, label: 'Nom registrat de la empresa' %>
+      <%= f.input :address, label: 'Adreça fiscal' %>
+      <%= f.input :companyzip, label: 'Codi postal adreça fiscal' %>
+      <%= f.input :companycity, label: 'Municipi adreça fiscal' %>
+      <%= f.input :companyphone, label: 'Telèfon de la seu empresa' %>
+    <div class="d-flex justify-content-between">
+      <div class="pe-2">
+        <%= f.input :vat, label: 'CIF' %>
+      </div>
+      <div class="ps-2">
+        <%= f.input :photo, label: 'Logo', as: :file %>
+      </div>
+
+    </div>
+    <% if profile %>
+      <% if profile.photo.attached? %>
+        <%= cl_image_tag profile.photo.key, height: 70 %>
+        <%= link_to "Esborrar imatge", purge_photo_user_path(profile), method: :delete, class: "btn btn-warning" %>
+      <% end %>
+    <% end %>
+    <div class="d-flex justify-content-between pt-4">
+      <div>
+      <%= link_to 'Tornar', profiles_path, class: 'btn btn-back' %>
+      </div>
+
+      <div>
+          <%= f.submit "Desar", class: "btn btn-confirm" %>
+      </div>
+
+    </div>
+    <% end %>
+</div>

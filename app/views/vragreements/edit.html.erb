@@ -1,0 +1,12 @@
+<h1>Modificar el contracte turístic</h1>
+<div class="d-flex flex-column">
+  <div class="pt-4">
+    <%= render 'form', vrental: @vrental, vragreement: @vragreement %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Veure el contracte', @vragreement, class: 'btn btn-confirm' %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Tornar', vragreements_path, class: 'btn btn-back' %>
+  </div>
+</div>

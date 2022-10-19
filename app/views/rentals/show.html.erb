@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Propietari:</strong>
+  <%= @rental.owner.fullname %>
+</p>
+
+<p>
+  <strong>Adreça:</strong>
+  <%= @rental.address %>
+</p>
+
+<p>
+  <strong>Municipi:</strong>
+  <%= @rental.city %>
+</p>
+
+<p>
+  <strong>Cadastre:</strong>
+  <%= @rental.cadastre %>
+</p>
+
+<p>
+  <strong>Certificat energetic:</strong>
+  <%= @rental.energy %>
+</p>
+
+<p>
+  <strong>Descripció:</strong>
+  <%= @rental.description %>
+</p>
+
+<%= link_to 'Edit', edit_rental_path(@rental) %> |
+<%= link_to 'Back', rentals_path %>

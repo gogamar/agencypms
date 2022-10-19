@@ -1,2 +1,19 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<%= t('locale') %>
+<%= t('beach') %>
+
+
+<%# youtube hotwire guy %>
+
+<%= turbo_frame_tag "form" do %>
+  <%= form_tag root_path, method: :get, data: { controller: "dropdown", action: "change->dropdown#submit" } do %>
+    <%= select_tag :owner, options_from_collection_for_select(@owners, "id", "fullname", @owner&.id), prompt: "- Please select the owner -" %>
+    <%= select_tag :rental, options_from_collection_for_select(@rentals, "id", "address", @rental&.id), prompt: "- Rental -" %>
+  <% end %>
+  <% if @rental %>
+    <div class="mt-4">
+      <span class="inline-block mr-2">✅</span>
+      The <strong><%= "#{@owner.fullname}'s #{@rental.address}" %></strong> is a nice apartment.
+      <div class="mt-4"><%= link_to "Pick another", root_path, class: "text-blue-600 underline", data: { turbo_frame: "_top" } %></div>
+    </div>
+  <% end %>
+<% end %>

@@ -6,13 +6,17 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", media: 'all', "data-turbo-track": "reload" %>
+     <%# in the old version of the app it was javascript_pack_tag %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag Ckeditor.cdn_url %>
   </head>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
-
-    <%= yield %>
+  <body>
+    <%= render "shared/navbar" %>
+    <%= render "shared/flashes" %>
+    <div class="p-5">
+      <%= yield %>
+    </div>
   </body>
 </html>

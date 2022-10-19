@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+<!--
+<% frame_id = dom_id(@owner), "name_turbo_frame" %>
+  <%= form_with model: @owner, data: { turbo_frame: frame_id } do |form| %>
+  <%= turbo_frame_tag frame_id do %>
+    <h3><%= @owner.fullname %></h3>
+    <%= link_to "Edit name", edit_owner_path(@owner) %>
+<% end %>
+<% end %>
+-->
+
+<p>
+  <strong>Address:</strong>
+  <%= @owner.address %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @owner.document %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @owner.account %>
+</p>
+
+<%= link_to 'Edit', edit_owner_path(@owner) %> |
+<%= link_to 'Back', owners_path %>

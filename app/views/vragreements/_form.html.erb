@@ -1,0 +1,44 @@
+<div class="container-fluid p-4">
+<%= simple_form_for [ vrental, vragreement ] do |f| %>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-12">
+      <%= f.association :vrentaltemplate, label_method: :title, label: 'Plantilla', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
+    </div>
+  </div>
+     <%# date and place row %>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-3">
+      <%= f.input :signdate, as: :string, required: true, input_html: {class: "datepicker"}, label: 'Data de la firma' %>
+    </div>
+    <div class="col-lg-3">
+      <%= f.input :place, label: 'Lloc de la firma' %>
+    </div>
+    <div class="col-lg-3">
+      <%= f.input :start_date, as: :string, required: true, input_html: {class: "datepicker"}, label: 'Data inici lloguer'  %>
+    </div>
+    <div class="col-lg-3">
+      <%= f.input :end_date, as: :string, required: false, input_html: {class: "datepicker"}, label: 'Data fi lloguer'  %>
+    </div>
+  </div>
+   <div class="row justify-content-md-center">
+     <div class="col-lg-12">
+       <%= f.input :vrowner_bookings, default: t('.vrowner_bookings') %>
+     </div>
+   </div>
+
+  <div class="row justify-content-md-center">
+    <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>
+  </div>
+  <div class="form-actions row gx-4">
+    <div class="col text-end">
+      <div class="p-3">
+        <%= f.submit "Desar", class: "btn btn-confirm" %>
+      </div>
+      <div class="p-3">
+      <%= f.submit "Desar com contracte nou", class: "btn btn-navbar" %>
+      </div>
+    </div>
+
+  </div>
+<% end %>
+</div>

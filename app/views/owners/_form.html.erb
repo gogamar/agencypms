@@ -1,0 +1,45 @@
+
+<div class="owner-card">
+  <%= form_with model: owner do |f| %>
+    <div>
+      <%= f.label :fullname %>
+      <%= f.text_field :fullname %>
+      <%= errors_for owner, :fullname %>
+    </div>
+
+    <div class="mt2">
+      <%= f.label :address %>
+      <%= f.text_area :address %>
+      <%= errors_for owner, :address %>
+    </div>
+
+    <div class="mt2">
+      <%= f.button %>
+      <%= link_to "Cancel", owners_path, class: "ml2" %>
+    </div>
+  <% end %>
+</div>
+<!-- Code if I don't want to have creation of new owner on owner index page
+<div class="d-flex justify-content-center pt-4">
+<div class="w-50">
+
+<%= simple_form_for(@owner) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :fullname, label: "Nom i cognoms" %>
+    <%= f.input :address, label: "L'adreça" %>
+    <%= f.input :document, label: "DNI" %>
+    <%= f.input :account, label: "Compte bancari" %>
+    <%= f.input :language, label: "Idioma", priority: [ "català" ], collection: [ "català", "castellà", "francès", "anglès" ] %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Desar", class: "btn btn-confirm" %>
+  </div>
+<% end %>
+
+</div>
+</div>
+-->

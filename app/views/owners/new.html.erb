@@ -1,0 +1,12 @@
+<%# code if I want to have inline creation of new owner on index page for owners %>
+<%# turbo_frame_tag @owner do %>
+  <%# render "form", owner: @owner %>
+<%# end %>
+
+<h3 class="text-center">Afegir un propietari nou</h3>
+
+<%= render 'form', owner: @owner %>
+
+<div class="pt-4">
+<%= link_to 'Tornar', owners_path, class: 'btn btn-back' %>
+</div>

@@ -1,0 +1,19 @@
+
+<%= simple_form_for [rental] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :owner, label_method: :fullname, label: 'Propietari', selected: params[:owner_id], include_blank: true, required: true %>
+    <%= f.input :address %>
+    <%= f.input :city %>
+    <%= f.input :cadastre %>
+    <%= f.input :energy %>
+    <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  </div>
+  <div> Per exemple: El pis d'uns 55m2 útils aproximats consta de 2 habitacions dobles, una cuina independent, menjador sala d'estar amb sortida a terrassa i un lavabo. </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
+  </div>
+<% end %>

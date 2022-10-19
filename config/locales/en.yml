@@ -1,33 +1,127 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   "true": "foo"
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  locale: "English"
+  nights: "nights"
+  from: "From"
+  to: "To"
+  arrival_day: "Arrival day"
+  min: "Min."
+  week: "Week"
+  night_7: "Night (7)"
+  night_5: "Night (5-6)"
+  washer: "washing machine"
+  oven: "oven"
+  toaster: "toaster"
+  microwave: "microwave"
+  hair_dryer: "hair dryer"
+  iron_board: "iron"
+  garden: "communal garden"
+  wifi: "wifi"
+  refrigerator: "refrigerator"
+  grill: "BBQ"
+  ocean_view: "sea view"
+  dishwasher: "dishwasher"
+  pool_private: "private pool"
+  pets_considered: "pets allowed"
+  air_conditioning: "air-conditioning"
+  freezer: "freezer"
+  elevator: "lift"
+  beach_view: "sea view"
+  private_yard: "private yard"
+  smoke_detector: "smoke detector"
+  pets_not_allowed: "pets not allowed"
+  balcony: "balcony"
+  parking_included: "parking included"
+  parking_possible: "street parking possible"
+  deck_patio_uncovered: "terrace"
+  kettle: "kettle"
+  beach_front: "beach front"
+  pool: "communal pool"
+  coffee_maker: "coffee machine"
+  roof_terrace: "communal terrace"
+  tv: "TV"
+  fireplace: "fireplace"
+  ceiling_fan: "ceiling fan"
+  saturdays: "Sat. - Sat."
+  everyday: "Any day"
+  date:
+    formats:
+      default: "%m-%d-%Y"
+      long: "%a, %d %B, %Y"
+      short: "%d %b"
+  vrentals:
+    show:
+      saturdays: "Ds.-Ds."
+      everyday: "Qualsevol dia"
+  rates:
+    index:
+      saturdays: "Ds.-Ds."
+      everyday: "Qualsevol dia"
+  vragreements:
+    form:
+      vrowner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com."
+  vrentaltemplates:
+    form:
+      ca: "Català"
+      es: "Castellà"
+      fr: "Francès"
+      en: "Anglès"
+  # activerecord:
+  #   attributes:
+  #     rentals:
+  #     owner_html: "Seleccionar el propietari o #{link_to 'Afegir propietari nou', new_owner_path, target: "_blank"}."
+  #     address: 'Adreça, codi postal i municipi'
+  #   global:
+  #     forms:
+  #       submit: Desar
+  activerecord:
+    attributes:
+      rental:
+        address: "Adreça"
+        city: "Municipi"
+        cadastre: "Cadastre"
+        energy: "Certificat d'eficiencia energètica"
+        description: "Descripció"
+      profile_session:
+        new:
+          profile: "Crear perfil"
+        city: "Municipi"
+        cadastre: "Cadastre"
+        energy: "Certificat d'eficiencia energètica"
+        description: "Descripció"
+      vrowner:
+        vrowner: "Propietari"
+        address: "Adreça"
+        phone: "Telèfon"
+        email: "Email"
+        account: "Compte bancari"
+      vragreement:
+        vrowner: "Propietari"
+        vrental: "Casa o apartament"
+        phone: "Telèfon"
+        email: "Email"
+        account: "Compte bancari"
+        vrowner_bookings: "Reserves per el propietari"
+      vrental:
+        vrowner: "Propietari"
+        address: "Adreça"
+        habitability: "Cédula de habitabilitat"
+        cadastre: "Cadastre"
+        licence: "Número HUT"
+        description: "Descripció"
+      vrentaltemplate:
+        language: "Idioma"
+
+  global:
+    forms:
+      submit: "Desar"
+  activerecord:
+    attributes:
+      rental:
+        address: "Address"
+        city: "City"
+        cadastre: "Cadastre"
+        energy: "Energy efficiency certificate"
+        description: "Description"
+  global:
+    forms:
+      submit: "Submit"

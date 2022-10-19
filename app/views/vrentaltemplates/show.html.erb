@@ -1,0 +1,11 @@
+<p id="notice"><%= notice %></p>
+<div class="d-flex justify-content-end pb-5">
+  <div class="pe-2">
+    <%= link_to 'Modificar', edit_vrentaltemplate_path(@vrentaltemplate), class: "btn btn-navbar" %>
+  </div>
+  <div>
+    <%= link_to 'Tornar enrere', vrentaltemplates_path, class: "btn btn-navbar" %>
+  </div>
+</div>
+
+<div><%= sanitize @vrentaltemplate.text %></div>

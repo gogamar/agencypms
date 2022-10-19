@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Fullname:</strong>
+  <%= @renter.fullname %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @renter.address %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @renter.document %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @renter.account %>
+</p>
+
+<%= link_to 'Modificar', edit_renter_path(@renter) %> |
+<%= link_to 'Tornar', renters_path %>

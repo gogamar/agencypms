@@ -1,0 +1,9 @@
+<h3>Afegir un immoble turístic nou o copiar un immoble existent</h3>
+<%= link_to "Copiar un immoble existent", vrentals_path %>
+<%# <p>Propietari: @vrental.vrowner.fullname</p> %>
+
+<%= render 'form', vrental: @vrental %>
+
+<div class="pt-4">
+<%= link_to 'Tornar', vragreements_path, class: 'btn btn-back' %>
+</div>

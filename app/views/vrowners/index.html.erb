@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Propietaris dels HUTs</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">HUT</th>
+      <th scope="col">Nom i Cognoms</th>
+      <th scope="col">Idioma</th>
+      <th scope="col">Adreça</th>
+      <th scope="col">Telèfon</th>
+      <th scope="col">Email</th>
+      <th scope="col">DNI</th>
+      <th scope="col">Compte bancari</th>
+      <th scope="col">Commissió</th>
+      <th scope="col">Més detalls</th>
+      <th scope="col">Modificar</th>
+      <th scope="col">Esborrar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vrowners.each_with_index do |vrowner, index| %>
+        <tr>
+        <th scope="row"> <%= index + 1 %></th>
+        <td><%= vrowner.beds_room_id %></td>
+        <td><%= vrowner.fullname %></td>
+        <td><%= vrowner.language %></td>
+        <td><%= vrowner.address %></td>
+        <td><%= vrowner.phone %></td>
+        <td><%= vrowner.email %></td>
+        <td><%= vrowner.document %></td>
+        <td><%= vrowner.account %></td>
+        <td>
+        <%# vrowner.rentals.each do |rental| %>
+        <%# rental.commission %>
+        <%# end %>
+        </td>
+        <td><%= link_to 'Més detalls', vrowner %></td>
+        <td><%= link_to 'Modificar', edit_vrowner_path(vrowner) %></td>
+        <td><%= link_to 'Esborrar', vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest propietari?"} %></td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<%= link_to 'Afegir un propietari nou', new_vrowner_path %>

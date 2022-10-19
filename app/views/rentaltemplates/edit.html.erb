@@ -1,0 +1,12 @@
+<h1>Modificar el model de contracte</h1>
+<div class="d-flex flex-column">
+  <div class="pt-4">
+    <%= render 'form', rentaltemplate: @rentaltemplate %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Veure el model de contracte', @rentaltemplate, class: 'btn btn-confirm' %>
+  </div>
+  <div class="pt-4">
+    <%= link_to 'Tornar', rentaltemplates_path, class: 'btn btn-back' %>
+  </div>
+</div>

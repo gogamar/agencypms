@@ -1,1 +1,138 @@
 // Specific CSS for your home-page
+body {
+  color: #164e63;
+  // font-family: "Open Sans", sans-serif;
+}
+
+a {
+  color: #155e75;
+}
+
+.form-check-input:checked {
+  background-color: #155e75;
+  border-color: #155e75;
+}
+
+.cfield {
+  width: 200px;
+  border: 1px solid grey;
+}
+
+.agrtitle {
+  background-color: #2b5c80;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+
+.custom-avatar {
+  background-color: #cccccc;
+  border: 1px solid #444444;
+  border-radius: 5px;
+}
+
+// profile_sessions/new
+
+.cards {
+  list-style: none;
+}
+
+.card {
+  background-color: white;
+  padding: 10px;
+  border-radius: 0.25rem;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  &:hover {
+    .card__image {
+      filter: contrast(100%);
+    }
+  }
+}
+
+.create-profile {
+  background-image: url("https://res.cloudinary.com/dlzusxobf/image/upload/v1665142109/Checklist_h6qpq7.jpg");
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+}
+
+// for testing
+
+.bckred {
+  background-color: red;
+  color: red;
+}
+
+// css for inline editing with turbo
+
+label {
+  display: block;
+}
+
+.mt1 {
+  margin-top: 0.5rem;
+}
+.mt2 {
+  margin-top: 1rem;
+}
+
+.ml1 {
+  margin-left: 0.5rem;
+}
+.ml2 {
+  margin-left: 1rem;
+}
+
+.mr1 {
+  margin-right: 0.5rem;
+}
+.mr2 {
+  margin-right: 1rem;
+}
+
+.form-error {
+  color: red;
+}
+
+.btn-danger {
+  background: white;
+  color: red;
+  border: 1px solid red;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-card {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.product-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.product-card p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nowrap {
+  white-space: nowrap !important;
+}

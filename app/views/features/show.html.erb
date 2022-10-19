@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Caracteristica</strong>
+  <%= t("#{@feature.name}") %>
+</p>
+
+<p>
+  <strong>Immoble:</strong>
+  <%= @vrental.name %>
+</p>
+
+<%= link_to 'Edit', edit_vrental_feature_path(@vrental) %> |
+<%= link_to 'Back', vrental_path(@vrental) %>

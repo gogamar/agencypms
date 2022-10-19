@@ -1,0 +1,20 @@
+<%= simple_form_for(@rentaltemplate) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :title %>
+  </div>
+
+  <div>
+    <h4>Variables disponibles:</h4>
+    <p>{{dataFIRMA}}, {{lloc}}, {{dataINI}}, {{dataFI}}, {{propietari}}, {{immoADR}}, {{municipi}}, {{cadastre}}, {{certENE}}, {{descripcio}}, {{propDNI}}, {{propADR}}, {{inquili}}, {{inqDNI}}, {{inqADR}}, {{preuNUM}}, {{preuTEXT}}</p>
+  </div>
+  <div class="form-inputs">
+    <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } } %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Desar" %>
+    <%= f.submit "Desar com model de contracte nou" %>
+  </div>
+<% end %>

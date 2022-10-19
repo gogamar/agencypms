@@ -5,7 +5,10 @@
 
 // External libraries
 @import "bootstrap/scss/bootstrap";
+// @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "flag-icon";
+@import "flatpickr/dist/flatpickr";
 
 // Your CSS partials
 @import "components/index";

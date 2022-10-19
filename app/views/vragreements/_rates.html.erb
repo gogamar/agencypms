@@ -1,0 +1,34 @@
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col"><%= t("from") %></th>
+						<th scope="col"><%= t("to") %></th>
+						<th scope="col"><%= t("arrival_day") %></th>
+						<th scope="col"><%= t("min") %></th>
+						<th scope="col"><%= t("week") %></th>
+						<th scope="col"><%= t("night_7") %></th>
+						<th scope="col"><%= t("night_5") %></th>
+					</tr>
+				</thead>
+				<tbody>
+        <% @vrates.each do |rate| %>
+          <% if rate.firstnight >= @vragreement.start_date %>
+            <tr>
+              <td><%= l(rate.firstnight, format: :long) %></td>
+              <td><%= l(rate.lastnight, format: :long) %></td>
+              <td><%= t("#{rate.arrival_day}") %></td>
+              <td class="nowrap"><%= rate.min_stay %> <%= t("nights") %>
+              </td>
+              <td class="nowrap"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></td>
+              <td class="nowrap"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+              <td class="nowrap">
+              <% if rate.min_stay == 5 %>
+              <%= number_to_currency((rate.priceweek / 6.25), unit: "€", separator: ",", delimiter: ".", precision: 2) %>
+              <% end %>
+              </td>
+            </tr>
+            <% end %>
+        <% end %>
+				</tbody>
+			</table>
