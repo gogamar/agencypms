@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_18_085341) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_20_084538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,7 +134,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_085341) do
     t.bigint "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["owner_id"], name: "index_rentals_on_owner_id"
+    t.index ["user_id"], name: "index_rentals_on_user_id"
   end
 
   create_table "rentaltemplates", force: :cascade do |t|
@@ -201,6 +203,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_085341) do
     t.text "description_es"
     t.text "description_fr"
     t.text "description_en"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
 
@@ -234,7 +238,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_085341) do
   add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "rentals", "owners"
+  add_foreign_key "rentals", "users"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
+  add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
 end

@@ -362,3 +362,10 @@ beds24rentals = client.get_properties
 #     end
 #   end
 # end
+
+# 16 Add user_id to all vacation rentals
+@vrentals = Vrental.all
+@vrentals.each do |vrental|
+  vrental.user_id = 2
+  vrental.save!
+end
