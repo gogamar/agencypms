@@ -1,28 +1,30 @@
 class FeaturesController < ApplicationController
   before_action :set_feature, only: [ :show, :edit, :update, :destroy ]
-  before_action :set_vrental, only: [ :new, :create, :edit ]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update ]
+
+  # Index for features is not really necessary
+  def index
+    @features = policy_scope(Feature)
+  end
+
   def new
     @feature = Feature.new
+    authorize @feature
     @features = Feature.distinct.pluck(:name).map {|feature| t("#{feature}")}
   end
 
-  def index
-    @features = Feature.all
-    # @features = @vrental.features
-  end
-
   def show
-    # @vrental = Vrental.find_by(id: @feature.vrental_id)
+    authorize @feature
   end
-
 
   def edit
+    authorize @feature
   end
 
-  # POST /features
   def create
     @feature = Feature.new(feature_params)
     @feature.vrental = @vrental
+    authorize @feature
     if @feature.save
       redirect_to @vrental, notice: 'Has afegit una nova caracteristica.'
     else
@@ -30,8 +32,9 @@ class FeaturesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /features/1
   def update
+    @feature.vrental = @vrental
+    authorize @feature
     if @feature.update(feature_params)
       redirect_to @feature, notice: 'Has actualitzat la caracteristica.'
     else
@@ -39,8 +42,8 @@ class FeaturesController < ApplicationController
     end
   end
 
-  # DELETE /features/1
   def destroy
+    authorize @feature
     @feature.destroy
     redirect_to vrental_path(@feature.vrental), notice: 'Has esborrat la caracteristica.'
   end

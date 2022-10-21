@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Tarifes </h1>
+<h1>Tarifes de l'immoble <%= @vrental.name %> </h1>
 
 <table class="table table-striped">
   <thead>
@@ -27,11 +27,11 @@
         <td><%= rate.min_stay %></td>
         <td><%= t(".#{rate.arrival_day}") %></td>
         <td><%= link_to 'Més detalls', rate %></td>
-        <td><%= link_to 'Modificar', edit_rate_path(rate) %></td>
-        <td><%= button_to "Esborrar", rate, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar?" } } %></td>
+        <td><%= link_to 'Modificar', edit_vrental_rate_path(@vrental, rate) %></td>
+        <td><%= button_to "Esborrar", rate, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar la tarifa: #{rate.vrental.name} #{rate.firstnight} - #{rate.lastnight}?" } } %></td>
       </tr>
     <% end %>
     </tbody>
 </table>
 
-<%= link_to 'Afegir una tarifa nova', new_rate_path %>
+<%= link_to 'Afegir una tarifa nova', new_vrental_rate_path %>

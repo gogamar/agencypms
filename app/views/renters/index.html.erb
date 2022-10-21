@@ -25,7 +25,7 @@
         <td><%= renter.account %></td>
         <td><%= link_to 'Més detalls', renter %></td>
         <td><%= link_to 'Modificar', edit_renter_path(renter) %></td>
-        <td><%= link_to 'Esborrar', renter, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+        <td><%= link_to 'Esborrar', renter, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{renter.fullname}?"} %></td>
       </tr>
     <% end %>
     </tbody>

@@ -3,6 +3,8 @@
 
 <h1>Contractes</h1>
 
+<%= link_to 'Afegir un contracte turístic nou', vrentals_path, class: "btn btn-back" %>
+
 
 <table class="table table-striped">
   <thead>
@@ -17,7 +19,6 @@
       <th scope="col">Plantilla</th>
       <th scope="col">Més detalls</th>
       <th scope="col">Modificar</th>
-      <th scope="col">Esborrar</th>
     </tr>
   </thead>
   <tbody>
@@ -31,22 +32,11 @@
         <td><%= vragreement.vrental.address %></td>
         <td><%= vragreement.vrental.commission %></td>
         <td><%= vragreement.vrentaltemplate.title %></td>
-        <td>
-        <% if vragreement.vrentaltemplate.language == "ca" %>
-          <%= link_to 'Més detalls', "/ca/vragreements/#{vragreement.id}" %>
-        <% elsif vragreement.vrentaltemplate.language == "en" %>
-          <%= link_to 'Més detalls', "/en/vragreements/#{vragreement.id}" %>
-        <% elsif vragreement.vrentaltemplate.language == "fr" %>
-          <%= link_to 'Més detalls', "/fr/vragreements/#{vragreement.id}" %>
-        <% elsif vragreement.vrentaltemplate.language == "es" %>
-          <%= link_to 'Més detalls', "/es/vragreements/#{vragreement.id}" %>
-        <% end %>
-        </td>
+        <td><%= link_to 'Més detalls', "/#{vragreement.vrentaltemplate.language}/vragreements/#{vragreement.id}" %></td>
         <td><%= link_to 'Modificar', edit_vrental_vragreement_path(vragreement.vrental, vragreement) %></td>
-        <td><%= link_to 'Esborrar', vragreement, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+        <td><%= link_to 'Esborrar', vragreement, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{vragreement.vrental.name}?"} %></td>
+
       </tr>
     <% end %>
     </tbody>
 </table>
-
-<%= link_to 'Afegir un contracte turístic nou', vrentals_path %>

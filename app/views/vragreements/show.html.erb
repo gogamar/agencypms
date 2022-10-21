@@ -1,5 +1,6 @@
 
-<%= link_to 'Contracte en PDF', vragreement_path(@vragreement, format: :pdf), class: "btn btn-confirm" %>
+<%= link_to 'Contracte en PDF', vrental_vragreement_path(@vrental, @vragreement, format: :pdf), class: "btn btn-confirm" %>
+
 
 <div class="page">
   <%= sanitize @vrcontrato %>

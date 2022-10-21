@@ -45,7 +45,7 @@
   <% @vrental.features.each do |feature| %>
   <tr>
     <td><%= t "#{feature.name}" %></td>
-    <td><%= link_to 'Esborrar', feature_path(feature), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+    <td><%= link_to 'Esborrar', feature_path(feature), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{feature.name}?"} %></td>
   </tr>
   <% end %>
   </tbody>
@@ -117,8 +117,8 @@
         <td><%= rate.min_stay %></td>
         <td><%= t(".#{rate.arrival_day}") %></td>
         <td><%= link_to 'Més detalls', rate %></td>
-        <td><%= link_to 'Modificar', edit_rate_path(rate) %></td>
-        <td><%= link_to 'Esborrar', rate_path(rate), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+        <td><%= link_to 'Modificar', edit_vrental_rate_path(@vrental, rate) %></td>
+        <td><%= link_to 'Esborrar', rate_path(rate), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la tarifa: #{rate.vrental.name} #{rate.firstnight} - #{rate.lastnight}?"} %></td>
       </tr>
       <% end %>
     <% end %>

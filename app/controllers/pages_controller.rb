@@ -8,6 +8,10 @@ class PagesController < ApplicationController
   def home
     @owners = Owner.all
     @rentals = @owner&.rentals || []
+
+    @selected_vrowners = Vrowner.includes(:vrentals).where('user_id = ?', '2').references(:vrentals)
+
+    # @selected_vrowners = Vrowner.includes(:vrentals).where(vrentals: { user_id: current_user.id })
   end
 
 

@@ -1,5 +1,6 @@
 class ProfileSessionsController < ApplicationController
   skip_before_action :authenticate_profile!
+  before_action :skip_authorization
 
   def new
     # @profile = Profile.new

@@ -35,7 +35,7 @@
         <td><%= link_to 'Veure l\'immoble', vrental %></td>
         <td><%= link_to 'Copiar immoble', copy_vrental_path(vrental), class: "btn btn-back"  %></td>
         <td><%= link_to 'Modificar', edit_vrental_path(vrental) %></td>
-        <td><%= link_to 'Esborrar', vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar?"} %></td>
+        <td><%= link_to 'Esborrar', vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"} %></td>
         <td><%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-confirm" %></td>
       </tr>
     <% end %>

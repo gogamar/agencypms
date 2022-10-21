@@ -39,7 +39,7 @@
         </td>
         <td><%= link_to 'Més detalls', vrowner %></td>
         <td><%= link_to 'Modificar', edit_vrowner_path(vrowner) %></td>
-        <td><%= link_to 'Esborrar', vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest propietari?"} %></td>
+        <td><%= link_to 'Esborrar', vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el propietari #{vrowner.fullname}?"} %></td>
       </tr>
     <% end %>
     </tbody>

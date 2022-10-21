@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_20_084538) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_20_193823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,7 +134,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_084538) do
     t.bigint "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["owner_id"], name: "index_rentals_on_owner_id"
     t.index ["user_id"], name: "index_rentals_on_user_id"
   end
@@ -203,7 +203,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_084538) do
     t.text "description_es"
     t.text "description_fr"
     t.text "description_en"
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
@@ -214,6 +214,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_084538) do
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_vrentaltemplates_on_user_id"
   end
 
   create_table "vrowners", force: :cascade do |t|
@@ -243,4 +245,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_084538) do
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
+  add_foreign_key "vrentaltemplates", "users"
 end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'features/new'
-  get 'features/index'
+  # get 'features/new'
+  # get 'features/index'
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     root to: "pages#home"
     devise_for :users
@@ -33,9 +33,9 @@ Rails.application.routes.draw do
     # resources for vacation rentals companies
     resources :vrowners
     resources :vrentals do
-      resources :rates, only: [:new, :edit, :create, :update]
-      resources :features, only: [:new, :edit, :create, :update]
-      resources :vragreements, only: [:new, :edit, :create, :update]
+      resources :rates, only: [:new, :edit, :create, :update, :index]
+      resources :features, only: [:new, :edit, :create, :update, :index]
+      resources :vragreements, only: [:new, :edit, :create, :update ]
       member do
         get 'copy'
       end
@@ -45,9 +45,9 @@ Rails.application.routes.draw do
         get 'copy'
       end
     end
-    resources :vragreements, only: [:show, :index, :delete]
-    resources :rates
-    resources :features
+    resources :vragreements, only: [:index, :destroy, :show]
+    resources :rates, only: :destroy
+    resources :features, only: :destroy
 
 
     mount Ckeditor::Engine => '/ckeditor'

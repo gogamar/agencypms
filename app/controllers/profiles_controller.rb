@@ -3,6 +3,7 @@ class ProfilesController < ApplicationController
   # before_action :skip_authorization, only: :index
   # # it was set to only show and edit, but it didn't allow modifying them then
   skip_before_action :authenticate_profile!
+  before_action :skip_authorization
 
   def index
     @profiles = current_user.profiles

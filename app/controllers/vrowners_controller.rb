@@ -5,7 +5,7 @@ class VrownersController < ApplicationController
   end
 
   def index
-    @vrowners = Vrowner.order(:fullname)
+    @vrowners = policy_scope(Vrowner).order(:fullname)
   end
 
   def new

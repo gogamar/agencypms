@@ -26,7 +26,7 @@
         <td><%= link_to 'Crear contracte', new_rental_agreement_path(rental) %></td>
         <td><%= link_to 'Més detalls', rental %></td>
         <td><%= link_to 'Modificar', edit_rental_path(rental) %></td>
-        <td><%= button_to "Esborrar", rental, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar?" } } %></td>
+        <td><%= button_to "Esborrar", rental, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar #{rental.address}?" } } %></td>
       </tr>
     <% end %>
     </tbody>
