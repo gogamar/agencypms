@@ -22,7 +22,7 @@
     <% @vrentals.each_with_index do |vrental, index| %>
         <tr>
         <th scope="row"> <%= index + 1 %></th>
-        <td><%= vrental.status %></td>
+        <td><%= t("#{vrental.status}") %></td>
         <td><%= vrental.beds_prop_id %></td>
         <td><%= vrental.licence %></td>
         <td><%= vrental.name %></td>

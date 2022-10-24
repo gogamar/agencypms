@@ -1,6 +1,5 @@
 class FeaturesController < ApplicationController
   before_action :set_feature, only: [ :show, :edit, :update, :destroy ]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   # Index for features is not really necessary
   def index
@@ -10,7 +9,7 @@ class FeaturesController < ApplicationController
   def new
     @feature = Feature.new
     authorize @feature
-    @features = Feature.distinct.pluck(:name).map {|feature| t("#{feature}")}
+    @features = Feature.all
   end
 
   def show
@@ -23,17 +22,15 @@ class FeaturesController < ApplicationController
 
   def create
     @feature = Feature.new(feature_params)
-    @feature.vrental = @vrental
     authorize @feature
     if @feature.save
-      redirect_to @vrental, notice: 'Has afegit una nova caracteristica.'
+      redirect_to features_path, notice: 'Has afegit una nova caracteristica.'
     else
       render :new
     end
   end
 
   def update
-    @feature.vrental = @vrental
     authorize @feature
     if @feature.update(feature_params)
       redirect_to @feature, notice: 'Has actualitzat la caracteristica.'
@@ -49,10 +46,6 @@ class FeaturesController < ApplicationController
   end
 
   private
-
-  def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
-  end
 
   def set_feature
     @feature = Feature.find(params[:id])

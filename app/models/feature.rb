@@ -1,3 +1,4 @@
 class Feature < ApplicationRecord
-  belongs_to :vrental
+  has_and_belongs_to_many :vrentals
+  belongs_to :user
 end

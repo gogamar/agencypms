@@ -41,6 +41,9 @@ ca:
   tv: "TV"
   fireplace: "xemeneia"
   ceiling_fan: "ventilador del sostre"
+  inactive: "inactiu"
+  proposal: "proposta"
+  active: "actiu"
   saturdays: "Ds.-Ds."
   everyday: "Qualsevol dia"
   date:
@@ -153,11 +156,18 @@ ca:
       services_html: "Donem uns <em>serveis magnifics</em>"
   features:
     form:
-      name:
+      washer: "rentadora"
   vrentals:
     show:
       saturdays: "Ds.-Ds."
       everyday: "Qualsevol dia"
+    form:
+      labels:
+        washer: "rentadora"
+    form:
+      dishwasher: "rentaplats"
+      name:
+        washer: "rentadora"
   rates:
     index:
       saturdays: "Ds.-Ds."
@@ -214,8 +224,14 @@ ca:
         cadastre: "Cadastre"
         licence: "Número HUT"
         description: "Descripció"
+        feature_ids: "Caracteristiques"
+        name: "Nom"
+        status: "Estatus"
       vrentaltemplate:
         language: "Idioma"
+      feature:
+        name:
+          washer: "rentadora"
 
   global:
     forms:

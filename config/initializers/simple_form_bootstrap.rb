@@ -360,7 +360,7 @@ SimpleForm.setup do |config|
   # type as key and the wrapper that will be used for all inputs with specified type.
   config.wrapper_mappings = {
     boolean:       :vertical_boolean,
-    check_boxes:   :vertical_collection,
+    check_boxes:   :horizontal_collection_inline,
     date:          :vertical_multi_select,
     datetime:      :vertical_multi_select,
     file:          :vertical_file,

@@ -4,15 +4,14 @@ class FeaturePolicy < ApplicationPolicy
     def resolve
       # scope.all # If users can see all features
       # show only the agreements where vrental_id is the same as vacation rentals id that belong to the current user
-      scope.where(vrental_id: user.features.select(:vrental_id))
+      scope.where(user: user)
       # scope.where(vrental_id: user.features.select(:vrental_id)) # If users can only see the features of their vacation rentals
       # scope.where("name LIKE 't%'") # If users can only see features starting with `t`
     end
   end
-  # def show?
-  #   record.vrental.user == user
-  #   # user.vrentals.exists?(record.vrental_id)
-  # end
+  def show?
+    record.user == user
+  end
 
   def copy?
     return create?
@@ -31,10 +30,10 @@ class FeaturePolicy < ApplicationPolicy
   end
 
   def update?
-    record.vrental.user == user
+    record.user == user
   end
 
   def destroy?
-    user.vrentals.exists?(record.vrental_id)
+    record.user == user
   end
 end

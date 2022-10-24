@@ -1,12 +1,12 @@
-
-<%= simple_form_for [@vrental] do |f| %>
+<%= simple_form_for @vrental do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
     <%= f.input :name, required: true %>
+    <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.map {|f| [t("#{f.name}"),f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>
     <%= f.association :vrowner, label_method: :fullname %>
-    <%= f.input :status, as: :radio_buttons, collection: ['inactive', 'proposal', 'active'] %>
+    <%= f.input :status, as: :radio_buttons, collection: [[t("inactive"),'inactive'],[t("proposal"),'proposal'],[t("active"),'active']] %>
     <%= f.input :address %>
     <%= f.input :cadastre %>
     <%= f.input :habitability %>

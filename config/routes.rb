@@ -34,7 +34,6 @@ Rails.application.routes.draw do
     resources :vrowners
     resources :vrentals do
       resources :rates, only: [:new, :edit, :create, :update, :index]
-      resources :features, only: [:new, :edit, :create, :update, :index]
       resources :vragreements, only: [:new, :edit, :create, :update ]
       member do
         get 'copy'
@@ -47,7 +46,8 @@ Rails.application.routes.draw do
     end
     resources :vragreements, only: [:index, :destroy, :show]
     resources :rates, only: :destroy
-    resources :features, only: :destroy
+    resources :features
+    resources :features_vrentals
 
 
     mount Ckeditor::Engine => '/ckeditor'

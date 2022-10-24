@@ -40,19 +40,9 @@
 <br>
 
 <h4>Caracteristiques:</h4>
-<table class="table table-sm">
-  <tbody>
-  <% @vrental.features.each do |feature| %>
-  <tr>
-    <td><%= t "#{feature.name}" %></td>
-    <td><%= link_to 'Esborrar', feature_path(feature), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{feature.name}?"} %></td>
-  </tr>
-  <% end %>
-  </tbody>
-</table>
 
+<%= @vrental.features.pluck("name").map{|f| t("#{f}")}.sort_by{|translation| translation}.to_sentence(last_word_connector: ', ') %>
 
-<%= link_to 'Afegir una caracteristica nova', new_vrental_feature_path(@vrental), class: "btn btn-back" %>
 
 <br><br><br>
 
@@ -71,6 +61,7 @@
     </tr>
   </thead>
   <tbody>
+  <% if @rates %>
     <% @rates.each_with_index do |rate, index| %>
         <% if rate.firstnight >= Date.new(2022,1,1) && rate.lastnight < Date.new(2022,12,31) %>
         <tr>
@@ -122,6 +113,7 @@
       </tr>
       <% end %>
     <% end %>
+  <% end %>
     </tbody>
 </table>
 

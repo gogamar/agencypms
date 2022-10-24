@@ -9,6 +9,6 @@ class User < ApplicationRecord
   has_many :vrowners, through: :vrentals
   has_many :vragreements, through: :vrentals
   has_many :rates, through: :vrentals
-  has_many :features, through: :vrentals
+  has_many :features
   has_one_attached :photo
 end

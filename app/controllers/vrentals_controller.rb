@@ -12,9 +12,8 @@ class VrentalsController < ApplicationController
     @rate = Rate.new
     @rates = policy_scope(Rate)
     @rates = Rate.where(vrental_id: @vrental).order(:firstnight)
-    @feature = Feature.new
     @features = policy_scope(Feature)
-    @features = Feature.where(vrental_id: @vrental).order(:name)
+    @features = Feature.all
   end
 
   def new
@@ -80,6 +79,6 @@ class VrentalsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vrental_params
-    params.require(:vrental).permit(:name, :address, :licence, :cadastre, :habitability, :commission, :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests, :description, :description_es, :description_fr, :description_en, :status)
+    params.require(:vrental).permit(:name, :address, :licence, :cadastre, :habitability, :commission, :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests, :description, :description_es, :description_fr, :description_en, :status, feature_ids:[])
   end
 end

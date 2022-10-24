@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_21_090240) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,11 +75,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_090240) do
 
   create_table "features", force: :cascade do |t|
     t.string "name"
-    t.bigint "vrental_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "beds_room_id"
-    t.index ["vrental_id"], name: "index_features_on_vrental_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_features_on_user_id"
+  end
+
+  create_table "features_vrentals", id: false, force: :cascade do |t|
+    t.bigint "feature_id", null: false
+    t.bigint "vrental_id", null: false
   end
 
   create_table "owners", force: :cascade do |t|
@@ -214,7 +219,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_090240) do
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_vrentaltemplates_on_user_id"
   end
 
@@ -236,7 +241,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_090240) do
   add_foreign_key "agreements", "rentals"
   add_foreign_key "agreements", "rentaltemplates"
   add_foreign_key "agreements", "renters"
-  add_foreign_key "features", "vrentals"
+  add_foreign_key "features", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "rentals", "owners"

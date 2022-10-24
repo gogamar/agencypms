@@ -251,28 +251,38 @@ beds24rentals = client.get_properties
 # 12
 # puts "Destroying all features..."
 # Feature.destroy_all
-# puts "Importing features and linking them to the vacation rentals..."
 
-# @vrentals = Vrental.all
-# @vrentals.each do |vrental|
-  # prop_key = vrental.prop_key
-  # beds24descriptions = client.get_property_content(prop_key, roomIds: true, texts: true)
-  # if beds24descriptions["roomIds"]
-  #   beds24descriptions["roomIds"].each do |room|
-  #     room[1]["featureCodes"].each do |feature|
-  #       Feature.create!(
-  #         name: feature[0].downcase,
-  #         beds_room_id: room[1]["roomId"],
-  #         vrental_id: vrental.id
-  #       )
-  #     end
-  #     puts "Imported the features for #{vrental.name}!"
-  #     sleep 1
-  #   end
-  # end
-# end
+@all_features = ["washer", "oven", "toaster", "microwave", "hair_dryer", "iron_board", "garden", "wifi", "refrigerator", "grill", "ocean_view", "dishwasher", "pool_private", "pets_considered", "air_conditioning", "freezer", "elevator", "beach_view", "private_yard", "smoke_detector", "pets_not_allowed", "balcony", "parking_included", "parking_possible", "deck_patio_uncovered", "kettle", "beach_front", "pool", "coffee_maker", "roof_terrace", "tv", "fireplace", "ceiling_fan"]
 
-# puts "Done!"
+all_features.each do |feature|
+  Feature.create!(
+    name: feature
+  )
+end
+
+puts "Importing features and linking them to the vacation rentals..."
+@vrentals = Vrental.all
+@vrentals.each do |vrental|
+  prop_key = vrental.prop_key
+  beds24descriptions = client.get_property_content(prop_key, roomIds: true, texts: true)
+  # vrental.features = []
+  if beds24descriptions["roomIds"]
+    beds24descriptions["roomIds"].each do |room|
+      room[1]["featureCodes"].each do |feature|
+        if @all_features.include?(feature[0].downcase) && !vrental.features.pluck("name").include?(feature[0].downcase)
+          matched_feature = Feature.find_by(name: feature[0].downcase)
+          vrental.features << matched_feature
+        end
+      end
+    end
+  end
+  vrental.save!
+  puts "Imported the features for #{vrental.name}!"
+  sleep 1
+end
+
+puts "Done!"
+
 
 # 13
 # puts "Changing the names of arrival day"
