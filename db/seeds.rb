@@ -256,7 +256,8 @@ beds24rentals = client.get_properties
 
 @all_features.each do |feature|
   Feature.create!(
-    name: feature
+    name: feature,
+    user_id: 2
   )
 end
 
