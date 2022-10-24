@@ -23,11 +23,11 @@ Rails.application.routes.draw do
     # resources for real estate companies
     resources :owners
     resources :rentals do
-        resources :agreements
+      resources :agreements, only: [:new, :edit, :create, :update ]
     end
     resources :renters
     resources :rentaltemplates
-    resources :agreements
+    resources :agreements, only: [:index, :destroy, :show]
 
 
     # resources for vacation rentals companies

@@ -4,7 +4,6 @@ class VrentalsController < ApplicationController
   def index
     @vrentals = policy_scope(Vrental)
     @vrentals = Vrental.all.sort_by(&:created_at).reverse
-    # @vrentals = Vrental.where(owner_id: @owner)
   end
 
   def show
@@ -37,34 +36,33 @@ class VrentalsController < ApplicationController
     # render :new
   end
 
-  # GET /vrentals/1/edit
   def edit
     authorize @vrental
   end
 
-  # POST /vrentals
+
   def create
     @vrental = Vrental.new(vrental_params)
     @vrental.user_id = current_user.id
     authorize @vrental
     if @vrental.save
-      redirect_to vrental_path(@vrental), notice: 'Has creat un nou immoble.'
+      redirect_to vrentals_path, notice: 'Has creat un nou immoble.'
     else
-      render 'new'
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /vrentals/1
+
   def update
     authorize @vrental
     if @vrental.update(vrental_params)
       redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /vrentals/1
+
   def destroy
     authorize @vrental
     @vrental.destroy
@@ -72,12 +70,11 @@ class VrentalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
   def set_vrental
     @vrental = Vrental.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def vrental_params
     params.require(:vrental).permit(:name, :address, :licence, :cadastre, :habitability, :commission, :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests, :description, :description_es, :description_fr, :description_en, :status, feature_ids:[])
   end

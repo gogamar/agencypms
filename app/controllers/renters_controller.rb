@@ -1,58 +1,58 @@
 class RentersController < ApplicationController
-    # before_action :set_owner, only: [:show]
-    before_action :set_renter, only: [:show, :edit, :update]
+  before_action :set_renter, only: [:show, :edit, :update, :destroy]
 
-    # GET /renters
-    def index
-      @renters = Renter.all
-      # @renters = renter.where(owner_id: @owner)
-    end
+  def index
+    @renters = policy_scope(Renter)
+    @renters = Renter.all.sort_by(&:fullname)
+  end
 
-    # GET /renters/1
-    def show
-    end
 
-    # GET /renters/new
-    def new
-      @renter = Renter.new
-    end
+  def show
+    authorize @renter
+  end
 
-    # GET /renters/1/edit
-    def edit
-    end
+  def new
+    @renter = Renter.new
+    authorize @renter
+  end
 
-    # POST /renters
-    def create
-      @renter = Renter.new(renter_params)
-      if @renter.save
-        redirect_back fallback_location: renters_path, notice: "Has creat un inquili nou."
-      else
-        render 'new'
-      end
-    end
+  def edit
+    authorize @renter
+  end
 
-    # PATCH/PUT /renters/1
-    def update
-      if @renter.update(renter_params)
-        redirect_to @renter, notice: 'renter was successfully updated.'
-      else
-        render :edit
-      end
+  def create
+    @renter = Renter.new(renter_params)
+    @renter.user_id = current_user.id
+    authorize @renter
+    if @renter.save
+      redirect_to renters_path, notice: "Has creat un inquili nou."
+    else
+      render :new, status: :unprocessable_entity
     end
+  end
 
-    # DELETE /renters/1
-    def destroy
-      @renter.destroy
-      redirect_to renters_url, notice: 'renter was successfully destroyed.'
+  def update
+    authorize @renter
+    if @renter.update(renter_params)
+      redirect_to renters_path, notice: 'Has actualitzat l\'inquili.'
+    else
+      render :edit, status: :unprocessable_entity
     end
+  end
 
-    private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_renter
-        @renter = Renter.find(params[:id])
-      end
-    # Only allow a list of trusted parameters through.
-    def renter_params
-      params.require(:renter).permit(:fullname, :address, :document, :account, :language)
-    end
+  def destroy
+    authorize @renter
+    @renter.destroy
+    redirect_to renters_url, notice: 'Has esborrat l\'inquiili.'
+  end
+
+  private
+
+  def set_renter
+    @renter = Renter.find(params[:id])
+  end
+
+  def renter_params
+    params.require(:renter).permit(:fullname, :address, :document, :account, :language)
+  end
 end

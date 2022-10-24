@@ -1,23 +1,19 @@
 class VrentaltemplatesController < ApplicationController
   before_action :set_vrentaltemplate, only: [:show, :edit, :update, :destroy]
-  # before_action :set_owner, only: [:show]
-  # GET /vrentaltemplates
+
   def index
     @vrentaltemplates = policy_scope(Vrentaltemplate)
   end
 
-  # GET /vrentaltemplates/1
   def show
     authorize @vrentaltemplate
   end
 
-  # GET /vrentaltemplates/new
   def new
     @vrentaltemplate = Vrentaltemplate.new
     authorize @vrentaltemplate
   end
 
-  # GET /vrentaltemplates/1/edit
   def edit
     authorize @vrentaltemplate
   end
@@ -32,19 +28,17 @@ class VrentaltemplatesController < ApplicationController
     # render :new
   end
 
-  # POST /vrentaltemplates
   def create
     @vrentaltemplate = Vrentaltemplate.new(vrentaltemplate_params)
     @vrentaltemplate.user_id = current_user.id
     authorize @vrentaltemplate
     if @vrentaltemplate.save
-      redirect_to vrentaltemplates_path, notice: 'Has creat un nou model de contracte de contracte de lloguer.'
+      redirect_to vrentaltemplates_path, notice: 'Has creat un nou model de contracte de contracte de lloguer turístic.'
     else
       render :new
     end
   end
 
-  # PATCH/PUT /vrentaltemplates/1
   def update
     authorize @vrentaltemplate
     if params[:commit] == "Desar com model de contracte nou"
@@ -72,6 +66,7 @@ class VrentaltemplatesController < ApplicationController
   end
 
   private
+
   def set_vrentaltemplate
     @vrentaltemplate = Vrentaltemplate.find(params[:id])
   end

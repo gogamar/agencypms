@@ -1,28 +1,27 @@
 class RentaltemplatesController < ApplicationController
   before_action :set_rentaltemplate, only: [:show, :edit, :update, :destroy]
-  # before_action :set_owner, only: [:show]
-  # GET /rentaltemplates
+
   def index
-    @rentaltemplates = Rentaltemplate.all
+    @rentaltemplates = policy_scope(Rentaltemplate)
   end
 
-  # GET /rentaltemplates/1
   def show
+    authorize @rentaltemplate
   end
 
-  # GET /rentaltemplates/new
   def new
     @rentaltemplate = Rentaltemplate.new
+    authorize @rentaltemplate
   end
 
-  # GET /rentaltemplates/1/edit
   def edit
+    authorize @rentaltemplate
   end
 
-  # POST /rentaltemplates
   def create
     @rentaltemplate = Rentaltemplate.new(rentaltemplate_params)
-
+    @rentaltemplate.user_id = current_user.id
+    authorize @rentaltemplate
     if @rentaltemplate.save
       redirect_to rentaltemplates_path, notice: 'Has creat un nou model de contracte de contracte de lloguer.'
     else
@@ -30,8 +29,8 @@ class RentaltemplatesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /rentaltemplates/1
   def update
+    authorize @rentaltemplate
     if params[:commit] == "Desar com model de contracte nou"
       @rentaltemplate = Rentaltemplate.new(rentaltemplate_params)
       @rentaltemplate.save!
@@ -46,6 +45,7 @@ class RentaltemplatesController < ApplicationController
 
   # DELETE /rentaltemplates/1
   def destroy
+    authorize @rentaltemplate
     @rentaltemplate.destroy
     redirect_to rentaltemplates_path, notice: 'El model de contracte s\'ha esborrat.'
     # if @rentaltemplate.agreement
@@ -56,13 +56,12 @@ class RentaltemplatesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_rentaltemplate
-      @rentaltemplate = Rentaltemplate.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def rentaltemplate_params
-      params.require(:rentaltemplate).permit(:title, :text, :content)
-    end
+  def set_rentaltemplate
+    @rentaltemplate = Rentaltemplate.find(params[:id])
+  end
+
+  def rentaltemplate_params
+    params.require(:rentaltemplate).permit(:title, :text, :content)
+  end
 end

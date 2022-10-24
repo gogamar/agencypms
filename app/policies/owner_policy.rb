@@ -2,15 +2,14 @@ class OwnerPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
-      # scope.all # If users can see all restaurants
-      # show only the agreements where rental_id is the same as vacation rentals id that belong to the current user
-      scope.includes(:rentals).where('user_id = ?', user.id).references(:rentals)
-      # scope.where("name LIKE 't%'") # If users can only see restaurants starting with `t`
+      # scope.all # If users can see all records
+      # show only the records that have the same user_id as current user (user_id: user.id)
+      scope.where(user: user) # If users can only see their records
+      # scope.where("name LIKE 't%'") # If users can only see records starting with `t`
     end
   end
   def show?
-    # record.rental.user == user
-    user.rentals.exists?(record.rental_id)
+    record.user == user
   end
 
   def copy?
@@ -30,10 +29,10 @@ class OwnerPolicy < ApplicationPolicy
   end
 
   def update?
-    record.rental.user == user
+    record.user == user
   end
 
   def destroy?
-    user.rentals.exists?(record.rental_id)
+    record.user == user
   end
 end

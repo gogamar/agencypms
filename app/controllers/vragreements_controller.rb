@@ -5,15 +5,13 @@ class VragreementsController < ApplicationController
 
   def index
     @vragreements = policy_scope(Vragreement)
-    # @vragreements = Vragreement.all
   end
 
-  # GET /vragreements/1
   def show
     authorize @vragreement
     @vrentaltemplates = Vrentaltemplate.all
     @vragreements = Vragreement.all
-    # @vrentaltemplate = Rentaltemplate.where(title: "vrental")[0] # use some other way to find this because this one is an array
+    # @vrentaltemplate = Rentaltemplate.find_by(title: "vrental")[0]
     @vrowner = @vragreement.vrental.vrowner
     # @vrowners = Vrowner.sort_by(:fullname).all
     @vrental = @vragreement.vrental
@@ -90,12 +88,10 @@ class VragreementsController < ApplicationController
     authorize @vragreement
   end
 
-  # GET /vragreements/1/edit
   def edit
     authorize @vragreement
   end
 
-  # POST /vragreements
   def create
     @vragreement = Vragreement.new(vragreement_params)
     @vragreement.vrental = @vrental
@@ -107,7 +103,6 @@ class VragreementsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /vragreements/1
   def update
     @vragreement.vrental = @vrental
     authorize @vragreement
@@ -118,7 +113,6 @@ class VragreementsController < ApplicationController
     end
   end
 
-  # DELETE /vragreements/1
   def destroy
     authorize @vragreement
     @vragreement.destroy
@@ -127,7 +121,6 @@ class VragreementsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_vragreement
     @vragreement = Vragreement.find(params[:id])
   end

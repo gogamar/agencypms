@@ -2,31 +2,17 @@ class AgreementsController < ApplicationController
   require 'date'
 
   before_action :set_agreement, only: [:show, :edit, :update, :destroy, :preview]
-  # before_action :set_rental, only: [:show, :index, :new, :create]
-  # before_action :set_rentaltemplate, only: [:show, :index, :new, :create]
-  # before_action :set_owner, only: [:show, :new, :create]
-  # before_action :set_renter, only: [:show, :index, :new, :create]
-  # On your controller.
+  before_action :set_rental, only: [ :new, :create, :edit, :update ]
 
-
-  # def download
-  #   respond_to do |format|
-  #     format.docx do
-  #       render docx: 'download', filename: 'agreement.docx'
-  #     end
-  #   end
-  # end
-
-  # GET /agreements
   def index
-    @agreements = Agreement.all
-    # @agreements = Agreement.where(rentaltemplate_id: @rentaltemplate, owner_id: @owner, renter_id: @renter, rental_id: @rental)
+    @agreements = policy_scope(Agreement)
   end
 
-  # GET /agreements/1
   def show
+    authorize @agreement
     @rentaltemplates = Rentaltemplate.all
-    # @rentaltemplate = Rentaltemplate.where(title: "rental")[0] # use some other way to find this because this one is an array
+    @agreements = Agreement.all
+    # @rentaltemplate = Rentaltemplate.find_by(title: "rental")[0]
     @owner = @agreement.rental.owner
     @renter = @agreement.renter
     @rental = @agreement.rental
@@ -98,62 +84,62 @@ class AgreementsController < ApplicationController
     end
   end
 
-  # GET /agreements/new
   def new
     @agreement = Agreement.new
-    # @rental = Rental.find_by(id: params[:rental_id])
-    # @owner = @rental.owner
+    authorize @agreement
   end
 
-  # GET /agreements/1/edit
   def edit
+    authorize @agreement
   end
 
-  # POST /agreements
   def create
     @agreement = Agreement.new(agreement_params)
+    @agreement.rental = @rental
+    authorize @agreement
     if @agreement.save
-      redirect_to @agreement, notice: 'Has creat el contracte.'
+      redirect_to agreements_path, notice: "Has creat el contracte per #{@rental.name}."
     else
       render :new
     end
   end
 
-  # PATCH/PUT /agreements/1
   def update
+    @agreement.vrental = @rental
+    authorize @agreement
     if @agreement.update(agreement_params)
-      redirect_to @agreement, notice: 'Has actualitzat el contracte.'
+      redirect_to agreements_path, notice: 'Has actualitzat el contracte.'
     else
       render :edit
     end
   end
 
-  # DELETE /agreements/1
+
   def destroy
+    authorize @agreement
     @agreement.destroy
-    redirect_to agreements_url, notice: 'Has esborrat el contracte.'
+    redirect_to agreements_url, notice: "Has esborrat el contracte del #{@agreement.rental.address}."
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_agreement
-      @agreement = Agreement.find(params[:id])
-    end
-    def set_rental
-      @rental = Rental.find(params[:rental_id])
-    end
-    def set_owner
-      @owner = Owner.find(params[:owner_id])
-    end
-    def set_renter
-      @renter = Renter.find(params[:renter_id])
-    end
-    def set_rentaltemplate
-      @rentaltemplate = @agreement.rentaltemplate
-    end
 
-    # Only allow a list of trusted parameters through.
-    def agreement_params
-      params.require(:agreement).permit(:signdate, :place, :start_date, :duration, :end_date, :price, :pricetext, :deposit, :rental_id, :renter_id, :rentaltemplate_id, :contentarea, photos: [])
-    end
+  def set_agreement
+    @agreement = Agreement.find(params[:id])
+  end
+  def set_rental
+    @rental = Rental.find(params[:rental_id])
+  end
+  def set_owner
+    @owner = Owner.find(params[:owner_id])
+  end
+  def set_renter
+    @renter = Renter.find(params[:renter_id])
+  end
+  def set_rentaltemplate
+    @rentaltemplate = @agreement.rentaltemplate
+  end
+
+  def agreement_params
+    params.require(:agreement).permit(:signdate, :place, :start_date, :duration, :end_date, :price, :pricetext, :deposit, :rental_id, :renter_id, :rentaltemplate_id, :contentarea, photos: [])
+  end
 end
