@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_24_133324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
     t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_owners_on_user_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -150,6 +152,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_rentaltemplates_on_user_id"
   end
 
   create_table "renters", force: :cascade do |t|
@@ -160,6 +164,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
     t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_renters_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -234,6 +240,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
     t.string "beds_room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_vrowners_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -242,13 +250,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_234647) do
   add_foreign_key "agreements", "rentaltemplates"
   add_foreign_key "agreements", "renters"
   add_foreign_key "features", "users"
+  add_foreign_key "owners", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "rentals", "owners"
   add_foreign_key "rentals", "users"
+  add_foreign_key "rentaltemplates", "users"
+  add_foreign_key "renters", "users"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"
+  add_foreign_key "vrowners", "users"
 end

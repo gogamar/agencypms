@@ -1,5 +1,7 @@
 <h1>Afegir un contracte turístic nou per <%= @vrental.name %> </h1>
-<p>Propietari: <%= @vrental.vrowner.fullname %></p>
+<% if @vrowner %>
+  <p>Propietari: <%= @vrowner.fullname %></p>
+<% end %>
 
 
 <%= render 'form', vrental: @vrental, vragreement: @vragreement %>

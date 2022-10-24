@@ -5,6 +5,7 @@ class VragreementsController < ApplicationController
 
   def index
     @vragreements = policy_scope(Vragreement)
+    # @vragreements = Vragreement.all
   end
 
   # GET /vragreements/1
@@ -18,7 +19,7 @@ class VragreementsController < ApplicationController
     @vrental = @vragreement.vrental
     @vrates = Rate.where(vrental_id: @vrental).order(:firstnight)
     @contractrates = render_to_string(partial: 'rates')
-    @features = Feature.where(vrental_id: @vrental).pluck(:name).map {|str| t("#{str}")}.join(", ").capitalize()
+    @vrental_features = @vrental.features.pluck(:name).map {|str| t("#{str}")}.sort_by {|t| t }.join(", ").capitalize()
     @vrentaltemplate = @vragreement.vrentaltemplate
     @vrental_description =
         case @vrentaltemplate.language
@@ -37,12 +38,12 @@ class VragreementsController < ApplicationController
     details = {
       data_firma: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '',
       lloc_firma: @vragreement.place.present? ? @vragreement.place : '',
-      propietari: @vrental.vrowner.fullname.present? ? @vrental.vrowner.fullname : '',
-      dni_propietari: @vrental.vrowner.document.present? ? @vrental.vrowner.document : '',
-      adr_propietari: @vrental.vrowner.address.present? ? @vrental.vrowner.address : '',
-      email_propietari: @vrental.vrowner.email.present? ? @vrental.vrowner.email : '',
-      tel_propietari: @vrental.vrowner.phone.present? ? @vrental.vrowner.phone : '',
-      compte_propietari: @vrental.vrowner.phone.present? ? @vrental.vrowner.phone : '',
+      propietari: @vrental.vrowner.present? && @vrental.vrowner.fullname.present? ? @vrental.vrowner.fullname : '',
+      dni_propietari: @vrental.vrowner.present? && @vrental.vrowner.document.present? ? @vrental.vrowner.document : '',
+      adr_propietari: @vrental.vrowner.present? && @vrental.vrowner.address.present? ? @vrental.vrowner.address : '',
+      email_propietari: @vrental.vrowner.present? && @vrental.vrowner.email.present? ? @vrental.vrowner.email : '',
+      tel_propietari: @vrental.vrowner.present? && @vrental.vrowner.phone.present? ? @vrental.vrowner.phone : '',
+      compte_propietari: @vrental.vrowner.present? && @vrental.vrowner.account.present? ? @vrental.vrowner.account : '',
       nom_immoble: @vrental.name.present? ? @vrental.name.upcase() : '',
       adr_immoble: @vrental.address.present? ? @vrental.address : '',
       cadastre: @vrental.cadastre.present? ? @vrental.cadastre : '',
@@ -53,7 +54,7 @@ class VragreementsController < ApplicationController
       data_fi: @vragreement.end_date.present? ? l(@vragreement.end_date, format: :long) : '',
       tarifes: @contractrates,
       reserves_propietari: @vragreement.vrowner_bookings,
-      carac_immoble: @features.to_s,
+      carac_immoble: @vrental_features.to_s,
       comissio: format("%.2f", @vrental.commission.to_f * 100),
       clausula_adicional: @vragreement.clause.to_s
     }

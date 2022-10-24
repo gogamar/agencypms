@@ -26,8 +26,13 @@
         <tr>
         <th scope="row"> <%= index + 1 %></th>
         <td><%= vragreement.signdate %></td>
+        <% if vragreement.vrental.vrowner %>
         <td><%= vragreement.vrental.vrowner.fullname %></td>
         <td><%= vragreement.vrental.vrowner.language %></td>
+        <% else %>
+        <td></td>
+        <td></td>
+        <% end %>
         <td><%= vragreement.vrental.name %></td>
         <td><%= vragreement.vrental.address %></td>
         <td><%= vragreement.vrental.commission %></td>

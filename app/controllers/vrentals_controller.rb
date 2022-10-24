@@ -3,7 +3,7 @@ class VrentalsController < ApplicationController
 
   def index
     @vrentals = policy_scope(Vrental)
-    # @vrentals = Vrental.all.sort_by(&:name)
+    @vrentals = Vrental.all.sort_by(&:created_at).reverse
     # @vrentals = Vrental.where(owner_id: @owner)
   end
 
