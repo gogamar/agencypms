@@ -61,6 +61,17 @@
     </tr>
   </thead>
   <tbody>
+
+<% @rates.each do |rate| %>
+  <% frame_id = dom_id(rate, "firstnight_turbo_frame") %>
+  <%= simple_form_for [@vrental, rate], data: { turbo_frame: frame_id } do |form|  %>
+    <%= turbo_frame_tag dom_id(rate, "firstnight_turbo_frame") do %>
+      <%= l(rate.firstnight, format: :long) %>
+      <%= link_to "Modificar", edit_vrental_rate_path(@vrental, rate) %>
+    <% end %>
+  <% end %>
+<% end %>
+
   <% if @rates %>
     <% @rates.each_with_index do |rate, index| %>
         <% if rate.firstnight >= Date.new(2022,1,1) && rate.lastnight < Date.new(2022,12,31) %>

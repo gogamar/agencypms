@@ -1,12 +1,5 @@
-<h1>Modificar l'immoble</h1>
-<div class="d-flex flex-column">
-  <div class="pt-4">
-    <%= render 'form', vrental: @vrental, rate: @rate%>
-  </div>
-  <div class="pt-4">
-    <%# link_to 'Veure la tarifa', @rate(@vrental), class: 'btn btn-confirm' %>
-  </div>
-  <div class="pt-4">
-    <%# link_to 'Tornar', vrental_rates_path, class: 'btn btn-back' %>
-  </div>
-</div>
+<h1>Modificar la tarifa</h1>
+
+<%= turbo_frame_tag @rate do %>
+  <%= render "form", rate: @rate %>
+<% end %>

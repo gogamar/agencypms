@@ -1,37 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Tarifes de l'immoble <%= @vrental.name %> </h1>
+<div class="rates-header">
+  <h4>Tarifes de l'immoble <%= @vrental.name %> </h4>
+  <div><%= link_to "Tarifa nova", new_vrental_rate_path(@vrental), data: { turbo_frame: "new_rate" } %></div>
+</div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">HUT</th>
-      <th scope="col">Des de</th>
-      <th scope="col">Fins a</th>
-      <th scope="col">Preu setmana</th>
-      <th scope="col">Preu nit</th>
-      <th scope="col">Estada mínima</th>
-      <th scope="col">Check-in/out</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @rates.each_with_index do |rate, index| %>
-        <tr>
-        <th scope="row"> <%= index + 1 %></th>
-        <td><%= rate.vrental.name %></td>
-        <td><%= rate.firstnight %></td>
-        <td><%= rate.lastnight %></td>
-        <td><%= rate.priceweek %></td>
-        <td><%= rate.pricenight %></td>
-        <td><%= rate.min_stay %></td>
-        <td><%= t(".#{rate.arrival_day}") %></td>
-        <td><%= link_to 'Més detalls', rate %></td>
-        <td><%= link_to 'Modificar', edit_vrental_rate_path(@vrental, rate) %></td>
-        <td><%= button_to "Esborrar", rate, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar la tarifa: #{rate.vrental.name} #{rate.firstnight} - #{rate.lastnight}?" } } %></td>
-      </tr>
-    <% end %>
-    </tbody>
-</table>
+<%= turbo_frame_tag "new_rate", target: "_top" %>
 
-<%= link_to 'Afegir una tarifa nova', new_vrental_rate_path %>
+<div class="container">
+  <div class="pl-table">
+    <div class="pl-thead">
+      <div class="row">
+        <div class="col">Des de</div>
+        <div class="col">Fins a</div>
+        <div class="col">Min.</div>
+        <div class="col">Entrada</div>
+        <div class="col">Preu setmana</div>
+        <div class="col">Modificar</div>
+        <div class="col">Esborrar</div>
+      </div>
+    </div>
+    <div class="pl-tbody">
+      <div id="rates">
+        <%= render @rates %>
+      </div>
+    </div>
+  </div>
+</div>

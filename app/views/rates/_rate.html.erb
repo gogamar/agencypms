@@ -1,0 +1,13 @@
+<%= turbo_frame_tag rate do %>
+  <div class="row rate-card">
+    <div class="col"><%= rate.firstnight %></div>
+    <div class="col"><%= rate.lastnight %></div>
+    <div class="col"><%= rate.min_stay %></div>
+    <div class="col"><%= rate.arrival_day %></div>
+    <div class="col"><%= rate.priceweek %></div>
+    <%# <div class="rate-actions"> %>
+      <div class="col"><%= link_to "Modificar", edit_vrental_rate_path(@vrental, rate), class: "btn btn-back", data: { turbo_frame: dom_id(rate) } %></div>
+      <div class="col"><%= button_to "Esborrar", rate, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar aquesta tarifa?" } } %></div>
+    <%# </div> %>
+  </div>
+<% end %>

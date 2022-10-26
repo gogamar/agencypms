@@ -36,7 +36,8 @@ class RatesController < ApplicationController
     @rate.vrental = @vrental
     authorize @rate
     if @rate.update(rate_params)
-      redirect_to @rate, notice: 'Has actualitzat la tarifa.'
+      # redirect_to vrental_path(@rate.vrental), notice: 'Has actualitzat la tarifa.'
+      redirect_to vrental_rates_path(@vrental), notice: "Has actualitzat la tarifa - 2"
     else
       render :edit
     end
@@ -45,7 +46,7 @@ class RatesController < ApplicationController
   def destroy
     authorize @rate
     @rate.destroy
-    redirect_to vrental_path(@feature.vrental), notice: 'Has esborrat la tarifa.'
+    redirect_to vrental_path(@rate.vrental), notice: 'Has esborrat la tarifa.'
   end
 
   private

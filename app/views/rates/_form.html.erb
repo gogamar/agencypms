@@ -1,18 +1,27 @@
-
-<%= simple_form_for [vrental, rate] do |f| %>
+<div class="rate-card">
+<%= simple_form_for [@vrental, @rate] do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
-    <%= f.input :firstnight %>
-    <%= f.input :lastnight %>
-    <%= f.input :priceweek %>
-    <%= f.input :min_stay %>
-    <%= f.input :arrival_day %>
-  </div>
-
-
-  <div class="form-actions">
-    <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
+  <div class="row">
+    <div class="col">
+      <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker"} %>
+    </div>
+    <div class="col">
+      <%= f.input :lastnight, as: :string, required: true, input_html: {class: "datepicker"} %>
+    </div>
+    <div class="col">
+      <%= f.input :priceweek %>
+    </div>
+    <div class="col">
+      <%= f.input :min_stay %>
+    </div>
+    <div class="col">
+      <%= f.input :arrival_day %>
+    </div>
+    <div class="col">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-back' %>
+    </div>
   </div>
 <% end %>
+</div>
