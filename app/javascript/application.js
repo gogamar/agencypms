@@ -9,12 +9,9 @@ import { initFlatpickr } from "./plugins/flatpickr";
 
 initFlatpickr();
 
-// flatpickr
-// import { initFlatpickr } from "./plugins/flatpickr";
-
-// document.addEventListener("turbo:load", () => {
-//   initFlatpickr();
-// });
+document.addEventListener("turbo:load", () => {
+  initFlatpickr();
+});
 
 // testing if turbolinks is uninstalled and turbo installed
 

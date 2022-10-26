@@ -16,3 +16,16 @@
     </div>
   <% end %>
 <% end %>
+
+<%# checking if stimulus is connected %>
+
+<div data-controller="hello">
+  <input data-hello-target="name" type="text">
+
+  <button data-action="click->hello#greet">
+    Greet
+  </button>
+
+  <span data-hello-target="output">
+  </span>
+</div>
