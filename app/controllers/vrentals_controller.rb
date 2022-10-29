@@ -13,6 +13,7 @@ class VrentalsController < ApplicationController
     @rates = Rate.where(vrental_id: @vrental).order(:firstnight)
     @features = policy_scope(Feature)
     @features = Feature.all
+    @years = [Date.today.last_year.year, Date.today.year, Date.today.next_year.year]
   end
 
   def new

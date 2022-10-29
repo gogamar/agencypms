@@ -5,9 +5,12 @@ export default class extends Controller {
   static targets = ["checkin", "checkout"];
 
   connect() {
-    console.log("Rate component controller connected again!");
+    console.log("Rate component controller connected!");
+    const unvailableDates = JSON.parse(this.element.dataset.unavailable);
 
     const checkinPicker = this.checkinTarget.flatpickr({
+      defaultDate: this.element.dataset.defaultCheckinDate,
+      disable: unvailableDates,
       minDate: "today",
       disableMobile: true,
       // dateFormat: "m-d-Y",
@@ -17,6 +20,8 @@ export default class extends Controller {
     });
 
     const checkoutPicker = this.checkoutTarget.flatpickr({
+      defaultDate: this.element.dataset.defaultCheckoutDate,
+      disable: unvailableDates,
       minDate: "today",
       disableMobile: true,
       // dateFormat: "m-d-Y",
@@ -24,27 +29,5 @@ export default class extends Controller {
         checkinPicker.set("maxDate", dateStr);
       },
     });
-
-    // const checkoutPicker = flatpickr(this.checkoutTarget, {
-    //   minDate: this.element.dataset.defaultCheckoutDate,
-    // });
-
-    // this.checkinTarget.addEventListener("changeDate", (e) => {
-    //   const date = new Date(e.target.value);
-    //   date.setDate(date.getDate() + 1);
-    //   checkoutPicker.setOptions({
-    //     minDate: date,
-    //   });
-    //   // this.updateNightlyTotal();
-    // });
-
-    // this.checkoutTarget.addEventListener("changeDate", (e) => {
-    //   const date = new Date(e.target.value);
-    //   date.setDate(date.getDate() - 1);
-    //   checkinPicker.setOptions({
-    //     maxDate: date,
-    //   });
-    //   // this.updateNightlyTotal();
-    // });
   }
 }

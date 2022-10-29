@@ -3,29 +3,30 @@
 <div class="rates-header">
   <h4>Tarifes de l'immoble <%= @vrental.name %> </h4>
 
-<div class="container">
-  <div class="pl-table">
-    <div class="row rate-card">
-      <div class="col m-1 p-2 form-control bg-light">
-        <%= turbo_frame_tag "new-rate-form", src: new_vrental_rate_path(@vrental) %>
+  <div class="container">
+    <div class="pl-table">
+      <div class="row ">
+        <div class="col m-1 p-2 form-control bg-light">
+          <%= turbo_frame_tag "new-rate-form", src: new_vrental_rate_path(@vrental) %>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="pl-table">
-    <div class="pl-thead">
-      <div class="row">
-        <div class="col">Des de</div>
-        <div class="col">Fins a</div>
-        <div class="col">Min.</div>
-        <div class="col">Entrada</div>
-        <div class="col">Preu setmana</div>
-        <div class="col">Modificar</div>
-        <div class="col">Esborrar</div>
+    <div class="pl-table">
+      <div class="pl-thead">
+        <div class="row">
+          <div class="col">Des de</div>
+          <div class="col">Fins a</div>
+          <div class="col">Min.</div>
+          <div class="col">Entrada</div>
+          <div class="col">Preu setmana</div>
+          <div class="col">Modificar</div>
+          <div class="col">Esborrar</div>
+        </div>
       </div>
-    </div>
-    <div class="pl-tbody">
-          <div id="rates">
-        <%= render @rates %>
+      <div class="pl-tbody">
+        <div id="rates">
+          <%= render @rates %>
+        </div>
       </div>
     </div>
   </div>

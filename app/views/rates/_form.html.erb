@@ -2,10 +2,11 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div
-  class="row"
+  class="row d-flex justify-content-around align-items-center"
   data-controller="rate-component"
-  data-default-checkin-date="<%= Date.tomorrow %>"
-  data-default-checkout-date="<%= (Date.tomorrow + 100.day) %>"
+  data-default-checkin-date="<%= @vrental.default_checkin %>"
+  data-default-checkout-date="<%= (@vrental.default_checkin + 7.day) %>"
+  data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
   >
     <div class="col">
       <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkin"} %>
@@ -26,9 +27,8 @@
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-back' %>
     </div>
     <div class="col">
-      <%# link_to "Tornar", redirect_to: vrental_rates_path(@vrental), class: "text-secondary" %>
       <% if action_name == "edit" %>
-      <%= link_to 'Back', :back %>
+      <%= link_to 'Tornar', :back, class: "text-secondary" %>
       <% end %>
     </div>
   </div>

@@ -79,7 +79,7 @@ ca:
       - Dissabte
     formats:
       default: "%d-%m-%Y"
-      long: "%a, %d de %B de %Y"
+      long: "%a, %d de %b de %Y"
       short: "%d de %b"
     month_names:
       -

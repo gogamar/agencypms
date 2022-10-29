@@ -50,12 +50,12 @@ en:
       short: "%d %b"
   vrentals:
     show:
-      saturdays: "Ds.-Ds."
-      everyday: "Qualsevol dia"
+      saturdays: "on Saturday"
+      everyday: "Any day"
   rates:
     index:
-      saturdays: "Ds.-Ds."
-      everyday: "Qualsevol dia"
+      saturdays: "on Saturday"
+      everyday: "Any day"
   vragreements:
     form:
       vrowner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com."

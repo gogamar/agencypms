@@ -1,11 +1,11 @@
 <%= turbo_frame_tag rate do %>
-  <div class="row rate-card">
-    <div class="col m-1 p-2 form-control"><%= rate.firstnight %></div>
-    <div class="col m-1 p-2 form-control"><%= rate.lastnight %></div>
-    <div class="col m-1 p-2 form-control"><%= rate.min_stay %></div>
-    <div class="col m-1 p-2 form-control"><%= rate.arrival_day %></div>
-    <div class="col m-1 p-2 form-control"><%= rate.priceweek %></div>
-      <% if action_name != "show" %>
+  <div class="row d-flex justify-content-around align-items-center">
+    <div class="col text-nowrap w-25"><%= l(rate.firstnight, format: :long) %></div>
+    <div class="col text-nowrap w-25"><%= l(rate.lastnight, format: :long) %></div>
+    <div class="col text-nowrap w-25"><%= rate.min_stay %></div>
+    <div class="col text-nowrap w-25"><%= t("#{rate.arrival_day}") %></div>
+    <div class="col text-nowrap w-25"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></div>
+    <%# if action_name != "show" %>
     <div class="col">
         <%= link_to "Modificar", edit_vrental_rate_path(@vrental, rate), class: "btn btn-back" %>
     </div>
@@ -13,13 +13,6 @@
         <%= link_to "Esborrar", rate, class: "text-warning", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tarifa?"}
 %>
     </div>
-      <% end %>
-
-    <%# <div class="rate-actions"> %>
-    <!--
-      <div class="col"><%= link_to "Modificar", edit_vrental_rate_path(@vrental, rate), class: "btn btn-back", data: { turbo_frame: dom_id(rate) } %></div>
-      <div class="col"><%= button_to "Esborrar", rate, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar aquesta tarifa?" } } %></div>
-    -->
-    <%# </div> %>
+    <%# end %>
   </div>
 <% end %>

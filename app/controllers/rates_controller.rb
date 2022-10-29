@@ -5,7 +5,7 @@ class RatesController < ApplicationController
   # Index for rates is not really necessary
   def index
     @rates = policy_scope(Rate)
-    @rates = Rate.where(vrental_id: @vrental)
+    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :desc)
     @rates_dates = @rates.pluck(:firstnight)
   end
 

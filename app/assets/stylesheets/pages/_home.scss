@@ -20,6 +20,10 @@ a {
   color: #155e75;
 }
 
+h4 {
+  text-align: center;
+}
+
 .form-check-input:checked {
   background-color: #155e75;
   border-color: #155e75;
@@ -108,6 +112,9 @@ label {
 
 .form-error {
   color: red;
+}
+.form-error-2 {
+  color: blueviolet;
 }
 
 .three-columns {
