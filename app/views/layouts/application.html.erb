@@ -10,11 +10,14 @@
      <%# in the old version of the app it was javascript_pack_tag %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <%= javascript_include_tag Ckeditor.cdn_url %>
+    <%# don't know if turbo_include_tags is necessary %>
   </head>
 
   <body>
     <%= render "shared/navbar" %>
     <%= render "shared/flashes" %>
+    <%# render partial: "layouts/flash" %>
+
     <div class="p-5">
       <%= yield %>
     </div>

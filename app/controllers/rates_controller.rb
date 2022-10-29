@@ -1,12 +1,14 @@
 class RatesController < ApplicationController
   before_action :set_rate, only: [:show, :edit, :update, :destroy]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index ]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show ]
 
   # Index for rates is not really necessary
   def index
     @rates = policy_scope(Rate)
     @rates = Rate.where(vrental_id: @vrental)
+    @rates_dates = @rates.pluck(:firstnight)
   end
+
 
   def new
     @rate = Rate.new
@@ -26,9 +28,16 @@ class RatesController < ApplicationController
     @rate.vrental = @vrental
     authorize @rate
     if @rate.save
-      redirect_to vrental_path(@rate.vrental), notice: 'Has creat una tarifa nova.'
+      flash.now[:notice] = "Has creat una tarifa nova per #{@rate.vrental.name}."
+      render turbo_stream: [
+        turbo_stream.prepend("rates", @rate),
+        turbo_stream.replace("new-rate-form", partial: "form", locals: { rate: Rate.new }
+        ),
+        turbo_stream.replace("notice", partial: "shared/flashes")
+      ]
+      # redirect_to vrental_path(@rate.vrental), notice: 'Has creat una tarifa nova.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -37,16 +46,24 @@ class RatesController < ApplicationController
     authorize @rate
     if @rate.update(rate_params)
       # redirect_to vrental_path(@rate.vrental), notice: 'Has actualitzat la tarifa.'
-      redirect_to vrental_rates_path(@vrental), notice: "Has actualitzat la tarifa - 2"
+      flash.now[:notice] = "Has actualitzat la tarifa de #{@rate.vrental.name}."
+      render turbo_stream: [
+        turbo_stream.replace(@rate, @rate),
+        turbo_stream.replace("notice", partial: "shared/flashes")
+      ]
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     authorize @rate
     @rate.destroy
-    redirect_to vrental_path(@rate.vrental), notice: 'Has esborrat la tarifa.'
+    flash.now[:notice] = "Has esborrat una tarifa de #{@rate.vrental.name}."
+    render turbo_stream: [
+      turbo_stream.remove(@rate),
+      turbo_stream.replace("notice", partial: "shared/flashes")
+    ]
   end
 
   private

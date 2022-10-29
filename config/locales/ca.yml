@@ -227,6 +227,13 @@ ca:
         feature_ids: "Caracteristiques"
         name: "Nom"
         status: "Estatus"
+      rate:
+        firstnight: "Des de"
+        lastnight: "Fins a"
+        min_stay: "Estada min."
+        priceweek: "Preu setmana"
+        pricenight: "Preu nit"
+        arrival_day: "Dia entrada"
       vrentaltemplate:
         language: "Idioma"
       feature:

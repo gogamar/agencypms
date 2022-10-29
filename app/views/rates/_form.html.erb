@@ -1,14 +1,17 @@
-<div class="rate-card">
-<%= simple_form_for [@vrental, @rate] do |f| %>
+<%= simple_form_for [@vrental, rate], id: dom_id(rate, "form"), class: "" do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="row">
+  <div
+  class="row"
+  data-controller="rate-component"
+  data-default-checkin-date="<%= Date.tomorrow %>"
+  data-default-checkout-date="<%= (Date.tomorrow + 100.day) %>"
+  >
     <div class="col">
-      <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker"} %>
+      <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkin"} %>
     </div>
     <div class="col">
-      <%= f.input :lastnight, as: :string, required: true, input_html: {class: "datepicker"} %>
+      <%= f.input :lastnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkout"} %>
     </div>
     <div class="col">
       <%= f.input :priceweek %>
@@ -17,11 +20,16 @@
       <%= f.input :min_stay %>
     </div>
     <div class="col">
-      <%= f.input :arrival_day %>
+      <%= f.input :arrival_day, label: t("arrival_day"), priority: [ t("everyday") ], collection: [ t("everyday"), t("saturdays") ], include_blank: false %>
     </div>
     <div class="col">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-back' %>
     </div>
+    <div class="col">
+      <%# link_to "Tornar", redirect_to: vrental_rates_path(@vrental), class: "text-secondary" %>
+      <% if action_name == "edit" %>
+      <%= link_to 'Back', :back %>
+      <% end %>
+    </div>
   </div>
 <% end %>
-</div>

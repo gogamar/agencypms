@@ -1,8 +1,3 @@
-
-<h1>Afegir una tarifa nova per <%= @vrental.name %></h1>
-
-<%= render 'form', vrental: @vrental, rate: @rate %>
-
-<div class="pt-4">
-<%# link_to 'Tornar', vrental_rates_path, class: 'btn btn-back' %>
-</div>
+<%= turbo_frame_tag "new-rate-form", class: "w-full" do %>
+  <%= render "form", rate: @rate, vrental: @vrental %>
+<% end %>

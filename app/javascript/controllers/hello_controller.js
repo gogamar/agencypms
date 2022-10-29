@@ -4,6 +4,6 @@ export default class extends Controller {
   static targets = ["name", "output"];
 
   greet() {
-    this.outputTarget.textContent = `Hello, ${this.nameTarget.value}!`;
+    this.outputTarget.textContent = `Hi, ${this.nameTarget.value}!`;
   }
 }

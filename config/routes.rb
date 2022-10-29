@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     # resources for vacation rentals companies
     resources :vrowners
     resources :vrentals do
-      resources :rates, only: [:new, :edit, :create, :update, :index]
+      resources :rates, only: [:new, :edit, :create, :update, :index, :show]
       resources :vragreements, only: [:new, :edit, :create, :update ]
       member do
         get 'copy'

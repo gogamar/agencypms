@@ -1,5 +1,5 @@
 <h1>Modificar la tarifa</h1>
 
-<%= turbo_frame_tag @rate do %>
-  <%= render "form", rate: @rate %>
+<%= turbo_frame_tag @rate, class: "" do %>
+  <%= render "form", rate: @rate, vrental: @vrental %>
 <% end %>

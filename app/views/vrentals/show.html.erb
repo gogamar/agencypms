@@ -50,12 +50,16 @@
 
 <div class="rates-header">
   <h4>Tarifes de l'immoble <%= @vrental.name %> </h4>
-  <div><%= link_to "Tarifa nova", new_vrental_rate_path(@vrental), data: { turbo_frame: "new_rate" } %></div>
+  <div><%# link_to "Tarifa nova", new_vrental_rate_path(@vrental), data: { turbo_frame: "new_rate" } %></div>
 </div>
 
-<%= turbo_frame_tag "new_rate", target: "_top" %>
+<h5>This is the new rate form</h5>
+<%# turbo_frame_tag "new-rate-form", new_vrental_rate_path(@vrental) %>
 
+
+<% if @rates.where("DATE_PART('year', firstnight) < ?", Date.today.year).exists? %>
 <div class="container">
+  <h4>Tarifes <%= Date.today.last_year.year %></h4>
   <div class="pl-table">
     <div class="pl-thead">
       <div class="row">
@@ -70,13 +74,15 @@
     </div>
     <div class="pl-tbody">
       <div id="rates">
-        <%= render @rates.where('firstnight >= ?', Date.new(2022,1,1)).where('lastnight < ?', Date.new(2022,12,31)) %>
+        <%= render @rates.where("DATE_PART('year', firstnight) < ?", Date.today.year) %>
       </div>
     </div>
   </div>
 </div>
-
+<% end %>
+<% if @rates.where("DATE_PART('year', firstnight) = ?", Date.today.year).exists? %>
 <div class="container">
+  <h4>Tarifes <%= Date.today.year %></h4>
   <div class="pl-table">
     <div class="pl-thead">
       <div class="row">
@@ -91,8 +97,33 @@
     </div>
     <div class="pl-tbody">
       <div id="rates">
-        <%= render @rates.where('firstnight >= ?', Date.new(2023,1,1)) %>
+        <%= render @rates.where("DATE_PART('year', firstnight) = ?", Date.today.year) %>
       </div>
     </div>
   </div>
 </div>
+<% end %>
+
+<% if @rates.where("DATE_PART('year', firstnight) > ?", Date.today.year).exists? %>
+<div class="container">
+  <h4>Tarifes <%= Date.today.next_year.year %></h4>
+  <div class="pl-table">
+    <div class="pl-thead">
+      <div class="row">
+        <div class="col">Des de</div>
+        <div class="col">Fins a</div>
+        <div class="col">Min.</div>
+        <div class="col">Entrada</div>
+        <div class="col">Preu setmana</div>
+        <div class="col">Modificar</div>
+        <div class="col">Esborrar</div>
+      </div>
+    </div>
+    <div class="pl-tbody">
+      <div id="rates">
+        <%= render @rates.where("DATE_PART('year', firstnight) > ?", Date.today.year) %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

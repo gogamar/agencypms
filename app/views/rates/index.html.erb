@@ -2,12 +2,15 @@
 
 <div class="rates-header">
   <h4>Tarifes de l'immoble <%= @vrental.name %> </h4>
-  <div><%= link_to "Tarifa nova", new_vrental_rate_path(@vrental), data: { turbo_frame: "new_rate" } %></div>
-</div>
-
-<%= turbo_frame_tag "new_rate", target: "_top" %>
 
 <div class="container">
+  <div class="pl-table">
+    <div class="row rate-card">
+      <div class="col m-1 p-2 form-control bg-light">
+        <%= turbo_frame_tag "new-rate-form", src: new_vrental_rate_path(@vrental) %>
+      </div>
+    </div>
+  </div>
   <div class="pl-table">
     <div class="pl-thead">
       <div class="row">
@@ -21,7 +24,7 @@
       </div>
     </div>
     <div class="pl-tbody">
-      <div id="rates">
+          <div id="rates">
         <%= render @rates %>
       </div>
     </div>
