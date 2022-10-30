@@ -4,9 +4,11 @@
   <div
   class="row d-flex justify-content-around align-items-center"
   data-controller="rate-component"
+  <% if @vrental.rates.exists? %>
   data-default-checkin-date="<%= @vrental.default_checkin %>"
   data-default-checkout-date="<%= (@vrental.default_checkin + 7.day) %>"
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
+  <% end %>
   >
     <div class="col">
       <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkin"} %>
