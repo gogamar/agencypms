@@ -47,26 +47,22 @@
 <br><br><br>
 
 <p id="notice"><%= notice %></p>
-
-<!--
-
 <div class="rates-header">
   <h4>Tarifes de l'immoble <%= @vrental.name %> </h4>
+  <div class="table">
+  <h6>Afegir tarifa nova</h6>
+    <div class="row ">
+      <div class="col m-1 p-2 form-control bg-light">
+        <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
+      </div>
+    </div>
+  </div>
   <% @years.each do |year| %>
     <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
     <div class="container">
     <h4>Tarifes <%= year %></h4>
-      <% if year == Date.today.year || year == Date.today.next_year.year %>
-      <div class="pl-table">
-        <div class="row ">
-          <div class="col m-1 p-2 form-control bg-light">
-            <%= turbo_frame_tag "new-rate-form", src: new_vrental_rate_path(@vrental) %>
-          </div>
-        </div>
-      </div>
-      <% end %>
-      <div class="pl-table">
-        <div class="pl-thead">
+      <div class="table">
+        <div class="thead">
           <div class="row">
             <div class="col">Des de</div>
             <div class="col">Fins a</div>
@@ -77,8 +73,8 @@
             <div class="col">Esborrar</div>
           </div>
         </div>
-        <div class="pl-tbody">
-          <div id="rates">
+        <div class="tbody">
+          <div id="rates<%= year %>">
             <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
           </div>
         </div>
@@ -87,13 +83,18 @@
     <% end %>
   <% end %>
 </div>
--->
 
 
-
-
-<%# bootstrap %>
-
+<%# bootstrap tabs %>
+<!--
+<h4>Crear tarifa nova</h4>
+<div class="table">
+  <div class="row">
+    <div class="col m-1 p-2 form-control bg-light">
+      <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
+    </div>
+  </div>
+</div>
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 <% @years.each do |year| %>
   <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
@@ -108,16 +109,7 @@
   <div class="tab-pane fade <%= "show active" if year == Date.today.year %>" id="pills-<%= year %>" role="tabpanel" aria-labelledby="pills-<%= year %>-tab">
 
     <div class="container">
-    <h4>Crear tarifa nova</h4>
-      <% if year == Date.today.year || year == Date.today.next_year.year %>
-      <div class="table">
-        <div class="row">
-          <div class="col m-1 p-2 form-control bg-light">
-            <%= turbo_frame_tag "new-rate-form", src: new_vrental_rate_path(@vrental) %>
-          </div>
-        </div>
-      </div>
-      <% end %>
+
     <h4>Tarifes <%= year %></h4>
       <div class="table">
         <div class="text-center">
@@ -138,7 +130,7 @@
         </div>
       </div>
     </div>
-
   </div>
 <% end %>
 </div>
+-->

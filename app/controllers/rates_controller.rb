@@ -30,9 +30,8 @@ class RatesController < ApplicationController
     if @rate.save
       flash.now[:notice] = "Has creat una tarifa nova per #{@rate.vrental.name}."
       render turbo_stream: [
-        turbo_stream.prepend("rates", @rate),
-        turbo_stream.replace("new-rate-form", partial: "form", locals: { rate: Rate.new }
-        ),
+        turbo_stream.prepend("rates#{@rate.firstnight.year}", @rate),
+        turbo_stream.replace("new_rate", partial: "form", locals: { rate: Rate.new }),
         turbo_stream.replace("notice", partial: "shared/flashes")
       ]
       # redirect_to vrental_path(@rate.vrental), notice: 'Has creat una tarifa nova.'

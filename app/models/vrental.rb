@@ -13,15 +13,6 @@ class Vrental < ApplicationRecord
     Date.tomorrow..next_rate.firstnight
   end
 
-  def dates_with_rates
-    dates_with_rates = []
-    future_rates = rates.where('firstnight > ?', Date.today)
-    future_rates.each do |rate|
-      dates_with_rates << (rate.firstnight..rate.lastnight).to_a
-    end
-    dates_with_rates.map{ |date| date.to_s }.flatten
-  end
-
   def unavailable_dates
     rates.pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }

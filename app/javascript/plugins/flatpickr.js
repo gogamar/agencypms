@@ -7,6 +7,7 @@ const initFlatpickr = () => {
   flatpickr(".datepicker", {
     altInput: true,
     minDate: "today",
+    dateFormat: "d/m/Y",
   });
 };
 
