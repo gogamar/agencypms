@@ -5,7 +5,8 @@ export default class extends Controller {
   static targets = ["checkin", "checkout"];
 
   connect() {
-    console.log("Rate component controller connected default date activated!");
+    flatpickr();
+    console.log("Rate component controller connected!");
     const unvailableDates = JSON.parse(this.element.dataset.unavailable);
 
     const checkinPicker = this.checkinTarget.flatpickr({

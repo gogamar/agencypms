@@ -8,6 +8,10 @@
   data-default-checkin-date="<%= @vrental.default_checkin %>"
   data-default-checkout-date="<%= (@vrental.default_checkin + 7.day) %>"
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
+  <% else %>
+  data-default-checkin-date="<%= Date.today %>"
+  data-default-checkout-date="<%= (Date.today + 7.day) %>"
+  data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
   <% end %>
   >
     <div class="col">
