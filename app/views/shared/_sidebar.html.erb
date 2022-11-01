@@ -1,0 +1,139 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    id="accordionSidebar"
+    data-sidebar-target="bar"
+>
+  <!-- Sidebar - Brand -->
+  <% if profile_logged_in? %>
+    <%= link_to "#", class: "sidebar-brand d-flex align-items-center justify-content-center bg-light" do %>
+      <% if current_profile.photo.attached? %>
+        <%= cl_image_tag(current_profile.photo.key,
+          class: "img-fluid",
+          :transformation => { dpr: "auto",
+          responsive: :true,
+          width: :auto,
+          crop: :scale }) %>
+      <% else %>
+        <p>Aquest perfil no té logo adjuntat.</p>
+      <% end %>
+    <% end %>
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Control de panel</span></a>
+    </li>
+    <li class="nav-item active">
+      <%= link_to new_profile_session_path, class: "nav-link" do %>
+        <i class="fas fa-fw fa-user"></i>
+          <span>Canvia de perfil</span>
+      <% end %>
+    </li>
+    <% current_user.profiles.each do |profile| %>
+      <%# <div class="p-2 collapse-inner"> %>
+      <li class="nav-item p-3">
+        <%= form_with(url: profile_sessions_path , scope: :profile_session, local: true) do |f| %>
+          <%= hidden_field_tag "profile_id", profile.id %>
+          <%= button_tag type:'submit', class: "btn btn-light btn-icon-split" do %>
+            <span class="icon text-gray-600">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+              <span class="text m-0 text-primary" style="font-size: 0.85rem"><%= profile.businessname %></span>
+            <% end %>
+        <% end %>
+        </li>
+      <%# </div> %>
+    <% end %>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+    <% if current_profile.companytype == "Immobiliària" %>
+  <!-- Heading -->
+    <div class="sidebar-heading">
+        <%= current_profile.companytype %>
+    </div>
+      <!-- Nav Item - Lloguer Anual Collapse Menu -->
+    <li class="nav-item">
+      <%# <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+          aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Lloguer anual</span>
+      </a> %>
+      <%= link_to "#", class: "nav-link", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+        <i class="fas fa-fw fa-key"></i>
+          <span>Lloguer anual</span>
+      <% end %>
+      <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+          <div class="bg-white py-2 collapse-inner rounded">
+              <%# <h6 class="collapse-header">Custom Components:</h6> %>
+              <%= link_to "Immobles", rentals_path, class: "collapse-item" %>
+              <%= link_to "Propietaris", owners_path, class: "collapse-item" %>
+              <%= link_to "Inquilins", renters_path, class: "collapse-item" %>
+              <%= link_to "Contractes", agreements_path, class: "collapse-item" %>
+              <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+          </div>
+      </div>
+    </li>
+    <!-- Nav Item - Compravenda Collapse Menu -->
+    <li class="nav-item">
+      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+        <i class="fas fa-fw fa-house"></i>
+          <span>Compravenda</span>
+      <% end %>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+          <div class="bg-white py-2 collapse-inner rounded">
+              <%# <h6 class="collapse-header">Custom Components:</h6> %>
+              <%= link_to "Immobles", "#", class: "collapse-item" %>
+              <%= link_to "Vendedors", "#", class: "collapse-item" %>
+              <%= link_to "Compradors", "#", class: "collapse-item" %>
+              <%= link_to "Contractes", "#", class: "collapse-item" %>
+              <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+          </div>
+      </div>
+    </li>
+    <% else %>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        <%= current_profile.companytype %>
+    </div>
+    <!-- Nav Item - Lloguer Turístic Collapse Menu -->
+    <li class="nav-item">
+      <%= link_to "#", class: "nav-link", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+        <i class="fas fa-fw fa-house"></i>
+          <span>Lloguer turístic</span>
+      <% end %>
+      <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+          <div class="bg-white py-2 collapse-inner rounded">
+              <%# <h6 class="collapse-header">Custom Components:</h6> %>
+              <%= link_to "Immobles", vrentals_path, class: "collapse-item" %>
+              <%= link_to "Propietaris", vrowners_path, class: "collapse-item" %>
+              <%= link_to "Models de contracte", vrentaltemplates_path, class: "collapse-item" %>
+              <%= link_to "Contractes", vragreements_path, class: "collapse-item" %>
+          </div>
+      </div>
+    </li>
+    <% end %>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+  <% else %>
+  <div class="sidebar-heading">
+    <%= link_to "Tria el perfil", new_profile_session_path, class: "dropdown-item" %>
+  </div>
+  <% end %>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+      <button
+        class="rounded-circle border-0"
+        id="sidebarToggle"
+        data-sidebar-target="sidebutton"
+        data-action="click->sidebar#toggleit"
+      >
+      </button>
+  </div>
+</ul>
+<!-- End of Sidebar -->
