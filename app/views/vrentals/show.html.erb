@@ -1,87 +1,74 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Immoble <%= @vrental.name %></h1>
-
-
 <p>
   <strong>Número HUT:</strong>
   <%= @vrental.licence %>
 </p>
-
 <p>
   <strong>Adreça:</strong>
   <%= @vrental.address %>
 </p>
-
 <p>
   <strong>Cadastre:</strong>
   <%= @vrental.cadastre %>
 </p>
-
 <p>
   <strong>Cédula:</strong>
   <%= @vrental.habitability %>
 </p>
-
 <p>
   <strong>Comissió:</strong>
   <%= @vrental.commission %>
 </p>
-
 <p>
   <strong>Descripció:</strong>
   <%= @vrental.description %>
 </p>
-
-<%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-warning" %> | <%= link_to 'Esborrar', @vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %> |
-<%= link_to 'Tornar', vrentals_path %>
-
+<div>
+  <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-warning" %> | <%= link_to 'Esborrar', @vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %> |
+  <%= link_to 'Tornar', vrentals_path %>
+</div>
 <br>
-<br>
-
 <h4>Caracteristiques:</h4>
-
-<%= @vrental.features.pluck("name").map{|f| t("#{f}")}.sort_by{|translation| translation}.to_sentence(last_word_connector: ', ') %>
-
-
-<br><br><br>
-
+<p>
+  <%= @vrental.features.pluck("name").map{|f| t("#{f}")}.sort_by{|translation| translation}.to_sentence(last_word_connector: ', ') %>
+</p>
+<br>
 <p id="notice"><%= notice %></p>
-<div class="rates-header">
-  <h4>Tarifes de l'immoble <%= @vrental.name %> </h4>
-  <div class="table">
-  <h6>Afegir tarifa nova</h6>
-    <div class="row ">
-      <div class="col m-1 p-2 form-control bg-light">
-        <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
-      </div>
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Tarifes de l'immoble <%= @vrental.name %></h6>
+    <div class="container">
+      <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
+      <% @years.each do |year| %>
+        <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
+          <h6 class="m-0 font-weight-bold text-primary">Tarifes <%= year %></h6>
+          <div class="table-responsive">
+            <div class="table table-bordered" width="100%" cellspacing="0">
+              <div class="thead">
+                <div class="row">
+                  <div class="col"><%= t("from") %></div>
+                  <div class="col"><%= t("to") %></div>
+                  <div class="col"><%= t("arrival_day") %></div>
+                  <div class="col"><%= t("min") %></div>
+                  <div class="col"><%= t("week") %></div>
+                  <div class="col"><%= t("night_7") %></div>
+                  <div class="col"><%= t("night_5") %></div>
+                </div>
+              </div>
+              <div class="tbody">
+                <div id="rates<%= year %>">
+                  <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
-  <% @years.each do |year| %>
-    <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-    <div class="container">
-    <h4>Tarifes <%= year %></h4>
-      <div class="table">
-        <div class="thead">
-          <div class="row">
-            <div class="col">Des de</div>
-            <div class="col">Fins a</div>
-            <div class="col">Min.</div>
-            <div class="col">Entrada</div>
-            <div class="col">Preu setmana</div>
-            <div class="col">Modificar</div>
-            <div class="col">Esborrar</div>
-          </div>
-        </div>
-        <div class="tbody">
-          <div id="rates<%= year %>">
-            <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% end %>
-  <% end %>
 </div>
 
 
