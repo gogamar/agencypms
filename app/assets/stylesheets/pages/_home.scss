@@ -16,10 +16,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-a {
-  color: #155e75;
-}
-
 h4 {
   text-align: center;
 }
@@ -67,13 +63,24 @@ h4 {
   }
 }
 
-.create-profile {
-  background-image: url("https://res.cloudinary.com/dlzusxobf/image/upload/v1665142109/Checklist_h6qpq7.jpg");
-  background-color: white;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  position: relative;
+// sorting table triangles
+
+.sort {
+  position: absolute;
+  top: 1rem;
+  left: 0.5rem;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
+
+.sort-desc {
+  border-top: 8px solid #fff;
+}
+
+.sort-asc {
+  border-bottom: 8px solid #fff;
 }
 
 // for testing

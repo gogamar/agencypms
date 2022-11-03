@@ -33,7 +33,7 @@
   <%= @vrental.description %>
 </p>
 
-<%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-back" %> |
+<%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-warning" %> | <%= link_to 'Esborrar', @vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %> |
 <%= link_to 'Tornar', vrentals_path %>
 
 <br>

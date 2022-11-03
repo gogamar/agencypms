@@ -20,7 +20,7 @@
   <body id="page-top"
         data-controller="sidebar"
         data-sidebar-target="dash"
-        data-action="resize@window->sidebar#closeaccordions"
+        <%# data-action="resize@window->sidebar#closeaccordions" %>
   >
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -43,7 +43,7 @@
           <footer class="sticky-footer bg-white">
             <div class="container my-auto">
               <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
+                <span>&copy; Sistach Finques <%= Date.today.year %></span>
               </div>
             </div>
           </footer>

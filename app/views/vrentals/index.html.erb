@@ -1,43 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Immobles</h1>
-<%= link_to 'Afegir un immoble nou', new_vrental_path, class: "btn btn-confirm text-right" %>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Estatus</th>
-      <th scope="col">Prop ID</th>
-      <th scope="col">HUT</th>
-      <th scope="col">Nom</th>
-      <th scope="col">Adreça</th>
-      <th scope="col">Propietari</th>
-      <th scope="col">Detalls</th>
-      <th scope="col">Contracte</th>
-      <th scope="col">Modificar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @vrentals.each_with_index do |vrental, index| %>
-        <tr>
-        <th scope="row"> <%= index + 1 %></th>
-        <td><%= t("#{vrental.status}") %></td>
-        <td><%= vrental.beds_prop_id %></td>
-        <td><%= vrental.licence %></td>
-        <td><%= vrental.name %></td>
-        <td><%= vrental.address %></td>
-        <% if vrental.vrowner %>
-        <td><%= vrental.vrowner.fullname %></td>
-        <% else %>
-        <td><%= link_to 'Afegir propietari', edit_vrental_path(vrental) %></td>
-        <% end %>
-        <td><%= link_to 'Veure l\'immoble', vrental %></td>
-        <td><%= link_to 'Copiar immoble', copy_vrental_path(vrental), class: "btn btn-back"  %></td>
-        <td><%= link_to 'Modificar', edit_vrental_path(vrental) %></td>
-        <td><%= link_to 'Esborrar', vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"} %></td>
-        <td><%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-confirm" %></td>
-      </tr>
-    <% end %>
-    </tbody>
-</table>
+<div class="container-fluid">
+  <%= render "vrentals", vrentals: @vrentals %>
+</div>

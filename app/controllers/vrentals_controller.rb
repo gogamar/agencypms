@@ -2,8 +2,19 @@ class VrentalsController < ApplicationController
   before_action :set_vrental, only: [:show, :edit, :update, :destroy]
 
   def index
-    @vrentals = policy_scope(Vrental)
-    @vrentals = Vrental.all.sort_by(&:created_at).reverse
+    all_vrentals = policy_scope(Vrental)
+    @pagy, @vrentals = pagy(all_vrentals, page: params[:page], items: 9)
+    # @vrentals = Vrental.all.sort_by(&:created_at).reverse
+  end
+
+
+  def list
+    @vrentals = policy_scope(Vrental).includes(:vrowner)
+    @vrentals = @vrentals.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
+    @vrentals = @vrentals.where(status: params[:status]) if params[:status].present?
+    @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 9)
+    render(partial: 'vrentals', locals: { vrentals: @vrentals })
   end
 
   def show

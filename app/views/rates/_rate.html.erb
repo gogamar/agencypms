@@ -7,7 +7,7 @@
     <div class="col text-nowrap w-25"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></div>
     <%# if action_name != "show" %>
     <div class="col">
-        <%= link_to "Modificar", edit_vrental_rate_path(@vrental, rate), class: "btn btn-back" %>
+        <%= link_to "Modificar", edit_vrental_rate_path(@vrental, rate), class: "btn btn-warning" %>
     </div>
     <div class="col">
         <%= link_to "Esborrar", rate, class: "text-warning", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tarifa?"}

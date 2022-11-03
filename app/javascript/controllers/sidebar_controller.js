@@ -17,14 +17,14 @@ export default class extends Controller {
   }
 
   // Close any open menu accordions when window is resized below 768px
-  closeaccordions() {
-    if (window.width() < 768) {
-      this.barTarget.collapse("hide");
-    }
-    if (window.width() < 480 && !this.barTarget.classList.contains("toggled")) {
-      this.dashTarget.classList.add("sidebar-toggled");
-      this.barTarget.classList.add("toggled");
-      this.barTarget.collapse("hide");
-    }
-  }
+  // closeaccordions() {
+  //   if (window.width() < 768) {
+  //     this.barTarget.collapse("hide");
+  //   }
+  //   if (window.width() < 480 && !this.barTarget.classList.contains("toggled")) {
+  //     this.dashTarget.classList.add("sidebar-toggled");
+  //     this.barTarget.classList.add("toggled");
+  //     this.barTarget.collapse("hide");
+  //   }
+  // }
 }

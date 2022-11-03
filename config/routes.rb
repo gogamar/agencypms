@@ -2,57 +2,63 @@ Rails.application.routes.draw do
   # get 'features/new'
   # get 'features/index'
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    root to: "pages#home"
-    devise_for :users
+    scope(path_names: { new: 'nou', edit: 'modificar' }) do
+      root to: "pages#home"
+      devise_for :users, path: 'usuaris'
 
-    resources :users do
-      member do
+      resources :users, path: 'usuaris' do
+        member do
+          delete :purge_photo
+        end
+      end
+
+
+      resources :profiles, path: 'perfils' do
+        member do
         delete :purge_photo
+        end
       end
-    end
 
+      resources :profile_sessions, path: 'sessio-perfil', only: [:new, :create]
 
-    resources :profiles do
-      member do
-      delete :purge_photo
+      # resources for real estate companies
+      resources :owners, path: 'propietaris-lloguer-anual'
+
+      resources :rentals, path: 'immobles-lloguer-anual' do
+        resources :agreements, path: 'contractes-lloguer-anual', only: [:new, :edit, :create, :update ]
       end
-    end
-
-    resources :profile_sessions, only: [:new, :create]
-
-    # resources for real estate companies
-    resources :owners
-    resources :rentals do
-      resources :agreements, only: [:new, :edit, :create, :update ]
-    end
-    resources :renters
-    resources :rentaltemplates
-    resources :agreements, only: [:index, :destroy, :show]
+      resources :renters, path: 'llogaters-anuals'
+      resources :rentaltemplates, path: 'models-de-contracte-lloguer-anual'
+      resources :agreements, path: 'contractes-lloguer-anual', only: [:index, :destroy, :show]
 
 
-    # resources for vacation rentals companies
-    resources :vrowners
-    resources :vrentals do
-      resources :rates, only: [:new, :edit, :create, :update, :index, :show]
-      resources :vragreements, only: [:new, :edit, :create, :update ]
-      member do
-        get 'copy'
+      # resources for vacation rentals companies
+      resources :vrowners, path: 'propietaris-lloguer-turistic'
+      resources :vrentals, path: 'immobles-lloguer-turistic' do
+        collection do
+          get 'list'
+        end
+        resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
+        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update ]
+        member do
+          get 'copy'
+        end
       end
-    end
-    resources :vrentaltemplates do
-      member do
-        get 'copy'
+      resources :vrentaltemplates, path: 'models-de-contracte-lloguer-turistic' do
+        member do
+          get 'copy'
+        end
       end
+      resources :vragreements, path: 'contractes-lloguer-turistic', only: [:index, :destroy, :show]
+      resources :rates, path: 'tarifes', only: :destroy
+      resources :features, path: 'caracteristiques'
+      resources :features_vrentals, path: 'caracteristiques-lloguer-turistic'
+
+
+      mount Ckeditor::Engine => '/ckeditor'
+
+
+      # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
     end
-    resources :vragreements, only: [:index, :destroy, :show]
-    resources :rates, only: :destroy
-    resources :features
-    resources :features_vrentals
-
-
-    mount Ckeditor::Engine => '/ckeditor'
-
-
-    # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   end
 end

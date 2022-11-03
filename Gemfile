@@ -94,6 +94,7 @@ gem 'pry-byebug'
 gem 'rails-html-sanitizer'
 gem "pundit"
 gem "font-awesome-sass", "~> 6.1"
+gem 'pagy', '~> 5.10'
 
 # for heroku stack heroku-22
 group :production do
