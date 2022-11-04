@@ -1,85 +1,80 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Immobles lloguer turístic - HUTs</h6>
-    <div class="container">
-      <%= form_with url: list_vrentals_path, method: :get, data: { turbo_frame: "vrentals"}, class: "form-inline" do |form| %>
-        <div class="form-group me-3">
-          <%= form.select :status,
-            options_for_select(
-            [[t("inactive"),'inactive'],[t("proposal"),'proposal'],[t("active"),'active']],
-            session.dig('vrental_filters', 'status')
-            ),
-            { include_blank: 'tots' },
-            class: "custom-select form-control bg-white border-0 small"
-          %>
-        </div>
-        <div class="form-group me-3">
-          <%= form.text_field :name,
-          placeholder: "Buscar per nom",
-          value: session.dig('vrental_filters', 'name'),
-          class: "form-control bg-white border-0 small",
-          autocomplete: "off" %>
-        </div>
-        <%= form.button class: "btn btn-primary me-3" do %>
-          <i class="fas fa-search fa-sm"></i>
+    <h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer turístic - HUTs</h4>
+    <hr>
+      <div class="container d-flex justify-content-center mt-5">
+        <%= form_with url: list_vrentals_path, method: :get, data: { turbo_frame: "vrentals"}, class: "row g-3" do |form| %>
+          <div class="col-auto">
+            <%= form.select :status,
+              options_for_select(
+              [[t("inactive"),'inactive'],[t("proposal"),'proposal'],[t("active"),'active']],
+              session.dig('vrental_filters', 'status')
+              ),
+              { include_blank: 'tots' },
+              class: "form-select"
+            %>
+          </div>
+          <div class="col-auto">
+            <%= form.text_field :name,
+            placeholder: "Buscar per nom",
+            value: session.dig('vrental_filters', 'name'),
+            class: "form-control bg-white border-0 small",
+            autocomplete: "off" %>
+          </div>
+          <div class="col-auto">
+            <%= form.button class: "btn btn-primary me-3" do %>
+              <i class="fas fa-search fa-sm"></i>
+            <% end %>
+          </div>
+          <div class="col-auto">
+            <%= link_to "Veure tots els immobles", vrentals_path, class: "btn btn-secondary" %>
+          </div>
         <% end %>
-        <%= link_to "Veure tots els immobles", vrentals_path, class: "btn btn-secondary my-3" %>
-      <% end %>
-  </div>
+      </div>
     <%= turbo_frame_tag "vrentals", class: "card-body" do %>
-       <div class="table-responsive">
-        <table class="table table-bordered" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th scope="col" id="vrstatus" relative>
+      <div class="container-fluid my-3">
+          <div>
+           <div class="row border border-top border-bottom fw-bold bg-light">
+              <div class="col col-lg-2 py-3 border-start border-end" id="vrstatus" relative>
               <%= sort_indicator if params[:column] == "status" %>
               <%= sort_link(column: "status", label: "Estatus") %>
-              </th>
-              <th scope="col" id="vrname" relative>
+              </div>
+              <div class="col-lg-2 py-3 border-start border-end" id="vrname" relative>
               <%= sort_indicator if params[:column] == "name" %>
               <%= sort_link(column: "name", label: "Nom") %>
-              </th>
-              <th scope="col" id="vraddress" relative>
+              </div>
+              <div class="col-lg-2 py-3 border-start border-end" id="vraddress" relative>
               <%= sort_indicator if params[:column] == "address" %>
               <%= sort_link(column: "address", label: "Adreça") %>
-              </th>
-              <th scope="col" id="vrowner-name" relative>
+              </div>
+              <div class="col-lg-2 py-3 border-start border-end" id="vrowner-name" relative>
               <%= sort_indicator if params[:column] == "vrowners.fullname" %>
               <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
-              </th>
-              <th scope="col">Copiar</th>
-              <th scope="col">Afegir contracte</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th scope="col">Estatus</th>
-              <th scope="col">Nom</th>
-              <th scope="col">Adreça</th>
-              <th scope="col">Propietari</th>
-              <th scope="col">Copiar</th>
-              <th scope="col">Afegir contracte</th>
-            </tr>
-          </tfoot>
-          <tbody>
+              </div>
+              <div class="col-lg-2 py-3 border-start border-end">Copiar</div>
+              <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
+           </div>
+          </div>
+          <div class="tbody">
             <% @vrentals.each do |vrental| %>
-              <tr>
-                <td><%= t("#{vrental.status}") %></td>
-                <td><%= link_to "#{vrental.name}", vrental, class: "btn btn-secondary" %></td>
-                <td><%= vrental.address %></td>
+             <div class="row border">
+                <div class="col-lg-2 border-start border-end"><%= t("#{vrental.status}") %></div>
+                <div class="col-lg-2 border-start border-end"><%= link_to "#{vrental.name}", vrental %></div>
+                <div class="col-lg-2 border-start border-end"><%= vrental.address %></div>
                 <% if vrental.vrowner %>
-                <td><%= vrental.vrowner.fullname %></td>
+                <div class="col-lg-2 border-start border-end"><%= vrental.vrowner.fullname %></div>
                 <% else %>
-                <td><%= link_to 'Afegir propietari', edit_vrental_path(vrental) %></td>
+                <div class="col-lg-2 border-start border-end"><%= link_to 'Afegir propietari', edit_vrental_path(vrental) %></div>
                 <% end %>
-                <td><%= link_to 'Copiar immoble', copy_vrental_path(vrental), class: "btn btn-warning"  %></td>
-                <td><%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary" %></td>
-              </tr>
+                <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar immoble', copy_vrental_path(vrental) %></div>
+                <div class="col-lg-2 border-start border-end"><%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental) %></div>
+             </div>
             <% end %>
-          </tbody>
-        </table>
+          </div>
       </div>
       <%# two equal signs is the same as .html_safe after or raw in front %>
-      <%== pagy_bootstrap_nav(@pagy) %>
+      <div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
     <% end %>
 </div>

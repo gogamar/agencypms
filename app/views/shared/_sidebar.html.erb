@@ -31,21 +31,6 @@
           <span>Canvia de perfil</span>
       <% end %>
     </li>
-    <% current_user.profiles.each do |profile| %>
-      <%# <div class="p-2 collapse-inner"> %>
-      <li class="nav-item p-3">
-        <%= form_with(url: profile_sessions_path , scope: :profile_session, local: true) do |f| %>
-          <%= hidden_field_tag "profile_id", profile.id %>
-          <%= button_tag type:'submit', class: "btn btn-light btn-icon-split" do %>
-            <span class="icon text-gray-600">
-                <i class="fas fa-arrow-right"></i>
-              </span>
-              <span class="text m-0 text-primary" style="font-size: 0.85rem"><%= profile.businessname %></span>
-            <% end %>
-        <% end %>
-        </li>
-      <%# </div> %>
-    <% end %>
   <!-- Divider -->
   <hr class="sidebar-divider">
     <% if current_profile.companytype == "Immobiliària" %>
@@ -70,6 +55,7 @@
           </div>
       </div>
     </li>
+  <hr class="sidebar-divider">
     <!-- Nav Item - Compravenda Collapse Menu -->
     <li class="nav-item">
       <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
@@ -118,7 +104,7 @@
   <% end %>
 
   <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block">
+  <%# <hr class="sidebar-divider d-none d-md-block"> %>
 
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">

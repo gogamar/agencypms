@@ -1,168 +1,37 @@
 // Specific CSS for your home-page
-body {
-  color: #164e63;
-  // font-family: "Open Sans", sans-serif;
+
+.gridtable {
+  font-size: 0.85rem;
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.vrstatus {
+  max-width: 100px;
 }
 
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+.inner-border {
+  border: 1px solid lightgray;
+  box-shadow: inset 0px 0px 0px 10px lightgray;
+  box-sizing: border-box; /* Include padding and border in element's width and height */
 }
 
-h4 {
-  text-align: center;
+.table-head {
+  font-weight: 500;
 }
 
-.form-check-input:checked {
-  background-color: #155e75;
-  border-color: #155e75;
-}
-
-.cfield {
-  width: 200px;
-  border: 1px solid grey;
-}
-
-.agrtitle {
-  background-color: #2b5c80;
-  padding: 10px;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-}
-
-.custom-avatar {
-  background-color: #cccccc;
-  border: 1px solid #444444;
-  border-radius: 5px;
-}
-
-// profile_sessions/new
-
-.cards {
-  list-style: none;
-}
-
-.card {
-  background-color: white;
-  padding: 10px;
-  border-radius: 0.25rem;
-  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  &:hover {
-    .card__image {
-      filter: contrast(100%);
-    }
-  }
-}
-
-// sorting table triangles
-
-.sort {
-  position: absolute;
-  top: 1rem;
-  left: 0.5rem;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-}
-
-.sort-desc {
-  border-top: 8px solid #fff;
-}
-
-.sort-asc {
-  border-bottom: 8px solid #fff;
-}
-
-// for testing
-
-.bckred {
-  background-color: red;
-  color: red;
-}
-
-// css for inline editing with turbo
-
-label {
-  display: block;
-}
-
-.mt1 {
-  margin-top: 0.5rem;
-}
-.mt2 {
-  margin-top: 1rem;
-}
-
-.ml1 {
-  margin-left: 0.5rem;
-}
-.ml2 {
-  margin-left: 1rem;
-}
-
-.mr1 {
-  margin-right: 0.5rem;
-}
-.mr2 {
-  margin-right: 1rem;
-}
-
-.form-error {
-  color: red;
-}
-.form-error-2 {
-  color: blueviolet;
-}
-
-.three-columns {
-  column-count: 3;
-}
-
-.btn-danger {
-  background: white;
-  color: red;
-  border: 1px solid red;
-}
-
-.product-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.products-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.product-card {
-  border: 1px solid rgba(0, 0, 0, 0.125);
+.row.striped {
   padding: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 
-.product-card h3 {
-  margin-top: 0;
-  margin-bottom: 1rem;
+.row.striped:nth-child(odd) {
+  background: #bdbcbc;
 }
 
-.product-card p {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.row.striped:focus,
+.row.striped:hover {
+  background: #bdbcbc;
 }
-
-.nowrap {
-  white-space: nowrap !important;
+@media (max-width: 767.98px) {
+  row.table-head {
+    display: none;
+  }
 }

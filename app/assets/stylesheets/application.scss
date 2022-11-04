@@ -1,4 +1,4 @@
-// Graphical variables
+// Import Custom Template Variables (Overrides Default Bootstrap Variables)
 @import "config/fonts";
 @import "config/colors";
 @import "config/bootstrap_variables";
@@ -9,6 +9,12 @@
 @import "flag-icon";
 @import "flatpickr/dist/flatpickr";
 
+// Import Custom Template Mixins and Components
+@import "config/mixins";
+@import "config/global";
+@import "utilities/index";
+
 // Your CSS partials
 @import "components/index";
+@import "navs/index";
 @import "pages/index";
