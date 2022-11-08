@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-  # get 'features/new'
-  # get 'features/index'
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar' }) do
       root to: "pages#home"
       devise_for :users, path: 'usuaris'
+      resources :tasks
 
       resources :users, path: 'usuaris' do
         member do

@@ -1,8 +1,7 @@
-  <%# bootstrap template %>
 <div class="container-fluid">
   <% if current_user.profiles.present? %>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Entra amb un dels teus perfils o <%= link_to "Crea un perfil nou", new_profile_path, class: 'btn btn-primary' %></h1>
+      <h1 class="h3 mb-0 text-gray-800">Entra amb un dels teus perfils o <%= link_to "Crea un perfil nou", new_profile_path, class: 'btn btn-primary' %></h1>
     </div>
     <div class="row">
       <% @profiles.each do |profile| %>
@@ -16,7 +15,9 @@
                   <span class="icon text-gray-600">
                     <i class="fas fa-arrow-right"></i>
                   </span>
-                <span class="text m-0 text-primary">Entrar com <%= profile.businessname %></span>
+                  <span class="text m-0 text-primary">
+                    Entrar com <%= profile.businessname %>
+                  </span>
                 <% end %>
               <% end %>
             </div>

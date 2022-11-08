@@ -21,9 +21,10 @@
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Control de panel</span></a>
+      <a class="nav-link" href="/">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Control de panel</span>
+      </a>
     </li>
     <li class="nav-item active">
       <%= link_to new_profile_session_path, class: "nav-link" do %>
@@ -31,31 +32,30 @@
           <span>Canvia de perfil</span>
       <% end %>
     </li>
-  <!-- Divider -->
-  <hr class="sidebar-divider">
+    <!-- Divider -->
+    <hr class="sidebar-divider">
     <% if current_profile.companytype == "Immobiliària" %>
-  <!-- Heading -->
+    <!-- Heading -->
     <div class="sidebar-heading">
         <%= current_profile.companytype %>
     </div>
-      <!-- Nav Item - Lloguer Anual Collapse Menu -->
+    <!-- Nav Item - Lloguer Anual Collapse Menu -->
     <li class="nav-item">
       <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
         <i class="fas fa-fw fa-key"></i>
           <span>Lloguer anual</span>
       <% end %>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
-          <div class="bg-white py-2 collapse-inner rounded">
-              <%# <h6 class="collapse-header">Custom Components:</h6> %>
-              <%= link_to "Immobles", rentals_path, class: "collapse-item" %>
-              <%= link_to "Propietaris", owners_path, class: "collapse-item" %>
-              <%= link_to "Inquilins", renters_path, class: "collapse-item" %>
-              <%= link_to "Contractes", agreements_path, class: "collapse-item" %>
-              <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
-          </div>
+        <div class="bg-white py-2 collapse-inner rounded">
+          <%= link_to "Immobles", rentals_path, class: "collapse-item" %>
+          <%= link_to "Propietaris", owners_path, class: "collapse-item" %>
+          <%= link_to "Inquilins", renters_path, class: "collapse-item" %>
+          <%= link_to "Contractes", agreements_path, class: "collapse-item" %>
+          <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+        </div>
       </div>
     </li>
-  <hr class="sidebar-divider">
+    <hr class="sidebar-divider">
     <!-- Nav Item - Compravenda Collapse Menu -->
     <li class="nav-item">
       <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
@@ -63,20 +63,19 @@
           <span>Compravenda</span>
       <% end %>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
-          <div class="bg-white py-2 collapse-inner rounded">
-              <%# <h6 class="collapse-header">Custom Components:</h6> %>
-              <%= link_to "Immobles", "#", class: "collapse-item" %>
-              <%= link_to "Vendedors", "#", class: "collapse-item" %>
-              <%= link_to "Compradors", "#", class: "collapse-item" %>
-              <%= link_to "Contractes", "#", class: "collapse-item" %>
-              <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
-          </div>
+        <div class="bg-white py-2 collapse-inner rounded">
+          <%= link_to "Immobles", "#", class: "collapse-item" %>
+          <%= link_to "Vendedors", "#", class: "collapse-item" %>
+          <%= link_to "Compradors", "#", class: "collapse-item" %>
+          <%= link_to "Contractes", "#", class: "collapse-item" %>
+          <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+        </div>
       </div>
     </li>
     <% else %>
     <!-- Heading -->
     <div class="sidebar-heading">
-        <%= current_profile.companytype %>
+      <%= current_profile.companytype %>
     </div>
     <!-- Nav Item - Lloguer Turístic Collapse Menu -->
     <li class="nav-item">
@@ -85,27 +84,25 @@
           <span>Lloguer turístic</span>
       <% end %>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
-          <div class="bg-white py-2 collapse-inner rounded">
-              <%# <h6 class="collapse-header">Custom Components:</h6> %>
-              <%= link_to "Immobles", vrentals_path, class: "collapse-item" %>
-              <%= link_to "Propietaris", vrowners_path, class: "collapse-item" %>
-              <%= link_to "Models de contracte", vrentaltemplates_path, class: "collapse-item" %>
-              <%= link_to "Contractes", vragreements_path, class: "collapse-item" %>
-          </div>
+        <div class="bg-white py-2 collapse-inner rounded">
+          <%= link_to "Immobles", vrentals_path, class: "collapse-item" %>
+          <%= link_to "Propietaris", vrowners_path, class: "collapse-item" %>
+          <%= link_to "Models de contracte", vrentaltemplates_path, class: "collapse-item" %>
+          <%= link_to "Contractes", vragreements_path, class: "collapse-item" %>
+        </div>
       </div>
     </li>
     <% end %>
     <!-- Divider -->
     <hr class="sidebar-divider">
   <% else %>
-  <div class="sidebar-heading">
-    <%= link_to "Tria el perfil", new_profile_session_path, class: "dropdown-item" %>
-  </div>
+    <li class="nav-item active">
+      <%= link_to new_profile_session_path, class: "nav-link" do %>
+      <i class="fas fa-fw fa-user"></i>
+        <span>Canvia de perfil</span>
+      <% end %>
+    </li>
   <% end %>
-
-  <!-- Divider -->
-  <%# <hr class="sidebar-divider d-none d-md-block"> %>
-
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
       <button

@@ -11,7 +11,7 @@ class PagesController < ApplicationController
 
     @selected_vrowners = Vrowner.includes(:vrentals).where('user_id = ?', '2').references(:vrentals)
 
-    # @selected_vrowners = Vrowner.includes(:vrentals).where(vrentals: { user_id: current_user.id })
+    @tasks = Task.where(start_time: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week)
   end
 
 
