@@ -44,8 +44,7 @@ class VrentalsController < ApplicationController
     @source.features.each { |feature| @vrental.features << feature.dup }
     authorize @vrental
     @vrental.save!
-    redirect_to vrentals_path, notice: 'S\'ha creat una còpia de l\'immoble.'
-    # render :new
+    redirect_to vrentals_path, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
   end
 
   def edit

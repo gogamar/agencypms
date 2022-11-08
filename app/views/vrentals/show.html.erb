@@ -1,6 +1,23 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Immoble <%= @vrental.name %></h1>
+<div class="d-flex justify-content-between">
+  <div>
+    <%= link_to vrentals_path, class: "btn btn-light btn-icon-split me-3" do %>
+      <span class="icon text-white-600">
+          <i class="fas fa-arrow-left"></i>
+      </span>
+      <span class="text m-0 text-primary" style="font-size: 0.85rem">
+        Tornar
+      </span>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to 'Modificar', edit_vrental_path(@vrental), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @vrental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %>
+  </div>
+</div>
+<div>
+  <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @vrental.name %></h4>
+</div>
+<div class="card shadow mb-4 p-4">
 <p>
   <strong>Número HUT:</strong>
   <%= @vrental.licence %>
@@ -25,29 +42,26 @@
   <strong>Descripció:</strong>
   <%= @vrental.description %>
 </p>
-<div>
-  <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-info" %> | <%= link_to 'Esborrar', @vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %> |
-  <%= link_to 'Tornar', vrentals_path %>
-</div>
-<br>
-<h4>Caracteristiques:</h4>
 <p>
+  <strong>Caracteristiques:</strong>
   <%= @vrental.features.pluck("name").map{|f| t("#{f}")}.sort_by{|translation| translation}.to_sentence(last_word_connector: ', ') %>
 </p>
+</div>
 <br>
-<p id="notice"><%= notice %></p>
-
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h4 class="mb-5 font-weight-bold text-primary text-center">Tarifes de l'immoble <%= @vrental.name %></h4>
+<div class="card shadow mb-5">
+  <div class="card-header py-5">
+    <h4 class="mb-5 font-weight-bold text-primary text-center">Tarifes <%= @vrental.name %></h4>
     <hr>
     <div class="container">
       <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
+
       <% @years.each do |year| %>
         <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-          <h6 class="m-0 font-weight-bold text-primary">Tarifes <%= year %></h6>
+          <hr>
+          <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
+          <hr>
           <div>
-            <div class="container-fluid my-3" cellspacing="0">
+            <div class="container-fluid mt-3 py-5" cellspacing="0">
               <div class="row">
                 <div class="col"><%= t("from") %></div>
                 <div class="col"><%= t("to") %></div>
@@ -57,10 +71,8 @@
                 <div class="col"><%= t("night_7") %></div>
                 <div class="col"><%= t("night_5") %></div>
               </div>
-              <div class="tbody">
-                <div id="rates<%= year %>">
-                  <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
-                </div>
+              <div id="rates<%= year %>">
+                <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
               </div>
             </div>
           </div>
@@ -69,54 +81,3 @@
     </div>
   </div>
 </div>
-
-
-<%# bootstrap tabs %>
-<!--
-<h4>Crear tarifa nova</h4>
-<div class="table">
-  <div class="row">
-    <div class="col m-1 p-2 form-control bg-light">
-      <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
-    </div>
-  </div>
-</div>
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-<% @years.each do |year| %>
-  <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link <%= "active" if year == Date.today.year %>" id="pills-<%= year %>-tab" data-bs-toggle="pill" data-bs-target="#pills-<%= year %>" type="button" role="tab" aria-controls="pills-<%= year %>" aria-selected="false"><%= year %></button>
-  </li>
-  <% end %>
-<% end %>
-</ul>
-<div class="tab-content" id="pills-tabContent">
-<% @years.each do |year| %>
-  <div class="tab-pane fade <%= "show active" if year == Date.today.year %>" id="pills-<%= year %>" role="tabpanel" aria-labelledby="pills-<%= year %>-tab">
-
-    <div class="container">
-
-    <h4>Tarifes <%= year %></h4>
-      <div class="table">
-        <div class="text-center">
-          <div class="row font-weight-bold" style="font-weight:bold">
-            <div class="col bg-light border w-20">Des de</div>
-            <div class="col bg-light border w-20">Fins a</div>
-            <div class="col bg-light border">Min.</div>
-            <div class="col bg-light border">Entrada</div>
-            <div class="col bg-light border">Preu setmana</div>
-            <div class="col bg-light border">Modificar</div>
-            <div class="col bg-light border">Esborrar</div>
-          </div>
-        </div>
-        <div class="pl-tbody">
-          <div id="rates">
-            <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>
-</div>
--->

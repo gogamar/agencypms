@@ -1,24 +1,43 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Fullname:</strong>
-  <%= @vrowner.fullname %>
-</p>
-
-<p>
-  <strong>Address:</strong>
-  <%= @vrowner.address %>
-</p>
-
-<p>
-  <strong>Document:</strong>
-  <%= @vrowner.document %>
-</p>
-
-<p>
-  <strong>Account:</strong>
-  <%= @vrowner.account %>
-</p>
-
-<%= link_to 'Modificar', edit_vrowner_path(@vrowner) %> |
-<%= link_to 'Tornar', vrowners_path %>
+<div class="container">
+  <div class="d-flex justify-content-between">
+      <div>
+        <%= link_to vrowners_path, class: "btn btn-light btn-icon-split me-3" do %>
+          <span class="icon text-white-600">
+              <i class="fas fa-arrow-left"></i>
+          </span>
+          <span class="text m-0 text-primary" style="font-size: 0.85rem">
+            Tornar
+          </span>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to 'Modificar', edit_vrowner_path(@vrowner), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @vrowner, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrowner.fullname}?"} %>
+      </div>
+  </div>
+  <div>
+    <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @vrowner.fullname %></h4>
+  </div>
+  <div class="card shadow mb-4 p-4">
+    <p>
+      <strong>Nom i cognoms:</strong>
+      <%= @vrowner.fullname %>
+    </p>
+    <p>
+      <strong>Adreça:</strong>
+      <%= @vrowner.address %>
+    </p>
+    <p>
+      <strong>DNI:</strong>
+      <%= @vrowner.document %>
+    </p>
+    <p>
+      <strong>Compte bancari:</strong>
+      <%= @vrowner.account %>
+    </p>
+    <strong>Propietats:</strong>
+    <% @vrowner.vrentals.each do |vrental| %>
+      <p><%= vrental.name %></p>
+    <% end %>
+  </div>
+</div>

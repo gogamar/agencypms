@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
-
 <div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un contracte nou', vrentals_path, class: "btn btn-primary" %>
+  </div>
   <%= render "vragreements", vragreements: @vragreements %>
 </div>

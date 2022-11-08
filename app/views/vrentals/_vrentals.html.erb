@@ -1,4 +1,4 @@
-<div class="card shadow mb-4">
+  <div class="card shadow mb-4">
   <div class="card-header py-3">
     <h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer turístic - HUTs</h4>
     <hr>
@@ -30,6 +30,7 @@
         <% end %>
       </div>
     <%= turbo_frame_tag "vrentals", class: "card-body" do %>
+    <%= render "shared/flashes" %>
       <div class="container-fluid my-3">
           <div>
            <div class="row border border-top border-bottom fw-bold bg-light">
@@ -65,7 +66,7 @@
                 <div class="col-lg-2 border-start border-end"><%= link_to 'Afegir propietari', edit_vrental_path(vrental) %></div>
                 <% end %>
                 <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar immoble', copy_vrental_path(vrental) %></div>
-                <div class="col-lg-2 border-start border-end"><%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental) %></div>
+                <div class="col-lg-2 border-start border-end"><%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary" %></div>
              </div>
             <% end %>
           </div>

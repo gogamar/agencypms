@@ -1,5 +1,6 @@
-<p id="notice"><%= notice %></p>
-
 <div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un immoble nou', new_vrental_path, class: "btn btn-primary" %>
+  </div>
   <%= render "vrentals", vrentals: @vrentals %>
 </div>

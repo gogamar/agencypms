@@ -1,12 +1,17 @@
-<h1>Modificar l'immoble</h1>
-<div class="d-flex flex-column">
-  <div class="pt-4">
-    <%= render 'form', vrental: @vrental %>
-  </div>
-  <div class="pt-4">
-    <%= link_to 'Veure l\'immoble', @vrental, class: 'btn btn-primary' %>
-  </div>
-  <div class="pt-4">
-    <%= link_to 'Tornar', vrentals_path, class: 'btn btn-info' %>
-  </div>
+<p id="notice"><%= notice %></p>
+<div>
+  <%= link_to vrental_path(@vrental), class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<hr>
+<h4 class="mt-4 font-weight-bold text-primary text-center">Modificar <%= @vrental.name %></h4>
+<hr>
+<div class="pt-4">
+  <%= render 'form', vrental: @vrental %>
 </div>

@@ -15,8 +15,8 @@
     <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit "Desar" %>
-    <%= f.submit "Desar com model de contracte nou" %>
+  <div class="form-actions text-end">
+    <%= f.submit "Desar", class: 'btn btn-primary text-center' %>
+    <%= f.submit "Desar com model de contracte nou", class: 'btn btn-primary text-center' %>
   </div>
 <% end %>

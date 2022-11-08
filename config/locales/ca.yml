@@ -210,10 +210,13 @@ ca:
         description: "Descripció"
       vrowner:
         vrowner: "Propietari"
+        fullname: "Nom i cognoms"
         address: "Adreça"
         phone: "Telèfon"
         email: "Email"
+        document: "DNI"
         account: "Compte bancari"
+        language: "Idioma"
       vragreement:
         vrowner: "Propietari"
         vrental: "Casa o apartament"
@@ -240,6 +243,7 @@ ca:
         arrival_day: "Dia entrada"
       vrentaltemplate:
         language: "Idioma"
+        title: "Títol"
       feature:
         name:
           washer: "rentadora"

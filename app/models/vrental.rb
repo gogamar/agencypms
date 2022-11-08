@@ -5,21 +5,15 @@ class Vrental < ApplicationRecord
   has_many :rates, dependent: :destroy
   has_and_belongs_to_many :features
   validates :name, presence: true
-  validates :name, uniqueness: true
+  # validates :name, uniqueness: {
+    # object = person object being validated
+    # data = { model: "Person", attribute: "Username", value: <username> }
+  #   message: ->(object, data) do
+  #     "#{object.name} ja existeix!"
+  #   end
+  # }
   validates :status, presence: true
 
-  # if refractoring sorting and filtering by filterable module
-  # FILTER_PARAMS = %i[name status column direction].freeze
-
-  # scope :by_name, ->(query) { where('vrentals.name ilike ?', "%#{query}%") }
-  # scope :by_status, ->(status) { where(status: status) if status.present? }
-
-  # def self.filter(filters)
-  #   Vrental.includes(:vrowner)
-  #         .by_name(filters['name'])
-  #         .by_status(filters['status'])
-  #         .order("#{filters['column']} #{filters['direction']}")
-  # end
 
   def available_dates
     next_rate = rates.where('firstnight > ?', Date.today).order(:firstnight).first

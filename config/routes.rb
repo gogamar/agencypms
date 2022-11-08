@@ -34,6 +34,9 @@ Rails.application.routes.draw do
 
       # resources for vacation rentals companies
       resources :vrowners, path: 'propietaris-lloguer-turistic' do
+        member do
+          get 'copy'
+        end
         collection do
           get 'filter'
         end
