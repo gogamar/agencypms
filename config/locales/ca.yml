@@ -1,5 +1,9 @@
 ca:
   locale: "Català"
+  ca: "català"
+  en: "anglès"
+  es: "castellà"
+  fr: "francès"
   nights: "nits"
   from: "Des de"
   to: "Fins a"

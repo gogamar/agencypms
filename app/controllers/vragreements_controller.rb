@@ -4,7 +4,18 @@ class VragreementsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
-    @vragreements = policy_scope(Vragreement)
+    all_vragreements = policy_scope(Vragreement)
+    @pagy, @vragreements = pagy(all_vragreements, page: params[:page], items: 9)
+    @vrentals_select = Vrental.all.map {|vrental| vrental.name}.sort
+  end
+
+  def list
+    @vragreements = policy_scope(Vragreement).includes(:vrental)
+    @vragreements = @vragreements.where("DATE_PART('year', signdate) = ?", params[:year]) if params[:year].present?
+    @vragreements = @vragreements.where(vrental_id: params[:vrental_id]) if params[:vrental_id].present?
+    @vragreements = @vragreements.order("#{params[:column]} #{params[:direction]}")
+    @pagy, @vragreements = pagy(@vragreements, page: params[:page], items: 9)
+    render(partial: 'vragreements', locals: { vragreements: @vragreements })
   end
 
   def show
@@ -69,16 +80,16 @@ class VragreementsController < ApplicationController
                formats: [:html],
                disposition: :inline,
                page_size: 'A4',
-               dpi: '300',
+               dpi: '75',
                zoom: 1,
                layout: 'pdf',
-               margin:  {   top:    10,
+               margin:  {   top:    20,
                             bottom: 20,
-                            left:   15,
-                            right:  15},
+                            left:   10,
+                            right:  10},
 
-               footer: { right: 'Pàgina [page] de [topage]', center: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '', font_size: 9, spacing: 5}
-        # # end Rails 7
+               footer: { right: 'Pàgina [page] de [topage]', center: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '', font_size: 9, spacing: 5 }
+              # # end Rails 7
       end
     end
   end

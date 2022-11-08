@@ -26,7 +26,7 @@
   <%= @vrental.description %>
 </p>
 <div>
-  <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-warning" %> | <%= link_to 'Esborrar', @vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %> |
+  <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-info" %> | <%= link_to 'Esborrar', @vrental, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %> |
   <%= link_to 'Tornar', vrentals_path %>
 </div>
 <br>
@@ -39,24 +39,23 @@
 
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Tarifes de l'immoble <%= @vrental.name %></h6>
+    <h4 class="mb-5 font-weight-bold text-primary text-center">Tarifes de l'immoble <%= @vrental.name %></h4>
+    <hr>
     <div class="container">
       <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
       <% @years.each do |year| %>
         <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
           <h6 class="m-0 font-weight-bold text-primary">Tarifes <%= year %></h6>
-          <div class="table-responsive">
-            <div class="table table-bordered" width="100%" cellspacing="0">
-              <div class="thead">
-                <div class="row">
-                  <div class="col"><%= t("from") %></div>
-                  <div class="col"><%= t("to") %></div>
-                  <div class="col"><%= t("arrival_day") %></div>
-                  <div class="col"><%= t("min") %></div>
-                  <div class="col"><%= t("week") %></div>
-                  <div class="col"><%= t("night_7") %></div>
-                  <div class="col"><%= t("night_5") %></div>
-                </div>
+          <div>
+            <div class="container-fluid my-3" cellspacing="0">
+              <div class="row">
+                <div class="col"><%= t("from") %></div>
+                <div class="col"><%= t("to") %></div>
+                <div class="col"><%= t("arrival_day") %></div>
+                <div class="col"><%= t("min") %></div>
+                <div class="col"><%= t("week") %></div>
+                <div class="col"><%= t("night_7") %></div>
+                <div class="col"><%= t("night_5") %></div>
               </div>
               <div class="tbody">
                 <div id="rates<%= year %>">

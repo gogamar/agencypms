@@ -4,7 +4,7 @@
 >
   <button
     id="sidebarToggleTop"
-    class="btn btn-link d-md-none rounded-circle mr-3"
+    class="btn btn-link d-md-none rounded-circle me-3"
     data-sidebar-target="sidebutton"
     data-action="click->sidebar#toggleit"
   >
@@ -32,7 +32,7 @@
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown">
       <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+        <span class="me-2 d-none d-lg-inline text-gray-600 small">
           <%= current_user.email %>
         </span>
         <%# <img class="img-profile rounded-circle" src="img/undraw_profile.svg"/> %>
@@ -43,7 +43,7 @@
         aria-labelledby="userDropdown"
       >
         <%= link_to edit_user_registration_path, class: "dropdown-item" do %>
-          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+          <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
           Editar el compte
         <% end %>
           <div class="dropdown-divider">
@@ -55,12 +55,45 @@
             data-target="#logoutModal"
           >
             <i
-              class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+              class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"
             ></i>
             Logout
           </a>
       </div>
     </li>
+      <% if controller.controller_name == "agreements" || controller.controller_name == "vragreements" %>
+        <li class="nav-item dropdown">
+          <% I18n.available_locales.each do |lang| %>
+            <% if I18n.locale === lang || params[:locale] === lang %>
+              <%= link_to url_for(locale: lang), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+                  <% if lang === :ca %>
+                  <span class="flag-icon flag-icon-es-ca"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
+                  <% elsif lang === :en %>
+                  <span class="flag-icon flag-icon-gb"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
+                  <% elsif lang === :es %>
+                  <span class="flag-icon flag-icon-es"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
+                  <% elsif lang === :fr %>
+                  <span class="flag-icon flag-icon-fr"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
+                  <% end %>
+                <% end %>
+            <% end %>
+          <% end %>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to url_for(locale: :en), class: "dropdown-item" do %>
+              <span class="flag-icon flag-icon-gb"> </span> English
+              <% end %>
+              <%= link_to url_for(locale: :ca), class: "dropdown-item" do %>
+              <span class="flag-icon flag-icon-es-ca"> </span> Català
+              <% end %>
+              <%= link_to url_for(locale: :es), class: "dropdown-item" do %>
+              <span class="flag-icon flag-icon-es"> </span> Español
+              <% end %>
+              <%= link_to url_for(locale: :fr), class: "dropdown-item" do %>
+              <span class="flag-icon flag-icon-fr"> </span> Français
+              <% end %>
+            </div>
+        </li>
+      <% end %>
   </ul>
 </nav>
 <!-- End of Topbar -->

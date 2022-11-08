@@ -8,8 +8,7 @@
             <%= form.select :status,
               options_for_select(
               [[t("inactive"),'inactive'],[t("proposal"),'proposal'],[t("active"),'active']],
-              session.dig('vrental_filters', 'status')
-              ),
+             ),
               { include_blank: 'tots' },
               class: "form-select"
             %>
@@ -17,7 +16,6 @@
           <div class="col-auto">
             <%= form.text_field :name,
             placeholder: "Buscar per nom",
-            value: session.dig('vrental_filters', 'name'),
             class: "form-control bg-white border-0 small",
             autocomplete: "off" %>
           </div>

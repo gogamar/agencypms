@@ -87,27 +87,27 @@
             <% else %>
               <li class="nav-item">
                 <%= link_to "Entrar", new_user_session_path, class: "nav-link" %>
-                </li>
+              </li>
             <% end %>
               <% if controller.controller_name == "agreements" || controller.controller_name == "vragreements" %>
-                    <li>
-                    <% if I18n.locale === :ca || params[:locale] === :ca %>
-                      <%= link_to url_for(locale: :ca), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-                          <span class="flag-icon flag-icon-es-ca"> </span> <%= t('locale') %>
-                        <% end %>
-                    <% elsif I18n.locale === :en || params[:locale] === :en %>
-                      <%= link_to url_for(locale: :en), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-                          <span class="flag-icon flag-icon-gb"> </span> <%= t('locale') %>
-                        <% end %>
-                    <% elsif I18n.locale === :es || params[:locale] === :es %>
-                      <%= link_to url_for(locale: :es), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-                          <span class="flag-icon flag-icon-es"> </span> <%= t('locale') %>
-                        <% end %>
-                    <% elsif I18n.locale === :fr || params[:locale] === :fr %>
-                      <%= link_to url_for(locale: :fr), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-                          <span class="flag-icon flag-icon-fr"> </span> <%= t('locale') %>
-                        <% end %>
-                    <% end %>
+                <li>
+                  <% if I18n.locale === :ca || params[:locale] === :ca %>
+                    <%= link_to url_for(locale: :ca), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+                        <span class="flag-icon flag-icon-es-ca"> </span> <%= t('locale') %>
+                      <% end %>
+                  <% elsif I18n.locale === :en || params[:locale] === :en %>
+                    <%= link_to url_for(locale: :en), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+                        <span class="flag-icon flag-icon-gb"> </span> <%= t('locale') %>
+                      <% end %>
+                  <% elsif I18n.locale === :es || params[:locale] === :es %>
+                    <%= link_to url_for(locale: :es), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+                        <span class="flag-icon flag-icon-es"> </span> <%= t('locale') %>
+                      <% end %>
+                  <% elsif I18n.locale === :fr || params[:locale] === :fr %>
+                    <%= link_to url_for(locale: :fr), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+                        <span class="flag-icon flag-icon-fr"> </span> <%= t('locale') %>
+                      <% end %>
+                  <% end %>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                           <%= link_to url_for(locale: :en), class: "dropdown-item" do %>
                           <span class="flag-icon flag-icon-gb"> </span> English
@@ -122,8 +122,8 @@
                           <span class="flag-icon flag-icon-fr"> </span> Français
                           <% end %>
                         </div>
-                    </li>
-                <% end %>
+                </li>
+              <% end %>
           </ul>
       </div>
     </div>

@@ -22,10 +22,11 @@
         data-sidebar-target="dash"
         <%# data-action="resize@window->sidebar#closeaccordions" %>
   >
+    <%# render "shared/navbar" %>
     <!-- Page Wrapper -->
     <div id="wrapper">
-      <%# render "shared/navbar" %>
-      <% if controller_name != 'sessions' %>
+
+      <% if controller_name != 'profile_sessions' && controller_name != 'sessions' %>
         <%= render "shared/sidebar" %>
       <% end %>
       <%= render "shared/flashes" %>

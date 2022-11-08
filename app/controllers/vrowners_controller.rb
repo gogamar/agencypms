@@ -2,7 +2,17 @@ class VrownersController < ApplicationController
   before_action :set_vrowner, only: [:show, :edit, :update, :destroy]
 
   def index
-    @vrowners = policy_scope(Vrowner).order(:fullname)
+    all_vrowners = policy_scope(Vrowner).order(:fullname)
+    @pagy, @vrowners = pagy(all_vrowners, page: params[:page], items: 9)
+  end
+
+  def filter
+    @vrowners = policy_scope(Vrowner)
+    @languages = Vrowner.pluck("language").uniq
+    @vrowners = @vrowners.where('fullname ilike ?', "%#{params[:fullname]}%") if params[:fullname].present?
+    @vrowners = @vrowners.where(language: params[:language]) if params[:language].present?
+    @pagy, @vrowners = pagy(@vrowners, page: params[:page], items: 9)
+    render(partial: 'vrowners', locals: { vrowners: @vrowners })
   end
 
   def show

@@ -33,7 +33,11 @@ Rails.application.routes.draw do
 
 
       # resources for vacation rentals companies
-      resources :vrowners, path: 'propietaris-lloguer-turistic'
+      resources :vrowners, path: 'propietaris-lloguer-turistic' do
+        collection do
+          get 'filter'
+        end
+      end
       resources :vrentals, path: 'immobles-lloguer-turistic' do
         collection do
           get 'list'
@@ -49,7 +53,11 @@ Rails.application.routes.draw do
           get 'copy'
         end
       end
-      resources :vragreements, path: 'contractes-lloguer-turistic', only: [:index, :destroy, :show]
+      resources :vragreements, path: 'contractes-lloguer-turistic', only: [:index, :destroy, :show] do
+        collection do
+          get 'list'
+        end
+      end
       resources :rates, path: 'tarifes', only: :destroy
       resources :features, path: 'caracteristiques'
       resources :features_vrentals, path: 'caracteristiques-lloguer-turistic'

@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  /* background-color: white; */
   font-family: "Open Sans", sans-serif;
   text-align: justify;
   line-height: 1.5;
@@ -42,41 +42,10 @@ h5 {
 .nowrap {
   white-space: nowrap !important;
 }
-
-.page-break {
-  display: block;
-  clear: both;
-  page-break-after: always;
+.pricetable {
+  text-align: left !important;
 }
+
 p {
-  page-break-inside: avoid;
   text-align: justify;
-}
-
-/* header */
-
-.header-container {
-  text-align: center;
-  padding-bottom: 40px;
-}
-.header-container:after {
-  content: "";
-  display: header;
-  clear: both;
-}
-.header-left {
-  /* padding: 5px 10px; */
-  float: left;
-  text-align: left;
-}
-
-.header-center {
-  /* padding: 5px 10px; */
-  margin: 0 auto;
-  display: inline-block;
-}
-.header-right {
-  /* padding: 5px 10px; */
-  float: right;
-  text-align: right;
 }

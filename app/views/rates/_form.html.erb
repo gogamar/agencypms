@@ -2,7 +2,7 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div
-  class="row d-flex justify-content-around align-items-center"
+  class="row d-flex justify-content-around align-items-end"
   data-controller="rate-component"
   <% if @vrental.rates.exists? %>
   data-default-checkin-date="<%= @vrental.default_checkin %>"
@@ -14,25 +14,25 @@
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
   <% end %>
   >
-    <div class="col">
+    <div class="col col-lg-2">
       <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkin"} %>
     </div>
-    <div class="col">
+    <div class="col col-lg-2">
       <%= f.input :lastnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkout"} %>
     </div>
-    <div class="col">
+    <div class="col col-lg-2">
       <%= f.input :priceweek %>
     </div>
-    <div class="col">
+    <div class="col col-lg-2">
       <%= f.input :min_stay %>
     </div>
-    <div class="col">
+    <div class="col col-lg-2">
       <%= f.input :arrival_day, label: t("arrival_day"), priority: [ t("everyday") ], collection: [ t("everyday"), t("saturdays") ], include_blank: false %>
     </div>
-    <div class="col">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-warning' %>
+    <div class="col col-lg-2 p-3">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary' %>
     </div>
-    <div class="col">
+    <div class="col col-lg-2">
       <% if action_name == "edit" %>
       <%= link_to 'Tornar', :back, class: "text-secondary" %>
       <% end %>

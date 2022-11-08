@@ -1,31 +1,46 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Models de contracte</h1>
-<%= link_to 'Afegir un model de contracte nou', new_vrentaltemplate_path, class: "btn btn-primary text-end" %>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Plantilla</th>
-      <th scope="col">Idioma</th>
-      <th scope="col">Més detalls</th>
-      <th scope="col">Modificar</th>
-      <th scope="col">Copiar</th>
-      <th scope="col">Esborrar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @vrentaltemplates.each_with_index do |vrentaltemplate, index| %>
-        <tr>
-        <th scope="row"> <%= index + 1 %></th>
-        <td><%= vrentaltemplate.title %></td>
-        <td><%= vrentaltemplate.language %></td>
-        <td><%= link_to 'Veure el model', vrentaltemplate, class: "btn btn-warning" %></td>
-        <td><%= link_to 'Modificar', edit_vrentaltemplate_path(vrentaltemplate) %></td>
-        <td><%= link_to 'Copiar model', copy_vrentaltemplate_path(vrentaltemplate), class: "btn btn-warning"  %></td>
-        <td><%= link_to 'Esborrar', vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"} %></td>
-      </tr>
-    <% end %>
-    </tbody>
-</table>
+<div class="container-fluid">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h4 class="font-weight-bold text-primary text-center mb-2">Models de contracte HUT</h4>
+      <hr>
+      <div class="container-fluid my-3">
+        <div>
+          <div class="row border border-top border-bottom fw-bold bg-light">
+            <div class="col col-lg-2 py-3 border-start border-end" id="vrowner-fullname" relative>
+              Plantilla
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-address" relative>
+              Idioma
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-phone" relative>
+              Més detalls
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-language" relative>
+              Modificar
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">
+              Copiar
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">
+              Esborrar
+            </div>
+          </div>
+        </div>
+        <div class="tbody">
+          <% @vrentaltemplates.each do |vrentaltemplate| %>
+            <div class="row border">
+              <div class="col-lg-2 border-start border-end"><%= vrentaltemplate.title %></div>
+              <div class="col-lg-2 border-start border-end"><%= vrentaltemplate.language %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', vrentaltemplate %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_vrentaltemplate_path(vrentaltemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_vrentaltemplate_path(vrentaltemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"} %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

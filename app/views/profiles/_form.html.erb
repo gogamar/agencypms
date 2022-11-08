@@ -27,12 +27,12 @@
     <% if profile %>
       <% if profile.photo.attached? %>
         <%= cl_image_tag profile.photo.key, height: 70 %>
-        <%= link_to "Esborrar imatge", purge_photo_user_path(profile), method: :delete, class: "btn btn-warning" %>
+        <%= link_to "Esborrar imatge", purge_photo_user_path(profile), method: :delete, class: "btn btn-info" %>
       <% end %>
     <% end %>
     <div class="d-flex justify-content-between pt-4">
       <div>
-      <%= link_to 'Tornar', profiles_path, class: 'btn btn-warning' %>
+      <%= link_to 'Tornar', profiles_path, class: 'btn btn-info' %>
       </div>
 
       <div>
