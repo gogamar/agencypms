@@ -28,13 +28,13 @@ Rails.application.routes.draw do
       end
 
       resources :rentals, path: 'immobles-lloguer-anual' do
-        member do
-          get 'copy'
-        end
         collection do
           get 'list'
         end
         resources :agreements, path: 'contractes-lloguer-anual', only: [:new, :edit, :create, :update ]
+        member do
+          get 'copy'
+        end
       end
       resources :renters, path: 'llogaters-anuals' do
         collection do
@@ -55,9 +55,6 @@ Rails.application.routes.draw do
 
       # resources for vacation rentals companies
       resources :vrowners, path: 'propietaris-lloguer-turistic' do
-        member do
-          get 'copy'
-        end
         collection do
           get 'filter'
         end
