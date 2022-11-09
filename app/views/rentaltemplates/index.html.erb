@@ -1,28 +1,48 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Models de contracte</h1>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Plantilla</th>
-      <th scope="col">Més detalls</th>
-      <th scope="col">Modificar</th>
-      <th scope="col">Esborrar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @rentaltemplates.each_with_index do |rentaltemplate, index| %>
-        <tr>
-        <th scope="row"> <%= index + 1 %></th>
-        <td><%= rentaltemplate.title %></td>
-        <td><%= link_to 'Més detalls', rentaltemplate %></td>
-        <td><%= link_to 'Modificar', edit_rentaltemplate_path(rentaltemplate) %></td>
-        <td><%= link_to 'Esborrar', rentaltemplate, method: :delete, form: { data: { turbo_confirm: 'Segur que vols esborrar?' }} %></td>
-      </tr>
-    <% end %>
-    </tbody>
-</table>
-
-<%= link_to 'Afegir un model de contracte nou', new_rentaltemplate_path %>
+<div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un model de contracte', new_rentaltemplate_path, class: "btn btn-primary" %>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h4 class="font-weight-bold text-primary text-center mb-2">Models de contracte lloguer anual</h4>
+      <hr>
+      <div class="container-fluid my-3">
+        <div>
+          <div class="row border border-top border-bottom fw-bold bg-light">
+            <div class="col col-lg-2 py-3 border-start border-end" id="vrowner-fullname" relative>
+              Plantilla
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-address" relative>
+              Idioma
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-phone" relative>
+              Més detalls
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-language" relative>
+              Modificar
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">
+              Copiar
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">
+              Esborrar
+            </div>
+          </div>
+        </div>
+        <div class="tbody">
+          <% @rentaltemplates.each do |rentaltemplate| %>
+            <div class="row border">
+              <div class="col-lg-2 border-start border-end"><%= rentaltemplate.title %></div>
+              <div class="col-lg-2 border-start border-end"><%= rentaltemplate.language %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', rentaltemplate %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_rentaltemplate_path(rentaltemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_rentaltemplate_path(rentaltemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', rentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{rentaltemplate.title}?"} %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,10 +2,18 @@ class RentersController < ApplicationController
   before_action :set_renter, only: [:show, :edit, :update, :destroy]
 
   def index
-    @renters = policy_scope(Renter)
-    @renters = Renter.all.sort_by(&:fullname)
+    all_renters = policy_scope(Renter)
+    @pagy, @renters = pagy(all_renters, page: params[:page], items: 10)
   end
 
+  def filter
+    @renters = policy_scope(Renter)
+    @languages = Renter.pluck("language").uniq
+    @renters = @renters.where('fullname ilike ?', "%#{params[:fullname]}%") if params[:fullname].present?
+    @renters = @renters.where(language: params[:language]) if params[:language].present?
+    @pagy, @renters = pagy(@renters, page: params[:page], items: 10)
+    render(partial: 'renters', locals: { renters: @renters })
+  end
 
   def show
     authorize @renter
@@ -16,25 +24,25 @@ class RentersController < ApplicationController
     authorize @renter
   end
 
-  def edit
-    authorize @renter
-  end
-
   def create
     @renter = Renter.new(renter_params)
     @renter.user_id = current_user.id
     authorize @renter
     if @renter.save
-      redirect_to renters_path, notice: "Has creat un inquili nou."
+      redirect_to renters_path, notice: "Has creat un nou propietari de lloguer anual."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
+  def edit
+    authorize @renter
+  end
+
   def update
     authorize @renter
     if @renter.update(renter_params)
-      redirect_to renters_path, notice: 'Has actualitzat l\'inquili.'
+      redirect_to renters_path, notice: "Has actualitzat al propietari"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +51,7 @@ class RentersController < ApplicationController
   def destroy
     authorize @renter
     @renter.destroy
-    redirect_to renters_url, notice: 'Has esborrat l\'inquiili.'
+    redirect_to renters_path, notice: "Has esborrat al propietari #{@renter.fullname}."
   end
 
   private
@@ -53,6 +61,6 @@ class RentersController < ApplicationController
   end
 
   def renter_params
-    params.require(:renter).permit(:fullname, :address, :document, :account, :language)
+    params.require(:renter).permit(:fullname, :address, :phone, :email, :document, :account, :language)
   end
 end

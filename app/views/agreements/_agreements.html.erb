@@ -1,0 +1,81 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Contractes lloguer anual</h4>
+    <hr>
+          <div class="container d-flex justify-content-center mt-5">
+        <%= form_with url: list_agreements_path, method: :get, data: { turbo_frame: "agreements" }, class: "row g-3" do |form| %>
+          <div class="col-auto">
+            <%= form.select :year,
+              options_for_select(
+              [[Date.today.last_year.year],[Date.today.year],[Date.today.next_year.year]],
+             ),
+              { include_blank: 'Tots els anys' },
+              class: "form-select"
+            %>
+          </div>
+          <div class="col-auto">
+            <%= form.select :rental_id, options_for_select(Rental.all.pluck(:address, :id).sort), {include_blank: 'Tots els immobles' }, class: "form-select" %>
+          </div>
+          <div class="col-auto">
+            <%= form.button class: "btn btn-primary me-3" do %>
+              <i class="fas fa-search fa-sm"></i>
+            <% end %>
+          </div>
+        <% end %>
+          <div class="col-auto">
+            <%= link_to "Veure tots els contractes", agreements_path, class: "btn btn-secondary" %>
+          </div>
+      </div>
+    <%= turbo_frame_tag "agreements", class: "card-body" do %>
+      <div class="container-fluid my-3">
+        <div>
+          <div class="row border border-top border-bottom fw-bold bg-light">
+            <div class="col col-lg-2 py-3 border-start border-end" id="rdate" relative>
+            <%= sort_indicator if params[:column] == "signdate" %>
+            <%= sort_link_agreement(column: "signdate", label: "Data firma") %>
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="rental" relative>
+              Immoble
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="owner" relative>
+              Propietari
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="renter" relative>
+              Inquili
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
+            <div class="col-lg-2 py-3 border-start border-end">Modificar</div>
+          </div>
+        </div>
+        <div class="tbody">
+          <% @agreements.each do |agreement| %>
+            <div class="row border">
+              <div class="col-lg-2 border-start border-end">
+                <%= agreement.signdate if agreement.signdate %>
+              </div>
+              <div class="col-lg-2 border-start border-end">
+                <%= agreement.rental.address %>
+              </div>
+              <div class="col-lg-2 border-start border-end">
+                <%= agreement.rental.owner.fullname if agreement.rental.owner.fullname %>
+              </div>
+              <div class="col-lg-2 border-start border-end">
+                <%= agreement.renter.fullname if agreement.renter.fullname %>
+              </div>
+              <div class="col-lg-2 border-start border-end">
+                <%= link_to 'Més detalls', "/#{agreement.rentaltemplate.language}/contractes-lloguer-anual/#{agreement.id}" %>
+              </div>
+              <div class="col-lg-2 border-start border-end">
+                <%= link_to 'Modificar', edit_rental_agreement_path(agreement.rental, agreement) %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <%# two equal signs is the same as .html_safe after or raw in front %>
+      <div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    <% end %>
+  </div>
+</div>

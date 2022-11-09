@@ -1,8 +1,9 @@
 class Agreement < ApplicationRecord
-  belongs_to :owner
-  belongs_to :renter
   belongs_to :rentaltemplate
   belongs_to :rental
+  belongs_to :renter
+  validates :rental_id, presence: true
+  validates :rentaltemplate_id, presence: true
   has_many_attached :photos
 
 

@@ -1,12 +1,8 @@
-<div class="d-flex justify-content-between">
+<p id="notice"><%= notice %></p>
 <%= link_to 'Contracte en PDF', agreement_path(@agreement, format: :pdf), class: "btn btn-primary" %>
-<%= link_to 'Modificar el contracte', edit_agreement_path(@agreement), class: "btn btn-info" %>
-</div>
 <div class="page">
   <%= sanitize @contrato %>
 </div>
 <% @agreement.photos.each do |photo| %>
 <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
 <% end %>
-
-<%= l @agreement.signdate, format: :long %>

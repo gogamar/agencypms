@@ -1,35 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Immobles</h1>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Adreça</th>
-      <th scope="col">Cadastre</th>
-      <th scope="col">Cert. energetic</th>
-      <th scope="col">Propietari</th>
-      <th scope="col">Més detalls</th>
-      <th scope="col">Modificar</th>
-      <th scope="col">Esborrar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @rentals.each_with_index do |rental, index| %>
-        <tr>
-        <th scope="row"> <%= index + 1 %></th>
-        <td><%= rental.address %></td>
-        <td><%= rental.cadastre %></td>
-        <td><%= rental.energy %></td>
-        <td><%= rental.owner.fullname %></td>
-        <td><%= link_to 'Crear contracte', new_rental_agreement_path(rental) %></td>
-        <td><%= link_to 'Més detalls', rental %></td>
-        <td><%= link_to 'Modificar', edit_rental_path(rental) %></td>
-        <td><%= button_to "Esborrar", rental, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "Segur que vols esborrar #{rental.address}?" } } %></td>
-      </tr>
-    <% end %>
-    </tbody>
-</table>
-
-<%= link_to 'Afegir un immoble nou', new_rental_path %>
+<div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un immoble nou', new_rental_path, class: "btn btn-primary" %>
+  </div>
+  <%= render "rentals", rentals: @rentals %>
+</div>

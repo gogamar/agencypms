@@ -1,43 +1,53 @@
 class AgreementsController < ApplicationController
   require 'date'
-
   before_action :set_agreement, only: [:show, :edit, :update, :destroy, :preview]
   before_action :set_rental, only: [ :new, :create, :edit, :update ]
 
   def index
-    @agreements = policy_scope(Agreement)
+    all_agreements = policy_scope(Agreement)
+    @pagy, @agreements = pagy(all_agreements, page: params[:page], items: 10)
+  end
+
+  def list
+    @agreements = policy_scope(Agreement).includes(:rental)
+    @agreements = @agreements.where("DATE_PART('year', signdate) = ?", params[:year]) if params[:year].present?
+    @agreements = @agreements.where(rental_id: params[:rental_id]) if params[:rental_id].present?
+    @agreements = @agreements.order("#{params[:column]} #{params[:direction]}")
+    @pagy, @agreements = pagy(@agreements, page: params[:page], items: 10)
+    render(partial: 'agreements', locals: { agreements: @agreements })
   end
 
   def show
     authorize @agreement
     @rentaltemplates = Rentaltemplate.all
     @agreements = Agreement.all
-    # @rentaltemplate = Rentaltemplate.find_by(title: "rental")[0]
     @owner = @agreement.rental.owner
     @renter = @agreement.renter
     @rental = @agreement.rental
-
     @rentaltemplate = @agreement.rentaltemplate
+
     details = {
-      propietari: @rental.owner.fullname.present? ? @rental.owner.fullname : '',
-      immoADR: @rental.address.present? ? @rental.address : '',
-      lloc: @agreement.place.present? ? @agreement.place : '',
-      propDNI: @rental.owner.document.present? ? @rental.owner.document : '',
-      propADR: @rental.owner.address.present? ? @rental.owner.address : '',
-      inquili: @renter.fullname.present? ? @renter.fullname : '<',
-      inqDNI: @renter.document.present? ? @renter.document : '',
-      inqADR: @renter.address.present? ? @renter.address : '',
-      preuNUM: @agreement.price.present? ? @agreement.price.to_s : '',
-      preuTEXT: @agreement.pricetext.present? ? @agreement.pricetext : '',
+      data_firma: @agreement.signdate.present? ? l(@agreement.signdate, format: :long) : '',
+      lloc_firma: @agreement.place.present? ? @agreement.place : '',
+      data_inici: @agreement.start_date.present? ? l(@agreement.start_date, format: :long) : '',
+      data_fi: @agreement.end_date.present? ? l(@agreement.end_date, format: :long) : '',
       durada: @agreement.duration.present? ? @agreement.duration : '',
-      dataINI: @agreement.start_date.present? ? l(@agreement.start_date, format: :long) : '',
-      dataFI: @agreement.end_date.present? ? l(@agreement.end_date, format: :long) : '',
-      dataFIRMA: @agreement.signdate.present? ? l(@agreement.signdate, format: :long) : '',
+      preu: @agreement.price.present? ? format("%.2f",@agreement.price) : '',
+      preu_text: @agreement.pricetext.present? ? @agreement.pricetext : '',
+      fiança: @agreement.deposit.present? ? format("%.2f",@agreement.deposit) : '',
+      clausula_adicional: @agreement.contentarea.to_s,
+      propietari: @rental.owner.present? && @rental.owner.fullname.present? ? @rental.owner.fullname : '',
+      dni_propietari: @rental.owner.present? && @rental.owner.document.present? ? @rental.owner.document : '',
+      adr_propietari: @rental.owner.present? && @rental.owner.address.present? ? @rental.owner.address : '',
+      email_propietari: @rental.owner.present? && @rental.owner.email.present? ? @rental.owner.email : '',
+      tel_propietari: @rental.owner.present? && @rental.owner.phone.present? ? @rental.owner.phone : '',
+      compte_propietari: @rental.owner.present? && @rental.owner.account.present? ? @rental.owner.account : '',
+      adr_immoble: @rental.address.present? ? @rental.address : '',
       cadastre: @rental.cadastre.present? ? @rental.cadastre : '',
-      certENE: @rental.energy.present? ? @rental.energy : '',
-      municipi: @rental.city.present? ? @rental.city : '',
-      descripcio: @rental.description.present? ? @rental.description : ''
+      cert_energetic: @rental.energy.present? ? @rental.energy : '',
+      descripcio: @rental_description.to_s
     }
+
     body = @rentaltemplate.text.to_s
 
     @contrato = Agreement.parse_template(body, details)
@@ -45,41 +55,22 @@ class AgreementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        # Rails 6:
-        # render pdf: "Contracte: #{@rental.address}",
-        #        template: "agreements/show.html.erb",
-        #        # wkhtmltopdf: '/usr/local/bin/wkhtmltopdf',
-        #        layout: "pdf",
-        #        orientation: "Portrait", # Landscape
-        #        page_size: 'A4',
-        #        dpi: '72',
-        #        zoom: 1.25,
-        #        disposition: 'inline',
-        #        margin:  {top: 40, bottom: 20, left: 20, right: 20},
-        #        header: {
-        #         # content: render_to_string(template: 'agreements/header.html.erb', layout: 'header_layout'),
-        #         content: render_to_string(template: 'agreements/header.html.erb', layout: 'header_layout'),
-        #         spacing: 10
-        #        },
-        #       footer: { right: 'Pàgina [page] de [topage]',
-        #         center: @agreement.signdate,
-        #         font_size: 10}
-        # # Rails 7
+        # Rails 7
         render pdf: [@rental.address, @owner].join('-'), # filename: "Posts: #{@posts.count}"
-               template: "agreements/show",
-               formats: [:html],
-               disposition: :inline,
-              #  page_size: 'A4',
-               dpi: '72',
-               zoom: 1.25,
-               layout: 'pdf',
-               margin:  {   top:    10,
-                            bottom: 20,
-                            left:   15,
-                            right:  15},
+          template: "agreements/show",
+          formats: [:html],
+          disposition: :inline,
+          page_size: 'A4',
+          dpi: '72',
+          zoom: 1.25,
+          layout: 'pdf',
+          margin:  {   top:    10,
+                        bottom: 20,
+                        left:   15,
+                        right:  15},
 
-               footer: { right: 'Pàgina [page] de [topage]', center: @agreement.signdate.present? ? l(@agreement.signdate, format: :long) : '', font_size: 8, spacing: 5}
-        # # end Rails 7
+          footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @agreement.signdate.present? ? l(@agreement.signdate, format: :long) : '', font_size: 8, spacing: 5}
+        # end Rails 7
       end
     end
   end
@@ -98,14 +89,14 @@ class AgreementsController < ApplicationController
     @agreement.rental = @rental
     authorize @agreement
     if @agreement.save
-      redirect_to agreements_path, notice: "Has creat el contracte per #{@rental.name}."
+      redirect_to agreements_path, notice: "Has creat el contracte per a #{@rental.address}."
     else
       render :new
     end
   end
 
   def update
-    @agreement.vrental = @rental
+    @agreement.rental = @rental
     authorize @agreement
     if @agreement.update(agreement_params)
       redirect_to agreements_path, notice: 'Has actualitzat el contracte.'
@@ -113,7 +104,6 @@ class AgreementsController < ApplicationController
       render :edit
     end
   end
-
 
   def destroy
     authorize @agreement
@@ -126,17 +116,9 @@ class AgreementsController < ApplicationController
   def set_agreement
     @agreement = Agreement.find(params[:id])
   end
+
   def set_rental
     @rental = Rental.find(params[:rental_id])
-  end
-  def set_owner
-    @owner = Owner.find(params[:owner_id])
-  end
-  def set_renter
-    @renter = Renter.find(params[:renter_id])
-  end
-  def set_rentaltemplate
-    @rentaltemplate = @agreement.rentaltemplate
   end
 
   def agreement_params

@@ -18,6 +18,16 @@ class RentaltemplatesController < ApplicationController
     authorize @rentaltemplate
   end
 
+  def copy
+    @source = Rentaltemplate.find(params[:id])
+    @rentaltemplate = @source.dup
+    @rentaltemplate.title = "#{@rentaltemplate.title} CÒPIA"
+    authorize @rentaltemplate
+    @rentaltemplate.save!
+    redirect_to rentaltemplates_path, notice: "S'ha creat una còpia de l'model de contracte #{@rentaltemplate.title}."
+    # render :new
+  end
+
   def create
     @rentaltemplate = Rentaltemplate.new(rentaltemplate_params)
     @rentaltemplate.user_id = current_user.id
@@ -62,6 +72,6 @@ class RentaltemplatesController < ApplicationController
   end
 
   def rentaltemplate_params
-    params.require(:rentaltemplate).permit(:title, :text, :content)
+    params.require(:rentaltemplate).permit(:title, :text, :language)
   end
 end

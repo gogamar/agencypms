@@ -5,8 +5,7 @@ class VragreementsController < ApplicationController
 
   def index
     all_vragreements = policy_scope(Vragreement)
-    @pagy, @vragreements = pagy(all_vragreements, page: params[:page], items: 9)
-    @vrentals_select = Vrental.all.map {|vrental| vrental.name}.sort
+    @pagy, @vragreements = pagy(all_vragreements, page: params[:page], items: 10)
   end
 
   def list
@@ -22,9 +21,7 @@ class VragreementsController < ApplicationController
     authorize @vragreement
     @vrentaltemplates = Vrentaltemplate.all
     @vragreements = Vragreement.all
-    # @vrentaltemplate = Rentaltemplate.find_by(title: "vrental")[0]
     @vrowner = @vragreement.vrental.vrowner
-    # @vrowners = Vrowner.sort_by(:fullname).all
     @vrental = @vragreement.vrental
     @vrates = Rate.where(vrental_id: @vrental).order(:firstnight)
     @contractrates = render_to_string(partial: 'rates')
@@ -88,7 +85,7 @@ class VragreementsController < ApplicationController
                             left:   10,
                             right:  10},
 
-               footer: { right: 'Pàgina [page] de [topage]', center: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '', font_size: 9, spacing: 5 }
+               footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '', font_size: 9, spacing: 5 }
               # # end Rails 7
       end
     end

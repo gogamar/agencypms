@@ -4,6 +4,8 @@ ca:
   en: "anglès"
   es: "castellà"
   fr: "francès"
+  page: "Pàgina"
+  of: "de"
   nights: "nits"
   from: "Des de"
   to: "Fins a"
@@ -48,6 +50,8 @@ ca:
   inactive: "inactiu"
   proposal: "proposta"
   active: "actiu"
+  pending: "pendent"
+  signed: "signat"
   saturdays: "Ds.-Ds."
   everyday: "Qualsevol dia"
   date:
@@ -196,11 +200,13 @@ ca:
   activerecord:
     attributes:
       rental:
+        owner: "Propietari"
         address: "Adreça"
         city: "Municipi"
         cadastre: "Cadastre"
         energy: "Certificat d'eficiencia energètica"
         description: "Descripció"
+        status: "Estatus"
       profile_session:
         new:
           profile: "Crear perfil"
@@ -217,6 +223,24 @@ ca:
         document: "DNI"
         account: "Compte bancari"
         language: "Idioma"
+      owner:
+        owner: "Propietari"
+        fullname: "Nom i cognoms"
+        address: "Adreça"
+        phone: "Telèfon"
+        email: "Email"
+        document: "DNI"
+        account: "Compte bancari"
+        language: "Idioma"
+      renter:
+        renter: "Propietari"
+        fullname: "Nom i cognoms"
+        address: "Adreça"
+        phone: "Telèfon"
+        email: "Email"
+        document: "DNI"
+        account: "Compte bancari"
+        language: "Idioma"
       vragreement:
         vrowner: "Propietari"
         vrental: "Casa o apartament"
@@ -224,6 +248,20 @@ ca:
         email: "Email"
         account: "Compte bancari"
         vrowner_bookings: "Reserves per el propietari"
+      agreement:
+        owner: "Propietari"
+        rental: "Casa o apartament"
+        phone: "Telèfon"
+        email: "Email"
+        account: "Compte bancari"
+        signdate: "Data de la firma"
+        start_date: "Inici contracte"
+        end_date: "Fi contracte"
+        price: "Preu"
+        pricetext: "Preu escrit en lletres"
+        deposit: "Fiança"
+        contentarea: "Clausula especial"
+        duration: "Durada"
       vrental:
         vrowner: "Propietari"
         address: "Adreça"

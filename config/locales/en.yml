@@ -1,5 +1,7 @@
 en:
   locale: "English"
+  page: "Page"
+  of: "out of"
   nights: "nights"
   from: "From"
   to: "To"

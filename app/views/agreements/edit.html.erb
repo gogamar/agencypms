@@ -1,12 +1,20 @@
-<h1>Modificar el contracte</h1>
-<div class="d-flex flex-column">
-  <div class="pt-4">
-    <%= render 'form', agreement: @agreement %>
-  </div>
-  <div class="pt-4">
-    <%= link_to 'Veure el contracte', @agreement, class: 'btn btn-primary' %>
-  </div>
-  <div class="pt-4">
-    <%= link_to 'Tornar', agreements_path, class: 'btn btn-info' %>
+<p id="notice"><%= notice %></p>
+<div>
+  <%= link_to agreements_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Modificar el contracte de lloguer anual de <%= @rental.address %></h4>
+    <hr>
+    <div class="container d-flex justify-content-center mt-5 pb-5">
+      <%= render 'form', rental: @rental, agreement: @agreement %>
+    </div>
   </div>
 </div>

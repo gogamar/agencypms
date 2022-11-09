@@ -21,7 +21,7 @@ class VrentaltemplatesController < ApplicationController
   def copy
     @source = Vrentaltemplate.find(params[:id])
     @vrentaltemplate = @source.dup
-    @vrentaltemplate.title = "#{@vrentaltemplate.title} COPIA"
+    @vrentaltemplate.title = "#{@vrentaltemplate.title} CÒPIA"
     authorize @vrentaltemplate
     @vrentaltemplate.save!
     redirect_to vrentaltemplates_path, notice: "S'ha creat una còpia de l'model de contracte #{@vrentaltemplate.title}."

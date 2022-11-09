@@ -21,14 +21,36 @@ Rails.application.routes.draw do
       resources :profile_sessions, path: 'sessio-perfil', only: [:new, :create]
 
       # resources for real estate companies
-      resources :owners, path: 'propietaris-lloguer-anual'
+      resources :owners, path: 'propietaris-lloguer-anual' do
+        collection do
+          get 'filter'
+        end
+      end
 
       resources :rentals, path: 'immobles-lloguer-anual' do
+        member do
+          get 'copy'
+        end
+        collection do
+          get 'list'
+        end
         resources :agreements, path: 'contractes-lloguer-anual', only: [:new, :edit, :create, :update ]
       end
-      resources :renters, path: 'llogaters-anuals'
-      resources :rentaltemplates, path: 'models-de-contracte-lloguer-anual'
-      resources :agreements, path: 'contractes-lloguer-anual', only: [:index, :destroy, :show]
+      resources :renters, path: 'llogaters-anuals' do
+        collection do
+          get 'filter'
+        end
+      end
+      resources :rentaltemplates, path: 'models-de-contracte-lloguer-anual' do
+        member do
+          get 'copy'
+        end
+      end
+      resources :agreements, path: 'contractes-lloguer-anual', only: [:index, :destroy, :show] do
+        collection do
+          get 'list'
+        end
+      end
 
 
       # resources for vacation rentals companies

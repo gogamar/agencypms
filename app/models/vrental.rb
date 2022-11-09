@@ -5,13 +5,6 @@ class Vrental < ApplicationRecord
   has_many :rates, dependent: :destroy
   has_and_belongs_to_many :features
   validates :name, presence: true
-  # validates :name, uniqueness: {
-    # object = person object being validated
-    # data = { model: "Person", attribute: "Username", value: <username> }
-  #   message: ->(object, data) do
-  #     "#{object.name} ja existeix!"
-  #   end
-  # }
   validates :status, presence: true
 
 

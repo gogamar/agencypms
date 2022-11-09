@@ -1,28 +1,55 @@
 <p id="notice"><%= notice %></p>
-<!--
-<% frame_id = dom_id(@owner), "name_turbo_frame" %>
-  <%= form_with model: @owner, data: { turbo_frame: frame_id } do |form| %>
-  <%= turbo_frame_tag frame_id do %>
-    <h3><%= @owner.fullname %></h3>
-    <%= link_to "Edit name", edit_owner_path(@owner) %>
-<% end %>
-<% end %>
--->
-
-<p>
-  <strong>Address:</strong>
-  <%= @owner.address %>
-</p>
-
-<p>
-  <strong>Document:</strong>
-  <%= @owner.document %>
-</p>
-
-<p>
-  <strong>Account:</strong>
-  <%= @owner.account %>
-</p>
-
-<%= link_to 'Edit', edit_owner_path(@owner) %> |
-<%= link_to 'Back', owners_path %>
+<div class="container">
+  <div class="d-flex justify-content-between">
+      <div>
+        <%= link_to owners_path, class: "btn btn-light btn-icon-split me-3" do %>
+          <span class="icon text-white-600">
+              <i class="fas fa-arrow-left"></i>
+          </span>
+          <span class="text m-0 text-primary" style="font-size: 0.85rem">
+            Tornar
+          </span>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to 'Modificar', edit_owner_path(@owner), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @owner, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@owner.fullname}?"} %>
+      </div>
+  </div>
+  <div>
+    <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @owner.fullname %></h4>
+  </div>
+  <div class="card shadow mb-4 p-4">
+    <p>
+      <strong>Nom i cognoms:</strong>
+      <%= @owner.fullname %>
+    </p>
+    <p>
+      <strong>Idioma:</strong>
+      <%= @owner.language %>
+    </p>
+    <p>
+      <strong>Adreça:</strong>
+      <%= @owner.address %>
+    </p>
+    <p>
+      <strong>Telèfon:</strong>
+      <%= @owner.phone %>
+    </p>
+    <p>
+      <strong>Email:</strong>
+      <%= @owner.email %>
+    </p>
+    <p>
+      <strong>DNI:</strong>
+      <%= @owner.document %>
+    </p>
+    <p>
+      <strong>Compte bancari:</strong>
+      <%= @owner.account %>
+    </p>
+    <strong>Propietats:</strong>
+    <% @owner.rentals.each do |rental| %>
+      <p><%= rental.address %></p>
+    <% end %>
+  </div>
+</div>

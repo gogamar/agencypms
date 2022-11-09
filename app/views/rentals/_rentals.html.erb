@@ -1,21 +1,21 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer turístic - HUTs</h4>
+    <h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer anual</h4>
     <hr>
     <div class="container d-flex justify-content-center mt-5">
-      <%= form_with url: list_vrentals_path, method: :get, data: { turbo_frame: "vrentals"}, class: "row g-3" do |form| %>
+      <%= form_with url: list_rentals_path, method: :get, data: { turbo_frame: "rentals"}, class: "row g-3" do |form| %>
         <div class="col-auto">
           <%= form.select :status,
             options_for_select(
-            [[t("inactive"),'inactive'],[t("proposal"),'proposal'],[t("active"),'active']],
+            [[t("inactive"),'inactive'],[t("pending"),'pending'],[t("signed"),'signed']],
             ),
             { include_blank: 'tots' },
             class: "form-select"
           %>
         </div>
         <div class="col-auto">
-          <%= form.text_field :name,
-          placeholder: "Buscar per nom",
+          <%= form.text_field :address,
+          placeholder: "Buscar per adreça",
           class: "form-control bg-white border-0 small",
           autocomplete: "off" %>
         </div>
@@ -25,59 +25,59 @@
           <% end %>
         </div>
         <div class="col-auto">
-          <%= link_to "Veure tots els immobles", vrentals_path, class: "btn btn-secondary" %>
+          <%= link_to "Veure tots els immobles", rentals_path, class: "btn btn-secondary" %>
         </div>
       <% end %>
     </div>
-    <%= turbo_frame_tag "vrentals", class: "card-body" do %>
+    <%= turbo_frame_tag "rentals", class: "card-body" do %>
       <%= render "shared/flashes" %>
       <div class="container-fluid my-3">
         <div class="row border border-top border-bottom fw-bold bg-light">
-          <div class="col col-lg-2 py-3 border-start border-end" id="vrstatus" relative>
+          <div class="col col-lg-2 py-3 border-start border-end" id="rstatus" relative>
           <%= sort_indicator if params[:column] == "status" %>
           <%= sort_link(column: "status", label: "Estatus") %>
           </div>
-          <div class="col-lg-2 py-3 border-start border-end" id="vrname" relative>
-          <%= sort_indicator if params[:column] == "name" %>
-          <%= sort_link(column: "name", label: "Nom") %>
-          </div>
-          <div class="col-lg-2 py-3 border-start border-end" id="vraddress" relative>
+          <div class="col-lg-2 py-3 border-start border-end" id="raddress" relative>
           <%= sort_indicator if params[:column] == "address" %>
           <%= sort_link(column: "address", label: "Adreça") %>
           </div>
-          <div class="col-lg-2 py-3 border-start border-end" id="vrowner-name" relative>
-          <%= sort_indicator if params[:column] == "vrowners.fullname" %>
-          <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
+          <div class="col-lg-2 py-3 border-start border-end" id="rcity" relative>
+          <%= sort_indicator if params[:column] == "city" %>
+          <%= sort_link(column: "city", label: "Població") %>
+          </div>
+          <div class="col-lg-2 py-3 border-start border-end" id="rowner-name" relative>
+          <%= sort_indicator if params[:column] == "owners.fullname" %>
+          <%= sort_link(column: "owners.fullname", label: "Propietari") %>
           </div>
           <div class="col-lg-2 py-3 border-start border-end">COPIAR</div>
           <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
         </div>
         <div>
-          <% @vrentals.each do |vrental| %>
+          <% @rentals.each do |rental| %>
             <div class="row border">
               <div class="col-lg-2 border-start border-end">
-                <%= t("#{vrental.status}") %>
+                <%= t("#{rental.status}") %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= link_to "#{vrental.name}", vrental %>
+                <%= link_to "#{rental.address}", rental %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= vrental.address %>
+                <%= rental.city %>
               </div>
-              <% if vrental.vrowner %>
+              <% if rental.owner %>
                 <div class="col-lg-2 border-start border-end">
-                  <%= vrental.vrowner.fullname %>
+                  <%= rental.owner.fullname %>
                 </div>
               <% else %>
                 <div class="col-lg-2 border-start border-end">
-                  <%= link_to 'Afegir propietari', edit_vrental_path(vrental) %>
+                  <%= link_to 'Afegir propietari', edit_rental_path(rental) %>
                 </div>
               <% end %>
               <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Copiar immoble', copy_vrental_path(vrental) %>
+                <%= link_to 'Copiar immoble', copy_rental_path(rental) %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary" %>
+                <%= link_to 'Afegir contracte', new_rental_agreement_path(rental), class: "btn btn-primary" %>
               </div>
             </div>
           <% end %>

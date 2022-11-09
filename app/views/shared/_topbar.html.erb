@@ -10,22 +10,24 @@
   >
     <i class="fa fa-bars"></i>
   </button>
-  <!-- Sidebar Switch Profile forms -->
-  <div class="container-fluid justify-content-around">
-    <% current_user.profiles.each do |profile| %>
-      <%= form_with url: profile_sessions_path , scope: :profile_session, local: true do |f| %>
-        <%= hidden_field_tag "profile_id", profile.id %>
-        <%= button_tag type:'submit', class: "btn btn-light btn-icon-split me-3" do %>
-          <span class="icon text-gray-600">
-              <i class="fas fa-arrow-right"></i>
-          </span>
-          <span class="text m-0 text-primary" style="font-size: 0.85rem">
-            <%= profile.businessname %>
-          </span>
+  <!-- Switch Profile buttons -->
+    <div class="container-fluid justify-content-around">
+      <% if profile_logged_in? %>
+        <% current_user.profiles.each do |profile| %>
+          <%= form_with url: profile_sessions_path , scope: :profile_session, local: true do |f| %>
+            <%= hidden_field_tag "profile_id", profile.id %>
+            <%= button_tag type:'submit', class: "btn btn-light btn-icon-split me-3" do %>
+              <span class="icon text-gray-600">
+                  <i class="fas fa-arrow-right"></i>
+              </span>
+              <span class="text m-0 text-primary" style="font-size: 0.85rem">
+                <%= profile.businessname %>
+              </span>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
   <div class="topbar-divider d-none d-sm-block"></div>
   <!-- Topbar Navbar -->
   <ul class="navbar-nav ml-auto">
@@ -110,13 +112,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Vols tancar la sessió?</h5>
-        <button
-          class="close"
-          type="button"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">×</span>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">

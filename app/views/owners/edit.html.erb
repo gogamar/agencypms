@@ -1,5 +1,19 @@
-<h1>Edit owner</h1>
-
-<%= turbo_frame_tag @owner do %>
-  <%= render "form", owner: @owner %>
-<% end %>
+<div>
+  <%= link_to owners_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Modificar el propietari <%= @owner.fullname %></h4>
+    <hr>
+    <div class="container mt-5 w-50">
+      <%= render 'form', owner: @owner %>
+    </div>
+  </div>
+</div>

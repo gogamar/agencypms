@@ -4,17 +4,16 @@
   <div class="form-inputs">
     <%= f.input :title %>
   </div>
-
-  <div>
-    <h4>Variables disponibles:</h4>
-    <p>{{dataFIRMA}}, {{lloc}}, {{dataINI}}, {{dataFI}}, {{propietari}}, {{immoADR}}, {{municipi}}, {{cadastre}}, {{certENE}}, {{descripcio}}, {{propDNI}}, {{propADR}}, {{inquili}}, {{inqDNI}}, {{inqADR}}, {{preuNUM}}, {{preuTEXT}}</p>
-  </div>
+  <h5>Variables disponibles</h5>
+  <p>
+    {{data_firma}} {{lloc_firma}} {{data_inici}} {{data_fi}} {{durada}} {{preu}} {{preu_text}} {{fiança}} {{clausula_adicional}} {{propietari}} {{dni_propietari}} {{adr_propietari}} {{email_propietari}} {{tel_propietari}} {{compte_propietari}} {{adr_immoble}} {{cadastre}} {{cert_energetic}} {{descripcio}}
+  </p>
   <div class="form-inputs">
-    <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } } %>
+    <%= f.input :language, priority: [ t(".ca"), "ca" ], collection: [ [t(".ca"), "ca"], [t(".es"), "es"], [t(".fr"), "fr"], [t(".en"), "en"] ], label_method: :first, value_method: :second %>
+    <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
   </div>
-
-  <div class="form-actions">
-    <%= f.submit "Desar" %>
-    <%= f.submit "Desar com model de contracte nou" %>
+  <div class="form-actions text-end">
+    <%= f.submit "Desar", class: 'btn btn-primary text-center' %>
+    <%= f.submit "Desar com model de contracte nou", class: 'btn btn-primary text-center' %>
   </div>
 <% end %>

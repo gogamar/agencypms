@@ -1,10 +1,20 @@
-<div class="container-fluid">
-  <div class="d-flex flex-column justify-content-center">
-
-        <div class="p-3">
-          <h2 class="ps-3 mb-4 text-center">Afegir un contracte nou per propietari <%# @owner.fullname %>, immoble: <%# @rental.address %></h2>
-            <%= render 'form', agreement: @agreement, owner: @owner, rental: @rental %>
-        </div>
-
+<p id="notice"><%= notice %></p>
+<div>
+  <%= link_to agreements_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir un contracte de lloguer anual per a <%= @rental.address %></h4>
+    <hr>
+    <div class="container d-flex justify-content-center mt-5 pb-5">
+      <%= render 'form', rental: @rental, agreement: @agreement %>
+    </div>
   </div>
 </div>

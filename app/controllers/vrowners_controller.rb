@@ -3,7 +3,7 @@ class VrownersController < ApplicationController
 
   def index
     all_vrowners = policy_scope(Vrowner).order(:fullname)
-    @pagy, @vrowners = pagy(all_vrowners, page: params[:page], items: 9)
+    @pagy, @vrowners = pagy(all_vrowners, page: params[:page], items: 10)
   end
 
   def filter
@@ -51,7 +51,7 @@ class VrownersController < ApplicationController
   def destroy
     authorize @vrowner
     @vrowner.destroy
-    redirect_to vrowners_path, notice: "Has esborrat al propietari"
+    redirect_to vrowners_path, notice: "Has esborrat al propietari #{@vrowner.fullname}."
   end
 
   private

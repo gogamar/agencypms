@@ -1,7 +1,19 @@
-<h1>Afegir un model de contracte nou</h1>
-
-<%= render 'form', vrentaltemplate: @vrentaltemplate %>
-
-<div class="pt-4">
-<%= link_to 'Tornar', vrentaltemplates_path, class: 'btn btn-info' %>
+<div>
+  <%= link_to vrentaltemplates_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir un model de contracte nou (HUTs)</h4>
+    <hr>
+    <div class="container mt-5 w-50">
+      <%= render 'form', vrentaltemplate: @vrentaltemplate %>
+    </div>
+  </div>
 </div>

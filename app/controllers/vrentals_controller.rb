@@ -3,7 +3,7 @@ class VrentalsController < ApplicationController
 
   def index
     all_vrentals = policy_scope(Vrental)
-    @pagy, @vrentals = pagy(all_vrentals, page: params[:page], items: 9)
+    @pagy, @vrentals = pagy(all_vrentals, page: params[:page], items: 10)
     # @vrentals = Vrental.all.sort_by(&:created_at).reverse
   end
 
@@ -13,7 +13,7 @@ class VrentalsController < ApplicationController
     @vrentals = @vrentals.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
     @vrentals = @vrentals.where(status: params[:status]) if params[:status].present?
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
-    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 9)
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
     render(partial: 'vrentals', locals: { vrentals: @vrentals })
   end
 
@@ -37,7 +37,7 @@ class VrentalsController < ApplicationController
   def copy
     @source = Vrental.find(params[:id])
     @vrental = @source.dup
-    @vrental.name = "#{@vrental.name} COPIA"
+    @vrental.name = "#{@vrental.name} CÒPIA"
     @vrental.rates = []
     @source.rates.each { |rate| @vrental.rates << rate.dup }
     @vrental.features = []
