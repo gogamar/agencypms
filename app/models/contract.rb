@@ -1,9 +1,9 @@
-class Agreement < ApplicationRecord
-  belongs_to :rental
-  belongs_to :rentaltemplate
-  belongs_to :renter
-  validates :rental_id, presence: true
-  validates :rentaltemplate_id, presence: true
+class Contract < ApplicationRecord
+  belongs_to :realestate
+  belongs_to :rstemplate
+  belongs_to :buyer
+  validates :realestate_id, presence: true
+  validates :rstemplate_id, presence: true
   has_many_attached :photos
 
 

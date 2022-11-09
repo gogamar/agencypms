@@ -7,14 +7,19 @@ class User < ApplicationRecord
   has_many :tasks
   has_many :vrentals
   has_many :rentals
+  has_many :realestates
   has_many :vrowners
   has_many :owners
+  has_many :sellers
   has_many :renters
+  has_many :buyers
   has_many :vrentaltemplates
   has_many :rentaltemplates
+  has_many :rstemplates
   has_many :features
   has_many :vragreements, through: :vrentals
   has_many :agreements, through: :rentals
+  has_many :contracts, through: :realestates
   has_many :rates, through: :vrentals
   has_one_attached :photo
 end

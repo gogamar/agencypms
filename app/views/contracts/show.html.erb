@@ -1,0 +1,8 @@
+<p id="notice"><%= notice %></p>
+<%= link_to 'Contracte en PDF', contract_path(@contract, format: :pdf), class: "btn btn-primary" %>
+<div class="page">
+  <%= sanitize @rscontrato %>
+</div>
+<% @contract.photos.each do |photo| %>
+<%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+<% end %>

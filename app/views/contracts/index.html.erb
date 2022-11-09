@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un contracte de compravenda', realestates_path, class: "btn btn-primary" %>
+  </div>
+  <%= render "contracts", contracts: @contracts %>
+</div>

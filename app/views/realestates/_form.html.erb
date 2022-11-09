@@ -1,0 +1,23 @@
+<%= simple_form_for [realestate] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :status, as: :radio_buttons, collection: [[t("inactive"),'inactive'],[t("pending"),'pending'],[t("signed"),'signed']] %>
+    <%= f.input :address %>
+    <%= f.input :city %>
+    <%= f.input :cadastre %>
+    <%= f.input :energy %>
+    <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 }, hint: "Per exemple: El pis d'uns 55m2 útils aproximats consta de 2 habitacions dobles, una cuina independent, menjador sala d'estar amb sortida a terrassa i un lavabo." %>
+  <div class="d-flex justify-content-between align-items-center">
+      <div class="w-50 me-3">
+      <%= f.association :seller, label_method: :fullname %>
+      </div>
+      <div class="w-50">
+      o <%= link_to 'Afegir un venedor nou', new_seller_path, target: "_blank" %>
+      </div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
+  </div>
+<% end %>

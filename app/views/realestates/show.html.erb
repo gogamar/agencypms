@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+<div class="d-flex justify-content-between">
+  <div>
+    <%= link_to realestates_path, class: "btn btn-light btn-icon-split me-3" do %>
+      <span class="icon text-white-600">
+          <i class="fas fa-arrow-left"></i>
+      </span>
+      <span class="text m-0 text-primary" style="font-size: 0.85rem">
+        Tornar
+      </span>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to 'Modificar', edit_realestate_path(@realestate), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @realestate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@realestate.address}?"} %>
+  </div>
+</div>
+  <div>
+    <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @realestate.address %></h4>
+  </div>
+  <div class="card shadow mb-4 p-4">
+    <p>
+      <strong>Adreça:</strong>
+      <%= @realestate.address %>
+    </p>
+      <p>
+      <strong>Població:</strong>
+      <%= @realestate.city %>
+    </p>
+    <p>
+      <strong>Cadastre:</strong>
+      <%= @realestate.cadastre %>
+    </p>
+    <p>
+      <strong>Certificat energètic:</strong>
+      <%= @realestate.energy %>
+    </p>
+    <p>
+      <strong>Descripció:</strong>
+      <%= @realestate.description %>
+    </p>
+    <p>
+    <strong>Propietari:</strong>
+    <%= @realestate.seller.fullname %>
+    </p>
+  </div>

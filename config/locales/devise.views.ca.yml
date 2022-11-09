@@ -83,7 +83,7 @@ ca:
         new_password: Nova contrasenya
       new:
         forgot_your_password: Has oblidat la teva contrasenya?
-        send_me_reset_password_instructions: Enviar les instruccions per a regenerar la meva contrasenya
+        send_me_reset_password_instructions: Enviar les instruccions per canviar la contrasenya
       no_token: Només pots accedir a aquesta pàgina des d'un correu electrònic de recuperació de la contrasenya. Si realment has fet servir l'enllaç del correu electrònic, comprova que has utilitzat la URL completa.
       send_instructions: En breu rebràs un correu electrònic amb instruccions sobre com restablir la teva contrasenya.
       send_paranoid_instructions: Si la teva adreça electrònica existeix a la base de dades, rebràs un correu electrònic amb un enllaç per reestablir la contrasenya.
@@ -95,7 +95,7 @@ ca:
         are_you_sure: Estàs segur?
         cancel_my_account: Cancel·lar el meu compte
         currently_waiting_confirmation_for_email: "Esperant confirmació de: %{email}"
-        leave_blank_if_you_don_t_want_to_change_it: deixa'l en blanc si no el vols canviar
+        leave_blank_if_you_don_t_want_to_change_it: deixa-la en blanc si no la vols canviar
         title: Editar %{resource}
         unhappy: Descontent
         update: Actualitzar

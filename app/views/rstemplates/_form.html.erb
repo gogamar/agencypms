@@ -1,0 +1,19 @@
+<%= simple_form_for(@rstemplate) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :title %>
+  </div>
+  <h5>Variables disponibles</h5>
+  <p>
+    {{data_firma}} {{lloc_firma}} {{preu}} {{preu_text}} {{clausula_adicional}} {{venedor}} {{dni_venedor}} {{adr_venedor}} {{email_venedor}} {{tel_venedor}} {{compte_venedor}} {{adr_immoble}} {{cadastre}} {{cert_energetic}} {{descripcio}}
+  </p>
+  <div class="form-inputs">
+    <%= f.input :language, priority: [ t("ca"), "ca" ], collection: [ [t("ca"), "ca"], [t("es"), "es"], [t("fr"), "fr"], [t("en"), "en"] ], label_method: :first, value_method: :second %>
+    <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
+  </div>
+  <div class="form-actions text-end">
+    <%= f.submit "Desar", class: 'btn btn-primary text-center' %>
+    <%= f.submit "Desar com model de contracte nou", class: 'btn btn-primary text-center' %>
+  </div>
+<% end %>

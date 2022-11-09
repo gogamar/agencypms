@@ -64,11 +64,11 @@
       <% end %>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
         <div class="bg-white py-2 collapse-inner rounded">
-          <%= link_to "Immobles", "#", class: "collapse-item" %>
-          <%= link_to "Vendedors", "#", class: "collapse-item" %>
-          <%= link_to "Compradors", "#", class: "collapse-item" %>
-          <%= link_to "Contractes", "#", class: "collapse-item" %>
-          <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+          <%= link_to "Immobles", realestates_path, class: "collapse-item" %>
+          <%= link_to "Venedors", sellers_path, class: "collapse-item" %>
+          <%= link_to "Compradors", buyers_path, class: "collapse-item" %>
+          <%= link_to "Contractes", contracts_path, class: "collapse-item" %>
+          <%= link_to "Models de contracte", rstemplates_path, class: "collapse-item" %>
         </div>
       </div>
     </li>

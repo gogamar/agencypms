@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_09_105349) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_09_224142) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_105349) do
     t.index ["renter_id"], name: "index_agreements_on_renter_id"
   end
 
+  create_table "buyers", force: :cascade do |t|
+    t.string "fullname"
+    t.string "address"
+    t.string "document"
+    t.string "account"
+    t.string "language"
+    t.string "phone"
+    t.string "email"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_buyers_on_user_id"
+  end
+
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string "data_file_name", null: false
     t.string "data_content_type"
@@ -71,6 +85,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_105349) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.float "price"
+    t.text "contentarea"
+    t.string "pricetext"
+    t.string "place"
+    t.date "signdate"
+    t.bigint "realestate_id", null: false
+    t.bigint "rstemplate_id"
+    t.bigint "buyer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["buyer_id"], name: "index_contracts_on_buyer_id"
+    t.index ["realestate_id"], name: "index_contracts_on_realestate_id"
+    t.index ["rstemplate_id"], name: "index_contracts_on_rstemplate_id"
   end
 
   create_table "features", force: :cascade do |t|
@@ -134,6 +164,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_105349) do
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
   end
 
+  create_table "realestates", force: :cascade do |t|
+    t.string "address"
+    t.string "city"
+    t.string "cadastre"
+    t.string "energy"
+    t.text "description"
+    t.string "status"
+    t.bigint "user_id", null: false
+    t.bigint "seller_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["seller_id"], name: "index_realestates_on_seller_id"
+    t.index ["user_id"], name: "index_realestates_on_user_id"
+  end
+
   create_table "rentals", force: :cascade do |t|
     t.string "address"
     t.string "cadastre"
@@ -171,6 +216,30 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_105349) do
     t.string "phone"
     t.string "email"
     t.index ["user_id"], name: "index_renters_on_user_id"
+  end
+
+  create_table "rstemplates", force: :cascade do |t|
+    t.string "title"
+    t.string "language"
+    t.text "text"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_rstemplates_on_user_id"
+  end
+
+  create_table "sellers", force: :cascade do |t|
+    t.string "fullname"
+    t.string "address"
+    t.string "document"
+    t.string "account"
+    t.string "language"
+    t.string "phone"
+    t.string "email"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sellers_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -265,14 +334,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_105349) do
   add_foreign_key "agreements", "rentals"
   add_foreign_key "agreements", "rentaltemplates"
   add_foreign_key "agreements", "renters"
+  add_foreign_key "buyers", "users"
+  add_foreign_key "contracts", "buyers"
+  add_foreign_key "contracts", "realestates"
+  add_foreign_key "contracts", "rstemplates"
   add_foreign_key "features", "users"
   add_foreign_key "owners", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"
+  add_foreign_key "realestates", "sellers"
+  add_foreign_key "realestates", "users"
   add_foreign_key "rentals", "owners"
   add_foreign_key "rentals", "users"
   add_foreign_key "rentaltemplates", "users"
   add_foreign_key "renters", "users"
+  add_foreign_key "rstemplates", "users"
+  add_foreign_key "sellers", "users"
   add_foreign_key "tasks", "users"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"

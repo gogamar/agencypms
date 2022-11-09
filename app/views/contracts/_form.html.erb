@@ -1,0 +1,42 @@
+<%= simple_form_for [ realestate, contract ] do |f| %>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6">
+      <%= f.association :buyer, label_method: :fullname, label: 'Inquili', include_blank: true, label: ("Seleccionar comprador o #{link_to 'Afegir comprador nou', new_buyer_path, target: "_blank"}.").html_safe %>
+    </div>
+    <div class="col-lg-6">
+      <%= f.association :rstemplate, label_method: :title, label: 'Model de contracte', include_blank: true, label: ("Seleccionar model o #{link_to 'Afegir model nou', new_rstemplate_path,  target: "_blank"}.").html_safe %>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6 text-nowrap">
+      <%= f.input :signdate, as: :string, input_html: {class: "datepicker"} %>
+    </div>
+    <div class="col-lg-6 text-nowrap">
+      <%= f.input :place, label: 'Lloc de la firma' %>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6">
+      <%= f.input :price, hint: "per exemple: 300000" %>
+    </div>
+    <div class="col-lg-6">
+      <%= f.input :pricetext, hint: "per exemple: TRES-CENTS MIL" %>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <%= f.input :contentarea, label: 'Clausula especial', as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
+  </div>
+  <div class="row justify-content-md-center">
+    <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>
+  </div>
+  <div class="form-actions row gx-4">
+    <div class="col text-end">
+      <div class="p-3">
+        <%= f.submit "Desar", class: "btn btn-primary" %>
+      </div>
+      <div class="p-3">
+      <%= f.submit "Desar com contracte nou", class: "btn btn-navbar" %>
+      </div>
+    </div>
+  </div>
+<% end %>

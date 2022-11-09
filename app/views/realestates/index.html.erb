@@ -1,0 +1,6 @@
+<div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un immoble nou', new_realestate_path, class: "btn btn-primary" %>
+  </div>
+  <%= render "realestates", realestates: @realestates %>
+</div>

@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="my-3 text-end">
+    <%= link_to 'Afegir un model de contracte', new_rstemplate_path, class: "btn btn-primary" %>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h4 class="font-weight-bold text-primary text-center mb-2">Models de contracte de compravenda</h4>
+      <hr>
+      <div class="container-fluid my-3">
+        <div>
+          <div class="row border border-top border-bottom fw-bold bg-light">
+            <div class="col col-lg-2 py-3 border-start border-end" id="vrowner-fullname" relative>
+              Model
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-address" relative>
+              Idioma
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-phone" relative>
+              Més detalls
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-language" relative>
+              Modificar
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">
+              Copiar
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end">
+              Esborrar
+            </div>
+          </div>
+        </div>
+        <div class="tbody">
+          <% @rstemplates.each do |rstemplate| %>
+            <div class="row border">
+              <div class="col-lg-2 border-start border-end"><%= rstemplate.title %></div>
+              <div class="col-lg-2 border-start border-end"><%= rstemplate.language %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', rstemplate %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_rstemplate_path(rstemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_rstemplate_path(rstemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', rstemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{rstemplate.title}?"} %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

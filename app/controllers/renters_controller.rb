@@ -29,7 +29,7 @@ class RentersController < ApplicationController
     @renter.user_id = current_user.id
     authorize @renter
     if @renter.save
-      redirect_to renters_path, notice: "Has creat un nou propietari de lloguer anual."
+      redirect_to renters_path, notice: "Has creat un nou inquili de lloguer anual."
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class RentersController < ApplicationController
   def update
     authorize @renter
     if @renter.update(renter_params)
-      redirect_to renters_path, notice: "Has actualitzat al propietari"
+      redirect_to renters_path, notice: "Has actualitzat a l'inquili"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -51,7 +51,7 @@ class RentersController < ApplicationController
   def destroy
     authorize @renter
     @renter.destroy
-    redirect_to renters_path, notice: "Has esborrat al propietari #{@renter.fullname}."
+    redirect_to renters_path, notice: "Has esborrat a l'inquili #{@renter.fullname}."
   end
 
   private
