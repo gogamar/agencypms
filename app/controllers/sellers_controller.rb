@@ -29,7 +29,7 @@ class SellersController < ApplicationController
     @seller.user_id = current_user.id
     authorize @seller
     if @seller.save
-      redirect_to sellers_path, notice: "Has creat un nou venedor de lloguer anual."
+      redirect_to sellers_path, notice: "Has creat un nou venedor."
     else
       render :new, status: :unprocessable_entity
     end

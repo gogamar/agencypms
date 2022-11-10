@@ -41,11 +41,11 @@
     </div>
     <!-- Nav Item - Lloguer Anual Collapse Menu -->
     <li class="nav-item">
-      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseRentals" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
         <i class="fas fa-fw fa-key"></i>
           <span>Lloguer anual</span>
       <% end %>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+      <div id="collapseRentals" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
         <div class="bg-white py-2 collapse-inner rounded">
           <%= link_to "Immobles", rentals_path, class: "collapse-item" %>
           <%= link_to "Propietaris", owners_path, class: "collapse-item" %>
@@ -58,11 +58,11 @@
     <hr class="sidebar-divider">
     <!-- Nav Item - Compravenda Collapse Menu -->
     <li class="nav-item">
-      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseSales" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
         <i class="fas fa-fw fa-house"></i>
           <span>Compravenda</span>
       <% end %>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+      <div id="collapseSales" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
         <div class="bg-white py-2 collapse-inner rounded">
           <%= link_to "Immobles", realestates_path, class: "collapse-item" %>
           <%= link_to "Venedors", sellers_path, class: "collapse-item" %>
@@ -79,11 +79,11 @@
     </div>
     <!-- Nav Item - Lloguer Turístic Collapse Menu -->
     <li class="nav-item">
-      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTwo" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTuristic" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
         <i class="fas fa-fw fa-house"></i>
           <span>Lloguer turístic</span>
       <% end %>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+      <div id="collapseTuristic" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
         <div class="bg-white py-2 collapse-inner rounded">
           <%= link_to "Immobles", vrentals_path, class: "collapse-item" %>
           <%= link_to "Propietaris", vrowners_path, class: "collapse-item" %>
