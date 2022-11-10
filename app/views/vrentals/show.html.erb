@@ -46,11 +46,17 @@
     <strong>Caracteristiques:</strong>
     <%= @vrental.features.pluck("name").map{|f| t("#{f}")}.sort_by{|translation| translation}.to_sentence(last_word_connector: ', ') %>
   </p>
+    <p>
+    <a href="#tarifes">
+      <span>Tarifes</span>
+      <i class="fas fa-fw fa-arrow-down"></i>
+    </a>
+  </p>
 </div>
 <br>
 <div class="card shadow mb-5">
   <div class="card-header py-5">
-    <h4 class="mb-5 font-weight-bold text-primary text-center">Tarifes <%= @vrental.name %></h4>
+    <h4 id="tarifes" class="mb-5 font-weight-bold text-primary text-center">Tarifes <%= @vrental.name %></h4>
     <hr>
     <div class="container">
       <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
@@ -59,19 +65,8 @@
           <hr>
           <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
           <hr>
-          <div class="container-fluid mt-3 py-5" cellspacing="0">
-            <div class="row">
-              <div class="col"><%= t("from") %></div>
-              <div class="col"><%= t("to") %></div>
-              <div class="col"><%= t("arrival_day") %></div>
-              <div class="col"><%= t("min") %></div>
-              <div class="col"><%= t("week") %></div>
-              <div class="col"><%= t("night_7") %></div>
-              <div class="col"><%= t("night_5") %></div>
-            </div>
-            <div id="rates<%= year %>">
-              <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
-            </div>
+          <div id="rates<%= year %>">
+            <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
           </div>
         <% end %>
       <% end %>

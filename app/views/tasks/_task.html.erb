@@ -1,22 +1,8 @@
-<div id="<%= dom_id task %>">
-  <p>
-    <strong>Title:</strong>
-    <%= task.title %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= task.description %>
-  </p>
-
-  <p>
-    <strong>Start time:</strong>
-    <%= task.start_time %>
-  </p>
-
-  <p>
-    <strong>End time:</strong>
-    <%= task.end_time %>
-  </p>
-
-</div>
+  <div class="row border-bottom pb-1">
+    <div class="col border-bottom pb-1"><%= l(task.start_time, format: :long) %></div>
+    <div class="col border-bottom pb-1"><%= l(task.end_time, format: :long) %></div>
+    <div class="col border-bottom pb-1"><%= task.title %></div>
+    <div class="col border-bottom pb-1"><%= task.description %></div>
+    <div class="col border-bottom pb-1"><%= link_to "Modificar", edit_task_path(task), class: "btn btn-info" %></div>
+    <div class="col border-bottom pb-1"><%= link_to "Esborrar", task, class: "text-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tasca?"} %></div>
+  </div>

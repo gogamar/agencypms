@@ -8,7 +8,6 @@
 
 <!-- Content Row -->
 <div class="row">
-  <!-- Vragreements Card  -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-primary shadow h-100 py-2">
       <div class="card-body">
@@ -20,18 +19,37 @@
               Contractes turístics
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              <%= Vragreement.all.count %>
+              <%= @vragreements.count %>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            <i class="fas fa-suitcase fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Agreements Card -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div
+              class="text-xs font-weight-bold text-success text-uppercase mb-1"
+            >
+              Propietaris HUT
+            </div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              <%= @vrowners.count %>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-user fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-success shadow h-100 py-2">
       <div class="card-body">
@@ -43,61 +61,16 @@
               Contractes lloguer anual
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              <%= Agreement.all.count %>
+              <%= @agreements.count %>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+            <i class="fas fa-key fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Contracts Card -->
-  <div class="col-xl-3 col-md-6 mb-4">
-    <div class="card border-left-info shadow h-100 py-2">
-      <div class="card-body">
-        <div class="row no-gutters align-items-center">
-          <div class="col mr-2">
-            <div
-              class="text-xs font-weight-bold text-info text-uppercase mb-1"
-            >
-              Contractes de compravenda
-            </div>
-            <div class="row no-gutters align-items-center">
-              <div class="col-auto">
-                <div
-                  class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
-                >
-                  Afegir
-                </div>
-              </div>
-              <div class="col">
-                <div class="progress progress-sm mr-2">
-                  <div
-                    class="progress-bar bg-info"
-                    role="progressbar"
-                    style="width: 50%"
-                    aria-valuenow="50"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-auto">
-            <i
-              class="fas fa-clipboard-list fa-2x text-gray-300"
-            ></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Vrowners Card -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-warning shadow h-100 py-2">
       <div class="card-body">
@@ -106,14 +79,14 @@
             <div
               class="text-xs font-weight-bold text-warning text-uppercase mb-1"
             >
-              Propietaris HUT
+              Contractes compravenda
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              <%= Vrowner.all.count %>
+              <%= @contracts.count %>
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-comments fa-2x text-gray-300"></i>
+            <i class="fas fa-file-signature fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -126,26 +99,31 @@
   <div class="col-lg-12 mb-4">
     <!-- Project Card Example -->
     <div class="card shadow mb-4">
-      <div class="card-header py-3">
+      <div class="card-header py-3 d-flex justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Agenda</h6>
+        <div>
+          <%= link_to "Afegir cita", new_task_path, class: "btn btn-info btn-sm" %>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" id="tasks">
         <%= month_calendar(events: @tasks) do |date, tasks| %>
           <div class="day">
             <%= date.day %>
           </div>
-          <% tasks.each do |task| %>
-            <div class="card-header">
-              <div class="card-title">
-                <%= link_to task.title, task %>
+            <% tasks.each do |task| %>
+              <div class="card-header">
+                <div class="card-title">
+                  <small><%= link_to task.title, task, class: "text-danger" %></small>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <div class="card-text">
-                <%= task.description %>
+              <div class="card-body">
+                <div class="card-text">
+                  <small><%= task.description %></small>
+                </div>
               </div>
-            </div>
-          <% end %>
+              <%= link_to 'Modificar', edit_task_path(task), class: "btn btn-secondary btn-sm" %> |
+              <%= link_to 'Esborrar', task, class: "btn btn-danger btn-sm", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} %>
+            <% end %>
         <% end %>
       </div>
     </div>

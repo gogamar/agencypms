@@ -4,17 +4,13 @@ class PagesController < ApplicationController
     before_action :find_ownersandrentals
     # hotwire guy
 
-
   def home
-    @owners = Owner.all
-    @rentals = @owner&.rentals || []
-
-    @selected_vrowners = Vrowner.includes(:vrentals).where('user_id = ?', '2').references(:vrentals)
-
+    @vragreements = policy_scope(Vragreement)
+    @vrowners = policy_scope(Vrowner)
+    @agreements = policy_scope(Agreement)
+    @contracts = policy_scope(Contract)
     @tasks = Task.where(start_time: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week)
   end
-
-
 
   private
 
@@ -22,5 +18,4 @@ class PagesController < ApplicationController
     @owner = Owner.find_by(id: params[:owner].presence)
     @rental = Rental.find_by(id: params[:rental].presence)
   end
-
 end

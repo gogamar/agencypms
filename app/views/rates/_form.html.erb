@@ -1,41 +1,28 @@
-<%= simple_form_for [@vrental, rate], id: dom_id(rate, "form"), class: "" do |f| %>
+<%= simple_form_for [@vrental, rate], id: dom_id(rate, "form") do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div
-  class="row d-flex justify-content-around align-items-end"
+  class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center"
   data-controller="rate-component"
-  <% if @vrental.rates.exists? %>
-  data-default-checkin-date="<%= @vrental.default_checkin %>"
-  data-default-checkout-date="<%= (@vrental.default_checkin + 7.day) %>"
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
-  <% else %>
-  data-default-checkin-date="<%= Date.today %>"
-  data-default-checkout-date="<%= (Date.today + 7.day) %>"
-  data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
-  <% end %>
   >
-    <div class="col col-lg-2">
-      <%= f.input :firstnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkin"} %>
+    <div class="p-1 text-center">
+      <%= f.input :firstnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkin" } %>
     </div>
-    <div class="col col-lg-2">
-      <%= f.input :lastnight, as: :string, required: true, input_html: {class: "datepicker", "data-rate-component-target" => "checkout"} %>
+    <div class="p-1 text-center">
+      <%= f.input :lastnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkout" }  %>
     </div>
-    <div class="col col-lg-2">
+    <div class="p-1 text-center">
       <%= f.input :priceweek %>
     </div>
-    <div class="col col-lg-2">
+    <div class="p-1 text-center">
       <%= f.input :min_stay %>
     </div>
-    <div class="col col-lg-2">
+    <div class="p-1 text-center">
       <%= f.input :arrival_day, label: t("arrival_day"), priority: [ t("everyday") ], collection: [ t("everyday"), t("saturdays") ], include_blank: false %>
     </div>
-    <div class="col col-lg-2 p-3">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary' %>
-    </div>
-    <div class="col col-lg-2">
-      <% if action_name == "edit" %>
-      <%= link_to 'Tornar', :back, class: "text-secondary" %>
-      <% end %>
+    <div class="p-1 text-center">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>
     </div>
   </div>
 <% end %>

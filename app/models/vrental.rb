@@ -19,6 +19,7 @@ class Vrental < ApplicationRecord
     end
   end
 
+
   # def default_checkin
   # find the last rate of this vrental
   # take its lastnight

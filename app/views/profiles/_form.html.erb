@@ -1,44 +1,71 @@
-<div class="container">
 <%= simple_form_for(@profile) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-    <div class="w-50">
-      <%= f.input :companytype, label: 'Tipus d\'empresa', priority: [ "Immobiliària" ], collection: [ "Immobiliària", "Lloguer turístic"]%>
+    <div class="row">
+      <div class="col-lg-6">
+        <%= f.input :companytype, label: 'Tipus d\'empresa', priority: [ "Immobiliària" ], collection: [ "Immobiliària", "Lloguer turístic"]%>
+      </div>
+      <div class="col-lg-6">
+        <%= f.input :businessname, label: 'Nom comercial de la empresa' %>
+      </div>
     </div>
-      <%= f.input :businessname, label: 'Nom comercial de la empresa' %>
-      <%= f.input :officeaddress, label: 'Adreça de l\'oficina' %>
-      <%= f.input :officezip, label: 'Codi postal de l\'oficina' %>
-      <%= f.input :officecity, label: 'Municipi de l\'oficina' %>
-      <%= f.input :officephone, label: 'Telèfon de l\'oficina' %>
-      <%= f.input :companyname, label: 'Nom registrat de la empresa' %>
-      <%= f.input :address, label: 'Adreça fiscal' %>
-      <%= f.input :companyzip, label: 'Codi postal adreça fiscal' %>
-      <%= f.input :companycity, label: 'Municipi adreça fiscal' %>
-      <%= f.input :companyphone, label: 'Telèfon de la seu empresa' %>
-    <div class="d-flex justify-content-between">
-      <div class="pe-2">
+    <hr>
+    <h6 class="my-2 text-primary text-center">Oficina de l'empresa</h6>
+    <hr>
+    <div class="row">
+      <div class="col-lg-4">
+        <%= f.input :officeaddress, label: 'Adreça oficina' %>
+      </div>
+      <div class="col-lg-2">
+        <%= f.input :officezip, label: 'Codi postal' %>
+      </div>
+      <div class="col-lg-3">
+        <%= f.input :officecity, label: 'Municipi' %>
+      </div>
+      <div class="col-lg-3">
+        <%= f.input :officephone, label: 'Telèfon' %>
+      </div>
+    </div>
+
+    <hr>
+    <h6 class="my-2 text-primary text-center">Dades fiscals de l'empresa</h6>
+    <hr>
+    <div class="row">
+      <div class="col-lg-8">
+        <%= f.input :companyname, label: 'Nom registrat de la empresa' %>
+      </div>
+      <div class="col-lg-4">
         <%= f.input :vat, label: 'CIF' %>
       </div>
-      <div class="ps-2">
+    </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <%= f.input :address, label: 'Adreça fiscal' %>
+      </div>
+      <div class="col-lg-2">
+        <%= f.input :companyzip, label: 'Codi postal' %>
+      </div>
+      <div class="col-lg-3">
+        <%= f.input :companycity, label: 'Municipi' %>
+      </div>
+      <div class="col-lg-3">
+        <%= f.input :companyphone, label: 'Telèfon' %>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-end py-4">
+      <div class="d-flex flex-column align-items-center">
+        <% if profile %>
+          <% if profile.photo.attached? %>
+            <%= cl_image_tag profile.photo.key, height: 70 %>
+              <%= link_to "Esborrar aquest logo", purge_photo_user_path(profile), method: :delete, class: "pt-2" %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
         <%= f.input :photo, label: 'Logo', as: :file %>
       </div>
-
     </div>
-    <% if profile %>
-      <% if profile.photo.attached? %>
-        <%= cl_image_tag profile.photo.key, height: 70 %>
-        <%= link_to "Esborrar imatge", purge_photo_user_path(profile), method: :delete, class: "btn btn-info" %>
-      <% end %>
-    <% end %>
-    <div class="d-flex justify-content-between pt-4">
-      <div>
-      <%= link_to 'Tornar', profiles_path, class: 'btn btn-info' %>
-      </div>
-
-      <div>
-          <%= f.submit "Desar", class: "btn btn-primary" %>
-      </div>
-
+    <div class="form-actions text-end">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
     </div>
-    <% end %>
-</div>
+<% end %>

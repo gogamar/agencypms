@@ -5,9 +5,8 @@ flatpickr.localize(Catalan);
 
 const initFlatpickr = () => {
   flatpickr(".datepicker", {
-    altInput: true,
+    dateFormat: "d-m-Y",
     minDate: "today",
-    dateFormat: "d/m/Y",
   });
 };
 

@@ -275,7 +275,7 @@ ca:
       rate:
         firstnight: "Des de"
         lastnight: "Fins a"
-        min_stay: "Estada min."
+        min_stay: "Min."
         priceweek: "Preu setmana"
         pricenight: "Preu nit"
         arrival_day: "Dia entrada"
@@ -285,7 +285,13 @@ ca:
       feature:
         name:
           washer: "rentadora"
-
   global:
     forms:
       submit: "Desar"
+  simple_calendar:
+    previous: "<<"
+    next: ">>"
+    week: "setmana"
+    month: "mes"
+    year: "any"
+    day: "dia"

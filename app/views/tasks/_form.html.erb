@@ -1,16 +1,17 @@
 
-<%= simple_form_for(@task) do |f| %>
+<%= simple_form_for task do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
     <%= f.input :title %>
     <%= f.input :description %>
-    <%= f.input :start_time %>
-    <%= f.input :end_time %>
+    <%= f.input :start_time, as: :datetime %>
+    <%= f.input :start_time, as: :string, required: true, input_html: { class: "datepicker" }%>
+    <%= f.input :end_time, as: :string, required: true, input_html: { class: "datepicker" } %>
   </div>
 
   <div class="form-actions">
-    <%= f.submit "Desar" %>
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary' %>
   </div>
 <% end %>

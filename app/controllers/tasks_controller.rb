@@ -24,7 +24,7 @@ class TasksController < ApplicationController
     @task.user_id = current_user.id
     authorize @task
     if @task.save
-      redirect_to tasks_path, notice: "Has creat una tasca nova."
+      redirect_to root_path, notice: "Has creat una tasca nova."
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +33,7 @@ class TasksController < ApplicationController
   def update
     authorize @task
     if @task.update(task_params)
-      redirect_to tasks_path, notice: 'Has actualitzat la tasca.'
+      redirect_to root_path, notice: 'Has actualitzat la tasca.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class TasksController < ApplicationController
   def destroy
     authorize @task
     @task.destroy
-    redirect_to tasks_url, notice: 'Has esborrat la tasca.'
+    redirect_to root_path, notice: 'Has esborrat la tasca.'
   end
 
   private

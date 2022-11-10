@@ -1,6 +1,17 @@
-<h1>Modificar el perfil</h1>
-<div class="d-flex flex-column">
-  <div class="pt-4">
-    <%= render 'form', profile: @profile %>
-  </div>
+<p id="notice"><%= notice %></p>
+<div>
+  <%= link_to new_profile_session_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<hr>
+<h4 class="mt-4 font-weight-bold text-primary text-center">Modificar <%= @profile.businessname %></h4>
+<hr>
+<div class="container my-5 w-75">
+  <%= render 'form', profile: @profile %>
 </div>
