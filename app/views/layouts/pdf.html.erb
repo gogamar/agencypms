@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,11 +14,9 @@
   <body>
   <p>&nbsp;</p>
     <div class="d-flex justify-content-between">
-      <!--
       <div class="p-2">
         <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px" />
       </div>
-      -->
       <div class="p-2">
         <% if current_profile.photo.attached? %>
           <%# wicked_pdf_image_tag current_profile.photo.key, width: "50" %>
@@ -36,5 +35,23 @@
     </div>
     <hr>
       <%= yield %>
+  </body>
+</html>
+-->
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Contractes</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= wicked_pdf_stylesheet_link_tag "pdf" %>
+
+  </head>
+  <body>
+    <div id="content">
+      <%= yield %>
+    </div>
   </body>
 </html>
