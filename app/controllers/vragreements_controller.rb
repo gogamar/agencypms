@@ -71,7 +71,6 @@ class VragreementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        # # Rails 7
         render pdf: [@vrental.address, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
                template: "vragreements/show",
                formats: [:html],
@@ -84,9 +83,7 @@ class VragreementsController < ApplicationController
                             bottom: 20,
                             left:   10,
                             right:  10},
-
                footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '', font_size: 9, spacing: 5 }
-              # # end Rails 7
       end
     end
   end

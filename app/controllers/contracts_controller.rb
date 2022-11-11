@@ -51,7 +51,6 @@ class ContractsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        # Rails 7
         render pdf: [@realestate.address, @seller].join('-'), # filename: "Posts: #{@posts.count}"
           template: "contracts/show",
           formats: [:html],
@@ -64,9 +63,7 @@ class ContractsController < ApplicationController
                         bottom: 20,
                         left:   15,
                         right:  15},
-
           footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @contract.signdate.present? ? l(@contract.signdate, format: :long) : '', font_size: 8, spacing: 5}
-        # end Rails 7
       end
     end
   end
@@ -118,6 +115,6 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :deposit, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
+    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
   end
 end

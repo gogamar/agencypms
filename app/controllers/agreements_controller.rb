@@ -55,7 +55,6 @@ class AgreementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        # Rails 7
         render pdf: [@rental.address, @owner].join('-'), # filename: "Posts: #{@posts.count}"
           template: "agreements/show",
           formats: [:html],
@@ -68,9 +67,7 @@ class AgreementsController < ApplicationController
                         bottom: 20,
                         left:   15,
                         right:  15},
-
           footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @agreement.signdate.present? ? l(@agreement.signdate, format: :long) : '', font_size: 8, spacing: 5}
-        # end Rails 7
       end
     end
   end
