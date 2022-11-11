@@ -13,12 +13,11 @@
   <body>
   <p>&nbsp;</p>
     <div class="d-flex justify-content-between">
-
+      <!--
       <div class="p-2">
-
         <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px" />
-
       </div>
+      -->
       <div class="p-2">
         <% if current_profile.photo.attached? %>
           <%# wicked_pdf_image_tag current_profile.photo.key, width: "50" %>
@@ -36,7 +35,6 @@
       </div>
     </div>
     <hr>
-
       <%= yield %>
   </body>
 </html>
