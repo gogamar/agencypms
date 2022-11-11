@@ -60,7 +60,7 @@ class AgreementsController < ApplicationController
           formats: [:html],
           disposition: :inline,
           page_size: 'A4',
-          dpi: '75',
+          dpi: '72',
           zoom: 1,
           layout: 'pdf',
           margin:  {   top:    10,
