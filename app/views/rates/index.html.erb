@@ -1,0 +1,10 @@
+
+<% @rates.each do |rate| %>
+  <div class="row border">
+    <div class="col-lg-2 border-start border-end"><%= rate.firstnight %></div>
+    <div class="col-lg-2 border-start border-end"><%= rate.lastnight %></div>
+    <div class="col-lg-2 border-start border-end"><%= rate.priceweek %></div>
+    <div class="col-lg-2 border-start border-end"><%= link_to 'Veure la tarifa', rate %></div>
+    <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_vrental_rate_path(rate.vrental, rate) %></div>
+  </div>
+<% end %>

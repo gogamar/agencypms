@@ -6,12 +6,21 @@
   data-controller="rate-component"
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
   >
-    <div class="p-1 text-center">
-      <%= f.input :firstnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkin" } %>
-    </div>
-    <div class="p-1 text-center">
-      <%= f.input :lastnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkout" }  %>
-    </div>
+    <% if action_name == "new" %>
+      <div class="p-1 text-center">
+        <%= f.input :firstnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkin" }%>
+      </div>
+      <div class="p-1 text-center">
+        <%= f.input :lastnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkout" } %>
+      </div>
+    <% elsif action_name == "edit" %>
+      <div class="p-1 text-center">
+        <%= f.input :firstnight, as: :string, required: true, input_html: { class: "datepicker" }%>
+      </div>
+      <div class="p-1 text-center">
+        <%= f.input :lastnight, as: :string, required: true, input_html: {  class: "datepicker" } %>
+      </div>
+    <% end %>
     <div class="p-1 text-center">
       <%= f.input :priceweek %>
     </div>
