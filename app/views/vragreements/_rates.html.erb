@@ -11,23 +11,25 @@
     </tr>
   </thead>
   <tbody>
-  <% @vrates.each do |rate| %>
-    <% if rate.firstnight >= @vragreement.start_date %>
-      <tr>
-        <td class="pricetable nowrap"><%= l(rate.firstnight, format: :long) %></td>
-        <td class="pricetable nowrap"><%= l(rate.lastnight, format: :long) %></td>
-        <td class="pricetable nowrap"><%= t("#{rate.arrival_day}") %></td>
-        <td class="pricetable nowrap"><%= rate.min_stay %> <%= t("nights") %>
-        </td>
-        <td class="pricetable nowrap"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></td>
-        <td class="pricetable nowrap"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-        <td class="pricetable nowrap">
-        <% if rate.min_stay == 5 %>
-        <%= number_to_currency((rate.priceweek / 6.25), unit: "€", separator: ",", delimiter: ".", precision: 2) %>
+  <% if @vrates %>
+    <% @vrates.each do |rate| %>
+      <% if rate.firstnight >= @vragreement.start_date %>
+        <tr>
+          <td class="pricetable nowrap"><%= l(rate.firstnight, format: :long) %></td>
+          <td class="pricetable nowrap"><%= l(rate.lastnight, format: :long) %></td>
+          <td class="pricetable nowrap"><%= t("#{rate.arrival_day}") %></td>
+          <td class="pricetable nowrap"><%= rate.min_stay %> <%= t("nights") %>
+          </td>
+          <td class="pricetable nowrap"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></td>
+          <td class="pricetable nowrap"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+          <td class="pricetable nowrap">
+          <% if rate.min_stay == 5 %>
+          <%= number_to_currency((rate.priceweek / 6.25), unit: "€", separator: ",", delimiter: ".", precision: 2) %>
+          <% end %>
+          </td>
+        </tr>
         <% end %>
-        </td>
-      </tr>
-      <% end %>
+    <% end %>
   <% end %>
   </tbody>
 </table>
