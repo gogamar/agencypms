@@ -24,10 +24,21 @@
        <%= f.input :vrowner_bookings, input_html: {value: t('.vrowner_bookings')} %>
      </div>
    </div>
-
-  <div class="row justify-content-md-center">
-    <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>
-  </div>
+<div class="d-flex justify-content-between align-items-end py-4">
+      <div class="d-flex flex-column align-items-center">
+        <% if vragreement.photos.attached? %>
+          <% vragreement.photos.each do |photo| %>
+            <%= cl_image_tag photo.key, height: 200 %>
+            <%= photo.id %>
+            <%= link_to "Esborrar aquesta foto", photo_path(photo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta foto?"} %>
+            <%# link_to "Esborrar foto", purge_photo_vrental_vragreement_path(vrental, vragreement), method: :delete %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
+        <%= f.input :photos, label: "Afegir fotos", as: :file, input_html: { multiple: true }  %>
+      </div>
+    </div>
   <div class="form-actions row gx-4">
     <div class="col text-end">
       <div class="p-3">

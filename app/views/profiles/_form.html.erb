@@ -57,7 +57,7 @@
         <% if profile %>
           <% if profile.photo.attached? %>
             <%= cl_image_tag profile.photo.key, height: 70 %>
-              <%= link_to "Esborrar aquest logo", purge_photo_user_path(profile), method: :delete, class: "pt-2" %>
+            <%= link_to "Esborrar aquest logo", purge_photo_profile_path(profile), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest logo?"} %>
           <% end %>
         <% end %>
       </div>

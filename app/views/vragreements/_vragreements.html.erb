@@ -14,7 +14,9 @@
             %>
           </div>
           <div class="col-auto">
-            <%= form.select :vrental_id, options_for_select(Vrental.all.pluck(:name, :id).sort), {include_blank: 'Tots els immobles' }, class: "form-select" %>
+            <%= form.text_field :vrental, placeholder: "Buscar per nom", class: "form-control bg-white border-0 small",
+          autocomplete: "off" %>
+            <%# form.select :vrental_id, options_for_select(Vrental.all.pluck(:name, :id).sort), {include_blank: 'Tots els immobles' }, class: "form-select" %>
           </div>
           <div class="col-auto">
             <%= form.button class: "btn btn-primary me-3" do %>

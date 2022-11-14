@@ -11,9 +11,9 @@ class VragreementsController < ApplicationController
   def list
     @vragreements = policy_scope(Vragreement).includes(:vrental)
     @vragreements = @vragreements.where("DATE_PART('year', signdate) = ?", params[:year]) if params[:year].present?
-    @vragreements = @vragreements.where(vrental_id: params[:vrental_id]) if params[:vrental_id].present?
+    @vragreements = @vragreements.joins(:vrental).where('name ilike ?', "%#{params[:vrental]}%") if params[:vrental].present?
     @vragreements = @vragreements.order("#{params[:column]} #{params[:direction]}")
-    @pagy, @vragreements = pagy(@vragreements, page: params[:page], items: 9)
+    @pagy, @vragreements = pagy(@vragreements, page: params[:page], items: 10)
     render(partial: 'vragreements', locals: { vragreements: @vragreements })
   end
 
@@ -112,7 +112,7 @@ class VragreementsController < ApplicationController
     @vragreement.vrental = @vrental
     authorize @vragreement
     if @vragreement.update(vragreement_params)
-      redirect_to vragreements_path, notice: 'Has actualitzat el contracte.'
+      redirect_to @vragreement, notice: 'Has actualitzat el contracte.'
     else
       render :edit
     end

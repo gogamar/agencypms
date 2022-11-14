@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :set_profile, only: [:show, :edit, :update, :destroy, :purge_photo]
   # before_action :skip_authorization, only: :index
   # # it was set to only show and edit, but it didn't allow modifying them then
   skip_before_action :authenticate_profile!
@@ -14,7 +14,8 @@ class ProfilesController < ApplicationController
   end
 
   def purge_photo
-    current_profile.photo.purge
+    @profile = Profile.find(params[:id])
+    @profile.photo.purge
     redirect_back fallback_location: root_path, notice: "Has esborrat la foto."
   end
 

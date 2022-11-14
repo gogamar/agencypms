@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar' }) do
       root to: "pages#home"
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
 
       resources :profiles, path: 'perfils' do
         member do
-        delete :purge_photo
+          delete :purge_photo
         end
       end
 
@@ -104,7 +105,9 @@ Rails.application.routes.draw do
           get 'list'
         end
         resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
-        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update ]
+        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update ] do
+          resources :photos, only: :destroy, shallow: true
+        end
         member do
           get 'copy'
         end

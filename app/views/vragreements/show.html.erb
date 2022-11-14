@@ -1,6 +1,24 @@
 <p id="notice"><%= notice %></p>
-<%= link_to 'Contracte en PDF', vragreement_path(@vragreement, format: :pdf), class: "btn btn-primary" %>
-<div class="page">
+  <div class="d-flex justify-content-between">
+      <div>
+        <%= link_to vragreements_path, class: "btn btn-light btn-icon-split me-3" do %>
+          <span class="icon text-white-600">
+              <i class="fas fa-arrow-left"></i>
+          </span>
+          <span class="text m-0 text-primary" style="font-size: 0.85rem">
+            Tornar
+          </span>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to 'Modificar', edit_vrental_vragreement_path(@vragreement.vrental, @vragreement), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @vragreement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@vragreement.vrental.name}?"} %>
+      </div>
+      <div>
+        <%= link_to 'Contracte en PDF', vragreement_path(@vragreement, format: :pdf), class: "btn btn-primary" %>
+      </div>
+  </div>
+
+<div class="page mt-5">
   <%= sanitize @vrcontrato %>
 </div>
 <% @vragreement.photos.each do |photo| %>
