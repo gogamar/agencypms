@@ -32,7 +32,7 @@
     <%= turbo_frame_tag "rentals", class: "card-body" do %>
       <%= render "shared/flashes" %>
       <div class="container-fluid my-3">
-        <div class="row border border-top border-bottom fw-bold bg-light">
+        <div class="row border border-top border-bottom fw-bold bg-light d-none d-lg-flex">
           <div class="col col-lg-2 py-3 border-start border-end" id="rstatus" relative>
           <%= sort_indicator if params[:column] == "status" %>
           <%= sort_link(column: "status", label: "Estatus") %>

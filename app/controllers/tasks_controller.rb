@@ -14,13 +14,13 @@ class TasksController < ApplicationController
     @task = Task.new
     authorize @task
     @tasks = policy_scope(Task)
-    @unavailable_times = @tasks.pluck(:start_time, :end_time).map { |range| { from: range[0], to: range[1] }}
+    @unavailable_times = @tasks.pluck(:start_time).map { |stime| { from: stime, to: stime + 1800 } }
   end
 
   def edit
     authorize @task
     @tasks = policy_scope(Task)
-    @unavailable_times = @tasks.pluck(:start_time, :end_time).map { |range| { from: range[0], to: range[1] } }
+    @unavailable_times = @tasks.pluck(:start_time).map { |stime| { from: stime, to: stime + 1800 } }
   end
 
   def create

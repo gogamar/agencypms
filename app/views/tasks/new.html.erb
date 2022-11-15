@@ -13,8 +13,14 @@
   <div class="card-header py-3">
     <h4 class="font-weight-bold text-primary text-center mb-2">Afegir una tasca nova</h4>
     <hr>
-    <div class="container d-flex justify-content-center mt-5 w-75 pb-5">
+    <div class="container-fluid w-75">
       <%= render 'form', task: @task %>
     </div>
   </div>
 </div>
+
+<!--
+<%= turbo_frame_tag "new_task", class: "w-full" do %>
+  <%= render "form", task: @task %>
+<% end %>
+-->

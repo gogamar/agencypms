@@ -2,33 +2,41 @@ import { Controller } from "@hotwired/stimulus";
 import { initFlatpickr as flatpickr } from "../plugins/flatpickr";
 
 export default class extends Controller {
-  static targets = ["start", "end"];
+  static targets = ["startdate"];
 
   connect() {
     flatpickr();
     console.log("Tasks controller connected");
     const unavailableTimes = JSON.parse(this.element.dataset.unavailable);
 
-    const startPicker = this.startTarget.flatpickr({
+    const startdatePicker = this.startdateTarget.flatpickr({
       allowInput: true,
       enableTime: true,
-      dateFormat: "Y-m-d H:i",
+      defaultDate: JSON.parse(this.element.dataset.default),
+      // noCalendar: true,
+      defaultHour: 12,
+      defaultMinute: 0,
+      altInput: true,
+      altFormat: "H:i",
       minDate: "today",
+      minTime: "08:00",
+      maxTime: "20:00",
       disable: unavailableTimes,
-      onChange: function (selectedTimes, dateStr, instance) {
-        endPicker.set("minDate", new Date(selectedTimes).fp_incr(1));
-      },
     });
 
-    const endPicker = this.endTarget.flatpickr({
-      allowInput: true,
-      enableTime: true,
-      dateFormat: "Y-m-d H:i",
-      minDate: "today",
-      disable: unavailableTimes,
-      onChange: function (selectedTimes, dateStr, instance) {
-        startPicker.set("maxDate", dateStr);
-      },
-    });
+    // const starttimePicker = this.starttimeTarget.flatpickr({
+    //   allowInput: true,
+    //   enableTime: true,
+    //   noCalendar: true,
+    //   // dateFormat: "H:i",
+    //   defaultHour: 12,
+    //   defaultMinute: 0,
+    //   altInput: true,
+    //   altFormat: "H:i",
+    //   minDate: "today",
+    //   minTime: "08:00",
+    //   maxTime: "20:00",
+    //   disable: unavailableTimes,
+    // });
   }
 }

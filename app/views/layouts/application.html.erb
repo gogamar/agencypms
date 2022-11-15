@@ -16,12 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
-
   <body id="page-top"
         class="d-flex flex-column h-100"
         data-controller="sidebar"
         data-sidebar-target="dash"
-        <%# data-action="resize@window->sidebar#closeaccordions" %>
   >
     <div id="wrapper">
       <% if user_signed_in? && profile_logged_in? %>

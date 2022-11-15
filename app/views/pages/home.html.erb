@@ -109,20 +109,23 @@
         <%= month_calendar(events: @tasks) do |date, tasks| %>
           <div class="day">
             <%= date.day %>
+            <%= date %>
+            <%# turbo_frame_tag "new_task" do %>
+            <%= link_to "Afegir cita", new_task_path(start_time: date), class: "text-danger" %>
+            <%# end %>
           </div>
             <% tasks.each do |task| %>
-              <div class="card-header">
-                <div class="card-title">
-                  <small><%= link_to task.title, task, class: "text-danger" %></small>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="card-text">
-                  <small><%= task.description %></small>
-                </div>
-              </div>
-              <%= link_to 'Modificar', edit_task_path(task), class: "btn btn-secondary btn-sm" %> |
-              <%= link_to 'Esborrar', task, class: "btn btn-danger btn-sm", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} %>
+              <% frame_id = dom_id(task, "name_turbo_frame") %>
+              <%= form_with model: task, data: { turbo_frame: frame_id } do |f|%>
+                <%= turbo_frame_tag frame_id do %>
+                  <div class="card-text">
+                    <small><%= task.start_time.strftime("%H:%M")%>h: <%= link_to task.title, edit_task_path(task), class: "text-danger" %></small>
+                    <small><%= task.description %></small>
+                  </div>
+                <% end %>
+              <% end %>
+              <%# link_to 'Modificar', edit_task_path(task), class: "btn btn-secondary btn-sm" %>
+              <%# link_to 'Esborrar', task, class: "btn btn-danger btn-sm", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} %>
             <% end %>
         <% end %>
       </div>

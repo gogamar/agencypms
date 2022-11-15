@@ -3,10 +3,9 @@
   class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
 >
   <button
-    id="sidebarToggleTop"
-    class="btn btn-link d-md-none rounded-circle me-3"
-    data-sidebar-target="sidebutton"
-    data-action="click->sidebar#toggleit"
+    class="btn btn-secondary d-md-none rounded-circle m-3"
+    data-sidebar-target="topbartoggler"
+    data-action="click->sidebar#togglesidebar"
   >
     <i class="fa fa-bars"></i>
   </button>
@@ -14,7 +13,7 @@
     <div class="container-fluid justify-content-around">
       <% if profile_logged_in? %>
         <% current_user.profiles.each do |profile| %>
-          <%= form_with url: profile_sessions_path , scope: :profile_session, local: true do |f| %>
+          <%= form_with url: profile_sessions_path , scope: :profile_session, local: true, class: "d-none d-md-block" do |f| %>
             <%= hidden_field_tag "profile_id", profile.id %>
             <%= button_tag type:'submit', class: "btn btn-light btn-icon-split me-3" do %>
               <span class="icon text-gray-600">
@@ -28,13 +27,13 @@
         <% end %>
       <% end %>
     </div>
-  <div class="topbar-divider d-none d-sm-block"></div>
+  <div class="topbar-divider"></div>
   <!-- Topbar Navbar -->
   <ul class="navbar-nav ml-auto">
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown">
       <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-        <span class="me-2 d-none d-lg-inline text-gray-600 small">
+        <span class="me-2 d-inline text-gray-600 small">
           <%= current_user.email %>
         </span>
         <%# <img class="img-profile rounded-circle" src="img/undraw_profile.svg"/> %>

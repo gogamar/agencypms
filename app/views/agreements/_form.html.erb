@@ -24,7 +24,7 @@
       <%= f.input :duration, hint: "per exemple: UN ANY" %>
     </div>
   </div>
-  <div class="row justify-content-md-center">
+ <div class="row justify-content-md-center">
     <div class="col-lg-3">
       <%= f.input :price, hint: "per exemple: 1200" %>
     </div>
@@ -39,5 +39,14 @@
     <%= f.input :contentarea, label: 'Clausula especial', as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
   </div>
   <div class="row justify-content-md-center">
-    <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>
+    <%= f.input :photos, label: 'Afegir fotos', as: :file, input_html: { multiple: true } %>
+     </div>
+    </div>
+  <div class="form-actions row gx-4">
+    <div class="col text-end">
+      <div class="p-3">
+        <%= f.submit "Desar", class: "btn btn-primary" %>
+      </div>
+    </div>
   </div>
+<% end %>
