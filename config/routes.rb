@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    scope(path_names: { new: 'nou', edit: 'modificar' }) do
+    scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
       root to: "pages#home"
       devise_for :users, path: 'usuaris'
       resources :tasks
