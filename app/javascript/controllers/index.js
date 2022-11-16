@@ -10,6 +10,9 @@ application.register("call-flatpickr", CallFlatpickrController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import PasswordToggleController from "./password_toggle_controller"
+application.register("password-toggle", PasswordToggleController)
+
 import RateComponentController from "./rate_component_controller"
 application.register("rate-component", RateComponentController)
 

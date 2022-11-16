@@ -26,18 +26,41 @@
                 <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
                   <p><%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %></p>
                 <% end %>
-
-                <%= f.input :password,
-                            hint: t(".leave_blank_if_you_don_t_want_to_change_it"),
-                            required: false,
-                            input_html: { autocomplete: "new-password" } %>
-                <%= f.input :password_confirmation,
-                            required: false,
-                            input_html: { autocomplete: "new-password" } %>
-                <%= f.input :current_password,
-                            hint: t(".we_need_your_current_password_to_confirm_your_changes"),
-                            required: true,
-                            input_html: { autocomplete: "current-password" } %>
+                <%= f.label :password, class: "form-label" %>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password,
+                                    required: false,
+                                    autocomplete: "new-password",
+                                    hint: t(".leave_blank_if_you_don_t_want_to_change_it"),
+                                    data: { "password-toggle-target" => "unhide" },
+                                    class: "form-control" %>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
+                </div>
+                <%= f.label :password_confirmation, class: "form-label" %>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password_confirmation,
+                                    required: false,
+                                    autocomplete: "new-password",
+                                    data: { "password-toggle-target" => "unhide" },
+                                    class: "form-control" %>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
+                </div>
+                <%= f.label :current_password, class: "form-label" %>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :current_password,
+                                    hint: t(".we_need_your_current_password_to_confirm_your_changes"),
+                                    required: true,
+                                    autocomplete: "current-password",
+                                    data: { "password-toggle-target" => "unhide" },
+                                    class: "form-control" %>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
+                </div>
               </div>
               <div class="form-actions d-grid">
                 <%= f.button :submit, t(".update"), class: "btn btn-primary" %>

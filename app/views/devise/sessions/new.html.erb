@@ -13,11 +13,22 @@
                               required: false,
                               autofocus: true,
                               input_html: { autocomplete: "email" } %>
-                  <%= f.input :password,
+
+                  <%= f.label :password, class: "form-label" %>
+                  <div class="input-group mb-3" data-controller="password-toggle">
+                    <%= f.input_field :password,
                               required: false,
-                              input_html: { autocomplete: "current-password" } %>
+                              autocomplete: "current-password",
+                              data: { "password-toggle-target" => "unhide" },
+                              class: "form-control" %>
+                    <span class="input-group-text">
+                      <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                    </span>
+                  </div>
+
                   <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
                 </div>
+
                 <div class="form-actions d-grid">
                   <%= f.button :submit, t(".sign_in"), class: "btn btn-primary" %>
                 </div>
