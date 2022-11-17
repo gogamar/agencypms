@@ -13,8 +13,9 @@
       <div>
         <%= link_to 'Modificar', edit_vrental_vragreement_path(@vragreement.vrental, @vragreement), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @vragreement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@vragreement.vrental.name}?"} %>
       </div>
-      <div>
-        <%= link_to 'Contracte en PDF', vragreement_path(@vragreement, format: :pdf), class: "btn btn-primary" %>
+      <%# data-action="onbeforeunload@document->spinner#stopspinning" %>
+      <div data-controller="spinner" >
+        <%= link_to 'Contracte en PDF', vragreement_path(@vragreement, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
       </div>
   </div>
 

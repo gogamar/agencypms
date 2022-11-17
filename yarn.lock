@@ -704,6 +704,11 @@ source-map@^0.6.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
+stimulus-content-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/stimulus-content-loader/-/stimulus-content-loader-4.0.1.tgz#8e57d519a28c9d74e082633037c0de67fc8640db"
+  integrity sha512-XztvmKLLbOQCgQLXuOagnU3/EA559xpXr2moUWwi2XP5LfDpM6EOFput5w4QVc07TLYCGrKsKe34fgwWSSEKqA==
+
 supports-color@^8.0.0:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"

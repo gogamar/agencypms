@@ -2,22 +2,22 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application";
+import { application } from "./application"
 
-// import ContentLoader from "stimulus-content-loader";
-// application.register("content-loader", ContentLoader);
+import CallFlatpickrController from "./call_flatpickr_controller"
+application.register("call-flatpickr", CallFlatpickrController)
 
-import CallFlatpickrController from "./call_flatpickr_controller";
-application.register("call-flatpickr", CallFlatpickrController);
+import HelloController from "./hello_controller"
+application.register("hello", HelloController)
 
-import HelloController from "./hello_controller";
-application.register("hello", HelloController);
+import PasswordToggleController from "./password_toggle_controller"
+application.register("password-toggle", PasswordToggleController)
 
-import PasswordToggleController from "./password_toggle_controller";
-application.register("password-toggle", PasswordToggleController);
+import RateComponentController from "./rate_component_controller"
+application.register("rate-component", RateComponentController)
 
-import RateComponentController from "./rate_component_controller";
-application.register("rate-component", RateComponentController);
+import SidebarController from "./sidebar_controller"
+application.register("sidebar", SidebarController)
 
-import SidebarController from "./sidebar_controller";
-application.register("sidebar", SidebarController);
+import SpinnerController from "./spinner_controller"
+application.register("spinner", SpinnerController)
