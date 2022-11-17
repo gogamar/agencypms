@@ -1,8 +1,9 @@
-  <div class="row border-bottom pb-1">
-    <div class="col border-bottom pb-1"><%= l(task.start_time, format: :long) %></div>
-    <div class="col border-bottom pb-1"><%= l(task.end_time, format: :long) %></div>
-    <div class="col border-bottom pb-1"><%= task.title %></div>
-    <div class="col border-bottom pb-1"><%= task.description %></div>
-    <div class="col border-bottom pb-1"><%= link_to "Modificar", edit_task_path(task), class: "btn btn-info" %></div>
-    <div class="col border-bottom pb-1"><%= link_to "Esborrar", task, class: "text-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tasca?"} %></div>
-  </div>
+<div class="row pdf-row pb-1">
+  <div class="col pdf-column"><%= l(task.start_date, format: :long) %></div>
+  <div class="col pdf-column"><%= task.start_time.strftime("%H:%M") %>h</div>
+  <div class="col pdf-column"><%= task.title %></div>
+  <div class="col pdf-column">
+    <%= link_to task, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} do %>
+      <i class="fas fa-trash-can fa-sm"></i>
+    <% end %></div>
+</div>

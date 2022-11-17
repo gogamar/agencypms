@@ -1,17 +1,14 @@
 <p id="notice"><%= notice %></p>
-<div>
-  <%= link_to root_path, class: "btn btn-light btn-icon-split me-3" do %>
-    <span class="icon text-white-600">
-        <i class="fas fa-arrow-left"></i>
-    </span>
-    <span class="text m-0 text-primary" style="font-size: 0.85rem">
-      Tornar
-    </span>
+<%= simple_form_for @task do |f| %>
+<%= f.error_notification %>
+<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+<div class="form-inputs">
+  <% frame_id = dom_id(@task, "name_turbo_frame") %>
+  <%= turbo_frame_tag frame_id do %>
+    <%= f.input_field :start_time, as: :time, required: true, class: "edit-hour mb-1" %>
+    <%= f.input_field :title, required: true, class: "form-control form-control-sm mb-1" %>
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-secondary' %>
   <% end %>
 </div>
-<hr>
-<h4 class="mt-4 font-weight-bold text-primary text-center">Modificar <%= @task.title %></h4>
-<hr>
-<div class="pt-4">
-  <%= render 'form', task: @task %>
-</div>
+<% end %>

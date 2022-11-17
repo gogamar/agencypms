@@ -1,27 +1,19 @@
-
 <%= simple_form_for task do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs"
-    data-controller="tasks"
-    data-unavailable="<%= @unavailable_times.to_json %>"
-    data-default="<%= params[:start_time].to_json %>"
+      data-controller="tasks"
+      data-default=<%= params[:task_date].to_json %>
   >
     <% frame_id = dom_id(task, "name_turbo_frame") %>
     <%= turbo_frame_tag frame_id do %>
-      <%= f.input :title %>
-      <%# f.button :submit %>
-      <%= f.input :description %>
-      <%= f.input :start_time, as: :string, required: true, input_html: { "data-tasks-target" => "startdate"} %>
-      <%# f.input :end_time, as: :datetime %>
-      <%# f.input :start_time, as: :string, required: true, input_html: { "data-tasks-target" => "starttime" }%>
-      <%= f.button :submit %>
-        <% end %>
-    </div>
-
-    <div class="form-actions">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary' %>
-    </div>
-
+      <%= f.input :start_time, as: :time, required: true, class: "form-select-sm", selected: Time.parse("12:00") %>
+      <%= f.input :title, required: true, class: "form-control-sm" %>
+      <div class="d-none">
+        <%= f.input :start_date, as: :string, required: true, class: "form-control-sm", input_html: { value: @default_date } %>
+      </div>
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-secondary' %>
+    <% end %>
+  </div>
 <% end %>

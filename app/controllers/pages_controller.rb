@@ -9,7 +9,8 @@ class PagesController < ApplicationController
     @vrowners = policy_scope(Vrowner)
     @agreements = policy_scope(Agreement)
     @contracts = policy_scope(Contract)
-    @tasks = Task.where(start_time: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week)
+    @task = Task.new
+    @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_time: :asc)
   end
 
   private

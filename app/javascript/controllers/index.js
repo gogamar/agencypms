@@ -2,22 +2,22 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "./application";
 
-import CallFlatpickrController from "./call_flatpickr_controller"
-application.register("call-flatpickr", CallFlatpickrController)
+import CallFlatpickrController from "./call_flatpickr_controller";
+application.register("call-flatpickr", CallFlatpickrController);
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import EditTaskController from "./edit_task_controller";
+application.register("edit-task", EditTaskController);
 
-import PasswordToggleController from "./password_toggle_controller"
-application.register("password-toggle", PasswordToggleController)
+import HelloController from "./hello_controller";
+application.register("hello", HelloController);
 
-import RateComponentController from "./rate_component_controller"
-application.register("rate-component", RateComponentController)
+import PasswordToggleController from "./password_toggle_controller";
+application.register("password-toggle", PasswordToggleController);
 
-import SidebarController from "./sidebar_controller"
-application.register("sidebar", SidebarController)
+import RateComponentController from "./rate_component_controller";
+application.register("rate-component", RateComponentController);
 
-import TasksController from "./tasks_controller"
-application.register("tasks", TasksController)
+import SidebarController from "./sidebar_controller";
+application.register("sidebar", SidebarController);

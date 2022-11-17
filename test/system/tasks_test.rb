@@ -15,7 +15,7 @@ class TasksTest < ApplicationSystemTestCase
     click_on "New task"
 
     fill_in "Description", with: @task.description
-    fill_in "End time", with: @task.end_time
+    fill_in "Start date", with: @task.start_date
     fill_in "Start time", with: @task.start_time
     fill_in "Title", with: @task.title
     click_on "Create Task"
@@ -29,7 +29,7 @@ class TasksTest < ApplicationSystemTestCase
     click_on "Edit this task", match: :first
 
     fill_in "Description", with: @task.description
-    fill_in "End time", with: @task.end_time
+    fill_in "Start date", with: @task.start_date
     fill_in "Start time", with: @task.start_time
     fill_in "Title", with: @task.title
     click_on "Update Task"

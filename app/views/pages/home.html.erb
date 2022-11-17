@@ -93,6 +93,7 @@
     </div>
   </div>
 </div>
+
 <!-- Content Row -->
 <div class="row">
   <!-- Content Column -->
@@ -101,31 +102,39 @@
     <div class="card shadow mb-4">
       <div class="card-header py-3 d-flex justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Agenda</h6>
-        <div>
-          <%= link_to "Afegir cita", new_task_path, class: "btn btn-info btn-sm" %>
-        </div>
+        <%= link_to "Veure totes les cites", tasks_path %>
       </div>
       <div class="card-body" id="tasks">
-        <%= month_calendar(events: @tasks) do |date, tasks| %>
-          <div class="day">
-            <%= date.day %>
-            <%= date %>
-            <%# turbo_frame_tag "new_task" do %>
-            <%= link_to "Afegir cita", new_task_path(start_time: date), class: "text-danger" %>
-            <%# end %>
+        <%= month_calendar(events: @tasks, attribute: :start_date) do |date, tasks| %>
+          <div class="d-flex justify-content-between">
+            <div class="day">
+              <%= date.day %>
+            </div>
+            <div>
+              <small>
+                <% if date >= Date.today %>
+                  <%= link_to new_task_path(starts_at: date), class: "text-success" do %>
+                    <i class="fas fa-calendar-plus fa-sm" data-toggle="tooltip" data-placement="top" title="Afegir cita"></i>
+                  <% end %>
+                <% end %>
+              </small>
+            </div>
           </div>
             <% tasks.each do |task| %>
               <% frame_id = dom_id(task, "name_turbo_frame") %>
               <%= form_with model: task, data: { turbo_frame: frame_id } do |f|%>
                 <%= turbo_frame_tag frame_id do %>
                   <div class="card-text">
-                    <small><%= task.start_time.strftime("%H:%M")%>h: <%= link_to task.title, edit_task_path(task), class: "text-danger" %></small>
-                    <small><%= task.description %></small>
+                    <small>
+                      <%= link_to task, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} do %>
+                          <i class="fas fa-trash-can fa-sm"></i>
+                      <% end %>
+                      <%= task.start_time.strftime("%H:%M") if task.start_time.present? %>h
+                      <%= link_to task.title, edit_task_path(task), class: "text-info" %>
+                    </small>
                   </div>
                 <% end %>
               <% end %>
-              <%# link_to 'Modificar', edit_task_path(task), class: "btn btn-secondary btn-sm" %>
-              <%# link_to 'Esborrar', task, class: "btn btn-danger btn-sm", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} %>
             <% end %>
         <% end %>
       </div>

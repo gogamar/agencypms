@@ -199,6 +199,10 @@ ca:
   #       submit: Desar
   activerecord:
     attributes:
+      task:
+        start_date: "Data d'inici"
+        start_time: "Hora d'inici"
+        title: "Tema"
       rental:
         owner: "Propietari"
         address: "Adreça"
