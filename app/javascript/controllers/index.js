@@ -4,11 +4,11 @@
 
 import { application } from "./application";
 
+// import ContentLoader from "stimulus-content-loader";
+// application.register("content-loader", ContentLoader);
+
 import CallFlatpickrController from "./call_flatpickr_controller";
 application.register("call-flatpickr", CallFlatpickrController);
-
-import EditTaskController from "./edit_task_controller";
-application.register("edit-task", EditTaskController);
 
 import HelloController from "./hello_controller";
 application.register("hello", HelloController);

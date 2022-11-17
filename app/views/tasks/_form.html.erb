@@ -2,10 +2,7 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs"
-      data-controller="tasks"
-      data-default=<%= params[:task_date].to_json %>
-  >
+  <div class="form-inputs">
     <% frame_id = dom_id(task, "name_turbo_frame") %>
     <%= turbo_frame_tag frame_id do %>
       <%= f.input :start_time, as: :time, required: true, class: "form-select-sm", selected: Time.parse("12:00") %>

@@ -2,8 +2,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = policy_scope(Task).order(start_date: :asc).order(start_time: :asc)
-    # @tasks = Task.where("start_date >= ?", Date.today)
+    @tasks = policy_scope(Task)
+    @tasks = Task.where("start_date >= ?", Date.today).order(start_date: :asc).order(start_time: :asc)
     respond_to do |format|
       format.html
       format.pdf do
