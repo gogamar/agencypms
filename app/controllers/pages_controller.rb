@@ -13,6 +13,7 @@ class PagesController < ApplicationController
     @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_time: :asc)
   end
 
+
   private
 
   def find_ownersandrentals

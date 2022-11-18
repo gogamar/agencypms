@@ -1,7 +1,14 @@
 <p id="notice"><%= notice %></p>
 <div class="container-fluid">
   <div class="my-3 text-end">
-    <%= link_to 'Afegir un contracte de lloguer anual nou', rentals_path, class: "btn btn-primary" %>
+    <%= link_to rentals_path, class: "btn btn-secondary btn-icon-split" do %>
+      <span class="icon text-white-50">
+        <i class="fas fa-signature"></i>
+      </span>
+      <span class="text">
+        Afegir contracte de lloguer per un immoble existent
+      </span>
+    <% end %>
   </div>
   <%= render "agreements", agreements: @agreements %>
 </div>

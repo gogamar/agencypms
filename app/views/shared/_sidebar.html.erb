@@ -34,10 +34,10 @@
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
-    <% if current_profile.companytype == "Immobiliària" %>
+    <% if current_profile.comtype_id == 1 %>
     <!-- Heading -->
     <div class="sidebar-heading">
-        <%= current_profile.companytype %>
+        <%= current_profile.comtype.company_type %>
     </div>
     <!-- Nav Item - Lloguer Anual Collapse Menu -->
     <li class="nav-item">
@@ -75,12 +75,12 @@
     <% else %>
     <!-- Heading -->
     <div class="sidebar-heading">
-      <%= current_profile.companytype %>
+      <%= current_profile.comtype.company_type %>
     </div>
     <!-- Nav Item - Lloguer Turístic Collapse Menu -->
     <li class="nav-item">
       <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTuristic" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
-        <i class="fas fa-fw fa-house"></i>
+        <i class="fas fa-fw fa-umbrella-beach"></i>
           <span>Lloguer turístic</span>
       <% end %>
       <div id="collapseTuristic" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">

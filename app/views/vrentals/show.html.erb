@@ -36,7 +36,7 @@
   </p>
   <p>
     <strong>Comissió:</strong>
-    <%= @vrental.commission %>
+    <%= format("%.2f", @vrental.commission.to_f * 100) %>
   </p>
   <p>
     <strong>Descripció:</strong>

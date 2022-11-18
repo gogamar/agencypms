@@ -13,11 +13,8 @@
   <div class="d-flex justify-content-between my-4">
     <h4 class="font-weight-bold text-primary">Totes les cites</h4>
     <div data-controller="spinner">
-      <div data-spinner-target="wheel">
-      </div>
-      <%= button_to 'Imprimir', tasks_path(format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+      <%= link_to 'Imprimir', tasks_path(format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
     </div>
-
   </div>
   <div class="card shadow mb-4 p-4">
     <% if @tasks.exists? %>

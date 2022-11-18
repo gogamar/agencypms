@@ -4,6 +4,8 @@ ca:
   en: "anglès"
   es: "castellà"
   fr: "francès"
+  real estate: "Immobiliària"
+  vacation rentals: "Lloguer turístic"
   page: "Pàgina"
   of: "de"
   nights: "nits"
@@ -203,6 +205,8 @@ ca:
         start_date: "Data d'inici"
         start_time: "Hora d'inici"
         title: "Tema"
+      comtype:
+        company_type: "Tipus d'empresa"
       rental:
         owner: "Propietari"
         address: "Adreça"
@@ -211,6 +215,9 @@ ca:
         energy: "Certificat d'eficiencia energètica"
         description: "Descripció"
         status: "Estatus"
+      profile:
+        comtype_id: "Tipus d'empresa"
+        comtype: "Tipus d'empresa"
       profile_session:
         new:
           profile: "Crear perfil"

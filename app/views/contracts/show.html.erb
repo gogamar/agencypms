@@ -1,9 +1,29 @@
 <p id="notice"><%= notice %></p>
-<%= link_to 'Contracte en PDF', contract_path(@contract, format: :pdf), class: "btn btn-primary" %>
-<div class="page">
+  <div class="d-flex justify-content-between">
+      <div>
+        <%= link_to contracts_path, class: "btn btn-light btn-icon-split me-3" do %>
+          <span class="icon text-white-600">
+              <i class="fas fa-arrow-left"></i>
+          </span>
+          <span class="text m-0 text-primary" style="font-size: 0.85rem">
+            Tornar
+          </span>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to 'Modificar', edit_realestate_contract_path(@contract.realestate, @contract), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @contract, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@contract.realestate.address}?"} %>
+      </div>
+      <div data-controller="spinner" >
+        <%= link_to 'Contracte en PDF', contract_path(@contract, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+      </div>
+  </div>
+
+<div class="page mt-5">
   <%= sanitize @rscontrato %>
 </div>
 <div style="page-break-before: always"><span style="display: none;">&nbsp;</span></div>
-<% @contract.photos.each do |photo| %>
-<%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
-<% end %>
+<div class="d-flex justify-content-center">
+  <% @contract.photos.each do |photo| %>
+    <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill, class: "m-1" %>
+  <% end %>
+</div>

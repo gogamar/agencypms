@@ -3,22 +3,18 @@ class ProfileSessionsController < ApplicationController
   before_action :skip_authorization
 
   def new
-    # @profile = Profile.new
     @profiles = current_user.profiles
     redirect_to new_profile_path if current_user.profiles.empty?
-
-    # gordana: this was in the old code but I don't think it's correct:
-    # @profiles = current_user.profiles ? current_user.profiles : Profile.all
   end
 
   def create
     profile = Profile.find_by(id: params[:profile_id])
     if profile
       session[:profile_id] = profile.id
-        if profile.companytype == "Immobiliària"
-          redirect_to rentals_path
-        elsif profile.companytype == "Lloguer turístic"
-          redirect_to vrentals_path
+        if profile.comtype_id == 1
+          redirect_to agreements_path
+        elsif profile.comtype_id == 2
+          redirect_to vragreements_path
         else
           redirect_to root_path
         end
@@ -32,6 +28,4 @@ class ProfileSessionsController < ApplicationController
     redirect_to root_url
   end
 
-  def log
-  end
 end

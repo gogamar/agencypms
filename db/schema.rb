@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_112757) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_18_102640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,6 +87,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_112757) do
     t.index ["type"], name: "index_ckeditor_assets_on_type"
   end
 
+  create_table "comtypes", force: :cascade do |t|
+    t.string "company_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_comtypes_on_user_id"
+  end
+
   create_table "contracts", force: :cascade do |t|
     t.float "price"
     t.text "contentarea"
@@ -136,7 +144,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_112757) do
     t.string "companyname"
     t.string "address"
     t.string "vat"
-    t.string "companytype"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -147,6 +154,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_112757) do
     t.string "companycity"
     t.string "officephone"
     t.string "companyphone"
+    t.bigint "comtype_id"
+    t.index ["comtype_id"], name: "index_profiles_on_comtype_id"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -260,6 +269,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_112757) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -334,11 +344,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_112757) do
   add_foreign_key "agreements", "rentaltemplates"
   add_foreign_key "agreements", "renters"
   add_foreign_key "buyers", "users"
+  add_foreign_key "comtypes", "users"
   add_foreign_key "contracts", "buyers"
   add_foreign_key "contracts", "realestates"
   add_foreign_key "contracts", "rstemplates"
   add_foreign_key "features", "users"
   add_foreign_key "owners", "users"
+  add_foreign_key "profiles", "comtypes"
   add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "realestates", "sellers"

@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+<div>
+  <%= link_to comtypes_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<hr>
+<h4 class="mt-4 font-weight-bold text-primary text-center">Modificar <%= comtype.company_type %></h4>
+<hr>
+<div class="container my-5 w-75">
+  <%= render 'form', comtype: @comtype %>
+</div>

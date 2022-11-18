@@ -1,17 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy, :purge_photo]
-  # before_action :skip_authorization, only: :index
-  # # it was set to only show and edit, but it didn't allow modifying them then
   skip_before_action :authenticate_profile!
-  before_action :skip_authorization
-
-  def index
-    @profiles = current_user.profiles
-    # if params[:query].present?
-    #   sql_query = " profiles.name ILIKE :query "
-    #   @profiles = @profiles.where(sql_query, query: "%#{params[:query]}%")
-    # end
-  end
 
   def purge_photo
     @profile = Profile.find(params[:id])
@@ -20,25 +9,25 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @profile = Profile.find(params[:id])
-    # authorize @profile
+    authorize @profile
   end
 
   def new
+    @comtypes = Comtype.all
     @profile = Profile.new
-    # authorize @profile
+    authorize @profile
   end
 
   def destroy
+    authorize @profile
     @profile.destroy
-    #redirect_to new_profile_session_path
-    redirect_to profiles_url, notice: 'Profile was successfully destroyed.'
+    redirect_to new_profile_session_path, notice: 'Has esborrat el perfil.'
   end
 
   def create
     @profile = Profile.new(profile_params)
-    # authorize @profile
     @profile.user = current_user
+    authorize @profile
     if @profile.save
       profile_log_in @profile
       flash[:success] = "Has creat un nou perfil!"
@@ -49,11 +38,12 @@ class ProfilesController < ApplicationController
   end
 
   def edit
-    @profile = Profile.find(params[:id])
+    authorize @profile
+    @comtypes = policy_scope(Comtype)
   end
 
   def update
-    @profile = Profile.find(params[:id])
+    authorize @profile
     if @profile.update(profile_params)
       redirect_to new_profile_session_path
     else
@@ -68,6 +58,6 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:businessname, :officeaddress, :officezip, :officecity, :officephone, :companyname, :address, :companyzip, :companycity, :companyphone, :vat, :companytype, :photo, :user_id)
+    params.require(:profile).permit(:businessname, :officeaddress, :officezip, :officecity, :officephone, :companyname, :address, :companyzip, :companycity, :companyphone, :vat, :photo, :comtype_id, :user_id)
   end
 end

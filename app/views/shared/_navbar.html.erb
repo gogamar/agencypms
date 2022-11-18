@@ -20,7 +20,7 @@
             <% if user_signed_in? %>
               <% if profile_logged_in? %>
                   <%# if IMMOBILIARIA %>
-                  <% if current_profile.companytype == "Immobiliària" %>
+                  <% if current_profile.comtype_id = 1 %>
                     <%# First dropdown - LLOGUER ANUAL %>
                     <li class="nav-item dropdown">
                       <%= link_to "Lloguer anual", "#", class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>

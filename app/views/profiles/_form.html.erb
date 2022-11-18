@@ -3,7 +3,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <div class="row">
       <div class="col-lg-6">
-        <%= f.input :companytype, label: 'Tipus d\'empresa', priority: [ "Immobiliària" ], collection: [ "Immobiliària", "Lloguer turístic"]%>
+        <%= f.input :comtype_id, collection: @comtypes.map {|ct| [t("#{ct.company_type}"),ct.id]} %>
       </div>
       <div class="col-lg-6">
         <%= f.input :businessname, label: 'Nom comercial de la empresa' %>

@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :agreements, through: :rentals
   has_many :contracts, through: :realestates, dependent: :destroy
   has_many :rates, through: :vrentals, dependent: :destroy
+  has_many :company_types
   has_one_attached :photo, dependent: :destroy
   after_create :send_welcome_email
 

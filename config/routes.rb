@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
       root to: "pages#home"
       devise_for :users, path: 'usuaris'
-      resources :tasks
+      resources :tasks, path: 'cites'
+      resources :comtypes, path: 'tipus-empresa', only: [:new, :create, :edit, :update, :index, :destroy]
 
       resources :users, path: 'usuaris' do
         member do

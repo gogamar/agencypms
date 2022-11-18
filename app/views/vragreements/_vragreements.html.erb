@@ -59,7 +59,7 @@
                 <%= vragreement.vrental.name %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= vragreement.vrental.commission if vragreement.vrental %>
+                <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
               </div>
               <div class="col-lg-2 border-start border-end">
                 <%= vragreement.vrentaltemplate.title if vragreement.vrentaltemplate %>
