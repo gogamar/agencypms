@@ -134,6 +134,6 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
+    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :down_payment_text, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
   end
 end
