@@ -6,7 +6,8 @@
   </div>
   <h5>Variables disponibles</h5>
   <p>
-{{data_firma}} {{lloc_firma}} {{preu}} {{preu_text}} {{clausula_adicional}} {{venedor}} {{dni_venedor}} {{adr_venedor}} {{email_venedor}} {{tel_venedor}} {{compte_venedor}} {{comprador}} {{dni_comprador}} {{adr_comprador}} {{email_comprador}} {{tel_comprador}} {{compte_comprador}} {{adr_immoble}} {{poblacio_immoble}} {{cadastre}} {{cert_energetic}} {{descripcio}} {{oficina_registre}} {{tom}} {{llibre}} {{foli}} {{num_finca_registre}} {{inscripcio}} {{carregues}} {{cedula}} {{data_cedula}} {{arres}}
+{{num_api}} {{num_aicat}}
+{{data_firma}} {{lloc_firma}} {{preu}} {{preu_text}} {{clausula_adicional}} {{venedor}} {{dni_venedor}} {{adr_venedor}} {{email_venedor}} {{tel_venedor}} {{compte_venedor}} {{comprador}} {{dni_comprador}} {{adr_comprador}} {{email_comprador}} {{tel_comprador}} {{compte_comprador}} {{adr_immoble}} {{poblacio_immoble}} {{cadastre}} {{cert_energetic}} {{descripcio}} {{oficina_registre}} {{tom}} {{llibre}} {{foli}} {{num_finca_registre}} {{inscripcio}} {{carregues}} {{cedula}} {{data_cedula}} {{import_arres}}
   </p>
   <div class="form-inputs">
     <%= f.input :language, priority: [ t("ca"), "ca" ], collection: [ [t("ca"), "ca"], [t("es"), "es"], [t("fr"), "fr"], [t("en"), "en"] ], label_method: :first, value_method: :second %>

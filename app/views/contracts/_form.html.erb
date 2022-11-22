@@ -23,6 +23,14 @@
       <%= f.input :pricetext, hint: "per exemple: TRES-CENTS MIL" %>
     </div>
   </div>
+    <div class="row justify-content-md-center">
+    <div class="col-lg-6">
+      <%= f.input :down_payment, hint: "per exemple: 3000" %>
+    </div>
+    <div class="col-lg-6">
+      <%= f.input :down_payment_text, hint: "per exemple: TRES MIL" %>
+    </div>
+  </div>
   <div class="row justify-content-md-center">
     <%= f.input :contentarea, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
   </div>

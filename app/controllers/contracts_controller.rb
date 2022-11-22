@@ -27,6 +27,8 @@ class ContractsController < ApplicationController
     @rstemplate = @contract.rstemplate
 
     details = {
+      num_aicat: current_profile.aicat.present? ? current_profile.aicat : '',
+      num_api: current_profile.api.present? ? current_profile.api : '',
       data_firma: @contract.signdate.present? ? l(@contract.signdate, format: :long) : '',
       lloc_firma: @contract.place.present? ? @contract.place : '',
       preu: @contract.price.present? ? format("%.2f",@contract.price) : '',
@@ -58,7 +60,7 @@ class ContractsController < ApplicationController
       carregues: @realestate.charges.present? ? @realestate.charges : '',
       cedula: @realestate.habitability.present? ? @realestate.habitability : '',
       data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long) : '',
-      arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : ''
+      import_arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : ''
     }
 
     body = @rstemplate.text.to_s

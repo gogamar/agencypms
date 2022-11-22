@@ -44,10 +44,10 @@ class RstemplatesController < ApplicationController
     if params[:commit] == "Desar com model de contracte nou"
       @rstemplate = Rstemplate.new(rstemplate_params)
       @rstemplate.save!
-      redirect_to @rstemplate, notice: 'S\'ha creat un nou model de contracte'
+      redirect_to rstemplates_path, notice: 'S\'ha creat un nou model de contracte'
     elsif params[:commit] == "Desar"
       @rstemplate.update(rstemplate_params)
-      redirect_to @rstemplate, notice: 'S\'ha actualitzat el model de contracte'
+      redirect_to rstemplate_path(@rstemplate), notice: 'S\'ha actualitzat el model de contracte'
     else
       render :edit
     end

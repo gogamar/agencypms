@@ -224,6 +224,22 @@ ca:
         title: "Tema"
       comtype:
         company_type: "Tipus d'empresa"
+      buyer:
+        fullname: "Nom i cognoms"
+        address: "Adreça"
+        phone: "Telèfon"
+        email: "Email"
+        document: "DNI"
+        account: "Compte bancari"
+        language: "Idioma"
+      seller:
+        fullname: "Nom i cognoms"
+        address: "Adreça"
+        phone: "Telèfon"
+        email: "Email"
+        document: "DNI"
+        account: "Compte bancari"
+        language: "Idioma"
       rental:
         owner: "Propietari"
         address: "Adreça"
@@ -283,6 +299,8 @@ ca:
         signdate: "Data de la firma"
         price: "Preu"
         pricetext: "Preu escrit en lletres"
+        down_payment: "L'import pagat Arres"
+        down_payment_text: "L'import pagat Arres escrit en lletres"
       rstemplate:
         title: "Títol"
         language: "Idioma"
