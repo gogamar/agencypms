@@ -6,7 +6,16 @@
     <%= f.input :address %>
     <%= f.input :city %>
     <%= f.input :cadastre %>
+    <%= f.input :habitability %>
+    <%= f.input :hab_date %>
     <%= f.input :energy %>
+    <%= f.input :registrar %>
+    <%= f.input :volume %>
+    <%= f.input :book %>
+    <%= f.input :sheet %>
+    <%= f.input :registry %>
+    <%= f.input :entry, hint: "Per exemple: Inscripció 2ª amb data 26/04/1989" %>
+    <%= f.input :charges, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
     <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 }, hint: "Per exemple: El pis d'uns 55m2 útils aproximats consta de 2 habitacions dobles, una cuina independent, menjador sala d'estar amb sortida a terrassa i un lavabo." %>
   <div class="d-flex justify-content-between align-items-center">
       <div class="w-50 me-3">

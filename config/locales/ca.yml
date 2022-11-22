@@ -201,6 +201,23 @@ ca:
   #       submit: Desar
   activerecord:
     attributes:
+      realestate:
+        status: "Estatus"
+        address: "Adreça"
+        city: "Municipi"
+        description: "Descripció de la finca (del registre de propietat)"
+        seller: "Venedor"
+        cadastre: "Cadastre"
+        energy: "Certificat d'eficiencia energètica"
+        registrar: "Número de la oficina registradora - registre de propietat"
+        volume: "Tom"
+        book: "Llibre"
+        sheet: "Foli"
+        registry: "Finca registral número"
+        entry: "Inscripció"
+        charges: "Càrregues i gravemens"
+        habitability: "Número cédula habitabilitat"
+        hab_date: "Data cédula habitabilitat"
       task:
         start_date: "Data d'inici"
         start_time: "Hora d'inici"
@@ -218,6 +235,8 @@ ca:
       profile:
         comtype_id: "Tipus d'empresa"
         comtype: "Tipus d'empresa"
+        aicat: "Número AICAT"
+        api: "Número API"
       profile_session:
         new:
           profile: "Crear perfil"
@@ -259,6 +278,14 @@ ca:
         email: "Email"
         account: "Compte bancari"
         vrowner_bookings: "Reserves per el propietari"
+      contract:
+        contentarea: "Descripció registral finca"
+        signdate: "Data de la firma"
+        price: "Preu"
+        pricetext: "Preu escrit en lletres"
+      rstemplate:
+        title: "Títol"
+        language: "Idioma"
       agreement:
         owner: "Propietari"
         rental: "Casa o apartament"

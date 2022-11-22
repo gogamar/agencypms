@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_18_102640) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_22_091357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -106,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_102640) do
     t.bigint "buyer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "down_payment"
     t.index ["buyer_id"], name: "index_contracts_on_buyer_id"
     t.index ["realestate_id"], name: "index_contracts_on_realestate_id"
     t.index ["rstemplate_id"], name: "index_contracts_on_rstemplate_id"
@@ -155,6 +156,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_102640) do
     t.string "officephone"
     t.string "companyphone"
     t.bigint "comtype_id"
+    t.string "aicat"
+    t.string "api"
     t.index ["comtype_id"], name: "index_profiles_on_comtype_id"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
@@ -184,6 +187,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_102640) do
     t.bigint "seller_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "registrar"
+    t.string "volume"
+    t.string "book"
+    t.string "sheet"
+    t.string "registry"
+    t.string "entry"
+    t.text "charges"
+    t.string "habitability"
+    t.date "hab_date"
     t.index ["seller_id"], name: "index_realestates_on_seller_id"
     t.index ["user_id"], name: "index_realestates_on_user_id"
   end

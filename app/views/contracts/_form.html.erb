@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="row justify-content-md-center">
-    <%= f.input :contentarea, label: 'Clausula especial', as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
+    <%= f.input :contentarea, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
   </div>
   <div class="row justify-content-md-center">
     <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>

@@ -58,6 +58,6 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:businessname, :officeaddress, :officezip, :officecity, :officephone, :companyname, :address, :companyzip, :companycity, :companyphone, :vat, :photo, :comtype_id, :user_id)
+    params.require(:profile).permit(:businessname, :officeaddress, :api, :aicat, :officezip, :officecity, :officephone, :companyname, :address, :companyzip, :companycity, :companyphone, :vat, :photo, :comtype_id, :user_id)
   end
 end

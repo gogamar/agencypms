@@ -38,10 +38,27 @@ class ContractsController < ApplicationController
       email_venedor: @realestate.seller.present? && @realestate.seller.email.present? ? @realestate.seller.email : '',
       tel_venedor: @realestate.seller.present? && @realestate.seller.phone.present? ? @realestate.seller.phone : '',
       compte_venedor: @realestate.seller.present? && @realestate.seller.account.present? ? @realestate.seller.account : '',
+      comprador: @contract.buyer.present? && @contract.buyer.fullname.present? ? @contract.buyer.fullname : '',
+      dni_comprador: @contract.buyer.present? && @contract.buyer.document.present? ? @contract.buyer.document : '',
+      adr_comprador: @contract.buyer.present? && @contract.buyer.address.present? ? @contract.buyer.address : '',
+      email_comprador: @contract.buyer.present? && @contract.buyer.email.present? ? @contract.buyer.email : '',
+      tel_comprador: @contract.buyer.present? && @contract.buyer.phone.present? ? @contract.buyer.phone : '',
+      compte_comprador: @contract.buyer.present? && @contract.buyer.account.present? ? @contract.buyer.account : '',
       adr_immoble: @realestate.address.present? ? @realestate.address : '',
+      poblacio_immoble: @realestate.city.present? ? @realestate.city : '',
       cadastre: @realestate.cadastre.present? ? @realestate.cadastre : '',
       cert_energetic: @realestate.energy.present? ? @realestate.energy : '',
-      descripcio: @realestate_description.to_s
+      descripcio: @realestate.description.present? ? @realestate.description : '',
+      oficina_registre: @realestate.registrar.present? ? @realestate.registrar : '',
+      tom: @realestate.volume.present? ? @realestate.volume : '',
+      llibre: @realestate.book.present? ? @realestate.book : '',
+      foli: @realestate.sheet.present? ? @realestate.sheet : '',
+      num_finca_registre: @realestate.registry.present? ? @realestate.registry : '',
+      inscripcio: @realestate.entry.present? ? @realestate.entry : '',
+      carregues: @realestate.charges.present? ? @realestate.charges : '',
+      cedula: @realestate.habitability.present? ? @realestate.habitability : '',
+      data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long) : '',
+      arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : ''
     }
 
     body = @rstemplate.text.to_s
@@ -115,6 +132,6 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
+    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
   end
 end
