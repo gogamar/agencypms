@@ -12,7 +12,13 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <h4 class="font-weight-bold text-primary text-center mb-2">Modificar el contracte de compravenda de <%= @realestate.address %></h4>
-    <p class="text-secondary text-center mb-2">Venedor: <%= @realestate.seller.fullname %></p>
+      <div class="d-flex justify-content-center">
+        <% if @realestate.seller.present? %>
+          <p class="text-secondary text-center mb-2">Venedor: <%= @realestate.seller.fullname %></p>
+        <% else %>
+          <%= link_to "Afegir propietari", edit_realestate_path(@realestate) %>
+        <% end %>
+      </div>
     <hr>
     <div class="container d-flex justify-content-center mt-5 pb-5">
       <%= render 'form', realestate: @realestate, contract: @contract %>
