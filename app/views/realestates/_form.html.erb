@@ -17,7 +17,9 @@
     <%= f.input :registry %>
     <%= f.input :entry, hint: "Per exemple: Inscripció 2ª amb data 26/04/1989" %>
     <%= f.input :charges, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :charges_screenshot, label: 'Afegir càrregues com pantallazo', as: :file %>
     <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 }, hint: "Per exemple: El pis d'uns 55m2 útils aproximats consta de 2 habitacions dobles, una cuina independent, menjador sala d'estar amb sortida a terrassa i un lavabo." %>
+     <%= f.input :description_screenshot, label: 'Afegir descripció registral com pantallazo', as: :file %>
   <div class="d-flex justify-content-between align-items-center">
       <div class="w-50 me-3">
       <%= f.association :seller, label_method: :fullname %>

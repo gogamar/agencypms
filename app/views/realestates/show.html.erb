@@ -36,7 +36,14 @@
     </p>
     <p>
       <strong>Descripció:</strong>
-      <%= @realestate.description %>
+      <%= @realestate.description if @realestate.description %>
+      <%= cl_image_tag @realestate.description_screenshot.key, height: 300, width: 400, crop: :fill %>
+    </p>
+    <p>
+    <p>
+      <strong>Càrregues:</strong>
+      <%= @realestate.charges if @realestate.charges %>
+      <%= cl_image_tag @realestate.charges_screenshot.key, height: 300, width: 400, crop: :fill %>
     </p>
     <p>
     <strong>Propietari:</strong>

@@ -6,7 +6,6 @@ class Contract < ApplicationRecord
   validates :rstemplate_id, presence: true
   has_many_attached :photos
 
-
   def self.parse_template(template, attrs = {})
     result = template
     attrs.each { |field, value| result.gsub!("{{#{field}}}", value) }
