@@ -1,7 +1,7 @@
 <%= simple_form_for [ vrental, vragreement ] do |f| %>
   <div class="row justify-content-md-center">
     <div class="col-lg-12">
-      <%= f.association :vrentaltemplate, label_method: :title, label: 'Model', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
+      <%= f.association :vrentaltemplate, collection: @vrentaltemplates, label_method: :title, label: 'Model', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>
      <%# date and place row %>

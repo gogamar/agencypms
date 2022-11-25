@@ -4,7 +4,7 @@
       <%= f.association :renter, label_method: :fullname, label: 'Inquili', include_blank: true, label: ("Seleccionar inquili o #{link_to 'Afegir inquili nou', new_renter_path, target: "_blank"}.").html_safe %>
     </div>
     <div class="col-lg-6">
-      <%= f.association :rentaltemplate, label_method: :title, label: 'Plantilla', include_blank: true, label: ("Seleccionar model o #{link_to 'Afegir model nou', new_rentaltemplate_path,  target: "_blank"}.").html_safe %>
+      <%= f.association :rentaltemplate, collection: @rentaltemplates, label_method: :title, label: 'Plantilla', include_blank: true, label: ("Seleccionar model o #{link_to 'Afegir model nou', new_rentaltemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>
   <div class="row justify-content-md-center">

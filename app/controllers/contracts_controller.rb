@@ -93,10 +93,12 @@ class ContractsController < ApplicationController
   def new
     @contract = Contract.new
     authorize @contract
+    @rstemplates = policy_scope(Rstemplate)
   end
 
   def edit
     authorize @contract
+    @rstemplates = policy_scope(Rstemplate)
   end
 
   def create

@@ -75,10 +75,12 @@ class AgreementsController < ApplicationController
   def new
     @agreement = Agreement.new
     authorize @agreement
+    @rentaltemplates = policy_scope(Rentaltemplate)
   end
 
   def edit
     authorize @agreement
+    @rentaltemplates = policy_scope(Rentaltemplate)
   end
 
   def create

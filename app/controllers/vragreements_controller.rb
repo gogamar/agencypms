@@ -91,10 +91,12 @@ class VragreementsController < ApplicationController
   def new
     @vragreement = Vragreement.new
     authorize @vragreement
+    @vrentaltemplates = policy_scope(Vrentaltemplate)
   end
 
   def edit
     authorize @vragreement
+    @vrentaltemplates = policy_scope(Vrentaltemplate)
   end
 
   def create

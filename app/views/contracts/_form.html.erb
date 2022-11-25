@@ -4,7 +4,7 @@
       <%= f.association :buyer, label_method: :fullname, label: 'Inquili', include_blank: true, label: ("Seleccionar comprador o #{link_to 'Afegir comprador nou', new_buyer_path, target: "_blank"}.").html_safe %>
     </div>
     <div class="col-lg-6">
-      <%= f.association :rstemplate, label_method: :title, label: 'Model de contracte', include_blank: true, label: ("Seleccionar model o #{link_to 'Afegir model nou', new_rstemplate_path,  target: "_blank"}.").html_safe %>
+      <%= f.association :rstemplate, collection: @rstemplates, label_method: :title, label: 'Model de contracte', include_blank: true, label: ("Seleccionar model o #{link_to 'Afegir model nou', new_rstemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>
   <div class="row justify-content-md-center">
