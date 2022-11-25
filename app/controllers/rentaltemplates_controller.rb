@@ -72,6 +72,6 @@ class RentaltemplatesController < ApplicationController
   end
 
   def rentaltemplate_params
-    params.require(:rentaltemplate).permit(:title, :text, :language)
+    params.require(:rentaltemplate).permit(:title, :text, :language, :public)
   end
 end

@@ -66,6 +66,6 @@ class RstemplatesController < ApplicationController
   end
 
   def rstemplate_params
-    params.require(:rstemplate).permit(:title, :text, :language)
+    params.require(:rstemplate).permit(:title, :text, :language, :public)
   end
 end
