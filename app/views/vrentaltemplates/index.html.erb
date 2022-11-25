@@ -38,7 +38,7 @@
               <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', vrentaltemplate %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_vrentaltemplate_path(vrentaltemplate) %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_vrentaltemplate_path(vrentaltemplate) %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"} %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"} if policy(vrentaltemplate).destroy?  %></div>
             </div>
           <% end %>
         </div>

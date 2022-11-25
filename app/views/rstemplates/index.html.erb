@@ -38,7 +38,7 @@
               <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', rstemplate %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_rstemplate_path(rstemplate) %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_rstemplate_path(rstemplate) %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', rstemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{rstemplate.title}?"} %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', rstemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{rstemplate.title}?"} if policy(rstemplate).destroy? %></div>
             </div>
           <% end %>
         </div>
