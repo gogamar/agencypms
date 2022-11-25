@@ -4,7 +4,7 @@ class VrentaltemplatePolicy < ApplicationPolicy
     def resolve
       # scope.all # If users can see all rentals
       # show only the rentals that have the same user_id as current user (user_id: user.id)
-      scope.where(user: user) # If users can only see their rentals
+      scope.where(user: user).or(scope.where(user_id: User.where(admin: true).first.id)) # If users can only see their rentals
       # scope.where("name LIKE 't%'") # If users can only see rentals starting with `t`
     end
   end
