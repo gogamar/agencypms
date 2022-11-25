@@ -1,8 +1,18 @@
 <%= simple_form_for(@vrentaltemplate) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="form-inputs">
-    <%= f.input :title %>
+  <div class="form-inputs d-flex justify-content-between">
+    <div class="w-50">
+      <%= f.input :title, class: "form-control" %>
+    </div>
+    <div class="w-25">
+      <%= f.input :language, priority: [ t(".ca"), "ca" ], collection: [ [t(".ca"), "ca"], [t(".es"), "es"], [t(".fr"), "fr"], [t(".en"), "en"] ], label_method: :first, value_method: :second, class:"form-control w-25"  %>
+    </div>
+    <% if current_user.admin? %>
+    <div>
+      <%= f.input :public, as: :select, collection: [['Sí',true], ['No',false]], required: true, class:"form-control w-25" %>
+    </div>
+    <% end %>
   </div>
 
   <h5>Variables disponibles</h5>
@@ -11,8 +21,8 @@
 </p>
 
   <div class="form-inputs">
-    <%= f.input :language, priority: [ t(".ca"), "ca" ], collection: [ [t(".ca"), "ca"], [t(".es"), "es"], [t(".fr"), "fr"], [t(".en"), "en"] ], label_method: :first, value_method: :second %>
-    <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
+
+      <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
   </div>
 
   <div class="form-actions text-end">

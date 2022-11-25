@@ -73,6 +73,6 @@ class VrentaltemplatesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vrentaltemplate_params
-    params.require(:vrentaltemplate).permit(:title, :text, :language)
+    params.require(:vrentaltemplate).permit(:title, :text, :language, :public)
   end
 end

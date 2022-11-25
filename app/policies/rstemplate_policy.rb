@@ -4,7 +4,7 @@ class RstemplatePolicy < ApplicationPolicy
     def resolve
       # scope.all # If users can see all records
       # show only the records that have the same user_id as current user (user_id: user.id)
-      scope.where(user: user).or(scope.where(user_id: User.where(admin: true).first.id)) # If users can only see their records or admin's records
+      scope.where(user: user).or(scope.where(user_id: User.where(admin: true).first.id).where(public: true)) # If users can only see their records or admin's records
       # scope.where("name LIKE 't%'") # If users can only see records starting with `t`
     end
   end

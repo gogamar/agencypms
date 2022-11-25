@@ -36,7 +36,7 @@
               <div class="col-lg-2 border-start border-end"><%= rentaltemplate.title %></div>
               <div class="col-lg-2 border-start border-end"><%= rentaltemplate.language %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', rentaltemplate %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_rentaltemplate_path(rentaltemplate) %></div>
+              <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_rentaltemplate_path(rentaltemplate) if policy(rentaltemplate).edit?  %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_rentaltemplate_path(rentaltemplate) %></div>
               <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', rentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{rentaltemplate.title}?"} if policy(rentaltemplate).destroy? %></div>
             </div>
