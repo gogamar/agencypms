@@ -26,6 +26,7 @@ class ContractsController < ApplicationController
     @realestate = @contract.realestate
     @rstemplate = @contract.rstemplate
 
+
     details = {
       num_aicat: current_profile.aicat.present? ? current_profile.aicat : '',
       num_api: current_profile.api.present? ? current_profile.api : '',
@@ -51,7 +52,7 @@ class ContractsController < ApplicationController
       cadastre: @realestate.cadastre.present? ? @realestate.cadastre : '',
       cert_energetic: @realestate.energy.present? ? @realestate.energy : '',
       descripcio: @realestate.description.present? ? @realestate.description : '',
-      pantallazo_descripcio: @realestate.description_screenshot.present? ? "<img src='#{url_for(@realestate.description_screenshot)}'>" : '',
+      pantallazo_descripcio: @realestate.description_screenshot.present? ? "<img src='#{@realestate.description_screenshot.url}'>" : '',
       oficina_registre: @realestate.registrar.present? ? @realestate.registrar : '',
       tom: @realestate.volume.present? ? @realestate.volume : '',
       llibre: @realestate.book.present? ? @realestate.book : '',
@@ -59,7 +60,7 @@ class ContractsController < ApplicationController
       num_finca_registre: @realestate.registry.present? ? @realestate.registry : '',
       inscripcio: @realestate.entry.present? ? @realestate.entry : '',
       carregues: @realestate.charges.present? ? @realestate.charges : '',
-      pantallazo_carregues: @realestate.charges_screenshot.present? ? "<img src='#{url_for(@realestate.charges_screenshot)}'>" : '',
+      pantallazo_carregues: @realestate.charges_screenshot.present? ? "<img src='#{@realestate.charges_screenshot.url}'>" : '',
       cedula: @realestate.habitability.present? ? @realestate.habitability : '',
       data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long) : '',
       import_arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : ''
