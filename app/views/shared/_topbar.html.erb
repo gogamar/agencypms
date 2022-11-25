@@ -62,7 +62,7 @@
           </a>
       </div>
     </li>
-      <% if controller.controller_name == "agreements" || controller.controller_name == "vragreements" %>
+      <% if params[:controller] == 'agreements' && params[:action] == 'show' || params[:controller] == 'vragreements' && params[:action] == 'show' || params[:controller] == 'contracts' && params[:action] == 'show' %>
         <li class="nav-item dropdown">
           <% I18n.available_locales.each do |lang| %>
             <% if I18n.locale === lang || params[:locale] === lang %>
