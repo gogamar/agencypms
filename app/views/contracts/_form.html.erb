@@ -23,7 +23,7 @@
       <%= f.input :pricetext, hint: "per exemple: TRES-CENTS MIL" %>
     </div>
   </div>
-    <div class="row justify-content-md-center">
+  <div class="row justify-content-md-center">
     <div class="col-lg-6">
       <%= f.input :down_payment, hint: "per exemple: 3000" %>
     </div>
@@ -32,10 +32,38 @@
     </div>
   </div>
   <div class="row justify-content-md-center">
+    <div class="col-lg-3">
+      <%= f.input :dp_part1, hint: "per exemple: 3000" %>
+    </div>
+    <div class="col-lg-3">
+      <%= f.input :dp_part1_text, hint: "per exemple: TRES MIL" %>
+    </div>
+    <div class="col-lg-3">
+      <%= f.input :dp_part2, hint: "per exemple: 3000" %>
+    </div>
+    <div class="col-lg-3">
+      <%= f.input :dp_part2_text, hint: "per exemple: TRES MIL" %>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-4">
+      <%= f.input :signdate_notary, hint: "per exemple: Palamos" %>
+    </div>
+    <div class="col-lg-4">
+      <%= f.input :min_notice, hint: "per exemple: 5 dies" %>
+    </div>
+    <div class="col-lg-4">
+      <%= f.input :court, hint: "per exemple: La Bisbal d'Empordà" %>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
     <%= f.input :contentarea, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
   </div>
   <div class="row justify-content-md-center">
     <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>
+  </div>
+  <div class="row justify-content-md-center">
+    <%= f.input :addendums, label: 'Anexes', as: :file, input_html: { multiple: true } %>
   </div>
   <div class="form-actions row gx-4">
     <div class="col text-end">

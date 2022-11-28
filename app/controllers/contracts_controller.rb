@@ -33,7 +33,7 @@ class ContractsController < ApplicationController
       data_firma: @contract.signdate.present? ? l(@contract.signdate, format: :long) : '',
       lloc_firma: @contract.place.present? ? @contract.place : '',
       preu: @contract.price.present? ? format("%.2f",@contract.price) : '',
-      preu_text: @contract.pricetext.present? ? @contract.pricetext : '',
+      preu_text: @contract.pricetext.present? ? @contract.pricetext.upcase : '',
       clausula_adicional: @contract.contentarea.to_s,
       venedor: @realestate.seller.present? && @realestate.seller.fullname.present? ? @realestate.seller.fullname : '',
       dni_venedor: @realestate.seller.present? && @realestate.seller.document.present? ? @realestate.seller.document : '',
@@ -54,6 +54,7 @@ class ContractsController < ApplicationController
       descripcio: @realestate.description.present? ? @realestate.description : '',
       pantallazo_descripcio: @realestate.description_screenshot.present? ? "<img src='#{@realestate.description_screenshot.url}'>" : '',
       oficina_registre: @realestate.registrar.present? ? @realestate.registrar : '',
+      codi_cru: @realestate.registry_code.present? ? @realestate.registry_code : '',
       tom: @realestate.volume.present? ? @realestate.volume : '',
       llibre: @realestate.book.present? ? @realestate.book : '',
       foli: @realestate.sheet.present? ? @realestate.sheet : '',
@@ -63,7 +64,8 @@ class ContractsController < ApplicationController
       pantallazo_carregues: @realestate.charges_screenshot.present? ? "<img src='#{@realestate.charges_screenshot.url}'>" : '',
       cedula: @realestate.habitability.present? ? @realestate.habitability : '',
       data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long) : '',
-      import_arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : ''
+      import_arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : '',
+      import_arres_text: @contract.down_payment_text.present? ? @contract.down_payment_text.upcase : ''
     }
 
     body = @rstemplate.text.to_s
@@ -139,6 +141,6 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :down_payment_text, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [])
+    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :down_payment_text, :realestate_id, :buyer_id, :rstemplate_id, :contentarea, photos: [], addendums: [])
   end
 end

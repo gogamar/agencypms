@@ -35,15 +35,19 @@
       <%= @realestate.energy %>
     </p>
     <p>
+      <strong>C.R.U. (Codi registral únic):</strong>
+      <%= @realestate.registry_code %>
+    </p>
+    <p>
       <strong>Descripció:</strong>
       <%= @realestate.description if @realestate.description %>
-      <%= cl_image_tag @realestate.description_screenshot.key, height: 300, width: 400, crop: :fill %>
+      <%= cl_image_tag @realestate.description_screenshot.key, height: 300, width: 400, crop: :fill if @realestate.description_screenshot.present? %>
     </p>
     <p>
     <p>
       <strong>Càrregues:</strong>
       <%= @realestate.charges if @realestate.charges %>
-      <%= cl_image_tag @realestate.charges_screenshot.key, height: 300, width: 400, crop: :fill %>
+      <%= cl_image_tag @realestate.charges_screenshot.key, height: 300, width: 400, crop: :fill if @realestate.charges_screenshot.present?  %>
     </p>
     <p>
     <strong>Propietari:</strong>

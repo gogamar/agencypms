@@ -7,6 +7,11 @@ class UsersController < ApplicationController
   end
 
   def index
+    if params[:approved] == "false"
+      @users = User.where(approved: false)
+    else
+      @users = policy_scope(User)
+    end
     redirect_back fallback_location: root_path, notice: "Has esborrat el teu compte."
   end
 

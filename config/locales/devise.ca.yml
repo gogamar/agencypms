@@ -7,6 +7,7 @@ ca:
       send_instructions: "En breu rebràs un correu electrònic amb instruccions sobre com confirmar el teu compte."
       send_paranoid_instructions: "Si la teva adreça electrònica existeix a la base de dades, rebràs un correu electrònic amb instruccions sobre com confirmar el teu compte."
     failure:
+      not_approved: "El teu compte encara no ha estat aprovat per l'administrador."
       already_authenticated: "Ja estàs identificat."
       inactive: "El teu compte encara no ha estat activat."
       invalid: "%{authentication_keys} o contrasenya invàlids."
@@ -34,6 +35,7 @@ ca:
       updated_not_active: "La teva contrasenya ha estat canviada correctament."
     registrations:
       destroyed: "Adéu! El teu compte ha estat cancel·lat correctament. Esperem tornar-te a veure!"
+      signed_up_but_not_approved: "T'has registrat correctament, però el teu compte encara no ha estat aprovat per l'administrador."
       signed_up: "Has estat registrat correctament."
       signed_up_but_inactive: "Has estat registrat correctament. Tanmateix, no hem pogut iniciar la sessió perquè el teu compte encara no està activat."
       signed_up_but_locked: "Has estat registrat correctament. Tanmateix, no hem pogut iniciar la sessió perquè el teu compte està bloquejat."
@@ -50,6 +52,7 @@ ca:
       unlocked: "El teu compte ha estat desbloquejat correctament. S'ha iniciat la sessió."
   errors:
     messages:
+      not_approved: "El teu compte encara no ha estat aprovat per l'administrador."
       already_confirmed: "ja està confirmat"
       confirmation_period_expired: "ha de ser confirmada en %{period}, si us plau, demana'n un de nou"
       expired: "ha caducat, demana'n un de nou"
