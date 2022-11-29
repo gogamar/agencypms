@@ -15,42 +15,187 @@
   </div>
 </div>
   <div>
-    <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @realestate.address %></h4>
+    <h4 class="my-4 font-weight-bold text-primary text-center"><%= @realestate.address %> (<%= @realestate.seller.fullname %>)</h4>
   </div>
   <div class="card shadow mb-4 p-4">
-    <p>
-      <strong>Adreça:</strong>
-      <%= @realestate.address %>
-    </p>
-      <p>
-      <strong>Població:</strong>
-      <%= @realestate.city %>
-    </p>
-    <p>
-      <strong>Cadastre:</strong>
-      <%= @realestate.cadastre %>
-    </p>
-    <p>
-      <strong>Certificat energètic:</strong>
-      <%= @realestate.energy %>
-    </p>
-    <p>
-      <strong>C.R.U. (Codi registral únic):</strong>
-      <%= @realestate.registry_code %>
-    </p>
-    <p>
-      <strong>Descripció:</strong>
-      <%= @realestate.description if @realestate.description %>
-      <%= cl_image_tag @realestate.description_screenshot.key, height: 300, width: 400, crop: :fill if @realestate.description_screenshot.present? %>
-    </p>
-    <p>
-    <p>
-      <strong>Càrregues:</strong>
-      <%= @realestate.charges if @realestate.charges %>
-      <%= cl_image_tag @realestate.charges_screenshot.key, height: 300, width: 400, crop: :fill if @realestate.charges_screenshot.present?  %>
-    </p>
-    <p>
-    <strong>Propietari:</strong>
-    <%= @realestate.seller.fullname if @realestate.seller.present?  %>
-    </p>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.status') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= t("#{@realestate.status}") %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.address') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.address %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.city') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.city %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.cadastre') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.cadastre %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.habitability') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.habitability %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.hab_date') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= l(@realestate.hab_date) %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.energy') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.energy %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.registrar') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.registrar %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.registry_code') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.registry_code %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.registry') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.registry %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.entry') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.entry %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.volume') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.volume %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.book') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.book %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.sheet') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.sheet %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.notary') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.notary %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.notary_fullname') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.notary_fullname %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.protocol') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.protocol %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.deed_date') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.deed_date %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.mortgage_bank') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.mortgage_bank %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.mortgage_amount') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.mortgage_amount %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center border-bottom border-light pt-2">
+      <div class="col-lg-4">
+        <strong><%= t('.charges') %></strong>
+      </div>
+      <div class="col-lg-8">
+        <%= @realestate.charges %>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between py-5">
+      <div>
+        <p><%= t('.description') %></p>
+        <%= @realestate.description %>
+        <%= cl_image_tag @realestate.description_screenshot.key, height: 300, width: 400, crop: :fill if @realestate.description_screenshot.present? %>
+      </div>
+      <div>
+        <p></p><%= t('.charges') %></p>
+        <%= @realestate.charges %>
+        <%= cl_image_tag @realestate.charges_screenshot.key, height: 300, width: 400, crop: :fill if @realestate.charges_screenshot.present?  %>
+      </div>
+    </div>
   </div>

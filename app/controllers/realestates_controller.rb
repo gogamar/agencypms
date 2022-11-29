@@ -72,6 +72,6 @@ class RealestatesController < ApplicationController
   end
 
   def realestate_params
-    params.require(:realestate).permit(:address, :cadastre, :energy, :seller_id, :description, :city, :status, :registrar, :volume, :book, :sheet, :registry, :entry, :charges, :habitability, :hab_date, :description_screenshot, :charges_screenshot, :registry_code)
+    params.require(:realestate).permit(:address, :city, :cadastre, :energy, :description, :status, :seller_id, :registrar, :volume, :book, :sheet, :registry, :entry, :charges, :habitability, :hab_date, :registry_code, :protocol, :deed_date, :notary, :notary_fullname, :mortgage_bank, :mortgage_amount, :description_screenshot, :charges_screenshot, :registry_code)
   end
 end
