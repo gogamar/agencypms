@@ -315,6 +315,9 @@ ca:
         signdate_notary: "Data firma notaría"
         min_notice: "Mínim preavís"
         court: "Jutjat"
+        registry_addendum: "Annex 1: Nota Simple"
+        habitability_addendum: "Annex 2: Cèdula d’habitabilitat"
+        energy_addendum: "Annex 3: Certificat Energètic"
       rstemplate:
         title: "Títol"
         language: "Idioma"
@@ -390,3 +393,6 @@ ca:
       notary_fullname: "Nom del notari"
       mortgage_bank: "Banc on ténen l'hipoteca"
       mortgage_amount: "Import de l'hipoteca"
+      registry_addendum: "Annex 1: Nota Simple"
+      habitability_addendum: "Annex 2: Cèdula d’habitabilitat"
+      energy_addendum: "Annex 3: Certificat Energètic"

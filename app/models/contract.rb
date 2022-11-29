@@ -6,6 +6,9 @@ class Contract < ApplicationRecord
   validates :rstemplate_id, presence: true
   has_many_attached :photos
   has_many_attached :addendums
+  has_one_attached :registry_addendum
+  has_one_attached :habitability_addendum
+  has_one_attached :energy_addendum
 
   def self.parse_template(template, attrs = {})
     result = template

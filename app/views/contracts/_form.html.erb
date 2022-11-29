@@ -70,7 +70,52 @@
     </div>
     <div class="row justify-content-md-center my-5">
       <div>
-        <%= f.input :addendums, label: 'Afegir anexes', as: :file, input_html: { multiple: true } %>
+        <%= f.input :registry_addendum, as: :file %>
+      </div>
+      <div>
+        <% if contract.registry_addendum.attached? %>
+          <div class="d-flex justify-content-start">
+            <%= link_to "Nota simple: #{contract.registry_addendum.filename}", contract.registry_addendum.url, target: "_blank", class: "pe-3 pb-3" %>
+            <%= link_to photo_path(contract.registry_addendum), class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar l'anexe #{contract.registry_addendum.filename}?"} do %>
+              Esborrar<i class="fas fa-trash-can fa-sm"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center my-5">
+      <div>
+        <%= f.input :habitability_addendum, as: :file %>
+      </div>
+      <div>
+        <% if contract.habitability_addendum.attached? %>
+          <div class="d-flex justify-content-start">
+            <%= link_to "Nota simple: #{contract.habitability_addendum.filename}", contract.habitability_addendum.url, target: "_blank", class: "pe-3 pb-3" %>
+            <%= link_to photo_path(contract.habitability_addendum), class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar l'anexe #{contract.habitability_addendum.filename}?"} do %>
+              Esborrar<i class="fas fa-trash-can fa-sm"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center my-5">
+      <div>
+        <%= f.input :energy_addendum, as: :file %>
+      </div>
+      <div>
+        <% if contract.energy_addendum.attached? %>
+          <div class="d-flex justify-content-start">
+            <%= link_to "Nota simple: #{contract.energy_addendum.filename}", contract.energy_addendum.url, target: "_blank", class: "pe-3 pb-3" %>
+            <%= link_to photo_path(contract.energy_addendum), class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar l'anexe #{contract.energy_addendum.filename}?"} do %>
+              Esborrar<i class="fas fa-trash-can fa-sm"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row justify-content-md-center my-5">
+      <div>
+        <%= f.input :addendums, label: 'Afegir altres anexes', as: :file, input_html: { multiple: true } %>
       </div>
       <div>
         <% if contract.addendums.attached? %>
