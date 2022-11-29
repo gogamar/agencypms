@@ -8,12 +8,9 @@ class UserPolicy < ApplicationPolicy
       # scope.where("name LIKE 't%'") # If users can only see records starting with `t`
     end
   end
-  def show?
-    record.user == user
-  end
 
-  def copy?
-    return create?
+  def show?
+    user.admin? || record.user == user
   end
 
   def new?
@@ -21,7 +18,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    return true
+    user.admin? || record.user == user
   end
 
   def edit?
@@ -29,10 +26,10 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    record.user == user
+    user.admin? || record.user == user
   end
 
   def destroy?
-    record.user == user
+    user.admin? || record.user == user
   end
 end

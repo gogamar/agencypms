@@ -59,10 +59,32 @@
   <div class="row justify-content-md-center">
     <%= f.input :contentarea, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, hint: 'Per exemple: El pis s\'entrega amb el mobiliari i equipaments que es descriuen en l\'inventari adjunt.' %>
   </div>
+
+
+
+
   <div class="row justify-content-md-center">
+    <% if contract.photos.attached? %>
+      <% contract.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 200 %>
+        <%= photo.id %>
+        <%= link_to "Esborrar aquesta foto", photo_path(photo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta foto?"} %>
+      <% end %>
+    <% end %>
     <%= f.input :photos, label: 'Fotos', as: :file, input_html: { multiple: true } %>
   </div>
   <div class="row justify-content-md-center">
+    <% if contract.addendums.attached? %>
+      <% @contract.addendums.each_with_index do |addendum, index| %>
+        <div class="d-flex justify-content-start">
+          <%= link_to "Anexe #{index + 1} #{addendum.filename}", addendum.url, target: "_blank", class: "pe-3" %>
+          <%= link_to photo_path(addendum), class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar l'anexe #{addendum.filename}?"} do %>
+            <i class="fas fa-trash-can fa-sm"></i>
+          <% end %>
+        </div>
+                <%# link_to "Esborrar Anexe #{addendum.filename}", photo_path(addendum), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar l'anexe #{addendum.filename}?"} %>
+      <% end %>
+    <% end %>
     <%= f.input :addendums, label: 'Anexes', as: :file, input_html: { multiple: true } %>
   </div>
   <div class="form-actions row gx-4">

@@ -21,6 +21,9 @@ table {
 .btn {
   display: none !important;
 }
+.no-printing {
+  display: none !important;
+}
 .center {
   margin: auto;
   display: block;

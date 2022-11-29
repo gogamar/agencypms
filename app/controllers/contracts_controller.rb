@@ -1,6 +1,6 @@
 class ContractsController < ApplicationController
   require 'date'
-  before_action :set_contract, only: [:show, :edit, :update, :destroy, :preview]
+  before_action :set_contract, only: [:show, :edit, :update, :destroy, :preview, :purge_photo]
   before_action :set_realestate, only: [ :new, :create, :edit, :update ]
 
   def index
@@ -62,10 +62,23 @@ class ContractsController < ApplicationController
       inscripcio: @realestate.entry.present? ? @realestate.entry : '',
       carregues: @realestate.charges.present? ? @realestate.charges : '',
       pantallazo_carregues: @realestate.charges_screenshot.present? ? "<img src='#{@realestate.charges_screenshot.url}'>" : '',
+      num_protocol: @realestate.protocol.present? ? @realestate.protocol : '',
+      data_escritura: @realestate.deed_date.present? ? @realestate.deed_date : '',
+      notaria_escritura: @realestate.notary.present? ? @realestate.notary : '',
+      notari_escritura: @realestate.notary_fullname.present? ? @realestate.notary_fullname : '',
+      banc_hipoteca: @realestate.mortgage_bank.present? ? @realestate.mortgage_bank : '',
+      import_hipoteca: @realestate.mortgage_amount.present? ? @realestate.mortgage_amount : '',
       cedula: @realestate.habitability.present? ? @realestate.habitability : '',
       data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long) : '',
-      import_arres: @contract.down_payment.present? ? format("%.2f",@contract.down_payment) : '',
-      import_arres_text: @contract.down_payment_text.present? ? @contract.down_payment_text.upcase : ''
+      import_arres: @contract.down_payment.present? ? format("%.2f", @contract.down_payment) : '',
+      import_arres_text: @contract.down_payment_text.present? ? @contract.down_payment_text.upcase : '',
+      arres_primer_pagament: @contract.dp_part1.present? ? format("%.2f", @contract.dp_part1) : '',
+      arres_primer_pagament_text: @contract.dp_part1_text.present? ? @contract.dp_part1_text.upcase : '',
+      arres_segon_pagament: @contract.dp_part2.present? ? format("%.2f", @contract.dp_part2) : '',
+      arres_segon_pagament_text: @contract.dp_part2_text.present? ? @contract.dp_part2_text.upcase : '',
+      data_firma_notaria: @contract.signdate_notary.present? ? l(@contract.signdate_notary, format: :long) : '',
+      preavis_minim: @contract.min_notice.present? ? @contract.min_notice : '',
+      jutjat: @contract.court.present? ? @contract.court : ''
     }
 
     body = @rstemplate.text.to_s

@@ -13,8 +13,15 @@
       <div>
         <%= link_to 'Modificar', edit_realestate_contract_path(@contract.realestate, @contract), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @contract, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@contract.realestate.address}?"} %>
       </div>
-      <div data-controller="spinner" >
-        <%= link_to 'Contracte en PDF', contract_path(@contract, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+      <div class="d-flex flex-column">
+        <div data-controller="spinner" >
+          <%= link_to 'Contracte en PDF', contract_path(@contract, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+        </div>
+        <div class="no-printing m-2">
+          <% @contract.addendums.each_with_index do |addendum, index| %>
+            <li><%= link_to "Anexe #{index + 1}", addendum.url, target: "_blank" %></li>
+          <% end %>
+        </div>
       </div>
   </div>
 
@@ -22,7 +29,7 @@
   <%= sanitize @rscontrato %>
 </div>
 <div style="page-break-before: always"><span style="display: none;">&nbsp;</span></div>
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mb-5">
   <% @contract.photos.each do |photo| %>
     <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill, class: "m-1" %>
   <% end %>
