@@ -51,8 +51,9 @@ ca:
   ceiling_fan: "ventilador del sostre"
   inactive: "inactiu"
   proposal: "proposta"
+  not sent: "No enviat"
   active: "actiu"
-  pending: "pendent"
+  pending: "pendent de firma"
   signed: "signat"
   saturdays: "Ds.-Ds."
   everyday: "Qualsevol dia"
@@ -202,7 +203,7 @@ ca:
   activerecord:
     attributes:
       realestate:
-        status: "Estatus"
+        status: "Estat"
         address: "Adreça"
         city: "Municipi"
         description: "Descripció de la finca (del registre de propietat)"
@@ -254,7 +255,7 @@ ca:
         cadastre: "Cadastre"
         energy: "Certificat d'eficiencia energètica"
         description: "Descripció"
-        status: "Estatus"
+        status: "Estat"
       profile:
         comtype_id: "Tipus d'empresa"
         comtype: "Tipus d'empresa"
@@ -295,6 +296,7 @@ ca:
         account: "Compte bancari"
         language: "Idioma"
       vragreement:
+        status: "Estat"
         vrowner: "Propietari"
         vrental: "Casa o apartament"
         phone: "Telèfon"
@@ -344,7 +346,7 @@ ca:
         description: "Descripció"
         feature_ids: "Caracteristiques"
         name: "Nom"
-        status: "Estatus"
+        status: "Estat"
       rate:
         firstnight: "Des de"
         lastnight: "Fins a"
@@ -370,7 +372,7 @@ ca:
     day: "dia"
   realestates:
     show:
-      status: "Estatus"
+      status: "Estat"
       address: "Adreça"
       city: "Municipi"
       description: "Descripció de la finca (del registre de propietat)"

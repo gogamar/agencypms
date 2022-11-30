@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   #skip_before_action :authenticate_user!, only: :home
 
   def home
+    UserMailer.welcome(User.new(email: 'gogamar@gmail.com')).deliver
     @vragreements = policy_scope(Vragreement)
     @vrowners = policy_scope(Vrowner)
     @agreements = policy_scope(Agreement)

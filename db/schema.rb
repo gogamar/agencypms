@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_28_132152) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_30_092350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -316,6 +316,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_132152) do
     t.datetime "updated_at", null: false
     t.text "vrowner_bookings"
     t.text "clause"
+    t.string "status"
     t.index ["vrental_id"], name: "index_vragreements_on_vrental_id"
     t.index ["vrentaltemplate_id"], name: "index_vragreements_on_vrentaltemplate_id"
   end

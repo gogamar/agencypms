@@ -37,13 +37,13 @@
             <%= sort_link_vragreement(column: "signdate", label: "Data firma") %>
             </div>
             <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
+              Estat
+            </div>
+            <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
               Immoble
             </div>
             <div class="col-lg-2 py-3 border-start border-end" id="comission" relative>
               Commissió
-            </div>
-            <div class="col-lg-2 py-3 border-start border-end" id="vrtemplate" relative>
-              Model contracte
             </div>
             <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
             <div class="col-lg-2 py-3 border-start border-end">Modificar</div>
@@ -56,16 +56,16 @@
                 <%= vragreement.signdate if vragreement.signdate %>
               </div>
               <div class="col-lg-2 border-start border-end">
+                <%= t(vragreement.status) %>
+              </div>
+              <div class="col-lg-2 border-start border-end">
                 <%= vragreement.vrental.name %>
               </div>
               <div class="col-lg-2 border-start border-end">
                 <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= vragreement.vrentaltemplate.title if vragreement.vrentaltemplate %>
-              </div>
-              <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Més detalls', "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}" %>
+                <%= link_to 'Contracte', "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}" %>
               </div>
               <div class="col-lg-2 border-start border-end">
                 <%= link_to 'Modificar', edit_vrental_vragreement_path(vragreement.vrental, vragreement) %>

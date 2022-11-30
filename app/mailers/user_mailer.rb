@@ -5,10 +5,10 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.welcome.subject
   #
-  def welcome
+  def welcome(user)
     # @greeting = "Hi"
-    # @user = user
-    @user = params[:user] # Instance variable => available in view
+    @user = user
+    # @user = params[:user] # Instance variable => available in view
     mail(to: @user.email, subject: 'Benvingut/da a la aplicació per fer contractes de Sistach Finques')
   end
 end

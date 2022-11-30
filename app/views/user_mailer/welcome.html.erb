@@ -457,25 +457,23 @@
                   <tr>
                     <td class="content-cell">
                       <div class="f-fallback">
-                        <h1>Benvingut, <%= user.name %>!</h1>
-                        <p>Thanks for trying [Product Name]. We’re thrilled to have you on board. To get the most out of [Product Name], do this primary next step:</p>
+                        <h1>Benvingut, <%= @user.email %>!</h1>
+                        <p>T'has registrat a https://contractes.sistachfinques.com, una pàgina on pots crear els teus contractes immobiliaris a base de les plantilles ja preparades. Per començar a crear contractes, fes click aquí:</p>
                         <!-- Action -->
                         <table class="body-action" text-align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td text-align="center">
-                              <!-- Border based button
-           https://litmus.com/blog/a-guide-to-bulletproof-buttons-in-email-design -->
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td text-align="center">
-                                    <a href="{{action_url}}" class="f-fallback button" target="_blank">Do this Next</a>
+                                    <a href="https://contractes.sistachfinques.com/ca/usuaris/entrar" class="f-fallback button" target="_blank">Comença a fer contractes</a>
                                   </td>
                                 </tr>
                               </table>
                             </td>
                           </tr>
                         </table>
-                        <p>El teu usuari i la teva contrasenya:</p>
+                        <p>El teu usuari:</p>
                         <table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td class="attributes_content">
@@ -483,14 +481,14 @@
                                 <tr>
                                   <td class="attributes_item">
                                     <span class="f-fallback">
-              <strong>Login Page:</strong> {{login_url}}
+              <strong>Pàgina principal:</strong> https://contractes.sistachfinques.com/ca/usuaris/entrar
             </span>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td class="attributes_item">
                                     <span class="f-fallback">
-              <strong>Username:</strong> {{username}}
+              <strong>Usuari:</strong> <%= @user.email %>
             </span>
                                   </td>
                                 </tr>
@@ -498,42 +496,11 @@
                             </td>
                           </tr>
                         </table>
-                        <p>You've started a {{trial_length}} day trial. You can upgrade to a paying account or cancel any time.</p>
-                        <table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                          <tr>
-                            <td class="attributes_content">
-                              <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                                <tr>
-                                  <td class="attributes_item">
-                                    <span class="f-fallback">
-              <strong>Trial Start Date:</strong> {{trial_start_date}}
-            </span>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="attributes_item">
-                                    <span class="f-fallback">
-              <strong>Trial End Date:</strong> {{trial_end_date}}
-            </span>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                        <p>If you have any questions, feel free to <a href="mailto:{{support_email}}">email our customer success team</a>. (We're lightning quick at replying.) We also offer <a href="{{live_chat_url}}">live chat</a> during business hours.</p>
-                        <p>Thanks,
-                          <br>[Sender Name] and the [Product Name] team</p>
-                        <p><strong>P.S.</strong> Need immediate help getting started? Check out our <a href="{{help_url}}">help documentation</a>. Or, just reply to this email, the [Product Name] support team is always ready to help!</p>
+
+                        <p>Si tens alguna pregunta pots escriure un email a <a href="mailto:info@sistachfinques.com"></a>.
+                        <p>Gràcies,
+                          <br>Sistach Finques, Inverstach, s.l.u.</p>
                         <!-- Sub copy -->
-                        <table class="body-sub" role="presentation">
-                          <tr>
-                            <td>
-                              <p class="f-fallback sub">If you’re having trouble with the button above, copy and paste the URL below into your web browser.</p>
-                              <p class="f-fallback sub">{{action_url}}</p>
-                            </td>
-                          </tr>
-                        </table>
                       </div>
                     </td>
                   </tr>
@@ -546,9 +513,9 @@
                   <tr>
                     <td class="content-cell" text-align="center">
                       <p class="f-fallback sub align-center">
-                        Inverstach
-                        <br>1234 Street Rd.
-                        <br>Suite 1234
+                        Inverstach s.l.u.
+                        <br>c/Rosselló 439 baixos
+                        <br>08025 Barcelona
                       </p>
                     </td>
                   </tr>

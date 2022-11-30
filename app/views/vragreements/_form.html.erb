@@ -2,7 +2,10 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row justify-content-md-center">
-    <div class="col-lg-12">
+    <div class="col-lg-3">
+      <%= f.input :status, as: :radio_buttons, collection: [[t("not sent"),'not sent'],[t("pending"),'pending'],[t("signed"),'signed']] %>
+    </div>
+    <div class="col-lg-9">
       <%= f.association :vrentaltemplate, collection: @vrentaltemplates, label_method: :title, label: 'Model', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>

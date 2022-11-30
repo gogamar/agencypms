@@ -4,12 +4,12 @@ class VragreementsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
-    all_vragreements = policy_scope(Vragreement)
+    all_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     @pagy, @vragreements = pagy(all_vragreements, page: params[:page], items: 10)
   end
 
   def list
-    @vragreements = policy_scope(Vragreement).includes(:vrental)
+    @vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     @vragreements = @vragreements.where("DATE_PART('year', signdate) = ?", params[:year]) if params[:year].present?
     @vragreements = @vragreements.joins(:vrental).where('name ilike ?', "%#{params[:vrental]}%") if params[:vrental].present?
     @vragreements = @vragreements.order("#{params[:column]} #{params[:direction]}")
@@ -144,6 +144,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :vrowner_bookings, photos: [])
+    params.require(:vragreement).permit(:status, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :vrowner_bookings, photos: [])
   end
 end
