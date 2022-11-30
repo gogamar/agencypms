@@ -381,8 +381,8 @@ beds24rentals = client.get_properties
 #   vrental.save!
 # end
 
-# @vragreements_active_vrentals = Vragreement.joins(:vrental).where.not('vrental.status' => "inactive")
-# @vragreements_active_vrentals.each do |vragreement|
-#   vragreement.status = 'not sent'
-#   vragreement.save!
-# end
+@vragreements_active_vrentals = Vragreement.joins(:vrental).where.not('vrental.status' => "inactive")
+@vragreements_active_vrentals.each do |vragreement|
+  vragreement.status = 'not sent'
+  vragreement.save!
+end
