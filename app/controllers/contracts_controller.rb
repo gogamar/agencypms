@@ -83,7 +83,7 @@ class ContractsController < ApplicationController
       data_firma_notaria: @contract.signdate_notary.present? ? l(@contract.signdate_notary, format: :long) : '',
       preavis_minim: @contract.min_notice.present? ? @contract.min_notice : '',
       jutjat: @contract.court.present? ? @contract.court : '',
-      anexes: @addendums.empty? ? '' : @contract.extract_annexes.join
+      annexos: @addendums.empty? ? '' : @contract.extract_annexes.join
     }
 
     body = @rstemplate.text.to_s
