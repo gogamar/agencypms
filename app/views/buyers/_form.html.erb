@@ -8,6 +8,7 @@
     <%= f.input :email %>
     <%= f.input :document %>
     <%= f.input :account %>
+    <%= f.input :account_bank %>
     <%= f.input :language, priority: [ t("ca"), "ca" ], collection: [ [t("ca"), "ca"], [t("es"), "es"], [t("fr"), "fr"], [t("en"), "en"] ], label_method: :first, value_method: :second %>
   </div>
   <div class="form-actions text-end mb-5">

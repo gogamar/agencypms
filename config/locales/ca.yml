@@ -243,6 +243,7 @@ ca:
         email: "Email"
         document: "DNI"
         account: "Compte bancari"
+        account_bank: "Banc"
         language: "Idioma"
       seller:
         fullname: "Nom i cognoms"
@@ -251,6 +252,7 @@ ca:
         email: "Email"
         document: "DNI"
         account: "Compte bancari"
+        account_bank: "Banc"
         language: "Idioma"
       rental:
         owner: "Propietari"

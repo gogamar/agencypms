@@ -47,6 +47,10 @@
       <strong>Compte bancari:</strong>
       <%= @buyer.account %>
     </p>
+    <p>
+      <strong>Banc:</strong>
+      <%= @buyer.account_bank %>
+    </p>
     <strong>Propietats:</strong>
     <% @buyer.realestates.each do |realestate| %>
       <p><%= realestate.address %></p>
