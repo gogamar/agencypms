@@ -60,6 +60,7 @@ ca:
   registry_addendum: "Nota Simple Informativa de l’habitatge objecte del present contracte"
   habitability_addendum: "Còpia de la cèdula d’habitabilitat"
   energy_addendum: "Certificat Energètic"
+  equipment_addendum: "Equipament"
   date:
     abbr_day_names:
       - Dg
@@ -320,9 +321,10 @@ ca:
         signdate_notary: "Data firma notaría"
         min_notice: "Mínim preavís"
         court: "Jutjat"
-        registry_addendum: "Annex 1: Nota Simple"
-        habitability_addendum: "Annex 2: Cèdula d’habitabilitat"
-        energy_addendum: "Annex 3: Certificat Energètic"
+        registry_addendum: "Annex: Nota Simple"
+        habitability_addendum: "Annex: Cèdula d’habitabilitat"
+        energy_addendum: "Annex: Certificat Energètic"
+        equipment_addendum: "Annex: Equipament"
       rstemplate:
         title: "Títol"
         language: "Idioma"

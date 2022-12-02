@@ -29,6 +29,7 @@ class ContractsController < ApplicationController
     @addendums << @contract.registry_addendum if @contract.registry_addendum.attached?
     @addendums << @contract.habitability_addendum if @contract.habitability_addendum.attached?
     @addendums << @contract.energy_addendum if @contract.energy_addendum.attached?
+    @addendums << @contract.equipment_addendum if @contract.equipment_addendum.attached?
     @addendums << @contract.addendums if @contract.addendums.attached?
 
     details = {
@@ -83,7 +84,11 @@ class ContractsController < ApplicationController
       data_firma_notaria: @contract.signdate_notary.present? ? l(@contract.signdate_notary, format: :long) : '',
       preavis_minim: @contract.min_notice.present? ? @contract.min_notice : '',
       jutjat: @contract.court.present? ? @contract.court : '',
-      annexos: @addendums.empty? ? '' : @contract.extract_annexes.join
+      annexos: @addendums.empty? ? '' : @contract.extract_annexos.join,
+      num_annex_nota_simple: @contract.registry_addendum.attached? ? (@addendums.index{|x| x.name == "registry_addendum"} + 1).to_s : '',
+      num_annex_cedula: @contract.habitability_addendum.attached? ? (@addendums.index{|x| x.name == "habitability_addendum"} + 1).to_s : '',
+      num_annex_cert_energetic: @contract.energy_addendum.attached? ? (@addendums.index{|x| x.name == "energy_addendum"} + 1).to_s : '',
+      num_annex_equipament: @contract.equipment_addendum.attached? ? (@addendums.index{|x| x.name == "equipment_addendum"} + 1).to_s : '',
     }
 
     body = @rstemplate.text.to_s
@@ -159,6 +164,6 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :down_payment_text, :realestate_id, :buyer_id, :rstemplate_id, :dp_part1, :dp_part1_text, :dp_part2, :dp_part2_text, :signdate_notary, :min_notice, :court, :contentarea, :registry_addendum, :habitability_addendum, :energy_addendum, photos: [], addendums: [])
+    params.require(:contract).permit(:signdate, :place, :price, :pricetext, :down_payment, :down_payment_text, :realestate_id, :buyer_id, :rstemplate_id, :dp_part1, :dp_part1_text, :dp_part2, :dp_part2_text, :signdate_notary, :min_notice, :court, :contentarea, :registry_addendum, :habitability_addendum, :energy_addendum, :equipment_addendum, photos: [], addendums: [])
   end
 end
