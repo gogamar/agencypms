@@ -53,7 +53,7 @@ class ContractsController < ApplicationController
       email_comprador: @contract.buyer.present? && @contract.buyer.email.present? ? @contract.buyer.email : '',
       tel_comprador: @contract.buyer.present? && @contract.buyer.phone.present? ? @contract.buyer.phone : '',
       compte_comprador: @contract.buyer.present? && @contract.buyer.account.present? ? @contract.buyer.account : '',
-      banc_comprador: @realestate.buyer.present? && @realestate.buyer.account_bank.present? ? @realestate.seller.account_bank : '',
+      banc_comprador: @contract.buyer.present? && @contract.buyer.account_bank.present? ? @contract.seller.account_bank : '',
       adr_immoble: @realestate.address.present? ? @realestate.address : '',
       poblacio_immoble: @realestate.city.present? ? @realestate.city : '',
       cadastre: @realestate.cadastre.present? ? @realestate.cadastre : '',
