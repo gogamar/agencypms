@@ -25,7 +25,11 @@ class ContractsController < ApplicationController
     @buyer = @contract.buyer
     @realestate = @contract.realestate
     @rstemplate = @contract.rstemplate
-
+    @addendums = []
+    @addendums << @contract.registry_addendum if @contract.registry_addendum.attached?
+    @addendums << @contract.habitability_addendum if @contract.habitability_addendum.attached?
+    @addendums << @contract.energy_addendum if @contract.energy_addendum.attached?
+    @addendums << @contract.addendums if @contract.addendums.attached?
 
     details = {
       num_aicat: current_profile.aicat.present? ? current_profile.aicat : '',
@@ -78,7 +82,8 @@ class ContractsController < ApplicationController
       arres_segon_pagament_text: @contract.dp_part2_text.present? ? @contract.dp_part2_text.upcase : '',
       data_firma_notaria: @contract.signdate_notary.present? ? l(@contract.signdate_notary, format: :long) : '',
       preavis_minim: @contract.min_notice.present? ? @contract.min_notice : '',
-      jutjat: @contract.court.present? ? @contract.court : ''
+      jutjat: @contract.court.present? ? @contract.court : '',
+      anexes: @addendums.empty? ? '' : @contract.extract_annexes.join
     }
 
     body = @rstemplate.text.to_s

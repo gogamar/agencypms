@@ -17,13 +17,18 @@
         <div data-controller="spinner" >
           <%= link_to 'Contracte en PDF', contract_path(@contract, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
         </div>
-        <div class="no-printing m-2">
-          <% @contract.addendums.each_with_index do |addendum, index| %>
-            <li><%= link_to "Anexe #{index + 1}", addendum.url, target: "_blank" %></li>
-          <% end %>
-        </div>
       </div>
   </div>
+    <div class="no-printing my-5">
+      <p>Annexos</p>
+      <% @addendums.flatten.each_with_index do |addendum, index| %>
+        <% unless addendum.name == "addendums" %>
+          <li><%= link_to "#{t("#{addendum.name}")} (Annex #{index + 1})", addendum.url, target: "_blank" %></li>
+        <% else %>
+          <li><%= link_to "#{addendum.filename} (Annex #{index + 1})", addendum.url, target: "_blank" %></li>
+        <% end %>
+      <% end %>
+    </div>
 
 <div class="page mt-5">
   <%= sanitize @rscontrato %>

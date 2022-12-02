@@ -17,4 +17,22 @@ class Contract < ApplicationRecord
     result.gsub!(/\{\{\.w+\}\}/, '')
     return result
   end
+
+  def extract_annexes
+    annexes = []
+    annexes << registry_addendum.name
+    annexes << habitability_addendum.name
+    annexes << energy_addendum.name
+    addendums_array = addendums.map {|addendum| addendum.filename.to_s.chop.chop.chop.chop}
+    annexes << addendums_array
+    annexes.flatten
+    annexes.flatten.each_with_index.map do |annex, index|
+      annex.class
+      if annex.include? "addendum"
+        "<p>#{I18n.t("#{annex}")} (Annex #{index + 1})</p>"
+      else
+        "<p>#{annex} (Annex #{index + 1})</p>"
+      end
+    end
+  end
 end

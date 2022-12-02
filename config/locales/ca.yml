@@ -57,6 +57,9 @@ ca:
   signed: "signat"
   saturdays: "Ds.-Ds."
   everyday: "Qualsevol dia"
+  registry_addendum: "Nota Simple Informativa de l’habitatge objecte del present contracte"
+  habitability_addendum: "Còpia de la cèdula d’habitabilitat"
+  energy_addendum: "Certificat Energètic"
   date:
     abbr_day_names:
       - Dg
