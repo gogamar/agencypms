@@ -403,7 +403,7 @@ beds24rates.each do |rate|
       lastnight: rate["lastNight"],
       priceweek: rate["roomPrice"],
       beds_room_id: rate["roomId"],
-      vrental_id: mardor.id,
+      vrental_id: @mardor.id,
       min_stay: 7,
       arrival_day: "saturdays"
     )
