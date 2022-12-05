@@ -29,7 +29,7 @@ class OwnersController < ApplicationController
     @owner.user_id = current_user.id
     authorize @owner
     if @owner.save
-      redirect_to owners_path, notice: "Has creat un nou propietari de lloguer anual."
+      redirect_to @owner, notice: "Has creat un nou propietari de lloguer anual."
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class OwnersController < ApplicationController
   def update
     authorize @owner
     if @owner.update(owner_params)
-      redirect_to owners_path, notice: "Has actualitzat al propietari"
+      redirect_to @owner, notice: "Has actualitzat al propietari"
     else
       render :edit, status: :unprocessable_entity
     end

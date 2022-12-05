@@ -46,7 +46,7 @@
                 Idioma
               </div>
               <div class="col-lg-2 py-3 border-start border-end">
-                Més detalls
+                Comprador
               </div>
               <div class="col-lg-2 py-3 border-start border-end">
                 Modificar
@@ -60,7 +60,7 @@
                 <div class="col-lg-2 border-start border-end"><%= buyer.address if buyer.address %></div>
                 <div class="col-lg-2 border-start border-end"><%= buyer.phone if buyer.phone %></div>
                 <div class="col-lg-2 border-start border-end"><%= buyer.language if buyer.language %></div>
-                <div class="col-lg-2 border-start border-end"><%= link_to 'Més detalls', buyer %></div>
+                <div class="col-lg-2 border-start border-end"><%= link_to 'Comprador', buyer %></div>
                 <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_buyer_path(buyer) %></div>
               </div>
             <% end %>

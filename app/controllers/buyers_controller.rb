@@ -29,7 +29,7 @@ class BuyersController < ApplicationController
     @buyer.user_id = current_user.id
     authorize @buyer
     if @buyer.save
-      redirect_to buyers_path, notice: "Has creat un nou comprador."
+      redirect_to @buyer, notice: "Has creat un nou comprador."
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class BuyersController < ApplicationController
   def update
     authorize @buyer
     if @buyer.update(buyer_params)
-      redirect_to buyers_path, notice: "Has actualitzat al comprador"
+      redirect_to @buyer, notice: "Has actualitzat al comprador"
     else
       render :edit, status: :unprocessable_entity
     end

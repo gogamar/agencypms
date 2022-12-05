@@ -63,7 +63,7 @@
                 <%= agreement.renter.fullname if agreement.renter.fullname %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Més detalls', "/#{agreement.rentaltemplate.language}/contractes-lloguer-anual/#{agreement.id}" %>
+                <%= link_to 'Contracte', "/#{agreement.rentaltemplate.language}/contractes-lloguer-anual/#{agreement.id}" %>
               </div>
               <div class="col-lg-2 border-start border-end">
                 <%= link_to 'Modificar', edit_rental_agreement_path(agreement.rental, agreement) %>

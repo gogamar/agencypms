@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 <div class="container">
   <div class="d-flex justify-content-between">
       <div>
@@ -50,10 +50,5 @@
     <p>
       <strong>Banc:</strong>
       <%= @buyer.account_bank %>
-    </p>
-    <strong>Propietats:</strong>
-    <% @buyer.realestates.each do |realestate| %>
-      <p><%= realestate.address %></p>
-    <% end %>
   </div>
 </div>

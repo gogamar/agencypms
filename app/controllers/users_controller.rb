@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   def update
     authorize @user
     if @user.update(user_params)
-      redirect_to users_path, notice: 'Has actualitzat l\'usuari.'
+      redirect_back fallback_location: users_path, notice: 'Has actualitzat l\'usuari.'
     else
       render :edit, status: :unprocessable_entity
     end

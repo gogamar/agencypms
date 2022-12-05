@@ -35,7 +35,7 @@ class ContractsController < ApplicationController
     details = {
       num_aicat: current_profile.aicat.present? ? current_profile.aicat : '',
       num_api: current_profile.api.present? ? current_profile.api : '',
-      data_firma: @contract.signdate.present? ? l(@contract.signdate, format: :long) : '',
+      data_firma: @contract.signdate.present? ? l(@contract.signdate, format: :long).to_s : '',
       lloc_firma: @contract.place.present? ? @contract.place : '',
       preu: @contract.price.present? ? format("%.2f",@contract.price) : '',
       preu_text: @contract.pricetext.present? ? @contract.pricetext.upcase : '',
@@ -45,10 +45,32 @@ class ContractsController < ApplicationController
       adr_venedor: @realestate.seller.present? && @realestate.seller.address.present? ? @realestate.seller.address : '',
       email_venedor: @realestate.seller.present? && @realestate.seller.email.present? ? @realestate.seller.email : '',
       tel_venedor: @realestate.seller.present? && @realestate.seller.phone.present? ? @realestate.seller.phone : '',
-      compte_venedor: @realestate.seller.present? && @realestate.seller.account.present? ? @realestate.seller.account : '',
-      banc_venedor: @realestate.seller.present? && @realestate.seller.account_bank.present? ? @realestate.seller.account_bank : '',
-      comprador: @contract.buyer.present? && @contract.buyer.fullname.present? ? @contract.buyer.fullname : '',
-      dni_comprador: @contract.buyer.present? && @contract.buyer.document.present? ? @contract.buyer.document : '',
+      compte_venedor:
+        if @realestate.seller && @realestate.seller.account.empty?
+          "<a href='#{edit_seller_url(@realestate.seller)}' class='text-danger' target='_blank'>***Falta el compte del venedor***</a>"
+        elsif @realestate.seller && @realestate.seller.account
+          @realestate.seller.account
+        else
+          "<a href='#{edit_realestate_url(@realestate)}' class='text-danger' target='_blank'>***Afegir Venedor***</a>"
+        end,
+      banc_venedor:
+        if @realestate.seller && @realestate.seller.account_bank.empty?
+          "<a href='#{edit_seller_url(@realestate.seller)}' class='text-danger' target='_blank'>***Falta el nom del banc del venedor***</a>"
+        elsif @realestate.seller && @realestate.seller.account_bank
+          @realestate.seller.account_bank
+        else
+          "<a href='#{edit_realestate_url(@realestate)}' class='text-danger' target='_blank'>***Afegir Venedor***</a>"
+        end,
+      comprador: @contract.buyer.present? ? @contract.buyer.fullname : "<a href='#{edit_contract_url(@contract)}' class='text-danger' target='_blank'>***Afegir comprador***</a>",
+      dni_comprador:
+        if @contract.buyer && @contract.buyer.document.empty?
+          "<a href=#{edit_buyer_url(@contract.buyer)} class='text-danger' target='_blank' >***Falta el dni del comprador***</a>"
+
+        elsif @contract.buyer && @contract.buyer.document
+          @contract.buyer.document
+        else
+          "<a href='#{edit_contract_url(@contract)}' class='text-danger' target='_blank'>***Afegir Comprador***</a>"
+        end,
       adr_comprador: @contract.buyer.present? && @contract.buyer.address.present? ? @contract.buyer.address : '',
       email_comprador: @contract.buyer.present? && @contract.buyer.email.present? ? @contract.buyer.email : '',
       tel_comprador: @contract.buyer.present? && @contract.buyer.phone.present? ? @contract.buyer.phone : '',
@@ -70,13 +92,13 @@ class ContractsController < ApplicationController
       carregues: @realestate.charges.present? ? @realestate.charges : '',
       pantallazo_carregues: @realestate.charges_screenshot.present? ? "<img src='#{@realestate.charges_screenshot.url}'>" : '',
       num_protocol: @realestate.protocol.present? ? @realestate.protocol : '',
-      data_escriptura: @realestate.deed_date.present? ? @realestate.deed_date : '',
+      data_escriptura: @realestate.deed_date.present? ? l(@realestate.deed_date, format: :long).to_s : '',
       notaria_escriptura: @realestate.notary.present? ? @realestate.notary : '',
       notari_escriptura: @realestate.notary_fullname.present? ? @realestate.notary_fullname : '',
       banc_hipoteca: @realestate.mortgage_bank.present? ? @realestate.mortgage_bank : '',
       import_hipoteca: @realestate.mortgage_amount.present? ? @realestate.mortgage_amount : '',
       cedula: @realestate.habitability.present? ? @realestate.habitability : '',
-      data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long) : '',
+      data_cedula: @realestate.hab_date.present? ? l(@realestate.hab_date, format: :long).to_s : '',
       import_arres: @contract.down_payment.present? ? format("%.2f", @contract.down_payment) : '',
       import_arres_text: @contract.down_payment_text.present? ? @contract.down_payment_text.upcase : '',
       arres_primer_pagament: @contract.dp_part1.present? ? format("%.2f", @contract.dp_part1) : '',
@@ -133,7 +155,7 @@ class ContractsController < ApplicationController
     @contract.realestate = @realestate
     authorize @contract
     if @contract.save
-      redirect_to contracts_path, notice: "Has creat el contracte per a #{@realestate.address}."
+      redirect_to @contract, notice: "Has creat el contracte per a #{@realestate.address}."
     else
       render :new
     end
@@ -143,7 +165,7 @@ class ContractsController < ApplicationController
     @contract.realestate = @realestate
     authorize @contract
     if @contract.update(contract_params)
-      redirect_to contracts_path, notice: 'Has actualitzat el contracte.'
+      redirect_to @contract, notice: 'Has actualitzat el contracte.'
     else
       render :edit
     end

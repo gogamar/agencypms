@@ -88,7 +88,7 @@ class AgreementsController < ApplicationController
     @agreement.rental = @rental
     authorize @agreement
     if @agreement.save
-      redirect_to agreements_path, notice: "Has creat el contracte per a #{@rental.address}."
+      redirect_to @agreement, notice: "Has creat el contracte per a #{@rental.address}."
     else
       render :new
     end
@@ -98,7 +98,7 @@ class AgreementsController < ApplicationController
     @agreement.rental = @rental
     authorize @agreement
     if @agreement.update(agreement_params)
-      redirect_to agreements_path, notice: 'Has actualitzat el contracte.'
+      redirect_to @agreement, notice: 'Has actualitzat el contracte.'
     else
       render :edit
     end

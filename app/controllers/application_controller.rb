@@ -14,12 +14,6 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized, except: [:index, :list, :filter], unless: :skip_pundit?
   after_action :verify_policy_scoped, only: [:index, :list, :filter], unless: :skip_pundit?
 
-  # Uncomment when you *really understand* Pundit!
-  # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  # def user_not_authorized
-  #   flash[:alert] = "You are not authorized to perform this action."
-  #   redirect_to(root_path)
-  # end
 
 
   def configure_permitted_parameters
@@ -66,6 +60,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Uncomment when you *really understand* Pundit!
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   def user_not_authorized
     flash[:alert] = "No estàs autoritzat per procedir amb aquesta acció."
     redirect_back(fallback_location: root_path)

@@ -33,7 +33,7 @@ class FeaturesController < ApplicationController
   def update
     authorize @feature
     if @feature.update(feature_params)
-      redirect_to @feature, notice: 'Has actualitzat la caracteristica.'
+      redirect_to features_path, notice: 'Has actualitzat la caracteristica.'
     else
       render :edit
     end

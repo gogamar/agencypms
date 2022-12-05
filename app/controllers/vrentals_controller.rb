@@ -41,13 +41,15 @@ class VrentalsController < ApplicationController
     @vrental.rates = []
     @source.rates.each { |rate| @vrental.rates << rate.dup }
     @vrental.features = []
-    @source.features.each { |feature| @vrental.features << feature.dup }
+    # instead of duplicating features, I need to assign the same features to this new record
+    @source.features.each { |feature| @vrental.features << feature }
     authorize @vrental
     @vrental.save!
-    redirect_to vrentals_path, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
+    redirect_to @vrental, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
   end
 
   def edit
+    @feature_list = Feature.all.uniq
     authorize @vrental
   end
 

@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 <div class="d-flex justify-content-between">
   <div>
     <%= link_to realestates_path, class: "btn btn-light btn-icon-split me-3" do %>
@@ -15,7 +15,7 @@
   </div>
 </div>
   <div>
-    <h4 class="my-4 font-weight-bold text-primary text-center"><%= @realestate.address %> (<%= @realestate.seller.fullname %>)</h4>
+    <h4 class="my-4 font-weight-bold text-primary text-center"><%= @realestate.address %> (<%= @realestate.seller ? @realestate.seller.fullname : (link_to "Afegir venedor", edit_realestate_path(@realestate), target: "_blank")%>)</h4>
   </div>
   <div class="card shadow mb-4 p-4">
     <div class="row justify-content-md-center border-bottom border-light pt-2">

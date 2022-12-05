@@ -29,7 +29,7 @@ class SellersController < ApplicationController
     @seller.user_id = current_user.id
     authorize @seller
     if @seller.save
-      redirect_to sellers_path, notice: "Has creat un nou venedor."
+      redirect_to @seller, notice: "Has creat un nou venedor."
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class SellersController < ApplicationController
   def update
     authorize @seller
     if @seller.update(seller_params)
-      redirect_to sellers_path, notice: "Has actualitzat al venedor"
+      redirect_to @seller, notice: "Has actualitzat al venedor"
     else
       render :edit, status: :unprocessable_entity
     end

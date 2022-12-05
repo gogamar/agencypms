@@ -63,7 +63,7 @@
                 <%= contract.buyer.fullname if contract.buyer %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Més detalls', "/#{contract.rstemplate.language}/contractes-compravenda/#{contract.id}" %>
+                <%= link_to 'Contracte', "/#{contract.rstemplate.language}/contractes-compravenda/#{contract.id}" %>
               </div>
               <div class="col-lg-2 border-start border-end">
                 <%= link_to 'Modificar', edit_realestate_contract_path(contract.realestate, contract) %>

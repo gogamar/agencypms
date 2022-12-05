@@ -46,7 +46,7 @@
                 Idioma
               </div>
               <div class="col-lg-2 py-3 border-start border-end">
-                Més detalls
+                Propietari
               </div>
               <div class="col-lg-2 py-3 border-start border-end">
                 Modificar
@@ -60,7 +60,7 @@
                 <div class="col-lg-2 border-start border-end"><%= owner.address if owner.address %></div>
                 <div class="col-lg-2 border-start border-end"><%= owner.phone if owner.phone %></div>
                 <div class="col-lg-2 border-start border-end"><%= owner.language if owner.language %></div>
-                <div class="col-lg-2 border-start border-end"><%= link_to 'Més detalls', owner %></div>
+                <div class="col-lg-2 border-start border-end"><%= link_to 'Propietari', owner %></div>
                 <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_owner_path(owner) %></div>
               </div>
             <% end %>
