@@ -4,6 +4,8 @@ es:
   nights: "noches"
   from: "Desde"
   to: "Hasta"
+  page: "Página"
+  of: "de"
   arrival_day: "Día entrada"
   min: "Min."
   week: "Semana"
@@ -45,6 +47,104 @@ es:
   saturdays: "Sáb.-Sáb."
   everyday: "Cualquier día"
   date:
+    abbr_day_names:
+      - dom
+      - lun
+      - mar
+      - mié
+      - jue
+      - vie
+      - sáb
+    abbr_month_names:
+      -
+      - ene
+      - feb
+      - mar
+      - abr
+      - may
+      - jun
+      - jul
+      - ago
+      - sep
+      - oct
+      - nov
+      - dic
+    day_names:
+      - domingo
+      - lunes
+      - martes
+      - miércoles
+      - jueves
+      - viernes
+      - sábado
+    formats:
+      default: "%-d/%-m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
+    month_names:
+      -
+      - enero
+      - febrero
+      - marzo
+      - abril
+      - mayo
+      - junio
+      - julio
+      - agosto
+      - septiembre
+      - octubre
+      - noviembre
+      - diciembre
+    order:
+      - :day
+      - :month
+      - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de %{count} hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de %{count} mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de %{count} año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi %{count} año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_seconds:
+        one: menos de %{count} segundo
+        other: menos de %{count} segundos
+      less_than_x_minutes:
+        one: menos de %{count} minuto
+        other: menos de %{count} minutos
+      over_x_years:
+        one: más de %{count} año
+        other: más de %{count} años
+      x_seconds:
+        one: "%{count} segundo"
+        other: "%{count} segundos"
+      x_minutes:
+        one: "%{count} minuto"
+        other: "%{count} minutos"
+      x_days:
+        one: "%{count} día"
+        other: "%{count} días"
+      x_months:
+        one: "%{count} mes"
+        other: "%{count} meses"
+      x_years:
+        one: "%{count} año"
+        other: "%{count} años"
+    prompts:
+      second: Segundo
+      minute: Minuto
+      hour: Hora
+      day: Día
+      month: Mes
+      year: Año
     formats:
       default: "%d-%m-%Y"
       long: "%a, %d de %B de %Y"
