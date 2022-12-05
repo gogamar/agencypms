@@ -3,6 +3,8 @@ fr:
   nights: "nuits"
   from: "De"
   to: "jusqu'à"
+  page: "Page"
+  of: "sur"
   arrival_day: "jour d'arrivée"
   min: "Min."
   week: "Semaine"

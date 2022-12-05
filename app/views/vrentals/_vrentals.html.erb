@@ -82,7 +82,12 @@
                 <%= link_to 'Contractes', vragreements_path, class: "btn btn-secondary btn-sm"  %>
               </div>
               <div class="col-lg-2 align-self-center">
-                <%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary btn-sm" %>
+                <% if vrental.status == "inactive" %>
+                  <small><%= link_to "Canvia l'estatus de l'immoble a proposta o actiu per afegir contracte", edit_vrental_path(vrental) %></small>
+
+                <% else %>
+                  <%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary btn-sm" %>
+                <% end %>
               </div>
             </div>
           <% end %>
