@@ -407,9 +407,9 @@ beds24rates.each do |rate|
       min_stay: 7,
       arrival_day: "saturdays"
     )
-    puts "Imported rates for #{mardor.name}."
+    puts "Imported rates for #{@mardor.name}."
   else
-    puts "There is no weekly rate for #{mardor.name}."
+    puts "There is no weekly rate for #{@mardor.name}."
   end
 # sleep 1
 end
