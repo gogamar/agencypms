@@ -33,51 +33,56 @@
       <%= render "shared/flashes" %>
       <div class="container-fluid my-3">
         <div class="row border border-top border-bottom fw-bold bg-light">
-          <div class="col col-lg-2 py-3 border-start border-end" id="vrstatus" relative>
+          <div class="col col-lg-2 py-3 align-self-center" id="vrstatus" relative>
           <%= sort_indicator if params[:column] == "status" %>
           <%= sort_link(column: "status", label: "Estatus") %>
           </div>
-          <div class="col-lg-2 py-3 border-start border-end" id="vrname" relative>
+          <div class="col-lg-2 py-3 align-self-center" id="vrname" relative>
           <%= sort_indicator if params[:column] == "name" %>
           <%= sort_link(column: "name", label: "Nom") %>
           </div>
-          <div class="col-lg-2 py-3 border-start border-end" id="vraddress" relative>
+          <div class="col-lg-2 py-3 align-self-center" id="vraddress" relative>
           <%= sort_indicator if params[:column] == "address" %>
           <%= sort_link(column: "address", label: "Adreça") %>
           </div>
-          <div class="col-lg-2 py-3 border-start border-end" id="vrowner-name" relative>
+          <div class="col-lg-2 py-3 align-self-center" id="vrowner-name" relative>
           <%= sort_indicator if params[:column] == "vrowners.fullname" %>
           <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
           </div>
-          <div class="col-lg-2 py-3 border-start border-end">COPIAR</div>
-          <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
+          <div class="col-lg-2 py-3 align-self-center">Contractes</div>
+          <div class="col-lg-2 py-3 align-self-center">Contracte nou</div>
         </div>
         <div>
           <% @vrentals.each do |vrental| %>
             <div class="row border">
-              <div class="col-lg-2 border-start border-end">
+              <div class="col-lg-2 align-self-center">
                 <%= t("#{vrental.status}") %>
               </div>
-              <div class="col-lg-2 border-start border-end">
-                <%= link_to "#{vrental.name}", vrental %>
+              <div class="col-lg-2 align-self-center">
+                <div>
+                  <%= link_to "#{vrental.name}", vrental, class: "btn btn-success btn-sm" %>
+                </div>
+                <div class="mt-2">
+                <small><%= link_to 'Copiar immoble', copy_vrental_path(vrental)  %></small>
+                </div>
               </div>
-              <div class="col-lg-2 border-start border-end">
+              <div class="col-lg-2 align-self-center">
                 <%= vrental.address %>
               </div>
               <% if vrental.vrowner %>
-                <div class="col-lg-2 border-start border-end">
+                <div class="col-lg-2 align-self-center">
                   <%= vrental.vrowner.fullname %>
                 </div>
               <% else %>
-                <div class="col-lg-2 border-start border-end">
+                <div class="col-lg-2 align-self-center">
                   <%= link_to 'Afegir propietari', edit_vrental_path(vrental) %>
                 </div>
               <% end %>
-              <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Copiar immoble', copy_vrental_path(vrental) %>
+              <div class="col-lg-2 align-self-center">
+                <%= link_to 'Contractes', vragreements_path, class: "btn btn-secondary btn-sm"  %>
               </div>
-              <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary" %>
+              <div class="col-lg-2 align-self-center">
+                <%= link_to 'Afegir contracte', new_vrental_vragreement_path(vrental), class: "btn btn-primary btn-sm" %>
               </div>
             </div>
           <% end %>

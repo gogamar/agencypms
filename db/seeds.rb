@@ -386,3 +386,73 @@ beds24rentals = client.get_properties
 #   vragreement.status = 'not sent'
 #   vragreement.save!
 # end
+
+# importing rates for mar d'or
+
+# @vrentalsnorates.each do |vrental|
+
+
+@mardor = Vrental.find(45)
+
+prop_key = 'mardor2022987123654'
+beds24rates = client.get_rates(prop_key)
+beds24rates.each do |rate|
+  if rate["firstNight"].delete("-").to_i > 20220101 && rate["pricesPer"] == "7"
+    Rate.create!(
+      firstnight: rate["firstNight"],
+      lastnight: rate["lastNight"],
+      priceweek: rate["roomPrice"],
+      beds_room_id: rate["roomId"],
+      vrental_id: mardor.id,
+      min_stay: 7,
+      arrival_day: "saturdays"
+    )
+    puts "Imported rates for #{mardor.name}."
+  else
+    puts "There is no weekly rate for #{mardor.name}."
+  end
+# sleep 1
+end
+
+puts "Copying rates from 2022 to 2023"
+
+
+@mardor.rates.each do |existingrate|
+  Rate.create!(
+    firstnight: existingrate.firstnight + 364,
+    lastnight: existingrate.lastnight + 364,
+    pricenight: existingrate.pricenight,
+    priceweek: existingrate.priceweek,
+    beds_room_id: existingrate.beds_room_id,
+    vrental_id: existingrate.vrental_id,
+    min_stay: 5,
+    arrival_day: "everyday"
+  )
+end
+
+Add minimum stay and arrival day to Mar d Or
+
+
+puts 'Adding default min stay and arrival date to all!'
+@mardor.rates.each do |rate|
+  rate.min_stay = 5
+  rate.arrival_day = "everyday"
+  rate.save!
+end
+puts "Added default min stay (5) and arrival day (always)!"
+
+puts 'Adding min stay (7) and arrival date (Saturday) for summers!'
+
+@mardor.rates.each do |rate|
+  if rate.firstnight >= Date.parse('2022-07-09') && rate.lastnight <= Date.parse('2022-08-26')
+    rate.min_stay = 7
+    rate.arrival_day = "saturdays"
+    rate.save!
+  elsif rate.firstnight >= Date.parse('2023-07-08') && rate.lastnight <= Date.parse('2023-08-25')
+    rate.min_stay = 7
+    rate.arrival_day = "saturdays"
+    rate.save!
+  end
+end
+
+puts 'Added min stay (7) and arrival date (Saturday) for summers!'

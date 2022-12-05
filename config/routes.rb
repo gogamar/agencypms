@@ -106,7 +106,7 @@ Rails.application.routes.draw do
           get 'list'
         end
         resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
-        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update ] do
+        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update] do
           resources :photos, only: :destroy, shallow: true
         end
         member do

@@ -21,7 +21,7 @@ class VrentalsController < ApplicationController
     authorize @vrental
     @rate = Rate.new
     @rates = policy_scope(Rate)
-    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :desc)
+    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
     @features = policy_scope(Feature)
     @features = Feature.all
     @years = [Date.today.last_year.year, Date.today.year, Date.today.next_year.year]

@@ -5,6 +5,7 @@ class VragreementsController < ApplicationController
 
   def index
     all_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
+    # @vragreements = @vragreements.joins(:vrental).where('name ilike ?', "%#{params[:vrental]}%") if params[:vrental].present?
     @pagy, @vragreements = pagy(all_vragreements, page: params[:page], items: 10)
   end
 
