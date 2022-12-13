@@ -7,9 +7,9 @@
         <div class="col-auto">
           <%= form.select :status,
             options_for_select(
-            [[t("inactive"),'inactive'],[t("proposal"),'proposal'],[t("active"),'active']],
+            [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']],
             ),
-            { include_blank: 'tots' },
+            { include_blank: 'Tots els immobles' },
             class: "form-select"
           %>
         </div>
@@ -17,7 +17,7 @@
           <%= form.text_field :name,
           placeholder: "Buscar per nom",
           class: "form-control bg-white border-0 small",
-          autocomplete: "off" %>
+          autocomplete: "on" %>
         </div>
         <div class="col-auto">
           <%= form.button class: "btn btn-primary me-3" do %>
@@ -79,7 +79,7 @@
                 </div>
               <% end %>
               <div class="col-lg-2 align-self-center">
-                <%= link_to 'Contractes', vragreements_path, class: "btn btn-secondary btn-sm"  %>
+                <%= link_to 'Contractes', vragreements_path(immoble: vrental), class: "btn btn-secondary btn-sm"  %>
               </div>
               <div class="col-lg-2 align-self-center">
                 <% if vrental.status == "inactive" %>

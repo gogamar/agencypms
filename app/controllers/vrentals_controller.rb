@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates]
 
   def index
     all_vrentals = policy_scope(Vrental)
@@ -10,7 +10,7 @@ class VrentalsController < ApplicationController
 
   def list
     @vrentals = policy_scope(Vrental).includes(:vrowner)
-    @vrentals = @vrentals.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
+    @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:name]}%") if params[:name].present?
     @vrentals = @vrentals.where(status: params[:status]) if params[:status].present?
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
@@ -24,7 +24,7 @@ class VrentalsController < ApplicationController
     @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
     @features = policy_scope(Feature)
     @features = Feature.all
-    @years = [Date.today.last_year.year, Date.today.year, Date.today.next_year.year]
+    @years = [Date.today.last_year.year, Date.today.year, Date.today.next_year.year, Date.today.next_year.next_year.year]
   end
 
   def new
@@ -41,11 +41,17 @@ class VrentalsController < ApplicationController
     @vrental.rates = []
     @source.rates.each { |rate| @vrental.rates << rate.dup }
     @vrental.features = []
-    # instead of duplicating features, I need to assign the same features to this new record
+    # instead of duplicating features, the same features need to be assigned to the new record
     @source.features.each { |feature| @vrental.features << feature }
     authorize @vrental
     @vrental.save!
     redirect_to @vrental, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
+  end
+
+  def copy_rates
+    @vrental.copy_rates_to_next_year
+    authorize @vrental
+    redirect_to @vrental, notice: "S'han copiat les tarifes."
   end
 
   def edit
@@ -81,6 +87,7 @@ class VrentalsController < ApplicationController
     @vrental.destroy
     redirect_to vrentals_url, notice: 'S\'ha esborrat l\'immoble.'
   end
+
 
   private
 

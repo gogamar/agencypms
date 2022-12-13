@@ -59,11 +59,17 @@
     <h4 id="tarifes" class="mb-5 font-weight-bold text-primary text-center">Tarifes <%= @vrental.name %></h4>
     <hr>
     <div class="container">
+      <h5 class="text-center text-info mb-5">Afegir tarifa nova</h5>
       <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental) %>
       <% @years.each do |year| %>
         <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
           <hr>
           <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
+          <div class="text-end">
+            <% if year <= Date.today.year %>
+              <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental), class: "text-info" %>
+            <% end %>
+          </div>
           <hr>
           <div id="rates<%= year %>">
             <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>

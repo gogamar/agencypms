@@ -111,6 +111,7 @@ Rails.application.routes.draw do
         end
         member do
           get 'copy'
+          get 'copy_rates'
         end
       end
 

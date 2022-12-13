@@ -13,10 +13,6 @@ class RatePolicy < ApplicationPolicy
     user.vrentals.exists?(record.vrental_id)
   end
 
-  def copy?
-    return create?
-  end
-
   def new?
     return create?
   end

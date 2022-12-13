@@ -55,6 +55,7 @@ class RatesController < ApplicationController
     end
   end
 
+
   def destroy
     authorize @rate
     @rate.destroy

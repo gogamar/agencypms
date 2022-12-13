@@ -32,6 +32,10 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
+  def copy_rates?
+    return create?
+  end
+
   def new?
     return create?
   end

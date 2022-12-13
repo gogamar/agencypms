@@ -12,7 +12,7 @@ beds24rentals = client.get_properties
 # 1
 
 # puts "Destroying all existing vacation rental owners"
-# Vrowner.destroy_all
+
 # puts "Importing vacation rental owners from a csv file.."
 
 # filepath = "db/vrowners.csv"
@@ -35,7 +35,7 @@ beds24rentals = client.get_properties
 # 2
 
 # puts "Destroying all existing vacation rentals..."
-# Vrental.destroy_all
+
 # puts "Existing rates and vacation rentals deleted."
 
 # puts "Importing vacation rentals from Beds24"
@@ -140,7 +140,7 @@ beds24rentals = client.get_properties
 # @vrentalsnorates.each do |vrental|
 #   prop_key = vrental.prop_key
 #   beds24rates = client.get_rates(prop_key)
-#     # if beds24rates.blank?
+#     # if !beds24rates.blank?
 #     #   puts "There are no rates for #{vrental.name}."
 #     # else
 #       beds24rates.each do |rate|
@@ -150,7 +150,9 @@ beds24rentals = client.get_properties
 #             lastnight: rate["lastNight"],
 #             priceweek: rate["roomPrice"],
 #             beds_room_id: rate["roomId"],
-#             vrental_id: vrental.id
+#             vrental_id: vrental.id,
+#             min_stay: 5,
+#             arrival_day: 'everyday'
 #           )
 #           puts "Imported rates for #{vrental.name}."
 #         else
@@ -250,7 +252,7 @@ beds24rentals = client.get_properties
 
 # 12
 # puts "Destroying all features..."
-# Feature.destroy_all
+
 
 # @all_features = ["washer", "oven", "toaster", "microwave", "hair_dryer", "iron_board", "garden", "wifi", "refrigerator", "grill", "ocean_view", "dishwasher", "pool_private", "pets_considered", "air_conditioning", "freezer", "elevator", "beach_view", "private_yard", "smoke_detector", "pets_not_allowed", "balcony", "parking_included", "parking_possible", "deck_patio_uncovered", "kettle", "beach_front", "pool", "coffee_maker", "roof_terrace", "tv", "fireplace", "ceiling_fan"]
 
@@ -312,7 +314,7 @@ beds24rentals = client.get_properties
 
 # puts "Destroying all the existing agreements"
 
-# Vragreement.destroy_all
+
 
 
 # @vrentals = Vrental.all
@@ -381,78 +383,21 @@ beds24rentals = client.get_properties
 #   vrental.save!
 # end
 
+# 17 Set the vragreement status to 'not sent' for all active vrentals
 # @vragreements_active_vrentals = Vragreement.joins(:vrental).where.not('vrental.status' => "inactive")
 # @vragreements_active_vrentals.each do |vragreement|
 #   vragreement.status = 'not sent'
 #   vragreement.save!
 # end
 
-# importing rates for mar d'or
-
-# @vrentalsnorates.each do |vrental|
-
-
-@mardor = Vrental.find(45)
-
-# prop_key = 'mardor2022987123654'
-# beds24rates = client.get_rates(prop_key)
-# beds24rates.each do |rate|
-#   if rate["firstNight"].delete("-").to_i > 20220101 && rate["pricesPer"] == "7"
-#     Rate.create!(
-#       firstnight: rate["firstNight"],
-#       lastnight: rate["lastNight"],
-#       priceweek: rate["roomPrice"],
-#       beds_room_id: rate["roomId"],
-#       vrental_id: @mardor.id,
-#       min_stay: 7,
-#       arrival_day: "saturdays"
-#     )
-#     puts "Imported rates for #{@mardor.name}."
-#   else
-#     puts "There is no weekly rate for #{@mardor.name}."
-#   end
-# # sleep 1
-# end
-
-# puts "Copying rates from 2022 to 2023"
+# 18 Set the year of all vragreements to the year of the firstnight of the firstrate
+  # puts "Setting year of vragreement to 2023"
+  # @vragreements = Vragreement.all
+  # @vragreements.each do |vragreement|
+  #   vragreement.year = 2023
+  #   vragreement.save!
+  # end
+  # puts "Done! #{Vragreement.last.vrental.name} contract year is #{Vragreement.last.year} "
 
 
-# @mardor.rates.each do |existingrate|
-#   Rate.create!(
-#     firstnight: existingrate.firstnight + 364,
-#     lastnight: existingrate.lastnight + 364,
-#     pricenight: existingrate.pricenight,
-#     priceweek: existingrate.priceweek,
-#     beds_room_id: existingrate.beds_room_id,
-#     vrental_id: existingrate.vrental_id,
-#     min_stay: 5,
-#     arrival_day: "everyday"
-#   )
-# end
-
-# Add minimum stay and arrival day to Mar d Or
-
-
-puts 'Adding default min stay and arrival date to all!'
-@mardor.rates.each do |rate|
-  rate.min_stay = 5
-  rate.arrival_day = "everyday"
-  rate.save!
-end
-puts "Added default min stay (5) and arrival day (always)!"
-
-puts 'Adding min stay (7) and arrival date (Saturday) for summers!'
-
-@mardor.rates.each do |rate|
-  if rate.firstnight >= Date.parse('2022-07-09') && rate.lastnight <= Date.parse('2022-08-26')
-    rate.min_stay = 7
-    rate.arrival_day = "saturdays"
-    rate.save!
-  elsif rate.firstnight >= Date.parse('2023-07-08') && rate.lastnight <= Date.parse('2023-08-25')
-    rate.min_stay = 7
-    rate.arrival_day = "saturdays"
-    rate.save!
-  end
-end
-
-puts 'Added min stay (7) and arrival date (Saturday) for summers!'
+# 19 Set the start date for vragreement to firstnight of the first rate and end date for the lastnight of the last rate

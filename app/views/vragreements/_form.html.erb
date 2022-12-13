@@ -2,29 +2,31 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row justify-content-md-center">
+    <div class="col-lg-2">
+      <%= f.input :year %>
+    </div>
     <div class="col-lg-3">
       <%= f.input :status, as: :radio_buttons, collection: [[t("not sent"),'not sent'],[t("pending"),'pending'],[t("signed"),'signed']] %>
     </div>
-    <div class="col-lg-9">
+    <div class="col-lg-7">
       <%= f.association :vrentaltemplate, collection: @vrentaltemplates, label_method: :title, label: 'Model', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>
      <%# date and place row %>
   <div class="row justify-content-md-center">
     <div class="col-lg-3">
-      <%= f.label :signdate %>
-      <%= f.date_field :signdate, class: "form-control" %>
+      <%= f.input :signdate, as: :string, input_html: {class: "datepicker"} %>
     </div>
     <div class="col-lg-3">
       <%= f.input :place, label: 'Lloc de la firma' %>
     </div>
     <div class="col-lg-3">
-      <%= f.label :start_date %>
-      <%= f.date_field :start_date, class: "form-control" %>
+      <%= f.input :start_date, as: :string, input_html: {class: "datepicker"} %>
     </div>
     <div class="col-lg-3">
-      <%= f.label :end_date %>
-      <%= f.date_field :end_date, class: "form-control" %>
+      <%# f.label :end_date %>
+      <%# f.date_field :end_date, class: "form-control" %>
+      <%= f.input :end_date, as: :string, input_html: {class: "datepicker"} %>
     </div>
   </div>
    <div class="row justify-content-md-center">

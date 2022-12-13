@@ -1,9 +1,16 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Contractes lloguer turístic - HUTs actius</h4>
+    <h4 class="font-weight-bold text-primary text-center mb-2">Contractes lloguer turístic</h4>
     <hr>
           <div class="container d-flex justify-content-center mt-5">
         <%= form_with url: list_vragreements_path, method: :get, data: { turbo_frame: "vragreements" }, class: "row g-3" do |form| %>
+          <div class="col-auto">
+            <%= form.select :status,
+              options_for_select([[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']]),
+              { include_blank: 'Tots els immobles' },
+              class: "form-select"
+            %>
+          </div>
           <div class="col-auto">
             <%= form.select :year,
               options_for_select(
@@ -37,10 +44,11 @@
             <%= sort_link_vragreement(column: "signdate", label: "Data firma") %>
             </div>
             <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
-              Estat
+            <%= sort_indicator if params[:column] == "status" %>
+            <%= sort_link_vragreement(column: "status", label: "Estat") %>
             </div>
             <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
-              Immoble
+              Immobles
             </div>
             <div class="col-lg-2 py-3 border-start border-end" id="comission" relative>
               Commissió

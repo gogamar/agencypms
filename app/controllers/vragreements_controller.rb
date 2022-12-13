@@ -4,14 +4,16 @@ class VragreementsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
-    all_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
-    # @vragreements = @vragreements.joins(:vrental).where('name ilike ?', "%#{params[:vrental]}%") if params[:vrental].present?
-    @pagy, @vragreements = pagy(all_vragreements, page: params[:page], items: 10)
+    active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
+    active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
+    @pagy, @vragreements = pagy(active_vragreements, page: params[:page], items: 10)
   end
 
   def list
-    @vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
-    @vragreements = @vragreements.where("DATE_PART('year', signdate) = ?", params[:year]) if params[:year].present?
+    @vragreements = policy_scope(Vragreement).includes(:vrental)
+    # .where.not('vrental.status' => "inactive")
+    @vragreements = @vragreements.where('vrental.status' => params[:status]) if params[:status].present?
+    @vragreements = @vragreements.where(year: params[:year]) if params[:year].present?
     @vragreements = @vragreements.joins(:vrental).where('name ilike ?', "%#{params[:vrental]}%") if params[:vrental].present?
     @vragreements = @vragreements.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vragreements = pagy(@vragreements, page: params[:page], items: 10)

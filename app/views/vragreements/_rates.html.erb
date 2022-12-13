@@ -13,7 +13,7 @@
   <tbody>
   <% if @vrates %>
     <% @vrates.each do |rate| %>
-      <% if rate.firstnight >= @vragreement.start_date %>
+      <% if rate.firstnight.year == @vragreement.year %>
         <tr>
           <td class="pricetable nowrap"><%= l(rate.firstnight, format: :long) %></td>
           <td class="pricetable nowrap"><%= l(rate.lastnight, format: :long) %></td>
@@ -28,7 +28,7 @@
           <% end %>
           </td>
         </tr>
-        <% end %>
+      <% end %>
     <% end %>
   <% end %>
   </tbody>
