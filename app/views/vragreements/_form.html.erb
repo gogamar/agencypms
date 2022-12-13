@@ -12,10 +12,10 @@
       <%= f.association :vrentaltemplate, collection: @vrentaltemplates, label_method: :title, label: 'Model', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>
-  <div class="row justify-content-md-center bg-light py-5">
+  <div class="row justify-content-md-center bg-light p-5">
     <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).present? %>
-      <h6 class="text-center">Tarifes <%= params[:year] %></h6>
-      <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(firstnight: :asc) %>
+      <h6 class="text-center"><%= link_to "Tarifes #{params[:year]}", vrental, target: "_blank" %></h6>
+        <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(firstnight: :asc) %>
     <% else %>
       <%= link_to "Afegir tarifes per #{params[:year]}", vrental, target: "_blank", class: "btn btn-info" %>
     <% end %>

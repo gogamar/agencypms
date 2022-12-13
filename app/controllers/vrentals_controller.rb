@@ -51,7 +51,7 @@ class VrentalsController < ApplicationController
   def copy_rates
     @vrental.copy_rates_to_next_year
     authorize @vrental
-    redirect_to @vrental, notice: "S'han copiat les tarifes."
+    redirect_to @vrental, notice: "Les tarifes ja estàn copiades."
   end
 
   def edit

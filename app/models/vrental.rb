@@ -72,6 +72,8 @@ class Vrental < ApplicationRecord
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
+      else
+        return
       end
     end
   end
