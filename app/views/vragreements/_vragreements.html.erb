@@ -74,7 +74,7 @@
                 <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
               </div>
               <div class="col-lg-2 border-start border-end">
-                <%= link_to 'Contracte', "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}" %>
+                <%= link_to "Contracte #{vragreement.year}", "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}" %>
               </div>
               <div class="col-lg-1 border-start border-end">
                 <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement), class: "text-info text-decoration-none" do %>

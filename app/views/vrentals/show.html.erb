@@ -67,7 +67,7 @@
           <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
           <div class="text-end">
             <% if year <= Date.today.year %>
-              <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental), class: "text-info" %>
+              <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental), class: "btn btn-warning" %>
             <% end %>
           </div>
           <hr>

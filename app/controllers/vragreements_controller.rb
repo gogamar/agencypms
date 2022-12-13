@@ -94,6 +94,10 @@ class VragreementsController < ApplicationController
   def new
     @vragreement = Vragreement.new
     authorize @vragreement
+    @years_vragreement_exists = @vrental.vragreements.pluck(:year)
+    next_three_years = [Date.today.year, Date.today.year + 1, Date.today.year + 2]
+    merged_arrays = next_three_years + @years_vragreement_exists
+    @years_vragreement_missing = merged_arrays.select { |year| merged_arrays.count(year) == 1 }
     @vrentaltemplates = policy_scope(Vrentaltemplate)
   end
 

@@ -309,6 +309,10 @@ ca:
         email: "Email"
         account: "Compte bancari"
         vrowner_bookings: "Reserves per el propietari"
+        signdate: "Data firma"
+        start_date: "Inici contracte"
+        end_date: "Fi contracte"
+        year: "Any contracte"
       contract:
         contentarea: "Clausula adicional"
         signdate: "Data de la firma"

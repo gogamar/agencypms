@@ -11,7 +11,12 @@
 </div>
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir un contracte de lloguer turístic per a <%= @vrental.name %></h4>
+    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir contracte de lloguer turístic per a <%= @vrental.name %></h4>
+    <div class="text-center text-warning">
+      <% if @vrental.vragreements.exists? %>
+        <small><%= link_to "El contracte ja existeix per #{@years_vragreement_exists.to_sentence}", vragreements_path(immoble: @vrental), target: "_blank", class: "text-info" %></small>
+      <% end %>
+    </div>
     <hr>
     <div class="container d-flex justify-content-center mt-5 pb-5">
       <%= render 'form', vrental: @vrental, vragreement: @vragreement %>
