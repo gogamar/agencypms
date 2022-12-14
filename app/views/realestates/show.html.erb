@@ -11,7 +11,7 @@
     <% end %>
   </div>
   <div>
-    <%= link_to 'Modificar', edit_realestate_path(@realestate), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @realestate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@realestate.address}?"} %>
+    <%= link_to 'Modificar', edit_realestate_path(@realestate), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @realestate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@realestate.address}?"} %>
   </div>
 </div>
   <div>

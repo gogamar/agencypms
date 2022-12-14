@@ -12,7 +12,7 @@
       <% end %>
     </div>
     <div>
-      <%= link_to 'Modificar', edit_rentaltemplate_path(@rentaltemplate), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @rentaltemplate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@rentaltemplate.title}?"} %>
+      <%= link_to 'Modificar', edit_rentaltemplate_path(@rentaltemplate), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @rentaltemplate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@rentaltemplate.title}?"} %>
     </div>
   </div>
   <hr>

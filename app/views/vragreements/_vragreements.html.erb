@@ -61,27 +61,27 @@
         <div class="tbody">
           <% @vragreements.each do |vragreement| %>
             <div class="row border">
-              <div class="col-lg-2 border-start border-end">
+              <div class="col-lg-2 border-start border-end nowrap">
                 <%= vragreement.signdate if vragreement.signdate %>
               </div>
-              <div class="col-lg-2 border-start border-end">
+              <div class="col-lg-2 border-start border-end nowrap">
                 <%= t(vragreement.status) %>
               </div>
-              <div class="col-lg-2 border-start border-end">
-                <%= vragreement.vrental.name %>
+              <div class="col-lg-2 border-start border-end nowrap text-primary">
+                <%= link_to vragreement.vrental.name, vragreement.vrental, target: "_blank" %>
               </div>
-              <div class="col-lg-2 border-start border-end">
+              <div class="col-lg-2 border-start border-end nowrap">
                 <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
               </div>
-              <div class="col-lg-2 border-start border-end">
-                <%= link_to "Contracte #{vragreement.year}", "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}" %>
+              <div class="col-lg-2 border-start border-end nowrap">
+                <%= link_to "Contracte #{vragreement.year}", "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}", class: "btn btn-sm btn-primary" %>
               </div>
-              <div class="col-lg-1 border-start border-end">
-                <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement), class: "text-info text-decoration-none" do %>
+              <div class="col-lg-1 border-start border-end nowrap">
+                <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement, year: vragreement.year), class: "text-info text-decoration-none" do %>
                   <i class="fas fa-edit fa-sm"></i>
                 <% end %>
               </div>
-              <div class="col-lg-1 border-start border-end">
+              <div class="col-lg-1 border-start border-end nowrap">
                 <%= link_to vragreement, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{vragreement.vrental.name}?"} do %>
                   <i class="fas fa-trash-can fa-sm"></i>
                 <% end %>

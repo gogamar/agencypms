@@ -11,7 +11,7 @@
         <% end %>
       </div>
       <div>
-        <%= link_to 'Modificar', edit_rental_agreement_path(@agreement.rental, @agreement), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @agreement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@agreement.rental.address}?"} %>
+        <%= link_to 'Modificar', edit_rental_agreement_path(@agreement.rental, @agreement), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @agreement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@agreement.rental.address}?"} %>
       </div>
       <div data-controller="spinner" >
         <%= link_to 'Contracte en PDF', agreement_path(@agreement, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>

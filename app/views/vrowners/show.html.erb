@@ -12,7 +12,7 @@
         <% end %>
       </div>
       <div>
-        <%= link_to 'Modificar', edit_vrowner_path(@vrowner), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @vrowner, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrowner.fullname}?"} %>
+        <%= link_to 'Modificar', edit_vrowner_path(@vrowner), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @vrowner, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrowner.fullname}?"} %>
       </div>
   </div>
   <div>

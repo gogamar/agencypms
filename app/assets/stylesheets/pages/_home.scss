@@ -6,6 +6,10 @@
   font-size: 0.875rem;
 }
 
+.nowrap {
+  white-space: nowrap !important;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

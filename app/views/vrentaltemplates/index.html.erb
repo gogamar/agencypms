@@ -10,35 +10,54 @@
       <div class="container-fluid my-3">
         <div>
           <div class="row border border-top border-bottom fw-bold bg-light">
-            <div class="col col-lg-2 py-3 border-start border-end" id="vrowner-fullname" relative>
-              Plantilla
-            </div>
-            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-address" relative>
-              Idioma
-            </div>
-            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-phone" relative>
+            <div class="col col-lg-8 py-2 border-start border-end nowrap" id="vrowner-fullname" relative>
               Model
             </div>
-            <div class="col-lg-2 py-3 border-start border-end" id="vrowner-language" relative>
-              Modificar
+            <div class="col-lg-1 py-2 border-start border-end nowrap" id="vrowner-address" relative>
+              <small>Idioma</small>
             </div>
-            <div class="col-lg-2 py-3 border-start border-end">
-              Copiar
+            <div class="col-lg-1 py-2 border-start border-end nowrap" id="vrowner-language" relative>
+              <small>Modificar</small>
+
             </div>
-            <div class="col-lg-2 py-3 border-start border-end">
-              Esborrar
+            <div class="col-lg-1 py-2 border-start border-end nowrap">
+              <small>Copiar</small>
+            </div>
+            <div class="col-lg-1 py-2 border-start border-end nowrap">
+              <small>Esborrar</small>
             </div>
           </div>
         </div>
         <div class="tbody">
           <% @vrentaltemplates.each do |vrentaltemplate| %>
             <div class="row border">
-              <div class="col-lg-2 border-start border-end"><%= vrentaltemplate.title %></div>
-              <div class="col-lg-2 border-start border-end"><%= vrentaltemplate.language %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Veure el model', vrentaltemplate %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_vrentaltemplate_path(vrentaltemplate) if policy(vrentaltemplate).edit? %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Copiar model', copy_vrentaltemplate_path(vrentaltemplate) %></div>
-              <div class="col-lg-2 border-start border-end"><%= link_to 'Esborrar', vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"} if policy(vrentaltemplate).destroy?  %></div>
+              <div class="col-lg-8 border-start border-end nowrap">
+                <%= link_to vrentaltemplate.title, vrentaltemplate %>
+              </div>
+              <div class="col-lg-1 border-start border-end nowrap">
+                <%= vrentaltemplate.language %>
+              </div>
+              <div class="col-lg-1 border-start border-end nowrap">
+                <% if policy(vrentaltemplate).edit? %>
+                  <%= link_to edit_vrentaltemplate_path(vrentaltemplate), class: "text-info text-decoration-none" do %>
+                    <i class="fas fa-edit fa-sm"></i>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="col-lg-1 border-start border-end nowrap">
+                <% if policy(vrentaltemplate).copy? %>
+                  <%= link_to copy_vrentaltemplate_path(vrentaltemplate), class: "text-success text-decoration-none" do %>
+                    <i class="fas fa-copy fa-sm"></i>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="col-lg-1 border-start border-end nowrap">
+                <% if policy(vrentaltemplate).destroy? %>
+                  <%= link_to vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"}, class: "text-danger text-decoration-none" do %>
+                    <i class="fas fa-trash fa-sm"></i>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           <% end %>
         </div>

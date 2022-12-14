@@ -11,11 +11,15 @@
     <% end %>
   </div>
   <div>
-    <%= link_to 'Modificar', edit_vrental_path(@vrental), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @vrental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %>
+    <%= link_to 'Modificar', edit_vrental_path(@vrental), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @vrental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %>
   </div>
 </div>
 <div>
   <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @vrental.name %></h4>
+  <a href="#tarifes" class="btn btn-info" role="button" aria-pressed="true">
+    <span>Tarifes</span>
+      <i class="fas fa-fw fa-arrow-down"></i>
+  </a>
 </div>
 <div class="card shadow mb-4 p-4">
   <p>

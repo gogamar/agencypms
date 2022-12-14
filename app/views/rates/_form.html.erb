@@ -32,7 +32,7 @@
       <%= f.input :min_stay %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :arrival_day, label: t("arrival_day"), priority: [ t("everyday") ], collection: [ t("everyday"), t("saturdays") ], include_blank: false %>
+      <%= f.input :arrival_day, label: t("arrival_day"), priority: [t("everyday"), "everyday"], collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
     </div>
     <div class="p-1 text-center">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>

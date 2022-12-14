@@ -25,11 +25,23 @@ class Vrental < ApplicationRecord
     }
     rates.each do |existingrate|
     next_year = existingrate.firstnight.year + 1
-  # if it's Easter rate and the rate doesn't already exist for the next year
-      if easter_season_firstnight.value?(existingrate.firstnight) && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
+      # if Easter Rate is 10 days and the rate doesn't already exist for the next year
+      if easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
         Rate.create!(
           firstnight: easter_season_firstnight[next_year],
           lastnight: easter_season_firstnight[next_year] + 10,
+          pricenight: existingrate.pricenight,
+          priceweek: existingrate.priceweek,
+          beds_room_id: existingrate.beds_room_id,
+          vrental_id: existingrate.vrental_id,
+          min_stay: existingrate.min_stay,
+          arrival_day: existingrate.arrival_day
+        )
+      # if Easter rate is longer than 10 days and the rate doesn't already exist for the next year
+      elsif easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i > 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
+        Rate.create!(
+          firstnight: easter_season_firstnight[next_year],
+          lastnight: existingrate.lastnight + 364,
           pricenight: existingrate.pricenight,
           priceweek: existingrate.priceweek,
           beds_room_id: existingrate.beds_room_id,
@@ -42,18 +54,6 @@ class Vrental < ApplicationRecord
         Rate.create!(
           firstnight: existingrate.firstnight + 364,
           lastnight: easter_season_firstnight[next_year] - 1,
-          pricenight: existingrate.pricenight,
-          priceweek: existingrate.priceweek,
-          beds_room_id: existingrate.beds_room_id,
-          vrental_id: existingrate.vrental_id,
-          min_stay: existingrate.min_stay,
-          arrival_day: existingrate.arrival_day
-        )
-      # if it's After Easter rate and the rate doesn't already exist for the next year
-      elsif easter_season_firstnight.value?(existingrate.firstnight - 11) && !rates.where(firstnight: easter_season_firstnight[next_year] + 11).exists?
-        Rate.create!(
-          firstnight: easter_season_firstnight[next_year] + 11,
-          lastnight: existingrate.lastnight + 364,
           pricenight: existingrate.pricenight,
           priceweek: existingrate.priceweek,
           beds_room_id: existingrate.beds_room_id,
@@ -77,14 +77,6 @@ class Vrental < ApplicationRecord
       end
     end
   end
-
-  # def default_checkin
-  # find the last rate of this vrental
-  # take its lastnight
-  # set the default value for the new rate as lastnight + 1 day
-  #
-  #   all_rates_one_year = rates.where(:firstnight.year).order(:firstnight).last.lastnight + 1.day
-  # end
 
   def default_checkin
     last_rate = rates.find_by(lastnight: rates.maximum('lastnight'))

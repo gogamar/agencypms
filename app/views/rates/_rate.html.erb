@@ -1,17 +1,19 @@
+
+
 <%= turbo_frame_tag rate, class: "card-body" do %>
-  <div class="d-flex flex-lg-row flex-sm-column justify-content-between border align-items-center">
-    <div class="p-1 text-center"><%= l(rate.firstnight, format: :long) %></div>
-    <div class="p-1 text-center"><%= l(rate.lastnight, format: :long) %></div>
-    <div class="p-1 text-center"><%= rate.min_stay %></div>
-    <div class="p-1 text-center"><%= t("#{rate.arrival_day}") %></div>
-    <div class="p-1 text-center"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></div>
+    <div class="row">
+    <div class="col-lg-3 nowrap"><%= l(rate.firstnight, format: :long) %></div>
+    <div class="col-lg-3 nowrap nowrap"><%= l(rate.lastnight, format: :long) %></div>
+    <div class="col-lg-1 nowrap"><%= rate.min_stay %></div>
+    <div class="col-lg-2 nowrap"><%= t("#{rate.arrival_day}") %></div>
+    <div class="col-lg-1 nowrap"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></div>
     <% unless params[:controller] == 'vragreements' %>
-      <div class="p-1 text-center">
+      <div class="col-lg-1 nowrap">
         <%= link_to edit_vrental_rate_path(@vrental, rate), class: "btn btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>
       </div>
-      <div class="p-1 text-center">
+      <div class="col-lg-1 nowrap">
         <%= link_to rate, class: "text-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tarifa?"} do %>
           <i class="fas fa-trash-can fa-sm"></i>
         <% end %>

@@ -12,7 +12,7 @@
       <% end %>
     </div>
     <div>
-      <%= link_to 'Modificar', edit_rstemplate_path(@rstemplate), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @rstemplate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@rstemplate.title}?"} %>
+      <%= link_to 'Modificar', edit_rstemplate_path(@rstemplate), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @rstemplate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@rstemplate.title}?"} %>
     </div>
   </div>
   <hr>

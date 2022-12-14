@@ -12,7 +12,7 @@
         <% end %>
       </div>
       <div>
-        <%= link_to 'Modificar', edit_buyer_path(@buyer), class: "btn btn-secondary" %> | <%= link_to 'Esborrar', @buyer, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@buyer.fullname}?"} %>
+        <%= link_to 'Modificar', edit_buyer_path(@buyer), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @buyer, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@buyer.fullname}?"} %>
       </div>
   </div>
   <div>
