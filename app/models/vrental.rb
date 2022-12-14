@@ -24,7 +24,8 @@ class Vrental < ApplicationRecord
     2027 => Date.new(2027,3,20),
     2028 => Date.new(2028,4,8)
     }
-    rates.each do |existingrate|
+    current_rates = rates.where("DATE_PART('year', firstnight) = ?", Date.today.year)
+    current_rates.each do |existingrate|
     next_year = existingrate.firstnight.year + 1
       # if Easter Rate is 10 days and the rate doesn't already exist for the next year
       if easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
@@ -73,8 +74,8 @@ class Vrental < ApplicationRecord
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
-      else
-        return
+      # else
+      #   return
       end
     end
   end
