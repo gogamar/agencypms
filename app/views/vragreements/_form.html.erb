@@ -3,40 +3,57 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row justify-content-md-center">
     <div class="col-lg-2">
-      <%= f.input :year, input_html: {value: params[:year]}, readonly: true %>
+      <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
+      <%= f.input :year, input_html: {value: params[:year].to_i}, readonly: true %>
+      <% else %>
+      <%= f.input :year, readonly: true %>
+      <% end %>
     </div>
     <div class="col-lg-3">
       <%= f.input :status, as: :radio_buttons, collection: [[t("not sent"),'not sent'],[t("pending"),'pending'],[t("signed"),'signed']] %>
     </div>
     <div class="col-lg-7">
-      <%= f.association :vrentaltemplate, collection: @vrentaltemplates, label_method: :title, label: 'Model', include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
+      <%= f.association :vrentaltemplate, include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
     </div>
   </div>
   <div class="row justify-content-md-center bg-light py-5">
-    <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).present? %>
-      <h5><%= link_to "Tarifes #{params[:year]}", vrental, target: "_blank" %></h5>
-        <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(firstnight: :asc) %>
+    <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
+      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).present? %>
+        <h5><%= link_to "Tarifes #{params[:year]}", vrental, target: "_blank" %></h5>
+          <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(firstnight: :asc) %>
+      <% else %>
+        <%= link_to "Afegir tarifes per #{params[:year]}", vrental, target: "_blank", class: "btn btn-info" %>
+      <% end %>
     <% else %>
-      <%= link_to "Afegir tarifes per #{params[:year]}", vrental, target: "_blank", class: "btn btn-info" %>
+      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).present? %>
+        <h5><%= link_to "Tarifes #{vragreement.year}", vrental, target: "_blank" %></h5>
+        <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).order(firstnight: :asc) %>
+      <% else %>
+        <%= link_to "Afegir tarifes per #{vragreement.year}", vrental, target: "_blank", class: "btn btn-info" %>
+      <% end %>
     <% end %>
   </div>
   <div class="row justify-content-md-center">
     <div class="col-lg-3">
-      <%= f.input :signdate, as: :string, input_html: {class: "datepicker"} %>
+      <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
+        <%= f.input :signdate, as: :string, input_html: {class: "datepicker", value: Date.today} %>
+      <% else %>
+        <%= f.input :signdate, as: :string, input_html: {class: "datepicker"} %>
+      <% end %>
     </div>
     <div class="col-lg-3">
       <%= f.input :place, label: 'Lloc de la firma' %>
     </div>
     <div class="col-lg-3">
-      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).present? %>
-        <%= f.input :start_date, as: :string, input_html: {value: l(vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(firstnight: :asc).first.firstnight, format: :long)}, readonly: true %>
+      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).present? %>
+        <%= f.input :start_date, as: :string, input_html: {value: l(vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).order(firstnight: :asc).first.firstnight, format: :long)}, readonly: true %>
       <% else %>
         <%# f.input :start_date, as: :string, input_html: {class: "datepicker"} %>
       <% end %>
     </div>
     <div class="col-lg-3">
-      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).present? %>
-        <%= f.input :end_date, as: :string, input_html: {value: l(vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(lastnight: :desc).first.lastnight, format: :long)}, readonly: true %>
+      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).present? %>
+        <%= f.input :end_date, as: :string, input_html: {value: l(vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).order(lastnight: :desc).first.lastnight, format: :long)}, readonly: true %>
       <% else %>
         <%# f.input :end_date, as: :string, input_html: {class: "datepicker"} %>
       <% end %>
@@ -44,7 +61,19 @@
   </div>
    <div class="row justify-content-md-center">
      <div class="col-lg-12">
-       <%= f.input :vrowner_bookings, input_html: {value: t('.vrowner_bookings')} %>
+      <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
+        <% if vrental.vrowner.language == "ca" %>
+          <%= f.input :vrowner_bookings, input_html: {value: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com"} %>
+        <% elsif vrental.vrowner.language == "es" %>
+          <%= f.input :vrowner_bookings, input_html: {value: "El propietario todavía no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contacte con nosotros a info@sistachrentals.com"} %>
+        <% elsif vrental.vrowner.language == "fr" %>
+          <%= f.input :vrowner_bookings, input_html: {value: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, merci de nous contacter par email: info@sistachrentals.com"} %>
+        <% elsif vrental.vrowner.language == "en" %>
+          <%= f.input :vrowner_bookings, input_html: {value: "The owner has not yet blocked any dates for their own use. If you would like to block some dates, please contact us by email: info@sistachrentals.com"} %>
+        <% end %>
+      <% else %>
+        <%= f.input :vrowner_bookings %>
+      <% end %>
      </div>
    </div>
 <div class="d-flex justify-content-between align-items-end py-4">

@@ -16,14 +16,14 @@
             <div class="col-lg-1 py-2 border-start border-end nowrap" id="vrowner-address" relative>
               <small>Idioma</small>
             </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap" id="vrowner-language" relative>
+            <div class="col-lg-1 py-2 border-start border-end nowrap text-center" id="vrowner-language" relative>
               <small>Modificar</small>
 
             </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap">
+            <div class="col-lg-1 py-2 border-start border-end nowrap text-center">
               <small>Copiar</small>
             </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap">
+            <div class="col-lg-1 py-2 border-start border-end nowrap text-center">
               <small>Esborrar</small>
             </div>
           </div>
@@ -37,21 +37,21 @@
               <div class="col-lg-1 border-start border-end nowrap">
                 <%= vrentaltemplate.language %>
               </div>
-              <div class="col-lg-1 border-start border-end nowrap">
+              <div class="col-lg-1 border-start border-end nowrap text-center">
                 <% if policy(vrentaltemplate).edit? %>
                   <%= link_to edit_vrentaltemplate_path(vrentaltemplate), class: "text-info text-decoration-none" do %>
                     <i class="fas fa-edit fa-sm"></i>
                   <% end %>
                 <% end %>
               </div>
-              <div class="col-lg-1 border-start border-end nowrap">
+              <div class="col-lg-1 border-start border-end nowrap text-center">
                 <% if policy(vrentaltemplate).copy? %>
                   <%= link_to copy_vrentaltemplate_path(vrentaltemplate), class: "text-success text-decoration-none" do %>
                     <i class="fas fa-copy fa-sm"></i>
                   <% end %>
                 <% end %>
               </div>
-              <div class="col-lg-1 border-start border-end nowrap">
+              <div class="col-lg-1 border-start border-end nowrap text-center">
                 <% if policy(vrentaltemplate).destroy? %>
                   <%= link_to vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"}, class: "text-danger text-decoration-none" do %>
                     <i class="fas fa-trash fa-sm"></i>

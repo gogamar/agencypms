@@ -47,14 +47,13 @@
             <%= sort_indicator if params[:column] == "status" %>
             <%= sort_link_vragreement(column: "status", label: "Estat") %>
             </div>
-            <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
+            <div class="col-lg-3 py-3 border-start border-end nowrap" id="vrental" relative>
               Immobles
             </div>
-            <div class="col-lg-2 py-3 border-start border-end" id="comission" relative>
+            <div class="col-lg-2 py-3 border-start border-end nowrap" id="comission" relative>
               Commissió
             </div>
             <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
-            <div class="col-lg-1 py-3 border-start border-end"></div>
             <div class="col-lg-1 py-3 border-start border-end"></div>
           </div>
         </div>
@@ -65,9 +64,9 @@
                 <%= vragreement.signdate if vragreement.signdate %>
               </div>
               <div class="col-lg-2 border-start border-end nowrap">
-                <%= t(vragreement.status) %>
+                <%= t(vragreement.status) if vragreement.status.present? %>
               </div>
-              <div class="col-lg-2 border-start border-end nowrap text-primary">
+              <div class="col-lg-3 border-start border-end nowrap text-primary">
                 <%= link_to vragreement.vrental.name, vragreement.vrental, target: "_blank" %>
               </div>
               <div class="col-lg-2 border-start border-end nowrap">
@@ -76,12 +75,10 @@
               <div class="col-lg-2 border-start border-end nowrap">
                 <%= link_to "Contracte #{vragreement.year}", "/#{vragreement.vrentaltemplate.language}/contractes-lloguer-turistic/#{vragreement.id}", class: "btn btn-sm btn-primary" %>
               </div>
-              <div class="col-lg-1 border-start border-end nowrap">
+              <div class="col-lg-1 border-start border-end nowrap d-flex justify-content-between">
                 <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement, year: vragreement.year), class: "text-info text-decoration-none" do %>
                   <i class="fas fa-edit fa-sm"></i>
                 <% end %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap">
                 <%= link_to vragreement, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{vragreement.vrental.name}?"} do %>
                   <i class="fas fa-trash-can fa-sm"></i>
                 <% end %>

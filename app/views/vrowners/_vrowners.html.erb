@@ -42,13 +42,11 @@
               <div class="col-lg-2 py-3" id="vrowner-phone" relative>
                 Telèfon
               </div>
-              <div class="col-lg-2 py-3" id="vrowner-email" relative>
+              <div class="col-lg-3 py-3" id="vrowner-email" relative>
                 Email
               </div>
               <div class="col-lg-2 py-3" id="vrowner-vrentals" relative>
                 Immobles
-              </div>
-              <div class="col-lg-1 py-3">
               </div>
               <div class="col-lg-1 py-3">
               </div>
@@ -60,14 +58,12 @@
                 <div class="col-lg-3 align-self-center nowrap"><%= link_to vrowner.fullname, vrowner %></div>
                 <div class="col-lg-1 align-self-center"><%= vrowner.language if vrowner.language %></div>
                 <div class="col-lg-2 align-self-center"><%= vrowner.phone %></div>
-                <div class="col-lg-2 align-self-center"><%= vrowner.email %></div>
+                <div class="col-lg-3 align-self-center nowrap"><%= vrowner.email %></div>
                 <div class="col-lg-2 align-self-center"><%= vrowner.vrentals.map {|vrental| vrental.name}.to_sentence  %></div>
-                <div class="col-lg-1 align-self-center nowrap">
-                  <%= link_to edit_vrowner_path(vrowner), class: "text-success text-decoration-none" do %>
+                <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
+                  <%= link_to edit_vrowner_path(vrowner), class: "text-info text-decoration-none" do %>
                     <i class="fas fa-edit fa-sm"></i>
                   <% end %>
-                </div>
-                <div class="col-lg-1 align-self-center nowrap">
                   <%= link_to vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrowner.fullname}?"}, class: "text-danger text-decoration-none" do %>
                     <i class="fas fa-trash fa-sm"></i>
                   <% end %>

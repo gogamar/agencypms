@@ -151,6 +151,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:status, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :vrowner_bookings, photos: [])
+    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :vrowner_bookings, photos: [])
   end
 end
