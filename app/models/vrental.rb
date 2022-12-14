@@ -14,6 +14,7 @@ class Vrental < ApplicationRecord
   end
 
   def copy_rates_to_next_year
+    #for some reason this method doesn't work the same locally
     easter_season_firstnight = {
     2022 => Date.new(2022,4,2),
     2023 => Date.new(2023,4,1),
