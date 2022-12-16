@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates]
 
   def index
     all_vrentals = policy_scope(Vrental)
@@ -24,7 +24,7 @@ class VrentalsController < ApplicationController
     @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
     @features = policy_scope(Feature)
     @features = Feature.all
-    @years = [Date.today.last_year.year, Date.today.year, Date.today.next_year.year, Date.today.next_year.next_year.year]
+    @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
   end
 
   def new
@@ -52,6 +52,12 @@ class VrentalsController < ApplicationController
     @vrental.copy_rates_to_next_year
     authorize @vrental
     redirect_to @vrental, notice: "Les tarifes ja estàn copiades."
+  end
+
+  def send_rates
+    @vrental.send_rates_to_beds
+    authorize @vrental
+    redirect_to @vrental, notice: "Les tarifes ja estàn enviades."
   end
 
   def edit

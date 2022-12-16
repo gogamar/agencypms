@@ -4,9 +4,10 @@ require 'beds24'
 require 'csv'
 
 
-auth_token = 'Jsnns2022Estartit'
-client = Beds24::JSONClient.new auth_token
-beds24rentals = client.get_properties
+auth_token = ENV["BEDSKEY"]
+# client = Beds24::JSONClient.new auth_token
+# beds24rentals = client.get_properties
+
 
 
 # 1

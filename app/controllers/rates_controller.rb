@@ -1,6 +1,7 @@
 class RatesController < ApplicationController
+
   before_action :set_rate, only: [:show, :edit, :update, :destroy]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show ]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show]
 
   # Index for rates is not really necessary
   def index
@@ -8,7 +9,6 @@ class RatesController < ApplicationController
     @rates = Rate.where(vrental_id: @vrental).order(firstnight: :desc)
     @rates_dates = @rates.pluck(:firstnight)
   end
-
 
   def new
     @rate = Rate.new
@@ -65,6 +65,7 @@ class RatesController < ApplicationController
       turbo_stream.replace("notice", partial: "shared/flashes")
     ]
   end
+
 
   private
 
