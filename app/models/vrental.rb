@@ -13,6 +13,11 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def default_checkin
+    last_rate = rates.find_by(lastnight: rates.maximum('lastnight'))
+    last_rate.present? ? last_rate.lastnight + 1.day : Date.today
+  end
+
   def copy_rates_to_next_year
     #for some reason this method doesn't work the same locally
     easter_season_firstnight = {
@@ -80,16 +85,6 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def default_checkin
-    last_rate = rates.find_by(lastnight: rates.maximum('lastnight'))
-    last_rate.lastnight + 1.day
-    # may have to be: rates.where(lastnight: vrental.rates.maximum('lastnight'))
-  end
-
-  def default_checkin_two
-    last_rate_two = rates.where(lastnight: rates.select('MAX(lastnight)'))
-    last_rate_two.lastnight + 1.day
-  end
 
   def get_content_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])

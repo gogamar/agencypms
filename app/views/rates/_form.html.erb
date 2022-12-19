@@ -1,10 +1,11 @@
-<%= simple_form_for [@vrental, rate], id: dom_id(rate, "form") do |f| %>
+<%= simple_form_for [vrental, rate], data: {turbo: :false} do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div
   class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center"
   data-controller="rate-component"
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
+  data-defaultcheckin="<%= @vrental.default_checkin.to_json %>"
   >
     <% if controller_name == "rates" && action_name == "new" %>
       <div class="p-1 text-center">
@@ -14,15 +15,11 @@
         <%= f.input :lastnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkout" } %>
       </div>
     <% else %>
-      <div class="mb-2 p-1 text-center">
-        <%= f.label :firstnight %>
-        <%= f.date_field :firstnight, label_method: :firstnight, class: 'form-control' %>
-        <%# f.input :firstnight, as: :string, required: true, input_html: { class: "datepicker" }%>
+      <div class="p-1 text-center">
+        <%= f.input :firstnight, as: :string, required: true, input_html: {  class: "datepicker" } %>
       </div>
-      <div class="mb-2 p-1 text-center">
-        <%= f.label :lastnight %>
-        <%= f.date_field :lastnight, class: 'form-control' %>
-        <%# f.input :lastnight, as: :string, required: true, input_html: {  class: "datepicker" } %>
+      <div class="p-1 text-center">
+        <%= f.input :lastnight, as: :string, required: true, input_html: {  class: "datepicker" } %>
       </div>
     <% end %>
     <div class="p-1 text-center">

@@ -28,28 +28,18 @@ class RatesController < ApplicationController
     @rate.vrental = @vrental
     authorize @rate
     if @rate.save
-      flash.now[:notice] = "Has creat una tarifa nova per #{@rate.vrental.name}."
-      render turbo_stream: [
-        turbo_stream.prepend("rates#{@rate.firstnight.year}", @rate),
-        turbo_stream.replace("new_rate", partial: "form", locals: { rate: Rate.new }),
-        turbo_stream.replace("notice", partial: "shared/flashes")
-      ]
-      # redirect_to vrental_path(@rate.vrental), notice: 'Has creat una tarifa nova.'
+      redirect_to vrental_path(@vrental) + "#tarifes", notice: "Has creat una tarifa nova per #{@rate.vrental.name}."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    @rate.vrental = @vrental
+    @vrental = @rate.vrental
     authorize @rate
     if @rate.update(rate_params)
-      # redirect_to vrental_path(@rate.vrental), notice: 'Has actualitzat la tarifa.'
-      flash.now[:notice] = "Has actualitzat la tarifa de #{@rate.vrental.name}."
-      render turbo_stream: [
-        turbo_stream.replace(@rate, @rate),
-        turbo_stream.replace("notice", partial: "shared/flashes")
-      ]
+      flash.now[:notice] = "Has actualitzat una tarifa de #{@rate.vrental.name}."
+      redirect_to @vrental
     else
       render :edit, status: :unprocessable_entity
     end
@@ -59,11 +49,8 @@ class RatesController < ApplicationController
   def destroy
     authorize @rate
     @rate.destroy
-    flash.now[:notice] = "Has esborrat una tarifa de #{@rate.vrental.name}."
-    render turbo_stream: [
-      turbo_stream.remove(@rate),
-      turbo_stream.replace("notice", partial: "shared/flashes")
-    ]
+    @vrental = @rate.vrental
+    redirect_to @vrental, notice: "Has esborrat la tarifa de #{@rate.firstnight}."
   end
 
 

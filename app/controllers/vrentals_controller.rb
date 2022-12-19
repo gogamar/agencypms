@@ -7,7 +7,6 @@ class VrentalsController < ApplicationController
     # @vrentals = Vrental.all.sort_by(&:created_at).reverse
   end
 
-
   def list
     @vrentals = policy_scope(Vrental).includes(:vrowner)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:name]}%") if params[:name].present?

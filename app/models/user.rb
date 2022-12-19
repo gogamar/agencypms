@@ -23,8 +23,10 @@ class User < ApplicationRecord
   has_many :rates, through: :vrentals, dependent: :destroy
   has_many :company_types
   has_one_attached :photo, dependent: :destroy
-  after_create :send_welcome_email
+  # after_create :send_welcome_email
   after_create :send_admin_mail
+  attribute :approved, :boolean, default: false
+  attribute :admin, :boolean, default: false
 
   def self.send_reset_password_instructions(attributes = {})
     recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)

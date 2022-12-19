@@ -6,15 +6,17 @@ export default class extends Controller {
 
   connect() {
     flatpickr();
-    console.log("Rate component controller connected!!");
+    console.log("Rate component controller connected");
     const unavailableDates = JSON.parse(this.element.dataset.unavailable);
+    const defaultCheckin = JSON.parse(this.element.dataset.defaultcheckin);
+    let checkinDate = new Date(defaultCheckin);
 
     const checkinPicker = this.checkinTarget.flatpickr({
       allowInput: true,
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      minDate: "today",
+      defaultDate: defaultCheckin,
       disable: unavailableDates,
       onChange: function (selectedDates, dateStr, instance) {
         checkoutPicker.set("minDate", new Date(selectedDates).fp_incr(1));
@@ -26,7 +28,7 @@ export default class extends Controller {
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      minDate: "today",
+      defaultDate: checkinDate.setDate(checkinDate.getDate() + 7),
       disable: unavailableDates,
       onChange: function (selectedDates, dateStr, instance) {
         checkinPicker.set("maxDate", dateStr);
