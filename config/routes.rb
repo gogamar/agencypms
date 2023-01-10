@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         end
       end
 
+
       resources :rentals, path: 'immobles-lloguer-anual' do
         collection do
           get 'list'
