@@ -34,20 +34,20 @@
       <div class="container-fluid my-3">
         <div class="row border border-top border-bottom fw-bold bg-light">
           <div class="col col-lg-2 py-3 align-self-center" id="vrstatus" relative>
-          <%= sort_indicator if params[:column] == "status" %>
-          <%= sort_link(column: "status", label: "Estatus") %>
+            <%= sort_indicator if params[:column] == "status" %>
+            <%= sort_link(column: "status", label: "Estatus") %>
           </div>
           <div class="col-lg-2 py-3 align-self-center" id="vrname" relative>
-          <%= sort_indicator if params[:column] == "name" %>
-          <%= sort_link(column: "name", label: "Nom") %>
+            <%= sort_indicator if params[:column] == "name" %>
+            <%= sort_link(column: "name", label: "Nom") %>
           </div>
           <div class="col-lg-2 py-3 align-self-center" id="vraddress" relative>
-          <%= sort_indicator if params[:column] == "address" %>
-          <%= sort_link(column: "address", label: "Adreça") %>
+            <%= sort_indicator if params[:column] == "address" %>
+            <%= sort_link(column: "address", label: "Adreça") %>
           </div>
           <div class="col-lg-2 py-3 align-self-center" id="vrowner-name" relative>
-          <%= sort_indicator if params[:column] == "vrowners.fullname" %>
-          <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
+            <%= sort_indicator if params[:column] == "vrowners.fullname" %>
+            <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
           </div>
           <div class="col-lg-2 py-3 align-self-center">Contractes</div>
           <div class="col-lg-2 py-3 align-self-center">Contracte nou</div>
@@ -63,7 +63,7 @@
                   <%= link_to "#{vrental.name}", vrental, class: "btn btn-success btn-sm" %>
                 </div>
                 <div class="mt-2">
-                <small><%= link_to 'Copiar immoble', copy_vrental_path(vrental)  %></small>
+                  <small><%= link_to 'Copiar immoble', copy_vrental_path(vrental)  %></small>
                 </div>
               </div>
               <div class="col-lg-2 align-self-center">
@@ -91,9 +91,8 @@
                     <%# link_to "Afegir contracte per #{Date.today.next_year.year + 1}", new_vrental_vragreement_path(vrental, year: Date.today.next_year.year + 1), class: "btn btn-secondary btn-sm" %>
                     <small>El contracte per <%= Date.today.next_year.year %> ja existeix</small>
                   <% else %>
-                    <%= link_to "Afegir contracte per #{Date.today.next_year.year}", new_vrental_vragreement_path(vrental, year: Date.today.next_year.year), class: "btn btn-secondary btn-sm" %>
+                    <%= link_to "Afegir contracte per #{Date.today.year}", new_vrental_vragreement_path(vrental, year: Date.today.year), class: "btn btn-secondary btn-sm" %>
                   <% end %>
-
                 <% end %>
               </div>
             </div>
