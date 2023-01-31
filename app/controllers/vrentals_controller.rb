@@ -48,7 +48,8 @@ class VrentalsController < ApplicationController
   end
 
   def copy_rates
-    @vrental.copy_rates_to_next_year
+    current_year = params[:year]
+    @vrental.copy_rates_to_next_year(current_year)
     authorize @vrental
     redirect_to @vrental, notice: "Les tarifes ja estàn copiades."
   end

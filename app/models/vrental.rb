@@ -18,7 +18,7 @@ class Vrental < ApplicationRecord
     last_rate.present? ? last_rate.lastnight + 1.day : Date.today
   end
 
-  def copy_rates_to_next_year
+  def copy_rates_to_next_year(current_year)
     #for some reason this method doesn't work the same locally
     easter_season_firstnight = {
     2022 => Date.new(2022,4,2),
@@ -29,7 +29,7 @@ class Vrental < ApplicationRecord
     2027 => Date.new(2027,3,20),
     2028 => Date.new(2028,4,8)
     }
-    current_rates = rates.where("DATE_PART('year', firstnight) = ?", Date.today.year)
+    current_rates = rates.where("DATE_PART('year', firstnight) = ?", current_year)
     current_rates.each do |existingrate|
     next_year = existingrate.firstnight.year + 1
       # if Easter Rate is 10 days and the rate doesn't already exist for the next year

@@ -34,6 +34,13 @@ class RatesController < ApplicationController
     end
   end
 
+  # def reset
+  #   @rates = policy_scope(Rate)
+  #   @rates = Rate.where(vrental_id: @vrental).order(firstnight: :desc)
+  #   @rates
+  #   redirect_to vrental_path(@vrental) + "#tarifes", notice: "Has esborrat totes les tarifes de #{@vrental.name}."
+  # end
+
   def update
     @vrental = @rate.vrental
     authorize @rate

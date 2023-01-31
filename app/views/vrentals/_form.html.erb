@@ -4,13 +4,13 @@
   <div class="form-inputs">
     <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
     <%= f.input :name, required: true %>
-    <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"),f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>
+    <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>
     <div class="d-flex justify-content-between align-items-center">
       <div class="w-50 me-3">
-      <%= f.association :vrowner, label_method: :fullname %>
+        <%= f.association :vrowner, label_method: :fullname %>
       </div>
       <div class="w-50">
-      o <%= link_to 'Afegir un propietari nou', new_vrowner_path, target: "_blank" %>
+        o <%= link_to 'Afegir un propietari nou', new_vrowner_path, target: "_blank" %>
       </div>
     </div>
     <%= f.input :address %>
@@ -19,7 +19,6 @@
     <%= f.input :licence %>
     <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 }, hint: "Per exemple: Apartament còmode i ben equipat amb piscina. Dues habitacions dobles (una amb llit de matrimoni i una amb dos llits individuals), saló menjador amb sofà, bany amb dutxa i terrassa amb taula i cadires. La cuina està totalment equipada, amb rentavaixelles, nevera gran, microones, cafetera. L'apartament està a prop del centre de l'Estartit. Ambient familiar, amb una gran piscina i jardí compartits."  %>
   </div>
-
   <div class="form-actions text-end mb-5">
     <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary text-center' %>
   </div>
