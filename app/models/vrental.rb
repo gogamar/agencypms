@@ -96,9 +96,21 @@ class Vrental < ApplicationRecord
   def send_rates_to_beds
     prop_key = self.prop_key
 
+    # test
+
+    rates_to_reset = rates.where("firstnight > ?", Date.today).where(sent_to_beds: true)
+
+    rates_to_reset.each do |rate|
+      rate.sent_to_beds = nil
+      rate.save!
+    end
+
+    # end test
+
     vrental_rates = []
 
     vr_rates = rates.where("firstnight > ?", Date.today).where(sent_to_beds: nil)
+
 
     vr_rates.each do |rate|
 
@@ -185,14 +197,18 @@ class Vrental < ApplicationRecord
         vrental_rates << weekly_rate
     end
 
-    auth_token = ENV["BEDSKEY"]
-    client = BedsHelper::Beds.new(auth_token)
-    response = client.set_rates(prop_key, setRates: vrental_rates)
-    return unless response.code == 200
+    puts vrental_rates
 
-    vr_rates.each do |rate|
-      rate.sent_to_beds = true
-      rate.save!
-    end
+    # auth_token = ENV["BEDSKEY"]
+    # client = BedsHelper::Beds.new(auth_token)
+    # client.set_rates(prop_key, setRates: vrental_rates)
+
+
+    # return unless response.code == 200
+
+    # vr_rates.each do |rate|
+    #   rate.sent_to_beds = true
+    #   rate.save!
+    # end
   end
 end
