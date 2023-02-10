@@ -12,6 +12,18 @@ module BedsHelper
       @auth_token = auth_token
     end
 
+
+    def get_rates(prop_key, options={})
+      self.class.post(
+        '/getRates',
+        body: payload(prop_key, options)
+      )
+    rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
     def get_properties
       response = self.class.post('/getProperties', body: authentication.to_json)
       json = parse!(response)
