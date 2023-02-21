@@ -92,6 +92,35 @@ class Vrental < ApplicationRecord
     puts beds24descriptions[0]["name"]
   end
 
+  def get_rates_from_beds
+    rates.destroy_all
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    prop_key = self.prop_key
+    beds24rates = client.get_rates(prop_key)
+    puts beds24rates
+    beds24rates.each do |rate|
+      if rate["firstNight"].delete("-").to_i > 20220101 && rate["pricesPer"] == "7"
+        Rate.create!(
+          firstnight: rate["firstNight"],
+          lastnight: rate["lastNight"],
+          priceweek: rate["roomPrice"],
+          beds_room_id: rate["roomId"],
+          vrental_id: self.id,
+          min_stay: 5,
+          arrival_day: 'everyday'
+        )
+      end
+    end
+
+    rates.each do |rate|
+      if rate.firstnight >= Date.parse('2022-07-09') && rate.lastnight <= Date.parse('2022-08-26')
+        rate.min_stay = 7
+        rate.arrival_day = "saturdays"
+        rate.save!
+      end
+    end
+  end
+
   def send_rates_to_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key

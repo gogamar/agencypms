@@ -114,6 +114,7 @@ Rails.application.routes.draw do
           get 'copy'
           get 'copy_rates'
           get 'send_rates'
+          get 'get_rates'
         end
       end
 

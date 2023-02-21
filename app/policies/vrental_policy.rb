@@ -40,6 +40,10 @@ class VrentalPolicy < ApplicationPolicy
     return show?
   end
 
+  def get_rates?
+    return show?
+  end
+
   def new?
     return create?
   end

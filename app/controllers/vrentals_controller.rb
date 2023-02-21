@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :get_rates]
 
   def index
     all_vrentals = policy_scope(Vrental)
@@ -58,6 +58,12 @@ class VrentalsController < ApplicationController
     @vrental.send_rates_to_beds
     authorize @vrental
     redirect_to @vrental, notice: "Les tarifes ja estàn enviades."
+  end
+
+  def get_rates
+    @vrental.get_rates_from_beds
+    authorize @vrental
+    redirect_to @vrental, notice: "Ja s'han importat les tarifes."
   end
 
   def edit
