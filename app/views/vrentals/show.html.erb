@@ -86,7 +86,7 @@
                 <% end %>
               <% elsif @rates.where("DATE_PART('year', firstnight) = ?", year).order(:firstnight).last.firstnight >= Date.today %>
                 <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades</button>
-                <%= link_to "Esborra les tarifes en Beds", delete_rates_vrental_path(@vrental), class: "btn btn-info" if year >= Date.today.year  %>
+                <%= link_to "Esborra les tarifes en Beds", delete_rates_vrental_path(@vrental), class: "btn btn-info" if year >= Date.today.year && @modified_rates.present? %>
               <% end %>
             </div>
             <hr>

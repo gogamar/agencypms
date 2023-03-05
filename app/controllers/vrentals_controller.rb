@@ -21,6 +21,8 @@ class VrentalsController < ApplicationController
     @rate = Rate.new
     @rates = policy_scope(Rate)
     @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
+    @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
+    @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
     @features = policy_scope(Feature)
     @features = Feature.all
     @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]

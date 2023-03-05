@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_05_105732) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_05_134132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -184,7 +184,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_105732) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "sent_to_beds"
-    t.date "date_sent_to_beds"
+    t.datetime "date_sent_to_beds", precision: nil
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
   end
 

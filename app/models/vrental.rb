@@ -140,6 +140,7 @@ class Vrental < ApplicationRecord
     rates_to_send_again = Rate.where("firstnight > ?", Date.today)
     rates_to_send_again.each do |rate|
       rate.sent_to_beds = nil
+      rate.date_sent_to_beds = nil
       rate.save!
     end
   end
