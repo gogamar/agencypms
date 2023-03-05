@@ -80,12 +80,13 @@
               <% if year <= Date.today.year %>
                 <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-warning" %>
               <% end %>
-              <% if @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last.firstnight >= Date.today %>
+              <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last.firstnight >= Date.today) %>
                 <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
                   <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes
                 <% end %>
               <% elsif @rates.where("DATE_PART('year', firstnight) = ?", year).order(:firstnight).last.firstnight >= Date.today %>
                 <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades</button>
+                <%= link_to "Esborra les tarifes en Beds", delete_rates_vrental_path(@vrental), class: "btn btn-info" if year >= Date.today.year  %>
               <% end %>
             </div>
             <hr>

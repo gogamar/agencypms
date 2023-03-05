@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :get_rates]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates]
 
   def index
     all_vrentals = policy_scope(Vrental)
@@ -52,6 +52,12 @@ class VrentalsController < ApplicationController
     @vrental.copy_rates_to_next_year(current_year)
     authorize @vrental
     redirect_to @vrental, notice: "Les tarifes ja estàn copiades."
+  end
+
+  def delete_rates
+    @vrental.delete_future_rates_on_beds
+    authorize @vrental
+    redirect_to @vrental, notice: "Les tarifes ja estàn esborrades. Ara les pots tornar a enviar"
   end
 
   def send_rates

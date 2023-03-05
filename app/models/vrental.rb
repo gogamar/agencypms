@@ -121,6 +121,29 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def delete_future_rates_on_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    prop_key = self.prop_key
+    beds24rates = client.get_rates(prop_key)
+    rates_to_delete = []
+    beds24rates.each do |rate|
+      if rate["firstNight"].to_date > Date.today
+        rate_to_delete = {
+          action: "delete",
+          rateId: "#{rate["rateId"]}",
+          roomId: "#{rate["roomId"]}"
+      }
+        rates_to_delete << rate_to_delete
+      end
+    end
+    client.set_rates(prop_key, setRates: rates_to_delete)
+    rates_to_send_again = Rate.where("firstnight > ?", Date.today)
+    rates_to_send_again.each do |rate|
+      rate.sent_to_beds = nil
+      rate.save!
+    end
+  end
+
   def send_rates_to_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
@@ -139,16 +162,14 @@ class Vrental < ApplicationRecord
       end
     end
 
-    puts rates_to_delete
     # Then we delete the rates older than 2 years
-    response = client.set_rates(prop_key, setRates: rates_to_delete)
-    puts response
+    client.set_rates(prop_key, setRates: rates_to_delete)
 
     # Then we get all the rates from this website
 
     vrental_rates = []
 
-    vr_rates = rates.where("firstnight > ?", Date.today).where(sent_to_beds: nil)
+    vr_rates = rates.where("firstnight > ?", Date.today)
 
     vr_rates.each do |rate|
 
@@ -158,7 +179,7 @@ class Vrental < ApplicationRecord
         roomId: "#{self.beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",
-        name: "Tarifa #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight,  format: :short)} amb 10% desc. setmanal",
+        name: "Tarifa #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} amb 10% desc. setmanal",
         minNights: "0",
         minAdvance: "2",
         allowEnquiry: "1",
@@ -243,6 +264,7 @@ class Vrental < ApplicationRecord
 
     vr_rates.each do |rate|
       rate.sent_to_beds = true
+      rate.date_sent_to_beds = Date.today
       rate.save!
     end
   end
