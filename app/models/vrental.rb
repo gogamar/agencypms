@@ -265,7 +265,7 @@ class Vrental < ApplicationRecord
 
     vr_rates.each do |rate|
       rate.sent_to_beds = true
-      rate.date_sent_to_beds = Date.today
+      rate.date_sent_to_beds = Time.zone.now
       rate.save!
     end
   end
