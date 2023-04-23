@@ -97,7 +97,6 @@ class Vrental < ApplicationRecord
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
     beds24rates = client.get_rates(prop_key)
-    puts beds24rates
     beds24rates.each do |rate|
       if rate["firstNight"].delete("-").to_i > 20220101 && rate["pricesPer"] == "7"
         Rate.create!(
@@ -153,7 +152,7 @@ class Vrental < ApplicationRecord
     # Then we select the rates older than 2 years for deletion
     rates_to_delete = []
     beds24rates.each do |rate|
-      if rate["firstNight"].to_date.year < Date.today.year - 1
+      if rate["firstNight"].to_date.year < (Date.today.year - 1)
         rate_to_delete = {
           action: "delete",
           rateId: "#{rate["rateId"]}",
@@ -170,7 +169,8 @@ class Vrental < ApplicationRecord
 
     vrental_rates = []
 
-    vr_rates = rates.where("firstnight > ?", Date.today)
+    vr_rates = rates.where("firstnight BETWEEN ? AND ?", Date.today.beginning_of_year, Date.today.end_of_year)
+
 
     vr_rates.each do |rate|
 
@@ -259,9 +259,8 @@ class Vrental < ApplicationRecord
 
     # And finally we send the rates to Beds24
     response = client.set_rates(prop_key, setRates: vrental_rates)
-    puts response
 
-    # return unless response.code == 200
+    return unless response.code == 200
 
     vr_rates.each do |rate|
       rate.sent_to_beds = true
