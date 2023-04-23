@@ -120,13 +120,13 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def delete_future_rates_on_beds
+  def delete_this_year_rates_on_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
     beds24rates = client.get_rates(prop_key)
     rates_to_delete = []
     beds24rates.each do |rate|
-      if rate["firstNight"].to_date > Date.today
+      if rate["lastNight"].to_date > Date.today.beginning_of_year
         rate_to_delete = {
           action: "delete",
           rateId: "#{rate["rateId"]}",

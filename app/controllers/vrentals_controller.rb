@@ -57,7 +57,7 @@ class VrentalsController < ApplicationController
   end
 
   def delete_rates
-    @vrental.delete_future_rates_on_beds
+    @vrental.delete_this_year_rates_on_beds
     authorize @vrental
     redirect_to @vrental, notice: "Les tarifes ja estàn esborrades. Ara les pots tornar a enviar"
   end
