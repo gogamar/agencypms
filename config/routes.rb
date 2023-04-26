@@ -105,6 +105,7 @@ Rails.application.routes.draw do
       resources :vrentals, path: 'immobles-lloguer-turistic' do
         collection do
           get 'list'
+          get "import_properties"
         end
         resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
         resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update] do

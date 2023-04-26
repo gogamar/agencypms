@@ -74,6 +74,12 @@ class VrentalsController < ApplicationController
     redirect_to @vrental, notice: "Ja s'han importat les tarifes."
   end
 
+  def import_properties
+    policy_scope(Vrental)
+    Vrental.import_properties_from_beds
+    redirect_to vrentals_path, notice: "Properties imported"
+  end
+
   def edit
     @feature_list = Feature.all.uniq
     authorize @vrental

@@ -18,6 +18,33 @@ class Vrental < ApplicationRecord
     last_rate.present? ? last_rate.lastnight + 1.day : Date.today
   end
 
+  def self.import_properties_from_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    begin
+      beds24rentals = client.get_properties
+      beds24rentals.each do |bedsrental|
+        if Vrental.where(beds_prop_id: bedsrental["propId"]).exists?
+          next
+        else
+          user_id = User.find_by(admin: true).id
+          Vrental.create!(
+            name: bedsrental["name"],
+            address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
+            beds_prop_id: bedsrental["propId"],
+            beds_room_id: bedsrental["roomTypes"][0]["roomId"],
+            max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i,
+            user_id: user_id,
+            prop_key: bedsrental["name"].delete(" ").delete("'").downcase + "2022987123654",
+            status: "active"
+          )
+        end
+        sleep 2
+      end
+    rescue StandardError => e
+      Rails.logger.error("Error importing properties from Beds24: #{e.message}")
+    end
+  end
+
   def copy_rates_to_next_year(current_year)
     #for some reason this method doesn't work the same locally
     easter_season_firstnight = {

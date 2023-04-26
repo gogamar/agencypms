@@ -41,7 +41,7 @@ auth_token = ENV["BEDSKEY"]
 
 # puts "Importing vacation rentals from Beds24"
 # beds24rentals.each do |bedsrental|
-#   #unless bedsrental["propId"] == rental.beds_prop_id
+#   unless bedsrental["propId"] == vrental.beds_prop_id
 #   Vrental.create!(
 #       name: bedsrental["name"],
 #       address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
@@ -50,7 +50,7 @@ auth_token = ENV["BEDSKEY"]
 #       max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i
 #       )
 #       sleep 1
-#   #end
+#   end
 # end
 # puts "Imported #{Vrental.count} vacation rentals from Beds24"
 

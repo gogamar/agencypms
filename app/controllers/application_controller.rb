@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   # Pundit: allow-list approach
-  after_action :verify_authorized, except: [:index, :list, :filter], unless: :skip_pundit?
-  after_action :verify_policy_scoped, only: [:index, :list, :filter], unless: :skip_pundit?
+  after_action :verify_authorized, except: [:index, :list, :filter, :import_properties], unless: :skip_pundit?
+  after_action :verify_policy_scoped, only: [:index, :list, :filter, :import_properties], unless: :skip_pundit?
 
 
 
