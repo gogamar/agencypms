@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_05_134132) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -333,7 +333,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_134132) do
     t.string "licence"
     t.string "cadastre"
     t.string "habitability"
-    t.string "commission"
     t.string "beds_room_id"
     t.string "beds_prop_id"
     t.string "prop_key"
@@ -347,6 +346,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_134132) do
     t.text "description_fr"
     t.text "description_en"
     t.bigint "user_id", null: false
+    t.decimal "commission", precision: 10, scale: 2
     t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end

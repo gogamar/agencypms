@@ -4,6 +4,7 @@
   <div class="form-inputs">
     <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
     <%= f.input :name, required: true %>
+    <%= f.input :commission, required: true %>
     <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>
     <div class="d-flex justify-content-between align-items-center">
       <div class="w-50 me-3">

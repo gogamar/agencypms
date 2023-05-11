@@ -1,4 +1,6 @@
 class Vrental < ApplicationRecord
+  include ActionView::Helpers::NumberHelper
+
   belongs_to :user
   belongs_to :vrowner, optional: true
   has_many :vragreements, dependent: :destroy
@@ -11,6 +13,10 @@ class Vrental < ApplicationRecord
     rates.pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }
     end
+  end
+
+  def commission_percentage
+    number_to_percentage(commission * 100, precision: 2, separator: ',')
   end
 
   def default_checkin
