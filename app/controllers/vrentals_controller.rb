@@ -2,9 +2,8 @@ class VrentalsController < ApplicationController
   before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates]
 
   def index
-    all_vrentals = policy_scope(Vrental)
+    all_vrentals = policy_scope(Vrental).order(created_at: :desc)
     @pagy, @vrentals = pagy(all_vrentals, page: params[:page], items: 10)
-    # @vrentals = Vrental.all.sort_by(&:created_at).reverse
   end
 
   def list

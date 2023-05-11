@@ -6,6 +6,7 @@ class VragreementsController < ApplicationController
   def index
     active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
+    active_vragreements = active_vragreements.order(created_at: :desc)
     @pagy, @vragreements = pagy(active_vragreements, page: params[:page], items: 10)
   end
 
