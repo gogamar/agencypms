@@ -19,6 +19,10 @@
     <%= f.input :habitability %>
     <%= f.input :licence %>
     <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 }, hint: "Per exemple: Apartament còmode i ben equipat amb piscina. Dues habitacions dobles (una amb llit de matrimoni i una amb dos llits individuals), saló menjador amb sofà, bany amb dutxa i terrassa amb taula i cadires. La cuina està totalment equipada, amb rentavaixelles, nevera gran, microones, cafetera. L'apartament està a prop del centre de l'Estartit. Ambient familiar, amb una gran piscina i jardí compartits."  %>
+    <%= t("dont-fill") %>
+    <%= f.input :beds_prop_id, readonly: f.object.beds_prop_id.present? %>
+    <%= f.input :beds_room_id, readonly: @vrental.beds_prop_id.present? %>
+    <%= f.input :prop_key, readonly: @vrental.beds_prop_id.present?  %>
   </div>
   <div class="form-actions text-end mb-5">
     <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary text-center' %>
