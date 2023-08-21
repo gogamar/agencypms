@@ -1,0 +1,28 @@
+<%= simple_form_for([@vrental, @booking]) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :status %>
+    <%= f.input :checkin %>
+    <%= f.input :checkout %>
+    <%= f.input :price %>
+    <%= f.input :commission %>
+    <%= f.input :referrer %>
+    <%= f.input :beds_booking_id %>
+  </div>
+  <h4>Càrregs</h4>
+  <hr>
+  <div class="nested-fields">
+    <% @booking.charges.each do |charge| %>
+      <%= f.fields_for :charges, charge do |charge_fields| %>
+        <%= charge_fields.input :description %>
+        <%= charge_fields.input :quantity %>
+        <%= charge_fields.input :price %>
+        <%= charge_fields.input :charge_type %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

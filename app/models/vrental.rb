@@ -5,6 +5,7 @@ class Vrental < ApplicationRecord
   belongs_to :vrowner, optional: true
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
+  has_many :bookings, dependent: :destroy
   has_and_belongs_to_many :features
   validates :name, presence: true
   validates :status, presence: true
@@ -48,7 +49,7 @@ class Vrental < ApplicationRecord
         sleep 2
       end
     rescue StandardError => e
-      Rails.logger.error("Error importing properties from Beds24: #{e.message}")
+      Rails.logger.error("Error al importar immobles de Beds24: #{e.message}")
     end
   end
 
@@ -154,6 +155,140 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def get_bookings_from_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    prop_key = self.prop_key
+    options = {
+      "arrivalFrom": Date.today.beginning_of_year,
+      "arrivalTo": Date.today,
+      "includeInvoice": true,
+      "status": "1"
+    }
+    beds24bookings = client.get_bookings(prop_key, options)
+
+    if beds24bookings.empty?
+      return
+    end
+
+    beds24bookings.each do |beds_booking|
+      if booking = self.bookings.find_by(beds_booking_id: beds_booking["bookId"])
+        guest_attributes = {
+          firstname: beds_booking["guestFirstName"],
+          lastname: beds_booking["guestName"],
+          phone: beds_booking["guestPhone"],
+          address: beds_booking["guestAddress"],
+          country_code: beds_booking["guestCountry"]
+        }
+
+        booking.update!(
+          status: beds_booking["status"],
+          checkin: beds_booking["firstNight"],
+          checkout: beds_booking["lastNight"],
+          adults: beds_booking["numAdult"],
+          children: beds_booking["numChild"],
+          referrer: beds_booking["referer"],
+          commission: beds_booking["commission"],
+          price: beds_booking["price"]
+        )
+
+        Tourist.find_by(email: beds_booking["guestEmail"]).update!(guest_attributes)
+
+        max_charge = booking.charges.order(price: :desc).first
+        max_charge.update(charge_type: "rent") if max_charge
+        booking.charges.each do |charge|
+          if charge.description.match?(/0,99|tax|tasa|0\.99/i)
+            charge.update(charge_type: "city_tax")
+          elsif charge.description.match?(/neteja|cleaning|limpieza/i)
+            charge.update(charge_type: "cleaning")
+          elsif charge != max_charge
+            charge.update(charge_type: "other")
+          end
+        end
+      else
+        if beds_booking["guestFirstName"] || beds_booking["guestName"]
+          tourist = Tourist.create!(
+            firstname: beds_booking["guestFirstName"],
+            lastname: beds_booking["guestName"],
+            phone: beds_booking["guestPhone"],
+            email: beds_booking["guestEmail"],
+            address: beds_booking["guestAddress"],
+            country_code: beds_booking["guestCountry"]
+          )
+        end
+        booking = Booking.create!(
+          vrental_id: self.id,
+          status: beds_booking["status"],
+          tourist_id: tourist.id || nil,
+          checkin: beds_booking["firstNight"],
+          checkout: beds_booking["lastNight"],
+          adults: beds_booking["numAdult"],
+          children: beds_booking["numChild"],
+          beds_booking_id: beds_booking["bookId"],
+          referrer: beds_booking["referer"],
+          commission: beds_booking["commission"],
+          price: beds_booking["price"]
+        )
+
+        if beds_booking["invoice"].nil? || beds_booking["invoice"].empty?
+          next
+        else
+          beds_booking["invoice"].each do |entry|
+            if (charge = booking.charges.find_by(beds_id: entry["invoiceId"]))
+              charge.update!(
+                description: entry["description"],
+                quantity: entry["qty"],
+                price: entry["price"]
+              )
+            elsif (payment = booking.payments.find_by(beds_id: entry["invoiceId"]))
+              payment.update!(
+                description: entry["description"],
+                quantity: entry["qty"],
+                price: entry["price"]
+                )
+            elsif entry["qty"] == "1"
+              Charge.create!(
+              description: entry["description"],
+              beds_id: entry["invoiceId"],
+              quantity: entry["qty"],
+              price: entry["price"],
+              booking_id: booking.id
+              )
+            elsif entry["qty"] == "-1"
+              Payment.create!(
+                description: entry["description"],
+                beds_id: entry["invoiceId"],
+                quantity: entry["qty"],
+                price: entry["price"],
+                booking_id: booking.id
+              )
+            elsif entry["qty"] != "-1" && entry["qty"] != "1"
+              Charge.create!(
+                description: entry["description"],
+                beds_id: entry["invoiceId"],
+                quantity: entry["qty"],
+                price: entry["price"],
+                booking_id: booking.id
+              )
+            else
+              puts "Charges and payments for #{vrental.name} already exist."
+            end
+            max_charge = booking.charges.order(price: :desc).first
+            max_charge.update(charge_type: "rent")
+            booking.charges.each do |charge|
+              if charge.description.match?(/0,99|tax|tasa|0\.99/i)
+                charge.update(charge_type: "city_tax")
+              elsif charge.description.match?(/neteja|cleaning|limpieza/i)
+                charge.update(charge_type: "cleaning")
+              elsif charge != max_charge
+                charge.update(charge_type: "other")
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
   def delete_this_year_rates_on_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
@@ -176,6 +311,34 @@ class Vrental < ApplicationRecord
       rate.date_sent_to_beds = nil
       rate.save!
     end
+  end
+
+  def create_property_on_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    beds24rentals_prop_names = Set.new(client.get_properties.map { |bedsrental| bedsrental["name"] })
+
+    if beds24rentals_prop_names.include?(self.name)
+      return
+    end
+
+    new_bedrentals = []
+    new_bedrental = {
+      name: self.name,
+      prop_key: self.prop_key,
+      roomTypes: [
+        {
+          name: self.name,
+          qty: 1,
+          minPrice: 30
+        }
+      ]
+    }
+    new_bedrentals << new_bedrental
+    response = client.create_properties(createProperties: new_bedrentals)
+
+    self.beds_prop_id = response[0]["propId"]
+    self.beds_room_id = response[0]["roomTypes"][0]["roomId"]
+    self.save!
   end
 
   def send_rates_to_beds

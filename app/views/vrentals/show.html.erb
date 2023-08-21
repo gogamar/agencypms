@@ -10,9 +10,13 @@
     <% end %>
   </div>
   <div>
-    <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @vrental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %>
+    <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-secondary" %>
+    <%= link_to 'Crear a Beds24', export_beds_vrental_path(@vrental), class: "btn btn-secondary" %>
+    <%= link_to 'Actualitzar a Beds24', update_beds_vrental_path(@vrental), class: "btn btn-secondary" %>
+    <%= link_to 'Esborrar', @vrental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %>
   </div>
   <div>
+    <%= link_to 'Reserves', vrental_bookings_path(@vrental), class: "btn btn-primary" %>
     <%= link_to 'Contractes', vragreements_path(immoble: @vrental), class: "btn btn-primary" %>
   </div>
 </div>

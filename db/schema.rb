@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -63,6 +63,48 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
     t.index ["renter_id"], name: "index_agreements_on_renter_id"
   end
 
+  create_table "blocks", force: :cascade do |t|
+    t.string "title_en"
+    t.string "title_ca"
+    t.string "title_es"
+    t.string "title_fr"
+    t.string "subtitle_en"
+    t.string "subtitle_ca"
+    t.string "subtitle_es"
+    t.string "subtitle_fr"
+    t.text "content_en"
+    t.text "content_ca"
+    t.text "content_es"
+    t.text "content_fr"
+    t.string "button_en"
+    t.string "button_ca"
+    t.string "button_es"
+    t.string "button_fr"
+    t.bigint "page_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_blocks_on_page_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.string "status"
+    t.date "checkin"
+    t.date "checkout"
+    t.integer "nights"
+    t.integer "adults"
+    t.integer "children"
+    t.string "referrer"
+    t.decimal "price", precision: 10, scale: 2
+    t.decimal "commission", precision: 10, scale: 2
+    t.string "beds_booking_id"
+    t.bigint "vrental_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "tourist_id", null: false
+    t.index ["tourist_id"], name: "index_bookings_on_tourist_id"
+    t.index ["vrental_id"], name: "index_bookings_on_vrental_id"
+  end
+
   create_table "buyers", force: :cascade do |t|
     t.string "fullname"
     t.string "address"
@@ -76,6 +118,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
     t.datetime "updated_at", null: false
     t.string "account_bank"
     t.index ["user_id"], name: "index_buyers_on_user_id"
+  end
+
+  create_table "charges", force: :cascade do |t|
+    t.string "description"
+    t.integer "quantity"
+    t.decimal "price"
+    t.bigint "booking_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "beds_id"
+    t.string "charge_type"
+    t.index ["booking_id"], name: "index_charges_on_booking_id"
   end
 
   create_table "ckeditor_assets", force: :cascade do |t|
@@ -148,6 +202,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
     t.string "phone"
     t.string "email"
     t.index ["user_id"], name: "index_owners_on_user_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "title_en"
+    t.string "title_ca"
+    t.string "title_es"
+    t.string "title_fr"
+    t.string "page_type"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_pages_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.string "description"
+    t.integer "quantity"
+    t.decimal "price"
+    t.bigint "booking_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "beds_id"
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -295,6 +372,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
+  create_table "tourists", force: :cascade do |t|
+    t.string "firstname"
+    t.string "lastname"
+    t.string "phone"
+    t.string "email"
+    t.string "address"
+    t.string "country_code"
+    t.string "country"
+    t.string "document"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -382,13 +472,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_11_201736) do
   add_foreign_key "agreements", "rentals"
   add_foreign_key "agreements", "rentaltemplates"
   add_foreign_key "agreements", "renters"
+  add_foreign_key "blocks", "pages"
+  add_foreign_key "bookings", "tourists"
+  add_foreign_key "bookings", "vrentals"
   add_foreign_key "buyers", "users"
+  add_foreign_key "charges", "bookings"
   add_foreign_key "comtypes", "users"
   add_foreign_key "contracts", "buyers"
   add_foreign_key "contracts", "realestates"
   add_foreign_key "contracts", "rstemplates"
   add_foreign_key "features", "users"
   add_foreign_key "owners", "users"
+  add_foreign_key "pages", "users"
+  add_foreign_key "payments", "bookings"
   add_foreign_key "profiles", "comtypes"
   add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"

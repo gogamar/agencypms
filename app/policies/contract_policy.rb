@@ -1,11 +1,7 @@
 class ContractPolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
-      # scope.all # If users can see all restaurants
-      # show only the contracts where realestate_id is the same as vacation realestates id that belong to the current user
-      scope.where(realestate_id: user.contracts.select(:realestate_id)) # If users can only see their restaurants
-      # scope.where("name LIKE 't%'") # If users can only see restaurants starting with `t`
+      scope.where(realestate_id: user.contracts.select(:realestate_id))
     end
   end
   def show?

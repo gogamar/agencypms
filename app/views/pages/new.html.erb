@@ -1,0 +1,19 @@
+<div>
+  <%= link_to pages_path, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+      <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir una pàgina nova <%= link_to "copiar una pàgina existent", pages_path %></h4>
+    <hr>
+    <div class="container d-flex justify-content-center mt-5 w-75 pb-5">
+      <%= render 'form', page: @page %>
+    </div>
+  </div>
+</div>

@@ -1,11 +1,7 @@
 class RatePolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
-      # scope.all # If users can see all rates
-      # show only the agreements where vrental_id is the same as vacation rentals id that belong to the current user
-      scope.where(vrental_id: user.rates.select(:vrental_id)) # If users can only see the rates of their vacation rentals
-      # scope.where("name LIKE 't%'") # If users can only see rates starting with `t`
+      scope.where(vrental_id: user.rates.select(:vrental_id))
     end
   end
 

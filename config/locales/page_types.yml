@@ -1,0 +1,39 @@
+en:
+  page_types:
+    homepage: "Homepage"
+    search: "Search"
+    map_search: "Map Search"
+    about_us: "About Us"
+    news: "News"
+    contact: "Contact"
+    terms: "Terms"
+
+es:
+  page_types:
+    homepage: "Página de inicio"
+    search: "Búsqueda"
+    map_search: "Búsqueda en mapa"
+    about_us: "Acerca de nosotros"
+    news: "Noticias"
+    contact: "Contacto"
+    terms: "Términos"
+
+ca:
+  page_types:
+    homepage: "Pàgina d'inici"
+    search: "Cerca"
+    map_search: "Cerca al mapa"
+    about_us: "Sobre nosaltres"
+    news: "Notícies"
+    contact: "Contacte"
+    terms: "Termes"
+
+fr:
+  page_types:
+    homepage: "Accueil"
+    search: "Recherche"
+    map_search: "Recherche sur la carte"
+    about_us: "À propos de nous"
+    news: "Actualités"
+    contact: "Contact"
+    terms: "Termes"

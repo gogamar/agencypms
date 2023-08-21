@@ -1,0 +1,35 @@
+.div-520 {
+  width: 520px;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  @media (max-width: 520px) {
+    width: 100%;
+  }
+}
+
+#results li {
+  cursor: grab;
+}
+
+#results li:active {
+  cursor: grabbing;
+}
+
+#results li.ghost {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.hidden {
+  display: none;
+}
+
+.parent-container {
+  position: relative;
+}
+
+.trash-icon {
+  position: absolute;
+  top: 0.5em;
+  left: 1em;
+}

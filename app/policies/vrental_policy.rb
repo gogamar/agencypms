@@ -44,7 +44,19 @@ class VrentalPolicy < ApplicationPolicy
     return show?
   end
 
+  def export_beds?
+    return show?
+  end
+
+  def update_beds?
+    return show?
+  end
+
   def get_rates?
+    return show?
+  end
+
+  def get_bookings?
     return show?
   end
 

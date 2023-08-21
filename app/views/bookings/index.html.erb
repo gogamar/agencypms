@@ -1,0 +1,55 @@
+<div>
+  <%= link_to @vrental, class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+      <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<h1>Reserves <%= @vrental.name %></h1>
+<p>Total: <%= number_to_currency(@total_price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
+<p>Comissió: <%= number_to_currency(@total_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
+<p>Neteja: <%= number_to_currency(@total_cleaning, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
+<p>Taxa tur: <%= number_to_currency(@total_city_tax, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
+<p>Net lloguer: <%= number_to_currency(@total_net, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Portal</th>
+      <th scope="col">Client</th>
+      <th scope="col">Check-in</th>
+      <th scope="col">Check-out</th>
+      <th scope="col">Preu</th>
+      <th scope="col">Lloguer</th>
+      <th scope="col">Neteja</th>
+      <th scope="col">Taxa tur.</th>
+      <th scope="col">Altres</th>
+      <th scope="col">Comissió</th>
+      <th scope="col">Editar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bookings.each do |booking| %>
+      <tr>
+        <th scope="row"><%= booking.referrer %></th>
+        <td><%= booking.tourist.lastname %></td>
+        <td><%= I18n.l(booking.checkin) %></td>
+        <td><%= I18n.l(booking.checkout) %></td>
+        <td><%= number_to_currency(booking.price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= number_to_currency(booking.charges.where(charge_type: 'rent')&.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= number_to_currency(booking.charges.where(charge_type: 'cleaning')&.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= number_to_currency(booking.charges.where(charge_type: 'city_tax')&.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= number_to_currency(booking.charges.where(charge_type: 'other')&.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td><%= number_to_currency(booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+        <td>
+          <%= link_to edit_vrental_booking_path(@vrental, booking), class: "btn btn-info" do %>
+            <i class="fas fa-pen fa-sm"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to "Importar reserves de beds", get_bookings_vrental_path(@vrental), class: "btn btn-secondary"%>

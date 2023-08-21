@@ -1,0 +1,17 @@
+
+<div>
+  <%= link_to rental_path(@rental), class: "btn btn-light btn-icon-split me-3" do %>
+    <span class="icon text-white-600">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+    <span class="text m-0 text-primary" style="font-size: 0.85rem">
+      Tornar
+    </span>
+  <% end %>
+</div>
+<hr>
+<h4 class="mt-4 font-weight-bold text-primary text-center">Modificar <%= @rental.address %></h4>
+<hr>
+<div class="pt-4">
+  <%= render 'form', rental: @rental %>
+</div>

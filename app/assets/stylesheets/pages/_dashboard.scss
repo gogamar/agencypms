@@ -1,0 +1,232 @@
+/*====================================
+	Dashboard
+==================================*/
+.dashboard-navbar {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  background: #ffffff;
+  border-radius: 10px;
+}
+.dashboard-navbar {
+  box-shadow: none;
+}
+.dashboard .sm-sidebar {
+  padding: 0.6rem 0;
+}
+.dashboard-wraper,
+.submit-page {
+  position: relative;
+  width: 100%;
+  padding: 2em;
+  background: #ffffff;
+  box-shadow: 0 0 20px 0 rgba(62, 28, 131, 0.1);
+  border-radius: 10px;
+}
+.d-user-avater {
+  text-align: center;
+  margin: 2em 0;
+}
+.d-user-avater img {
+  max-width: 180px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+.d-user-avater h4 {
+  margin: 10px 0 3px 0;
+  font-size: 19px;
+}
+.d-navigation ul {
+  padding: 0;
+  margin: 0;
+}
+.d-navigation ul li {
+  list-style: none;
+  padding: 10px 15px;
+  border-bottom: 1px solid #edf0f7;
+}
+.d-navigation ul li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.d-navigation ul li.active {
+  background: rgba(15, 202, 152, 0.2) !important;
+}
+.d-navigation ul li.active a {
+  color: #0fca98 !important;
+}
+.d-navigation ul li a {
+  padding: 3px 0;
+  color: #455892;
+  font-size: 14px;
+  display: inline-block;
+  font-weight: 600;
+  font-family: "Jost", sans-serif;
+}
+.d-navigation ul li a i {
+  margin-right: 10px;
+}
+
+/*---------- Bookmark Property -------*/
+table.property-table-wrap {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none;
+}
+table.property-table-wrap th {
+  border: none;
+  background-color: #66676b;
+  text-align: left;
+  padding: 18px 20px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+  position: relative;
+  z-index: 9;
+  line-height: 1;
+}
+table.property-table-wrap th:first-child {
+  width: 50%;
+  border-radius: 3px 0 0 3px;
+}
+table.property-table-wrap th:last-child {
+  border-radius: 0 3px 3px 0;
+}
+table.property-table-wrap th i {
+  margin-right: 3px;
+  font-size: 14px;
+}
+table.property-table-wrap th {
+  background: #2e3d5f;
+}
+table.property-table-wrap td {
+  padding: 35px 20px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e4e4e4;
+}
+table.property-table-wrap .property-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+table.property-table-wrap td:first-child {
+  padding-left: 0px;
+  line-height: 25px;
+}
+table.property-table-wrap .property-container img {
+  width: 150px;
+  border-radius: 3px;
+  flex: 1.1;
+  margin-right: 26px;
+}
+table.property-table-wrap .property-container .title {
+  flex: 2;
+}
+table.property-table-wrap .property-container .title h4 {
+  margin-bottom: 0;
+  margin-top: 2px;
+  display: block;
+  font-size: 16px;
+}
+table.property-table-wrap td.action a {
+  display: block;
+  color: #677994;
+  line-height: 20px;
+  padding: 3px 0;
+  position: relative;
+  margin-left: 21px;
+}
+table.property-table-wrap td.action a i {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background: #f1f3f7;
+  text-align: center;
+  display: inline-block;
+  border-radius: 3px;
+}
+.bkmark a.delete {
+  float: right;
+}
+table.property-table-wrap .property-container .title span {
+  display: block;
+}
+table.property-table-wrap .property-container .title .table-property-price {
+  display: inline-block;
+  background: #f1f3f7;
+  color: #677994;
+  border-radius: 2px;
+  font-size: 13px;
+  margin-top: 9px;
+  padding: 2px 10px;
+}
+
+// added
+
+.checkbox-image ul {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.checkbox-image li {
+  display: inline-block;
+}
+
+.checkbox-image input[type="checkbox"][id^="myCheckbox"] {
+  display: none;
+}
+
+.checkbox-image label {
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.checkbox-image label:before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.checkbox-image label img {
+  height: 100px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+.checkbox-image :checked + label {
+  border-color: #ddd;
+}
+
+.checkbox-image :checked + label:before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+
+.checkbox-image :checked + label img {
+  transform: scale(0.9);
+  /* box-shadow: 0 0 5px #333; */
+  z-index: -1;
+}
+
+.checkbox-image input[type="checkbox" i] {
+  display: none;
+}

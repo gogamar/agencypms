@@ -1,0 +1,29 @@
+<%= simple_form_for [@page, @block] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :title_es %>
+    <%= f.input :title_ca %>
+    <%= f.input :title_en %>
+    <%= f.input :title_fr %>
+    <%= f.input :subtitle_es %>
+    <%= f.input :subtitle_ca %>
+    <%= f.input :subtitle_en %>
+    <%= f.input :subtitle_fr %>
+    <%= f.input :content_es, as: :text %>
+    <%= f.input :content_ca, as: :text %>
+    <%= f.input :content_en, as: :text %>
+    <%= f.input :content_fr, as: :text %>
+    <%= f.input :button_es %>
+    <%= f.input :button_ca %>
+    <%= f.input :button_en %>
+    <%= f.input :button_fr %>
+    <%= f.input :image, as: :file %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, value: t("save-translations"), class: "btn btn-secondary btn-md rounded full-width" %>
+  </div>
+<% end %>

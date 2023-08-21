@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tourists
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
@@ -107,6 +108,11 @@ Rails.application.routes.draw do
           get 'list'
           get "import_properties"
         end
+
+        resources :bookings do
+          resources :payments
+          resources :charges
+        end
         resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
         resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update] do
           resources :photos, only: :destroy, shallow: true
@@ -115,8 +121,11 @@ Rails.application.routes.draw do
           get 'copy'
           get 'copy_rates'
           get 'send_rates'
+          get 'export_beds'
+          get 'update_beds'
           get 'get_rates'
           get 'delete_rates'
+          get 'get_bookings'
         end
       end
 

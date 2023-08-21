@@ -4,11 +4,20 @@
 
 import { application } from "./application"
 
+import AddressAutocompleteController from "./address_autocomplete_controller"
+application.register("address-autocomplete", AddressAutocompleteController)
+
 import CallFlatpickrController from "./call_flatpickr_controller"
 application.register("call-flatpickr", CallFlatpickrController)
 
+import FlatpickrController from "./flatpickr_controller"
+application.register("flatpickr", FlatpickrController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import MapController from "./map_controller"
+application.register("map", MapController)
 
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
@@ -21,3 +30,9 @@ application.register("sidebar", SidebarController)
 
 import SpinnerController from "./spinner_controller"
 application.register("spinner", SpinnerController)
+
+import TypedJsController from "./typed_js_controller"
+application.register("typed-js", TypedJsController)
+
+import UpdateFieldController from "./update_field_controller"
+application.register("update-field", UpdateFieldController)

@@ -12,10 +12,20 @@ module BedsHelper
       @auth_token = auth_token
     end
 
-
     def get_rates(prop_key, options={})
       self.class.post(
         '/getRates',
+        body: payload(prop_key, options)
+      )
+    rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
+    def get_bookings(prop_key, options={})
+      self.class.post(
+        '/getBookings',
         body: payload(prop_key, options)
       )
     rescue Oj::ParseError
@@ -34,6 +44,18 @@ module BedsHelper
       e.response
     end
 
+    def create_properties(options = {})
+      response = self.class.post(
+        '/createProperties',
+        body: authentication.merge(options).to_json)
+      json = parse!(response)
+      json['createProperties']
+    rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      raise e
+    end
+
     def get_property_content(prop_key, options={})
       response = self.class.post(
         '/getPropertyContent',
@@ -47,7 +69,7 @@ module BedsHelper
       e.response
     end
 
-    def set_rates(prop_key, options={})
+    def set_rates(prop_key, options = {})
       self.class.post(
         '/setRates',
         body: payload(prop_key, options)
@@ -71,7 +93,7 @@ module BedsHelper
 
     def payload(prop_key = nil, options={})
       authentication(prop_key)
-        .merge(options)
+        .deep_merge(options)
         .to_json
     end
 

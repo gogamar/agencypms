@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates, :export_beds, :update_beds, :get_bookings]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -33,11 +33,13 @@ class VrentalsController < ApplicationController
     @vrentals = Vrental.all.sort_by(&:name)
   end
 
-  # GET /products/1/copy
   def copy
     @source = Vrental.find(params[:id])
     @vrental = @source.dup
     @vrental.name = "#{@vrental.name} CÒPIA"
+    @vrental.beds_prop_id = nil
+    @vrental.beds_room_id = nil
+    @vrental.prop_key = nil
     @vrental.rates = []
     @source.rates.each { |rate| @vrental.rates << rate.dup }
     @vrental.features = []
@@ -73,6 +75,12 @@ class VrentalsController < ApplicationController
     redirect_to @vrental, notice: "Ja s'han importat les tarifes."
   end
 
+  def get_bookings
+    @vrental.get_bookings_from_beds
+    authorize @vrental
+    redirect_to vrental_bookings_path(@vrental), notice: "Ja s'han importat les reserves."
+  end
+
   def import_properties
     policy_scope(Vrental)
     Vrental.import_properties_from_beds
@@ -82,6 +90,18 @@ class VrentalsController < ApplicationController
   def edit
     @feature_list = Feature.all.uniq
     authorize @vrental
+  end
+
+  def export_beds
+    @vrental.create_property_on_beds
+    authorize @vrental
+    redirect_to @vrental, notice: "L'immoble ja està a Beds."
+  end
+
+  def update_beds
+    @vrental.update_on_beds
+    authorize @vrental
+    redirect_to @vrental, notice: "L'immoble s'ha actualitzat creat a Beds."
   end
 
 
