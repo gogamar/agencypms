@@ -97,17 +97,16 @@ Rails.application.routes.draw do
 
 
       # resources for vacation rentals companies
-      resources :vrowners, path: 'propietaris-lloguer-turistic' do
-        collection do
-          get 'filter'
-        end
-      end
 
       resources :vrentals, path: 'immobles-lloguer-turistic' do
         collection do
           get 'list'
           get "import_properties"
         end
+
+        resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
+
+        resources :expenses, path: 'despeses'
 
         resources :bookings do
           resources :payments
@@ -126,6 +125,12 @@ Rails.application.routes.draw do
           get 'get_rates'
           get 'delete_rates'
           get 'get_bookings'
+        end
+      end
+      resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
+      resources :vrowners, path: 'propietaris-lloguer-turistic' do
+        collection do
+          get 'filter'
         end
       end
 

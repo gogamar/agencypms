@@ -37,62 +37,51 @@
             <%= sort_indicator if params[:column] == "status" %>
             <%= sort_link(column: "status", label: "Estatus") %>
           </div>
-          <div class="col-lg-2 py-3 align-self-center" id="vrname" relative>
+          <div class="col-lg-3 py-3 align-self-center" id="vrname" relative>
             <%= sort_indicator if params[:column] == "name" %>
             <%= sort_link(column: "name", label: "Nom") %>
           </div>
-          <div class="col-lg-2 py-3 align-self-center" id="vraddress" relative>
+          <div class="col-lg-3 py-3 align-self-center" id="vraddress" relative>
             <%= sort_indicator if params[:column] == "address" %>
             <%= sort_link(column: "address", label: "Adreça") %>
           </div>
-          <div class="col-lg-2 py-3 align-self-center" id="vrowner-name" relative>
+          <div class="col-lg-3 py-3 align-self-center" id="vrowner-name" relative>
             <%= sort_indicator if params[:column] == "vrowners.fullname" %>
             <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
           </div>
-          <div class="col-lg-2 py-3 align-self-center">Contractes</div>
-          <div class="col-lg-2 py-3 align-self-center">Contracte nou</div>
         </div>
         <div>
           <% @vrentals.each do |vrental| %>
-            <div class="row border">
+            <div class="row border min-height-row">
               <div class="col-lg-2 align-self-center">
                 <small><%= t("#{vrental.status}") %></small>
               </div>
-              <div class="col-lg-2 align-self-center">
-                <div>
-                  <%= link_to "#{vrental.name}", vrental, class: "btn btn-success btn-sm" %>
-                </div>
-                <div class="mt-2">
-                  <small><%= link_to 'Copiar immoble', copy_vrental_path(vrental)  %></small>
-                </div>
+              <div class="col-lg-3 align-self-center">
+                <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>
               </div>
-              <div class="col-lg-2 align-self-center">
-                <small><%= vrental.address %></small>
+              <div class="col-lg-3 align-self-center">
+                <small><%= link_to vrental.address, vrental, class: "text-decoration-none"  %></small>
               </div>
               <% if vrental.vrowner %>
-                <div class="col-lg-2 align-self-center">
-                  <small><%= link_to vrental.vrowner.fullname, edit_vrowner_path(vrental.vrowner), target: "_blank" %></small>
+                <div class="col-lg-3 align-self-center">
+                  <small><%= link_to vrental.vrowner.fullname, edit_vrental_vrowner_path(vrental, vrental.vrowner), target: "_blank", class: "text-decoration-none"  %></small>
                 </div>
               <% else %>
-                <div class="col-lg-2 align-self-center">
-                  <small><%= link_to 'Afegir propietari', edit_vrental_path(vrental) %></small>
+                <div class="col-lg-3 align-self-center">
+                  <small>
+                    <%= link_to "Afegir propietari", edit_vrental_path(vrental, anchor: "vrowner-details"), target: "_blank" %>
+                  </small>
                 </div>
               <% end %>
-              <div class="col-lg-2 align-self-center">
-                <%= link_to 'Contractes', vragreements_path(immoble: vrental), class: "btn btn-primary btn-sm"  %>
-              </div>
-              <div class="col-lg-2 align-self-center">
-                <% if vrental.status == "inactive" %>
-                  <small><%= link_to "Canvia l'estatus de l'immoble a proposta o actiu per afegir contracte", edit_vrental_path(vrental) %></small>
-                <% else %>
-                  <% if vrental.vragreements.pluck(:year).include?(Date.today.year) %>
-                    <%= link_to "Afegir contracte per #{Date.today.next_year.year}", new_vrental_vragreement_path(vrental, year: Date.today.next_year.year), class: "btn btn-secondary btn-sm" %>
-                  <% elsif vrental.vragreements.pluck(:year).include?(Date.today.next_year.year) %>
-                    <%# link_to "Afegir contracte per #{Date.today.next_year.year + 1}", new_vrental_vragreement_path(vrental, year: Date.today.next_year.year + 1), class: "btn btn-secondary btn-sm" %>
-                    <small>El contracte per <%= Date.today.next_year.year %> ja existeix</small>
-                  <% else %>
-                    <%= link_to "Afegir contracte per #{Date.today.year}", new_vrental_vragreement_path(vrental, year: Date.today.year), class: "btn btn-secondary btn-sm" %>
-                  <% end %>
+              <div class="col-lg-1 d-flex justify-content-between">
+                <%= link_to edit_vrental_path(vrental), class: "text-primary text-decoration-none" do %>
+                  <i class="fas fa-edit"></i>
+                <% end %>
+                <%= link_to copy_vrental_path(vrental), class: "text-info text-decoration-none" do %>
+                  <i class="fas fa-copy"></i>
+                <% end %>
+                <%= link_to vrental, class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"} do %>
+                  <i class="fas fa-trash-can"></i>
                 <% end %>
               </div>
             </div>

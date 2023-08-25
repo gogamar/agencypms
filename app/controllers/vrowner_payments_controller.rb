@@ -1,0 +1,2 @@
+class VrownerPaymentsController < ApplicationController
+end

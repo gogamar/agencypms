@@ -1,4 +1,12 @@
 ca:
+  expense_types:
+    agency: "Agència"
+    owner: "Propietari"
+  charge_types:
+    rent: "Lloguer"
+    cleaning: "Neteja"
+    city_tax: "Impost turístic"
+    other: "Altres"
   locale: "Català"
   ca: "català"
   en: "anglès"

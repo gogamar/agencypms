@@ -6,12 +6,20 @@
     <%= f.input :name, required: true, input_html: { "data-update-field-target" => "vrentalName", "data-action": "input->update-field#updatePropKey" } %>
     <%= f.input :commission, required: true %>
     <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="w-50 me-3">
-        <%= f.association :vrowner, label_method: :fullname %>
-      </div>
-      <div class="w-50">
-        o <%= link_to 'Afegir un propietari nou', new_vrowner_path, target: "_blank" %>
+    <div class="p-3 mt-3 border border-secondary rounded-4" id="vrowner-details">
+      <h6>Propietari</h6>
+      <div class="row g-3">
+        <div class="col">
+          <%= f.association :vrowner, label_method: :fullname, label: false, class: "js-example-responsive" %>
+        </div>
+        <div class="col">
+          <button type="button" class="edit_vrowner-js mb-2 btn btn-secondary w-100 <%= 'd-none' unless @vrental.vrowner %>" data-bs-toggle="modal" data-bs-target="#editModalVrowner">
+            <small>Modificar <%= @vrental.vrowner.fullname if @vrental.vrowner %></small>
+          </button>
+          <button type="button" class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#newModalVrowner">
+            <small>Afegir Propietari Nou</small>
+          </button>
+        </div>
       </div>
     </div>
     <%= f.input :address %>
@@ -28,3 +36,5 @@
     <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary text-center' %>
   </div>
 <% end %>
+<%= render "new_vrowner_modal" %>
+<%= render "edit_vrowner_modal" if @vrental.vrowner %>

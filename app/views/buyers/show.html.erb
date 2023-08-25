@@ -1,19 +1,8 @@
-
 <div class="container">
   <div class="d-flex justify-content-between">
-      <div>
-        <%= link_to buyers_path, class: "btn btn-light btn-icon-split me-3" do %>
-          <span class="icon text-white-600">
-              <i class="fas fa-arrow-left"></i>
-          </span>
-          <span class="text m-0 text-primary" style="font-size: 0.85rem">
-            Tornar
-          </span>
-        <% end %>
-      </div>
-      <div>
-        <%= link_to 'Modificar', edit_buyer_path(@buyer), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @buyer, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@buyer.fullname}?"} %>
-      </div>
+    <div>
+      <%= link_to 'Modificar', edit_buyer_path(@buyer), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @buyer, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@buyer.fullname}?"} %>
+    </div>
   </div>
   <div>
     <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @buyer.fullname %></h4>
@@ -50,5 +39,5 @@
     <p>
       <strong>Banc:</strong>
       <%= @buyer.account_bank %>
+    </div>
   </div>
-</div>

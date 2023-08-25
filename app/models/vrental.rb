@@ -3,12 +3,16 @@ class Vrental < ApplicationRecord
 
   belongs_to :user
   belongs_to :vrowner, optional: true
+  accepts_nested_attributes_for :vrowner
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
+  has_many :expenses, dependent: :destroy
   has_and_belongs_to_many :features
   validates :name, presence: true
   validates :status, presence: true
+
+
 
   def unavailable_dates
     rates.pluck(:firstnight, :lastnight).map do |range|
@@ -166,126 +170,174 @@ class Vrental < ApplicationRecord
     }
     beds24bookings = client.get_bookings(prop_key, options)
 
-    if beds24bookings.empty?
-      return
-    end
-
-    beds24bookings.each do |beds_booking|
-      if booking = self.bookings.find_by(beds_booking_id: beds_booking["bookId"])
-        guest_attributes = {
-          firstname: beds_booking["guestFirstName"],
-          lastname: beds_booking["guestName"],
-          phone: beds_booking["guestPhone"],
-          address: beds_booking["guestAddress"],
-          country_code: beds_booking["guestCountry"]
-        }
-
-        booking.update!(
-          status: beds_booking["status"],
-          checkin: beds_booking["firstNight"],
-          checkout: beds_booking["lastNight"],
-          adults: beds_booking["numAdult"],
-          children: beds_booking["numChild"],
-          referrer: beds_booking["referer"],
-          commission: beds_booking["commission"],
-          price: beds_booking["price"]
-        )
-
-        Tourist.find_by(email: beds_booking["guestEmail"]).update!(guest_attributes)
-
-        max_charge = booking.charges.order(price: :desc).first
-        max_charge.update(charge_type: "rent") if max_charge
-        booking.charges.each do |charge|
-          if charge.description.match?(/0,99|tax|tasa|0\.99/i)
-            charge.update(charge_type: "city_tax")
-          elsif charge.description.match?(/neteja|cleaning|limpieza/i)
-            charge.update(charge_type: "cleaning")
-          elsif charge != max_charge
-            charge.update(charge_type: "other")
-          end
+    if beds24bookings.success?
+      parsed_response = beds24bookings.parsed_response
+      found_error = false
+      parsed_response.each do |hash|
+        if hash.is_a?(Hash) && hash.key?("error")
+          found_error = true
+          error_message = hash["error"]
+          error_code = hash["errorCode"]
+          # Handle the error message and error code as needed
+          puts "Error: #{error_message}, ErrorCode: #{error_code}"
+          break  # No need to check further
         end
-      else
-        if beds_booking["guestFirstName"] || beds_booking["guestName"]
-          tourist = Tourist.create!(
-            firstname: beds_booking["guestFirstName"],
-            lastname: beds_booking["guestName"],
-            phone: beds_booking["guestPhone"],
-            email: beds_booking["guestEmail"],
-            address: beds_booking["guestAddress"],
-            country_code: beds_booking["guestCountry"]
-          )
-        end
-        booking = Booking.create!(
-          vrental_id: self.id,
-          status: beds_booking["status"],
-          tourist_id: tourist.id || nil,
-          checkin: beds_booking["firstNight"],
-          checkout: beds_booking["lastNight"],
-          adults: beds_booking["numAdult"],
-          children: beds_booking["numChild"],
-          beds_booking_id: beds_booking["bookId"],
-          referrer: beds_booking["referer"],
-          commission: beds_booking["commission"],
-          price: beds_booking["price"]
-        )
+      end
 
-        if beds_booking["invoice"].nil? || beds_booking["invoice"].empty?
-          next
-        else
-          beds_booking["invoice"].each do |entry|
-            if (charge = booking.charges.find_by(beds_id: entry["invoiceId"]))
-              charge.update!(
-                description: entry["description"],
-                quantity: entry["qty"],
-                price: entry["price"]
-              )
-            elsif (payment = booking.payments.find_by(beds_id: entry["invoiceId"]))
-              payment.update!(
-                description: entry["description"],
-                quantity: entry["qty"],
-                price: entry["price"]
+      unless found_error
+
+        if beds24bookings.empty?
+          return
+        end
+
+        beds24bookings.each do |beds_booking|
+          if booking = self.bookings.find_by(beds_booking_id: beds_booking["bookId"])
+            if !beds_booking["guestEmail"].blank?
+              existing_tourist = Tourist.find_by(email: beds_booking["guestEmail"])
+
+              if existing_tourist
+                tourist = existing_tourist
+                tourist.update!(
+                  firstname: beds_booking["guestFirstName"],
+                  lastname: beds_booking["guestName"],
+                  phone: beds_booking["guestPhone"],
+                  email: beds_booking["guestEmail"],
+                  address: beds_booking["guestAddress"],
+                  country_code: beds_booking["guestCountry"]
                 )
-            elsif entry["qty"] == "1"
-              Charge.create!(
-              description: entry["description"],
-              beds_id: entry["invoiceId"],
-              quantity: entry["qty"],
-              price: entry["price"],
-              booking_id: booking.id
-              )
-            elsif entry["qty"] == "-1"
-              Payment.create!(
-                description: entry["description"],
-                beds_id: entry["invoiceId"],
-                quantity: entry["qty"],
-                price: entry["price"],
-                booking_id: booking.id
-              )
-            elsif entry["qty"] != "-1" && entry["qty"] != "1"
-              Charge.create!(
-                description: entry["description"],
-                beds_id: entry["invoiceId"],
-                quantity: entry["qty"],
-                price: entry["price"],
-                booking_id: booking.id
-              )
+              else
+                tourist = Tourist.create!(
+                  firstname: beds_booking["guestFirstName"],
+                  lastname: beds_booking["guestName"],
+                  phone: beds_booking["guestPhone"],
+                  email: beds_booking["guestEmail"],
+                  address: beds_booking["guestAddress"],
+                  country_code: beds_booking["guestCountry"]
+                )
+              end
             else
-              puts "Charges and payments for #{vrental.name} already exist."
+              tourist = nil
             end
+
+            booking.update!(
+              status: beds_booking["status"],
+              firstname: tourist&.firstname || beds_booking["guestFirstName"],
+              lastname: tourist&.lastname || beds_booking["guestName"],
+              checkin: Date.parse(beds_booking["firstNight"]),
+              checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
+              adults: beds_booking["numAdult"],
+              children: beds_booking["numChild"],
+              referrer: beds_booking["referer"],
+              commission: beds_booking["commission"],
+              price: beds_booking["price"],
+              tourist_id: tourist.present? ? tourist.id : nil
+            )
+
             max_charge = booking.charges.order(price: :desc).first
-            max_charge.update(charge_type: "rent")
+            max_charge.update(charge_type: "rent") if max_charge
             booking.charges.each do |charge|
-              if charge.description.match?(/0,99|tax|tasa|0\.99/i)
+              if charge.description.match?(/0,99|tax|taxa|taxe|tasa|0\.99/i)
                 charge.update(charge_type: "city_tax")
-              elsif charge.description.match?(/neteja|cleaning|limpieza/i)
+              elsif charge.description.match?(/neteja|cleaning|nettoyage|limpieza/i)
                 charge.update(charge_type: "cleaning")
               elsif charge != max_charge
                 charge.update(charge_type: "other")
               end
             end
+          else
+            if !beds_booking["guestEmail"].blank?
+              existing_tourist = Tourist.find_by(email: beds_booking["guestEmail"])
+
+              if existing_tourist
+                tourist = existing_tourist
+              else
+                tourist = Tourist.create!(
+                  firstname: beds_booking["guestFirstName"],
+                  lastname: beds_booking["guestName"],
+                  phone: beds_booking["guestPhone"],
+                  email: beds_booking["guestEmail"],
+                  address: beds_booking["guestAddress"],
+                  country_code: beds_booking["guestCountry"]
+                )
+              end
+            end
+
+            booking = Booking.create!(
+              vrental_id: self.id,
+              status: beds_booking["status"],
+              firstname: tourist&.firstname || beds_booking["guestFirstName"],
+              lastname: tourist&.lastname || beds_booking["guestName"],
+              tourist_id: tourist.present? ? tourist.id : nil,
+              checkin: Date.parse(beds_booking["firstNight"]),
+              checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
+              adults: beds_booking["numAdult"],
+              children: beds_booking["numChild"],
+              beds_booking_id: beds_booking["bookId"],
+              referrer: beds_booking["referer"],
+              commission: beds_booking["commission"],
+              price: beds_booking["price"]
+            )
+          end
+          if beds_booking["invoice"].nil? || beds_booking["invoice"].empty?
+            next
+          else
+            beds_booking["invoice"].each do |entry|
+              if (charge = booking.charges.find_by(beds_id: entry["invoiceId"]))
+                charge.update!(
+                  description: entry["description"],
+                  quantity: 1,
+                  price: entry["price"].to_f * entry["qty"].to_f
+                )
+              elsif (payment = booking.payments.find_by(beds_id: entry["invoiceId"]))
+                payment.update!(
+                  description: entry["description"],
+                  quantity: -1,
+                  price: entry["price"].to_f * entry["qty"].to_f
+                  )
+              elsif entry["qty"] == "1"
+                Charge.create!(
+                description: entry["description"],
+                beds_id: entry["invoiceId"],
+                quantity: 1,
+                price: entry["price"].to_f * entry["qty"].to_f,
+                booking_id: booking.id
+                )
+              elsif entry["qty"] == "-1"
+                Payment.create!(
+                  description: entry["description"],
+                  beds_id: entry["invoiceId"],
+                  quantity: -1,
+                  price: entry["price"].to_f * entry["qty"].to_f,
+                  booking_id: booking.id
+                )
+              elsif entry["qty"] != "-1" && entry["qty"] != "1"
+                Charge.create!(
+                  description: entry["description"],
+                  beds_id: entry["invoiceId"],
+                  quantity: 1,
+                  price: entry["price"].to_f * entry["qty"].to_f,
+                  booking_id: booking.id
+                )
+              else
+                puts "Charges and payments for #{vrental.name} already exist."
+              end
+              max_charge = booking.charges.order(price: :desc).first
+              max_charge.update(charge_type: "rent")
+              booking.charges.each do |charge|
+                if charge.description.match?(/0,99|tax|taxa|taxe|tasa|0\.99/i)
+                  charge.update(charge_type: "city_tax")
+                elsif charge.description.match?(/neteja|cleaning|nettoyage|limpieza/i)
+                  charge.update(charge_type: "cleaning")
+                elsif charge != max_charge
+                  charge.update(charge_type: "other")
+                end
+              end
+            end
           end
         end
       end
+    else
+      return
     end
   end
 

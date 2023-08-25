@@ -1,0 +1,2 @@
+class VrownerPayment < ApplicationRecord
+end

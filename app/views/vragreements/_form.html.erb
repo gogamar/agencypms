@@ -62,13 +62,13 @@
   <div class="row justify-content-md-center">
     <div class="col-lg-12">
       <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
-        <% if vrental.vrowner.language == "ca" %>
+        <% if vrental.vrowner&.language == "ca" %>
           <%= f.input :vrowner_bookings, input_html: {value: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com"} %>
-        <% elsif vrental.vrowner.language == "es" %>
+        <% elsif vrental.vrowner&.language == "es" %>
           <%= f.input :vrowner_bookings, input_html: {value: "El propietario todavía no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contacte con nosotros a info@sistachrentals.com"} %>
-        <% elsif vrental.vrowner.language == "fr" %>
+        <% elsif vrental.vrowner&.language == "fr" %>
           <%= f.input :vrowner_bookings, input_html: {value: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, merci de nous contacter par email: info@sistachrentals.com"} %>
-        <% elsif vrental.vrowner.language == "en" %>
+        <% elsif vrental.vrowner&.language == "en" %>
           <%= f.input :vrowner_bookings, input_html: {value: "The owner has not yet blocked any dates for their own use. If you would like to block some dates, please contact us by email: info@sistachrentals.com"} %>
         <% end %>
       <% else %>

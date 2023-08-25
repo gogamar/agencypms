@@ -1,13 +1,3 @@
-<div>
-  <%= link_to @vrental, class: "btn btn-light btn-icon-split me-3" do %>
-    <span class="icon text-white-600">
-      <i class="fas fa-arrow-left"></i>
-    </span>
-    <span class="text m-0 text-primary" style="font-size: 0.85rem">
-      Tornar
-    </span>
-  <% end %>
-</div>
 <h1>Reserves <%= @vrental.name %></h1>
 <p>Total: <%= number_to_currency(@total_price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
 <p>Comissió: <%= number_to_currency(@total_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
@@ -34,7 +24,11 @@
     <% @bookings.each do |booking| %>
       <tr>
         <th scope="row"><%= booking.referrer %></th>
-        <td><%= booking.tourist.lastname %></td>
+        <% if booking.tourist %>
+          <td><%= booking.tourist.firstname + ' ' + booking.tourist.lastname %></td>
+        <% else %>
+          <td><%= booking.firstname + ' ' + booking.lastname %></td>
+        <% end %>
         <td><%= I18n.l(booking.checkin) %></td>
         <td><%= I18n.l(booking.checkout) %></td>
         <td><%= number_to_currency(booking.price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>

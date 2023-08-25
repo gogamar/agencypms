@@ -27,9 +27,10 @@
       <% end %>
       <div id="content-wrapper" class="d-flex flex-column">
         <%= render "shared/flashes" %>
-      <% if user_signed_in? %>
-        <%= render "shared/topbar" %>
-      <% end %>
+        <% if user_signed_in? %>
+          <%= render "shared/topbar" %>
+          <%= render "shared/subnav" %>
+        <% end %>
         <div id="content" class="flex-shrink-0">
           <div class="container-fluid">
             <%= yield %>

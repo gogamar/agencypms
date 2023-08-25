@@ -48,6 +48,11 @@ input[type="number"] {
 .row.striped:hover {
   background: #bdbcbc;
 }
+
+.min-height-row {
+  min-height: 48px;
+}
+
 @media (max-width: 767.98px) {
   row.table-head {
     display: none;

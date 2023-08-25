@@ -1,23 +1,16 @@
-// Entry point for the build script in your package.json
 import "@hotwired/turbo-rails";
 import "./controllers";
 import "bootstrap";
-
-// flatpickr instructions from kitt
-
+import "./add_jquery";
+// import "./packs/custom";
+import { initSelect2 } from "./components/init_select2";
+// import { initSlick } from "./components/init_slick";
+// import { initMagnificPopUp } from "./components/init_magnificPopUp";
 import { initFlatpickr } from "./plugins/flatpickr";
 
-initFlatpickr();
-
-document.addEventListener("turbo:load", () => {
+document.addEventListener("turbo:load", function () {
+  initSelect2();
+  // initSlick();
+  // initMagnificPopUp();
   initFlatpickr();
 });
-
-// testing if turbolinks is uninstalled and turbo installed
-
-// $(document).on("turbolinks:load", () => {
-//   console.log("turbolinks!");
-// });
-// $(document).on("turbo:load", () => {
-//   console.log("turbo!");
-// });

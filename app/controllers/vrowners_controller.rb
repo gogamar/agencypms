@@ -17,32 +17,46 @@ class VrownersController < ApplicationController
 
   def show
     authorize @vrowner
+    render json: { fullname: vrowner.fullname, modal_content: render_to_string(partial: "edit_vrowner_modal", locals: { vrowner: vrowner }) }
   end
 
   def new
+    @vrental = Vrental.find(params[:vrental_id])
     @vrowner = Vrowner.new
+    authorize @vrental
     authorize @vrowner
   end
 
   def create
+    @vrental = Vrental.find(params[:vrental_id])
     @vrowner = Vrowner.new(vrowner_params)
     @vrowner.user_id = current_user.id
     authorize @vrowner
+    authorize @vrental
+
     if @vrowner.save
-      redirect_to vrowners_path, notice: 'Has creat un nou propietari de lloguer turístic.'
+      @vrental.vrowner = @vrowner
+      @vrental.save
+      redirect_to edit_vrental_path(@vrental), notice: 'Propietari creat i associat amb immoble.'
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
+
 
   def edit
     authorize @vrowner
   end
 
   def update
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
     authorize @vrowner
     if @vrowner.update(vrowner_params)
-      redirect_to vrowners_path, notice: "Has actualitzat al propietari"
+      if params[:vrental_id].present?
+        redirect_back(fallback_location: edit_vrental_path(@vrental), notice: 'Has modificat el propietari.')
+      else
+        redirect_to vrowners_path, notice: 'Has modificat el propietari.'
+      end
     else
       render :edit, status: :unprocessable_entity
     end

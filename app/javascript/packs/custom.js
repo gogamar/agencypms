@@ -98,33 +98,33 @@ $(function () {
   inlineCSS();
 
   // Search Radio
-//   function searchTypeButtons() {
-//     $('.property-search-type label.active input[type="radio"]').prop(
-//       "checked",
-//       true
-//     );
-//     var buttonWidth = $(".property-search-type label.active").width();
-//     var arrowDist = $(".property-search-type label.active").position();
-//     $(".property-search-type-arrow").css("left", arrowDist + buttonWidth / 2);
-//     $(".property-search-type label").on("change", function () {
-//       $('.property-search-type input[type="radio"]')
-//         .parent("label")
-//         .removeClass("active");
-//       $('.property-search-type input[type="radio"]:checked')
-//         .parent("label")
-//         .addClass("active");
-//       var buttonWidth = $(".property-search-type label.active").width();
-//       var arrowDist = $(".property-search-type label.active").position().left;
-//       $(".property-search-type-arrow").css({
-//         left: arrowDist + buttonWidth / 1.7,
-//         transition: "left 0.4s cubic-bezier(.95,-.41,.19,1.44)",
-//       });
-//     });
-//   }
-//   if ($(".hero-banner").length) {
-//     searchTypeButtons();
-//     $(window).on("load resize", function () {
-//       searchTypeButtons();
-//     });
-//   }
+  //   function searchTypeButtons() {
+  //     $('.property-search-type label.active input[type="radio"]').prop(
+  //       "checked",
+  //       true
+  //     );
+  //     var buttonWidth = $(".property-search-type label.active").width();
+  //     var arrowDist = $(".property-search-type label.active").position();
+  //     $(".property-search-type-arrow").css("left", arrowDist + buttonWidth / 2);
+  //     $(".property-search-type label").on("change", function () {
+  //       $('.property-search-type input[type="radio"]')
+  //         .parent("label")
+  //         .removeClass("active");
+  //       $('.property-search-type input[type="radio"]:checked')
+  //         .parent("label")
+  //         .addClass("active");
+  //       var buttonWidth = $(".property-search-type label.active").width();
+  //       var arrowDist = $(".property-search-type label.active").position().left;
+  //       $(".property-search-type-arrow").css({
+  //         left: arrowDist + buttonWidth / 1.7,
+  //         transition: "left 0.4s cubic-bezier(.95,-.41,.19,1.44)",
+  //       });
+  //     });
+  //   }
+  //   if ($(".hero-banner").length) {
+  //     searchTypeButtons();
+  //     $(window).on("load resize", function () {
+  //       searchTypeButtons();
+  //     });
+  //   }
 });

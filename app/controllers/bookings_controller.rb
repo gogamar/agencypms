@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
   before_action :set_vrental
-  before_action :set_booking, only: %i[show edit update destroy]
+  before_action :set_booking, only: %i[edit update destroy]
 
   def index
     @bookings = policy_scope(Booking)
@@ -19,10 +19,6 @@ class BookingsController < ApplicationController
     @total_net = @total_rent - @total_commission
   end
 
-  def show
-    authorize @booking
-  end
-
   def new
     @booking = Booking.new
     authorize @booking
@@ -36,38 +32,27 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     authorize @booking
 
-    respond_to do |format|
-      if @booking.save
-        format.html { redirect_to booking_url(@booking), notice: "Booking was successfully created." }
-        format.json { render :show, status: :created, location: @booking }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
-      end
+    if @booking.save
+      redirect_to vrental_bookings_path, notice: "La reserva s'ha creat correctament."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
     authorize @booking
-    respond_to do |format|
-      if @booking.update(booking_params)
-        format.html { redirect_to booking_url(@booking), notice: "Booking was successfully updated." }
-        format.json { render :show, status: :ok, location: @booking }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
-      end
+
+    if @booking.update(booking_params)
+      redirect_to vrental_bookings_path, notice: "La reserva s'ha modificat correctament."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     authorize @booking
     @booking.destroy
-
-    respond_to do |format|
-      format.html { redirect_to bookings_url, notice: "Booking was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to vrental_bookings_path, notice: "Booking was successfully destroyed."
   end
 
   private
@@ -80,6 +65,6 @@ class BookingsController < ApplicationController
     end
 
     def booking_params
-      params.require(:booking).permit(:status, :checkin, :checkout, :price, :commission, :referrer, :beds_booking_id)
+      params.require(:booking).permit(:status, :checkin, :checkout, :price, :commission, :referrer, :beds_booking_id, charges_attributes: [:id, :description, :quantity, :price, :charge_type], payment_attributes: [:id, :description, :quantity, :price])
     end
 end

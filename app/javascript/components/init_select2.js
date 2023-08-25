@@ -80,6 +80,62 @@ const initSelect2 = () => {
     placeholder: "Emplacement",
     allowClear: true,
   });
+
+  function updateVrowner(selectedVrownerId) {
+    const pathSegments = window.location.pathname;
+    const lastSlashIndex = pathSegments.lastIndexOf("/");
+    const path = pathSegments.slice(0, lastSlashIndex);
+
+    // Make an AJAX call to update the vrental's vrowner_id
+    fetch(path, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          .content, // for Rails CSRF protection
+      },
+      body: JSON.stringify({
+        vrental: {
+          vrowner_id: selectedVrownerId,
+        },
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.vrowner_id);
+      })
+      .catch((error) => {
+        console.error("There was an error updating the vrental:", error);
+      });
+  }
+
+  $("#vrental_vrowner_id")
+    .select2({
+      placeholder: "Seleccionar propietari",
+      allowClear: true,
+      theme: "bootstrap-5",
+    })
+    .on("select2:select", function (e) {
+      if (
+        document.querySelector(".edit_vrowner-js").classList.contains("d-none")
+      ) {
+        document.querySelector(".edit_vrowner-js").classList.remove("d-none");
+      }
+      document.querySelector(
+        ".edit_vrowner-js"
+      ).innerHTML = `<small>Modificar ${e.params.data.text}</small>`;
+      const selectedVrownerId = e.params.data.id;
+      updateVrowner(selectedVrownerId);
+      window.location.reload(true);
+    })
+    .on("select2:unselect", function (e) {
+      // This function will be triggered when an item is unselected.
+      document.querySelector(".edit_vrowner-js").classList.add("d-none");
+      console.log("Item removed:", e.params.data);
+      updateVrowner(null);
+      window.location.reload(true);
+    });
 };
 
 export { initSelect2 };

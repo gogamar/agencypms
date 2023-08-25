@@ -30,7 +30,9 @@ class VrentalsController < ApplicationController
   def new
     @vrental = Vrental.new
     authorize @vrental
+    @vrental.build_vrowner
     @vrentals = Vrental.all.sort_by(&:name)
+    @vrowners = Vrowner.all.sort_by(&:fullname)
   end
 
   def copy
@@ -87,11 +89,6 @@ class VrentalsController < ApplicationController
     redirect_to vrentals_path, notice: "Properties imported"
   end
 
-  def edit
-    @feature_list = Feature.all.uniq
-    authorize @vrental
-  end
-
   def export_beds
     @vrental.create_property_on_beds
     authorize @vrental
@@ -104,6 +101,13 @@ class VrentalsController < ApplicationController
     redirect_to @vrental, notice: "L'immoble s'ha actualitzat creat a Beds."
   end
 
+  def new
+    @vrental = Vrental.new
+    authorize @vrental
+    @vrental.build_vrowner
+    @vrentals = Vrental.all.sort_by(&:name)
+    @vrowners = Vrowner.all.sort_by(&:fullname)
+  end
 
   def create
     @vrental = Vrental.new(vrental_params)
@@ -116,23 +120,32 @@ class VrentalsController < ApplicationController
     end
   end
 
+  def edit
+    @feature_list = Feature.all.uniq
+    authorize @vrental
+    @vrowners = policy_scope(Vrowner).sort_by(&:fullname)
+  end
 
   def update
     authorize @vrental
     if @vrental.update(vrental_params)
-      redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.'
+      respond_to do |format|
+        format.html { redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.' }
+        format.json { render json: @vrental, status: :ok }
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @vrental.errors, status: :unprocessable_entity }
+      end
     end
   end
-
 
   def destroy
     authorize @vrental
     @vrental.destroy
     redirect_to vrentals_url, notice: 'S\'ha esborrat l\'immoble.'
   end
-
 
   private
 
@@ -141,6 +154,6 @@ class VrentalsController < ApplicationController
   end
 
   def vrental_params
-    params.require(:vrental).permit(:name, :address, :licence, :cadastre, :habitability, :commission, :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests, :description, :description_es, :description_fr, :description_en, :status, feature_ids:[])
+    params.require(:vrental).permit(:name, :address, :licence, :cadastre, :habitability, :commission, :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests, :description, :description_es, :description_fr, :description_en, :status, vrowner_attributes: [:id, :fullname, :language, :phone, :email, :address, :document, :account], feature_ids:[])
   end
 end

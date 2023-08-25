@@ -1,24 +1,13 @@
-
-<div>
-  <%= link_to contracts_path, class: "btn btn-light btn-icon-split me-3" do %>
-    <span class="icon text-white-600">
-        <i class="fas fa-arrow-left"></i>
-    </span>
-    <span class="text m-0 text-primary" style="font-size: 0.85rem">
-      Tornar
-    </span>
-  <% end %>
-</div>
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-      <h4 class="font-weight-bold text-primary text-center mb-2">Afegir un contracte de compravenda per a <%= @realestate.address %></h4>
-      <div class="d-flex justify-content-center">
-        <% if @realestate.seller.present? %>
-          <p class="text-secondary text-center mb-2">Venedor: <%= @realestate.seller.fullname %></p>
-        <% else %>
-          <%= link_to "Afegir propietari", edit_realestate_path(@realestate) %>
-        <% end %>
-      </div>
+    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir un contracte de compravenda per a <%= @realestate.address %></h4>
+    <div class="d-flex justify-content-center">
+      <% if @realestate.seller.present? %>
+        <p class="text-secondary text-center mb-2">Venedor: <%= @realestate.seller.fullname %></p>
+      <% else %>
+        <%= link_to "Afegir propietari", edit_realestate_path(@realestate) %>
+      <% end %>
+    </div>
     <hr>
     <div class="container d-flex justify-content-center mt-5 pb-5">
       <%= render 'form', realestate: @realestate, contract: @contract %>

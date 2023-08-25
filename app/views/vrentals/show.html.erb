@@ -1,31 +1,17 @@
-<div class="d-flex justify-content-between">
-  <div>
-    <%= link_to vrentals_path, class: "btn btn-light btn-icon-split me-3" do %>
-      <span class="icon text-white-600">
-        <i class="fas fa-arrow-left"></i>
-      </span>
-      <span class="text m-0 text-primary" style="font-size: 0.85rem">
-        Tornar
-      </span>
-    <% end %>
-  </div>
-  <div>
-    <%= link_to 'Modificar l\'immoble', edit_vrental_path(@vrental), class: "btn btn-secondary" %>
-    <%= link_to 'Crear a Beds24', export_beds_vrental_path(@vrental), class: "btn btn-secondary" %>
-    <%= link_to 'Actualitzar a Beds24', update_beds_vrental_path(@vrental), class: "btn btn-secondary" %>
-    <%= link_to 'Esborrar', @vrental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrental.name}?"} %>
-  </div>
-  <div>
-    <%= link_to 'Reserves', vrental_bookings_path(@vrental), class: "btn btn-primary" %>
-    <%= link_to 'Contractes', vragreements_path(immoble: @vrental), class: "btn btn-primary" %>
-  </div>
-</div>
 <div>
   <h4 class="mt-4 mb-3 font-weight-bold text-primary"><%= @vrental.name %></h4>
   <a href="#tarifes" class="btn btn-info" role="button" aria-pressed="true">
     <span>Tarifes</span>
     <i class="fas fa-fw fa-arrow-down"></i>
   </a>
+  <%= link_to edit_vrental_path(@vrental), class: "btn btn-secondary btn-icon-split" do %>
+    <span class="icon text-white-50">
+      <i class="fas fa-pen"></i>
+    </span>
+    <span class="text">
+      Modificar l'immoble
+    </span>
+  <% end %>
 </div>
 <div class="card shadow mb-4 p-4">
   <p>
@@ -73,36 +59,34 @@
     <hr>
     <div class="container">
       <h5 class="text-center text-info mb-5">Afegir tarifa nova</h5>
-      <%# turbo_frame_tag "new-rate-form", src: new_vrental_rate_path(@vrental), target: "_top" do %>
-        <%# end %>
-        <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental), target: "_top" %>
-        <% @years.each do |year| %>
-          <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-            <hr>
-            <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
-            <div class="text-end">
-              <% if year <= Date.today.year %>
-                <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-warning" %>
+      <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental), target: "_top" %>
+      <% @years.each do |year| %>
+        <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
+          <hr>
+          <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
+          <div class="text-end">
+            <% if year <= Date.today.year %>
+              <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-warning" %>
+            <% end %>
+            <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last.firstnight >= Date.today) %>
+              <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
+                <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes
               <% end %>
-              <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last.firstnight >= Date.today) %>
-                <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
-                  <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes
-                <% end %>
-              <% elsif @rates.where("DATE_PART('year', firstnight) = ?", year).order(:firstnight).last.firstnight >= Date.today %>
-                <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades</button>
-                <% if year >= Date.today.year && @modified_rates.present? %>
-                  <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
-                    <i class="fas fa-exclamation-triangle"></i> Esborra les tarifes en Beds
-                  <% end %>
+            <% elsif @rates.where("DATE_PART('year', firstnight) = ?", year).order(:firstnight).last.firstnight >= Date.today %>
+              <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades</button>
+              <% if year >= Date.today.year && @modified_rates.present? %>
+                <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
+                  <i class="fas fa-exclamation-triangle"></i> Esborra les tarifes en Beds
                 <% end %>
               <% end %>
-            </div>
-            <hr>
-            <div id="rates<%= year %>">
-              <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
+          <hr>
+          <div id="rates<%= year %>">
+            <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
+          </div>
         <% end %>
-      </div>
+      <% end %>
     </div>
   </div>
+</div>

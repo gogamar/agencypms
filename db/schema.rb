@@ -1,16 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# This file is the source Rails uses to define your schema when running `bin/rails
-# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
-# be faster and is potentially less error prone than running all of your
-# migrations from scratch. Old migrations may fail to apply correctly if those
-# migrations use external dependencies or application code.
-#
-# It's strongly recommended that you check this file into your version control system.
-
-ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_22_135553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -100,7 +88,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "tourist_id", null: false
+    t.bigint "tourist_id"
+    t.string "firstname"
+    t.string "lastname"
     t.index ["tourist_id"], name: "index_bookings_on_tourist_id"
     t.index ["vrental_id"], name: "index_bookings_on_vrental_id"
   end
@@ -176,6 +166,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
     t.index ["rstemplate_id"], name: "index_contracts_on_rstemplate_id"
   end
 
+  create_table "expenses", force: :cascade do |t|
+    t.string "description"
+    t.decimal "amount"
+    t.string "expense_type"
+    t.string "expense_number"
+    t.string "expense_company"
+    t.bigint "vrental_id"
+    t.bigint "statement_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["statement_id"], name: "index_expenses_on_statement_id"
+    t.index ["vrental_id"], name: "index_expenses_on_vrental_id"
+  end
+
   create_table "features", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -188,6 +192,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
   create_table "features_vrentals", id: false, force: :cascade do |t|
     t.bigint "feature_id", null: false
     t.bigint "vrental_id", null: false
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.date "date"
+    t.string "location"
+    t.integer "number"
+    t.bigint "vrental_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
   end
 
   create_table "owners", force: :cascade do |t|
@@ -362,6 +376,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
     t.index ["user_id"], name: "index_sellers_on_user_id"
   end
 
+  create_table "statements", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.date "date"
+    t.string "location"
+    t.string "ref_number"
+    t.bigint "vrental_id"
+    t.bigint "invoice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_statements_on_invoice_id"
+    t.index ["vrental_id"], name: "index_statements_on_vrental_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -452,6 +480,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
     t.index ["user_id"], name: "index_vrentaltemplates_on_user_id"
   end
 
+  create_table "vrowner_payments", force: :cascade do |t|
+    t.string "description"
+    t.decimal "amount"
+    t.date "date"
+    t.bigint "statement_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["statement_id"], name: "index_vrowner_payments_on_statement_id"
+  end
+
   create_table "vrowners", force: :cascade do |t|
     t.string "fullname"
     t.string "language"
@@ -481,7 +519,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
   add_foreign_key "contracts", "buyers"
   add_foreign_key "contracts", "realestates"
   add_foreign_key "contracts", "rstemplates"
+  add_foreign_key "expenses", "statements"
+  add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "users"
+  add_foreign_key "invoices", "vrentals"
   add_foreign_key "owners", "users"
   add_foreign_key "pages", "users"
   add_foreign_key "payments", "bookings"
@@ -496,11 +537,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_135935) do
   add_foreign_key "renters", "users"
   add_foreign_key "rstemplates", "users"
   add_foreign_key "sellers", "users"
+  add_foreign_key "statements", "invoices"
+  add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"
+  add_foreign_key "vrowner_payments", "statements"
   add_foreign_key "vrowners", "users"
 end

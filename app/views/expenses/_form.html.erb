@@ -1,0 +1,23 @@
+<%= simple_form_for(@expense) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <% if @vrental %>
+      <%= f.hidden_field :vrental_id, value: @vrental.id %>
+    <% else %>
+      <select name="expense[vrental_id]" id="select-vrentals" class="form-control" required>
+        <option value="">&nbsp;</option>
+        <% @vrentals.each do |vrental| %>
+          <option value="<%= vrental.id %>"><%= vrental.name %></option>
+        <% end %>
+      </select>
+    <% end %>
+    <%= f.input :expense_type, as: :select, collection: Expense::EXPENSE_TYPES.map { |type| [t("expense_types.#{type}"), type]}, selected: "owner" %>
+    <%= f.input :description, required: true %>
+    <%= f.input :amount, required: true %>
+    <%= f.input :expense_company %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, value: "Guardar", class: "btn btn-secondary" %>
+  </div>
+<% end %>

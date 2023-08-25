@@ -29,89 +29,90 @@
     <li class="nav-item active">
       <%= link_to new_profile_session_path, class: "nav-link" do %>
         <i class="fas fa-fw fa-user"></i>
-          <span>Canvia de perfil</span>
+        <span>Canvia de perfil</span>
       <% end %>
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
     <% if current_profile.comtype_id == 1 %>
-    <!-- Heading -->
-    <div class="sidebar-heading">
+      <!-- Heading -->
+      <div class="sidebar-heading">
         <%= current_profile.comtype.company_type %>
-    </div>
-    <!-- Nav Item - Lloguer Anual Collapse Menu -->
-    <li class="nav-item">
-      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseRentals" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
-        <i class="fas fa-fw fa-key"></i>
+      </div>
+      <!-- Nav Item - Lloguer Anual Collapse Menu -->
+      <li class="nav-item">
+        <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseRentals" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+          <i class="fas fa-fw fa-key"></i>
           <span>Lloguer anual</span>
-      <% end %>
-      <div id="collapseRentals" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <%= link_to "Immobles", rentals_path, class: "collapse-item" %>
-          <%= link_to "Propietaris", owners_path, class: "collapse-item" %>
-          <%= link_to "Inquilins", renters_path, class: "collapse-item" %>
-          <%= link_to "Contractes", agreements_path, class: "collapse-item" %>
-          <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+        <% end %>
+        <div id="collapseRentals" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <%= link_to "Immobles", rentals_path, class: "collapse-item" %>
+            <%= link_to "Propietaris", owners_path, class: "collapse-item" %>
+            <%= link_to "Inquilins", renters_path, class: "collapse-item" %>
+            <%= link_to "Contractes", agreements_path, class: "collapse-item" %>
+            <%= link_to "Models de contracte", rentaltemplates_path, class: "collapse-item" %>
+          </div>
         </div>
-      </div>
-    </li>
-    <hr class="sidebar-divider">
-    <!-- Nav Item - Compravenda Collapse Menu -->
-    <li class="nav-item">
-      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseSales" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
-        <i class="fas fa-fw fa-house"></i>
+      </li>
+      <hr class="sidebar-divider">
+      <!-- Nav Item - Compravenda Collapse Menu -->
+      <li class="nav-item">
+        <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseSales" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+          <i class="fas fa-fw fa-house"></i>
           <span>Compravenda</span>
-      <% end %>
-      <div id="collapseSales" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <%= link_to "Immobles", realestates_path, class: "collapse-item" %>
-          <%= link_to "Venedors", sellers_path, class: "collapse-item" %>
-          <%= link_to "Compradors", buyers_path, class: "collapse-item" %>
-          <%= link_to "Contractes", contracts_path, class: "collapse-item" %>
-          <%= link_to "Models de contracte", rstemplates_path, class: "collapse-item" %>
+        <% end %>
+        <div id="collapseSales" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <%= link_to "Immobles", realestates_path, class: "collapse-item" %>
+            <%= link_to "Venedors", sellers_path, class: "collapse-item" %>
+            <%= link_to "Compradors", buyers_path, class: "collapse-item" %>
+            <%= link_to "Contractes", contracts_path, class: "collapse-item" %>
+            <%= link_to "Models de contracte", rstemplates_path, class: "collapse-item" %>
+          </div>
         </div>
-      </div>
-    </li>
+      </li>
     <% else %>
-    <!-- Heading -->
-    <div class="sidebar-heading">
-      <%= current_profile.comtype.company_type %>
-    </div>
-    <!-- Nav Item - Lloguer Turístic Collapse Menu -->
-    <li class="nav-item">
-      <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTuristic" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
-        <i class="fas fa-fw fa-umbrella-beach"></i>
-          <span>Lloguer turístic</span>
-      <% end %>
-      <div id="collapseTuristic" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <%= link_to "Immobles", vrentals_path, class: "collapse-item" %>
-          <%= link_to "Propietaris", vrowners_path, class: "collapse-item" %>
-          <%= link_to "Models de contracte", vrentaltemplates_path, class: "collapse-item" %>
-          <%= link_to "Contractes", vragreements_path, class: "collapse-item" %>
-        </div>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <%= current_profile.comtype.company_type %>
       </div>
-    </li>
+      <!-- Nav Item - Lloguer Turístic Collapse Menu -->
+      <li class="nav-item">
+        <%= link_to "#", class: "nav-link collapsed", data: { toggle: "collapse", target: "#collapseTuristic" }, 'aria-expanded': true, 'aria-controls': "collapseTwo" do %>
+          <i class="fas fa-fw fa-umbrella-beach"></i>
+          <span>Lloguer turístic</span>
+        <% end %>
+        <div id="collapseTuristic" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar" data-sidebar-target="coll">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <%= link_to "Immobles", vrentals_path, class: "collapse-item" %>
+            <%= link_to "Propietaris", vrowners_path, class: "collapse-item" %>
+            <%= link_to "Models de contracte", vrentaltemplates_path, class: "collapse-item" %>
+            <%= link_to "Contractes", vragreements_path, class: "collapse-item" %>
+            <%= link_to "Despeses", expenses_path, class: "collapse-item" %>
+          </div>
+        </div>
+      </li>
     <% end %>
     <!-- Divider -->
     <hr class="sidebar-divider">
   <% else %>
     <li class="nav-item active">
       <%= link_to new_profile_session_path, class: "nav-link" do %>
-      <i class="fas fa-fw fa-user"></i>
+        <i class="fas fa-fw fa-user"></i>
         <span>Canvia de perfil</span>
       <% end %>
     </li>
   <% end %>
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center">
-      <button
+    <button
         class="rounded-circle border-0"
         id="sidebarToggle"
         data-sidebar-target="sidebartoggler"
         data-action="click->sidebar#toggleit"
       >
-      </button>
+    </button>
   </div>
 </ul>
 <!-- End of Sidebar -->

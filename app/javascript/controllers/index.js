@@ -2,37 +2,37 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "./application";
 
-import AddressAutocompleteController from "./address_autocomplete_controller"
-application.register("address-autocomplete", AddressAutocompleteController)
+import AddressAutocompleteController from "./address_autocomplete_controller";
+application.register("address-autocomplete", AddressAutocompleteController);
 
-import CallFlatpickrController from "./call_flatpickr_controller"
-application.register("call-flatpickr", CallFlatpickrController)
+import CallFlatpickrController from "./call_flatpickr_controller";
+application.register("call-flatpickr", CallFlatpickrController);
 
-import FlatpickrController from "./flatpickr_controller"
-application.register("flatpickr", FlatpickrController)
+import FlatpickrController from "./flatpickr_controller";
+application.register("flatpickr", FlatpickrController);
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import HelloController from "./hello_controller";
+application.register("hello", HelloController);
 
-import MapController from "./map_controller"
-application.register("map", MapController)
+import MapController from "./map_controller";
+application.register("map", MapController);
 
-import PasswordToggleController from "./password_toggle_controller"
-application.register("password-toggle", PasswordToggleController)
+import PasswordToggleController from "./password_toggle_controller";
+application.register("password-toggle", PasswordToggleController);
 
-import RateComponentController from "./rate_component_controller"
-application.register("rate-component", RateComponentController)
+import RateComponentController from "./rate_component_controller";
+application.register("rate-component", RateComponentController);
 
-import SidebarController from "./sidebar_controller"
-application.register("sidebar", SidebarController)
+import SidebarController from "./sidebar_controller";
+application.register("sidebar", SidebarController);
 
-import SpinnerController from "./spinner_controller"
-application.register("spinner", SpinnerController)
+import SpinnerController from "./spinner_controller";
+application.register("spinner", SpinnerController);
 
-import TypedJsController from "./typed_js_controller"
-application.register("typed-js", TypedJsController)
+import TypedJsController from "./typed_js_controller";
+application.register("typed-js", TypedJsController);
 
-import UpdateFieldController from "./update_field_controller"
-application.register("update-field", UpdateFieldController)
+import UpdateFieldController from "./update_field_controller";
+application.register("update-field", UpdateFieldController);

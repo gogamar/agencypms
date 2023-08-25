@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
-import Typed from "typed.js";
+// import Typed from "typed.js";
 
 export default class extends Controller {
   static values = { typedtext: Array };

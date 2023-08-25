@@ -8,6 +8,9 @@
 @import "font-awesome";
 @import "flag-icon";
 @import "flatpickr/dist/flatpickr";
+@import "select2/dist/css/select2";
+@import "select2-bootstrap-5-theme/src/include-all";
+@import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder";
 
 // Import Custom Template Mixins and Components
 @import "config/mixins";
