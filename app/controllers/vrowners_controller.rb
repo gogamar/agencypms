@@ -17,7 +17,18 @@ class VrownersController < ApplicationController
 
   def show
     authorize @vrowner
-    render json: { fullname: vrowner.fullname, modal_content: render_to_string(partial: "edit_vrowner_modal", locals: { vrowner: vrowner }) }
+
+    respond_to do |format|
+      format.html do
+        render :show
+      end
+      format.json do
+        render json: {
+          fullname: vrowner.fullname,
+          modal_content: render_to_string(partial: "edit_vrowner_modal", locals: { vrowner: vrowner })
+        }
+      end
+    end
   end
 
   def new
@@ -28,21 +39,25 @@ class VrownersController < ApplicationController
   end
 
   def create
-    @vrental = Vrental.find(params[:vrental_id])
-    @vrowner = Vrowner.new(vrowner_params)
-    @vrowner.user_id = current_user.id
-    authorize @vrowner
-    authorize @vrental
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
 
-    if @vrowner.save
-      @vrental.vrowner = @vrowner
-      @vrental.save
-      redirect_to edit_vrental_path(@vrental), notice: 'Propietari creat i associat amb immoble.'
+    @vrowner = Vrowner.new(vrowner_params)
+    @vrowner.user = current_user
+    @vrental.vrowner = @vrowner if @vrental.present?
+    authorize @vrowner
+
+    request_context = params[:vrowner][:request_context]
+
+    if @vrowner.save && @vrental.update_columns(vrowner_id: @vrowner.id)
+      if request_context && request_context == 'add_vrowner'
+        redirect_to vrentals_path, notice: 'Nou immoble i propietari creats.'
+      else
+        redirect_to edit_vrental_path(@vrental), notice: 'Propietari creat i associat amb immoble.'
+      end
     else
-      render :new
+      render @vrental.persisted? ? :new : :add_vrowner
     end
   end
-
 
   def edit
     authorize @vrowner
@@ -64,8 +79,15 @@ class VrownersController < ApplicationController
 
   def destroy
     authorize @vrowner
-    @vrowner.destroy
-    redirect_to vrowners_path, notice: "Has esborrat al propietari #{@vrowner.fullname}."
+
+    vrentals = @vrowner.vrentals
+    vrentals.update_all(vrowner_id: nil) # Dissociate vrentals from vrowner
+
+    if @vrowner.destroy
+      redirect_to vrowners_path, notice: "S'ha esborrat el propietari."
+    else
+      redirect_back(fallback_location: vrowners_path, alert: "No s'ha pogut esborrar el propietari.")
+    end
   end
 
   private
@@ -75,6 +97,6 @@ class VrownersController < ApplicationController
   end
 
   def vrowner_params
-    params.require(:vrowner).permit(:fullname, :address, :phone, :email, :document, :account, :language, :beds_room_id)
+    params.require(:vrowner).permit(:fullname, :address, :phone, :email, :document, :account, :language, :beds_room_id, :beds_prop_id, :user_id)
   end
 end

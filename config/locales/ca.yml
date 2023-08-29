@@ -386,6 +386,7 @@ ca:
   global:
     forms:
       submit: "Desar"
+      continue: "Continuar"
   simple_calendar:
     previous: "<<"
     next: ">>"

@@ -1,0 +1,52 @@
+<div class="card shadow mb-4 d-flex" data-controller="add-vrowner">
+  <div class="card-header py-3">
+    <h4 class="font-weight-bold text-primary text-center mb-2">Immoble turístic</h4>
+    <h6 class="text-center mb-2">Pas 3. Propietari</h6>
+    <hr>
+    <div class="d-flex justify-content-around mb-3">
+      <button class="btn btn-primary" type="button" data-action="click->add-vrowner#showCreateCard">
+        Afegir propietari nou
+      </button>
+      <button class="btn btn-info" type="button" data-action="click->add-vrowner#showSelectCard">
+        Seleccionar propietari existent
+      </button>
+      <%= link_to "No afegir propietari de moment", vrental_path(@vrental), class: "btn btn-secondary", data: { action: "click->add-vrowner#clearAllForms" } %>
+    </div>
+    <div class="card card-body d-none" data-add-vrowner-target="create">
+      <%= simple_form_for [@vrental, @vrowner] do |f| %>
+        <%= f.error_notification %>
+        <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+        <div class="form-inputs">
+          <%= f.hidden_field :request_context, value: 'add_vrowner' %>
+          <%= f.input :fullname %>
+          <%= f.input :address %>
+          <%= f.input :phone %>
+          <%= f.input :email %>
+          <%= f.input :document %>
+          <%= f.input :account %>
+          <%= f.input :language, priority: [ t("ca"), "ca" ], collection: [ [t("ca"), "ca"], [t("es"), "es"], [t("fr"), "fr"], [t("en"), "en"] ], label_method: :first, value_method: :last, include_blank: false %>
+        </div>
+        <div class="form-actions text-end mb-5">
+          <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+        </div>
+      <% end %>
+    </div>
+    <div class="card card-body d-none" data-add-vrowner-target="select">
+      <%= simple_form_for @vrental do |f| %>
+        <%= f.error_notification %>
+        <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+        <div class="form-inputs">
+          <%= f.association :vrowner,
+                 label_method: :fullname,
+                 label: false,
+                 class: "js-example-responsive",
+                 required: true,
+                 input_html: { id: "select_vrowner-select2" } %>
+        </div>
+        <div class="form-actions text-end mb-5">
+          <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

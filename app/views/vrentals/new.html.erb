@@ -1,9 +1,29 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir un immoble turístic nou o <%= link_to "copiar un immoble existent", vrentals_path %></h4>
+    <h4 class="font-weight-bold text-primary text-center mb-2">Immoble turístic</h4>
+    <h6 class="text-center">Pas 1. Detalls sobre l'immoble</h6>
     <hr>
-    <div class="container d-flex justify-content-center mt-5 w-75 pb-5">
-      <%= render 'form', vrental: @vrental %>
-    </div>
+    <%= simple_form_for @vrental, html: { "data-controller": "update-field" } do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
+      <%= f.input :name, required: true, input_html: { "data-update-field-target" => "vrentalName", "data-action": "input->update-field#updatePropKey" } %>
+      <%= f.input :commission, required: true %>
+      <%= f.input :address %>
+      <%= f.input :max_guests %>
+      <%= f.input :cadastre %>
+      <%= f.input :habitability %>
+      <%= f.input :licence %>
+      <%= f.input :description, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+      <%= f.input :description_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+      <%= f.input :description_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+      <%= f.input :description_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+      <%= f.input :beds_prop_id %>
+      <%= f.input :beds_room_id %>
+      <%= f.input :prop_key, input_html: { "data-update-field-target" => "propKey" }, disabled: true %>
+      <div class="form-actions text-end mb-5">
+        <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -54,7 +54,7 @@
           <% @vrentals.each do |vrental| %>
             <div class="row border min-height-row">
               <div class="col-lg-2 align-self-center">
-                <small><%= t("#{vrental.status}") %></small>
+                <small><%= t("#{vrental.status}") if vrental.status %></small>
               </div>
               <div class="col-lg-3 align-self-center">
                 <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>

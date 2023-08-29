@@ -3,7 +3,6 @@ class Vrental < ApplicationRecord
 
   belongs_to :user
   belongs_to :vrowner, optional: true
-  accepts_nested_attributes_for :vrowner
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
@@ -11,8 +10,6 @@ class Vrental < ApplicationRecord
   has_and_belongs_to_many :features
   validates :name, presence: true
   validates :status, presence: true
-
-
 
   def unavailable_dates
     rates.pluck(:firstnight, :lastnight).map do |range|

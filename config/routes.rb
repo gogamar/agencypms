@@ -104,6 +104,11 @@ Rails.application.routes.draw do
           get "import_properties"
         end
 
+        member do
+          get :add_vrowner
+          get :add_features
+        end
+
         resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
 
         resources :expenses, path: 'despeses'
@@ -128,7 +133,7 @@ Rails.application.routes.draw do
         end
       end
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
-      resources :vrowners, path: 'propietaris-lloguer-turistic' do
+      resources :vrowners, path: 'propietaris-lloguer-turistic', except: [:new, :create] do
         collection do
           get 'filter'
         end

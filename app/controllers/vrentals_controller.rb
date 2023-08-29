@@ -27,14 +27,6 @@ class VrentalsController < ApplicationController
     @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
   end
 
-  def new
-    @vrental = Vrental.new
-    authorize @vrental
-    @vrental.build_vrowner
-    @vrentals = Vrental.all.sort_by(&:name)
-    @vrowners = Vrowner.all.sort_by(&:fullname)
-  end
-
   def copy
     @source = Vrental.find(params[:id])
     @vrental = @source.dup
@@ -104,37 +96,56 @@ class VrentalsController < ApplicationController
   def new
     @vrental = Vrental.new
     authorize @vrental
-    @vrental.build_vrowner
-    @vrentals = Vrental.all.sort_by(&:name)
-    @vrowners = Vrowner.all.sort_by(&:fullname)
   end
 
   def create
     @vrental = Vrental.new(vrental_params)
     @vrental.user_id = current_user.id
     authorize @vrental
+
     if @vrental.save
-      redirect_to vrentals_path, notice: 'Has creat un nou immoble.'
+      redirect_to add_features_vrental_path(@vrental)
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
+  end
+
+  def add_features
+    @vrental = Vrental.find(params[:id])
+    authorize @vrental
+  end
+
+  def add_vrowner
+    @vrental = Vrental.find(params[:id])
+    authorize @vrental
+    @vrowner = Vrowner.new
   end
 
   def edit
     @feature_list = Feature.all.uniq
     authorize @vrental
-    @vrowners = policy_scope(Vrowner).sort_by(&:fullname)
+    @vrowner = @vrental.vrowner
+    # @vrowners = policy_scope(Vrowner).sort_by(&:fullname)
   end
 
   def update
     authorize @vrental
+    @vrowner = @vrental.vrowner
+    request_context = params[:vrental][:request_context]
     if @vrental.update(vrental_params)
       respond_to do |format|
-        format.html { redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.' }
+        format.html {
+          if request_context && request_context == 'add_features'
+            redirect_to add_vrowner_vrental_path(@vrental)
+          else
+            redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.'
+          end
+        }
         format.json { render json: @vrental, status: :ok }
       end
     else
       respond_to do |format|
+        puts "these are the errors at this point: #{@vrental.errors.full_messages}}"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @vrental.errors, status: :unprocessable_entity }
       end
@@ -154,6 +165,11 @@ class VrentalsController < ApplicationController
   end
 
   def vrental_params
-    params.require(:vrental).permit(:name, :address, :licence, :cadastre, :habitability, :commission, :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests, :description, :description_es, :description_fr, :description_en, :status, vrowner_attributes: [:id, :fullname, :language, :phone, :email, :address, :document, :account], feature_ids:[])
+    params.require(:vrental).permit(
+      :name, :address, :licence, :cadastre, :habitability, :commission,
+      :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
+      :description, :description_es, :description_fr, :description_en, :status,
+      feature_ids: []
+    )
   end
 end

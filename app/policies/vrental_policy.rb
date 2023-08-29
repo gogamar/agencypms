@@ -64,6 +64,14 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
+  def add_vrowner?
+    return create?
+  end
+
+  def add_features?
+    return create?
+  end
+
   def create?
     return true
   end

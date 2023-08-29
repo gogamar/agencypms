@@ -81,6 +81,12 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#select_vrowner-select2").select2({
+    placeholder: "Seleccionar propietari",
+    allowClear: true,
+    theme: "bootstrap-5",
+  });
+
   function updateVrowner(selectedVrownerId) {
     const pathSegments = window.location.pathname;
     const lastSlashIndex = pathSegments.lastIndexOf("/");
@@ -110,7 +116,7 @@ const initSelect2 = () => {
       });
   }
 
-  $("#vrental_vrowner_id")
+  $("#edit_vrowner-select2")
     .select2({
       placeholder: "Seleccionar propietari",
       allowClear: true,
@@ -127,14 +133,12 @@ const initSelect2 = () => {
       ).innerHTML = `<small>Modificar ${e.params.data.text}</small>`;
       const selectedVrownerId = e.params.data.id;
       updateVrowner(selectedVrownerId);
-      window.location.reload(true);
     })
     .on("select2:unselect", function (e) {
       // This function will be triggered when an item is unselected.
       document.querySelector(".edit_vrowner-js").classList.add("d-none");
       console.log("Item removed:", e.params.data);
       updateVrowner(null);
-      window.location.reload(true);
     });
 };
 
