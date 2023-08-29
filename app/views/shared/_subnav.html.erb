@@ -62,7 +62,7 @@
             <% if @vrental&.persisted? %>
               <li><%= link_to "Despeses #{@vrental.name}", vrental_expenses_path(@vrental), class: "dropdown-item" %></li>
               <li><%= link_to "Reserves #{@vrental.name}", vrental_bookings_path(@vrental), class: "dropdown-item" %></li>
-              <li><%= link_to "Liquidació #{@vrental.name}", vrental_bookings_path(@vrental), class: "dropdown-item" %></li>
+              <li><%= link_to "Liquidacions #{@vrental.name}", vrental_statements_path(@vrental), class: "dropdown-item" %></li>
               <li><%= link_to "Factura Propietari #{@vrental.name}", vrental_bookings_path(@vrental), class: "dropdown-item" %></li>
             <% end %>
           </ul>

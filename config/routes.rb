@@ -108,7 +108,7 @@ Rails.application.routes.draw do
           get :add_vrowner
           get :add_features
         end
-
+        resources :statements, path: 'liquidacions'
         resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
 
         resources :expenses, path: 'despeses'

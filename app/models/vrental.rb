@@ -7,6 +7,7 @@ class Vrental < ApplicationRecord
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
   has_many :expenses, dependent: :destroy
+  has_many :statements, dependent: :destroy
   has_and_belongs_to_many :features
   validates :name, presence: true
   validates :status, presence: true

@@ -1,15 +1,12 @@
-class VragreementPolicy < ApplicationPolicy
+class StatementPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(vrental_id: user.vragreements.select(:vrental_id))
+      scope.where(vrental_id: user.vrentals.pluck(:id))
     end
   end
+
   def show?
     user.vrentals.exists?(record.vrental_id)
-  end
-
-  def copy?
-    return create?
   end
 
   def new?

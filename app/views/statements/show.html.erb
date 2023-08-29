@@ -1,0 +1,151 @@
+<div class="container">
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>
+          <p><strong><img src="https://www.sistachrentals.com/wp-content/uploads/2019/12/marca_sistach_rentals_transparent.png" alt="" style="width: 200px; height: 71px;"></strong></p>
+        </td>
+        <td colspan="4" class="text-end">
+          <p><strong class="fs-5">LIQUIDACI&Oacute; LLOGUER</strong><br>
+            <span class="fs-6"><%= @statement.location %>, <%= I18n.l(@statement.date) %></span></p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <hr>
+        </td>
+      </tr>
+      <tr>
+        <td class="bg-light"><strong class="fs-6">PROPIETARI</strong></td>
+        <td class="bg-light text-end"><strong class="fs-6">IMMOBLE</strong></td>
+      </tr>
+      <tr>
+        <td>
+          <ul>
+            <li class="fw-bold"><%= @vrental.vrowner.fullname %></li>
+            <li class="fw-bold"><%= @vrental.vrowner.document %></li>
+            <li><%= @vrental.vrowner.address %></li>
+            <li><%= @vrental.vrowner.email %></li>
+            <li><%= @vrental.vrowner.phone %></li>
+          </ul>
+        </td>
+        <td colspan="4" class="text-end">
+          <ul>
+            <li class="fw-bold"><%= @vrental.name %></li>
+            <li class="fw-bold"><%= @vrental.licence %></li>
+            <li><%= @vrental.address %></li>
+            <li><%= @vrental.cadastre %></li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <p>&nbsp;</p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col" colspan="2">Ingresos</th>
+                <th scope="col">Import</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @vrental.bookings.each_with_index do |booking, index| %>
+                <tr>
+                  <th scope="row"><%= index + 1 %></th>
+                  <td colspan="2">Reserva (<%= I18n.l(booking.checkin) %> - <%= I18n.l(booking.checkout) %>) <%= booking.lastname&.titleize %></td>
+                  <td><%= number_to_currency(booking.charges.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                </tr>
+              <% end %>
+              <tr>
+                <th scope="row"></th>
+                <td class="fw-bold" colspan="2">Total</td>
+                <td class="fw-bold"><%= number_to_currency(@total_rent_charges, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td class="fw-bold" colspan="2">&nbsp;</td>
+                <td class="fw-bold"></td>
+              </tr>
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col" colspan="2">Honoraris</th>
+                  <th scope="col">Import</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"></th>
+                  <td colspan="2">Honoraris agència <%= number_to_percentage(@agency_commission, precision: 0) %></td>
+                  <td colspan="2"><%= number_to_currency(@vrental.commission * @total_rent_charges, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                </tr>
+                <tr>
+                  <th scope="row"></th>
+                  <td colspan="2">IVA honoraris agència 21 %</td>
+                  <td><%= number_to_currency(@agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                </tr>
+                <tr>
+                  <th scope="row"></th>
+                  <td class="fw-bold" colspan="2">&nbsp;</td>
+                  <td class="fw-bold"></td>
+                </tr>
+              </tbody>
+              <thead>
+                <% if @statement.expenses.present? %>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col" colspan="2">Despeses</th>
+                    <th scope="col">Import</th>
+                  </tr>
+                <% else %>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col" colspan="2">No hi ha hagut despeses.</th>
+                    <th scope="col"></th>
+                  </tr>
+                <% end %>
+              </thead>
+              <tbody>
+                <% @statement.expenses.each do |expense| %>
+                  <tr>
+                    <th scope="row"></th>
+                    <td colspan="2"><%= expense.description %></td>
+                    <td><%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                  </tr>
+                <% end %>
+                <tr>
+                  <th scope="row"></th>
+                  <td class="fw-bold" colspan="2">&nbsp;</td>
+                  <td class="fw-bold"></td>
+                </tr>
+                <tr style="background: #f2f2f2">
+                  <th scope="row"></th>
+                  <td colspan="2" class="fw-bold">TOTAL RENDIMENT PROPIETARI</td>
+                  <td class="fw-bold"><%= number_to_currency((@total_rent_charges - @agency_commission - @agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5" class="text-center">
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5" class="text-center">
+            <hr>
+            <p><strong class="fs-6">Sistach Rentals &middot; Inverstach, S.L. &middot; CIF N&ordm;: B66577537</strong><br>
+              <span class="fs-6">c/Roser 1, 1-2, 08600 Berga (Barcelona)</span><br>
+              <span>c/Esgl&eacute;sia, 34, baixos, 17528 L&rsquo;Estartit (Girona)<br>
+                www.sistachrentals.com &nbsp;Tel: +34 972 100 381 &middot; +34 609 076 292 &middot; info@sistachrentals.com</span></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
