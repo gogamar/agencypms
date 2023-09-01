@@ -30,7 +30,7 @@
         <%= render "shared/flashes" %>
         <% if user_signed_in? %>
           <%= render "shared/topbar" %>
-          <%= render "shared/subnav" %>
+          <%= render "shared/subnav" if @vrental %>
         <% end %>
         <div id="content" class="flex-shrink-0">
           <div class="container-fluid">

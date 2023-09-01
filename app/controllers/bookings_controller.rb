@@ -43,7 +43,7 @@ class BookingsController < ApplicationController
     authorize @booking
 
     if @booking.update(booking_params)
-      redirect_to vrental_bookings_path, notice: "La reserva s'ha modificat correctament."
+      redirect_to vrental_earnings_path, notice: "La reserva s'ha modificat correctament."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -52,7 +52,7 @@ class BookingsController < ApplicationController
   def destroy
     authorize @booking
     @booking.destroy
-    redirect_to vrental_bookings_path, notice: "Booking was successfully destroyed."
+    redirect_to vrental_earnings_path, notice: "Booking was successfully destroyed."
   end
 
   private

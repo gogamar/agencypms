@@ -1,10 +1,42 @@
-
-<% @rates.each do |rate| %>
-  <div class="row border">
-    <div class="col-lg-2 border-start border-end"><%= rate.firstnight %></div>
-    <div class="col-lg-2 border-start border-end"><%= rate.lastnight %></div>
-    <div class="col-lg-2 border-start border-end"><%= rate.priceweek %></div>
-    <div class="col-lg-2 border-start border-end"><%= link_to 'Veure la tarifa', rate %></div>
-    <div class="col-lg-2 border-start border-end"><%= link_to 'Modificar', edit_vrental_rate_path(rate.vrental, rate) %></div>
-  </div>
-<% end %>
+<h4 class="text-info text-center">Tarifes</h4>
+<hr>
+<div class="text-end"><%= link_to get_rates_vrental_path(@vrental), class: "btn btn-secondary" do %>
+    <i class="fas fa-file-import"></i> Importar tarifes des de Beds
+  <% end %>
+  <% @years.each do |year| %>
+    <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
+      <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last.firstnight >= Date.today) %>
+        <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
+          <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes a Beds24
+        <% end %>
+      <% elsif @rates.where("DATE_PART('year', firstnight) = ?", year).order(:firstnight).last.firstnight >= Date.today %>
+        <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades a Beds24</button>
+        <% if year >= Date.today.year && @modified_rates.present? %>
+          <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
+            <i class="fas fa-exclamation-triangle"></i> Esborra les tarifes en Beds24
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+<hr>
+<div class="container">
+  <h5 class="text-center text-info mb-5">Afegir tarifa nova</h5>
+  <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental), target: "_top" %>
+  <% @years.each do |year| %>
+    <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
+      <hr>
+      <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
+      <div class="text-end">
+        <% if year <= Date.today.year %>
+          <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-warning" %>
+        <% end %>
+      </div>
+      <hr>
+      <div id="rates<%= year %>">
+        <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

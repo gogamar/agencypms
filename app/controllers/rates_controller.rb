@@ -3,11 +3,13 @@ class RatesController < ApplicationController
   before_action :set_rate, only: [:show, :edit, :update, :destroy]
   before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show]
 
-  # Index for rates is not really necessary
   def index
     @rates = policy_scope(Rate)
-    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :desc)
-    @rates_dates = @rates.pluck(:firstnight)
+    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
+    @rate = Rate.new
+    @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
+    @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
+    @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
   end
 
   def new
@@ -55,8 +57,8 @@ class RatesController < ApplicationController
 
   def destroy
     authorize @rate
-    @rate.destroy
     @vrental = @rate.vrental
+    @rate.destroy
     redirect_to @vrental, notice: "Has esborrat la tarifa de #{@rate.firstnight}."
   end
 

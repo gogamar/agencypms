@@ -1,4 +1,4 @@
-class StatementPolicy < ApplicationPolicy
+class EarningPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.where(vrental_id: user.vrentals.pluck(:id))
@@ -13,16 +13,16 @@ class StatementPolicy < ApplicationPolicy
     return create?
   end
 
+  def unlock?
+    return update?
+  end
+
+  def mark_as_paid?
+    return update?
+  end
+
   def create?
     return true
-  end
-
-  def add_earnings?
-    return update?
-  end
-
-  def add_expenses?
-    return update?
   end
 
   def edit?

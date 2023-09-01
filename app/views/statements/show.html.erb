@@ -54,17 +54,17 @@
               </tr>
             </thead>
             <tbody>
-              <% @vrental.bookings.each_with_index do |booking, index| %>
+              <% @statement_earnings.each_with_index do |earning, index| %>
                 <tr>
                   <th scope="row"><%= index + 1 %></th>
-                  <td colspan="2">Reserva (<%= I18n.l(booking.checkin) %> - <%= I18n.l(booking.checkout) %>) <%= booking.lastname&.titleize %></td>
-                  <td><%= number_to_currency(booking.charges.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                  <td colspan="2">Reserva (<%= earning.description %>)</td>
+                  <td><%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
                 </tr>
               <% end %>
               <tr>
                 <th scope="row"></th>
                 <td class="fw-bold" colspan="2">Total</td>
-                <td class="fw-bold"><%= number_to_currency(@total_rent_charges, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                <td class="fw-bold"><%= number_to_currency(@total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
               </tr>
               <tr>
                 <th scope="row"></th>
@@ -81,13 +81,13 @@
               <tbody>
                 <tr>
                   <th scope="row"></th>
-                  <td colspan="2">Honoraris agència <%= number_to_percentage(@agency_commission, precision: 0) %></td>
-                  <td colspan="2"><%= number_to_currency(@vrental.commission * @total_rent_charges, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                  <td colspan="2">Honoraris agència <%= number_to_percentage(@vrental.commission * 100, precision: 0) %></td>
+                  <td colspan="2">-<%= number_to_currency(@agency_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
                 </tr>
                 <tr>
                   <th scope="row"></th>
                   <td colspan="2">IVA honoraris agència 21 %</td>
-                  <td><%= number_to_currency(@agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                  <td>-<%= number_to_currency(@agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
                 </tr>
                 <tr>
                   <th scope="row"></th>
@@ -115,7 +115,7 @@
                   <tr>
                     <th scope="row"></th>
                     <td colspan="2"><%= expense.description %></td>
-                    <td><%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                    <td>-<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
                   </tr>
                 <% end %>
                 <tr>
@@ -126,7 +126,7 @@
                 <tr style="background: #f2f2f2">
                   <th scope="row"></th>
                   <td colspan="2" class="fw-bold">TOTAL RENDIMENT PROPIETARI</td>
-                  <td class="fw-bold"><%= number_to_currency((@total_rent_charges - @agency_commission - @agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+                  <td class="fw-bold"><%= number_to_currency((@total_statement_earnings - @agency_commission - @agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
                 </tr>
               </tbody>
             </table>
@@ -142,7 +142,7 @@
             <hr>
             <p><strong class="fs-6">Sistach Rentals &middot; Inverstach, S.L. &middot; CIF N&ordm;: B66577537</strong><br>
               <span class="fs-6">c/Roser 1, 1-2, 08600 Berga (Barcelona)</span><br>
-              <span>c/Esgl&eacute;sia, 34, baixos, 17528 L&rsquo;Estartit (Girona)<br>
+              <span>Avinguda Grècia 37, baixos, 17528 L&rsquo;Estartit (Girona)<br>
                 www.sistachrentals.com &nbsp;Tel: +34 972 100 381 &middot; +34 609 076 292 &middot; info@sistachrentals.com</span></p>
           </td>
         </tr>

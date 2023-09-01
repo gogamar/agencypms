@@ -1,56 +1,63 @@
-<div class="my-3">
-  <% if @vrental %>
-    <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-primary" do %>
-      <i class="fas fa-plus fa-sm"></i>
-      <span class="text">Nova liquidació per <%= @vrental.name %></span>
-    <% end %>
-  <% end %>
-</div>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Ref.</th>
-      <th scope="col">Data emissió</th>
-      <th scope="col">Ubicació</th>
-      <th scope="col">Data inici</th>
-      <th scope="col">Data final</th>
-      <th scope="col">Factura vinculada</th>
-      <th scope="col">Ingresos</th>
-      <th scope="col">Comissió Agència</th>
-      <th scope="col">Despeses</th>
-      <th scope="col">Pagar al propietari</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @vrental.statements.each do |statement| %>
-      <tr>
-        <th scope="row"><%= statement.ref_number %></th>
-        <td><%= I18n.l(statement.date) %></td>
-        <td><%= statement.location %></td>
-        <td><%= I18n.l(statement.start_date) %></td>
-        <td><%= I18n.l(statement.end_date) %></td>
-        <% statement_bookings = @vrental.bookings.where(checkin: statement.start_date..statement.end_date) %>
-        <% total_rent_charges = statement_bookings.sum do |booking| %>
-          <% booking.charges.where(charge_type: 'rent').sum(:price) %>
+<div class="container">
+  <hr>
+  <div class="d-flex justify-content-between align-items-baseline">
+    <div class="d-flex justify-content-around align-items-baseline">
+      <h4 class="text-info text-center pe-3">Liquidacions</h4>
+      <% if @vrental.statements.present? %>
+        <h6 class="text-center">Total: <%= number_to_currency(@total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+      <% end %>
+    </div>
+  </div>
+  <% if @vrental.statements %>
+    <hr>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Ref.</th>
+          <th scope="col">Data inici</th>
+          <th scope="col">Data final</th>
+          <th scope="col">Factura</th>
+          <th scope="col">Ingresos</th>
+          <th scope="col">Agència + IVA</th>
+          <th scope="col">Despeses</th>
+          <th scope="col">Net propietari</th>
+          <th scope="col">Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @vrental.statements.each do |statement| %>
+          <tr>
+            <th scope="row">
+              <%= link_to vrental_statement_path(@vrental, statement), class: "text-info text-decoration-none" do %>
+                <%= statement.ref_number %>
+              <% end %>
+            </th>
+            <td><%= I18n.l(statement.start_date) %></td>
+            <td><%= I18n.l(statement.end_date) %></td>
+            <td><%= statement.invoice.id if statement.invoice %></td>
+            <td><%= number_to_currency(statement.total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= number_to_currency((statement.agency_commission + statement.agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= number_to_currency(statement.total_expenses, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= number_to_currency(statement.net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="">
+              <%= link_to edit_vrental_statement_path(@vrental, statement), class: "text-primary text-decoration-none p-1" do %>
+                <i class="fas fa-edit"></i>
+              <% end %>
+              <%= link_to vrental_statement_path(@vrental, statement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació #{statement.ref_number}?"} do %>
+                <i class="fas fa-trash-can"></i>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
-        <% revenue = total_rent_charges.present? ? total_rent_charges : 0 %>
-        <% agency_commission = revenue.present? ? @vrental.commission * revenue : 0%>
-        <% expenses = statement.expenses.present? ? statement.expenses.sum(:amount) : 0 %>
-        <% net = revenue - agency_commission - expenses %>
-        <td><%= statement.invoice.id if statement.invoice %></td>
-        <td><%= number_to_currency(revenue, unit: "€", separator: ",", delimiter: ".", precision: 2) if revenue %></td>
-        <td><%= number_to_currency(agency_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) if agency_commission %></td>
-        <td><%= number_to_currency(expenses, unit: "€", separator: ",", delimiter: ".", precision: 2) if expenses %></td>
-        <td><%= number_to_currency(net, unit: "€", separator: ",", delimiter: ".", precision: 2) if net %></td>
-        <td class="d-flex justify-content-between">
-          <%= link_to edit_vrental_statement_path(@vrental, statement), class: "btn btn-info" do %>
-            <i class="fas fa-pen fa-sm"></i>
-          <% end %>
-          <%= link_to vrental_statement_path(@vrental, statement), class: "btn btn-primary" do %>
-            <i class="fas fa-eye fa-sm"></i>
-          <% end %>
-        </td>
-      </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <div class="my-3">
+    <% if @vrental %>
+      <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-primary" do %>
+        <i class="fas fa-plus fa-sm"></i>
+        <span class="text">Nova liquidació per <%= @vrental.name %></span>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>

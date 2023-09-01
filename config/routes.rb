@@ -108,9 +108,20 @@ Rails.application.routes.draw do
           get :add_vrowner
           get :add_features
         end
-        resources :statements, path: 'liquidacions'
+        resources :statements, path: 'liquidacions' do
+          member do
+            get :add_earnings
+            get :add_expenses
+          end
+        end
         resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
 
+        resources :earnings, path: 'ingressos', only: [:new, :edit, :create, :update, :index, :show] do
+          member do
+            get 'unlock'
+            get 'mark_as_paid'
+          end
+        end
         resources :expenses, path: 'despeses'
 
         resources :bookings do
@@ -118,7 +129,7 @@ Rails.application.routes.draw do
           resources :charges
         end
         resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
-        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update] do
+        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update, :show, :index] do
           resources :photos, only: :destroy, shallow: true
         end
         member do
@@ -152,6 +163,7 @@ Rails.application.routes.draw do
       end
 
       resources :rates, path: 'tarifes', only: :destroy
+      resources :earnings, path: 'ingressos', only: :destroy
 
       resources :features, path: 'caracteristiques'
 

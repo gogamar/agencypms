@@ -4,18 +4,27 @@ class StatementsController < ApplicationController
 
   def index
     @statements = policy_scope(Statement)
+    @statements = @vrental.present? ? @vrental.statements.order(created_at: :asc) : @statements.order(created_at: :asc)
+    total_amount = 0
+    @statements.each do |statement|
+      total_amount += statement.statement_earnings.sum(:amount)
+    end
+    @total_statements = total_amount
   end
 
   def show
     authorize @statement
-    @total_rent_charges = @statement.total_rent_charges
+    @statement_bookings = @statement.statement_bookings
+    @statement_earnings = @statement.statement_earnings
+    @total_statement_earnings = @statement.total_statement_earnings
+    @total_expenses = @statement.total_expenses
+    # @total_rent_charges = @statement.total_rent_charges
     @agency_commission = @statement.agency_commission
     @agency_commission_vat = @statement.agency_commission_vat
   end
 
   def new
-    statement_number = @vrental.statements.length + 1
-    @statement = Statement.new(ref_number: "#{statement_number}_#{@vrental.id}")
+    @statement = Statement.new
     authorize @statement
   end
 
@@ -27,17 +36,42 @@ class StatementsController < ApplicationController
     @statement = Statement.new(statement_params)
     authorize @statement
     @statement.vrental = @vrental
+    statement_year = (Date.parse(params[:statement][:start_date])).year
+    statements_with_same_year = @vrental.statements.where("EXTRACT(year FROM end_date) = ?", statement_year)
+    @statement.ref_number = "#{statements_with_same_year.count + 1}_#{@vrental.name}_#{statement_year}"
+
     if @statement.save
-      redirect_to vrental_statements_path, notice: "Has creat una liqudació nova."
+      redirect_to add_earnings_vrental_statement_path(@vrental, @statement), notice: 'Has creat la liquidació.'
     else
+      error_messages = @statement.errors.full_messages.join(', ')
+      flash[:alert] = "#{error_messages}"
       render :new, status: :unprocessable_entity
     end
   end
 
+  def add_earnings
+    @statement = Statement.find(params[:id])
+    authorize @statement
+    @statement_bookings = @statement.statement_bookings
+    @statement_earnings = @statement.statement_earnings
+  end
+
+  def add_expenses
+    @statement = Statement.find(params[:id])
+    authorize @statement
+  end
+
   def update
     authorize @statement
+    request_context = params[:statement][:request_context]
     if @statement.update(statement_params)
-      redirect_to vrental_statements_path, notice: 'Has actualitzat la liquidació.'
+      if request_context && request_context == 'add_earnings'
+        redirect_to add_earnings_vrental_statement_path(@vrental, @statement)
+      elsif request_context && request_context == 'add_expenses'
+        redirect_to add_expenses_vrental_statement_path(@vrental, @statement)
+      else
+        redirect_to vrental_statements_path, notice: 'Has actualitzat la liquidació.'
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -60,6 +94,6 @@ class StatementsController < ApplicationController
   end
 
   def statement_params
-    params.require(:statement).permit(:start_date, :end_date, :date, :location, :ref_number, :vrental_id, :invoice_id, expense_ids: [])
+    params.require(:statement).permit(:start_date, :end_date, :date, :location, :ref_number, :vrental_id, :invoice_id, expense_ids: [], earning_attributes: [:id, :amount, :description, :discount, :statement_id, :_destroy])
   end
 end

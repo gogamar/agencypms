@@ -4,6 +4,7 @@ class VragreementsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
+    @vrental = Vrental.find(params[:vrental_id])
     active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
     active_vragreements = active_vragreements.order(created_at: :desc)
@@ -28,49 +29,9 @@ class VragreementsController < ApplicationController
     @vrowner = @vragreement.vrental.vrowner
     @vrental = @vragreement.vrental
     @vrates = Rate.where(vrental_id: @vrental).order(:firstnight)
-    @contractrates = render_to_string(partial: 'rates')
-    @vrental_features = @vrental.features.pluck(:name).map {|str| t("#{str}")}.sort_by {|t| t }.join(", ").capitalize()
-    @vrentaltemplate = @vragreement.vrentaltemplate
-    @vrental_description =
-        case @vrentaltemplate.language
-        when "ca"
-          @vrental.description
-        when "es"
-          @vrental.description_es
-        when "fr"
-          @vrental.description_fr
-        when "en"
-          @vrental.description_en
-        else
-          ""
-        end
 
-    details = {
-      data_firma: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '',
-      lloc_firma: @vragreement.place.present? ? @vragreement.place : '',
-      propietari: @vrental.vrowner.present? && @vrental.vrowner.fullname.present? ? @vrental.vrowner.fullname : '',
-      dni_propietari: @vrental.vrowner.present? && @vrental.vrowner.document.present? ? @vrental.vrowner.document : '',
-      adr_propietari: @vrental.vrowner.present? && @vrental.vrowner.address.present? ? @vrental.vrowner.address : '',
-      email_propietari: @vrental.vrowner.present? && @vrental.vrowner.email.present? ? @vrental.vrowner.email : '',
-      tel_propietari: @vrental.vrowner.present? && @vrental.vrowner.phone.present? ? @vrental.vrowner.phone : '',
-      compte_propietari: @vrental.vrowner.present? && @vrental.vrowner.account.present? ? @vrental.vrowner.account : '',
-      nom_immoble: @vrental.name.present? ? @vrental.name.upcase() : '',
-      adr_immoble: @vrental.address.present? ? @vrental.address : '',
-      cadastre: @vrental.cadastre.present? ? @vrental.cadastre : '',
-      cedula: @vrental.habitability.present? ? @vrental.habitability : '',
-      num_HUT: @vrental.licence.present? ? @vrental.licence : '',
-      descripcio: @vrental_description.to_s,
-      data_inici: @vragreement.start_date.present? ? l(@vragreement.start_date, format: :long) : '',
-      data_fi: @vragreement.end_date.present? ? l(@vragreement.end_date, format: :long) : '',
-      tarifes: @contractrates,
-      reserves_propietari: @vragreement.vrowner_bookings,
-      carac_immoble: @vrental_features.to_s,
-      comissio: format("%.2f", @vrental.commission.to_f * 100),
-      clausula_adicional: @vragreement.clause.to_s
-    }
-
-    body = @vrentaltemplate.text.to_s
-    @vrcontrato = Vragreement.parse_template(body, details)
+    contract_rates = render_to_string(partial: 'rates')
+    @vrcontrato = @vragreement.generate_contract_body(contract_rates)
 
     respond_to do |format|
       format.html

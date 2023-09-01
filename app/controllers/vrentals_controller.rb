@@ -17,14 +17,17 @@ class VrentalsController < ApplicationController
 
   def show
     authorize @vrental
-    @rate = Rate.new
-    @rates = policy_scope(Rate)
-    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
-    @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
-    @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
+    # @rate = Rate.new
+    # @rates = policy_scope(Rate)
+    # @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
+    # @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
+    # @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
+    # @earning = Earning.new
+    # @earnings = policy_scope(Earning)
+    # @earnings = Earning.where(vrental_id: @vrental).order(date: :asc)
+    # @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
     @features = policy_scope(Feature)
     @features = Feature.all
-    @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
   end
 
   def copy
@@ -72,7 +75,7 @@ class VrentalsController < ApplicationController
   def get_bookings
     @vrental.get_bookings_from_beds
     authorize @vrental
-    redirect_to vrental_bookings_path(@vrental), notice: "Ja s'han importat les reserves."
+    redirect_to vrental_earnings_path(@vrental), notice: "Ja s'han importat les reserves."
   end
 
   def import_properties

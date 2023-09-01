@@ -1,14 +1,66 @@
-
-<div class="container-fluid">
-  <div class="my-3 text-end">
-    <%= link_to vrentals_path, class: "btn btn-secondary btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-signature"></i>
-      </span>
-      <span class="text">
-        Afegir contracte de lloguer turístic per un immoble existent
-      </span>
+<% if @vrental %>
+  <h4 class="text-info text-center">Contractes</h4>
+  <hr>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Data firma</th>
+        <th scope="col">Des de</th>
+        <th scope="col">Fins a</th>
+        <th scope="col">Estat</th>
+        <th scope="col">Comissió</th>
+        <th scope="col">Propietari</th>
+        <th scope="col">Idioma</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @vrental.vragreements.each do |vragreement| %>
+        <tr>
+          <th scope="row">
+            <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-info text-decoration-none" do %>
+              <%= vragreement.signdate %>
+            <% end %>
+          </th>
+          <td><%= I18n.l(vragreement.start_date) if vragreement.start_date %></td>
+          <td><%= I18n.l(vragreement.end_date) if vragreement.end_date %></td>
+          <td><%= vragreement.status %></td>
+          <td>                <%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></td>
+          <td><%= @vrental.vrowner.fullname %></td>
+          <td><%= @vrental.vrowner.language %></td>
+          <td><%= vragreement.year %></td>
+          <td class="">
+            <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
+              <i class="fas fa-edit"></i>
+            <% end %>
+            <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
+              <i class="fas fa-trash-can"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="my-3">
+    <% if @vrental %>
+      <%= link_to new_vrental_vragreement_path(@vrental), class: "btn btn-primary" do %>
+        <i class="fas fa-plus fa-sm"></i>
+        <span class="text">Nou contracte per <%= @vrental.name %></span>
+      <% end %>
     <% end %>
   </div>
-  <%= render "vragreements", vragreements: @vragreements %>
-</div>
+<% else %>
+  <div class="container-fluid">
+    <div class="my-3 text-end">
+      <%= link_to vrentals_path, class: "btn btn-secondary btn-icon-split" do %>
+        <span class="icon text-white-50">
+          <i class="fas fa-signature"></i>
+        </span>
+        <span class="text">
+          Afegir contracte de lloguer turístic per un immoble existent
+        </span>
+      <% end %>
+    </div>
+    <%= render "vragreements", vragreements: @vragreements %>
+  </div>
+<% end %>

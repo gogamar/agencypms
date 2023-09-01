@@ -1,2 +1,47 @@
-<h1>Modificar la reserva</h1>
-<%= render "form", booking: @booking %>
+<div class="container mb-5">
+  <div class="mb-4">
+    <h4>Reserva <%= @booking.firstname %> <%= @booking.lastname %></h4>
+    <p>Dates: <%= l(@booking.checkin, format: :long) if @booking.checkin %> - <%= l(@booking.checkout, format: :long) if @booking.checkout %></p>
+    <p>Preu: <%= number_to_currency(@booking.price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @booking.price %></p>
+    <p>Comissió: <%= number_to_currency(@booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @booking.commission %></p>
+    <p>Portal: <%= @booking.referrer %></p>
+    <p>Ref. Beds24: <%= @booking.beds_booking_id %></p>
+  </div>
+  <hr>
+  <%= simple_form_for([@vrental, @booking]) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <h4 class="mt-4">Càrregs</h4>
+    <% @booking.charges.each do |charge| %>
+      <div class="row mb-2">
+        <div class="col">
+          <%= charge.description %>
+        </div>
+        <div class="col-md-auto">
+          <%= number_to_currency(charge.price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+        </div>
+        <div class="col col-lg-2">
+          <%= f.fields_for :charges, charge do |charge_fields| %>
+            <%= charge_fields.input :charge_type, label: false, as: :select, class: "form-select", collection: Charge::CHARGE_TYPES.map { |type| [t("charge_types.#{type}"), type] } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <h4 class="mt-4">Pagaments</h4>
+    <% @booking.payments.each do |payment| %>
+      <div class="row mb-2">
+        <div class="col">
+          <%= payment.description %>
+        </div>
+        <div class="col-md-auto">
+          <%= payment.price %>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <div class="mt-4 text-end">
+      <%= f.button :submit, value: "Actualitzar la reserva", class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

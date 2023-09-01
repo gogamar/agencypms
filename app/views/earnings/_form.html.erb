@@ -1,0 +1,37 @@
+<%= simple_form_for [vrental, earning], data: { turbo: :false } do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.hidden_field :request_context, value: 'update_discount' %>
+  <div class="row my-1 border-bottom">
+    <div class="col-lg-3">
+      <%= f.input :description, label: false %>
+    </div>
+    <% if earning.booking && earning.booking.charges.where(description: "rent") %>
+      <div class="col-lg-2">
+        <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+      </div>
+      <div class="col-lg-2">
+        <%= number_to_currency((earning.booking.charges.where(charge_type: "rent").sum(:price) - earning.booking.commission), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+        <br>
+        <small>PVP: <%= earning.booking.charges.where(charge_type: "rent").sum(:price) %></small>
+        <br>
+        <small class="text-info"> <%= earning.booking.referrer %>: <%= earning.booking.commission %></small>
+        <br>
+        <small>Taxa tur.: <%= earning.booking.charges.where(charge_type: "city_tax").sum(:price) %></small>
+        <br>
+        <small>Neteja: <%= earning.booking.charges.where(charge_type: "cleaning").sum(:price) %></small>
+        <br>
+        <small>Altres: <%= earning.booking.charges.where(charge_type: "other").sum(:price) %></small>
+      </div>
+    <% end %>
+    <div class="col-lg-2">
+      <%= f.input :discount, as: :percentage, label: false %>
+    </div>
+    <div class="col-lg-2">
+      <%= f.input :amount, readonly: true, label: false %>
+    </div>
+    <div class="col-lg-1">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

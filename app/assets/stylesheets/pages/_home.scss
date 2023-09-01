@@ -63,3 +63,10 @@ ul li {
   list-style-type: none;
   padding: 0;
 }
+
+.percentage {
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 5px;
+  display: flex !important;
+}

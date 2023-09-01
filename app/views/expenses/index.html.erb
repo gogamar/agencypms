@@ -1,47 +1,64 @@
-<h1>Despeses <%= @vrental.name if @vrental %></h1>
-<div class="my-3">
-  <% if @vrental %>
-    <%= link_to new_vrental_expense_path(@vrental), class: "btn btn-primary" do %>
-      <i class="fas fa-plus fa-sm"></i>
-      <span class="text">Nova despesa per <%= @vrental.name %></span>
-    <% end %>
-  <% else %>
-    <%= link_to new_expense_path, class: "btn btn-primary" do %>
-      <i class="fas fa-plus fa-sm"></i>
-      <span class="text">Nova despesa</span>
-    <% end %>
-  <% end %>
-</div>
-<div class="my-3">
-  <p>Total: <%= number_to_currency(@total_price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Immoble</th>
-        <th scope="col">Refèrencia</th>
-        <th scope="col">Tipus despesa</th>
-        <th scope="col">Concepte</th>
-        <th scope="col">Proveïdor</th>
-        <th scope="col">Import</th>
-        <th scope="col">Editar</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @expenses.each do |expense| %>
-        <tr>
-          <th scope="row"><%= expense.vrental.name %></th>
-          <td><%= expense.expense_number %></td>
-          <td><%= expense.expense_type %></td>
-          <td><%= expense.description %></td>
-          <td><%= expense.expense_company %></td>
-          <td><%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-          <td>
-            <%= link_to edit_vrental_expense_path(vrental_id: expense.vrental_id, id: expense.id), class: "btn btn-info" do %>
-              <i class="fas fa-pen fa-sm"></i>
-            <% end %>
-          </td>
-        </tr>
+<div class="container">
+  <hr>
+  <div class="d-flex justify-content-between align-items-baseline">
+    <div class="d-flex justify-content-around align-items-baseline">
+      <h4 class="text-info text-center pe-3">Despeses</h4>
+      <% if @expenses.present? %>
+        <h6 class="text-center">Total: <%= number_to_currency(@total_expenses, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
       <% end %>
-    </tbody>
-  </table>
+    </div>
+    <div>
+      <% if @vrental %>
+        <%= link_to new_vrental_expense_path(@vrental), class: "btn btn-primary mb-3" do %>
+          <i class="fas fa-plus fa-sm"></i>
+          <span class="text">Nova despesa <%= @vrental.name %></span>
+        <% end %>
+      <% else %>
+        <%= link_to new_expense_path, class: "btn btn-primary mb-3" do %>
+          <i class="fas fa-plus fa-sm"></i>
+          <span class="text">Nova despesa</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <% if @expenses.present? %>
+    <hr>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Immoble</th>
+          <th scope="col">Refèrencia</th>
+          <th scope="col">Liquidació</th>
+          <th scope="col">Tipus despesa</th>
+          <th scope="col">Concepte</th>
+          <th scope="col">Import</th>
+          <th scope="col">Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @expenses.each do |expense| %>
+          <tr>
+            <th scope="row"><%= expense.vrental.name %></th>
+            <td><%= expense.expense_number %></td>
+            <td>
+              <% if expense.statement %>
+                <%= link_to "Liquidació #{l(expense.statement.date)}", vrental_statement_path(expense.vrental, expense.statement) %>
+              <% end %>
+            </td>
+            <td><%= expense.expense_type %></td>
+            <td><%= expense.description %></td>
+            <td><%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="d-flex justify-content-between">
+              <%= link_to edit_vrental_expense_path(@vrental, expense), class: "text-info text-decoration-none" do %>
+                <i class="fas fa-pen fa-sm"></i>
+              <% end %>
+              <%= link_to expense, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta despesa?"}, class: "text-danger text-decoration-none" do %>
+                <i class="fas fa-trash-can fa-sm"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>

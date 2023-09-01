@@ -1,26 +1,14 @@
-<%= simple_form_for [vrental, statement] do |f| %>
+<%= simple_form_for [@vrental, @statement] do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
+    <%= f.hidden_field :request_context, value: 'add_earnings' %>
     <%= f.input :date, as: :string, input_html: {class: "datepicker", value: Date.today} %>
     <%= f.input :location, input_html: { value: "L'Estartit" } %>
     <%= f.input :start_date, as: :string, input_html: {class: "datepicker", value: Date.today.beginning_of_year} %>
     <%= f.input :end_date, as: :string, input_html: {class: "datepicker", value: Date.today.end_of_year} %>
   </div>
-  <% unassigned_expenses = vrental.expenses.where(statement_id: nil) %>
-  <% if unassigned_expenses.present? %>
-    <div>
-      <strong>Selecciona despeses que vols afegir a la liquidació:</strong><br>
-      <% unassigned_expenses.each do |expense| %>
-        <%= check_box_tag "statement[expense_ids][]", expense.id %>
-        <%= label_tag "statement_expense_ids_#{expense.id}", "#{expense.description} (#{expense.amount}€ #{expense.expense_company if expense.expense_company})" %><br>
-      <% end %>
-    </div>
-  <% else %>
-    <strong>No hi ha despeses no adjudicades.</strong><br>
-    <%= link_to "Afegir despesa per #{vrental.name}", new_vrental_expense_path(@vrental), class: "btn btn-secondary" %>
-  <% end %>
   <div class="form-actions text-end mb-5">
-    <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-secondary text-center' %>
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
   </div>
 <% end %>

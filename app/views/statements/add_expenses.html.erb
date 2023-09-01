@@ -1,0 +1,15 @@
+<%= simple_form_for [@vrental, @statement] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <% exps = @vrental.expenses.where(statement_id: nil) + @statement.expenses %>
+    <% if exps.present? %>
+      <%= f.input :expense_ids, label: "Selecciona despeses que vols afegir a la liquidació:", as: :check_boxes, collection: exps.map {|e| ["#{e.description} #{number_to_currency(e.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", e.id]}, wrapper: :vertical_collection %>
+    <% end %>
+  </div>
+  <%= link_to "Afegir despesa per #{@vrental.name}", new_vrental_expense_path(@vrental), class: "btn btn-secondary" %>
+</div>
+<div class="form-actions text-end mb-5">
+  <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+</div>
+<% end %>
