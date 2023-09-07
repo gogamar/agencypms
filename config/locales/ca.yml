@@ -246,8 +246,12 @@ ca:
         start_date: "Data d'inici"
         start_time: "Hora d'inici"
         title: "Tema"
-      comtype:
-        company_type: "Tipus d'empresa"
+      expense:
+        expense_number: "Número despesa"
+        expense_type: "Tipus despesa"
+        description: "Descripció"
+        expense_company: "Industrial"
+        amount: "Import"
       vrowner:
         vrowner: "Propietari"
         fullname: "Nom i cognoms"

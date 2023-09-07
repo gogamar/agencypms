@@ -5,6 +5,8 @@
     <% exps = @vrental.expenses.where(statement_id: nil) + @statement.expenses %>
     <% if exps.present? %>
       <%= f.input :expense_ids, label: "Selecciona despeses que vols afegir a la liquidació:", as: :check_boxes, collection: exps.map {|e| ["#{e.description} #{number_to_currency(e.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", e.id]}, wrapper: :vertical_collection %>
+    <% else %>
+      <%= hidden_field_tag 'statement[expense_ids][]', '' %>
     <% end %>
   </div>
   <%= link_to "Afegir despesa per #{@vrental.name}", new_vrental_expense_path(@vrental), class: "btn btn-secondary" %>

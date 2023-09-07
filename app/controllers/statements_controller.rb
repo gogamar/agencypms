@@ -83,19 +83,16 @@ class StatementsController < ApplicationController
 
   def update
     authorize @statement
-    request_context = params[:statement][:request_context]
+    request_context = params[:statement][:request_context] if params[:statement] && params[:statement][:request_context]
 
     if @statement.update(statement_params)
-      case request_context
-      when 'add_earnings'
+      if request_context && request_context == 'add_earnings'
         redirect_to add_earnings_vrental_statement_path(@vrental, @statement)
-      when 'add_expenses'
+      elsif request_context && request_context == 'add_expenses'
         @statement.earnings.update_all(statement_id: nil)
         @statement.statement_earnings.update_all(statement_id: @statement.id)
         redirect_to add_expenses_vrental_statement_path(@vrental, @statement)
       else
-        Expense.where(id: params[:statement][:expense_ids])
-               .update_all(statement_id: @statement.id)
         redirect_to vrental_statements_path, notice: 'Has actualitzat la liquidació.'
       end
     else

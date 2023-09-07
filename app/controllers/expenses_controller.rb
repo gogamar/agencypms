@@ -41,7 +41,7 @@ class ExpensesController < ApplicationController
 
     if @expense.save
       if request.referrer.include?(new_vrental_expense_path(@vrental))
-        redirect_to vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha creat correctament."
+        redirect_back(fallback_location: vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha creat correctament.")
       else
         redirect_to expenses_path, notice: "La despesa s'ha creat correctament."
       end
@@ -54,7 +54,7 @@ class ExpensesController < ApplicationController
     authorize @expense
 
     if @expense.update(expense_params)
-      redirect_to vrental_expenses_path, notice: "La despesa s'ha modificat correctament."
+      redirect_back(fallback_location: vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha modificat correctament.")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -63,7 +63,7 @@ class ExpensesController < ApplicationController
   def destroy
     authorize @expense
     @expense.destroy
-    redirect_to vrental_expenses_path, notice: "La despesa s'ha esborrat correctament."
+    redirect_to vrental_expenses_path(@vrental), notice: "La despesa s'ha esborrat correctament."
   end
 
   private
