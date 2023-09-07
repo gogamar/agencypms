@@ -19,10 +19,10 @@ class Booking < ApplicationRecord
   end
 
   def net_price
-    unless referrer == "sistach_rentals" || "sistachrentals_web" || "direct" || "miquel"
-      price_portal_no_commission
-    else
+    if referrer == "sistach_rentals" || referrer == "sistachrentals_web" || referrer == "direct" || referrer == "miquel"
       price_no_portal
+    else
+      [price_portal_no_commission, price_no_portal].min
     end
   end
 

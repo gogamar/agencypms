@@ -10,7 +10,7 @@ export default class extends Controller {
   calculateEarningAmount() {
     const discount = parseFloat(this.discountTarget.value);
     const ratePriceText = this.ratePriceTarget.textContent
-      .replace(/[^0-9,.-]+/g, "")
+      .replace(/[€.]/g, "")
       .replace(",", ".");
     const ratePrice = parseFloat(ratePriceText);
     const amount = ratePrice - ratePrice * (discount / 100);

@@ -25,9 +25,9 @@ module VrentalsHelper
     total_earnings = vrental.earnings.pluck(:amount).sum
 
     if vrental.total_bookings > total_earnings
-      "a favor d'agència"
+      "(a favor d'agència)"
     elsif vrental.total_bookings < total_earnings
-      "a favor del propietari"
+      "(a favor del propietari)"
     else
       nil
     end

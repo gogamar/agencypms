@@ -7,18 +7,6 @@ class ExpensesController < ApplicationController
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
     @expenses = @vrental.present? ? @vrental.expenses.order(created_at: :asc) : @expenses.order(created_at: :asc)
     @total_expenses = @expenses.pluck(:amount)&.sum
-    # @total_price = @vrental.expenses.pluck(:price)&.sum
-    # @total_commission = @vrental.expenses.pluck(:commission)&.sum
-    # @total_cleaning = @vrental.expenses.map do |expense|
-    #   expense.charges.where(charge_type: 'cleaning').sum(:price)
-    # end.sum
-    # @total_city_tax = @vrental.expenses.map do |expense|
-    #   expense.charges.where(charge_type: 'city_tax').sum(:price)
-    # end.sum
-    # @total_rent = @vrental.expenses.map do |expense|
-    #   expense.charges.where(charge_type: 'rent').sum(:price)
-    # end.sum
-    # @total_net = @total_rent - @total_commission
   end
 
   def new

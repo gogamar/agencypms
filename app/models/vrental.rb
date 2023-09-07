@@ -30,7 +30,8 @@ class Vrental < ApplicationRecord
 
   def rate_price(checkin, checkout)
     overlapping_rates = rates.where(
-      "lastnight > ? AND firstnight <= ?", checkin, checkout
+      "(firstnight <= ? AND lastnight >= ?) OR (firstnight <= ? AND lastnight >= ?) OR (firstnight >= ? AND lastnight <= ?)",
+      checkin, checkin, checkout, checkout, checkin, checkout
     )
     total_price = 0.0
     overlapping_rates.each do |rate|
