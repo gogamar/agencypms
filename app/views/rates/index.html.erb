@@ -1,6 +1,7 @@
 <h4 class="text-info text-center">Tarifes</h4>
 <hr>
-<div class="text-end"><%= link_to get_rates_vrental_path(@vrental), class: "btn btn-secondary" do %>
+<div class="text-end">
+  <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-secondary" do %>
     <i class="fas fa-file-import"></i> Importar tarifes des de Beds
   <% end %>
   <% @years.each do |year| %>

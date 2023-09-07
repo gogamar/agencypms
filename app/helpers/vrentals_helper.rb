@@ -22,7 +22,7 @@ module VrentalsHelper
   end
 
   def rental_balance_message(vrental)
-    total_earnings = vrental.earnings.pluck(:amount).sum
+    total_earnings = vrental.total_earnings
 
     if vrental.total_bookings > total_earnings
       "(a favor d'agència)"

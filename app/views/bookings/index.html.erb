@@ -47,5 +47,10 @@
   </tbody>
 </table>
 <% if @vrental %>
-  <%= link_to "Importar reserves de beds", get_bookings_vrental_path(@vrental), class: "btn btn-secondary"%>
+  <% if @rates.where("DATE_PART('year', firstnight) = ?", Date.today.year).exists? %>
+    <%= link_to "Importar reserves de beds", get_bookings_vrental_path(@vrental), class: "btn btn-secondary"%>
+  <% else %>
+    <span>Abans de importar reserves, has de importar tarifes d'aquest any</span>
+    <%= link_to "Ves a Tarifes", get_bookings_vrental_path(@vrental), class: "btn btn-secondary"%>
+  <% end %>
 <% end %>

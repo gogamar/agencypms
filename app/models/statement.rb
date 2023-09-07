@@ -21,7 +21,7 @@ class Statement < ApplicationRecord
   end
 
   def agency_commission
-    total_statement_earnings * (vrental.commission || 1)
+    total_statement_earnings * (vrental.commission || 0)
   end
 
   def agency_commission_vat

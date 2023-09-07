@@ -70,6 +70,14 @@ class Vrental < ApplicationRecord
     return total_bookings
   end
 
+  def total_earnings
+    total_earnings = 0
+    earnings.each do |earning|
+      total_earnings += earning.amount if earning.amount.present?
+    end
+    return total_earnings
+  end
+
   def self.import_properties_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     begin
