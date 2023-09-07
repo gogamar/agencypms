@@ -1,47 +1,315 @@
 fr:
-  locale: "Français"
+  statement_title: "Liquidation des loyers"
+  earnings: "Revenus"
+  amount: "Montant"
+  booking: "Réservation"
+  discount: "Remise"
+  commission: "Commission"
+  expenses: "Dépenses"
+  total: "Total"
+  agency_fees: "Honoraires"
+  agency_vat: "TVA sur les honoraires d'agence 21 %"
+  expense_types:
+    agency: "Agence"
+    owner: "Propriétaire"
+  charge_types:
+    rent: "Loyer"
+    cleaning: "Nettoyage"
+    city_tax: "Taxe de séjour"
+    other: "Autre"
+  locale: "Catalan"
+  ca: "Catalan"
+  en: "Anglais"
+  es: "Espagnol"
+  fr: "Français"
+  dont-fill: "Ne pas remplir si vous ne savez pas ce que c'est :"
+  real estate: "Immobilier"
+  vacation rentals: "Locations de vacances"
+  page: "Page"
+  of: "de"
   nights: "nuits"
   from: "De"
-  to: "jusqu'à"
-  page: "Page"
-  of: "sur"
-  arrival_day: "jour d'arrivée"
+  to: "À"
+  arrival_day: "Jour d'arrivée"
   min: "Min."
   week: "Semaine"
   night_7: "Nuit (7)"
   night_5: "Nuit (5-6)"
-  washer: "machine à laver"
-  oven: "four"
-  toaster: "grille-pain"
-  microwave: "micro-onde"
-  hair_dryer: "sèche-cheveux"
-  iron_board: "fer"
-  jardin: "jardin communautaire"
+  washer: "Lave-linge"
+  oven: "Four"
+  toaster: "Grille-pain"
+  microwave: "Micro-ondes"
+  hair_dryer: "Sèche-cheveux"
+  iron_board: "Planche à repasser"
+  garden: "Jardin commun"
   wifi: "Wifi"
-  refrigerator: "frigo"
-  grill: "barbecue"
-  ocean_view: "vue mer"
-  lave-vaisselle: "lave-vaisselle"
-  pool_private: "piscine privée"
-  pets_considered: "animaux considérés"
-  air_conditioning: "climatisation"
-  congélateur: "congélateur"
-  ascenseur: "ascenseur"
-  beach_view: "vue mer"
-  private_yard: "jardin privé"
-  smoke_detector: "détecteur de fumée"
-  pets_not_allowed: "animaux non autorisés"
-  balcony: "balcon"
-  parking_included: "parking inclus"
-  parking_possible: "stationnement possible dans la rue"
-  deck_patio_uncovered: "terrasse"
-  kettle: "bouilloire"
-  beach_front: "face à la mer"
-  pool: "piscine communautaire"
-  coffee_maker: "cafetière"
-  roof_terrace: "terrasse communautaire"
-  tv: "télé"
-  fireplace: "cheminée"
-  ceiling_fan: "ventilateur de plafond"
-  saturdays: "Sam.-Sam."
+  refrigerator: "Réfrigérateur"
+  grill: "Barbecue"
+  ocean_view: "Vue sur l'océan"
+  dishwasher: "Lave-vaisselle"
+  pool_private: "Piscine privée"
+  pets_considered: "Animaux acceptés"
+  air_conditioning: "Climatisation"
+  freezer: "Congélateur"
+  elevator: "Ascenseur"
+  beach_view: "Vue sur la plage"
+  private_yard: "Cour privée"
+  smoke_detector: "Détecteur de fumée"
+  pets_not_allowed: "Animaux non autorisés"
+  balcony: "Balcon"
+  parking_included: "Parking inclus"
+  parking_possible: "Stationnement dans la rue possible"
+  deck_patio_uncovered: "Terrasse"
+  kettle: "Bouilloire"
+  beach_front: "Bord de mer"
+  pool: "Piscine commune"
+  coffee_maker: "Cafetière"
+  roof_terrace: "Terrasse sur le toit commune"
+  tv: "Télévision"
+  fireplace: "Cheminée"
+  ceiling_fan: "Ventilateur de plafond"
+  inactive: "Bien immobilier inactif"
+  proposal: "Proposition envoyée"
+  not sent: "Non envoyé"
+  active: "Bien immobilier actif"
+  pending: "En attente de signature"
+  signed: "Signé"
+  saturdays: "Sa.-Sa."
   everyday: "Tous les jours"
+  registry_addendum: "Note simple d'information sur la propriété"
+  habitability_addendum: "Copie du certificat de conformité"
+  energy_addendum: "Certificat énergétique"
+  equipment_addendum: "Équipement"
+  date:
+    abbr_day_names:
+      - Dim
+      - Lun
+      - Mar
+      - Mer
+      - Jeu
+      - Ven
+      - Sam
+    abbr_month_names:
+      -
+      - Janv
+      - Févr
+      - Mars
+      - Avr
+      - Mai
+      - Juin
+      - Juil
+      - Août
+      - Sept
+      - Oct
+      - Nov
+      - Déc
+    day_names:
+      - Dimanche
+      - Lundi
+      - Mardi
+      - Mercredi
+      - Jeudi
+      - Vendredi
+      - Samedi
+    formats:
+      default: "%d/%m/%Y"
+      standard: "%a, %d/%m/%Y"
+      long: "%A, %d %B %Y"
+      short: "%d %b"
+    month_names:
+      -
+      - Janvier
+      - Février
+      - Mars
+      - Avril
+      - Mai
+      - Juin
+      - Juillet
+      - Août
+      - Septembre
+      - Octobre
+      - Novembre
+      - Décembre
+    order:
+      - :day
+      - :month
+      - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: environ 1 heure
+        other: environ %{count} heures
+      about_x_months:
+        one: environ 1 mois
+        other: environ %{count} mois
+      about_x_years:
+        one: environ 1 an
+        other: environ %{count} ans
+      almost_x_years:
+        one: presque 1 an
+        other: presque %{count} ans
+      half_a_minute: une demi-minute
+      less_than_x_seconds:
+        one: moins de 1 seconde
+        other: moins de %{count} secondes
+      less_than_x_minutes:
+        one: moins de 1 minute
+        other: moins de %{count} minutes
+      over_x_years:
+        one: plus de 1 an
+        other: plus de %{count} ans
+      x_seconds:
+        one: 1 seconde
+        other: "%{count} secondes"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+      x_days:
+        one: 1 jour
+        other: "%{count} jours"
+      x_months:
+        one: 1 mois
+        other: "%{count} mois"
+      x_years:
+        one: 1 an
+        other: "%{count} ans"
+    prompts:
+      second: seconde
+      minute: minute
+      hour: heure
+      day: jour
+      month: mois
+      year: an
+  hello: "Bonjour"
+  welcome: "Bienvenue !"
+  services_html: "Nous offrons quelques <em>services magnifiques</em>"
+  create_profile: "Créer un profil"
+  pages:
+    home:
+      hello: "Bonjour le monde"
+      welcome: "Bienvenue !"
+      services_html: "Nous offrons quelques <em>services magnifiques</em>"
+  features:
+    form:
+      washer: "Lave-linge"
+  vrentals:
+    show:
+      saturdays: "Sa.-Sa."
+      everyday: "Tous les jours"
+    form:
+      labels:
+        washer: "Lave-linge"
+    form:
+      dishwasher: "Lave-vaisselle"
+      name:
+        washer: "Lave-linge"
+  rates:
+    index:
+      saturdays: "Sa.-Sa."
+      everyday: "Tous les jours"
+  vragreements:
+    form:
+      vrowner_bookings: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, veuillez nous contacter à l'adresse info@sistachrentals.com."
+  vrentaltemplates:
+    form:
+      ca: "Catalan"
+      es: "Espagnol"
+      fr: "Français"
+      en: "Anglais"
+  activerecord:
+    attributes:
+      realestate:
+        status: "Statut"
+        address: "Adresse"
+        city: "Ville"
+        description: "Description de la propriété (du registre foncier)"
+        seller: "Vendeur"
+        cadastre: "Référence cadastrale"
+        energy: "Certificat énergétique"
+        registrar: "Bureau d'enregistrement"
+        volume: "Volume"
+        book: "Livre"
+        sheet: "Feuille"
+        registry: "Numéro du registre foncier"
+        registry_code: "Code du registre CRU"
+        entry: "Inscription"
+        charges: "Charges et hypothèques"
+        habitability: "Certificat de conformité"
+        hab_date: "Date du certificat de conformité"
+        protocol: "Protocole de l'acte authentique"
+        deed_date: "Date de l'acte authentique"
+        notary: "Notaire de l'acte authentique"
+        notary_fullname: "Nom complet du notaire"
+        mortgage_bank: "Banque avec hypothèque"
+        mortgage_amount: "Montant de l'hypothèque"
+      task:
+        start_date: "Date de début"
+        start_time: "Heure de début"
+        title: "Titre"
+      comtype:
+        company_type: "Type d'entreprise"
+      vrowner:
+        vrowner: "Propriétaire"
+        fullname: "Nom et prénom"
+        address: "Adresse"
+        phone: "Téléphone"
+        email: "Email"
+        document: "Numéro d'identification"
+        account: "Compte bancaire"
+        language: "Langue"
+      vragreement:
+        status: "Statut"
+        vrowner: "Propriétaire"
+        vrental: "Maison ou appartement"
+        phone: "Téléphone"
+        email: "Email"
+        account: "Compte bancaire"
+        vrowner_bookings: "Réservations pour le propriétaire"
+        signdate: "Date de signature"
+        start_date: "Début du contrat"
+        end_date: "Fin du contrat"
+        year: "Année de contrat"
+      vrental:
+        vrental: "Propriété"
+        vrowner: "Propriétaire"
+        address: "Adresse"
+        habitability: "Certificat de conformité"
+        beds_prop_id: "ID de la propriété Beds24"
+        beds_room_id: "ID de la chambre Beds24"
+        prop_key: "Clé secrète de la propriété Beds24"
+        cadastre: "Cadastre"
+        licence: "Numéro HUT"
+        description: "Description"
+        feature_ids: "Caractéristiques"
+        name: "Nom"
+        status: "Statut"
+      rate:
+        firstnight: "À partir de"
+        lastnight: "Jusqu'à"
+        min_stay: "Min."
+        priceweek: "Prix par semaine"
+        pricenight: "Prix par nuit"
+        arrival_day: "Jour d'arrivée"
+      vrentaltemplate:
+        language: "Langue"
+        title: "Titre"
+      statement:
+        date: "Date"
+        amount: "Montant"
+        location: "Emplacement"
+        start_date: "De"
+        end_date: "À"
+      feature:
+        name:
+          washer: "Lave-linge"
+  global:
+    forms:
+      submit: "Enregistrer"
+      continue: "Continuer"
+  simple_calendar:
+    previous: "<<"
+    next: ">>"
+    week: "semaine"
+    month: "mois"
+    year: "an"
+    day: "jour"

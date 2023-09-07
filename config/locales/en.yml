@@ -1,129 +1,315 @@
 en:
-  locale: "English"
+  statement_title: "Rental Settlement"
+  earnings: "Revenue"
+  amount: "Amount"
+  booking: "Booking"
+  discount: "Discount"
+  commission: "Commission"
+  expenses: "Expenses"
+  total: "Total"
+  agency_fees: "Agency Fees"
+  agency_vat: "Agency Fees VAT 21 %"
+  expense_types:
+    agency: "Agency"
+    owner: "Owner"
+  charge_types:
+    rent: "Rent"
+    cleaning: "Cleaning"
+    city_tax: "Tourist Tax"
+    other: "Other"
+  locale: "Catalan"
+  ca: "Catalan"
+  en: "English"
+  es: "Spanish"
+  fr: "French"
+  dont-fill: "Do not fill if you do not know what it is:"
+  real estate: "Real Estate"
+  vacation rentals: "Vacation Rentals"
   page: "Page"
-  of: "out of"
+  of: "of"
   nights: "nights"
   from: "From"
   to: "To"
-  arrival_day: "Arrival day"
+  arrival_day: "Arrival Day"
   min: "Min."
   week: "Week"
   night_7: "Night (7)"
   night_5: "Night (5-6)"
-  washer: "washing machine"
-  oven: "oven"
-  toaster: "toaster"
-  microwave: "microwave"
-  hair_dryer: "hair dryer"
-  iron_board: "iron"
-  garden: "communal garden"
-  wifi: "wifi"
-  refrigerator: "refrigerator"
-  grill: "BBQ"
-  ocean_view: "sea view"
-  dishwasher: "dishwasher"
-  pool_private: "private pool"
-  pets_considered: "pets allowed"
-  air_conditioning: "air-conditioning"
-  freezer: "freezer"
-  elevator: "lift"
-  beach_view: "sea view"
-  private_yard: "private yard"
-  smoke_detector: "smoke detector"
-  pets_not_allowed: "pets not allowed"
-  balcony: "balcony"
-  parking_included: "parking included"
-  parking_possible: "street parking possible"
-  deck_patio_uncovered: "terrace"
-  kettle: "kettle"
-  beach_front: "beach front"
-  pool: "communal pool"
-  coffee_maker: "coffee machine"
-  roof_terrace: "communal terrace"
+  washer: "Washer"
+  oven: "Oven"
+  toaster: "Toaster"
+  microwave: "Microwave"
+  hair_dryer: "Hair Dryer"
+  iron_board: "Ironing Board"
+  garden: "Communal Garden"
+  wifi: "Wifi"
+  refrigerator: "Refrigerator"
+  grill: "Barbecue"
+  ocean_view: "Ocean View"
+  dishwasher: "Dishwasher"
+  pool_private: "Private Pool"
+  pets_considered: "Pets Considered"
+  air_conditioning: "Air Conditioning"
+  freezer: "Freezer"
+  elevator: "Elevator"
+  beach_view: "Beach View"
+  private_yard: "Private Yard"
+  smoke_detector: "Smoke Detector"
+  pets_not_allowed: "Pets Not Allowed"
+  balcony: "Balcony"
+  parking_included: "Parking Included"
+  parking_possible: "Street Parking Possible"
+  deck_patio_uncovered: "Terrace"
+  kettle: "Kettle"
+  beach_front: "Beachfront"
+  pool: "Communal Pool"
+  coffee_maker: "Coffee Maker"
+  roof_terrace: "Communal Roof Terrace"
   tv: "TV"
-  fireplace: "fireplace"
-  ceiling_fan: "ceiling fan"
-  saturdays: "Sat. - Sat."
-  everyday: "Any day"
+  fireplace: "Fireplace"
+  ceiling_fan: "Ceiling Fan"
+  inactive: "Inactive Property"
+  proposal: "Proposal Sent"
+  not sent: "Not Sent"
+  active: "Active Property"
+  pending: "Pending Signature"
+  signed: "Signed"
+  saturdays: "Sa.-Sa."
+  everyday: "Any Day"
+  registry_addendum: "Property Registry Note"
+  habitability_addendum: "Habitability Certificate Copy"
+  energy_addendum: "Energy Certificate"
+  equipment_addendum: "Equipment"
   date:
+    abbr_day_names:
+      - Sun
+      - Mon
+      - Tue
+      - Wed
+      - Thu
+      - Fri
+      - Sat
+    abbr_month_names:
+      -
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - May
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Oct
+      - Nov
+      - Dec
+    day_names:
+      - Sunday
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
     formats:
-      default: "%m-%d-%Y"
-      long: "%a, %d %B, %Y"
+      default: "%d/%m/%Y"
+      standard: "%a, %d/%m/%Y"
+      long: "%A, %d %B %Y"
       short: "%d %b"
+    month_names:
+      -
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+    order:
+      - :day
+      - :month
+      - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: about %{count} hours
+      about_x_months:
+        one: about 1 month
+        other: about %{count} months
+      about_x_years:
+        one: about 1 year
+        other: about %{count} years
+      almost_x_years:
+        one: almost 1 year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_seconds:
+        one: less than 1 second
+        other: less than %{count} seconds
+      less_than_x_minutes:
+        one: less than 1 minute
+        other: less than %{count} minutes
+      over_x_years:
+        one: over 1 year
+        other: over %{count} years
+      x_seconds:
+        one: 1 second
+        other: "%{count} seconds"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+      x_days:
+        one: 1 day
+        other: "%{count} days"
+      x_months:
+        one: 1 month
+        other: "%{count} months"
+      x_years:
+        one: 1 year
+        other: "%{count} years"
+    prompts:
+      second: second
+      minute: minute
+      hour: hour
+      day: day
+      month: month
+      year: year
+  hello: "Hello"
+  welcome: "Welcome!"
+  services_html: "We offer some <em>magnificent services</em>"
+  create_profile: "Create a Profile"
+  pages:
+    home:
+      hello: "Hello world"
+      welcome: "Welcome!"
+      services_html: "We offer some <em>magnificent services</em>"
+  features:
+    form:
+      washer: "Washer"
   vrentals:
     show:
-      saturdays: "on Saturday"
+      saturdays: "Sa.-Sa."
       everyday: "Any day"
+    form:
+      labels:
+        washer: "Washer"
+    form:
+      dishwasher: "Dishwasher"
+      name:
+        washer: "Washer"
   rates:
     index:
-      saturdays: "on Saturday"
+      saturdays: "Sa.-Sa."
       everyday: "Any day"
   vragreements:
     form:
-      vrowner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com."
+      vrowner_bookings: "The owner has not yet blocked any dates for their own use. If you want to block some dates, please contact us at info@sistachrentals.com."
   vrentaltemplates:
     form:
-      ca: "Català"
-      es: "Castellà"
-      fr: "Francès"
-      en: "Anglès"
-  # activerecord:
-  #   attributes:
-  #     rentals:
-  #     owner_html: "Seleccionar el propietari o #{link_to 'Afegir propietari nou', new_owner_path, target: "_blank"}."
-  #     address: 'Adreça, codi postal i municipi'
-  #   global:
-  #     forms:
-  #       submit: Desar
+      ca: "Catalan"
+      es: "Spanish"
+      fr: "French"
+      en: "English"
   activerecord:
     attributes:
-      rental:
-        address: "Adreça"
-        city: "Municipi"
-        cadastre: "Cadastre"
-        energy: "Certificat d'eficiencia energètica"
-        description: "Descripció"
-      profile_session:
-        new:
-          profile: "Crear perfil"
-        city: "Municipi"
-        cadastre: "Cadastre"
-        energy: "Certificat d'eficiencia energètica"
-        description: "Descripció"
-      vrowner:
-        vrowner: "Propietari"
-        address: "Adreça"
-        phone: "Telèfon"
-        email: "Email"
-        account: "Compte bancari"
-      vragreement:
-        vrowner: "Propietari"
-        vrental: "Casa o apartament"
-        phone: "Telèfon"
-        email: "Email"
-        account: "Compte bancari"
-        vrowner_bookings: "Reserves per el propietari"
-      vrental:
-        vrowner: "Propietari"
-        address: "Adreça"
-        habitability: "Cédula de habitabilitat"
-        cadastre: "Cadastre"
-        licence: "Número HUT"
-        description: "Descripció"
-      vrentaltemplate:
-        language: "Idioma"
-
-  global:
-    forms:
-      submit: "Desar"
-  activerecord:
-    attributes:
-      rental:
+      realestate:
+        status: "Status"
         address: "Address"
         city: "City"
-        cadastre: "Cadastre"
-        energy: "Energy efficiency certificate"
+        description: "Property Description (from the property registry)"
+        seller: "Seller"
+        cadastre: "Cadastral Reference"
+        energy: "Energy Certificate"
+        registrar: "Registry Office"
+        volume: "Volume"
+        book: "Book"
+        sheet: "Sheet"
+        registry: "Property Registry Number"
+        registry_code: "CRU Registry Code"
+        entry: "Entry"
+        charges: "Charges and Encumbrances"
+        habitability: "Habitability Certificate"
+        hab_date: "Habitability Certificate Date"
+        protocol: "Deed Protocol"
+        deed_date: "Deed Date"
+        notary: "Notary Deed"
+        notary_fullname: "Notary's Full Name"
+        mortgage_bank: "Bank with Mortgage"
+        mortgage_amount: "Mortgage Amount"
+      task:
+        start_date: "Start Date"
+        start_time: "Start Time"
+        title: "Title"
+      comtype:
+        company_type: "Company Type"
+      vrowner:
+        vrowner: "Owner"
+        fullname: "Name and Surname"
+        address: "Address"
+        phone: "Phone"
+        email: "Email"
+        document: "ID"
+        account: "Bank Account"
+        language: "Language"
+      vragreement:
+        status: "Status"
+        vrowner: "Owner"
+        vrental: "House or Apartment"
+        phone: "Phone"
+        email: "Email"
+        account: "Bank Account"
+        vrowner_bookings: "Bookings for the owner"
+        signdate: "Signature Date"
+        start_date: "Start of Contract"
+        end_date: "End of Contract"
+        year: "Contract Year"
+      vrental:
+        vrental: "Property"
+        vrowner: "Owner"
+        address: "Address"
+        habitability: "Habitability Certificate"
+        beds_prop_id: "Beds24 Property ID"
+        beds_room_id: "Beds24 Room ID"
+        prop_key: "Beds24 Property Secret Key"
+        cadastre: "Cadastral"
+        licence: "HUT Number"
         description: "Description"
+        feature_ids: "Features"
+        name: "Name"
+        status: "Status"
+      rate:
+        firstnight: "From"
+        lastnight: "To"
+        min_stay: "Min."
+        priceweek: "Price per Week"
+        pricenight: "Price per Night"
+        arrival_day: "Arrival Day"
+      vrentaltemplate:
+        language: "Language"
+        title: "Title"
+      statement:
+        date: "Date"
+        amount: "Amount"
+        location: "Location"
+        start_date: "From"
+        end_date: "To"
+      feature:
+        name:
+          washer: "Washer"
   global:
     forms:
-      submit: "Submit"
+      submit: "Save"
+      continue: "Continue"
+  simple_calendar:
+    previous: "<<"
+    next: ">>"
+    week: "week"
+    month: "month"
+    year: "year"
+    day: "day"

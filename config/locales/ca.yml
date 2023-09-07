@@ -1,4 +1,14 @@
 ca:
+  statement_title: "Liquidació lloguers"
+  earnings: "Ingressos"
+  amount: "Import"
+  booking: "Reserva"
+  discount: "Descompte"
+  commission: "Comissió"
+  expenses: "Despeses"
+  total: "Total"
+  agency_fees: "Honoraris"
+  agency_vat: "IVA honoraris agència 21 %"
   expense_types:
     agency: "Agència"
     owner: "Propietari"
@@ -260,6 +270,7 @@ ca:
         end_date: "Fi contracte"
         year: "Any contracte"
       vrental:
+        vrental: "Immoble"
         vrowner: "Propietari"
         address: "Adreça"
         habitability: "Cédula de habitabilitat"
@@ -282,6 +293,12 @@ ca:
       vrentaltemplate:
         language: "Idioma"
         title: "Títol"
+      statement:
+        date: "Data"
+        amount: Import
+        location: Ubicació
+        start_date: Des de
+        end_date: Fins a
       feature:
         name:
           washer: "rentadora"

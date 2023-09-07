@@ -5,7 +5,7 @@
   <% end %>
   <% @years.each do |year| %>
     <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-      <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last.firstnight >= Date.today) %>
+      <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last&.firstnight >= Date.today) %>
         <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
           <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes a Beds24
         <% end %>

@@ -28,7 +28,7 @@
         <% @vrental.statements.each do |statement| %>
           <tr>
             <th scope="row">
-              <%= link_to vrental_statement_path(@vrental, statement), class: "text-info text-decoration-none" do %>
+              <%= link_to vrental_statement_path(@vrental, statement, locale: @vrental.vrowner.language), class: "text-info text-decoration-none" do %>
                 <%= statement.ref_number %>
               <% end %>
             </th>

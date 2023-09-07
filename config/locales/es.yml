@@ -1,100 +1,135 @@
 es:
-  hello: "hola"
-  locale: "Español"
+  statement_title: "Liquidación alquileres"
+  earnings: "Ingresos"
+  amount: "Importe"
+  booking: "Reserva"
+  discount: "Descuento"
+  commission: "Comisión"
+  expenses: "Gastos"
+  total: "Total"
+  agency_fees: "Honorarios"
+  agency_vat: "IVA honorarios agencia 21 %"
+  expense_types:
+    agency: "Agencia"
+    owner: "Propietario"
+  charge_types:
+    rent: "Alquiler"
+    cleaning: "Limpieza"
+    city_tax: "Impuesto turístico"
+    other: "Otros"
+  locale: "Catalán"
+  ca: "Catalán"
+  en: "Inglés"
+  es: "Español"
+  fr: "Francés"
+  dont-fill: "No rellenar si no sabe qué es:"
+  real estate: "Inmobiliaria"
+  vacation rentals: "Alquiler turístico"
+  page: "Página"
+  of: "de"
   nights: "noches"
   from: "Desde"
   to: "Hasta"
-  page: "Página"
-  of: "de"
-  arrival_day: "Día entrada"
+  arrival_day: "Día de llegada"
   min: "Min."
   week: "Semana"
   night_7: "Noche (7)"
   night_5: "Noche (5-6)"
-  washer: "lavadora"
-  oven: "horno"
-  toaster: "tostadora"
-  microwave: "microondas"
-  hair_dryer: "secador de pelo"
-  iron_board: "plancha"
-  garden: "jardín comunitario"
-  wifi: "wifi"
-  refrigerator: "nevera"
-  grill: "barbacoa"
-  ocean_view: "vista al mar"
-  dishwasher: "lavavajillas"
-  pool_private: "piscina privada"
-  pets_considered: "se aceptan mascotas"
-  air_conditioning: "aire acondicionado"
-  freezer: "congelador"
-  elevator: "ascensor"
-  beach_view: "vista al mar"
-  private_yard: "jardín privado"
-  smoke_detector: "detector de humo"
-  pets_not_allowed: "no se aceptan mascotas"
-  balcón: "balcón"
-  parking_included: "parking incluido"
-  parking_posible: "parking posible en la calle"
-  deck_patio_uncovered: "terraza"
-  kettle: "hervidor de agua"
-  beach_front: "primera línea del mar"
-  pool: "piscina comunitaria"
-  coffee_maker: "cafetera"
-  roof_terrace: "terraza comunitaria"
+  washer: "Lavadora"
+  oven: "Horno"
+  toaster: "Tostadora"
+  microwave: "Microondas"
+  hair_dryer: "Secador de pelo"
+  iron_board: "Tabla de planchar"
+  garden: "Jardín comunitario"
+  wifi: "Wifi"
+  refrigerator: "Nevera"
+  grill: "Barbacoa"
+  ocean_view: "Vista al mar"
+  dishwasher: "Lavavajillas"
+  pool_private: "Piscina privada"
+  pets_considered: "Se admiten mascotas"
+  air_conditioning: "Aire acondicionado"
+  freezer: "Congelador"
+  elevator: "Ascensor"
+  beach_view: "Vista a la playa"
+  private_yard: "Jardín privado"
+  smoke_detector: "Detector de humo"
+  pets_not_allowed: "No se admiten mascotas"
+  balcony: "Balcón"
+  parking_included: "Parking incluido"
+  parking_possible: "Posible aparcamiento en la calle"
+  deck_patio_uncovered: "Terraza"
+  kettle: "Hervidor de agua"
+  beach_front: "Primera línea de playa"
+  pool: "Piscina comunitaria"
+  coffee_maker: "Cafetera"
+  roof_terrace: "Terraza comunitaria"
   tv: "TV"
-  fireplace: "chimenea"
-  ceiling_fan: "ventilador del techo"
-  saturdays: "Sáb.-Sáb."
+  fireplace: "Chimenea"
+  ceiling_fan: "Ventilador de techo"
+  inactive: "Inmueble inactivo"
+  proposal: "Propuesta enviada"
+  not sent: "No enviado"
+  active: "Inmueble activo"
+  pending: "Pendiente de firma"
+  signed: "Firmado"
+  saturdays: "Sá.-Sá."
   everyday: "Cualquier día"
+  registry_addendum: "Nota Simple Informativa del inmueble objeto del presente contrato"
+  habitability_addendum: "Copia de la cédula de habitabilidad"
+  energy_addendum: "Certificado Energético"
+  equipment_addendum: "Equipamiento"
   date:
     abbr_day_names:
-      - dom
-      - lun
-      - mar
-      - mié
-      - jue
-      - vie
-      - sáb
+      - Dom
+      - Lun
+      - Mar
+      - Mié
+      - Jue
+      - Vie
+      - Sáb
     abbr_month_names:
       -
-      - ene
-      - feb
-      - mar
-      - abr
-      - may
-      - jun
-      - jul
-      - ago
-      - sep
-      - oct
-      - nov
-      - dic
+      - Ene
+      - Feb
+      - Mar
+      - Abr
+      - May
+      - Jun
+      - Jul
+      - Ago
+      - Sep
+      - Oct
+      - Nov
+      - Dic
     day_names:
-      - domingo
-      - lunes
-      - martes
-      - miércoles
-      - jueves
-      - viernes
-      - sábado
+      - Domingo
+      - Lunes
+      - Martes
+      - Miércoles
+      - Jueves
+      - Viernes
+      - Sábado
     formats:
-      default: "%-d/%-m/%Y"
-      long: "%-d de %B de %Y"
-      short: "%-d de %b"
+      default: "%d/%m/%Y"
+      standard: "%a, %d/%m/%Y"
+      long: "%A, %d de %B de %Y"
+      short: "%d de %b"
     month_names:
       -
-      - enero
-      - febrero
-      - marzo
-      - abril
-      - mayo
-      - junio
-      - julio
-      - agosto
-      - septiembre
-      - octubre
-      - noviembre
-      - diciembre
+      - Enero
+      - Febrero
+      - Marzo
+      - Abril
+      - Mayo
+      - Junio
+      - Julio
+      - Agosto
+      - Septiembre
+      - Octubre
+      - Noviembre
+      - Diciembre
     order:
       - :day
       - :month
@@ -102,61 +137,179 @@ es:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: alrededor de %{count} hora
-        other: alrededor de %{count} horas
+        one: aproximadamente 1 hora
+        other: aproximadamente %{count} horas
       about_x_months:
-        one: alrededor de %{count} mes
-        other: alrededor de %{count} meses
+        one: aproximadamente 1 mes
+        other: aproximadamente %{count} meses
       about_x_years:
-        one: alrededor de %{count} año
-        other: alrededor de %{count} años
+        one: aproximadamente 1 año
+        other: aproximadamente %{count} años
       almost_x_years:
-        one: casi %{count} año
+        one: casi 1 año
         other: casi %{count} años
       half_a_minute: medio minuto
       less_than_x_seconds:
-        one: menos de %{count} segundo
+        one: menos de 1 segundo
         other: menos de %{count} segundos
       less_than_x_minutes:
-        one: menos de %{count} minuto
+        one: menos de 1 minuto
         other: menos de %{count} minutos
       over_x_years:
-        one: más de %{count} año
+        one: más de 1 año
         other: más de %{count} años
       x_seconds:
-        one: "%{count} segundo"
+        one: 1 segundo
         other: "%{count} segundos"
       x_minutes:
-        one: "%{count} minuto"
+        one: 1 minuto
         other: "%{count} minutos"
       x_days:
-        one: "%{count} día"
+        one: 1 día
         other: "%{count} días"
       x_months:
-        one: "%{count} mes"
+        one: 1 mes
         other: "%{count} meses"
       x_years:
-        one: "%{count} año"
+        one: 1 año
         other: "%{count} años"
     prompts:
-      second: Segundo
-      minute: Minuto
-      hour: Hora
-      day: Día
-      month: Mes
-      year: Año
-    formats:
-      default: "%d-%m-%Y"
-      long: "%a, %d de %B de %Y"
-      short: "%d de %b"
+      second: segundo
+      minute: minuto
+      hour: hora
+      day: día
+      month: mes
+      year: año
+  hello: "Hola"
+  welcome: "¡Bienvenidos!"
+  services_html: "Ofrecemos unos <em>servicios magníficos</em>"
+  create_profile: "Crea un perfil"
+  pages:
+    home:
+      hello: "Hola mundo"
+      welcome: "¡Bienvenidos!"
+      services_html: "Ofrecemos unos <em>servicios magníficos</em>"
+  features:
+    form:
+      washer: "Lavadora"
+  vrentals:
+    show:
+      saturdays: "Sá.-Sá."
+      everyday: "Cualquier día"
+    form:
+      labels:
+        washer: "Lavadora"
+    form:
+      dishwasher: "Lavavajillas"
+      name:
+        washer: "Lavadora"
+  rates:
+    index:
+      saturdays: "Sá.-Sá."
+      everyday: "Cualquier día"
+  vragreements:
+    form:
+      vrowner_bookings: "El propietario aún no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, contáctenos en info@sistachrentals.com."
+  vrentaltemplates:
+    form:
+      ca: "Catalán"
+      es: "Español"
+      fr: "Francés"
+      en: "Inglés"
   activerecord:
     attributes:
-      rental:
+      realestate:
+        status: "Estado"
         address: "Dirección"
-        city: "Ciudad"
+        city: "Municipio"
+        description: "Descripción de la finca (del registro de propiedad)"
+        seller: "Vendedor"
+        cadastre: "Ref. Catastral"
+        energy: "Certificado energético"
+        registrar: "Oficina de Registro"
+        volume: "Tomo"
+        book: "Libro"
+        sheet: "Folio"
+        registry: "Finca registral número"
+        registry_code: "Código Registro CRU"
+        entry: "Inscripción"
+        charges: "Cargas y gravámenes"
+        habitability: "Cédula de habitabilidad"
+        hab_date: "Fecha cédula de habitabilidad"
+        protocol: "Protocolo Escritura"
+        deed_date: "Fecha Escritura"
+        notary: "Notaría Escritura"
+        notary_fullname: "Nombre del notario"
+        mortgage_bank: "Banco donde tienen la hipoteca"
+        mortgage_amount: "Importe de la hipoteca"
+      task:
+        start_date: "Fecha de inicio"
+        start_time: "Hora de inicio"
+        title: "Tema"
+      comtype:
+        company_type: "Tipo de empresa"
+      vrowner:
+        vrowner: "Propietario"
+        fullname: "Nombre y apellidos"
+        address: "Dirección"
+        phone: "Teléfono"
+        email: "Email"
+        document: "DNI"
+        account: "Cuenta bancaria"
+        language: "Idioma"
+      vragreement:
+        status: "Estado"
+        vrowner: "Propietario"
+        vrental: "Casa o apartamento"
+        phone: "Teléfono"
+        email: "Email"
+        account: "Cuenta bancaria"
+        vrowner_bookings: "Reservas para el propietario"
+        signdate: "Fecha de firma"
+        start_date: "Inicio de contrato"
+        end_date: "Fin de contrato"
+        year: "Año de contrato"
+      vrental:
+        vrental: "Inmueble"
+        vrowner: "Propietario"
+        address: "Dirección"
+        habitability: "Cédula de habitabilidad"
+        beds_prop_id: "ID propiedad en Beds24"
+        beds_room_id: "ID inmueble en Beds24"
+        prop_key: "Clave secreta Beds24 propiedad"
         cadastre: "Catastro"
-        energy: "Certificado de eficiencia energética"
+        licence: "Número HUT"
         description: "Descripción"
+        feature_ids: "Características"
+        name: "Nombre"
+        status: "Estado"
+      rate:
+        firstnight: "Desde"
+        lastnight: "Hasta"
+        min_stay: "Min."
+        priceweek: "Precio semana"
+        pricenight: "Precio noche"
+        arrival_day: "Día de entrada"
+      vrentaltemplate:
+        language: "Idioma"
+        title: "Título"
+      statement:
+        date: "Fecha"
+        amount: "Importe"
+        location: "Ubicación"
+        start_date: "Desde"
+        end_date: "Hasta"
+      feature:
+        name:
+          washer: "Lavadora"
   global:
     forms:
       submit: "Guardar"
+      continue: "Continuar"
+  simple_calendar:
+    previous: "<<"
+    next: ">>"
+    week: "semana"
+    month: "mes"
+    year: "año"
+    day: "día"

@@ -3,10 +3,10 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <%= f.hidden_field :request_context, value: 'add_earnings' %>
-    <%= f.input :date, as: :string, input_html: {class: "datepicker", default_value: Date.today} %>
+    <%= f.input :date, as: :string, input_html: {class: "datepicker", value: f.object.date || Date.today} %>
     <%= f.input :location, input_html: { value: "L'Estartit" } %>
-    <%= f.input :start_date, as: :string, input_html: {class: "datepicker", default_value: Date.today.beginning_of_year} %>
-    <%= f.input :end_date, as: :string, input_html: {class: "datepicker", default_value: Date.today.end_of_year} %>
+    <%= f.input :start_date, as: :string, input_html: {class: "datepicker", value: f.object.start_date || Date.today.beginning_of_year} %>
+    <%= f.input :end_date, as: :string, input_html: { class: "datepicker", value: f.object.end_date || Date.today.end_of_year } %>
   </div>
   <div class="form-actions text-end mb-5">
     <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
