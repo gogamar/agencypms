@@ -37,6 +37,18 @@
             <li><%= link_to "Models de contracte", vrentaltemplates_path, class: "dropdown-item" %></li>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="beds24" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Beds24
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="beds24">
+            <% if @vrental&.persisted? %>
+              <li><%= link_to "Crear #{@vrental.name} a Beds24", export_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+              <li><%= link_to "Actualitzar #{@vrental.name} a Beds24", update_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+            <% end %>
+            <li><%= link_to 'Importar immobles', import_properties_vrentals_path, class: "dropdown-item text-danger" %></li>
+          </ul>
+        </li>
       </ul>
       <div class="d-flex nav-item dropdown">
         <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>

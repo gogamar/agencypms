@@ -77,8 +77,7 @@ class Vrental < ApplicationRecord
         if Vrental.where(beds_prop_id: bedsrental["propId"]).exists?
           next
         else
-          # user_id = User.find_by(admin: true).id
-          user_id = 2
+          user_id = User.find_by(admin: true).id
           Vrental.create!(
             name: bedsrental["name"],
             address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
