@@ -11,6 +11,6 @@ class RemoveProfiles < ActiveRecord::Migration[7.0]
     drop_table :realestates, force: :cascade
     drop_table :sellers, force: :cascade
     drop_table :renters, force: :cascade
-    drop_table :com_types, force: :cascade
+    drop_table :comtypes, force: :cascade
   end
 end
