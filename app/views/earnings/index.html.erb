@@ -1,37 +1,36 @@
-<div class="container">
-  <hr>
-  <div class="d-flex justify-content-between align-items-baseline">
-    <div class="d-flex justify-content-around align-items-baseline">
-      <h4 class="text-info text-center pe-3">Ingressos</h4>
-      <% if @earnings.present? %>
-        <h6 class="text-center">Total: <%= number_to_currency(@total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
-      <% end %>
-    </div>
-    <div>
-      <% if @vrental %>
-        <%= link_to new_vrental_earning_path(@vrental), class: "btn btn-primary me-2" do %>
-          <i class="fas fa-plus fa-sm"></i>
-          <span class="text">Nou ingres <%= @vrental.name %></span>
-        <% end %>
-      <% end %>
-      <%= link_to get_bookings_vrental_path(@vrental), class: "btn btn-secondary" do %>
-        <i class="fas fa-file-import"></i> Importar reserves des de Beds
-      <% end %>
+<h4 class="font-weight-bold text-primary text-center mb-2">Ingressos <%= "tots els immobles" if !@vrental %></h4>
+<hr>
+<% if @vrental %>
+  <%= link_to new_vrental_earning_path(@vrental), class: "btn btn-primary me-2" do %>
+    <i class="fas fa-plus fa-sm"></i>
+    <span class="text">Nou ingres <%= @vrental.name %></span>
+  <% end %>
+  <%= link_to get_bookings_vrental_path(@vrental), class: "btn btn-secondary" do %>
+    <i class="fas fa-file-import"></i> Importar reserves des de Beds
+  <% end %>
+<% end %>
+<% if @vrental %>
+  <div class="my-3 border border-secondary p-2">
+    <p>Comissió: <%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></p>
+    <p>Ingressos segons contracte (menys les reserves propietari) <%= number_to_currency(@vrental.total_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @vrental.total_rate_price %></p>
+    <p>Ingressos segons reserves <%= number_to_currency(@vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @vrental.total_bookings %></p>
+    <p>Ingressos segons liquidacions <%= number_to_currency(@vrental.earnings.pluck(:amount)&.sum, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.earnings %></p>
+    <p>Diferencia imports reserves i liquidacions: <%= number_to_currency((@vrental.total_bookings - @vrental.earnings.pluck(:amount)&.sum), unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.earnings %> <%= rental_balance_message(@vrental) %></p>
+    <div><%= link_to 'Refrescar la pàgina', request.original_url, class: 'btn btn-secondary' %>
     </div>
   </div>
-  <% if @earnings.present? %>
-    <hr>
-    <div id="earnings">
-      <div class="row">
-        <div class="col-lg-2 fw-bold nowrap">Descripció</div>
-        <div class="col-lg-2 fw-bold nowrap">Segons contracte</div>
-        <div class="col-lg-2 fw-bold nowrap">Reserva</div>
-        <div class="col-lg-2 fw-bold nowrap">Descompte</div>
-        <div class="col-lg-2 fw-bold nowrap">Liquidació</div>
-        <div class="col-lg-2 fw-bold nowrap"></div>
-      </div>
-      <hr>
-      <%= render @earnings %>
+<% end %>
+<% if @earnings.present? %>
+  <div id="earnings">
+    <div class="row">
+      <div class="col-lg-2 fw-bold nowrap">Descripció</div>
+      <div class="col-lg-2 fw-bold nowrap">Reserva</div>
+      <div class="col-lg-2 fw-bold nowrap">Segons contracte</div>
+      <div class="col-lg-2 fw-bold nowrap">Descompte</div>
+      <div class="col-lg-2 fw-bold nowrap">Liquidació</div>
+      <div class="col-lg-2 fw-bold nowrap"></div>
     </div>
-  <% end %>
-</div>
+    <hr>
+    <%= render @earnings %>
+  </div>
+<% end %>

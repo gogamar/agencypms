@@ -23,9 +23,6 @@
         data-sidebar-target="dash"
   >
     <div id="wrapper">
-      <% if user_signed_in? && profile_logged_in? %>
-        <%= render "shared/sidebar" %>
-      <% end %>
       <div id="content-wrapper" class="d-flex flex-column">
         <%= render "shared/flashes" %>
         <% if user_signed_in? %>
@@ -33,8 +30,12 @@
           <%= render "shared/subnav" if @vrental %>
         <% end %>
         <div id="content" class="flex-shrink-0">
-          <div class="container-fluid">
-            <%= yield %>
+          <div class="container-fluid mt-3">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <%= yield %>
+              </div>
+            </div>
           </div>
         </div>
       </div>

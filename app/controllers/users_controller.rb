@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  # skip_before_action :authenticate_user!
-  skip_before_action :authenticate_profile!
+  skip_before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def purge_photo

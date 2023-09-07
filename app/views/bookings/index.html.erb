@@ -46,4 +46,6 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to "Importar reserves de beds", get_bookings_vrental_path(@vrental), class: "btn btn-secondary"%>
+<% if @vrental %>
+  <%= link_to "Importar reserves de beds", get_bookings_vrental_path(@vrental), class: "btn btn-secondary"%>
+<% end %>

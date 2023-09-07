@@ -16,11 +16,31 @@ class StatementsController < ApplicationController
     authorize @statement
     @statement_bookings = @statement.statement_bookings
     @statement_earnings = @statement.statement_earnings
+    @statement_expenses = Expense.where(id: @statement.expense_ids)
     @total_statement_earnings = @statement.total_statement_earnings
     @total_expenses = @statement.total_expenses
     # @total_rent_charges = @statement.total_rent_charges
     @agency_commission = @statement.agency_commission
     @agency_commission_vat = @statement.agency_commission_vat
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: [@vrental.name, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
+               template: "statements/show",
+               formats: [:html],
+               disposition: :inline,
+               page_size: 'A4',
+               dpi: '75',
+               zoom: 1,
+               layout: 'pdf',
+               margin:  {   top:    20,
+                            bottom: 20,
+                            left:   10,
+                            right:  10},
+               footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @statement.date.present? ? l(@statement.date, format: :long) : '', font_size: 9, spacing: 5 }
+      end
+    end
   end
 
   def new
@@ -64,12 +84,18 @@ class StatementsController < ApplicationController
   def update
     authorize @statement
     request_context = params[:statement][:request_context]
+
     if @statement.update(statement_params)
-      if request_context && request_context == 'add_earnings'
+      case request_context
+      when 'add_earnings'
         redirect_to add_earnings_vrental_statement_path(@vrental, @statement)
-      elsif request_context && request_context == 'add_expenses'
+      when 'add_expenses'
+        @statement.earnings.update_all(statement_id: nil)
+        @statement.statement_earnings.update_all(statement_id: @statement.id)
         redirect_to add_expenses_vrental_statement_path(@vrental, @statement)
       else
+        Expense.where(id: params[:statement][:expense_ids])
+               .update_all(statement_id: @statement.id)
         redirect_to vrental_statements_path, notice: 'Has actualitzat la liquidació.'
       end
     else
@@ -94,6 +120,6 @@ class StatementsController < ApplicationController
   end
 
   def statement_params
-    params.require(:statement).permit(:start_date, :end_date, :date, :location, :ref_number, :vrental_id, :invoice_id, expense_ids: [], earning_attributes: [:id, :amount, :description, :discount, :statement_id, :_destroy])
+    params.require(:statement).permit(:start_date, :end_date, :date, :location, :ref_number, :vrental_id, :invoice_id, expense_ids: [])
   end
 end

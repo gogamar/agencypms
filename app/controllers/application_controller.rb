@@ -1,11 +1,8 @@
 class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :authenticate_user!
+  before_action :set_vrentals
   # before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :authenticate_profile!
-  skip_before_action :authenticate_profile!, if: :devise_controller?
-  helper_method :current_profile
-  include ProfileSessionHelper
 
   include Pundit::Authorization
   include Pagy::Backend
@@ -26,6 +23,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def set_vrentals
+    @vrentals = policy_scope(Vrental)
+  end
+
   def default_url_options
     { locale: I18n.locale }
   end
@@ -38,26 +39,8 @@ class ApplicationController < ActionController::Base
     I18n.available_locales.map(&:to_s).include?(parsed_locale) ? parsed_locale : nil
   end
 
-  def authenticate_profile!
-    @current_profile = Profile.find_by(id: session[:profile_id])
-    redirect_to new_profile_session_path if @current_profile.nil?
-  end
-
   def after_sign_in_path_for(_resource)
     root_path
-  end
-
-
-  def current_profile
-    @current_profile
-  end
-
-  def logged_in_profile
-    unless profile_logged_in?
-      store_location
-      flash[:danger] = "Si us plau selecciona el perfil"
-      redirect_to new_profile_session_path
-    end
   end
 
   # Uncomment when you *really understand* Pundit!

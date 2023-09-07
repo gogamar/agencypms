@@ -1,80 +1,76 @@
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Propietaris de HUTs</h4>
-    <hr>
-    <div class="container d-flex justify-content-center mt-5">
-      <%= form_with url: filter_vrowners_path, method: :get, data: { turbo_frame: "vrowners"}, class: "row g-3" do |form| %>
-        <div class="col-auto">
-          <%= form.select :language,
+<h4 class="font-weight-bold text-primary text-center mb-2">Propietaris</h4>
+<hr>
+<div class="container d-flex justify-content-center mt-5">
+  <%= form_with url: filter_vrowners_path, method: :get, data: { turbo_frame: "vrowners"}, class: "row g-3" do |form| %>
+    <div class="col-auto">
+      <%= form.select :language,
             options_for_select(
             [[t("ca"),'ca'],[t("en"),'en'],[t("es"),'es'],[t("fr"),'fr']],
             ),
             { include_blank: 'tots els idiomes' },
             class: "form-select"
           %>
-        </div>
-        <div class="col-auto">
-          <%= form.text_field :fullname,
+    </div>
+    <div class="col-auto">
+      <%= form.text_field :fullname,
           placeholder: "Buscar per nom",
           class: "form-control bg-white border-0 small",
           autocomplete: "off" %>
-        </div>
-        <div class="col-auto">
-          <%= form.button class: "btn btn-primary me-3" do %>
-            <i class="fas fa-search fa-sm"></i>
-          <% end %>
-        </div>
-        <div class="col-auto">
-          <%= link_to "Veure tots els propietaris", vrowners_path, class: "btn btn-secondary" %>
-        </div>
+    </div>
+    <div class="col-auto">
+      <%= form.button class: "btn btn-primary me-3" do %>
+        <i class="fas fa-search fa-sm"></i>
       <% end %>
     </div>
-      <%= turbo_frame_tag "vrowners", class: "card-body" do %>
-        <div class="container-fluid my-3">
-          <div>
-            <div class="row border border-top border-bottom fw-bold bg-light">
-              <div class="col col-lg-3 py-3 nowrap" id="vrowner-fullname" relative>
-                Nom i cognoms
-              </div>
-              <div class="col-lg-1 py-3" id="vrowner-language" relative>
-                Idioma
-              </div>
-              <div class="col-lg-2 py-3" id="vrowner-phone" relative>
-                Telèfon
-              </div>
-              <div class="col-lg-3 py-3" id="vrowner-email" relative>
-                Email
-              </div>
-              <div class="col-lg-2 py-3" id="vrowner-vrentals" relative>
-                Immobles
-              </div>
-              <div class="col-lg-1 py-3">
-              </div>
-            </div>
-          </div>
-          <div class="tbody">
-            <% @vrowners.each do |vrowner| %>
-              <div class="row border">
-                <div class="col-lg-3 align-self-center nowrap"><%= link_to vrowner.fullname, vrowner %></div>
-                <div class="col-lg-1 align-self-center"><%= vrowner.language if vrowner.language %></div>
-                <div class="col-lg-2 align-self-center"><%= vrowner.phone %></div>
-                <div class="col-lg-3 align-self-center nowrap"><%= vrowner.email %></div>
-                <div class="col-lg-2 align-self-center"><%= vrowner.vrentals.map {|vrental| vrental.name}.to_sentence  %></div>
-                <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
-                  <%= link_to edit_vrowner_path(vrowner), class: "text-info text-decoration-none" do %>
-                    <i class="fas fa-edit fa-sm"></i>
-                  <% end %>
-                  <%= link_to vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrowner.fullname}?"}, class: "text-danger text-decoration-none" do %>
-                    <i class="fas fa-trash fa-sm"></i>
-                  <% end %>
-                </div>
-              </div>
+    <div class="col-auto">
+      <%= link_to "Veure tots els propietaris", vrowners_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>
+<%= turbo_frame_tag "vrowners", class: "card-body" do %>
+  <div class="container-fluid my-3">
+    <div>
+      <div class="row border border-top border-bottom fw-bold bg-light">
+        <div class="col col-lg-3 py-3 nowrap" id="vrowner-fullname" relative>
+          Nom i cognoms
+        </div>
+        <div class="col-lg-1 py-3" id="vrowner-language" relative>
+          Idioma
+        </div>
+        <div class="col-lg-2 py-3" id="vrowner-phone" relative>
+          Telèfon
+        </div>
+        <div class="col-lg-3 py-3" id="vrowner-email" relative>
+          Email
+        </div>
+        <div class="col-lg-2 py-3" id="vrowner-vrentals" relative>
+          Immobles
+        </div>
+        <div class="col-lg-1 py-3">
+        </div>
+      </div>
+    </div>
+    <div class="tbody">
+      <% @vrowners.each do |vrowner| %>
+        <div class="row border">
+          <div class="col-lg-3 align-self-center nowrap"><%= link_to vrowner.fullname, vrowner %></div>
+          <div class="col-lg-1 align-self-center"><%= vrowner.language if vrowner.language %></div>
+          <div class="col-lg-2 align-self-center"><%= vrowner.phone %></div>
+          <div class="col-lg-3 align-self-center nowrap"><%= vrowner.email %></div>
+          <div class="col-lg-2 align-self-center"><%= vrowner.vrentals.map {|vrental| vrental.name}.to_sentence  %></div>
+          <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
+            <%= link_to edit_vrowner_path(vrowner), class: "text-info text-decoration-none" do %>
+              <i class="fas fa-edit fa-sm"></i>
+            <% end %>
+            <%= link_to vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrowner.fullname}?"}, class: "text-danger text-decoration-none" do %>
+              <i class="fas fa-trash fa-sm"></i>
             <% end %>
           </div>
         </div>
-        <div class="d-flex justify-content-center">
-          <%== pagy_bootstrap_nav(@pagy) %>
-        </div>
       <% end %>
+    </div>
   </div>
-</div>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+<% end %>

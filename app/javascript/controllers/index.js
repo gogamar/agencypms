@@ -13,6 +13,9 @@ application.register("address-autocomplete", AddressAutocompleteController)
 import CallFlatpickrController from "./call_flatpickr_controller"
 application.register("call-flatpickr", CallFlatpickrController)
 
+import EarningCalculatorController from "./earning_calculator_controller"
+application.register("earning-calculator", EarningCalculatorController)
+
 import FlatpickrController from "./flatpickr_controller"
 application.register("flatpickr", FlatpickrController)
 

@@ -1,97 +1,93 @@
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer turístic - HUTs</h4>
-    <hr>
-    <div class="container d-flex justify-content-center mt-5">
-      <%= form_with url: list_vrentals_path, method: :get, data: { turbo_frame: "vrentals"}, class: "row g-3" do |form| %>
-        <div class="col-auto">
-          <%= form.select :status,
+<h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer turístic - HUTs</h4>
+<hr>
+<div class="container d-flex justify-content-center mt-5">
+  <%= form_with url: list_vrentals_path, method: :get, data: { turbo_frame: "vrentals"}, class: "row g-3" do |form| %>
+    <div class="col-auto">
+      <%= form.select :status,
             options_for_select(
             [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']],
             ),
             { include_blank: 'Tots els immobles' },
             class: "form-select"
           %>
-        </div>
-        <div class="col-auto">
-          <%= form.text_field :name,
+    </div>
+    <div class="col-auto">
+      <%= form.text_field :name,
           placeholder: "Buscar per nom",
           class: "form-control bg-white border-0 small",
           autocomplete: "on" %>
-        </div>
-        <div class="col-auto">
-          <%= form.button class: "btn btn-primary me-3" do %>
-            <i class="fas fa-search fa-sm"></i>
+    </div>
+    <div class="col-auto">
+      <%= form.button class: "btn btn-primary me-3" do %>
+        <i class="fas fa-search fa-sm"></i>
+      <% end %>
+    </div>
+    <div class="col-auto">
+      <%= link_to "Veure tots els immobles", vrentals_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>
+<%= turbo_frame_tag "vrentals", class: "card-body" do %>
+  <%# render "shared/flashes" %>
+  <div class="container-fluid my-3">
+    <div class="row border border-top border-bottom fw-bold bg-light">
+      <div class="col col-lg-2 py-3 align-self-center" id="vrstatus" relative>
+        <%= sort_indicator if params[:column] == "status" %>
+        <%= sort_link(column: "status", label: "Estatus") %>
+      </div>
+      <div class="col-lg-3 py-3 align-self-center" id="vrname" relative>
+        <%= sort_indicator if params[:column] == "name" %>
+        <%= sort_link(column: "name", label: "Nom") %>
+      </div>
+      <div class="col-lg-3 py-3 align-self-center" id="vraddress" relative>
+        <%= sort_indicator if params[:column] == "address" %>
+        <%= sort_link(column: "address", label: "Adreça") %>
+      </div>
+      <div class="col-lg-3 py-3 align-self-center" id="vrowner-name" relative>
+        <%= sort_indicator if params[:column] == "vrowners.fullname" %>
+        <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
+      </div>
+    </div>
+    <div>
+      <% @vrentals.each do |vrental| %>
+        <div class="row border min-height-row">
+          <div class="col-lg-2 align-self-center">
+            <small><%= t("#{vrental.status}") if vrental.status %></small>
+          </div>
+          <div class="col-lg-3 align-self-center">
+            <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>
+          </div>
+          <div class="col-lg-3 align-self-center">
+            <small><%= link_to vrental.address, vrental, class: "text-decoration-none"  %></small>
+          </div>
+          <% if vrental.vrowner %>
+            <div class="col-lg-3 align-self-center">
+              <small><%= link_to vrental.vrowner.fullname, edit_vrental_vrowner_path(vrental, vrental.vrowner), target: "_blank", class: "text-decoration-none"  %></small>
+            </div>
+          <% else %>
+            <div class="col-lg-3 align-self-center">
+              <small>
+                <%= link_to "Afegir propietari", edit_vrental_path(vrental, anchor: "vrowner-details"), target: "_blank" %>
+              </small>
+            </div>
           <% end %>
-        </div>
-        <div class="col-auto">
-          <%= link_to "Veure tots els immobles", vrentals_path, class: "btn btn-secondary" %>
+          <div class="col-lg-1 d-flex justify-content-between">
+            <%= link_to edit_vrental_path(vrental), class: "text-primary text-decoration-none" do %>
+              <i class="fas fa-edit"></i>
+            <% end %>
+            <%= link_to copy_vrental_path(vrental), class: "text-info text-decoration-none" do %>
+              <i class="fas fa-copy"></i>
+            <% end %>
+            <%= link_to vrental, class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"} do %>
+              <i class="fas fa-trash-can"></i>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>
-    <%= turbo_frame_tag "vrentals", class: "card-body" do %>
-      <%= render "shared/flashes" %>
-      <div class="container-fluid my-3">
-        <div class="row border border-top border-bottom fw-bold bg-light">
-          <div class="col col-lg-2 py-3 align-self-center" id="vrstatus" relative>
-            <%= sort_indicator if params[:column] == "status" %>
-            <%= sort_link(column: "status", label: "Estatus") %>
-          </div>
-          <div class="col-lg-3 py-3 align-self-center" id="vrname" relative>
-            <%= sort_indicator if params[:column] == "name" %>
-            <%= sort_link(column: "name", label: "Nom") %>
-          </div>
-          <div class="col-lg-3 py-3 align-self-center" id="vraddress" relative>
-            <%= sort_indicator if params[:column] == "address" %>
-            <%= sort_link(column: "address", label: "Adreça") %>
-          </div>
-          <div class="col-lg-3 py-3 align-self-center" id="vrowner-name" relative>
-            <%= sort_indicator if params[:column] == "vrowners.fullname" %>
-            <%= sort_link(column: "vrowners.fullname", label: "Propietari") %>
-          </div>
-        </div>
-        <div>
-          <% @vrentals.each do |vrental| %>
-            <div class="row border min-height-row">
-              <div class="col-lg-2 align-self-center">
-                <small><%= t("#{vrental.status}") if vrental.status %></small>
-              </div>
-              <div class="col-lg-3 align-self-center">
-                <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>
-              </div>
-              <div class="col-lg-3 align-self-center">
-                <small><%= link_to vrental.address, vrental, class: "text-decoration-none"  %></small>
-              </div>
-              <% if vrental.vrowner %>
-                <div class="col-lg-3 align-self-center">
-                  <small><%= link_to vrental.vrowner.fullname, edit_vrental_vrowner_path(vrental, vrental.vrowner), target: "_blank", class: "text-decoration-none"  %></small>
-                </div>
-              <% else %>
-                <div class="col-lg-3 align-self-center">
-                  <small>
-                    <%= link_to "Afegir propietari", edit_vrental_path(vrental, anchor: "vrowner-details"), target: "_blank" %>
-                  </small>
-                </div>
-              <% end %>
-              <div class="col-lg-1 d-flex justify-content-between">
-                <%= link_to edit_vrental_path(vrental), class: "text-primary text-decoration-none" do %>
-                  <i class="fas fa-edit"></i>
-                <% end %>
-                <%= link_to copy_vrental_path(vrental), class: "text-info text-decoration-none" do %>
-                  <i class="fas fa-copy"></i>
-                <% end %>
-                <%= link_to vrental, class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"} do %>
-                  <i class="fas fa-trash-can"></i>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-      <%# two equal signs is the same as .html_safe after or raw in front %>
-      <div class="d-flex justify-content-center">
-        <%== pagy_bootstrap_nav(@pagy) %>
-      </div>
-    <% end %>
   </div>
-</div>
+  <%# two equal signs is the same as .html_safe after or raw in front %>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+<% end %>

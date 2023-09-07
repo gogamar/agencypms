@@ -1,37 +1,55 @@
-<%= simple_form_for [vrental, earning], data: { turbo: :false } do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <%= f.hidden_field :request_context, value: 'update_discount' %>
-  <div class="row my-1 border-bottom">
-    <div class="col-lg-3">
-      <%= f.input :description, label: false %>
-    </div>
-    <% if earning.booking && earning.booking.charges.where(description: "rent") %>
+<%# If I want to update earning instantly, turbo_frame should be used, but then the page is not reloaded and the result of owner's net income is not updated %>
+<%# simple_form_for [vrental, earning], data: {turbo: false} do |f| %>
+  <%= simple_form_for [vrental, earning], data: {turbo_frame: earning} do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <%= f.hidden_field :request_context, value: 'update_discount' %>
+    <div class="row my-1 border-bottom" data-controller="earning-calculator">
       <div class="col-lg-2">
-        <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+        <small class="text-info">Detalls</small><br>
+        <small><%= earning.booking.firstname %> <%= earning.booking.lastname %></small><br>
+        <small>Entrada: <%= I18n.l(earning.booking.checkin, format: :standard) %></small><br>
+        <small>Sortida: <%= I18n.l(earning.booking.checkout, format: :standard) %></small><br>
+        <small>Nits: <%= earning.booking.nights %></small>
+        <br>
+        <small><%= link_to "Modificar la reserva", edit_vrental_booking_path(earning.vrental, earning.booking) if earning.booking %></small>
+      </div>
+      <% if earning.booking && earning.booking.charges.where(description: "rent") %>
+        <div class="col-lg-2">
+          <small class="text-info">Import reserva</small><br>
+          <%= number_to_currency((earning.booking.charges.where(charge_type: "rent").sum(:price) - earning.booking.commission), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+          <br>
+          <small>PVP: <%= number_to_currency(earning.booking.charges.where(charge_type: "rent").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+          <br>
+          <small class="text-info"> <%= earning.booking.referrer %>: <%= earning.booking.commission %></small>
+          <br>
+          <small>Taxa tur: <%= number_to_currency(earning.booking.charges.where(charge_type: "city_tax").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+          <br>
+          <small>Neteja: <%= number_to_currency(earning.booking.charges.where(charge_type: "cleaning").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+          <br>
+          <small>Altres: <%= number_to_currency(earning.booking.charges.where(charge_type: "other").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+        </div>
+        <div class="col-lg-2">
+          <small class="text-info">Segons contracte</small><br>
+          <span data-earning-calculator-target="ratePrice">
+            <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+          </span>
+        </div>
+      <% end %>
+      <div class="col-lg-2">
+        <small class="text-info">Descompte</small><br>
+        <div class="h-75 d-flex flex-column justify-content-between">
+          <%= f.input :discount, as: :percentage, label: false, input_html: { "data-earning-calculator-target" => "discount", "data-action": "input->earning-calculator#discountValueChanged" } %>
+          <small class="text-info">Nota:</small><br>
+          <%= f.input :description, as: :text, label: false %>
+        </div>
       </div>
       <div class="col-lg-2">
-        <%= number_to_currency((earning.booking.charges.where(charge_type: "rent").sum(:price) - earning.booking.commission), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
-        <br>
-        <small>PVP: <%= earning.booking.charges.where(charge_type: "rent").sum(:price) %></small>
-        <br>
-        <small class="text-info"> <%= earning.booking.referrer %>: <%= earning.booking.commission %></small>
-        <br>
-        <small>Taxa tur.: <%= earning.booking.charges.where(charge_type: "city_tax").sum(:price) %></small>
-        <br>
-        <small>Neteja: <%= earning.booking.charges.where(charge_type: "cleaning").sum(:price) %></small>
-        <br>
-        <small>Altres: <%= earning.booking.charges.where(charge_type: "other").sum(:price) %></small>
+        <small class="text-info">Import liquidació</small><br>
+        <%= f.input :amount, label: false, input_html: { "data-earning-calculator-target" => "amount"} %>
       </div>
-    <% end %>
-    <div class="col-lg-2">
-      <%= f.input :discount, as: :percentage, label: false %>
+      <div class="col-lg-2">
+        <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-4' %>
+      </div>
     </div>
-    <div class="col-lg-2">
-      <%= f.input :amount, readonly: true, label: false %>
-    </div>
-    <div class="col-lg-1">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary' %>
-    </div>
-  </div>
-<% end %>
+  <% end %>

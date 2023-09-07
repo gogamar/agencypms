@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :companies
   resources :tourists
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
@@ -13,90 +14,6 @@ Rails.application.routes.draw do
           delete :purge_photo
         end
       end
-
-      resources :profiles, path: 'perfils' do
-        member do
-          delete :purge_photo
-        end
-      end
-
-      resources :profile_sessions, path: 'sessio-perfil', only: [:new, :create]
-
-      # resources for real estate companies (rentals)
-
-      resources :owners, path: 'propietaris-lloguer-anual' do
-        collection do
-          get 'filter'
-        end
-      end
-
-
-      resources :rentals, path: 'immobles-lloguer-anual' do
-        collection do
-          get 'list'
-        end
-        resources :agreements, path: 'contractes-lloguer-anual', only: [:new, :edit, :create, :update ]
-        member do
-          get 'copy'
-        end
-      end
-
-      resources :renters, path: 'llogaters-anuals' do
-        collection do
-          get 'filter'
-        end
-      end
-
-      resources :rentaltemplates, path: 'models-de-contracte-lloguer-anual' do
-        member do
-          get 'copy'
-        end
-      end
-
-      resources :agreements, path: 'contractes-lloguer-anual', only: [:index, :destroy, :show] do
-        collection do
-          get 'list'
-        end
-      end
-
-      # resources for real estate companies (sales)
-
-      resources :sellers, path: 'venedors' do
-        collection do
-          get 'filter'
-        end
-      end
-
-      resources :realestates, path: 'immobles-compravenda' do
-        collection do
-          get 'list'
-        end
-        resources :contracts, path: 'contractes-compravenda', only: [:new, :edit, :create, :update ]
-        member do
-          get 'copy'
-        end
-      end
-
-      resources :buyers, path: 'compradors' do
-        collection do
-          get 'filter'
-        end
-      end
-
-      resources :rstemplates, path: 'models-de-contracte-compravenda' do
-        member do
-          get 'copy'
-        end
-      end
-
-      resources :contracts, path: 'contractes-compravenda', only: [:index, :destroy, :show] do
-        collection do
-          get 'list'
-        end
-      end
-
-
-      # resources for vacation rentals companies
 
       resources :vrentals, path: 'immobles-lloguer-turistic' do
         collection do
@@ -144,6 +61,7 @@ Rails.application.routes.draw do
         end
       end
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
+      resources :earnings, path: 'ingressos', only: [:index, :destroy]
       resources :vrowners, path: 'propietaris-lloguer-turistic', except: [:new, :create] do
         collection do
           get 'filter'
@@ -164,6 +82,7 @@ Rails.application.routes.draw do
 
       resources :rates, path: 'tarifes', only: :destroy
       resources :earnings, path: 'ingressos', only: :destroy
+      resources :statements, path: 'liquidacions', only: :destroy
 
       resources :features, path: 'caracteristiques'
 
@@ -171,8 +90,6 @@ Rails.application.routes.draw do
 
 
       mount Ckeditor::Engine => '/ckeditor'
-
-      # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
     end
   end
 end

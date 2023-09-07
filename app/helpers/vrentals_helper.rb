@@ -20,4 +20,17 @@ module VrentalsHelper
       tag.i(class: "fas fa-fw fa-sort-down sort sort-desc")
     end
   end
+
+  def rental_balance_message(vrental)
+    total_earnings = vrental.earnings.pluck(:amount).sum
+
+    if vrental.total_bookings > total_earnings
+      "a favor d'agència"
+    elsif vrental.total_bookings < total_earnings
+      "a favor del propietari"
+    else
+      nil
+    end
+  end
+
 end

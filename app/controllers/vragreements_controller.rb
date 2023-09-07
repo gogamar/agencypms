@@ -4,7 +4,7 @@ class VragreementsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
     active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
     active_vragreements = active_vragreements.order(created_at: :desc)

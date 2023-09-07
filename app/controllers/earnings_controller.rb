@@ -1,12 +1,12 @@
 class EarningsController < ApplicationController
   before_action :set_earning, only: [:show, :edit, :update, :destroy, :unlock, :mark_as_paid]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show, :unlock, :mark_as_paid]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update, :show, :unlock, :mark_as_paid]
 
   def index
     @earnings = policy_scope(Earning)
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
-    @earnings = @vrental.earnings.order(date: :asc)
-    @total_earnings = @earnings.pluck(:amount)&.sum
+    @earnings = @vrental ? @vrental.earnings.order(date: :asc) : @earnings.order(date: :asc)
+    @bookings = @vrental.bookings.where(checkin: @earnings.first.date..@earnings.last.date) if @vrental && @earnings.any?
   end
 
   def new
@@ -54,11 +54,9 @@ class EarningsController < ApplicationController
     rate_price = @earning.vrental.rate_price(@earning.booking.checkin, @earning.booking.checkout)
     if @earning.update(earning_params)
       if request_context && request_context == 'update_discount'
-        @earning.amount = rate_price - (rate_price * discount)
         @earning.locked = true
         @earning.save
       end
-      flash.now[:notice] = "Has actualitzat un ingres de #{@earning.vrental.name}."
       redirect_back(fallback_location: @earning.statement)
     else
       render :edit, status: :unprocessable_entity

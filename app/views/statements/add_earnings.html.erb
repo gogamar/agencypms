@@ -1,23 +1,18 @@
-<div class="card shadow mb-5">
-  <div class="card-header py-5 text-center">
-    <div class="container">
-      <h5 class="m-3 font-weight-bold text-primary text-center">Ingressos</h5>
-      <hr>
-      <div id="earnings">
-        <div class="row">
-          <div class="col-lg-3 fw-bold">Descripció</div>
-          <div class="col-lg-2 fw-bold">Segons contracte</div>
-          <div class="col-lg-2 fw-bold">Reserva</div>
-          <div class="col-lg-2 fw-bold">Descompte</div>
-          <div class="col-lg-2 fw-bold">Liquidació</div>
-          <div class="col-lg-1 fw-bold"></div>
-        </div>
-        <hr>
-        <%= render @statement_earnings if @statement_earnings %>
-      </div>
-      <hr>
-      <h5 class="text-center text-info mb-5">Afegir ingres nou (ingressos no vinculats a reserves)</h5>
-      <%= turbo_frame_tag "new_earning", src: new_vrental_earning_path(@vrental), target: "_top" %>
-    </div>
+<div class="container-fluid">
+  <h5 class="m-3 font-weight-bold text-primary text-center">Ingressos</h5>
+  <hr>
+  <div id="earnings">
+    <%= render @statement_earnings if @statement_earnings %>
   </div>
 </div>
+<%= simple_form_for [@vrental, @statement] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.hidden_field :request_context, value: 'add_expenses' %>
+    <%= render @statement_earnings if @statement_earnings %>
+  </div>
+  <div class="form-actions text-end mb-5">
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

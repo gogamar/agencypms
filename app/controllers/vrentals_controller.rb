@@ -17,6 +17,7 @@ class VrentalsController < ApplicationController
 
   def show
     authorize @vrental
+    @vrentals = policy_scope(Vrental).order(name: :asc)
     # @rate = Rate.new
     # @rates = policy_scope(Rate)
     # @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
@@ -69,13 +70,14 @@ class VrentalsController < ApplicationController
   def get_rates
     @vrental.get_rates_from_beds
     authorize @vrental
-    redirect_to @vrental, notice: "Ja s'han importat les tarifes."
+    redirect_to vrental_rates_path(@vrental), notice: "Ja s'han importat les tarifes."
   end
 
   def get_bookings
     @vrental.get_bookings_from_beds
     authorize @vrental
-    redirect_to vrental_earnings_path(@vrental), notice: "Ja s'han importat les reserves."
+    redirect_to vrental_earnings_path(@vrental), notice: "done"
+    # redirect_to vrental_earnings_path(@vrental), notice: (result == "property with this propKey not found in account" ? "Immoble amb aquesta clau secreta no existeix a Beds24." : "Ja s'han importat les reserves.")
   end
 
   def import_properties

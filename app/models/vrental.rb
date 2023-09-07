@@ -29,16 +29,13 @@ class Vrental < ApplicationRecord
   end
 
   def rate_price(checkin, checkout)
-
     overlapping_rates = rates.where(
-      "lastnight >= ? AND firstnight <= ?", checkin, checkout
+      "lastnight > ? AND firstnight <= ?", checkin, checkout
     )
-    puts overlapping_rates
-
     total_price = 0.0
     overlapping_rates.each do |rate|
       rate_start = [checkin, rate.firstnight].max
-      rate_end = [checkout, rate.lastnight].min
+      rate_end = [checkout - 1, rate.lastnight].min  # Adjusted checkout to consider last affecting night
 
       days_overlap = (rate_end - rate_start + 1).to_i
 
@@ -48,7 +45,28 @@ class Vrental < ApplicationRecord
         total_price += (rate.priceweek / 7) * days_overlap
       end
     end
+
     return total_price
+  end
+
+  def total_rate_price
+    total_rate_price = 0
+    initial_bookings = bookings.where.not("firstname ILIKE ?", "%propietari%").where.not("lastname ILIKE ?", "%propietari%")
+    real_bookings = initial_bookings.select { |booking| booking.price_with_portal != 0 }
+
+    real_bookings.each do |booking|
+      rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout)
+      total_rate_price += rate_price
+    end
+    return total_rate_price
+  end
+
+  def total_bookings
+    total_bookings = 0
+    bookings.each do |booking|
+      total_bookings += booking.price_no_portal
+    end
+    return total_bookings
   end
 
   def self.import_properties_from_beds
@@ -196,8 +214,8 @@ class Vrental < ApplicationRecord
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
     options = {
-      "arrivalFrom": Date.today.beginning_of_year,
-      "arrivalTo": Date.today,
+      "arrivalFrom": Date.today.beginning_of_year.to_s,
+      "arrivalTo": Date.today.to_s,
       "includeInvoice": true,
       "status": "1"
     }
@@ -206,15 +224,13 @@ class Vrental < ApplicationRecord
     if beds24bookings.success?
       parsed_response = beds24bookings.parsed_response
       found_error = false
-      parsed_response.each do |hash|
-        if hash.is_a?(Hash) && hash.key?("error")
-          found_error = true
-          error_message = hash["error"]
-          error_code = hash["errorCode"]
-          # Handle the error message and error code as needed
-          puts "Error: #{error_message}, ErrorCode: #{error_code}"
-          break  # No need to check further
-        end
+      if parsed_response.is_a?(Hash) && parsed_response.key?("error")
+        found_error = true
+        error_message = parsed_response["error"]
+        error_code = parsed_response["errorCode"]
+        # Handle the error message and error code as needed
+        puts "Error: #{error_message}, ErrorCode: #{error_code}"
+        return error_message
       end
 
       unless found_error
@@ -222,7 +238,7 @@ class Vrental < ApplicationRecord
           return
         end
         beds24bookings.each do |beds_booking|
-          if booking = self.bookings.find_by(beds_booking_id: beds_booking["bookId"])
+          if booking = bookings.find_by(beds_booking_id: beds_booking["bookId"].to_i)
             if !beds_booking["guestEmail"].blank?
               existing_tourist = Tourist.find_by(email: beds_booking["guestEmail"])
               add_tourist_to_booking(beds_booking, existing_tourist)
@@ -236,6 +252,7 @@ class Vrental < ApplicationRecord
               lastname: tourist&.lastname || beds_booking["guestName"],
               checkin: Date.parse(beds_booking["firstNight"]),
               checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
+              nights: Date.parse(beds_booking["lastNight"]) + 1.day - Date.parse(beds_booking["firstNight"]),
               adults: beds_booking["numAdult"],
               children: beds_booking["numChild"],
               referrer: beds_booking["referer"],
@@ -285,6 +302,7 @@ class Vrental < ApplicationRecord
               tourist_id: tourist.present? ? tourist.id : nil,
               checkin: Date.parse(beds_booking["firstNight"]),
               checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
+              nights: Date.parse(beds_booking["lastNight"]) + 1.day - Date.parse(beds_booking["firstNight"]),
               adults: beds_booking["numAdult"],
               children: beds_booking["numChild"],
               beds_booking_id: beds_booking["bookId"],
@@ -354,31 +372,32 @@ class Vrental < ApplicationRecord
 
   def add_earning(booking)
     rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout)
-    booking_net_price = booking.charges.where(charge_type: "rent").sum(:price) - booking.commission
-    discount = rate_price == 0 ? 0 : (rate_price - booking_net_price) / rate_price
+
+    discount = rate_price == 0 ? 0 : (rate_price - booking.net_price) / rate_price
 
     discount = [0, discount].max # Ensure it's not negative
     discount = [1, discount].min # Ensure it's not greater than 1
 
-    if booking.earning.present? && booking.earning.locked == false && booking.earning.paid == false
-      booking.earning.update!(
-        date: booking.checkin,
-        description: "#{booking.lastname} (#{I18n.l(booking.checkin)} - #{I18n.l(booking.checkout)})",
-        amount: booking.charges.where(charge_type: "rent").sum(:price) - booking.commission,
-        discount: discount
-      )
+    if booking.earning.present?
+      if booking.earning.locked == true && booking.earning.paid == true
+        return
+      else
+        booking.earning.update!(
+          date: booking.checkin,
+          amount: [booking.net_price, rate_price].min,
+          discount: discount
+        )
+      end
     else
       Earning.create!(
         date: booking.checkin,
-        description: "#{booking.lastname} (#{I18n.l(booking.checkin)} - #{I18n.l(booking.checkout)})",
-        amount: booking.charges.where(charge_type: "rent").sum(:price) - booking.commission,
+        amount: [booking.net_price, rate_price].min,
+        discount: discount,
         booking_id: booking.id,
-        vrental_id: booking.vrental_id,
-        discount: discount
+        vrental_id: booking.vrental_id
       )
     end
   end
-
 
   def add_tourist_to_booking(beds_booking, existing_tourist)
     if existing_tourist

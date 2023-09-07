@@ -1,62 +1,67 @@
-<!-- Topbar -->
-<nav
-  class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
->
-  <button
-    class="btn btn-secondary d-md-none rounded-circle m-3"
-    data-sidebar-target="topbartoggler"
-    data-action="click->sidebar#togglesidebar"
-  >
-    <i class="fa fa-bars"></i>
-  </button>
-  <!-- Switch Profile buttons -->
-    <div class="container-fluid justify-content-around">
-      <% if profile_logged_in? %>
-        <% current_user.profiles.each do |profile| %>
-          <%= form_with url: profile_sessions_path , scope: :profile_session, local: true, class: "d-none d-md-block" do |f| %>
-            <%= hidden_field_tag "profile_id", profile.id %>
-            <%= button_tag type:'submit', class: "btn btn-light btn-icon-split me-3" do %>
-              <span class="icon text-gray-600">
-                  <i class="fas fa-arrow-right"></i>
-              </span>
-              <span class="text m-0 text-primary" style="font-size: 0.85rem">
-                <%= profile.businessname %>
-              </span>
-            <% end %>
-          <% end %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <%= link_to root_path, class: "w-40 self-center" do %>
+      <% if current_user.photo.attached? %>
+        <%= cl_image_tag user.photo.key, height: 70, crop: :fill %>
+      <% else %>
+        <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1665045942/FINQUES_SISTACH__Finques_nxoogg.png", class: "navbar-brand", style: "height: 70px;" %>
+      <% end %>
+    <% end %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+        <li class="nav-item">
+          <%= select_tag "select_vrental", options_for_select(@vrentals.map { |vrental| [vrental.name, vrental_path(vrental)] }, nil), include_blank: true, class: "js-example-responsive", id: "select_vrental-select2" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Immobles", vrentals_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Propietaris", vrowners_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Ingressos", earnings_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Despeses", expenses_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Contractes
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><%= link_to "Contractes", vragreements_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Models de contracte", vrentaltemplates_path, class: "dropdown-item" %></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="d-flex nav-item dropdown">
+        <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+          <span class="me-2 d-inline text-gray-600 small">
+            <%= current_user.email %>
+          </span>
         <% end %>
-      <% end %>
-    </div>
-  <div class="topbar-divider"></div>
-  <!-- Topbar Navbar -->
-  <ul class="navbar-nav ml-auto">
-    <!-- Nav Item - User Information -->
-    <li class="nav-item dropdown">
-      <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-        <span class="me-2 d-inline text-gray-600 small">
-          <%= current_user.email %>
-        </span>
-        <%# <img class="img-profile rounded-circle" src="img/undraw_profile.svg"/> %>
-      <% end %>
-      <!-- Dropdown - User Information -->
-      <div
+        <div
         class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
         aria-labelledby="userDropdown"
       >
-        <%= link_to edit_user_registration_path, class: "dropdown-item" do %>
-          <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-          Editar el compte
-        <% end %>
-          <div class="dropdown-divider">
-          </div>
-        <% if current_user.admin %>
-          <%= link_to users_path, class: "dropdown-item" do %>
+          <%= link_to edit_user_registration_path, class: "dropdown-item" do %>
             <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-            Autoritzar usuaris
+            Editar el compte
           <% end %>
           <div class="dropdown-divider">
           </div>
-        <% end %>
+          <% if current_user.admin %>
+            <%= link_to users_path, class: "dropdown-item" do %>
+              <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+              Autoritzar usuaris
+            <% end %>
+            <div class="dropdown-divider">
+            </div>
+          <% end %>
           <a
             class="dropdown-item"
             href="#"
@@ -68,73 +73,9 @@
             ></i>
             Sortir
           </a>
-      </div>
-    </li>
-      <% if params[:controller] == 'agreements' && params[:action] == 'show' || params[:controller] == 'vragreements' && params[:action] == 'show' || params[:controller] == 'contracts' && params[:action] == 'show' %>
-        <li class="nav-item dropdown">
-          <% I18n.available_locales.each do |lang| %>
-            <% if I18n.locale === lang || params[:locale] === lang %>
-              <%= link_to url_for(locale: lang), class: "nav-link dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-                  <% if lang === :ca %>
-                  <span class="flag-icon flag-icon-es-ca"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
-                  <% elsif lang === :en %>
-                  <span class="flag-icon flag-icon-gb"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
-                  <% elsif lang === :es %>
-                  <span class="flag-icon flag-icon-es"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
-                  <% elsif lang === :fr %>
-                  <span class="flag-icon flag-icon-fr"> </span> <span class="ms-1 d-none d-lg-inline text-gray-600 small"><%= t('locale') %></span>
-                  <% end %>
-                <% end %>
-            <% end %>
-          <% end %>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to url_for(locale: :en), class: "dropdown-item" do %>
-              <span class="flag-icon flag-icon-gb"> </span> English
-              <% end %>
-              <%= link_to url_for(locale: :ca), class: "dropdown-item" do %>
-              <span class="flag-icon flag-icon-es-ca"> </span> Català
-              <% end %>
-              <%= link_to url_for(locale: :es), class: "dropdown-item" do %>
-              <span class="flag-icon flag-icon-es"> </span> Español
-              <% end %>
-              <%= link_to url_for(locale: :fr), class: "dropdown-item" do %>
-              <span class="flag-icon flag-icon-fr"> </span> Français
-              <% end %>
-            </div>
-        </li>
-      <% end %>
-  </ul>
-</nav>
-<!-- End of Topbar -->
-<!-- Logout Modal-->
-<div
-  class="modal fade"
-  id="logoutModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Vols tancar la sessió?</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-        </button>
-      </div>
-      <div class="modal-body">
-        Selecciona "Sortir" si vols tancar la sessió.
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          data-dismiss="modal"
-        >
-          Cancel·lar
-        </button>
-        <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "btn btn-primary" %>
-      </div>
+        </div>
+      </li>
     </div>
   </div>
 </div>
+</nav>

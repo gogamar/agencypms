@@ -81,6 +81,16 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#select_vrental-select2")
+    .select2({
+      placeholder: "Seleccionar immoble",
+      allowClear: true,
+      theme: "bootstrap-5",
+    })
+    .on("select2:select", function (e) {
+      window.location.href = e.params.data.id;
+    });
+
   $("#select_vrowner-select2").select2({
     placeholder: "Seleccionar propietari",
     allowClear: true,

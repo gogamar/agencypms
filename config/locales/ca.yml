@@ -102,7 +102,8 @@ ca:
       - Divendres
       - Dissabte
     formats:
-      default: "%d-%m-%Y"
+      default: "%d/%m/%Y"
+      standard: "%a, %d/%m/%Y"
       long: "%a, %d de %b de %Y"
       short: "%d de %b"
     month_names:
@@ -205,14 +206,6 @@ ca:
       es: "Castellà"
       fr: "Francès"
       en: "Anglès"
-  # activerecord:
-  #   attributes:
-  #     rentals:
-  #     owner_html: "Seleccionar el propietari o #{link_to 'Afegir propietari nou', new_owner_path, target: "_blank"}."
-  #     address: 'Adreça, codi postal i municipi'
-  #   global:
-  #     forms:
-  #       submit: Desar
   activerecord:
     attributes:
       realestate:
@@ -245,64 +238,8 @@ ca:
         title: "Tema"
       comtype:
         company_type: "Tipus d'empresa"
-      buyer:
-        fullname: "Nom i cognoms"
-        address: "Adreça"
-        phone: "Telèfon"
-        email: "Email"
-        document: "DNI"
-        account: "Compte bancari"
-        account_bank: "Banc"
-        language: "Idioma"
-      seller:
-        fullname: "Nom i cognoms"
-        address: "Adreça"
-        phone: "Telèfon"
-        email: "Email"
-        document: "DNI"
-        account: "Compte bancari"
-        account_bank: "Banc"
-        language: "Idioma"
-      rental:
-        owner: "Propietari"
-        address: "Adreça"
-        city: "Municipi"
-        cadastre: "Cadastre"
-        energy: "Certificat d'eficiencia energètica"
-        description: "Descripció"
-        status: "Estat"
-      profile:
-        comtype_id: "Tipus d'empresa"
-        comtype: "Tipus d'empresa"
-        aicat: "Número AICAT"
-        api: "Número API"
-      profile_session:
-        new:
-          profile: "Crear perfil"
-        city: "Municipi"
-        cadastre: "Cadastre"
-        energy: "Certificat d'eficiencia energètica"
-        description: "Descripció"
       vrowner:
         vrowner: "Propietari"
-        fullname: "Nom i cognoms"
-        address: "Adreça"
-        phone: "Telèfon"
-        email: "Email"
-        document: "DNI"
-        account: "Compte bancari"
-        language: "Idioma"
-      owner:
-        owner: "Propietari"
-        fullname: "Nom i cognoms"
-        address: "Adreça"
-        phone: "Telèfon"
-        email: "Email"
-        document: "DNI"
-        account: "Compte bancari"
-        language: "Idioma"
-      renter:
-        renter: "Propietari"
         fullname: "Nom i cognoms"
         address: "Adreça"
         phone: "Telèfon"
@@ -322,41 +259,6 @@ ca:
         start_date: "Inici contracte"
         end_date: "Fi contracte"
         year: "Any contracte"
-      contract:
-        contentarea: "Clausula adicional"
-        signdate: "Data de la firma"
-        price: "Preu immoble"
-        pricetext: "Preu immoble (lletres)"
-        down_payment: "Import Arres"
-        down_payment_text: "Import Arres (lletres)"
-        dp_part1: "Arres 1er pagament"
-        dp_part1_text: "Arres 1er pag (lletres)"
-        dp_part2: "Arres 2on pagament"
-        dp_part2_text: "Arres 2on pag. (lletres)"
-        signdate_notary: "Data firma notaría"
-        min_notice: "Mínim preavís"
-        court: "Jutjat"
-        registry_addendum: "Annex: Nota Simple"
-        habitability_addendum: "Annex: Cèdula d’habitabilitat"
-        energy_addendum: "Annex: Certificat Energètic"
-        equipment_addendum: "Annex: Equipament"
-      rstemplate:
-        title: "Títol"
-        language: "Idioma"
-      agreement:
-        owner: "Propietari"
-        rental: "Casa o apartament"
-        phone: "Telèfon"
-        email: "Email"
-        account: "Compte bancari"
-        signdate: "Data de la firma"
-        start_date: "Inici contracte"
-        end_date: "Fi contracte"
-        price: "Preu lloguer"
-        pricetext: "Preu lloguer (lletres)"
-        deposit: "Fiança"
-        contentarea: "Clausula especial"
-        duration: "Durada"
       vrental:
         vrowner: "Propietari"
         address: "Adreça"
@@ -394,31 +296,3 @@ ca:
     month: "mes"
     year: "any"
     day: "dia"
-  realestates:
-    show:
-      status: "Estat"
-      address: "Adreça"
-      city: "Municipi"
-      description: "Descripció de la finca (del registre de propietat)"
-      seller: "Venedor"
-      cadastre: "Ref. Cadastral"
-      energy: "Cert. energètic"
-      registrar: "Oficina Registre"
-      volume: "Tom"
-      book: "Llibre"
-      sheet: "Foli"
-      registry: "Finca registral número"
-      registry_code: "Codi Registre CRU"
-      entry: "Inscripció"
-      charges: "Càrregues i gravemens"
-      habitability: "Cédula habitabilitat"
-      hab_date: "Data cédula habitabilitat"
-      protocol: "Protocol Escriptura"
-      deed_date: "Data Escriptura"
-      notary: "Notaria Escriptura"
-      notary_fullname: "Nom del notari"
-      mortgage_bank: "Banc on ténen l'hipoteca"
-      mortgage_amount: "Import de l'hipoteca"
-      registry_addendum: "Annex 1: Nota Simple"
-      habitability_addendum: "Annex 2: Cèdula d’habitabilitat"
-      energy_addendum: "Annex 3: Certificat Energètic"

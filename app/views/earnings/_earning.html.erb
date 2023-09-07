@@ -1,42 +1,53 @@
 <%= turbo_frame_tag earning, class: "card-body" do %>
   <div class="row my-1 border-bottom">
     <div class="col-lg-2">
-      <small><%= earning.description %></small>
+      <small class="text-info">Detalls</small><br>
+      <small><%= earning.booking.firstname %> <%= earning.booking.lastname %></small><br>
+      <small>Entrada: <%= I18n.l(earning.booking.checkin, format: :standard) %></small><br>
+      <small>Sortida: <%= I18n.l(earning.booking.checkout, format: :standard) %></small><br>
+      <small>Nits: <%= earning.booking.nights %></small>
       <br>
       <small><%= link_to "Modificar la reserva", edit_vrental_booking_path(earning.vrental, earning.booking) if earning.booking %></small>
     </div>
-    <div class="col-lg-2 nowrap">
-      <% if earning.booking.present? %>
-        <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if earning.booking %>
-      <% end %>
-    </div>
-    <div class="col-lg-2">
-      <% if earning.booking.present? %>
-        <%= number_to_currency((earning.booking.charges.where(charge_type: "rent").sum(:price) - earning.booking.commission), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if earning.booking && earning.booking.charges.where(description: "rent") %>
+    <% if earning.booking.present? %>
+      <div class="col-lg-2">
+        <small class="text-info">Import reserva</small><br>
+        <%= number_to_currency(earning.booking.price_no_portal, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if earning.booking %>
         <br>
-        <small>PVP: <%= number_to_currency(earning.booking.charges.where(charge_type: "rent").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></small>
+        <small>PVP: <%= number_to_currency(earning.booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></small>
         <br>
         <small class="text-info"> <%= earning.booking.referrer %>: <%= number_to_currency(earning.booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%> </small>
         <br>
-        <small>Taxa tur: <%= number_to_currency(earning.booking.charges.where(charge_type: "city_tax").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+        <small>Taxa tur: <%= number_to_currency(earning.booking.city_tax_value, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
         <br>
-        <small>Neteja: <%= number_to_currency(earning.booking.charges.where(charge_type: "cleaning").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+        <small>Neteja: <%= number_to_currency(earning.booking.cleaning_value, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
         <br>
-        <small>Altres: <%= number_to_currency(earning.booking.charges.where(charge_type: "other").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
-      <% end %>
-    </div>
+        <small>Altres: <%= number_to_currency(earning.booking.other_charges, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
+      </div>
+      <div class="col-lg-2 nowrap">
+        <small class="text-info">Segons contracte</small><br>
+        <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+      </div>
+      <div class="col-lg-2">
+        <small class="text-info nowrap">Descompte</small><br>
+        <% unless earning.discount == 0 || earning.discount == 1 %>
+          <div class="h-75 d-flex flex-column justify-content-between">
+            <%= number_to_percentage(earning.discount * 100, precision: 2, separator: ',') if earning.discount %>
+            <small class="fst-italic text-primary"><%= earning.description if earning.description %></small>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
     <div class="col-lg-2 nowrap">
-      <% if earning.booking.present? %>
-        <%= number_to_percentage(earning.discount * 100, precision: 2, separator: ',') if earning.discount %>
-      <% end %>
+      <small class="text-info">Import liquidació</small><br>
+      <%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if earning.amount %>
     </div>
-    <div class="col-lg-2 nowrap"><%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if earning.amount %></div>
     <div class="col-lg-2 d-flex flex-column justify-content-around">
-      <%= link_to edit_vrental_earning_path(@vrental, earning), class: "text-info text-decoration-none" do %>
+      <%= link_to edit_vrental_earning_path(earning.vrental, earning), class: "text-info text-decoration-none" do %>
         <i class="fas fa-pen fa-sm"></i><small> Modificar</small>
       <% end %>
       <% if earning.paid == false %>
-        <%= link_to mark_as_paid_vrental_earning_path(@vrental, earning), class: "text-primary text-decoration-none" do %>
+        <%= link_to mark_as_paid_vrental_earning_path(earning.vrental, earning), class: "text-primary text-decoration-none" do %>
           <i class="fas fa-check fa-sm"></i><small> Marcar com pagat al propietari</small>
         <% end %>
       <% else %>
@@ -45,8 +56,8 @@
         </span>
       <% end %>
       <% if earning.locked == true && earning.booking.present? %>
-        <%= link_to unlock_vrental_earning_path(@vrental, earning), class: "text-warning text-decoration-none" do %>
-          <i class="fas fa-unlock fa-sm"></i><small> Permetre modificacions des de Beds24</small>
+        <%= link_to unlock_vrental_earning_path(earning.vrental, earning), class: "text-warning text-decoration-none" do %>
+          <i class="fas fa-unlock fa-sm"></i><small> Permet canvis des de Beds24</small>
         <% end %>
       <% end %>
       <%= link_to earning, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest ingres?"}, class: "text-danger text-decoration-none" do %>

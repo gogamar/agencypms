@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_100001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -41,26 +41,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "agreements", force: :cascade do |t|
-    t.date "start_date"
-    t.date "end_date"
-    t.float "price"
-    t.float "deposit"
-    t.text "contentarea"
-    t.string "duration"
-    t.string "pricetext"
-    t.string "place"
-    t.date "signdate"
-    t.bigint "renter_id"
-    t.bigint "rentaltemplate_id"
-    t.bigint "rental_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["rental_id"], name: "index_agreements_on_rental_id"
-    t.index ["rentaltemplate_id"], name: "index_agreements_on_rentaltemplate_id"
-    t.index ["renter_id"], name: "index_agreements_on_renter_id"
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -107,21 +87,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.index ["vrental_id"], name: "index_bookings_on_vrental_id"
   end
 
-  create_table "buyers", force: :cascade do |t|
-    t.string "fullname"
-    t.string "address"
-    t.string "document"
-    t.string "account"
-    t.string "language"
-    t.string "phone"
-    t.string "email"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "account_bank"
-    t.index ["user_id"], name: "index_buyers_on_user_id"
-  end
-
   create_table "charges", force: :cascade do |t|
     t.string "description"
     t.integer "quantity"
@@ -145,6 +110,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.index ["type"], name: "index_ckeditor_assets_on_type"
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone"
+    t.string "vat"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
   create_table "comtypes", force: :cascade do |t|
     t.string "company_type"
     t.datetime "created_at", null: false
@@ -153,36 +129,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.index ["user_id"], name: "index_comtypes_on_user_id"
   end
 
-  create_table "contracts", force: :cascade do |t|
-    t.float "price"
-    t.text "contentarea"
-    t.string "pricetext"
-    t.string "place"
-    t.date "signdate"
-    t.bigint "realestate_id", null: false
-    t.bigint "rstemplate_id"
-    t.bigint "buyer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "down_payment"
-    t.string "down_payment_text"
-    t.float "dp_part1"
-    t.float "dp_part2"
-    t.string "dp_part1_text"
-    t.string "dp_part2_text"
-    t.date "signdate_notary"
-    t.string "min_notice"
-    t.string "court"
-    t.index ["buyer_id"], name: "index_contracts_on_buyer_id"
-    t.index ["realestate_id"], name: "index_contracts_on_realestate_id"
-    t.index ["rstemplate_id"], name: "index_contracts_on_rstemplate_id"
-  end
-
   create_table "earnings", force: :cascade do |t|
     t.string "description"
     t.decimal "discount", precision: 10, scale: 2
     t.decimal "amount"
-    t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "vrental_id", null: false
@@ -190,8 +140,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.date "date"
     t.boolean "paid", default: false
     t.boolean "locked", default: false
+    t.bigint "statement_id"
     t.index ["booking_id"], name: "index_earnings_on_booking_id"
-    t.index ["statement_id"], name: "index_earnings_on_statement_id"
     t.index ["vrental_id"], name: "index_earnings_on_vrental_id"
   end
 
@@ -202,10 +152,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.string "expense_number"
     t.string "expense_company"
     t.bigint "vrental_id"
-    t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["statement_id"], name: "index_expenses_on_statement_id"
+    t.bigint "statement_id"
     t.index ["vrental_id"], name: "index_expenses_on_vrental_id"
   end
 
@@ -233,20 +182,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
   end
 
-  create_table "owners", force: :cascade do |t|
-    t.string "fullname"
-    t.string "address"
-    t.string "document"
-    t.string "account"
-    t.string "language"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.string "phone"
-    t.string "email"
-    t.index ["user_id"], name: "index_owners_on_user_id"
-  end
-
   create_table "pages", force: :cascade do |t|
     t.string "title_en"
     t.string "title_ca"
@@ -270,28 +205,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.index ["booking_id"], name: "index_payments_on_booking_id"
   end
 
-  create_table "profiles", force: :cascade do |t|
-    t.string "businessname"
-    t.string "companyname"
-    t.string "address"
-    t.string "vat"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "officeaddress"
-    t.string "officezip"
-    t.string "officecity"
-    t.string "companyzip"
-    t.string "companycity"
-    t.string "officephone"
-    t.string "companyphone"
-    t.bigint "comtype_id"
-    t.string "aicat"
-    t.string "api"
-    t.index ["comtype_id"], name: "index_profiles_on_comtype_id"
-    t.index ["user_id"], name: "index_profiles_on_user_id"
-  end
-
   create_table "rates", force: :cascade do |t|
     t.float "pricenight"
     t.string "beds_room_id"
@@ -306,103 +219,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
     t.boolean "sent_to_beds"
     t.datetime "date_sent_to_beds", precision: nil
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
-  end
-
-  create_table "realestates", force: :cascade do |t|
-    t.string "address"
-    t.string "city"
-    t.string "cadastre"
-    t.string "energy"
-    t.text "description"
-    t.string "status"
-    t.bigint "user_id", null: false
-    t.bigint "seller_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "registrar"
-    t.string "volume"
-    t.string "book"
-    t.string "sheet"
-    t.string "registry"
-    t.string "entry"
-    t.text "charges"
-    t.string "habitability"
-    t.date "hab_date"
-    t.string "registry_code"
-    t.string "protocol"
-    t.date "deed_date"
-    t.string "notary"
-    t.string "notary_fullname"
-    t.string "mortgage_bank"
-    t.float "mortgage_amount"
-    t.index ["seller_id"], name: "index_realestates_on_seller_id"
-    t.index ["user_id"], name: "index_realestates_on_user_id"
-  end
-
-  create_table "rentals", force: :cascade do |t|
-    t.string "address"
-    t.string "cadastre"
-    t.string "energy"
-    t.string "city"
-    t.text "description"
-    t.bigint "owner_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.string "status"
-    t.index ["owner_id"], name: "index_rentals_on_owner_id"
-    t.index ["user_id"], name: "index_rentals_on_user_id"
-  end
-
-  create_table "rentaltemplates", force: :cascade do |t|
-    t.string "title"
-    t.string "language"
-    t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.boolean "public", default: false
-    t.index ["user_id"], name: "index_rentaltemplates_on_user_id"
-  end
-
-  create_table "renters", force: :cascade do |t|
-    t.string "fullname"
-    t.string "address"
-    t.string "document"
-    t.string "account"
-    t.string "language"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.string "phone"
-    t.string "email"
-    t.index ["user_id"], name: "index_renters_on_user_id"
-  end
-
-  create_table "rstemplates", force: :cascade do |t|
-    t.string "title"
-    t.string "language"
-    t.text "text"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "public", default: false
-    t.index ["user_id"], name: "index_rstemplates_on_user_id"
-  end
-
-  create_table "sellers", force: :cascade do |t|
-    t.string "fullname"
-    t.string "address"
-    t.string "document"
-    t.string "account"
-    t.string "language"
-    t.string "phone"
-    t.string "email"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "account_bank"
-    t.index ["user_id"], name: "index_sellers_on_user_id"
   end
 
   create_table "statements", force: :cascade do |t|
@@ -536,39 +352,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_100913) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agreements", "rentals"
-  add_foreign_key "agreements", "rentaltemplates"
-  add_foreign_key "agreements", "renters"
   add_foreign_key "blocks", "pages"
   add_foreign_key "bookings", "tourists"
   add_foreign_key "bookings", "vrentals"
-  add_foreign_key "buyers", "users"
   add_foreign_key "charges", "bookings"
+  add_foreign_key "companies", "users"
   add_foreign_key "comtypes", "users"
-  add_foreign_key "contracts", "buyers"
-  add_foreign_key "contracts", "realestates"
-  add_foreign_key "contracts", "rstemplates"
   add_foreign_key "earnings", "bookings"
-  add_foreign_key "earnings", "statements"
   add_foreign_key "earnings", "vrentals"
-  add_foreign_key "expenses", "statements"
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "users"
   add_foreign_key "invoices", "vrentals"
-  add_foreign_key "owners", "users"
   add_foreign_key "pages", "users"
   add_foreign_key "payments", "bookings"
-  add_foreign_key "profiles", "comtypes"
-  add_foreign_key "profiles", "users"
   add_foreign_key "rates", "vrentals"
-  add_foreign_key "realestates", "sellers"
-  add_foreign_key "realestates", "users"
-  add_foreign_key "rentals", "owners"
-  add_foreign_key "rentals", "users"
-  add_foreign_key "rentaltemplates", "users"
-  add_foreign_key "renters", "users"
-  add_foreign_key "rstemplates", "users"
-  add_foreign_key "sellers", "users"
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
