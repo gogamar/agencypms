@@ -35,7 +35,7 @@ class VrentalsController < ApplicationController
       @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:name]}%")
     end
 
-    order_direction = params[:direction].upcase
+    order_direction = params[:direction].upcase if params[:direction]
 
     case params[:column]
     when 'vrental_name'
