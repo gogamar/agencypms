@@ -9,9 +9,9 @@ ca:
   total: "Total"
   agency_fees: "Honoraris"
   agency_vat: "IVA honoraris agència 21 %"
-  expense_types:
-    agency: "Agència"
-    owner: "Propietari"
+  agency: "Agència"
+  owner: "Propietari"
+  property: "Immoble"
   charge_types:
     rent: "Lloguer"
     cleaning: "Neteja"

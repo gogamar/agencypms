@@ -5,13 +5,11 @@
       <%= link_to 'Imprimir', tasks_path(format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
     </div>
   </div>
-  <div class="card shadow mb-4 p-4">
-    <% if @tasks.exists? %>
-      <div id="tasks">
-        <%= render @tasks %>
-      </div>
-    <% else %>
-      <p>Actualment no tens cites guardades.</p>
-    <% end %>
-  </div>
+  <% if @tasks.exists? %>
+    <div id="tasks">
+      <%= render @tasks %>
+    </div>
+  <% else %>
+    <p>Actualment no tens cites guardades.</p>
+  <% end %>
 </div>

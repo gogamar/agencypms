@@ -3,10 +3,20 @@ class EarningsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update, :show, :unlock, :mark_as_paid]
 
   def index
-    @earnings = policy_scope(Earning)
+    all_earnings = policy_scope(Earning)
+    @pagy, @earnings = pagy(all_earnings, page: params[:page], items: 10)
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
     @earnings = @vrental ? @vrental.earnings.order(date: :asc) : @earnings.order(date: :asc)
     @bookings = @vrental.bookings.where(checkin: @earnings.first.date..@earnings.last.date) if @vrental && @earnings.any?
+  end
+
+  def list
+    @earnings = policy_scope(Earning).includes(:vrental)
+    @earnings = @earnings.joins(:vrental).where("unaccent(vrentals.name) ILIKE ?", "%#{params[:vrental_name]}%") if params[:vrental_name].present?
+
+    @earnings = @earnings.order("#{params[:column]} #{params[:direction]}")
+    @pagy, @earnings = pagy(@earnings, page: params[:page], items: 10)
+    # render(partial: 'earnings', locals: { earnings: @earnings })
   end
 
   def new

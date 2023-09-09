@@ -4,7 +4,7 @@ require 'beds24'
 require 'csv'
 
 
-auth_token = ENV["BEDSKEY"]
+# auth_token = ENV["BEDSKEY"]
 # client = Beds24::JSONClient.new auth_token
 # beds24rentals = client.get_properties
 
@@ -402,3 +402,21 @@ auth_token = ENV["BEDSKEY"]
 
 
 # 19 Set the start date for vragreement to firstnight of the first rate and end date for the lastnight of the last rate
+
+puts "Importing rates and bookings from Beds24"
+@vrentals = Vrental.all
+
+@vrentals.each do |vrental|
+  unless vrental.rates.where("DATE_PART('year', firstnight) = ?", Date.today.year).present?
+    vrental.get_rates_from_beds
+    puts "Imported rates for #{vrental.name}."
+    sleep 5
+  end
+  unless vrental.bookings.where("DATE_PART('year', checkin) = ?", Date.today.year).present?
+    vrental.get_bookings_from_beds
+    puts "Imported bookings for #{vrental.name}."
+    sleep 5
+  end
+  sleep 3
+end
+puts "Imported rates and bookings from Beds24"

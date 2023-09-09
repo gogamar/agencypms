@@ -9,9 +9,8 @@ en:
   total: "Total"
   agency_fees: "Agency Fees"
   agency_vat: "Agency Fees VAT 21 %"
-  expense_types:
-    agency: "Agency"
-    owner: "Owner"
+  agency: "Agency"
+  owner: "Owner"
   charge_types:
     rent: "Rent"
     cleaning: "Cleaning"

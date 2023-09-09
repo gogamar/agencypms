@@ -13,7 +13,7 @@
         <% end %>
       </select>
     <% end %>
-    <%= f.input :expense_type, as: :select, collection: Expense::EXPENSE_TYPES.map { |type| [t("expense_types.#{type}"), type]}, selected: "owner" %>
+    <%= f.input :expense_type, as: :select, collection: Expense::EXPENSE_TYPES.map { |type| [t("#{type}"), type]}, selected: "owner" %>
     <%= f.input :description, required: true %>
     <%= f.input :amount, required: true %>
     <%= f.input :expense_company %>

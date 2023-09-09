@@ -7,10 +7,17 @@ module VrentalsHelper
     end
   end
 
+  def sort_link_earnings(column:, label:)
+    if column == params[:column]
+      link_to(label, list_earnings_vrentals_path(column: column, direction: next_direction))
+    else
+      link_to(label, list_earnings_vrentals_path(column: column, direction: 'asc'))
+    end
+  end
+
   def next_direction
     params[:direction] == 'asc' ? 'desc' : 'asc'
   end
-
 
   def sort_indicator
     # tag.span(class: "sort sort-#{params[:direction]}")
@@ -21,13 +28,15 @@ module VrentalsHelper
     end
   end
 
-  def rental_balance_message(vrental)
-    total_earnings = vrental.total_earnings
+  def rental_balance_message(vrental = nil)
+    total_earnings = vrental.nil? ? Earning.where.not(amount: nil).sum(:amount) : vrental.total_earnings
 
-    if vrental.total_bookings > total_earnings
+    total_bookings = vrental.nil? ? Booking.where.not(price: nil).sum(:price) : vrental.total_bookings
+
+    if total_bookings > total_earnings
       "(a favor d'agència)"
-    elsif vrental.total_bookings < total_earnings
-      "(a favor del propietari)"
+    elsif total_bookings < total_earnings
+      vrental.nil? ? "(a favor dels propietaris)" : "(a favor del propietari)"
     else
       nil
     end

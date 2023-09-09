@@ -13,7 +13,7 @@
     </div>
     <div class="col-auto">
       <%= form.text_field :name,
-          placeholder: "Buscar per nom",
+          placeholder: "Buscar per nom immoble",
           class: "form-control bg-white border-0 small",
           autocomplete: "on" %>
     </div>
@@ -28,7 +28,7 @@
   <% end %>
 </div>
 <%= turbo_frame_tag "vrentals", class: "card-body" do %>
-  <%# render "shared/flashes" %>
+  <%= render "shared/flashes" %>
   <div class="container-fluid my-3">
     <div class="row border border-top border-bottom fw-bold bg-light">
       <div class="col col-lg-2 py-3 align-self-center" id="vrstatus" relative>

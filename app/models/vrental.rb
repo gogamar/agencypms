@@ -62,6 +62,17 @@ class Vrental < ApplicationRecord
     return total_rate_price
   end
 
+  def self.calculate_total_rate_price_for_all
+    total_rate_price_for_all = 0
+    all_vrentals = Vrental.all
+
+    all_vrentals.each do |vrental|
+      total_rate_price_for_all += vrental.total_rate_price
+    end
+
+    total_rate_price_for_all
+  end
+
   def total_bookings
     total_bookings = 0
     bookings.each do |booking|
@@ -71,11 +82,30 @@ class Vrental < ApplicationRecord
   end
 
   def total_earnings
-    total_earnings = 0
-    earnings.each do |earning|
-      total_earnings += earning.amount if earning.amount.present?
+    earnings.where.not(amount: nil).sum(:amount)
+  end
+
+  def difference_bookings
+    total_rate_price - total_bookings
+  end
+
+  def difference_earnings
+    total_rate_price - total_earnings
+  end
+
+  def agency_fees
+    (total_earnings.present? && !commission.nil?) ? total_earnings * commission : nil
+  end
+
+  def self.total_agency_fees
+    total_agency_fees = 0
+    all_vrentals = Vrental.all
+
+    all_vrentals.each do |vrental|
+      total_agency_fees += vrental.agency_fees unless vrental.agency_fees.nil?
     end
-    return total_earnings
+
+    total_agency_fees
   end
 
   def self.import_properties_from_beds
@@ -185,17 +215,37 @@ class Vrental < ApplicationRecord
     prop_key = self.prop_key
     beds24rates = client.get_rates(prop_key)
 
-    beds24rates.each do |rate|
-      if rate["firstNight"].delete("-").to_i > 20220101 && rate["pricesPer"] == "7"
-        Rate.create!(
-          firstnight: rate["firstNight"],
-          lastnight: rate["lastNight"],
-          priceweek: rate["roomPrice"],
-          beds_room_id: rate["roomId"],
-          vrental_id: self.id,
-          min_stay: 5,
-          arrival_day: 'everyday'
-        )
+    if beds24rates.success?
+      parsed_response = beds24rates.parsed_response
+      found_error = false
+      if parsed_response.is_a?(Hash) && parsed_response.key?("error")
+        found_error = true
+        error_message = parsed_response["error"]
+        error_code = parsed_response["errorCode"]
+        # Handle the error message and error code as needed
+        puts "Error: #{error_message}, ErrorCode: #{error_code}"
+        return error_message
+      end
+
+      unless found_error
+        if beds24rates.empty?
+          return
+        end
+          beds24rates.each do |rate|
+            if rate["firstNight"].delete("-").to_i > 20230101 && rate["pricesPer"] == "7"
+              Rate.create!(
+                firstnight: rate["firstNight"],
+                lastnight: rate["lastNight"],
+                priceweek: rate["roomPrice"],
+                beds_room_id: rate["roomId"],
+                vrental_id: self.id,
+                min_stay: 5,
+                arrival_day: 'everyday'
+              )
+            end
+          end
+      else
+        return
       end
     end
 

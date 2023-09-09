@@ -73,7 +73,9 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="beds24">
             <% if @vrental&.persisted? %>
-              <li><%= link_to "Crear #{@vrental.name} a Beds24", export_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+              <% if @vrental.beds_prop_id.nil? %>
+                <li><%= link_to "Crear #{@vrental.name} a Beds24", export_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+              <% end %>
               <li><%= link_to "Actualitzar #{@vrental.name} a Beds24", update_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
             <% end %>
             <li><%= link_to 'Importar immobles', import_properties_vrentals_path, class: "dropdown-item text-danger" %></li>

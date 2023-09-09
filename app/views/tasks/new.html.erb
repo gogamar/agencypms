@@ -1,9 +1,5 @@
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Afegir una cita per <%= l(@default_date, format: :long) %> </h4>
-    <hr>
-    <div class="col col-md-6 mx-auto">
-      <%= render 'form', task: @task %>
-    </div>
-  </div>
+<h4 class="font-weight-bold text-primary text-center mb-2">Afegir una cita per <%= l(@default_date, format: :long) %> </h4>
+<hr>
+<div class="col col-md-6 mx-auto">
+  <%= render 'form', task: @task %>
 </div>

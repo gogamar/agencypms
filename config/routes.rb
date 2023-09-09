@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         collection do
           get 'list'
           get "import_properties"
+          get 'total_earnings'
+          get 'list_earnings'
         end
 
         member do

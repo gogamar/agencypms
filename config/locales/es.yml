@@ -9,9 +9,8 @@ es:
   total: "Total"
   agency_fees: "Honorarios"
   agency_vat: "IVA honorarios agencia 21 %"
-  expense_types:
-    agency: "Agencia"
-    owner: "Propietario"
+  agency: "Agencia"
+  owner: "Propietario"
   charge_types:
     rent: "Alquiler"
     cleaning: "Limpieza"

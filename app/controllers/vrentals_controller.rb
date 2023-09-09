@@ -15,6 +15,50 @@ class VrentalsController < ApplicationController
     render(partial: 'vrentals', locals: { vrentals: @vrentals })
   end
 
+  def total_earnings
+    @vrentals = policy_scope(Vrental)
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
+    authorize @vrentals
+    @average_commission = Vrental.where.not(commission: nil).average(:commission)
+    @total_rate_price_all_vrentals = Vrental.calculate_total_rate_price_for_all
+    @total_bookings_all_vrentals = Booking.where.not(price: nil).sum(:price)
+    @total_earnings_all_vrentals = Earning.where.not(amount: nil).sum(:amount)
+    @total_agency_fees = Vrental.total_agency_fees
+  end
+
+  def list_earnings
+    @vrentals = policy_scope(Vrental)
+    authorize @vrentals
+    @vrentals = @vrentals.where.not(commission: nil)
+
+    if params[:name].present?
+      @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:name]}%")
+    end
+
+    order_direction = params[:direction].upcase
+
+    case params[:column]
+    when 'vrental_name'
+      @vrentals = @vrentals.order(name: order_direction)
+    when 'total_earnings'
+      @vrentals = @vrentals
+                   .joins(:earnings)
+                   .group('vrentals.id')
+                   .order("SUM(earnings.amount) #{order_direction}")
+    when 'agency_fees'
+      @vrentals = @vrentals
+      .select('vrentals.*,
+               (SELECT SUM(earnings.amount) FROM earnings WHERE earnings.vrental_id = vrentals.id AND earnings.amount IS NOT NULL) * vrentals.commission AS agency_fees')
+      .order("agency_fees #{order_direction} NULLS LAST")
+    else
+      # Handle default sorting here if needed
+    end
+
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
+    render(partial: 'vrentals_earnings', locals: { vrentals: @vrentals })
+  end
+
+
   def show
     authorize @vrental
     @vrentals = policy_scope(Vrental).order(name: :asc)
