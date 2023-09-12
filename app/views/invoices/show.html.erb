@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between mb-3">
     <div class="d-flex justify-content-between">
       <div class="me-2"><%= link_to 'Modificar', edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-secondary rounded-3" %></div>
-      <% if @invoice.date = Date.today %>
+      <% if Date.current == @invoice.created_at.to_date %>
         <div class="me-2">
           <%= link_to 'Esborrar', vrental_invoice_path(@vrental, @invoice), class: "btn btn-danger",
               data: { turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la factura de #{@vrental.name}?" } %>

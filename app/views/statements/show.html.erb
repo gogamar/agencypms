@@ -2,7 +2,9 @@
   <div class="d-flex justify-content-between mb-3">
     <div class="d-flex justify-content-between">
       <div class="me-2"><%= link_to 'Modificar', edit_vrental_statement_path(@vrental, @statement), class: "btn btn-secondary rounded-3" %></div>
-      <div class="me-2"><%= link_to 'Esborrar', @statement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} %></div>
+      <% if !@statement.invoice || (@statement.invoice && Date.current == @statement.invoice.created_at.to_date) %>
+        <div class="me-2"><%= link_to 'Esborrar', @statement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} %></div>
+      <% end %>
     </div>
     <div data-controller="spinner" >
       <%= link_to 'Liquidació en PDF', vrental_statement_path(@vrental, @statement, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>

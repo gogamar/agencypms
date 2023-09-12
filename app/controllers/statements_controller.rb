@@ -105,8 +105,13 @@ class StatementsController < ApplicationController
 
   def destroy
     authorize @statement
-    @statement.destroy
-    redirect_to vrental_statements_path, notice: 'Has esborrat la liquidació.'
+
+    if Date.current == @statement.invoice.created_at.to_date
+      @statement.destroy
+      redirect_to vrental_statements_path, notice: 'Has esborrat la liquidació.'
+    else
+      redirect_to vrental_statements_path, alert: 'No pots esborrar aquesta liquidació perquè ja ha passat més d\'un dia des de la creació de la factura.'
+    end
   end
 
   private

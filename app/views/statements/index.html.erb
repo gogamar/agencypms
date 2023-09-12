@@ -77,8 +77,10 @@
               <%= link_to edit_vrental_statement_path(@vrental, statement), class: "text-primary text-decoration-none p-1" do %>
                 <i class="fas fa-edit"></i>
               <% end %>
-              <%= link_to vrental_statement_path(@vrental, statement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació #{statement.ref_number}?"} do %>
-                <i class="fas fa-trash-can"></i>
+              <% if !statement.invoice || (statement.invoice && Date.current == statement.invoice.created_at.to_date) %>
+                <%= link_to vrental_statement_path(@vrental, statement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació #{statement.ref_number}?"} do %>
+                  <i class="fas fa-trash-can"></i>
+                <% end %>
               <% end %>
             </td>
           </tr>

@@ -78,9 +78,15 @@ class InvoicesController < ApplicationController
 
   def destroy
     authorize @invoice
-    @invoice.destroy
-    redirect_to vrental_invoices_path, notice: 'Has esborrat la factura.'
+
+    if Date.current == @invoice.created_at.to_date
+      @invoice.destroy
+      redirect_to vrental_invoices_path, notice: 'Has esborrat la factura.'
+    else
+      redirect_to vrental_invoices_path, alert: 'No pots esborrar aquesta factura perquè no és el mateix dia que la creació.'
+    end
   end
+
 
   private
 
