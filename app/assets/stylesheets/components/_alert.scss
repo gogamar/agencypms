@@ -5,6 +5,12 @@
   z-index: 1000;
 }
 
+.position-relative {
+  position: relative !important;
+  bottom: 0px;
+  right: 0px;
+}
+
 .flash {
   padding: 16px 24px;
   display: flex;

@@ -6,9 +6,10 @@ class Vrental < ApplicationRecord
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
-  has_many :expenses, dependent: :destroy
-  has_many :earnings, dependent: :destroy
-  has_many :statements, dependent: :destroy
+  has_many :expenses, dependent: :nullify
+  has_many :earnings, dependent: :nullify
+  has_many :statements, dependent: :nullify
+  has_many :invoices, dependent: :nullify
   has_and_belongs_to_many :features
   validates :name, presence: true
   validates :status, presence: true
@@ -106,6 +107,36 @@ class Vrental < ApplicationRecord
     end
 
     total_agency_fees
+  end
+
+  def this_year_statements(year)
+    statements.where("EXTRACT(YEAR FROM start_date) = ?", year)
+  end
+
+  def covered_periods(year)
+    this_year_statements(year).map do |statement|
+      [statement.start_date, statement.end_date]
+    end.sort
+  end
+
+  def bookings_missing_statement(year)
+    year_bookings = bookings.where("EXTRACT(YEAR FROM checkin) = ?", year)
+
+    year_bookings.select do |booking|
+      covered_periods(year).none? { |range| range[0] <= booking.checkin && booking.checkin <= range[1] }
+    end.sort_by(&:checkin)
+  end
+
+  def expenses_without_statement
+    expenses.where(statement_id: nil)
+  end
+
+  def this_year_invoices(year)
+    invoices.where("EXTRACT(YEAR FROM date) = ?", year)
+  end
+
+  def statements_without_invoice(year)
+    this_year_statements(year).where(invoice_id: nil)
   end
 
   def self.import_properties_from_beds

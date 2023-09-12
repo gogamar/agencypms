@@ -7,6 +7,13 @@ class Statement < ApplicationRecord
   has_many :earnings, dependent: :nullify
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :earnings, reject_if: :all_blank, allow_destroy: true
+  validate :start_and_end_dates_within_same_year
+
+  def start_and_end_dates_within_same_year
+    if start_date.present? && end_date.present? && start_date.year != end_date.year
+      errors.add(:end_date, ": la data final ha de ser al mateix any com la data inici")
+    end
+  end
 
   def statement_bookings
     vrental.bookings.where(checkin: start_date..end_date)

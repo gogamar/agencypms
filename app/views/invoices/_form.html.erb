@@ -1,0 +1,16 @@
+<%= simple_form_for [@vrental, @invoice] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :location, input_html: { value: f.object.location || "L'Estartit" } %>
+    <% stats = @vrental.statements.where(invoice_id: nil) %>
+    <% if stats.present? %>
+      <%= f.input :statement_ids, label: "Selecciona liquidacions que vols afegir a la factura:", as: :check_boxes, collection: stats.map {|s| ["#{l(s.start_date)} - #{l(s.end_date)}", s.id]}, wrapper: :vertical_collection %>
+    <% else %>
+      <%= hidden_field_tag 'invoice[statement_ids][]', '' %>
+    <% end %>
+  </div>
+  <div class="form-actions text-end mb-5">
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

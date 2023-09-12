@@ -1,14 +1,46 @@
+<% if @vrental.statements.present? %>
+  <div class="container">
+    <h6 class="text-center">Total: <%= number_to_currency(@total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+  </div>
+<% end %>
 <div class="container">
-  <hr>
-  <div class="d-flex justify-content-between align-items-baseline">
-    <div class="d-flex justify-content-around align-items-baseline">
-      <h4 class="text-info text-center pe-3">Liquidacions</h4>
-      <% if @vrental.statements.present? %>
-        <h6 class="text-center">Total: <%= number_to_currency(@total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+  <% @statement_years.each do |year| %>
+    <% if @vrental.bookings_missing_statement(year).present? %>
+      <% missing_from = @vrental.covered_periods(year).first[0] > @vrental.bookings_missing_statement(year).first.checkin ? @vrental.bookings_missing_statement(year).first.checkin : @vrental.covered_periods(year).last[1] + 1 %>
+      <% missing_to = @vrental.covered_periods(year).first[0] > @vrental.bookings_missing_statement(year).first.checkin ? @vrental.covered_periods(year).first[0] - 1 : @vrental.bookings_missing_statement(year).first.checkout %>
+      <div class="alert alert-warning alert-dismissible fade show position-relative mt-2" role="alert">
+        <strong>Falta liquidació per:</strong>
+        <%= missing_from %> - <%= missing_to %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    <% if @vrental.expenses_without_statement.present? %>
+      <div class="alert alert-warning alert-dismissible fade show position-relative mt-2" role="alert">
+        <strong>Falta afegir despeses:</strong>
+        <%= @vrental.expenses_without_statement.map {|expense| expense.description}.to_sentence %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    <hr>
+    <div class="d-flex justify-content-between align-items-baseline">
+      <div class="d-flex justify-content-around align-items-baseline">
+        <h4 class="text-info text-center pe-3">Liquidacions <%= year %></h4>
+      </div>
+      <div>
+        <% if @vrental.bookings_missing_statement(year).present? %>
+          <%= link_to "Falta liquidació per #{I18n.l(missing_from)} - #{I18n.l(missing_to)}", new_vrental_statement_path(start_date: missing_from, end_date: missing_to) %>
+        <% elsif @vrental.expenses_without_statement.present? %>
+          <%= link_to "Falta afegir despeses per #{year}", edit_vrental_statement_path(@vrental, @vrental.statements.last) %>
+        <% else %>
+          <%= link_to "Liquidació anual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+      <% if @vrental.statements_without_invoice(year).present? %>
+        <div>
+          <%= link_to "Afegir factura", new_vrental_invoice_path(@vrental), class: "btn btn-info" %>
+        </div>
       <% end %>
     </div>
-  </div>
-  <% if @vrental.statements %>
     <hr>
     <table class="table table-hover">
       <thead>
@@ -25,16 +57,18 @@
         </tr>
       </thead>
       <tbody>
-        <% @vrental.statements.each do |statement| %>
+        <% @vrental.this_year_statements(year).each do |statement| %>
           <tr>
             <th scope="row">
-              <%= link_to vrental_statement_path(@vrental, statement, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none" do %>
+              <%= link_to vrental_statement_path(@vrental, statement, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "btn btn-info text-decoration-none" do %>
                 <%= statement.ref_number %>
               <% end %>
             </th>
             <td><%= I18n.l(statement.start_date) %></td>
             <td><%= I18n.l(statement.end_date) %></td>
-            <td><%= statement.invoice.id if statement.invoice %></td>
+            <td>
+              <%= link_to "#{statement.invoice.invoice_number_formatted}", vrental_invoice_path(@vrental, statement.invoice, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "btn btn-info" if statement.invoice.present? %>
+            </td>
             <td><%= number_to_currency(statement.total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
             <td><%= number_to_currency((statement.agency_commission + statement.agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
             <td><%= number_to_currency(statement.total_expenses, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>

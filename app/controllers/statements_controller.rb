@@ -10,6 +10,8 @@ class StatementsController < ApplicationController
       total_amount += statement.statement_earnings.sum(:amount)
     end
     @total_statements = total_amount
+    extract_year_sql = Arel.sql('DISTINCT EXTRACT(YEAR FROM start_date)')
+    @statement_years = @vrental.statements.select(extract_year_sql).pluck(extract_year_sql).map(&:to_i)
   end
 
   def show
@@ -22,6 +24,7 @@ class StatementsController < ApplicationController
     # @total_rent_charges = @statement.total_rent_charges
     @agency_commission = @statement.agency_commission
     @agency_commission_vat = @statement.agency_commission_vat
+    @vrowner = @vrental.vrowner
 
     respond_to do |format|
       format.html

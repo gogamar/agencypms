@@ -4,6 +4,7 @@ body {
   text-align: justify;
   line-height: 1.5;
 }
+
 table,
 th,
 td {
@@ -12,18 +13,23 @@ td {
   page-break-inside: avoid;
   text-align: justify;
 }
+
 th {
   width: 40%;
 }
+
 table {
   width: 100%;
 }
+
 .btn {
   display: none !important;
 }
+
 .no-printing {
   display: none !important;
 }
+
 .center {
   margin: auto;
   display: block;
@@ -45,6 +51,7 @@ h5 {
 .nowrap {
   white-space: nowrap !important;
 }
+
 .pricetable {
   text-align: left !important;
 }

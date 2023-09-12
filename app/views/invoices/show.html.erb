@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="d-flex justify-content-between mb-3">
+    <div class="d-flex justify-content-between">
+      <div class="me-2"><%= link_to 'Modificar', edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-secondary rounded-3" %></div>
+      <% if @invoice.date = Date.today %>
+        <div class="me-2">
+          <%= link_to 'Esborrar', vrental_invoice_path(@vrental, @invoice), class: "btn btn-danger",
+              data: { turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la factura de #{@vrental.name}?" } %>
+        </div>
+      <% end %>
+    </div>
+    <div data-controller="spinner" >
+      <%= link_to 'Factura en PDF', vrental_invoice_path(@vrental, @invoice, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+    </div>
+  </div>
+  <div class="container border">
+    <div class="row mb-4">
+      <div class="col-12 p-2">
+        <h4 class="font-weight-bold fw-bold text-center">
+          <%= t("invoice_title").upcase %> nº <%= @invoice.invoice_number_formatted %>
+        </h4>
+        <br>
+        <h6 class="text-center"><%= @invoice.location %>, <%= I18n.l(@invoice.date) %></h6>
+      </div>
+    </div>
+    <div class="row mb-2 border">
+      <div class="col-6 font-weight-bold fw-bold p-2"><%= t("agency").upcase %></div>
+      <div class="col-6 text-right text-end font-weight-bold fw-bold p-2"><%= t("activerecord.attributes.vrowner.vrowner").upcase %></div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6 p-2">
+        <ul class="list-unstyled p-0">
+          <li class="font-weight-bold fw-bold">Inverstach s.l.u.</li>
+          <li class="font-weight-bold fw-bold">CIF Nº: B66577537</li>
+          <li>c/Roser 1, 1er 2a</li>
+          <li>08600 Berga (Barcelona)</li>
+        </ul>
+      </div>
+      <div class="col-6 text-right text-end p-2">
+        <% if @vrental.vrowner %>
+          <ul class="list-unstyled p-0">
+            <li class="fw-bold"><%= @vrental.vrowner.fullname %></li>
+            <li class="fw-bold"><%= @vrental.vrowner.document %></li>
+            <li><%= @vrental.vrowner.address %></li>
+            <li><%= @vrental.vrowner.email %></li>
+            <li><%= @vrental.vrowner.phone %></li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+    <div class="row mb-2 border">
+      <div class="col-12 text-right text-end font-weight-bold fw-bold p-2"><%= t("activerecord.attributes.vrental.vrental").upcase %></div>
+    </div>
+    <div class="row mb-2">
+      <div class="text-right col-12 p-2">
+        <ul class="list-unstyled p-0">
+          <li class="fw-bold"><%= @vrental.name %></li>
+          <li class="fw-bold"><%= @vrental.licence %></li>
+          <li><%= @vrental.address %></li>
+          <li><%= @vrental.cadastre %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container border mt-3">
+    <div class="row border-bottom">
+      <div class="col-10 border-right font-weight-bold fw-bold p-2"><%= t("invoice_agency_fees").upcase %>
+      </div>
+      <div class="col-2 text-right text-end font-weight-bold fw-bold p-2"><%= t("amount").upcase %></div>
+    </div>
+    <div class="row border-bottom">
+      <div class="col-10 border-right p-2">
+        <%= t('invoice_description_1',
+            vrental_name: @vrental.name,
+            from: l(@invoice_statements.first.start_date, format: :standard),
+            to: l(@invoice_statements.last.end_date, format: :standard)
+            )
+        %>
+        <br>
+        <%= t('invoice_description_2',
+            commission: number_to_percentage(@vrental.commission * 100, precision: 2, separator: ','),
+            total: number_to_currency(@invoice.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2)
+            )
+        %>
+      </div>
+      <div class="col-2 text-right text-end p-2"><%= number_to_currency(@invoice.agency_commission_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+    </div>
+    <div class="row border-bottom">
+      <div class="col-10 border-right p-2"><%= t("agency_vat") %></div>
+      <div class="col-2 text-right text-end p-2"><%= number_to_currency(@invoice.agency_vat_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+    </div>
+    <div class="row">
+      <div class="col-10 border-right font-weight-bold fw-bold p-2"><%= t("total").upcase %></div>
+      <div class="col-2 text-right text-end font-weight-bold fw-bold p-2"><%= number_to_currency(@invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+    </div>
+  </div>
+</div>

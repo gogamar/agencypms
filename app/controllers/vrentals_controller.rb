@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates, :export_beds, :update_beds, :get_bookings]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -58,6 +58,42 @@ class VrentalsController < ApplicationController
     render(partial: 'vrentals_earnings', locals: { vrentals: @vrentals })
   end
 
+  def annual_statement
+    @vrowner = @vrental.vrowner
+    @year = params[:year].to_i
+
+    @statements = policy_scope(Statement)
+    @annual_statements = @statements.where("EXTRACT(year FROM start_date) = ?", params[:year])
+    authorize @annual_statements
+
+    @annual_earnings = @vrental.earnings.where(statement_id: @annual_statements.ids).order(:date)
+    @annual_expenses = @vrental.expenses.where(statement_id: @annual_statements.ids)
+
+    @total_annual_earnings = @annual_earnings.sum(:amount)
+
+    @annual_agency_commission = @annual_earnings.sum(:amount) * @vrental.commission
+    @annual_agency_commission_vat = @annual_agency_commission * 0.21
+    @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: [@vrental.name, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
+               template: "vrentals/annual_statement",
+               formats: [:html],
+               disposition: :inline,
+               page_size: 'A4',
+               dpi: '75',
+               zoom: 1,
+               layout: 'pdf',
+               margin:  {   top:    20,
+                            bottom: 20,
+                            left:   10,
+                            right:  10},
+               footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: l(Date.new(@year, 12, 31), format: :long), font_size: 9, spacing: 5 }
+      end
+    end
+  end
 
   def show
     authorize @vrental

@@ -1,6 +1,6 @@
 en:
   statement_title: "Rental Settlement"
-  earnings: "Revenue"
+  earnings: "Earnings"
   amount: "Amount"
   booking: "Booking"
   discount: "Discount"
@@ -8,9 +8,14 @@ en:
   expenses: "Expenses"
   total: "Total"
   agency_fees: "Agency Fees"
-  agency_vat: "Agency Fees VAT 21 %"
+  agency_vat: "VAT 21%"
   agency: "Agency"
   owner: "Owner"
+  property: "Property"
+  invoice_agency_fees: "Tourist Rental Management Fees"
+  invoice_title: "Invoice"
+  invoice_description_1: "Management Period: from %{from} to %{to}"
+  invoice_description_2: "%{commission} on earnings of %{total}"
   charge_types:
     rent: "Rent"
     cleaning: "Cleaning"

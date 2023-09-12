@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         member do
           get :add_vrowner
           get :add_features
+          get :annual_statement, path: 'liquidacio-anual'
         end
         resources :statements, path: 'liquidacions' do
           member do
@@ -33,6 +34,7 @@ Rails.application.routes.draw do
             get :add_expenses
           end
         end
+        resources :invoices, path: 'factures'
         resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
 
         resources :earnings, path: 'ingressos', only: [:new, :edit, :create, :update, :index, :show] do
@@ -89,7 +91,6 @@ Rails.application.routes.draw do
       resources :features, path: 'caracteristiques'
 
       resources :features_vrentals, path: 'caracteristiques-lloguer-turistic'
-
 
       mount Ckeditor::Engine => '/ckeditor'
     end
