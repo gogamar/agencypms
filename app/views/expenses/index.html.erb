@@ -33,7 +33,7 @@
     <tbody>
       <% @expenses.each do |expense| %>
         <tr>
-          <th scope="row"><%= expense.vrental.name %></th>
+          <th scope="row"><%= link_to expense.vrental.name, vrental_expenses_path(expense.vrental) %></th>
           <td><%= expense.expense_number %></td>
           <td>
             <% if expense.statement %>
@@ -47,8 +47,10 @@
             <%= link_to edit_vrental_expense_path(expense.vrental, expense), class: "text-info text-decoration-none" do %>
               <i class="fas fa-pen fa-sm"></i>
             <% end %>
-            <%= link_to expense, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta despesa?"}, class: "text-danger text-decoration-none" do %>
-              <i class="fas fa-trash-can fa-sm"></i>
+            <% unless expense.statement && expense.statement.invoice %>
+              <%= link_to (@vrental ? vrental_expense_path(@vrental, expense) : expense), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta despesa?"}, class: "text-danger text-decoration-none" do %>
+                <i class="fas fa-trash-can fa-sm"></i>
+              <% end %>
             <% end %>
           </td>
         </tr>

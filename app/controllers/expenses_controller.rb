@@ -25,11 +25,11 @@ class ExpensesController < ApplicationController
     authorize @expense
 
     @expense.expense_number = "#{@expense.vrental.expenses.count + 1}-#{@expense.vrental.id}-#{Date.today.year}"
-    @vrental = params[:expense][:vrental_id].present? ? Vrental.find(params[:expense][:vrental_id]) : nil
 
     if @expense.save
-      if request.referrer.include?(new_vrental_expense_path(@vrental))
-        redirect_back(fallback_location: vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha creat correctament.")
+      if params[:vrental_id].present?
+        @vrental = Vrental.find(params[:vrental_id])
+        redirect_to vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha creat correctament."
       else
         redirect_to expenses_path, notice: "La despesa s'ha creat correctament."
       end
@@ -50,8 +50,14 @@ class ExpensesController < ApplicationController
 
   def destroy
     authorize @expense
-    @expense.destroy
-    redirect_to vrental_expenses_path(@vrental), notice: "La despesa s'ha esborrat correctament."
+    if params[:vrental_id].present?
+      @vrental = Vrental.find(params[:vrental_id])
+      @expense.destroy
+      redirect_to vrental_expenses_path(@vrental), notice: "La despesa s'ha esborrat correctament."
+    else
+      @expense.destroy
+      redirect_to expenses_path, notice: "La despesa s'ha esborrat correctament."
+    end
   end
 
   private

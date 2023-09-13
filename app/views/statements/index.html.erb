@@ -1,6 +1,12 @@
 <% if @vrental.statements.present? %>
-  <div class="container">
-    <h6 class="text-center">Total: <%= number_to_currency(@total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+  <div class="container d-flex justify-content-between">
+    <h6>Total: <%= number_to_currency(@total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+    <% if @vrental %>
+      <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-secondary" do %>
+        <i class="fas fa-plus fa-sm"></i>
+        <span class="text">Nova liquidació per <%= @vrental.name %></span>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
 <div class="container">
@@ -23,9 +29,7 @@
     <% end %>
     <hr>
     <div class="d-flex justify-content-between align-items-baseline">
-      <div class="d-flex justify-content-around align-items-baseline">
-        <h4 class="text-info text-center pe-3">Liquidacions <%= year %></h4>
-      </div>
+      <h4 class="text-info text-center pe-3">Liquidacions <%= year %></h4>
       <div>
         <% if @vrental.bookings_missing_statement(year).present? %>
           <%= link_to "Falta liquidació per #{I18n.l(missing_from)} - #{I18n.l(missing_to)}", new_vrental_statement_path(start_date: missing_from, end_date: missing_to) %>
@@ -34,12 +38,10 @@
         <% else %>
           <%= link_to "Liquidació anual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
         <% end %>
-      </div>
-      <% if @vrental.statements_without_invoice(year).present? %>
-        <div>
+        <% if @vrental.statements_without_invoice(year).present? %>
           <%= link_to "Afegir factura", new_vrental_invoice_path(@vrental), class: "btn btn-info" %>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
     <hr>
     <table class="table table-hover">
@@ -88,12 +90,4 @@
       </tbody>
     </table>
   <% end %>
-  <div class="my-3">
-    <% if @vrental %>
-      <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-primary" do %>
-        <i class="fas fa-plus fa-sm"></i>
-        <span class="text">Nova liquidació per <%= @vrental.name %></span>
-      <% end %>
-    <% end %>
-  </div>
 </div>

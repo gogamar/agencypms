@@ -88,7 +88,15 @@ const initSelect2 = () => {
       theme: "bootstrap-5",
     })
     .on("select2:select", function (e) {
-      window.location.href = e.params.data.id;
+      const currentURL = window.location.pathname;
+      const pattern = /\/(\d+)\/(.*)/;
+      const match = currentURL.match(pattern);
+
+      if (match && match.length > 2) {
+        window.location.href = e.params.data.id + "/" + match[2];
+      } else {
+        window.location.href = e.params.data.id;
+      }
     });
 
   $("#select_vrowner-select2").select2({
