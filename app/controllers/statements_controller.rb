@@ -26,6 +26,12 @@ class StatementsController < ApplicationController
       format.pdf do
         render pdf: [@vrental.name, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
                template: "statements/show",
+               header: {
+                right: "#{t("page")} [page] #{t("of")} [topage]",
+                center: @statement.date.present? ? l(@statement.date, format: :long) : '',
+                font_size: 9,
+                spacing: 5
+               },
                formats: [:html],
                disposition: :inline,
                page_size: 'A4',
@@ -33,10 +39,12 @@ class StatementsController < ApplicationController
                zoom: 1,
                layout: 'pdf',
                margin:  {   top:    20,
-                            bottom: 20,
+                            bottom: 30,
                             left:   10,
                             right:  10},
-               footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @statement.date.present? ? l(@statement.date, format: :long) : '', font_size: 9, spacing: 5 }
+               footer: { content: render_to_string(
+                          'shared/invoice_footer'
+                        )}
       end
     end
   end
@@ -61,6 +69,7 @@ class StatementsController < ApplicationController
     if @statement.save
       redirect_to add_earnings_vrental_statement_path(@vrental, @statement), notice: 'Has creat la liquidació.'
     else
+      puts "new statement errors: #{@statement.errors.full_messages}"
       render :new, status: :unprocessable_entity
     end
   end

@@ -28,9 +28,6 @@ application.register("map", MapController)
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
 
-import PaymentController from "./payment_controller"
-application.register("payment", PaymentController)
-
 import RateComponentController from "./rate_component_controller"
 application.register("rate-component", RateComponentController)
 

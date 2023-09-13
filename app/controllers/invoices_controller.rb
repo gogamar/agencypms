@@ -70,7 +70,7 @@ class InvoicesController < ApplicationController
     authorize @invoice
 
     if @invoice.update(invoice_params)
-      redirect_to vrental_invoices_path, notice: 'Has actualitzat la factura.'
+      redirect_to vrental_statements_path(@vrental), notice: 'Has actualitzat la factura.'
     else
       render :edit, status: :unprocessable_entity
     end
