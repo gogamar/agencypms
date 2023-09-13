@@ -78,19 +78,27 @@ class VrentalsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: [@vrental.name, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
-               template: "vrentals/annual_statement",
-               formats: [:html],
-               disposition: :inline,
-               page_size: 'A4',
-               dpi: '75',
-               zoom: 1,
-               layout: 'pdf',
-               margin:  {   top:    20,
-                            bottom: 20,
-                            left:   10,
-                            right:  10},
-               footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: l(Date.new(@year, 12, 31), format: :long), font_size: 9, spacing: 5 }
+        render pdf: "#{@vrental.name}, liquidació #{Date.new(@year, 1, 1)} - #{Date.new(@year, 12, 31)}",
+        template: "vrentals/annual_statement",
+        header: {
+          right: "#{t("page")} [page] #{t("of")} [topage]",
+          center: @year ? l(Date.new(@year, 12, 31), format: :long) : '',
+          font_size: 9,
+          spacing: 5
+         },
+        formats: [:html],
+        disposition: :inline,
+        page_size: 'A4',
+        dpi: '75',
+        zoom: 1,
+        layout: 'pdf',
+        margin:  {   top:    20,
+        bottom: 30,
+        left:   10,
+        right:  10},
+        footer: { content: render_to_string(
+                  'shared/invoice_footer'
+                )}
       end
     end
   end

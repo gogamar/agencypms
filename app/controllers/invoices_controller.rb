@@ -15,7 +15,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: [@vrental.name, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
+        render pdf: "#{@vrental.name}, factura #{@invoice.date.year}/#{@invoice.number}",
                template: "invoices/show",
                header: {
                 right: "#{t("page")} [page] #{t("of")} [topage]",

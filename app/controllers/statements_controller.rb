@@ -24,7 +24,7 @@ class StatementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: [@vrental.name, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
+        render pdf: "#{@vrental.name}, liquidació #{@statement.start_date} - #{@statement.end_date}",
                template: "statements/show",
                header: {
                 right: "#{t("page")} [page] #{t("of")} [topage]",

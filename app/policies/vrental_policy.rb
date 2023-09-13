@@ -1,21 +1,9 @@
 class VrentalPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      # scope.all # If users can see all records
-      # show only the records that have the same user_id as current user (user_id: user.id)
-      user.admin? ? scope.all : scope.where(user: user) # If users can only see their records
-      # scope.where("name LIKE 't%'") # If users can only see records starting with `t`
+      user.admin? ? scope.all : scope.where(user: user)
     end
   end
-
-  # def index?
-  #   user.admin?
-  # end
-
-  # def list?
-  #   # allow to see the vrowners of these vrentals
-  #   user.vrentals.exists?(record.vrowner_id)
-  # end
 
   def total_earnings?
     user.admin?
