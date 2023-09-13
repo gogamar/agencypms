@@ -5,6 +5,7 @@ class Statement < ApplicationRecord
   belongs_to :invoice, optional: true
   has_many :expenses, dependent: :nullify
   has_many :earnings, dependent: :nullify
+  has_one :vrowner_payment, dependent: :destroy
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :earnings, reject_if: :all_blank, allow_destroy: true
   validate :start_and_end_dates_within_same_year
@@ -19,12 +20,13 @@ class Statement < ApplicationRecord
     vrental.bookings.where(checkin: start_date..end_date)
   end
 
+  # we need to list these in add_earnings.html.erb
   def statement_earnings
     vrental.earnings.where(date: start_date..end_date).order(:date)
   end
 
   def total_statement_earnings
-    statement_earnings.sum(:amount)
+    earnings.sum(:amount)
   end
 
   def agency_commission
@@ -40,7 +42,7 @@ class Statement < ApplicationRecord
   end
 
   def net_income_owner
-    total_statement_earnings - agency_commission - agency_commission_vat - total_expenses
+    (total_statement_earnings - agency_commission - agency_commission_vat - total_expenses).round(2)
   end
 
   private

@@ -1,4 +1,6 @@
 ca:
+  "yes": "Sí"
+  "no": "No"
   statement_title: "Liquidació lloguers"
   earnings: "Ingressos"
   amount: "Import"
@@ -12,6 +14,10 @@ ca:
   agency: "Agència"
   owner: "Propietari"
   property: "Immoble"
+  transfer: "Transferència"
+  cash: "Efectiu"
+  check: "Xec"
+  statement_period: "Període de liquidació"
   invoice_agency_fees: "Honoraris gestió lloguer turístic"
   invoice_title: "Factura"
   invoice_description_1: "Periode de gestió: del %{from} al %{to}"
@@ -291,6 +297,10 @@ ca:
         feature_ids: "Caracteristiques"
         name: "Nom"
         status: "Estat"
+      vrowner_payment:
+        amount: "Import"
+        date: "Data"
+        description: "Mètode de pagament"
       rate:
         firstnight: "Des de"
         lastnight: "Fins a"
@@ -302,11 +312,14 @@ ca:
         language: "Idioma"
         title: "Títol"
       statement:
-        date: "Data"
-        amount: Import
-        location: Ubicació
-        start_date: Des de
-        end_date: Fins a
+        date: "Data liquidació"
+        amount: "Import"
+        location: "Ubicació"
+        start_date: "Des de"
+        end_date: "Fins a"
+        payment: "Liquidació pagada"
+        payment_date: "Data pagament"
+        payment_method: "Mètode pagament"
       feature:
         name:
           washer: "rentadora"

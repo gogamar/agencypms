@@ -5,11 +5,6 @@ class StatementsController < ApplicationController
   def index
     @statements = policy_scope(Statement)
     @statements = @vrental.present? ? @vrental.statements.order(created_at: :asc) : @statements.order(created_at: :asc)
-    total_amount = 0
-    @statements.each do |statement|
-      total_amount += statement.statement_earnings.sum(:amount)
-    end
-    @total_statements = total_amount
     extract_year_sql = Arel.sql('DISTINCT EXTRACT(YEAR FROM start_date)')
     @statement_years = @vrental.statements.select(extract_year_sql).pluck(extract_year_sql).map(&:to_i)
   end
@@ -66,8 +61,6 @@ class StatementsController < ApplicationController
     if @statement.save
       redirect_to add_earnings_vrental_statement_path(@vrental, @statement), notice: 'Has creat la liquidació.'
     else
-      error_messages = @statement.errors.full_messages.join(', ')
-      flash[:alert] = "#{error_messages}"
       render :new, status: :unprocessable_entity
     end
   end
@@ -106,11 +99,12 @@ class StatementsController < ApplicationController
   def destroy
     authorize @statement
 
-    if Date.current == @statement.invoice.created_at.to_date
+    if !@statement.invoice || (@statement.invoice && Date.current == @statement.invoice.created_at.to_date)
       @statement.destroy
       redirect_to vrental_statements_path, notice: 'Has esborrat la liquidació.'
     else
-      redirect_to vrental_statements_path, alert: 'No pots esborrar aquesta liquidació perquè ja ha passat més d\'un dia des de la creació de la factura.'
+      puts "statement errors: #{@statement.errors.full_messages}"
+      redirect_to vrental_statements_path, notice: 'No pots esborrar aquesta liquidació perquè ja ha passat més d\'un dia des de la creació de la factura.'
     end
   end
 

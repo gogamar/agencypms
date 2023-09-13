@@ -86,6 +86,34 @@ class Vrental < ApplicationRecord
     earnings.where.not(amount: nil).sum(:amount)
   end
 
+  def total_statements
+    total = 0
+    statements.each do |statement|
+      total += statement.total_statement_earnings
+    end
+    total
+  end
+
+  def total_net_owner
+    total = 0
+    statements.each do |statement|
+      total += statement.net_income_owner
+    end
+    total
+  end
+
+  def total_owner_payments
+    total = 0
+    statements.each do |statement|
+      total += statement.vrowner_payment.present? ? statement.vrowner_payment.amount : 0
+    end
+    total
+  end
+
+  def owner_payment_difference
+    total_net_owner - total_owner_payments
+  end
+
   def difference_bookings
     total_rate_price - total_bookings
   end

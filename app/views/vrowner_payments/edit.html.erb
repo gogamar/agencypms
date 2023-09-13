@@ -1,0 +1,10 @@
+<div class="d-flex flex-column justify-content-between align-items-center">
+  <h5 class="text-primary">Modificar pagament</h5>
+  <h5><%= @vrowner_payment.vrowner.fullname %></h5>
+  <h5 class="text-primary"><%= @statement.vrental.name %></h5>
+  <h6>Liquidació: <%= "#{l(@statement.start_date)} - #{l(@statement.end_date)}" %></h6>
+</div>
+<hr>
+<div class="container-fluid mt-5 pb-5 w-50">
+  <%= render 'form' %>
+</div>

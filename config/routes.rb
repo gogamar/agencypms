@@ -86,7 +86,9 @@ Rails.application.routes.draw do
 
       resources :rates, path: 'tarifes', only: :destroy
       resources :earnings, path: 'ingressos', only: :destroy
-      resources :statements, path: 'liquidacions', only: :destroy
+      resources :statements, path: 'liquidacions', only: :destroy do
+        resources :vrowner_payments, path: 'pagaments-lloguer-turistic'
+      end
 
       resources :features, path: 'caracteristiques'
 

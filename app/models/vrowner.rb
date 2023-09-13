@@ -4,4 +4,5 @@ class Vrowner < ApplicationRecord
   has_many :vragreements, through: :vrentals
   validates :fullname, presence: true
   validates :language, presence: true
+  has_many :vrowner_payments
 end
