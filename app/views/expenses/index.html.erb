@@ -1,7 +1,8 @@
 <h4 class="font-weight-bold text-primary text-center mb-2">Despeses</h4>
 <hr>
 <% if @expenses.present? %>
-  <h6 class="text-center">Total: <%= number_to_currency(@total_expenses, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+  <h6 class="text-center">Total despeses propietari: <%= number_to_currency(@total_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+  <h6 class="text-center">Total despeses agència: <%= number_to_currency(@total_expenses_agency, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
 <% end %>
 <div>
   <% if @vrental %>

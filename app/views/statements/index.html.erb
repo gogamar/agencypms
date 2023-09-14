@@ -47,7 +47,7 @@
         <% elsif @vrental.expenses_without_statement.present? %>
           <%= link_to "Falta afegir despeses per #{year}", edit_vrental_statement_path(@vrental, @vrental.statements.last) %>
         <% else %>
-          <%= link_to "Liquidació anual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
+          <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
         <% end %>
         <% if @vrental.statements_without_invoice(year).present? %>
           <%= link_to "Afegir factura", new_vrental_invoice_path(@vrental), class: "btn btn-info" %>
@@ -85,7 +85,7 @@
             </td>
             <td class="text-center nowrap"><%= number_to_currency(statement.total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
             <td class="text-center nowrap"><%= number_to_currency((statement.agency_commission + statement.agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td class="text-center nowrap"><%= number_to_currency(statement.total_expenses, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="text-center nowrap"><%= number_to_currency(statement.total_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
             <td class="text-center nowrap"><%= number_to_currency(statement.net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
             <td class="text-center">
               <% if statement.vrowner_payment.present? %>

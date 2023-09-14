@@ -71,12 +71,15 @@ class VrentalsController < ApplicationController
                       .where.not(amount: 0)
                       .order(:date)
     @annual_expenses = @vrental.expenses.where(statement_id: @annual_statements.ids)
+    @annual_expenses_owner = @vrental.expenses.where(statement_id: @annual_statements.ids).where(expense_type: 'owner')
+    @annual_expenses_agency = @vrental.expenses.where(statement_id: @annual_statements.ids).where(expense_type: 'agency')
+    @total_annual_expenses_owner = @annual_expenses_owner.sum(:amount)
 
     @total_annual_earnings = @annual_earnings.sum(:amount)
 
     @annual_agency_commission = @annual_earnings.sum(:amount) * @vrental.commission
     @annual_agency_commission_vat = @annual_agency_commission * 0.21
-    @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
+    @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses_owner.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
 
     respond_to do |format|
       format.html

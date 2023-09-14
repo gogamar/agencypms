@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         member do
           get :add_vrowner
           get :add_features
-          get :annual_statement, path: 'liquidacio-anual'
+          get :annual_statement, path: 'liquidacio-annual'
         end
         resources :statements, path: 'liquidacions' do
           member do

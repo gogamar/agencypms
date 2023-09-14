@@ -14,9 +14,10 @@ class StatementsController < ApplicationController
     @statement_bookings = @statement.statement_bookings
     @confirmed_statement_earnings = @statement.confirmed_statement_earnings
     @statement_expenses = Expense.where(id: @statement.expense_ids)
+    @statement_expenses_owner = @statement_expenses.where(expense_type: 'owner')
+    @statement_expenses_agency = @statement_expenses.where(expense_type: 'agency')
+    @total_statement_expenses_owner = @statement.total_expenses_owner
     @total_statement_earnings = @statement.total_statement_earnings
-    @total_expenses = @statement.total_expenses
-    # @total_rent_charges = @statement.total_rent_charges
     @agency_commission = @statement.agency_commission
     @agency_commission_vat = @statement.agency_commission_vat
     @vrowner = @vrental.vrowner

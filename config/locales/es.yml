@@ -1,5 +1,7 @@
 es:
   cancelled_booking: "Reserva cancelada"
+  paid_by_agency: "Pagado por la agencia"
+  paid_to_owner: "Pagado al propietario"
   statement_title: "Liquidación de alquileres"
   earnings: "Ingresos"
   amount: "Importe"

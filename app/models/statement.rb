@@ -41,12 +41,12 @@ class Statement < ApplicationRecord
     agency_commission * 0.21
   end
 
-  def total_expenses
-    expenses.sum(:amount)
+  def total_expenses_owner
+    expenses.where(expense_type: 'owner').pluck(:amount)&.sum
   end
 
   def net_income_owner
-    (total_statement_earnings - agency_commission - agency_commission_vat - total_expenses).round(2)
+    (total_statement_earnings - agency_commission - agency_commission_vat - total_expenses_owner).round(2)
   end
 
   private

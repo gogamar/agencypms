@@ -2,6 +2,8 @@ ca:
   "yes": "Sí"
   "no": "No"
   cancelled_booking: "Reserva cancel·lada"
+  paid_by_agency: "Pagat per l'agència"
+  paid_to_owner: "Pagat al propietari"
   statement_title: "Liquidació lloguers"
   earnings: "Ingressos"
   amount: "Import"

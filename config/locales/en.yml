@@ -1,5 +1,7 @@
 en:
   cancelled_booking: "Cancelled Booking"
+  paid_by_agency: "Paid by Agency"
+  paid_to_owner: "Paid to Owner"
   statement_title: "Rental Settlement"
   earnings: "Earnings"
   amount: "Amount"

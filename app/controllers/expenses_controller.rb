@@ -6,7 +6,8 @@ class ExpensesController < ApplicationController
     @expenses = policy_scope(Expense)
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
     @expenses = @vrental.present? ? @vrental.expenses.order(created_at: :asc) : @expenses.order(created_at: :asc)
-    @total_expenses = @expenses.pluck(:amount)&.sum
+    @total_expenses_agency = @expenses.where(expense_type: 'agency').pluck(:amount)&.sum
+    @total_expenses_owner = @expenses.where(expense_type: 'owner').pluck(:amount)&.sum
   end
 
   def new
@@ -40,9 +41,10 @@ class ExpensesController < ApplicationController
 
   def update
     authorize @expense
+    @vrental = @expense.vrental
 
     if @expense.update(expense_params)
-      redirect_back(fallback_location: vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha modificat correctament.")
+      redirect_to vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha modificat correctament."
     else
       render :edit, status: :unprocessable_entity
     end
