@@ -71,3 +71,7 @@ p {
   display: table;
   clear: both;
 }
+
+div {
+  page-break-inside: avoid;
+}

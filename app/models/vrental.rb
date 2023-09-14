@@ -367,7 +367,6 @@ class Vrental < ApplicationRecord
 
         selected_bookings.each do |beds_booking|
           if booking = bookings.find_by(beds_booking_id: beds_booking["bookId"].to_i)
-
             if !beds_booking["guestEmail"].blank?
               existing_tourist = Tourist.find_by(email: beds_booking["guestEmail"])
               add_tourist_to_booking(beds_booking, existing_tourist)
@@ -381,6 +380,7 @@ class Vrental < ApplicationRecord
               next
             else
               beds_booking["invoice"].each do |entry|
+                return if booking.locked == true
                 if (charge = booking.charges.find_by(beds_id: entry["invoiceId"]))
                   charge.update!(
                     description: entry["description"],
@@ -472,7 +472,6 @@ class Vrental < ApplicationRecord
   end
 
   def create_charges_and_payments(booking, entry)
-    puts "this is the booking id here again: #{booking.id}"
     if entry["qty"] == "1"
       Charge.create!(
       description: entry["description"],

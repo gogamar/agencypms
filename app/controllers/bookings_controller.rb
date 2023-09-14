@@ -43,6 +43,8 @@ class BookingsController < ApplicationController
     authorize @booking
 
     if @booking.update(booking_params)
+      @booking.locked = true
+      @booking.save
       redirect_to vrental_earnings_path, notice: "La reserva s'ha modificat correctament."
     else
       render :edit, status: :unprocessable_entity

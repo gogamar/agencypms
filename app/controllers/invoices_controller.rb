@@ -35,7 +35,7 @@ class InvoicesController < ApplicationController
                             right:  10},
               footer: {
                 content: render_to_string(
-                  'shared/invoice_footer'
+                  'shared/pdf_header'
                 )}
       end
     end

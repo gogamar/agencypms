@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Factura Sistach Rentals</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= wicked_pdf_stylesheet_link_tag "pdf" %>
+    <%# wicked_pdf_stylesheet_link_tag "application" -%>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="row mb-2">
+      <div class="col-3">
+        <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px" />
+      </div>
+      <div class="text-center col-6">
+        <span class="font-weight-bold">Sistach Rentals &middot; Inverstach, S.L. &middot; CIF N&ordm;: B66577537</span><br>
+        <span>Avinguda Grècia 39, baixos, 17528 L'Estartit</span>
+        <br>
+        <span>c/Roser 1, 1-2, 08600 Berga</span>
+        <br>
+        <span>info@sistachrentals.com · www.sistachrentals.com </span>
+        <br>
+        <span>+34 972 100 381 · +34 609 076 292</span>
+      </div>
+      <div class="col-3 text-end text-right">
+        <% if current_user.photo.attached? %>
+          <%= cl_image_tag current_user.photo.key, width: "170px" %>
+        <% else %>
+          <img src="https://www.sistachrentals.com/wp-content/uploads/2019/12/marca_sistach_rentals_transparent.png" style="width: 170px;">
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>
