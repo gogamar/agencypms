@@ -42,10 +42,12 @@ class Vrental < ApplicationRecord
       days_overlap = (rate_end - rate_start + 1).to_i
 
       if rate.pricenight.present?
-        total_price += rate.pricenight * days_overlap
+        price = checkout - checkin < 7 ? rate.pricenight * 1.11 : rate.pricenight
       elsif rate.priceweek.present?
-        total_price += (rate.priceweek / 7) * days_overlap
+        price = checkout - checkin < 7 ? rate.priceweek / 6.295 : rate.priceweek / 7
       end
+
+      total_price += price * days_overlap
     end
 
     return total_price
@@ -334,7 +336,6 @@ class Vrental < ApplicationRecord
       "arrivalFrom": Date.today.beginning_of_year.to_s,
       "arrivalTo": Date.today.to_s,
       "includeInvoice": true,
-      "status": "1"
     }
     beds24bookings = client.get_bookings(prop_key, options)
 
@@ -354,8 +355,19 @@ class Vrental < ApplicationRecord
         if beds24bookings.empty?
           return
         end
-        beds24bookings.each do |beds_booking|
+
+        confirmed_bookings = beds24bookings.select { |beds_booking| beds_booking["status"] == "1" }
+        cancelled_bookings = beds24bookings.select { |beds_booking| beds_booking["status"] == "0" }
+        cancelled_bookings_with_positive_payments = cancelled_bookings.select do |beds_booking|
+          total_payment = beds_booking["invoice"]&.select { |item| item["qty"] == "-1" }.sum { |item| item["price"].to_f }
+          total_payment > 0
+        end
+
+        selected_bookings = confirmed_bookings + cancelled_bookings_with_positive_payments
+
+        selected_bookings.each do |beds_booking|
           if booking = bookings.find_by(beds_booking_id: beds_booking["bookId"].to_i)
+
             if !beds_booking["guestEmail"].blank?
               existing_tourist = Tourist.find_by(email: beds_booking["guestEmail"])
               add_tourist_to_booking(beds_booking, existing_tourist)
@@ -363,20 +375,7 @@ class Vrental < ApplicationRecord
               tourist = nil
             end
 
-            booking.update!(
-              status: beds_booking["status"],
-              firstname: tourist&.firstname || beds_booking["guestFirstName"],
-              lastname: tourist&.lastname || beds_booking["guestName"],
-              checkin: Date.parse(beds_booking["firstNight"]),
-              checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
-              nights: Date.parse(beds_booking["lastNight"]) + 1.day - Date.parse(beds_booking["firstNight"]),
-              adults: beds_booking["numAdult"],
-              children: beds_booking["numChild"],
-              referrer: beds_booking["referer"],
-              commission: beds_booking["commission"],
-              price: beds_booking["price"],
-              tourist_id: tourist.present? ? tourist.id : nil
-            )
+            update_booking(booking, beds_booking, tourist)
 
             if beds_booking["invoice"].nil? || beds_booking["invoice"].empty?
               next
@@ -395,10 +394,10 @@ class Vrental < ApplicationRecord
                     price: entry["price"].to_f * entry["qty"].to_f
                     )
                 else
-                  create_charges_and_payments(booking, beds24_invoice)
+                  create_charges_and_payments(booking, entry)
                 end
-                add_description_charges_payments(booking)
               end
+              add_description_charges_payments(booking)
             end
 
             add_earning(booking)
@@ -411,31 +410,24 @@ class Vrental < ApplicationRecord
               tourist = nil
             end
 
-            booking = Booking.create!(
-              vrental_id: self.id,
-              status: beds_booking["status"],
-              firstname: tourist&.firstname || beds_booking["guestFirstName"],
-              lastname: tourist&.lastname || beds_booking["guestName"],
-              tourist_id: tourist.present? ? tourist.id : nil,
-              checkin: Date.parse(beds_booking["firstNight"]),
-              checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
-              nights: Date.parse(beds_booking["lastNight"]) + 1.day - Date.parse(beds_booking["firstNight"]),
-              adults: beds_booking["numAdult"],
-              children: beds_booking["numChild"],
-              beds_booking_id: beds_booking["bookId"],
-              referrer: beds_booking["referer"],
-              commission: beds_booking["commission"],
-              price: beds_booking["price"]
-            )
+            booking = add_booking(beds_booking, tourist)
 
-            if beds_booking["invoice"].nil? || beds_booking["invoice"].empty?
+            if beds_booking["invoice"]&.empty?
               next
             else
-              create_charges_and_payments(booking, beds_booking["invoice"])
+              beds_booking["invoice"].each do |entry|
+                create_charges_and_payments(booking, entry)
+              end
               add_description_charges_payments(booking)
             end
             add_earning(booking)
           end
+        end
+
+        bookings_to_delete = bookings.where.not(beds_booking_id: selected_bookings.map { |beds_booking| beds_booking['bookId'] })
+
+        if bookings_to_delete.any?
+          bookings_to_delete.destroy_all
         end
       end
     else
@@ -443,33 +435,68 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def create_charges_and_payments(booking, beds24_invoice)
-    beds24_invoice.each do |entry|
-      if entry["qty"] == "1"
-        Charge.create!(
+  def add_booking(beds_booking, tourist)
+    Booking.create!(
+      vrental_id: self.id,
+      status: beds_booking["status"],
+      firstname: tourist&.firstname || beds_booking["guestFirstName"],
+      lastname: tourist&.lastname || beds_booking["guestName"],
+      tourist_id: tourist.present? ? tourist.id : nil,
+      checkin: Date.parse(beds_booking["firstNight"]),
+      checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
+      nights: Date.parse(beds_booking["lastNight"]) + 1.day - Date.parse(beds_booking["firstNight"]),
+      adults: beds_booking["numAdult"],
+      children: beds_booking["numChild"],
+      beds_booking_id: beds_booking["bookId"],
+      referrer: beds_booking["referer"],
+      commission: beds_booking["commission"],
+      price: beds_booking["price"]
+    )
+  end
+
+  def update_booking(booking, beds_booking, tourist)
+    booking.update!(
+      status: beds_booking["status"],
+      firstname: tourist&.firstname || beds_booking["guestFirstName"],
+      lastname: tourist&.lastname || beds_booking["guestName"],
+      checkin: Date.parse(beds_booking["firstNight"]),
+      checkout: Date.parse(beds_booking["lastNight"]) + 1.day,
+      nights: Date.parse(beds_booking["lastNight"]) + 1.day - Date.parse(beds_booking["firstNight"]),
+      adults: beds_booking["numAdult"],
+      children: beds_booking["numChild"],
+      referrer: beds_booking["referer"],
+      commission: beds_booking["commission"],
+      price: beds_booking["price"],
+      tourist_id: tourist.present? ? tourist.id : nil
+    )
+  end
+
+  def create_charges_and_payments(booking, entry)
+    puts "this is the booking id here again: #{booking.id}"
+    if entry["qty"] == "1"
+      Charge.create!(
+      description: entry["description"],
+      beds_id: entry["invoiceId"],
+      quantity: 1,
+      price: entry["price"].to_f * entry["qty"].to_f,
+      booking_id: booking.id
+      )
+    elsif entry["qty"] == "-1"
+      Payment.create!(
+        description: entry["description"],
+        beds_id: entry["invoiceId"],
+        quantity: -1,
+        price: entry["price"].to_f * entry["qty"].to_f,
+        booking_id: booking.id
+      )
+    elsif entry["qty"] != "-1" && entry["qty"] != "1"
+      Charge.create!(
         description: entry["description"],
         beds_id: entry["invoiceId"],
         quantity: 1,
         price: entry["price"].to_f * entry["qty"].to_f,
         booking_id: booking.id
-        )
-      elsif entry["qty"] == "-1"
-        Payment.create!(
-          description: entry["description"],
-          beds_id: entry["invoiceId"],
-          quantity: -1,
-          price: entry["price"].to_f * entry["qty"].to_f,
-          booking_id: booking.id
-        )
-      elsif entry["qty"] != "-1" && entry["qty"] != "1"
-        Charge.create!(
-          description: entry["description"],
-          beds_id: entry["invoiceId"],
-          quantity: 1,
-          price: entry["price"].to_f * entry["qty"].to_f,
-          booking_id: booking.id
-        )
-      end
+      )
     end
   end
 

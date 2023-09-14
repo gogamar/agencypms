@@ -25,6 +25,10 @@ class Statement < ApplicationRecord
     vrental.earnings.where(date: start_date..end_date).order(:date)
   end
 
+  def confirmed_statement_earnings
+    statement_earnings.where.not(amount: 0)
+  end
+
   def total_statement_earnings
     earnings.sum(:amount)
   end

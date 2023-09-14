@@ -1,4 +1,5 @@
 es:
+  cancelled_booking: "Reserva cancelada"
   statement_title: "Liquidación de alquileres"
   earnings: "Ingresos"
   amount: "Importe"

@@ -12,7 +12,7 @@ class StatementsController < ApplicationController
   def show
     authorize @statement
     @statement_bookings = @statement.statement_bookings
-    @statement_earnings = @statement.statement_earnings
+    @confirmed_statement_earnings = @statement.confirmed_statement_earnings
     @statement_expenses = Expense.where(id: @statement.expense_ids)
     @total_statement_earnings = @statement.total_statement_earnings
     @total_expenses = @statement.total_expenses

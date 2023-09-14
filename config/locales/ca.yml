@@ -1,6 +1,7 @@
 ca:
   "yes": "Sí"
   "no": "No"
+  cancelled_booking: "Reserva cancel·lada"
   statement_title: "Liquidació lloguers"
   earnings: "Ingressos"
   amount: "Import"

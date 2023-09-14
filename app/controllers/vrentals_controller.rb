@@ -66,7 +66,10 @@ class VrentalsController < ApplicationController
     @annual_statements = @statements.where("EXTRACT(year FROM start_date) = ?", params[:year])
     authorize @annual_statements
 
-    @annual_earnings = @vrental.earnings.where(statement_id: @annual_statements.ids).order(:date)
+    @annual_earnings = @vrental.earnings
+                      .where(statement_id: @annual_statements.ids)
+                      .where.not(amount: 0)
+                      .order(:date)
     @annual_expenses = @vrental.expenses.where(statement_id: @annual_statements.ids)
 
     @total_annual_earnings = @annual_earnings.sum(:amount)
@@ -155,7 +158,7 @@ class VrentalsController < ApplicationController
   def get_bookings
     @vrental.get_bookings_from_beds
     authorize @vrental
-    redirect_to vrental_earnings_path(@vrental), notice: "done"
+    redirect_to vrental_earnings_path(@vrental), notice: "S'han importat les reserves."
     # redirect_to vrental_earnings_path(@vrental), notice: (result == "property with this propKey not found in account" ? "Immoble amb aquesta clau secreta no existeix a Beds24." : "Ja s'han importat les reserves.")
   end
 

@@ -59,14 +59,17 @@
       <div class="col-10 border-right font-weight-bold"><%= t("earnings").upcase %></div>
       <div class="col-2 text-right font-weight-bold"><%= t("amount").upcase %></div>
     </div>
-    <% @statement_earnings.each do |earning| %>
+    <% @confirmed_statement_earnings.each do |earning| %>
       <div class="row border-bottom">
         <div class="col-10 border-right">
           <%= t("booking") %> <%= earning.booking.firstname.titleize %> <%= earning.booking.lastname.titleize %> (<%= I18n.l(earning.booking.checkin, format: :standard) %> - <%= I18n.l(earning.booking.checkout, format: :standard) %>)
           <br>
-          <% if earning.discount && earning.discount != 0 && earning.discount < 1 %>
+          <% if earning.discount && earning.discount != 0 && earning.discount < 1 && earning.booking.status != "0" %>
             <small class="fst-italic"><%= t("discount") %>: <%= number_to_percentage(earning.discount * 100, precision: 2, separator: ',') %>
               <%= "(#{earning.description})" if earning.description.present? %></small>
+          <% end %>
+          <% if earning.booking.status == "0" %>
+            <small class="fst-italic text-danger"><%= t("cancelled_booking") %></small>
           <% end %>
         </div>
         <div class="text-right col-2">

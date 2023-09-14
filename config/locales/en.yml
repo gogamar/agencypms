@@ -1,4 +1,5 @@
 en:
+  cancelled_booking: "Cancelled Booking"
   statement_title: "Rental Settlement"
   earnings: "Earnings"
   amount: "Amount"
