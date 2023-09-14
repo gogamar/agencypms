@@ -488,27 +488,28 @@ class Vrental < ApplicationRecord
   end
 
   def add_earning(booking)
-    rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout)
+    rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout).round(2)
+    price = [booking.net_price, rate_price].min
 
-    discount = rate_price == 0 ? 0 : (rate_price - booking.net_price) / rate_price
+    discount = rate_price == 0 ? 0 : (rate_price - price) / rate_price
 
     discount = [0, discount].max # Ensure it's not negative
     discount = [1, discount].min # Ensure it's not greater than 1
 
     if booking.earning.present?
-      if booking.earning.locked == true && booking.earning.paid == true
+      if booking.earning.locked == true
         return
       else
         booking.earning.update!(
           date: booking.checkin,
-          amount: [booking.net_price, rate_price].min,
+          amount: price,
           discount: discount
         )
       end
     else
       Earning.create!(
         date: booking.checkin,
-        amount: [booking.net_price, rate_price].min,
+        amount: price,
         discount: discount,
         booking_id: booking.id,
         vrental_id: booking.vrental_id

@@ -17,10 +17,6 @@ class EarningPolicy < ApplicationPolicy
     return update?
   end
 
-  def mark_as_paid?
-    return update?
-  end
-
   def create?
     return true
   end

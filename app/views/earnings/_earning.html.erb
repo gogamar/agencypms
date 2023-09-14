@@ -46,18 +46,9 @@
       <%= link_to edit_vrental_earning_path(earning.vrental, earning), class: "text-info text-decoration-none" do %>
         <i class="fas fa-pen fa-sm"></i><small> Modificar</small>
       <% end %>
-      <% if earning.paid == false %>
-        <%= link_to mark_as_paid_vrental_earning_path(earning.vrental, earning), class: "text-primary text-decoration-none" do %>
-          <i class="fas fa-check fa-sm"></i><small> Marcar com pagat al propietari</small>
-        <% end %>
-      <% else %>
-        <span class="text-success text-decoration-none">
-          <i class="fas fa-check-circle fa-sm"></i><small> Pagat al propietari</small>
-        </span>
-      <% end %>
       <% if earning.locked == true && earning.booking.present? %>
-        <%= link_to unlock_vrental_earning_path(earning.vrental, earning), class: "text-warning text-decoration-none" do %>
-          <i class="fas fa-unlock fa-sm"></i><small> Permet canvis des de Beds24</small>
+        <%= link_to unlock_vrental_earning_path(earning.vrental, earning), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest ingres? Si ho fas, l'import i el descompte s'actualitzaràn al importar reserves des de Beds24." } do %>
+          <i class="fas fa-unlock fa-sm"></i><small> Desbloquejar</small>
         <% end %>
       <% end %>
       <%= link_to earning, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest ingres?"}, class: "text-danger text-decoration-none" do %>

@@ -40,7 +40,6 @@ Rails.application.routes.draw do
         resources :earnings, path: 'ingressos', only: [:new, :edit, :create, :update, :index, :show] do
           member do
             get 'unlock'
-            get 'mark_as_paid'
           end
         end
         resources :expenses, path: 'despeses'

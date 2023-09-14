@@ -1,6 +1,6 @@
 class EarningsController < ApplicationController
-  before_action :set_earning, only: [:show, :edit, :update, :destroy, :unlock, :mark_as_paid]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update, :show, :unlock, :mark_as_paid]
+  before_action :set_earning, only: [:show, :edit, :update, :destroy, :unlock ]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update, :show, :unlock ]
 
   def index
     all_earnings = policy_scope(Earning)
@@ -38,12 +38,6 @@ class EarningsController < ApplicationController
     redirect_to vrental_earnings_path(@vrental), notice: 'Ingres desprotegit i serà modificat al importar reserves de nou.'
   end
 
-  def mark_as_paid
-    authorize @earning
-    @earning.update(paid: true)
-    redirect_to vrental_earnings_path(@vrental), notice: 'Ingres marcat com pagat i no serà modificat al importar reserves de nou.'
-  end
-
   def create
     @earning = Earning.new(earning_params)
     @earning.vrental = @vrental
@@ -58,15 +52,9 @@ class EarningsController < ApplicationController
   def update
     @vrental = @earning.vrental
     authorize @earning
-    request_context = params[:earning][:request_context]
-    params[:earning][:discount] = params[:earning][:discount].to_f / 100.0
-    discount = params[:earning][:discount]
-    rate_price = @earning.vrental.rate_price(@earning.booking.checkin, @earning.booking.checkout)
     if @earning.update(earning_params)
-      if request_context && request_context == 'update_discount'
-        @earning.locked = true
-        @earning.save
-      end
+      @earning.locked = true
+      @earning.save
       redirect_back(fallback_location: @earning.statement)
     else
       render :edit, status: :unprocessable_entity

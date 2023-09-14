@@ -7,11 +7,11 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :charges, allow_destroy: true
 
   def price_with_portal
-    charges.where(charge_type: "rent")&.sum(:price)
+    charges.where(charge_type: "rent")&.sum(:price).round(2)
   end
 
   def price_portal_no_commission
-    price_with_portal - (price_with_portal * 0.15)
+    price_with_portal - (price_with_portal * 0.15).round(2)
   end
 
   def price_no_portal
@@ -20,9 +20,9 @@ class Booking < ApplicationRecord
 
   def net_price
     if referrer == "sistach_rentals" || referrer == "sistachrentals_web" || referrer == "direct" || referrer == "miquel"
-      price_no_portal
+      price_no_portal.round(2)
     else
-      [price_portal_no_commission, price_no_portal].min
+      [price_portal_no_commission, price_no_portal].min.round(2)
     end
   end
 
@@ -38,11 +38,4 @@ class Booking < ApplicationRecord
     charges.where(charge_type: "other")&.sum(:price)
   end
 
-  # @bookings = Booking.all.order('checkin ASC')
-  # @rentalswithhighcom = Rental.joins(:bookings).where('compercent > ?', 15.5).uniq.sort_by(&:name)
-  # @pricecontractsum = Booking.where(status: [1,2]).sum(:rateprice) - Booking.where("client ilike '%prop%'").sum(:rateprice)
-  # @pricebookingsum = Booking.where(status: [1,2] ).sum(:price)
-  # @commissionsum = Booking.where(status: [1,2] ).sum(:commission)
-  # @netrevenue = @pricebookingsum - @commissionsum
-  # @bookingsnochnopay = Booking.where.missing(:charges).where.not("client ILIKE ?", "%CONTR%").where.not("client ILIKE ?", "%PROP%")
 end

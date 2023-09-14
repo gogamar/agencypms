@@ -3,7 +3,7 @@
   <%= simple_form_for [vrental, earning], data: {turbo_frame: earning} do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-    <%= f.hidden_field :request_context, value: 'update_discount' %>
+    <%# f.hidden_field :request_context, value: 'update_discount' %>
     <div class="row my-1 border-bottom" data-controller="earning-calculator">
       <div class="col-lg-2">
         <small class="text-info">Detalls</small><br>
@@ -39,7 +39,7 @@
       <div class="col-lg-2">
         <small class="text-info">Descompte</small><br>
         <div class="h-75 d-flex flex-column justify-content-between">
-          <%= f.input :discount, as: :percentage, label: false, input_html: { "data-earning-calculator-target" => "discount", "data-action": "input->earning-calculator#discountValueChanged" } %>
+          <%= f.input :discount, label: false, input_html: { "data-earning-calculator-target" => "discount", "data-action": "input->earning-calculator#discountValueChanged" } %>
           <small class="text-info">Nota:</small><br>
           <%= f.input :description, as: :text, label: false %>
         </div>
