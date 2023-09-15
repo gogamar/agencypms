@@ -1,5 +1,6 @@
-<div class="alert alert-warning position-relative" role="alert">
+<div class="alert alert-warning alert-dismissible fade show position-relative text-center" role="alert">
   Abans de crear una liquidació, assegura't d'importar les últimes reserves des de Beds24 a Ingressos.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <div class="container d-flex justify-content-between">
   <% if @vrental.statements.present? %>
