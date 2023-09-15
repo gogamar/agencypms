@@ -39,7 +39,7 @@
           </span>
           <br>
         <% end %>
-        <% if earning.booking.other_charges > 0 %>
+        <% if earning.booking.other_charges != 0 %>
           <span class="badge bg-warning">
             <small>Altres: <%= number_to_currency(earning.booking.other_charges, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ')%></small>
           </span>
