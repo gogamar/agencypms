@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :authenticate_user!
-  before_action :set_vrentals
+  before_action :set_vrentals, unless: :skip_pundit?
   # before_action :configure_permitted_parameters, if: :devise_controller?
 
   include Pundit::Authorization
