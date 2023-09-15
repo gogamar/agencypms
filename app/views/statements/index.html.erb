@@ -1,25 +1,34 @@
-<div class="container d-flex justify-content-end">
-  <% if @vrental %>
-    <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-secondary" do %>
-      <i class="fas fa-plus fa-sm"></i>
-      <span class="text">Nova liquidació per <%= @vrental.name %></span>
-    <% end %>
-  <% end %>
+<div class="alert alert-warning position-relative" role="alert">
+  Abans de crear una liquidació, assegura't d'importar les últimes reserves des de Beds24 a Ingressos.
 </div>
-<% if @vrental.statements.present? %>
-  <div class="container d-flex flex-column justify-content-between">
-    <h6>Total imports liquidacions: <%= number_to_currency(@vrental.total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_statements %></h6>
-    <h6>Total net propietari: <%= number_to_currency(@vrental.total_net_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_net_owner %>
-      <% if @vrental.owner_payment_difference.positive? %>
-        (<small class="text-warning">Pendent pagar al propietari: <%= number_to_currency(@vrental.owner_payment_difference, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
-      <% elsif @vrental.owner_payment_difference.negative? %>
-        (<small class="text-warning">El propietari ha cobrat de mès: <%= number_to_currency(@vrental.owner_payment_difference * -1, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
-      <% else %>
-        (<small>Tot pagat</small> <i class="fas fa-check-circle text-success"></i>)
+<div class="container d-flex justify-content-between">
+  <% if @vrental.statements.present? %>
+    <div class="flex-column">
+      <h6>Total imports liquidacions: <%= number_to_currency(@vrental.total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_statements %></h6>
+      <h6>Total net propietari: <%= number_to_currency(@vrental.total_net_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_net_owner %>
+        <% if @vrental.owner_payment_difference.positive? %>
+          (<small class="text-warning">Pendent pagar al propietari: <%= number_to_currency(@vrental.owner_payment_difference, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
+        <% elsif @vrental.owner_payment_difference.negative? %>
+          (<small class="text-warning">El propietari ha cobrat de mès: <%= number_to_currency(@vrental.owner_payment_difference * -1, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
+        <% else %>
+          (<small>Tot pagat</small> <i class="fas fa-check-circle text-success"></i>)
+        <% end %>
+      </h6>
+    </div>
+  <% end %>
+  <div class="d-flex align-items-center">
+    <% if @vrental %>
+      <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-light btn-icon-split" do %>
+        <span class="icon text-white-600">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">
+          Nova liquidació per <%= @vrental.name %>
+        </span>
       <% end %>
-    </h6>
+    <% end %>
   </div>
-<% end %>
+</div>
 <% @statement_years.each do |year| %>
   <div class="container">
     <% if @vrental.bookings_missing_statement(year).present? %>

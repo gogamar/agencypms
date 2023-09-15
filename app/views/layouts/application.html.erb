@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="h-100">
   <head>
-    <title>Contractes</title>
+    <title>Sistach Rentals · Sistach Finques</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="turbo-visit-control" content="reload">
     <%= csrf_meta_tags %>
@@ -27,15 +27,12 @@
         <%= render "shared/flashes" %>
         <% if user_signed_in? %>
           <%= render "shared/topbar" %>
+          <%= render "shared/navbar" %>
           <%= render "shared/subnav" if @vrental %>
         <% end %>
         <div id="content" class="flex-shrink-0">
-          <div class="container-fluid mt-3">
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <%= yield %>
-              </div>
-            </div>
+          <div class="container-fluid">
+            <%= yield %>
           </div>
         </div>
       </div>

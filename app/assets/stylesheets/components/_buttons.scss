@@ -51,18 +51,12 @@
   }
 }
 
-.btn-check:checked + .btn,
-:not(.btn-check) + .btn:active,
-.btn:first-child:active,
-.btn.active,
-.btn.show {
+.btn {
   color: white;
 }
 
-.btn {
-  color: white;
-  // &:focus,
-  // &:hover {
-  //   color: white;
-  // }
+.btn.btn-light {
+  color: #343434;
+  border-width: 1px;
+  border-color: #babbbd;
 }

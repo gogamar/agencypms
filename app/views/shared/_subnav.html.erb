@@ -1,6 +1,6 @@
-<div class="container-fluid py-4 d-flex justify-content-between">
+<div class="container-fluid d-flex justify-content-between">
   <div>
-    <%= link_to 'javascript:history.back()', class: "btn btn-light btn-icon-split me-3" do %>
+    <%= link_to 'javascript:history.back()', class: "btn btn-sm btn-light btn-icon-split me-3" do %>
       <span class="icon text-white-600">
         <i class="fas fa-arrow-left"></i>
       </span>
@@ -9,55 +9,15 @@
       </span>
     <% end %>
   </div>
-  <div class="d-flex flex-wrap justify-content-between gap-3 flex-md-row flex-column">
-    <%= link_to edit_vrental_path(@vrental), class: "btn btn-secondary btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-pen"></i>
-      </span>
-      <span class="text">
-        Modificar l'immoble
-      </span>
-    <% end %>
-    <%= link_to vrental_vragreements_path(@vrental), class: "btn btn-warning btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-file-signature"></i>
-      </span>
-      <span class="text">
-        Contractes
-      </span>
-    <% end %>
-    <%= link_to vrental_rates_path(@vrental), class: "btn btn-info btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-euro-sign"></i>
-      </span>
-      <span class="text">
-        Tarifes
-      </span>
-    <% end %>
-    <%= link_to vrental_earnings_path(@vrental), class: "btn btn-success btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-chart-line"></i>
-      </span>
-      <span class="text">
-        Ingressos
-      </span>
-    <% end %>
-    <%= link_to vrental_expenses_path(@vrental), class: "btn btn-danger btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-cart-arrow-down"></i>
-      </span>
-      <span class="text">
-        Despeses
-      </span>
-    <% end %>
-    <%= link_to vrental_statements_path(@vrental), class: "btn btn-primary btn-icon-split" do %>
-      <span class="icon text-white-50">
-        <i class="fas fa-file-invoice-dollar"></i>
-      </span>
-      <span class="text">
-        Liquidacions
-      </span>
-    <% end %>
-  </div>
 </div>
-<h4 class="mt-4 mb-3 text-primary text-center"><%= @vrental.name %></h4>
+<div class="container-fluid mb-3">
+  <h4 class="mt-4 mb-3 text-primary text-center"><%= @vrental.name %></h4>
+  <nav class="navbar navbar-dark d-flex justify-content-center gap-3">
+    <%= link_to "Modificar l'immoble", edit_vrental_path(@vrental), class: "nav-link p-2 #{'btn btn-light active' if current_page?(edit_vrental_path(@vrental))}" %>
+    <%= link_to "Contractes", vrental_vragreements_path(@vrental), class: "nav-link p-2 #{'btn btn-light active' if current_page?(vrental_vragreements_path(@vrental))}" %>
+    <%= link_to "Tarifes", vrental_rates_path(@vrental), class: "nav-link p-2 #{'btn btn-light active' if current_page?(vrental_rates_path(@vrental))}" %>
+    <%= link_to "Ingressos", vrental_earnings_path(@vrental), class: "nav-link p-2 #{'btn btn-light active' if current_page?(vrental_earnings_path(@vrental))}" %>
+    <%= link_to "Despeses", vrental_expenses_path(@vrental), class: "nav-link p-2 #{'btn btn-light active' if current_page?(vrental_expenses_path(@vrental))}"  %>
+    <%= link_to "Liquidacions", vrental_statements_path(@vrental), class: "nav-link p-2 #{'btn btn-light active' if current_page?(vrental_statements_path(@vrental))}" %>
+  </nav>
+</div>

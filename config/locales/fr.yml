@@ -25,7 +25,6 @@ fr:
     cleaning: "Nettoyage"
     city_tax: "Taxe de séjour"
     other: "Autre"
-  locale: "Catalan"
   ca: "Catalan"
   en: "Anglais"
   es: "Espagnol"
@@ -254,6 +253,12 @@ fr:
         start_date: "Date de début"
         start_time: "Heure de début"
         title: "Titre"
+      expense:
+        expense_number: "Numéro de dépense"
+        expense_type: "Type de dépense"
+        description: "Description"
+        expense_company: "Entreprise"
+        amount: "Montant"
       comtype:
         company_type: "Type d'entreprise"
       vrowner:

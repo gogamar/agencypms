@@ -1,87 +1,40 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-  <div class="container-fluid">
-    <%= link_to root_path, class: "w-40 self-center" do %>
-      <% if current_user.photo.attached? %>
-        <%= cl_image_tag user.photo.key, height: 70, crop: :fill %>
-      <% else %>
-        <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1665045942/FINQUES_SISTACH__Finques_nxoogg.png", class: "navbar-brand", style: "height: 70px;" %>
-      <% end %>
-    <% end %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
-        <li class="nav-item">
-          <%= select_tag "select_vrental", options_for_select(@all_vrentals.map { |vrental| [vrental.name, vrental_path(vrental)] }, nil), include_blank: true, class: "js-example-responsive", id: "select_vrental-select2" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Immobles", vrentals_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Propietaris", vrowners_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Ingressos", total_earnings_vrentals_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Despeses", expenses_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Contractes
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><%= link_to "Contractes", vragreements_path, class: "dropdown-item" %></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Models de contracte", vrentaltemplates_path, class: "dropdown-item" %></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="beds24" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Beds24
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="beds24">
-            <% if @vrental&.persisted? %>
-              <% if @vrental.beds_prop_id.nil? %>
-                <li><%= link_to "Crear #{@vrental.name} a Beds24", export_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
-              <% end %>
-              <li><%= link_to "Actualitzar #{@vrental.name} a Beds24", update_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
-            <% end %>
-            <% if !@vrental %>
-              <li><%= link_to 'Importar immobles', import_properties_vrentals_path, class: "dropdown-item text-danger" %></li>
-            <% end %>
-          </ul>
-        </li>
-      </ul>
-      <div class="d-flex nav-item dropdown">
-        <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-          <span class="me-2 d-inline text-gray-600 small">
-            <%= current_user.email %>
-          </span>
+<nav class="navbar navbar-expand-lg topbar-md-up">
+  <div class="container-fluid d-flex justify-content-between">
+    <div>
+      <%= link_to root_path, class: "w-40 self-center" do %>
+        <% if current_user.photo.attached? %>
+          <%= cl_image_tag user.photo.key, height: 40, crop: :fill %>
+        <% else %>
+          <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1665045942/FINQUES_SISTACH__Finques_nxoogg.png", class: "navbar-brand", style: "height: 40px;" %>
         <% end %>
-        <div
-        class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-        aria-labelledby="userDropdown"
-      >
-          <%= link_to edit_user_registration_path, class: "dropdown-item" do %>
-            <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-            Editar el compte
+      <% end %>
+    </div>
+    <div>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+            <span class="me-2 d-inline text-gray-600 small">
+              <%= current_user.email %>
+            </span>
           <% end %>
-          <div class="dropdown-divider">
-          </div>
-          <% if current_user.admin %>
-            <%= link_to users_path, class: "dropdown-item" do %>
+          <ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+            <%= link_to edit_user_registration_path, class: "dropdown-item" do %>
               <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-              Autoritzar usuaris
+              Editar el compte
             <% end %>
-            <div class="dropdown-divider">
-            </div>
-          <% end %>
-          <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "dropdown-item" %>
-        </div>
-      </li>
+            <div class="dropdown-divider"></div>
+            <% if current_user.admin %>
+              <%= link_to users_path, class: "dropdown-item" do %>
+                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                Autoritzar usuaris
+              <% end %>
+              <div class="dropdown-divider"></div>
+            <% end %>
+            <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "dropdown-item" %>
+          </ul>
+        </li>
+        <%= language_dropdown(I18n.locale || params[:locale]) %>
+      </ul>
     </div>
   </div>
-</div>
 </nav>

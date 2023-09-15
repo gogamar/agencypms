@@ -1,4 +1,3 @@
-
 <div class="container-fluid my-3">
   <div class="mb-3">
     <%= link_to root_path, class: "btn btn-light btn-icon-split me-3" do %>
@@ -23,22 +22,22 @@
     </div>
   </div>
   <div>
-  <% @users.each do |user| %>
-    <div class="row border">
-      <div class="col-lg-4 border-start border-end">
-        <%= user.email %>
+    <% @users.each do |user| %>
+      <div class="row border">
+        <div class="col-lg-4 border-start border-end">
+          <%= user.email %>
+        </div>
+        <div class="col-lg-4 border-start border-end">
+          <% if user.approved %>
+            Autoritzat
+          <% else %>
+            No autoritzat
+          <% end %>
+        </div>
+        <div class="col-lg-4 border-start border-end">
+          <%= link_to "Editar", edit_user_path(user) %>
+        </div>
       </div>
-      <div class="col-lg-4 border-start border-end">
-        <% if user.approved %>
-          Autoritzat
-        <% else %>
-          No autoritzat
-        <% end %>
-      </div>
-      <div class="col-lg-4 border-start border-end">
-        <%= link_to "Editar", edit_user_path(user) %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
   </div>
 </div>

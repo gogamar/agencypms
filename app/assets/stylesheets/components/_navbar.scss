@@ -1060,9 +1060,15 @@ ul:last-child {
 .navbar {
   justify-content: space-between;
   background-color: white;
-  border-bottom: 1px solid grey;
 }
 
 .navbar .navbar-collapse {
   flex-grow: 0;
+}
+
+@media (min-width: 768px) {
+  .topbar-md-up {
+    background-color: #e8e9eb !important;
+    height: 40px !important;
+  }
 }

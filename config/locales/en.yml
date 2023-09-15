@@ -25,7 +25,6 @@ en:
     cleaning: "Cleaning"
     city_tax: "Tourist Tax"
     other: "Other"
-  locale: "Catalan"
   ca: "Catalan"
   en: "English"
   es: "Spanish"
@@ -254,6 +253,12 @@ en:
         start_date: "Start Date"
         start_time: "Start Time"
         title: "Title"
+      expense:
+        expense_number: "Expense Number"
+        expense_type: "Expense Type"
+        description: "Description"
+        expense_company: "Industrial"
+        amount: "Amount"
       comtype:
         company_type: "Company Type"
       vrowner:

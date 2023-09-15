@@ -25,7 +25,6 @@ es:
     cleaning: "Limpieza"
     city_tax: "Impuesto turístico"
     other: "Otros"
-  locale: "Catalán"
   ca: "Catalán"
   en: "Inglés"
   es: "Español"
@@ -254,6 +253,12 @@ es:
         start_date: "Fecha de inicio"
         start_time: "Hora de inicio"
         title: "Tema"
+      expense:
+        expense_number: "Número gasto"
+        expense_type: "Tipo gasto"
+        description: "Descripción"
+        expense_company: "Industrial"
+        amount: "Importe"
       comtype:
         company_type: "Tipo de empresa"
       vrowner:
