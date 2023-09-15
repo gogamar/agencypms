@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
         <li class="nav-item">
-          <%= select_tag "select_vrental", options_for_select(@vrentals.map { |vrental| [vrental.name, vrental_path(vrental)] }, nil), include_blank: true, class: "js-example-responsive", id: "select_vrental-select2" %>
+          <%= select_tag "select_vrental", options_for_select(@all_vrentals.map { |vrental| [vrental.name, vrental_path(vrental)] }, nil), include_blank: true, class: "js-example-responsive", id: "select_vrental-select2" %>
         </li>
         <li class="nav-item">
           <%= link_to "Immobles", vrentals_path, class: "nav-link" %>

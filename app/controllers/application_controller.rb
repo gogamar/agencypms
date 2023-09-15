@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_vrentals
-    @vrentals = policy_scope(Vrental)
+    @all_vrentals = policy_scope(Vrental)
   end
 
   def default_url_options
