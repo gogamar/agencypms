@@ -1,113 +1,123 @@
-<div class="container">
-  <div class="d-flex justify-content-end mb-3">
-    <div data-controller="spinner" >
-      <%= link_to 'Liquidació annual en PDF', annual_statement_vrental_path(@vrental, year: @year, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+<div class="d-flex justify-content-end mb-3">
+  <div data-controller="spinner" >
+    <%= link_to 'Liquidació annual en PDF', annual_statement_vrental_path(@vrental, year: @year, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+  </div>
+</div>
+<div class="container border">
+  <div class="row mb-2 align-items-center">
+    <div class="col-12">
+      <span class="font-weight-bold fw-bold"><%= t("statement_title").upcase %></span><br>
+      <span><%= @vrental.user.companies.present? ? @vrental.user.companies.first&.address : "L'Estartit" %>, <%= I18n.l(Date.new(@year, 12, 31)) %></span>
     </div>
   </div>
-  <div class="container border">
-    <div class="row mb-2 align-items-center">
-      <div class="col-12">
-        <span class="font-weight-bold fw-bold"><%= t("statement_title").upcase %></span><br>
-        <span><%= @vrental.user.companies.present? ? @vrental.user.companies.first&.address : "L'Estartit" %>, <%= I18n.l(Date.new(@year, 12, 31)) %></span>
-      </div>
-    </div>
-    <div class="row mb-2 align-items-center border">
-      <div class="col-6 font-weight-bold fw-bold"><%= t("activerecord.attributes.vrowner.vrowner").upcase %></div>
-      <div class="col-6 text-right text-end font-weight-bold fw-bold"><%= t("activerecord.attributes.vrental.vrental").upcase %></div>
-    </div>
-    <div class="row mb-2 align-items-center">
-      <div class="col-6">
-        <% if @vrental.vrowner %>
-          <ul class="list-unstyled p-0">
-            <li class="fw-bold"><%= @vrental.vrowner.fullname %></li>
-            <li class="fw-bold"><%= @vrental.vrowner.document %></li>
-            <li><%= @vrental.vrowner.address %></li>
-            <li><%= @vrental.vrowner.email %></li>
-            <li><%= @vrental.vrowner.phone %></li>
-          </ul>
-        <% end %>
-      </div>
-      <div class="text-right text-end col-6">
+  <div class="row mb-2 align-items-center border">
+    <div class="col-6 font-weight-bold fw-bold"><%= t("activerecord.attributes.vrowner.vrowner").upcase %></div>
+    <div class="col-6 text-right text-end font-weight-bold fw-bold"><%= t("activerecord.attributes.vrental.vrental").upcase %></div>
+  </div>
+  <div class="row mb-2 align-items-center">
+    <div class="col-6">
+      <% if @vrental.vrowner %>
         <ul class="list-unstyled p-0">
-          <li class="fw-bold"><%= @vrental.name %></li>
-          <li class="fw-bold"><%= @vrental.licence %></li>
-          <li><%= @vrental.address %></li>
-          <li><%= @vrental.cadastre %></li>
+          <li class="fw-bold"><%= @vrental.vrowner.fullname %></li>
+          <li class="fw-bold"><%= @vrental.vrowner.document %></li>
+          <li><%= @vrental.vrowner.address %></li>
+          <li><%= @vrental.vrowner.email %></li>
+          <li><%= @vrental.vrowner.phone %></li>
         </ul>
-      </div>
-    </div>
-  </div>
-  <div class="container border mt-3">
-    <div class="row border-bottom">
-      <div class="col-10 border-right font-weight-bold fw-bold"><%= t("earnings").upcase %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= t("amount").upcase %></div>
-    </div>
-    <% @annual_earnings.each do |earning| %>
-      <div class="row border-bottom align-items-center">
-        <div class="col-10 border-right">
-          <%= t("booking") %> <%= earning.booking.firstname.titleize %> <%= earning.booking.lastname.titleize %> (<%= I18n.l(earning.booking.checkin, format: :standard) %> - <%= I18n.l(earning.booking.checkout, format: :standard) %>)
-          <br>
-          <% if earning.discount && earning.discount != 0 && earning.discount < 1 %>
-            <small class="fst-italic"><%= t("discount") %>: <%= number_to_percentage(earning.discount * 100, precision: 2, separator: ',') %>
-              <%= "(#{earning.description})" if earning.description.present? %></small>
-          <% end %>
-        </div>
-        <div class="text-right text-end text-end col-2">
-          <%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %>
-        </div>
-      </div>
-    <% end %>
-    <div class="row">
-      <div class="col-10 font-weight-bold fw-bold border-right"><%= t("total") %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= number_to_currency(@total_annual_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-    </div>
-  </div>
-  <div class="container border mt-3">
-    <div class="row border-bottom">
-      <div class="col-10 border-right font-weight-bold fw-bold"><%= t("agency_fees").upcase %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= t("amount").upcase %></div>
-    </div>
-    <div class="row border-bottom">
-      <div class="col-10 border-right"><%= t("agency_fees") %> <%= number_to_percentage(@vrental.commission * 100, precision: 0) if @vrental.commission %></div>
-      <div class="col-2 text-right text-end">-<%= number_to_currency(@annual_agency_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-    </div>
-    <div class="row border-bottom">
-      <div class="col-10 border-right"><%= t("agency_vat") %></div>
-      <div class="col-2 text-right text-end">-<%= number_to_currency(@annual_agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-    </div>
-    <div class="row">
-      <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total") %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold">-<%= number_to_currency(@annual_agency_commission + @annual_agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-    </div>
-  </div>
-  <% if @annual_expenses.present? %>
-    <div class="container border mt-3">
-      <div class="row border-bottom">
-        <div class="col-10 border-right font-weight-bold fw-bold"><%= t("expenses").upcase %></div>
-        <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= t("amount").upcase %></div>
-      </div>
-      <% @annual_expenses_owner.each do |expense| %>
-        <div class="row border-bottom">
-          <div class="col-10 border-right"><%= expense.description %></div>
-          <div class="col-2 text-right text-end">-<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-        </div>
       <% end %>
-      <% @annual_expenses_agency.each do |expense| %>
-        <div class="row border-bottom">
-          <div class="col-10 border-right"><%= expense.description %> (<%= t("paid_by_agency")  %>: <%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %>)</div>
-          <div class="col-2 text-right text-end">-<%= number_to_currency(0, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-        </div>
-      <% end %>
-      <div class="row">
-        <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total") %></div>
-        <div class="col-2 text-right text-end font-weight-bold fw-bold">-<%= number_to_currency(@total_annual_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
-      </div>
     </div>
-  <% end %>
-  <div class="container border mt-3">
-    <div class="row">
-      <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total").upcase %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= number_to_currency(@annual_net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+    <div class="text-right text-end col-6">
+      <ul class="list-unstyled p-0">
+        <li class="fw-bold"><%= @vrental.name %></li>
+        <li class="fw-bold"><%= @vrental.licence %></li>
+        <li><%= @vrental.address %></li>
+        <li><%= @vrental.cadastre %></li>
+      </ul>
     </div>
   </div>
 </div>
+<div class="container border mt-3">
+  <div class="row border-bottom">
+    <div class="col-10 border-right font-weight-bold fw-bold"><%= t("earnings").upcase %></div>
+    <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= t("amount").upcase %></div>
+  </div>
+  <% @annual_earnings.each do |earning| %>
+    <div class="row border-bottom align-items-center">
+      <div class="col-10 border-right">
+        <%= t("booking") %> <%= earning.booking.firstname.titleize %> <%= earning.booking.lastname.titleize %> (<%= I18n.l(earning.booking.checkin, format: :standard) %> - <%= I18n.l(earning.booking.checkout, format: :standard) %>)
+        <br>
+        <% if earning.discount && earning.discount != 0 && earning.discount < 1 %>
+          <small class="fst-italic"><%= t("discount") %>: <%= number_to_percentage(earning.discount * 100, precision: 2, separator: ',') %>
+            <%= "(#{earning.description})" if earning.description.present? %></small>
+        <% end %>
+      </div>
+      <div class="text-right text-end text-end col-2">
+        <%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-10 font-weight-bold fw-bold border-right"><%= t("total") %></div>
+    <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= number_to_currency(@total_annual_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+  </div>
+</div>
+<div class="container border mt-3">
+  <div class="row border-bottom">
+    <div class="col-10 border-right font-weight-bold fw-bold"><%= t("agency_fees").upcase %></div>
+    <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= t("amount").upcase %></div>
+  </div>
+  <div class="row border-bottom">
+    <div class="col-10 border-right"><%= t("agency_fees") %> <%= number_to_percentage(@vrental.commission * 100, precision: 0) if @vrental.commission %></div>
+    <div class="col-2 text-right text-end">-<%= number_to_currency(@annual_agency_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+  </div>
+  <div class="row border-bottom">
+    <div class="col-10 border-right"><%= t("agency_vat") %></div>
+    <div class="col-2 text-right text-end">-<%= number_to_currency(@annual_agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+  </div>
+  <div class="row">
+    <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total") %></div>
+    <div class="col-2 text-right text-end font-weight-bold fw-bold">-<%= number_to_currency(@annual_agency_commission + @annual_agency_commission_vat, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+  </div>
+</div>
+<% if @annual_expenses.present? %>
+  <div class="container border mt-3">
+    <div class="row border-bottom">
+      <div class="col-10 border-right font-weight-bold fw-bold"><%= t("expenses").upcase %></div>
+      <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= t("amount").upcase %></div>
+    </div>
+    <% @annual_expenses_owner.each do |expense| %>
+      <div class="row border-bottom">
+        <div class="col-10 border-right"><%= expense.description %></div>
+        <div class="col-2 text-right text-end">-<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+      </div>
+    <% end %>
+    <% @annual_expenses_agency.each do |expense| %>
+      <div class="row border-bottom">
+        <div class="col-10 border-right"><%= expense.description %> (<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %>, <%= t("paid_by_agency").downcase %>)</div>
+        <div class="col-2 text-right text-end">-<%= number_to_currency(0, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total") %></div>
+      <div class="col-2 text-right text-end font-weight-bold fw-bold">-<%= number_to_currency(@total_annual_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+    </div>
+  </div>
+<% end %>
+<div class="container border mt-3">
+  <div class="row">
+    <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total_revenue").upcase %></div>
+    <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= number_to_currency(@annual_net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+  </div>
+</div>
+<% if @annual_vrowner_payments.present? %>
+  <div class="container mt-5">
+    <% @annual_vrowner_payments.each do |payment| %>
+      <div class="row">
+        <div class="col-12"><%= number_to_currency(payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %> <%= t("paid_to_owner").downcase %> <%= l(payment.date) %></div>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="col-12 font-weight-bold fw-bold"><%= t("total") %> <%= t("paid_to_owner").downcase %>: <%= number_to_currency(@annual_vrowner_payments_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+    </div>
+  </div>
+<% end %>

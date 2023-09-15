@@ -61,11 +61,9 @@ class VrentalsController < ApplicationController
   def annual_statement
     @vrowner = @vrental.vrowner
     @year = params[:year].to_i
-
     @statements = policy_scope(Statement)
-    @annual_statements = @statements.where("EXTRACT(year FROM start_date) = ?", params[:year])
+    @annual_statements = @vrental.statements.where("EXTRACT(year FROM start_date) = ?", params[:year])
     authorize @annual_statements
-
     @annual_earnings = @vrental.earnings
                       .where(statement_id: @annual_statements.ids)
                       .where.not(amount: 0)
@@ -74,9 +72,9 @@ class VrentalsController < ApplicationController
     @annual_expenses_owner = @vrental.expenses.where(statement_id: @annual_statements.ids).where(expense_type: 'owner')
     @annual_expenses_agency = @vrental.expenses.where(statement_id: @annual_statements.ids).where(expense_type: 'agency')
     @total_annual_expenses_owner = @annual_expenses_owner.sum(:amount)
-
     @total_annual_earnings = @annual_earnings.sum(:amount)
-
+    @annual_vrowner_payments = VrownerPayment.where(statement_id: @annual_statements.ids)
+    @annual_vrowner_payments_total = @annual_vrowner_payments.sum(:amount)
     @annual_agency_commission = @annual_earnings.sum(:amount) * @vrental.commission
     @annual_agency_commission_vat = @annual_agency_commission * 0.21
     @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses_owner.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
