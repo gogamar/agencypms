@@ -110,6 +110,12 @@
                 <span><small>Pagament</small></span>
                 <span><small class="nowrap"><%= link_to "#{number_to_currency(statement.vrowner_payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", edit_statement_vrowner_payment_path(statement, statement.vrowner_payment), data: { bs_toggle: "modal", bs_target: "#vrownerPayment#{statement.id}"} %></small></span>
                 <%= render "vrowner_payment_modal", statement: statement, vrowner_payment: statement.vrowner_payment %>
+                <br>
+                <% unless statement.invoice.present? && Date.current > statement.invoice.created_at.to_date %>
+                  <%= link_to statement_vrowner_payment_path(statement, statement.vrowner_payment), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el pagament de la liquidació #{statement.start_date}?"} do %>
+                    <i class="fas fa-trash-can"></i>
+                  <% end %>
+                <% end %>
               <% else %>
                 <small>
                   <a type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#vrownerPayment<%= statement.id %>">

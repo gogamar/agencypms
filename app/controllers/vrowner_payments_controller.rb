@@ -29,13 +29,11 @@ class VrownerPaymentsController < ApplicationController
   def destroy
     authorize @vrowner_payment
 
-    if Date.current == @vrowner_payment.statement.invoice.created_at.to_date
+    if @vrowner_payment.statement.invoice && Date.current > @vrowner_payment.statement.invoice.created_at.to_date
+      redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), alert: 'No pots esborrar aquest pagament perquè ja ha passat més d\'un dia des de la creació de la factura.'
+    else
       @vrowner_payment.destroy
       redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), notice: 'Has esborrat el pagament.'
-    else
-      puts "this is the invoice date: #{Date.current}"
-      puts "these are the vrowner_payment errors: #{vrowner_payment.errors.full_messages}"
-      redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), alert: 'No pots esborrar aquest pagament perquè ja ha passat més d\'un dia des de la creació de la factura.'
     end
   end
 

@@ -2,7 +2,7 @@ class VrownersController < ApplicationController
   before_action :set_vrowner, only: [:show, :edit, :update, :destroy]
 
   def index
-    all_vrowners = policy_scope(Vrowner).order(:fullname)
+    all_vrowners = policy_scope(Vrowner).order(created_at: :desc)
     @pagy, @vrowners = pagy(all_vrowners, page: params[:page], items: 10)
   end
 
@@ -32,15 +32,14 @@ class VrownersController < ApplicationController
   end
 
   def new
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
+    authorize @vrental if @vrental
     @vrowner = Vrowner.new
-    authorize @vrental
     authorize @vrowner
   end
 
   def create
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
-
     @vrowner = Vrowner.new(vrowner_params)
     @vrowner.user = current_user
     @vrental.vrowner = @vrowner if @vrental.present?
@@ -48,11 +47,14 @@ class VrownersController < ApplicationController
 
     request_context = params[:vrowner][:request_context]
 
-    if @vrowner.save && @vrental.update_columns(vrowner_id: @vrowner.id)
+    if @vrowner.save
+      @vrental.update_columns(vrowner_id: @vrowner.id) if @vrental.present?
       if request_context && request_context == 'add_vrowner'
         redirect_to vrentals_path, notice: 'Nou immoble i propietari creats.'
-      else
+      elsif @vrental.present?
         redirect_to edit_vrental_path(@vrental), notice: 'Propietari creat i associat amb immoble.'
+      else
+        redirect_to vrowners_path, notice: 'Propietari creat.'
       end
     else
       render @vrental.persisted? ? :new : :add_vrowner
