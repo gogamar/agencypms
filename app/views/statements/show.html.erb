@@ -1,7 +1,12 @@
 <div class="container">
   <div class="d-flex justify-content-end mb-3">
     <div class="me-2">
-      <%= link_to 'Modificar la liquidació', edit_vrental_statement_path(@vrental, @statement), class: "btn btn-secondary rounded-3" %>
+      <button type="button" class="btn btn-secondary rounded-3" data-bs-toggle="modal" data-bs-target="#statement<%= @statement.id %>">
+        <span class="icon text-white-600">
+          <i class="fas fa-edit"></i> Modificar la liquidació
+        </span>
+      </button>
+      <%= render "statement_modal", vrental: @vrental, statement: @statement %>
     </div>
     <% if @statement.invoice %>
       <div class="me-2">
@@ -14,7 +19,7 @@
     <% end %>
     <% if !@statement.invoice || (@statement.invoice && Date.current == @statement.invoice.created_at.to_date) %>
       <div class="me-2">
-        <%= link_to 'Esborrar', @statement, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} %>
+        <%= link_to 'Esborrar', vrental_statement_path(@vrental, @statement), class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} %>
       </div>
     <% end %>
     <div data-controller="spinner" >

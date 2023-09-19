@@ -21,14 +21,6 @@ class StatementPolicy < ApplicationPolicy
     return true
   end
 
-  def add_earnings?
-    return update?
-  end
-
-  def add_expenses?
-    return update?
-  end
-
   def edit?
     return update?
   end

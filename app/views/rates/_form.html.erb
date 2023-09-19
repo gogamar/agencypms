@@ -3,16 +3,16 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div
   class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center"
-  data-controller="rate-component"
+  data-controller="unavailable-dates"
   data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
-  data-defaultcheckin="<%= @vrental.default_checkin.to_json %>"
+  data-default="<%= @vrental.default_checkin.to_json %>"
   >
     <% if controller_name == "rates" && action_name == "new" %>
       <div class="p-1 text-center">
-        <%= f.input :firstnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkin" }%>
+        <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" }%>
       </div>
       <div class="p-1 text-center">
-        <%= f.input :lastnight, as: :string, required: true, input_html: { "data-rate-component-target" => "checkout" } %>
+        <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
       </div>
     <% else %>
       <div class="p-1 text-center">

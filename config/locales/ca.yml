@@ -330,6 +330,7 @@ ca:
     forms:
       submit: "Desar"
       continue: "Continuar"
+      back: "Tornar"
   simple_calendar:
     previous: "<<"
     next: ">>"

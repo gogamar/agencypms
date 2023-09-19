@@ -1,11 +1,7 @@
-<div class="alert alert-warning alert-dismissible fade show position-relative text-center" role="alert">
-  Abans de crear una liquidació, assegura't d'importar les últimes reserves des de Beds24 a Ingressos.
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
 <div class="container d-flex justify-content-between">
-  <% if @vrental.statements.present? %>
-    <div class="flex-column">
-      <h6>Total imports liquidacions: <%= number_to_currency(@vrental.total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_statements %></h6>
+  <div class="flex-column">
+    <h6>Total imports liquidacions: <%= number_to_currency(@vrental.total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_statements %></h6>
+    <% if @vrental.statements.present? %>
       <h6>Total net propietari: <%= number_to_currency(@vrental.total_net_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_net_owner %>
         <% if @vrental.owner_payment_difference.positive? %>
           (<small class="text-warning">Pendent pagar al propietari: <%= number_to_currency(@vrental.owner_payment_difference, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
@@ -14,53 +10,68 @@
         <% else %>
           (<small>Tot pagat</small> <i class="fas fa-check-circle text-success"></i>)
         <% end %>
-      </h6>
-    </div>
-  <% end %>
-  <div class="d-flex align-items-center">
-    <% if @vrental %>
-      <%= link_to new_vrental_statement_path(@vrental), class: "btn btn-light btn-icon-split" do %>
-        <span class="icon text-white-600">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span class="text">
-          Nova liquidació per <%= @vrental.name %>
-        </span>
       <% end %>
-    <% end %>
+    </h6>
   </div>
 </div>
-<% @statement_years.each do |year| %>
+<% @booking_years.each do |year| %>
   <div class="container">
-    <% if @vrental.bookings_missing_statement(year).present? %>
-      <% missing_from = @vrental.covered_periods(year).first[0] > @vrental.bookings_missing_statement(year).first.checkin ? @vrental.bookings_missing_statement(year).first.checkin : @vrental.covered_periods(year).last[1] + 1 %>
-      <% missing_to = @vrental.covered_periods(year).first[0] > @vrental.bookings_missing_statement(year).first.checkin ? @vrental.covered_periods(year).first[0] - 1 : @vrental.bookings_missing_statement(year).first.checkout %>
-      <div class="alert alert-warning alert-dismissible fade show position-relative mt-2" role="alert">
-        <strong>Falta liquidació per:</strong>
-        <%= missing_from %> - <%= missing_to %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% end %>
-    <% if @vrental.expenses_without_statement.present? %>
-      <div class="alert alert-warning alert-dismissible fade show position-relative mt-2" role="alert">
-        <strong>Falta afegir despeses:</strong>
-        <%= @vrental.expenses_without_statement.map {|expense| expense.description}.to_sentence %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% end %>
     <hr>
     <div class="d-flex justify-content-between align-items-baseline">
-      <h4 class="text-info text-center pe-3">Liquidacions <%= year %></h4>
-      <div>
-        <% if @vrental.bookings_missing_statement(year).present? %>
-          <%= link_to "Falta liquidació per #{I18n.l(missing_from)} - #{I18n.l(missing_to)}", new_vrental_statement_path(start_date: missing_from, end_date: missing_to) %>
+      <div class="d-flex flex-column align-items-start">
+        <h4 class="text-info text-center pe-3">Liquidacions <%= year %></h4>
+        <% if @vrental.statements_without_invoice(year).present? %>
+          <%= link_to new_vrental_invoice_path(@vrental), class: "btn btn-light btn-icon-split" do %>
+            <span class="icon text-white-600">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span class="text">
+              Afegir factura
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="d-flex flex-column align-items-end gap-3">
+        <% if @vrental.rates.where("DATE_PART('year', firstnight) = ?", Date.today.year).exists? %>
+          <%= link_to get_bookings_vrental_path(@vrental, request_context: "statements"), class: "btn btn-light btn-icon-split" do %>
+            <span class="icon text-white-600">
+              <i class="fas fa-file-import"></i>
+            </span>
+            <span class="text">
+              Importar reserves des de Beds
+            </span>
+          <% end %>
+        <% else %>
+          <small>
+            <div class="alert alert-warning position-relative" role="alert">
+              Per importar reserves, primer has de importar tarifes del <%= Date.today.year %>
+            </div>
+          </small>
+          <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-light btn-icon-split" do %>
+            <span class="icon text-white-600">
+              <i class="fas fa-file-import"></i>
+            </span>
+            <span class="text">
+              Importar tarifes des de Beds
+            </span>
+          <% end %>
+        <% end %>
+        <% if @vrental.periods_missing_statement(year).present? %>
+          <% @vrental.periods_missing_statement(year).each do |period| %>
+            <button type="button" class="btn btn-light btn-icon-split" data-bs-toggle="modal" data-bs-target="#statement">
+              <span class="icon text-white-600">
+                <i class="fas fa-plus"></i>
+              </span>
+              <span class="text">
+                Nova liquidació <%= I18n.l(period[0]) %> - <%= I18n.l(period[1]) %>
+              </span>
+            </button>
+            <%= render "statement_modal", vrental: @vrental, statement: Statement.new, start_date: period[0], end_date: period[1] %>
+          <% end %>
         <% elsif @vrental.expenses_without_statement.present? %>
-          <%= link_to "Falta afegir despeses per #{year}", edit_vrental_statement_path(@vrental, @vrental.statements.last) %>
+          <%= link_to "Falta afegir despeses per #{year}", edit_vrental_statement_path(@vrental, @vrental.statements.last), class: "text-info" %>
         <% else %>
           <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
-        <% end %>
-        <% if @vrental.statements_without_invoice(year).present? %>
-          <%= link_to "Afegir factura", new_vrental_invoice_path(@vrental), class: "btn btn-info" %>
         <% end %>
       </div>
     </div>
@@ -68,16 +79,14 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col" class="nowrap text-center">Referència</th>
-          <th scope="col" class="nowrap text-center">Data inici</th>
-          <th scope="col" class="nowrap text-center">Data final</th>
-          <th scope="col" class="nowrap text-center">Factura</th>
-          <th scope="col" class="nowrap text-center">Ingresos</th>
-          <th scope="col" class="nowrap text-center">Agència + IVA</th>
-          <th scope="col" class="nowrap text-center">Despeses</th>
-          <th scope="col" class="nowrap text-center">Net propietari</th>
-          <th scope="col" class="nowrap text-center">Pagada?</th>
-          <th scope="col" class="nowrap text-center">Editar</th>
+          <th scope="col" class="nowrap">Liquidació</th>
+          <th scope="col" class="nowrap">Factura</th>
+          <th scope="col" class="nowrap">Ingresos</th>
+          <th scope="col" class="nowrap">Agència + IVA</th>
+          <th scope="col" class="nowrap">Despeses prop.</th>
+          <th scope="col" class="nowrap">Net prop.</th>
+          <th scope="col" class="nowrap">Pagada?</th>
+          <th scope="col" class="nowrap border-start">Editar</th>
         </tr>
       </thead>
       <tbody>
@@ -85,31 +94,38 @@
           <tr>
             <th scope="row" class="nowrap">
               <%= link_to vrental_statement_path(@vrental, statement, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "btn btn-info text-decoration-none" do %>
-                <%= statement.ref_number %>
+                <%= I18n.l(statement.start_date) %> - <%= I18n.l(statement.end_date) %>
               <% end %>
             </th>
-            <td class="text-center"><%= I18n.l(statement.start_date) %></td>
-            <td class="text-center"><%= I18n.l(statement.end_date) %></td>
-            <td class="text-center">
+            <td>
               <%= link_to "#{statement.invoice.invoice_number_formatted}", vrental_invoice_path(@vrental, statement.invoice, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "btn btn-info" if statement.invoice.present? %>
             </td>
-            <td class="text-center nowrap"><%= number_to_currency(statement.total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td class="text-center nowrap"><%= number_to_currency((statement.agency_commission + statement.agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td class="text-center nowrap"><%= number_to_currency(statement.total_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td class="text-center nowrap"><%= number_to_currency(statement.net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td class="text-center">
+            <td class="nowrap"><%= number_to_currency(statement.total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="nowrap"><%= number_to_currency((statement.agency_commission + statement.agency_commission_vat), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="nowrap"><%= number_to_currency(statement.total_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="nowrap"><%= number_to_currency(statement.net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td>
               <% if statement.vrowner_payment.present? %>
                 <i class="fas fa-check-circle text-success"></i>
                 <span><small>Pagament</small></span>
-                <span><small class="nowrap"><%= link_to "#{number_to_currency(statement.vrowner_payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", edit_statement_vrowner_payment_path(statement, statement.vrowner_payment) %></small></span>
+                <span><small class="nowrap"><%= link_to "#{number_to_currency(statement.vrowner_payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", edit_statement_vrowner_payment_path(statement, statement.vrowner_payment), data: { bs_toggle: "modal", bs_target: "#vrownerPayment#{statement.id}"} %></small></span>
+                <%= render "vrowner_payment_modal", statement: statement, vrowner_payment: statement.vrowner_payment %>
               <% else %>
-                <small><%= link_to "Afegir pagament", new_statement_vrowner_payment_path(statement) %></small>
+                <small>
+                  <a type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#vrownerPayment<%= statement.id %>">
+                    Afegir pagament
+                  </a>
+                </small>
+                <%= render "vrowner_payment_modal", statement: statement, vrowner_payment: VrownerPayment.new %>
               <% end %>
             </td>
-            <td class="text-center">
-              <%= link_to edit_vrental_statement_path(@vrental, statement), class: "text-primary text-decoration-none p-1" do %>
-                <i class="fas fa-edit"></i>
-              <% end %>
+            <td class="border-start">
+              <a type="button" class="text-primary text-decoration-none p-1" data-bs-toggle="modal" data-bs-target="#statement<%= statement.id %>">
+                <span class="icon text-white-600">
+                  <i class="fas fa-edit"></i>
+                </span>
+              </a>
+              <%= render "statement_modal", vrental: @vrental, statement: statement %>
               <% if !statement.invoice || (statement.invoice && Date.current == statement.invoice.created_at.to_date) %>
                 <%= link_to vrental_statement_path(@vrental, statement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació del #{statement.start_date}?"} do %>
                   <i class="fas fa-trash-can"></i>

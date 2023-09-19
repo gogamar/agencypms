@@ -1,26 +1,18 @@
 class VrownerPaymentsController < ApplicationController
-  before_action :set_vrowner_payment, except: [:new, :create]
+  before_action :set_vrowner_payment, except: [:create]
   before_action :set_statement
-
-  def new
-    @vrowner_payment = VrownerPayment.new
-    authorize @vrowner_payment
-  end
-
-  def edit
-    authorize @vrowner_payment
-  end
 
   def create
     @vrowner_payment = VrownerPayment.new(vrowner_payment_params)
     authorize @vrowner_payment
+    authorize @statement
     @vrowner_payment.statement = @statement
-    @vrowner_payment.vrowner = @statement.vrental.vrowner
 
     if @vrowner_payment.save
-      redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), notice: 'Has marcat la liquidació com pagada.'
+      redirect_to vrental_statements_path(@statement.vrental), notice: 'Has marcat la liquidació com pagada.'
     else
-      render :new, status: :unprocessable_entity
+      puts "these are vrowner payment errors: #{@vrowner_payment.errors.full_messages}"
+      flash[:alert] = 'No s\'ha pogut marcar la liquidació com pagada.'
     end
   end
 
@@ -28,9 +20,9 @@ class VrownerPaymentsController < ApplicationController
     authorize @vrowner_payment
 
     if @vrowner_payment.update(vrowner_payment_params)
-      redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), notice: 'Has actualitzat el pagament.'
+      redirect_to vrental_statements_path(@statement.vrental), notice: 'Has actualitzat el pagament.'
     else
-      render :edit, status: :unprocessable_entity
+      flash[:alert] = 'No s\'ha pogut actualitzar el pagament.'
     end
   end
 
@@ -41,6 +33,8 @@ class VrownerPaymentsController < ApplicationController
       @vrowner_payment.destroy
       redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), notice: 'Has esborrat el pagament.'
     else
+      puts "this is the invoice date: #{Date.current}"
+      puts "these are the vrowner_payment errors: #{vrowner_payment.errors.full_messages}"
       redirect_to vrental_statements_path(@vrowner_payment.statement.vrental), alert: 'No pots esborrar aquest pagament perquè ja ha passat més d\'un dia des de la creació de la factura.'
     end
   end
@@ -56,6 +50,6 @@ class VrownerPaymentsController < ApplicationController
   end
 
   def vrowner_payment_params
-    params.require(:vrowner_payment).permit(:description, :amount, :date, :statement_id, :vrowner_id)
+    params.require(:vrowner_payment).permit(:description, :amount, :date, :statement_id)
   end
 end

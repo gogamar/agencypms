@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -165,7 +165,11 @@ class VrentalsController < ApplicationController
   def get_bookings
     @vrental.get_bookings_from_beds
     authorize @vrental
+    if params[:request_context] == 'statements'
+      redirect_to vrental_statements_path(@vrental), notice: "S'han importat les reserves."
+    else
     redirect_to vrental_earnings_path(@vrental), notice: "S'han importat les reserves."
+    end
     # redirect_to vrental_earnings_path(@vrental), notice: (result == "property with this propKey not found in account" ? "Immoble amb aquesta clau secreta no existeix a Beds24." : "Ja s'han importat les reserves.")
   end
 
@@ -213,6 +217,23 @@ class VrentalsController < ApplicationController
     @vrental = Vrental.find(params[:id])
     authorize @vrental
     @vrowner = Vrowner.new
+  end
+
+  def fetch_earnings
+    authorize @vrental
+    start_date_param = params[:start_date]
+    end_date_param = params[:end_date]
+
+    if start_date_param && end_date_param
+      start_date = Date.parse(start_date_param)
+      end_date = Date.parse(end_date_param)
+
+      earnings = @vrental.earnings.where(date: start_date..end_date).order(:date)
+      render earnings, layout: false
+    else
+      # Handle the case where start_date or end_date is missing or not in the correct format
+      # You might want to render an error message or redirect to an error page.
+    end
   end
 
   def edit

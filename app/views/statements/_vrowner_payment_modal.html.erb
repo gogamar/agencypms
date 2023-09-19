@@ -1,0 +1,17 @@
+<div class="modal fade" id="vrownerPayment<%= statement.id %>" tabindex="-1" aria-labelledby="vrownerPaymentLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="vrownerPaymentLabel"><%= vrowner_payment.persisted? ? "Modificar pagament" : "Afegir pagament" %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-between align-items-center">
+          <h5 class="text-primary"><%= statement.vrental.name %></h5>
+          <h6>Liquidació: <%= "#{l(statement.start_date)} - #{l(statement.end_date)}" %></h6>
+        </div>
+        <%= render "vrowner_payments/form", statement: statement, vrowner_payment: vrowner_payment %>
+      </div>
+    </div>
+  </div>
+</div>

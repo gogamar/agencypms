@@ -155,7 +155,6 @@ const initSelect2 = () => {
     .on("select2:unselect", function (e) {
       // This function will be triggered when an item is unselected.
       document.querySelector(".edit_vrowner-js").classList.add("d-none");
-      console.log("Item removed:", e.params.data);
       updateVrowner(null);
     });
 };

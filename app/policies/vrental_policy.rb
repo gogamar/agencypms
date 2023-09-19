@@ -13,6 +13,10 @@ class VrentalPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def fetch_earnings?
+    user.admin? || user.vrentals.include?(record)
+  end
+
   def show?
     record.user == user
   end

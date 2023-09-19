@@ -1,37 +1,44 @@
 import { Controller } from "@hotwired/stimulus";
 import { initFlatpickr as flatpickr } from "../plugins/flatpickr";
+import { start } from "@popperjs/core";
 
 export default class extends Controller {
-  static targets = ["checkin", "checkout"];
+  static targets = ["start", "end"];
 
   connect() {
     flatpickr();
-    console.log("Rate component controller connected");
     const unavailableDates = JSON.parse(this.element.dataset.unavailable);
-    const defaultCheckin = JSON.parse(this.element.dataset.defaultcheckin);
-    let checkinDate = new Date(defaultCheckin);
+    const defaultStart = this.element.dataset.defaultstart
+      ? this.element.dataset.defaultstart
+      : null;
+    const defaultEnd = this.element.dataset.defaultend
+      ? this.element.dataset.defaultend
+      : null;
 
-    const checkinPicker = this.checkinTarget.flatpickr({
+    let start = defaultStart ? new Date(defaultStart) : null;
+    let end = defaultEnd ? new Date(defaultEnd) : null;
+
+    const startPicker = this.startTarget.flatpickr({
       allowInput: true,
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      defaultDate: defaultCheckin,
+      defaultDate: start,
       disable: unavailableDates,
       onChange: function (selectedDates, dateStr, instance) {
         checkoutPicker.set("minDate", new Date(selectedDates).fp_incr(1));
       },
     });
 
-    const checkoutPicker = this.checkoutTarget.flatpickr({
+    const endPicker = this.endTarget.flatpickr({
       allowInput: true,
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      defaultDate: checkinDate.setDate(checkinDate.getDate() + 7),
+      defaultDate: end || start.setDate(start.getDate() + 7),
       disable: unavailableDates,
       onChange: function (selectedDates, dateStr, instance) {
-        checkinPicker.set("maxDate", dateStr);
+        startPicker.set("maxDate", dateStr);
       },
     });
   }

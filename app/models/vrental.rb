@@ -20,13 +20,25 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def commission_percentage
-    number_to_percentage(commission * 100, precision: 2, separator: ',')
+  def other_statements_dates(statement=nil)
+    other_statements = statement.nil? ? statements : statements.where.not(id: statement.id)
+    other_statements.pluck(:start_date, :end_date).map do |range|
+      { from: range[0], to: range[1] }
+    end
   end
 
   def default_checkin
     last_rate = rates.find_by(lastnight: rates.maximum('lastnight'))
     last_rate.present? ? last_rate.lastnight + 1.day : Date.today
+  end
+
+  def commission_percentage
+    number_to_percentage(commission * 100, precision: 2, separator: ',')
+  end
+
+  def default_statement_start
+    last_statement = statements.find_by(end_date: statements.maximum('end_date'))
+    last_statement.present? ? last_statement.end_date + 1.day : Date.new(Date.today.year, 1, 1)
   end
 
   def rate_price(checkin, checkout)
@@ -140,7 +152,7 @@ class Vrental < ApplicationRecord
   end
 
   def this_year_statements(year)
-    statements.where("EXTRACT(YEAR FROM start_date) = ?", year)
+    statements.where("EXTRACT(YEAR FROM start_date) = ?", year).order(:start_date)
   end
 
   def covered_periods(year)
@@ -155,6 +167,32 @@ class Vrental < ApplicationRecord
     year_bookings.select do |booking|
       covered_periods(year).none? { |range| range[0] <= booking.checkin && booking.checkin <= range[1] }
     end.sort_by(&:checkin)
+  end
+
+  def periods_missing_statement(year)
+    uncovered_periods = []
+
+    covered = covered_periods(year)
+    bookings = bookings_missing_statement(year)
+
+    return uncovered_periods if bookings.empty?
+
+    earliest_checkin = bookings.min_by(&:checkin).checkin
+    latest_checkout = bookings.max_by(&:checkout).checkout
+
+    if covered.empty?
+      uncovered_periods = [[earliest_checkin.beginning_of_year, earliest_checkin.end_of_year]]
+    else
+      if covered[0][0] > earliest_checkin
+        uncovered_periods << [earliest_checkin, covered[0][0] - 1]
+      end
+
+      if covered[-1][1] < latest_checkout
+        uncovered_periods << [covered[-1][1] + 1, latest_checkout]
+      end
+    end
+
+    uncovered_periods
   end
 
   def expenses_without_statement

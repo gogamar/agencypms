@@ -13,8 +13,14 @@ application.register("address-autocomplete", AddressAutocompleteController)
 import CallFlatpickrController from "./call_flatpickr_controller"
 application.register("call-flatpickr", CallFlatpickrController)
 
+import CheckboxController from "./checkbox_controller"
+application.register("checkbox", CheckboxController)
+
 import EarningCalculatorController from "./earning_calculator_controller"
 application.register("earning-calculator", EarningCalculatorController)
+
+import FetchEarningsController from "./fetch_earnings_controller"
+application.register("fetch-earnings", FetchEarningsController)
 
 import FlatpickrController from "./flatpickr_controller"
 application.register("flatpickr", FlatpickrController)
@@ -28,9 +34,6 @@ application.register("map", MapController)
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
 
-import RateComponentController from "./rate_component_controller"
-application.register("rate-component", RateComponentController)
-
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 
@@ -39,6 +42,9 @@ application.register("spinner", SpinnerController)
 
 import TypedJsController from "./typed_js_controller"
 application.register("typed-js", TypedJsController)
+
+import UnavailableDatesController from "./unavailable_dates_controller"
+application.register("unavailable-dates", UnavailableDatesController)
 
 import UpdateFieldController from "./update_field_controller"
 application.register("update-field", UpdateFieldController)

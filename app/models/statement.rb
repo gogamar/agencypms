@@ -20,7 +20,6 @@ class Statement < ApplicationRecord
     vrental.bookings.where(checkin: start_date..end_date)
   end
 
-  # we need to list these in add_earnings.html.erb
   def statement_earnings
     vrental.earnings.where(date: start_date..end_date).order(:date)
   end
@@ -39,6 +38,10 @@ class Statement < ApplicationRecord
 
   def agency_commission_vat
     agency_commission * 0.21
+  end
+
+  def total_expenses
+    expenses.pluck(:amount)&.sum
   end
 
   def total_expenses_owner

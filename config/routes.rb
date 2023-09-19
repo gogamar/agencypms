@@ -27,13 +27,9 @@ Rails.application.routes.draw do
           get :add_vrowner
           get :add_features
           get :annual_statement, path: 'liquidacio-annual'
+          get :fetch_earnings
         end
-        resources :statements, path: 'liquidacions' do
-          member do
-            get :add_earnings
-            get :add_expenses
-          end
-        end
+        resources :statements, path: 'liquidacions'
         resources :invoices, path: 'factures'
         resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
 
@@ -85,7 +81,7 @@ Rails.application.routes.draw do
 
       resources :rates, path: 'tarifes', only: :destroy
       resources :earnings, path: 'ingressos', only: :destroy
-      resources :statements, path: 'liquidacions', only: :destroy do
+      resources :statements, path: 'liquidacions' do
         resources :vrowner_payments, path: 'pagaments-lloguer-turistic'
       end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_14_140112) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -332,9 +332,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_140112) do
     t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "vrowner_id", null: false
     t.index ["statement_id"], name: "index_vrowner_payments_on_statement_id"
-    t.index ["vrowner_id"], name: "index_vrowner_payments_on_vrowner_id"
   end
 
   create_table "vrowners", force: :cascade do |t|
@@ -377,6 +375,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_140112) do
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"
   add_foreign_key "vrowner_payments", "statements"
-  add_foreign_key "vrowner_payments", "vrowners"
   add_foreign_key "vrowners", "users"
 end

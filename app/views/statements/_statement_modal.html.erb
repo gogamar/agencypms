@@ -1,0 +1,22 @@
+<div class="modal fade" id="statement<%= statement.persisted? ? statement.id : "" %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="statementLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statementLabel"><%= statement.persisted? ? "Modificar liquidació" : "Nova liquidació" %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center">
+          <h5 class="text-primary"><%= vrental.name %></h5>
+        </div>
+        <div>
+          <% if statement.persisted? %>
+            <%= render "form", vrental: vrental, statement: statement %>
+          <% else %>
+            <%= render "form", vrental: vrental, statement: statement, start_date: start_date, end_date: end_date %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

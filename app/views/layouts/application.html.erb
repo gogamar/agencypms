@@ -24,20 +24,20 @@
   >
     <div id="wrapper">
       <div id="content-wrapper" class="d-flex flex-column">
-        <%= render "shared/flashes" %>
         <% if user_signed_in? %>
           <%= render "shared/topbar" %>
           <%= render "shared/navbar" %>
           <%= render "shared/subnav" if @vrental %>
         <% end %>
         <div id="content" class="flex-shrink-0">
-          <div class="container-fluid">
+          <div class="container-fluid mb-5">
             <%= yield %>
+            <%= render "shared/flashes" %>
           </div>
         </div>
       </div>
     </div>
-    <footer class="footer mt-auto py-3 bg-white">
+    <footer class="footer py-5 bg-white">
       <div class="container">
         <div class="copyright text-center my-auto">
           <span>&copy; Sistach Finques <%= Date.today.year %></span>
