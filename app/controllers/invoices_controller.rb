@@ -16,27 +16,31 @@ class InvoicesController < ApplicationController
       format.html
       format.pdf do
         render pdf: "#{@vrental.name}, factura #{@invoice.date.year}/#{@invoice.number}",
-               template: "invoices/show",
-               header: {
-                right: "#{t("page")} [page] #{t("of")} [topage]",
-                center: @invoice.date.present? ? l(@invoice.date, format: :long) : '',
-                font_size: 9,
-                spacing: 5
-               },
-               formats: [:html],
-               disposition: :inline,
-               page_size: 'A4',
-               dpi: '75',
-               zoom: 1,
-               layout: 'pdf',
-               margin:  {   top:    20,
-                            bottom: 30,
-                            left:   10,
-                            right:  10},
-              footer: {
-                content: render_to_string(
-                  'shared/pdf_header'
-                )}
+                template: "invoices/show",
+                margin:  {
+                  top: 70,
+                  bottom: 25,
+                  left: 10,
+                  right: 10},
+                header: {
+                  font_size: 9,
+                  spacing: 30,
+                  content: render_to_string(
+                    'shared/pdf_header'
+                  )
+                 },
+                formats: [:html],
+                disposition: :inline,
+                page_size: 'A4',
+                dpi: '75',
+                zoom: 1,
+                layout: 'pdf',
+                footer: {
+                  font_size: 9,
+                  spacing: 5,
+                  right: "#{t("page")} [page] #{t("of")} [topage]",
+                  left: @invoice.date.present? ? l(@invoice.date, format: :long) : ''
+                }
       end
     end
   end
