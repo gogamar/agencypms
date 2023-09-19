@@ -135,7 +135,7 @@
   <% if @statement.vrowner_payment.present? %>
     <div class="container mt-5">
       <div class="row">
-        <div class="col-12"><%= number_to_currency((@statement.vrowner_payment.amount), unit: "€", separator: ",", delimiter: ".", precision: 2) %> <%= t("paid_to_owner").downcase %> <%= l(@statement.vrowner_payment.date) %></div>
+        <div class="col-12"><%= number_to_currency((@statement.vrowner_payment.amount), unit: "€", separator: ",", delimiter: ".", precision: 2) %> <%= t("paid_to_owner").downcase %> <%= l(@statement.vrowner_payment.date) if @statement.vrowner_payment.date.present? %></div>
       </div>
     </div>
   <% end %>

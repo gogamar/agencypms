@@ -1,16 +1,25 @@
-footer.sticky-footer {
-  padding: 2rem 0;
-  flex-shrink: 0;
-  background-color: #e8e9eb;
-}
+// footer.sticky-footer {
+//   padding: 2rem 0;
+//   flex-shrink: 0;
+//   background-color: #e8e9eb;
+// }
+
+// body.sidebar-toggled {
+//   footer.sticky-footer {
+//     width: 100%;
+//   }
+// }
 
 .copyright {
   line-height: 1;
   font-size: 0.8rem;
 }
 
-body.sidebar-toggled {
-  footer.sticky-footer {
-    width: 100%;
-  }
+html,
+body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
 }

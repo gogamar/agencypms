@@ -113,7 +113,7 @@
   <div class="container mt-5">
     <% @annual_vrowner_payments.each do |payment| %>
       <div class="row">
-        <div class="col-12"><%= number_to_currency(payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %> <%= t("paid_to_owner").downcase %> <%= l(payment.date) %></div>
+        <div class="col-12"><%= number_to_currency(payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %> <%= t("paid_to_owner").downcase %> <%= l(payment.date) if payment.date %></div>
       </div>
     <% end %>
     <div class="row">
