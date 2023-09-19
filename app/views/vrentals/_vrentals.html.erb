@@ -1,4 +1,4 @@
-<h4 class="font-weight-bold text-primary text-center mb-2">Immobles lloguer turístic - HUTs</h4>
+<h4 class="font-weight-bold text-primary text-center py-2">Immobles lloguer turístic - HUTs</h4>
 <hr>
 <div class="container d-flex justify-content-center mt-5">
   <%= form_with url: list_vrentals_path, method: :get, data: { turbo_frame: "vrentals"}, class: "row g-3" do |form| %>
@@ -24,6 +24,16 @@
     </div>
     <div class="col-auto">
       <%= link_to "Veure tots els immobles", vrentals_path, class: "btn btn-secondary" %>
+    </div>
+    <div class="col-auto">
+      <%= link_to new_vrental_path, class: "btn btn-light btn-icon-split" do %>
+        <span class="icon text-white-600">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">
+          Afegir immoble nou
+        </span>
+      <% end %>
     </div>
   <% end %>
 </div>

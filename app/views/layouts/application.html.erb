@@ -24,10 +24,10 @@
         <% if user_signed_in? %>
           <%= render "shared/topbar" %>
           <%= render "shared/navbar" %>
-          <%= render "shared/subnav" if @vrental %>
+          <%= render "shared/subnav" if @vrental && @vrental.persisted? %>
         <% end %>
         <div id="content" class="flex-shrink-0">
-          <div class="container-fluid mb-5">
+          <div class="container-fluid my-5">
             <%= yield %>
           </div>
         </div>

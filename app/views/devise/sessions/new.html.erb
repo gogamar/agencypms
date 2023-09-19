@@ -5,36 +5,33 @@
       <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center mb-4 box-shadow">
           <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 rounded-4" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1668032336/undraw_access_account_re_8spm_mpntom.svg" alt="Iniciar sessió" /></div>
-            <div class="col-md-6">
-              <h2><%= t(".sign_in") %></h2>
-              <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false}) do |f| %>
-                <div class="form-inputs">
-                  <%= f.input :email,
+          <div class="col-md-6">
+            <h2><%= t(".sign_in") %></h2>
+            <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false}) do |f| %>
+              <div class="form-inputs">
+                <%= f.input :email,
                               required: false,
                               autofocus: true,
                               input_html: { autocomplete: "email" } %>
-
-                  <%= f.label :password, class: "form-label" %>
-                  <div class="input-group mb-3" data-controller="password-toggle">
-                    <%= f.input_field :password,
+                <%= f.label :password, class: "form-label" %>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password,
                               required: false,
                               autocomplete: "current-password",
                               data: { "password-toggle-target" => "unhide" },
                               class: "form-control" %>
-                    <span class="input-group-text">
-                      <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
-                    </span>
-                  </div>
-
-                  <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
                 </div>
-
-                <div class="form-actions d-grid">
-                  <%= f.button :submit, t(".sign_in"), class: "btn btn-primary" %>
-                </div>
-              <% end %>
-              <%= render "devise/shared/links" %>
-            </div>
+                <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+              </div>
+              <div class="form-actions d-grid">
+                <%= f.button :submit, t(".sign_in"), class: "btn btn-primary" %>
+              </div>
+            <% end %>
+            <%= render "devise/shared/links" %>
+          </div>
         </div>
       </div>
     </section>

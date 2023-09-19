@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mb-2 mb-lg-0">
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
         <li class="nav-item">
           <%= select_tag "select_vrental", options_for_select(@all_vrentals.map { |vrental| [vrental.name, vrental_path(vrental)] }, nil), include_blank: true, class: "js-example-responsive", id: "select_vrental-select2" %>
         </li>
