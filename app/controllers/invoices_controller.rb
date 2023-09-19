@@ -1,10 +1,11 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
-  before_action :set_vrental
+  before_action :set_vrental, except: [:index]
 
   def index
     @invoices = policy_scope(Invoice)
-    @invoices = @invoices.order(created_at: :asc)
+    @invoices = @invoices.order(number: :asc)
+    @total_agency_fees_invoiced = Invoice.all.map(&:agency_total).sum
   end
 
   def show

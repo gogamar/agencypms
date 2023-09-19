@@ -14,11 +14,17 @@
         <li class="nav-item">
           <%= link_to "Propietaris", vrowners_path, class: "nav-link" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Ingressos", total_earnings_vrentals_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Despeses", expenses_path, class: "nav-link" %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Informes
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><%= link_to "Ingressos", total_earnings_vrentals_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Despeses", expenses_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Factures", invoices_path, class: "dropdown-item" %></li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,0 +1,43 @@
+<% if @invoices.present? %>
+  <div class="container">
+    <hr>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Número</th>
+          <th scope="col">Data</th>
+          <th scope="col">Immoble</th>
+          <th scope="col">Liquidació</th>
+          <th scope="col" class="text-end">Import (Total: <%= number_to_currency(@total_agency_fees_invoiced, unit: "€", separator: ",", delimiter: ".", precision: 2) %>)</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @invoices.each do |invoice| %>
+          <tr>
+            <th scope="row"><%= invoice.invoice_number_formatted %></th>
+            <td><%= l(invoice.date) %></td>
+            <td><%= link_to invoice.vrental.name, vrental_invoices_path(invoice.vrental) %></td>
+            <td>
+              <% if invoice.statements %>
+                <div class="d-flex flex-column">
+                  <% invoice.statements.each do |statement| %>
+                    <small><%= link_to "Liquidació #{l(statement.start_date)} - #{l(statement.end_date)}", vrental_statement_path(invoice.vrental, statement) %></small>
+                  <% end %>
+                </div>
+              <% end %>
+            </td>
+            <td class="text-end"><%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td>
+              <% if Date.current == invoice.created_at.to_date %>
+                <%= link_to invoice, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta factura?"}, class: "text-danger text-decoration-none" do %>
+                  <i class="fas fa-trash-can fa-sm"></i>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

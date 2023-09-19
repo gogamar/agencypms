@@ -34,9 +34,6 @@ application.register("map", MapController)
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
 
-import SidebarController from "./sidebar_controller"
-application.register("sidebar", SidebarController)
-
 import SpinnerController from "./spinner_controller"
 application.register("spinner", SpinnerController)
 

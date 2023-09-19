@@ -40,6 +40,10 @@ class Statement < ApplicationRecord
     agency_commission * 0.21
   end
 
+  def agency_commission_vat_total
+    agency_commission + agency_commission_vat
+  end
+
   def total_expenses
     expenses.pluck(:amount)&.sum
   end
