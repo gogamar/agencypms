@@ -1,12 +1,14 @@
 <div class="container d-flex justify-content-between">
   <div class="flex-column">
-    <h6>Total imports liquidacions: <%= number_to_currency(@vrental.total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_statements %></h6>
+    <h6>Total imports liquidacions: <%= number_to_currency(@vrental.total_statements, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_statements.present? %></h6>
     <% if @vrental.statements.present? %>
-      <h6>Total net propietari: <%= number_to_currency(@vrental.total_net_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_net_owner %>
-        <% if @vrental.owner_payment_difference.positive? %>
-          (<small class="text-warning">Pendent pagar al propietari: <%= number_to_currency(@vrental.owner_payment_difference, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
-        <% elsif @vrental.owner_payment_difference.negative? %>
-          (<small class="text-warning">El propietari ha cobrat de mès: <%= number_to_currency(@vrental.owner_payment_difference * -1, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
+      <h6>Total net propietari: <%= number_to_currency(@vrental.total_net_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) if @vrental.total_net_owner.present? %>
+        <% if @vrental.owner_payment_difference.present? %>
+          <% if @vrental.owner_payment_difference.positive? %>
+            (<small class="text-warning">Pendent pagar al propietari: <%= number_to_currency(@vrental.owner_payment_difference, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
+          <% elsif @vrental.owner_payment_difference.negative? %>
+            (<small class="text-warning">El propietari ha cobrat de mès: <%= number_to_currency(@vrental.owner_payment_difference * -1, unit: "€", separator: ",", delimiter: ".", precision: 2) %></small>)
+          <% end %>
         <% else %>
           (<small>Tot pagat</small> <i class="fas fa-check-circle text-success"></i>)
         <% end %>
