@@ -119,7 +119,7 @@ class Vrental < ApplicationRecord
   def total_owner_payments
     total = 0
     statements.each do |statement|
-      total += statement.vrowner_payment.present? ? statement.vrowner_payment.amount : 0
+      total += statement.vrowner_payment.amount if statement.vrowner_payment.amount.present?
     end
     total
   end
