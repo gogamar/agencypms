@@ -70,8 +70,14 @@
             </button>
             <%= render "statement_modal", vrental: @vrental, statement: Statement.new, start_date: period[0], end_date: period[1] %>
           <% end %>
-        <% elsif @vrental.expenses_without_statement.present? %>
-          <%= link_to "Falta afegir despeses per #{year}", edit_vrental_statement_path(@vrental, @vrental.statements.last), class: "text-info" %>
+        <% elsif @vrental.statements.present? && @vrental.expenses_without_statement.present? %>
+          <% last_statement = @vrental.statements.order(start_date: :desc).first %>
+          <a type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#statement<%= last_statement.id %>">
+            <span class="icon text-white-600">
+              <i class="fas fa-edit"></i> Falta afegir despeses per <%= year %>
+            </span>
+          </a>
+          <%= render "statement_modal", vrental: @vrental, statement: last_statement %>
         <% else %>
           <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
         <% end %>

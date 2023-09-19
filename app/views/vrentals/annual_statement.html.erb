@@ -88,7 +88,7 @@
     <% @annual_expenses_owner.each do |expense| %>
       <div class="row border-bottom">
         <div class="col-10 border-right"><%= expense.description %></div>
-        <div class="col-2 text-right text-end">-<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+        <div class="col-2 text-right text-end"><%= expense.amount.positive? ? "-" : "" %><%= number_to_currency(expense.amount.abs, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
       </div>
     <% end %>
     <% @annual_expenses_agency.each do |expense| %>
@@ -99,7 +99,7 @@
     <% end %>
     <div class="row">
       <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total") %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold">-<%= number_to_currency(@total_annual_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+      <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= @total_annual_expenses_owner.positive? ? "-" : "" %><%= number_to_currency(@total_annual_expenses_owner.abs, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
     </div>
   </div>
 <% end %>

@@ -111,18 +111,18 @@
       <% @statement_expenses_owner.each do |expense| %>
         <div class="row border-bottom">
           <div class="col-10 border-right"><%= expense.description %></div>
-          <div class="col-2 text-right text-end">-<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+          <div class="col-2 text-right text-end"><%= expense.amount.positive? ? "-" : "" %><%= number_to_currency(expense.amount.abs, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
         </div>
       <% end %>
       <% @statement_expenses_agency.each do |expense| %>
         <div class="row border-bottom">
           <div class="col-10 border-right"><%= expense.description %> (<%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %>, <%= t("paid_by_agency").downcase  %>)</div>
-          <div class="col-2 text-right text-end">-<%= number_to_currency(0, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+          <div class="col-2 text-right text-end"><%= number_to_currency(0, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
         </div>
       <% end %>
       <div class="row">
         <div class="col-10 border-right font-weight-bold fw-bold"><%= t("total") %></div>
-        <div class="col-2 text-right text-end font-weight-bold fw-bold">-<%= number_to_currency(@total_statement_expenses_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+        <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= @total_statement_expenses_owner.positive? ? "-" : "" %><%= number_to_currency(@total_statement_expenses_owner.abs, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
       </div>
     </div>
   <% end %>
