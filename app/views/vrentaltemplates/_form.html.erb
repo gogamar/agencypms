@@ -9,22 +9,18 @@
       <%= f.input :language, priority: [ t(".ca"), "ca" ], collection: [ [t(".ca"), "ca"], [t(".es"), "es"], [t(".fr"), "fr"], [t(".en"), "en"] ], label_method: :first, value_method: :second, class:"form-control w-25"  %>
     </div>
     <% if current_user.admin? %>
-    <div>
-      <%= f.input :public, as: :select, collection: [['Sí',true], ['No',false]], required: true, class:"form-control w-25" %>
-    </div>
+      <div>
+        <%= f.input :public, as: :select, collection: [['Sí',true], ['No',false]], required: true, class:"form-control w-25" %>
+      </div>
     <% end %>
   </div>
-
   <h5>Variables disponibles</h5>
-<p>
-{{adr_immoble}} {{adr_propietari}} {{cadastre}} {{carac_immoble}} {{cedula}} {{clausula_adicional}} {{comissio}} {{compte_propietari}} {{data_fi}} {{data_firma}} {{data_inici}} {{descripcio}} {{dni_propietari}} {{email_propietari}} {{lloc_firma}} {{nom_immoble}} {{num_HUT}} {{propietari}} {{reserves_propietari}} {{tarifes}} {{tel_propietari}}
-</p>
-
+  <p>
+    {{ adr_immoble }} {{ adr_propietari }} {{ cadastre }} {{ carac_immoble }} {{ cedula }} {{ clausula_adicional }} {{ comissio }} {{ compte_propietari }} {{ data_fi }} {{ data_firma }} {{ data_inici }} {{ descripcio }} {{ dni_propietari }} {{ email_propietari }} {{ lloc_firma }} {{ nom_immoble }} {{ num_HUT }} {{ propietari }} {{ reserves_propietari }} {{ tarifes }} {{ tel_propietari }}
+  </p>
   <div class="form-inputs">
-
-      <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
+    <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
   </div>
-
   <div class="form-actions text-end">
     <%= f.submit "Desar", class: 'btn btn-primary text-center' %>
     <%= f.submit "Desar com model de contracte nou", class: 'btn btn-primary text-center' %>

@@ -6,6 +6,7 @@
     <%= simple_form_for @vrental, html: { "data-controller": "update-field" } do |f| %>
       <%= f.error_notification %>
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <%= f.association :office %>
       <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
       <%= f.input :name, required: true, input_html: { "data-update-field-target" => "vrentalName", "data-action": "input->update-field#updatePropKey" } %>
       <%= f.input :commission, required: true %>

@@ -25,8 +25,14 @@ class Invoice < ApplicationRecord
   end
 
   def invoice_number_formatted
-    formatted_number = number < 10 ? "00#{number}" : "0#{number}"
-    "#{formatted_number}/#{date.year}"
+    if number < 10
+      formatted_number = "000#{number}"
+    elsif number < 100
+      formatted_number = "00#{number}"
+    else
+      formatted_number = "0#{number}"
+    end
+    "52#{formatted_number}"
   end
 
   def year

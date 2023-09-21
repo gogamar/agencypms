@@ -1,20 +1,19 @@
-<%= simple_form_for(@company) do |f| %>
+<%= simple_form_for [company, office] do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :street %>
-    <%= f.input :post_code %>
     <%= f.input :city %>
+    <%= f.input :post_code %>
     <%= f.input :region %>
     <%# f.input :country %>
-    <%= f.input :vat_tax_payer %>
-    <%= f.input :vat_number %>
-    <%= f.input :vat_tax %>
-    <%= f.input :realtor_number %>
-    <%= f.input :local_realtor_number %>
-    <%= f.input :bank_account %>
-    <%= f.input :administrator %>
+    <%= f.input :phone %>
+    <%= f.input :mobile %>
+    <%= f.input :email %>
+    <%= f.input :website %>
+    <%= f.input :opening_hours %>
+    <%= f.input :manager %>
   </div>
   <div class="form-actions d-flex justify-content-end">
     <%= f.button :submit, t("global.forms.submit"), class: "btn btn-secondary" %>

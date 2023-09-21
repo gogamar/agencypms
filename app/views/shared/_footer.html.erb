@@ -10,39 +10,21 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-4">
-          <div class="footer-widget">
-            <h4 class="widget-title">Oficina Estartit</h4>
-            <ul class="footer-menu">
-              <li> Carrer de l'Església 34, local</li>
-              <li>17257 L'Estartit (Girona)</li>
-              <li><a href="tel:972100381">972 100 381</a></li>
-              <li><a href="mailto:info@sistachfinques.com">info@sistachfinques.com</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4">
-          <div class="footer-widget">
-            <h4 class="widget-title">Oficina Berga</h4>
-            <ul class="footer-menu">
-              <li>C/Roser 1, 1-2</li>
-              <li>08600 Berga (Barcelona)</li>
-              <li><a href="tel:931147100">931 147 100</a></li>
-              <li><a href="mailto:info@sistachfinques.com">info@sistachfinques.com</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4">
-          <div class="footer-widget">
-            <h4 class="widget-title">Oficina Barcelona</h4>
-            <ul class="footer-menu">
-              <li>C/Rosselló 439, local</li>
-              <li>08025 Barcelona (Barcelona)</li>
-              <li><a href="tel:931147100">931 147 100</a></li>
-              <li><a href="mailto:info@sistachfinques.com">info@sistachfinques.com</a></li>
-            </ul>
-          </div>
-        </div>
+        <% if current_user.owned_company&.offices.present? %>
+          <% current_user.owned_company&.offices.each do |office| %>
+            <div class="col">
+              <div class="footer-widget">
+                <h4 class="widget-title">Oficina <%= office.name %></h4>
+                <ul class="footer-menu">
+                  <li><%= office.street %></li>
+                  <li><%= office.post_code %> <%= office.city %> <%= "(#{office.region})" if office.region %></li>
+                  <li><a href="tel:<%= office.phone&.delete(" ") %>"><%= office.phone %></a></li>
+                  <li><a href="mailto:<%= office.email %>"><%= office.email %></a></li>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>

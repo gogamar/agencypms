@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_21_093642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -113,21 +113,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
-    t.string "address"
-    t.string "phone"
-    t.string "vat"
+    t.string "street"
+    t.string "city"
+    t.string "vat_number"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "post_code"
+    t.string "region"
+    t.string "country"
+    t.string "bank_account"
+    t.string "administrator"
+    t.float "vat_tax"
+    t.boolean "vat_tax_payer"
+    t.string "realtor_number"
+    t.string "local_realtor_number"
     t.index ["user_id"], name: "index_companies_on_user_id"
-  end
-
-  create_table "comtypes", force: :cascade do |t|
-    t.string "company_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_comtypes_on_user_id"
   end
 
   create_table "earnings", force: :cascade do |t|
@@ -180,6 +181,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
+  end
+
+  create_table "offices", force: :cascade do |t|
+    t.string "name"
+    t.string "street"
+    t.string "city"
+    t.string "post_code"
+    t.string "region"
+    t.string "country"
+    t.string "phone"
+    t.string "mobile"
+    t.string "email"
+    t.string "website"
+    t.string "opening_hours"
+    t.string "manager"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_offices_on_company_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -268,7 +288,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
     t.datetime "updated_at", null: false
     t.boolean "admin"
     t.boolean "approved", default: false, null: false
+    t.bigint "company_id"
     t.index ["approved"], name: "index_users_on_approved"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -310,6 +332,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
     t.text "description_en"
     t.bigint "user_id", null: false
     t.decimal "commission", precision: 10, scale: 2
+    t.bigint "office_id"
+    t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
@@ -357,20 +381,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_102924) do
   add_foreign_key "bookings", "vrentals"
   add_foreign_key "charges", "bookings"
   add_foreign_key "companies", "users"
-  add_foreign_key "comtypes", "users"
   add_foreign_key "earnings", "bookings"
   add_foreign_key "earnings", "vrentals"
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "users"
   add_foreign_key "invoices", "vrentals"
+  add_foreign_key "offices", "companies"
   add_foreign_key "pages", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
+  add_foreign_key "users", "companies"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
+  add_foreign_key "vrentals", "offices"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"

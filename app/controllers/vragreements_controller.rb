@@ -36,19 +36,32 @@ class VragreementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: [@vrental.address, @vrowner].join('-'), # filename: "Posts: #{@posts.count}"
-               template: "vragreements/show",
-               formats: [:html],
-               disposition: :inline,
-               page_size: 'A4',
-               dpi: '75',
-               zoom: 1,
-               layout: 'pdf',
-               margin:  {   top:    20,
-                            bottom: 20,
-                            left:   10,
-                            right:  10},
-               footer: { right: "#{t("page")} [page] #{t("of")} [topage]", center: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : '', font_size: 9, spacing: 5 }
+        render pdf: [@vrental.address, @vrowner].join('-'),
+              template: "vragreements/show",
+              margin:  {
+              top: 50,
+              bottom: 25,
+              left: 10,
+              right: 10},
+              header: {
+                font_size: 8,
+                spacing: 20,
+                content: render_to_string(
+                  'shared/pdf_header'
+                )
+               },
+              formats: [:html],
+              disposition: :inline,
+              page_size: 'A4',
+              dpi: '75',
+              zoom: 1,
+              layout: 'pdf',
+              footer: {
+                font_size: 9,
+                spacing: 5,
+                right: "#{t("page")} [page] #{t("of")} [topage]",
+                left: @vragreement.signdate.present? ? l(@vragreement.signdate, format: :long) : ''
+              }
       end
     end
   end

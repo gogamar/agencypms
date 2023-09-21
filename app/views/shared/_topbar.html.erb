@@ -33,6 +33,41 @@
             <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "dropdown-item" %>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
+            <span class="me-2 d-inline text-gray-600 small">
+              <%= current_user.owned_company.present? ? current_user.owned_company.name : "Afegir empresa" %>
+            </span>
+          <% end %>
+          <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
+            <% if current_user.admin %>
+              <% if current_user.owned_company.present? %>
+                <%= link_to edit_company_path(current_user.owned_company), class: "dropdown-item" do %>
+                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                  Editar empresa <%= current_user.owned_company.name %>
+                <% end %>
+                <div class="dropdown-divider"></div>
+                <% if current_user.owned_company.offices.present? %>
+                  <% current_user.owned_company.offices.each do |office| %>
+                    <%= link_to edit_company_office_path(current_user.owned_company, office), class: "dropdown-item" do %>
+                      <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                      Modificar oficina <%= office.name %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <%= link_to new_company_office_path(current_user.owned_company), class: "dropdown-item" do %>
+                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                  Afegir oficina
+                <% end %>
+              <% else %>
+                <%= link_to new_company_path, class: "dropdown-item" do %>
+                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                  Afegir empresa
+                <% end %>
+              <% end %>
+            <% end %>
+          </ul>
+        </li>
         <%= language_dropdown(I18n.locale || params[:locale]) %>
       </ul>
     </div>

@@ -1,8 +1,9 @@
-<div class="container d-flex justify-content-center mt-5 w-75 pb-5">
+<div class="container d-flex justify-content-center mt-5 pb-5">
   <%= simple_form_for @vrental, html: { "data-controller": "update-field" } do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <div class="form-inputs">
+      <%= f.association :office %>
       <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
       <%= f.input :name, required: true, input_html: { "data-update-field-target" => "vrentalName", "data-action": "input->update-field#updatePropKey" } %>
       <%= f.input :commission, required: true %>
@@ -20,7 +21,7 @@
       <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>
     </div>
     <div class="p-3 mt-3 border border-secondary rounded-4" id="vrowner-details">
-      <h6>Propietari</h6>
+      <h6><%= t("select_or_add") %></h6>
       <div class="row g-3">
         <div class="col">
           <%= f.association :vrowner, label_method: :fullname, label: false, class: "js-example-responsive", input_html: { id: "edit_vrowner-select2" } %>

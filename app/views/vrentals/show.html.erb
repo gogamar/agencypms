@@ -1,28 +1,65 @@
-<p>
-  <strong>Número HUT:</strong>
-  <%= @vrental.licence %>
-</p>
-<p>
-  <strong>Adreça:</strong>
-  <%= @vrental.address %>
-</p>
-<p>
-  <strong>Cadastre:</strong>
-  <%= @vrental.cadastre %>
-</p>
-<p>
-  <strong>Cédula:</strong>
-  <%= @vrental.habitability %>
-</p>
-<p>
-  <strong>Comissió:</strong>
-  <%= format("%.2f", @vrental.commission.to_f * 100) %>
-</p>
-<p>
-  <strong>Descripció:</strong>
-  <%= @vrental.description %>
-</p>
-<p>
-  <strong>Caracteristiques:</strong>
-  <%= @vrental.features.pluck("name").map{|f| t("#{f}")}.sort_by{|translation| translation}.to_sentence(last_word_connector: ', ') %>
-</p>
+<div class="card">
+  <h5 class="card-header"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
+  <div class="card-body row d-flex justify-content-center gap-5">
+    <div class="col">
+      <p class="card-text">
+        <strong>Oficina:</strong>
+        <%= @vrental.office.name if @vrental.office %>
+      </p>
+      <p class="card-text">
+        <strong>Estat:</strong>
+        <%= @vrental.status %>
+      </p>
+      <p class="card-text">
+        <strong>Número HUT:</strong>
+        <%= @vrental.licence %>
+      </p>
+      <p class="card-text">
+        <strong>Comissió:</strong>
+        <%= format("%.2f", @vrental.commission.to_f * 100) %>
+      </p>
+      <p class="card-text">
+        <strong>Cadastre:</strong>
+        <%= @vrental.cadastre %>
+      </p>
+      <p class="card-text">
+        <strong>Cédula:</strong>
+        <%= @vrental.habitability %>
+      </p>
+      <p class="card-text">
+        <strong>Propietari:</strong>
+        <%= @vrental.vrowner.fullname if @vrental.vrowner %>
+      </p>
+      <p class="card-text">
+        <strong>Màxim d'hostes:</strong>
+        <%= @vrental.max_guests %>
+      </p>
+      <p class="card-text">
+        <strong>Clau secreta Beds24:</strong>
+        <%= @vrental.prop_key %>
+      </p>
+      <p class="card-text">
+        <strong>Referencia Beds24:</strong>
+        <%= @vrental.beds_room_id %>
+      </p>
+    </div>
+    <div class="col text-start">
+      <p class="card-text">
+        <strong>Descripció:</strong>
+        <%= @vrental.description %>
+      </p>
+      <p class="card-text">
+        <strong>Descripció (Espanyol):</strong>
+        <%= @vrental.description_es %>
+      </p>
+      <p class="card-text">
+        <strong>Descripció (Francès):</strong>
+        <%= @vrental.description_fr %>
+      </p>
+      <p class="card-text">
+        <strong>Descripció (Anglès):</strong>
+        <%= @vrental.description_en %>
+      </p>
+    </div>
+  </div>
+</div>

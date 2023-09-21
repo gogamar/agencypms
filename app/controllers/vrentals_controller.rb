@@ -260,7 +260,6 @@ class VrentalsController < ApplicationController
       end
     else
       respond_to do |format|
-        puts "these are the errors at this point: #{@vrental.errors.full_messages}}"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @vrental.errors, status: :unprocessable_entity }
       end
@@ -283,7 +282,7 @@ class VrentalsController < ApplicationController
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :commission,
       :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
-      :description, :description_es, :description_fr, :description_en, :status,
+      :description, :description_es, :description_fr, :description_en, :status, :office_id,
       feature_ids: []
     )
   end

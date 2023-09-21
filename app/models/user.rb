@@ -10,7 +10,8 @@ class User < ApplicationRecord
   has_many :features, dependent: :destroy
   has_many :vragreements, through: :vrentals
   has_many :rates, through: :vrentals, dependent: :destroy
-  has_many :companies
+  belongs_to :company, optional: true
+  has_one :owned_company, class_name: "Company", foreign_key: "user_id"
   has_one_attached :photo, dependent: :destroy
   # after_create :send_welcome_email
   after_create :send_admin_mail

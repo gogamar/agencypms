@@ -1,0 +1,6 @@
+<p style="color: green"><%= notice %></p>
+<%= render @office %>
+<div>
+  <%= link_to "Modificar oficina", edit_company_office_path(@company, @office) %> |
+  <%= button_to "Esborrar oficina", @office, method: :delete %>
+</div>

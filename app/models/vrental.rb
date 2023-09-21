@@ -3,6 +3,7 @@ class Vrental < ApplicationRecord
 
   belongs_to :user
   belongs_to :vrowner, optional: true
+  belongs_to :office
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
@@ -208,6 +209,7 @@ class Vrental < ApplicationRecord
   end
 
   def self.import_properties_from_beds
+    # should add update if the property exists
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     begin
       beds24rentals = client.get_properties
@@ -224,7 +226,8 @@ class Vrental < ApplicationRecord
             max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i,
             user_id: user_id,
             prop_key: bedsrental["name"].delete(" ").delete("'").downcase + "2022987123654",
-            status: "active"
+            status: "active",
+            office_id: current_user.owned_company&.offices&.find_by("city LIKE ?", "%#{bedsrental['city']}%").id || current_user.owned_company&.offices&.first.id
           )
         end
         sleep 2

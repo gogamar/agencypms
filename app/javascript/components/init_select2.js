@@ -141,14 +141,9 @@ const initSelect2 = () => {
       theme: "bootstrap-5",
     })
     .on("select2:select", function (e) {
-      if (
-        document.querySelector(".edit_vrowner-js").classList.contains("d-none")
-      ) {
-        document.querySelector(".edit_vrowner-js").classList.remove("d-none");
-      }
-      document.querySelector(
-        ".edit_vrowner-js"
-      ).innerHTML = `<small>Modificar ${e.params.data.text}</small>`;
+      const editVrownerBox = document.querySelector(".edit_vrowner-js");
+
+      editVrownerBox.classList.add("d-none");
       const selectedVrownerId = e.params.data.id;
       updateVrowner(selectedVrownerId);
     })

@@ -11,7 +11,7 @@ module ApplicationHelper
         end
       end)
 
-      concat(content_tag(:ul, class: 'dropdown-menu', 'aria-labelledby': 'languageDropdown') do
+      concat(content_tag(:ul, class: 'dropdown-menu dropdown-menu-end', 'aria-labelledby': 'languageDropdown') do
         (I18n.available_locales - [current_locale]).each do |locale|
           concat(content_tag(:li) do
             flag_code = set_flag(locale)

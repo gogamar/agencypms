@@ -7,7 +7,7 @@
   <div class="row mb-2 align-items-center">
     <div class="col-12">
       <span class="font-weight-bold fw-bold"><%= t("statement_title").upcase %></span><br>
-      <span><%= @vrental.user.companies.present? ? @vrental.user.companies.first&.address : "L'Estartit" %>, <%= I18n.l(Date.new(@year, 12, 31)) %></span>
+      <span><%= @vrental.office&.city %>, <%= I18n.l(Date.new(@year, 12, 31)) %></span>
     </div>
   </div>
   <div class="row mb-2 align-items-center border">

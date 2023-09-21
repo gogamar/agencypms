@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Factura Sistach Rentals</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -11,19 +10,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body>
-    <div class="row mb-2">
+    <div class="row pb-1 text-muted border-bottom">
       <div class="col-3">
-        <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px" />
+        <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px;" />
       </div>
       <div class="text-center col-6">
-        <span class="font-weight-bold">Sistach Rentals &middot; Inverstach, S.L. &middot; CIF N&ordm;: B66577537</span><br>
-        <span>Avinguda Grècia 39, baixos, 17528 L'Estartit</span>
+        <span class="font-weight-bold"><%= @vrental.office&.name %> · <%= @vrental.office&.company&.name %> · <%= @vrental.office&.company&.vat_number %></span>
         <br>
-        <span>c/Roser 1, 1-2, 08600 Berga</span>
+        <span><%= @vrental.office&.street %>, <%= @vrental.office&.post_code %> <%= @vrental.office&.city %></span>
         <br>
-        <span>info@sistachrentals.com · www.sistachrentals.com </span>
+        <span><%= @vrental.office&.email %> · <%= @vrental.office&.website %></span>
         <br>
-        <span>+34 972 100 381 · +34 609 076 292</span>
+        <span><%= @vrental.office&.phone %> · <%= @vrental.office&.mobile %></span>
       </div>
       <div class="col-3 text-end text-right">
         <% if current_user.photo.attached? %>

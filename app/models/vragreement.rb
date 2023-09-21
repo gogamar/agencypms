@@ -58,7 +58,7 @@ class Vragreement < ApplicationRecord
 
   def self.parse_template(template, attrs = {})
     result = template
-    attrs.each { |field, value| result.gsub!("{{#{field}}}", value) }
+    attrs.each { |field, value| result.gsub!("{{ #{field} }}", value) }
     # remove anything that resembles a field but did not match a known field name
     result.gsub!(/\{\{\.w+\}\}/, '')
     return result

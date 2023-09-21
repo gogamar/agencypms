@@ -1,19 +1,23 @@
 Rails.application.routes.draw do
-  resources :companies
-  resources :tourists
-
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
       root to: "vrentals#index"
       devise_for :users, path: 'usuaris'
       resources :tasks, path: 'cites'
-      resources :comtypes, path: 'tipus-empresa', only: [:new, :create, :edit, :update, :index, :destroy]
 
       resources :users, path: 'usuaris' do
         member do
           delete :purge_photo
         end
       end
+
+      resources :tourists, path: 'clients'
+
+      resources :companies, path: 'empreses' do
+        resources :offices, path: 'oficines', except: [:destroy]
+      end
+
+      resources :offices, path: 'oficines', only: [:destroy]
 
       resources :vrentals, path: 'immobles-lloguer-turistic' do
         collection do

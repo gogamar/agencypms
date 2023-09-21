@@ -24,7 +24,7 @@
           <%= render "shared/flashes" %>
           <% if user_signed_in? %>
             <%= render "shared/topbar" %>
-            <%= render "shared/navbar" %>
+            <%= render "shared/navbar" unless devise_controller? %>
             <%= render "shared/subnav" if @vrental && @vrental.persisted? %>
           <% end %>
           <div id="content" class="flex-shrink-0">

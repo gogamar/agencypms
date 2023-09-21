@@ -30,10 +30,10 @@
     <div class="row mb-2">
       <div class="col-6 p-2">
         <ul class="list-unstyled p-0">
-          <li class="font-weight-bold fw-bold">Inverstach s.l.u.</li>
-          <li class="font-weight-bold fw-bold">CIF Nº: B66577537</li>
-          <li>c/Roser 1, 1er 2a</li>
-          <li>08600 Berga (Barcelona)</li>
+          <li class="font-weight-bold fw-bold"><%= @vrental.office&.company&.name %></li>
+          <li class="font-weight-bold fw-bold">CIF Nº: <%= @vrental.office&.company&.vat_number %></li>
+          <li><%= @vrental.office&.company&.street %></li>
+          <li><%= @vrental.office&.company&.post_code %> <%= @vrental.office&.company&.city %> <%= "(#{@vrental.office&.company&.region})" if @vrental.office&.company&.region %></li>
         </ul>
       </div>
       <div class="col-6 text-right text-end p-2">
