@@ -52,11 +52,11 @@ class Invoice < ApplicationRecord
     statements.each do |statement|
       total += statement.agency_commission
     end
-    total
+    total.round(2)
   end
 
   def agency_vat_total
-    agency_commission_total * 0.21
+    (agency_commission_total * 0.21).round(2)
   end
 
   def agency_total
