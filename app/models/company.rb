@@ -8,7 +8,7 @@ class Company < ApplicationRecord
   private
 
   def user_can_create_only_one_company
-    if user&.admin? && user.owned_company.present?
+    if current_user&.admin? && current_user.owned_company.present?
       errors.add(:base, "Només es pot crear una empresa per usuari.")
     end
   end
