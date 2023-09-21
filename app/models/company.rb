@@ -3,13 +3,13 @@ class Company < ApplicationRecord
   has_many :users
   has_many :offices
 
-  validate :user_can_create_only_one_company, on: :create
+  # validate :user_can_create_only_one_company, on: :create
 
   private
 
-  def user_can_create_only_one_company
-    if current_user&.admin? && current_user.owned_company.present?
-      errors.add(:base, "Només es pot crear una empresa per usuari.")
-    end
-  end
+  # def user_can_create_only_one_company
+  #   if current_user&.admin? && current_user.owned_company.present?
+  #     errors.add(:base, "Només es pot crear una empresa per usuari.")
+  #   end
+  # end
 end
