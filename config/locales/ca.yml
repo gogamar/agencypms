@@ -94,6 +94,28 @@ ca:
   habitability_addendum: "Còpia de la cèdula d’habitabilitat"
   energy_addendum: "Certificat Energètic"
   equipment_addendum: "Equipament"
+  vragreement_keys:
+    signdate: 'DATA_FIRMA'
+    place: 'LLOC_FIRMA'
+    vrowner_fullname: 'NOM_PROPIETARI'
+    vrowner_document: 'DNI_PROPIETARI'
+    vrowner_address: 'ADR_PROPIETARI'
+    vrowner_email: 'EMAIL_PROPIETARI'
+    vrowner_phone: 'TELEFON_PROPIETARI'
+    vrowner_account: 'COMPTE_BANCARI_PROPIETARI'
+    vrental_name: 'NOM_IMMOBLE'
+    vrental_address: 'ADR_IMMOBLE'
+    vrental_cadastre: 'CADASTRE_IMMOBLE'
+    vrental_habitability: 'CEDULA_IMMOBLE'
+    vrental_licence: 'HUT_IMMOBLE'
+    vrental_description: 'DESCRIPCIO_IMMOBLE'
+    start_date: 'DATA_INICI'
+    end_date: 'DATA_FI'
+    contract_rates: 'TARIFES_CONTRACTE'
+    vrowner_bookings: 'RESERVES_PROPIETARI'
+    vrental_features: 'CARACTERISTIQUES_IMMOBLE'
+    vrental_commission: 'COMISSIO_IMMOBLE'
+    clause: 'CLAUSULA_IMMOBLE'
   date:
     abbr_day_names:
       - Dg

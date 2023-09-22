@@ -26,29 +26,30 @@ class Vragreement < ApplicationRecord
   end
 
   def generate_details(contract_rates)
-    {
-      data_firma: signdate.present? ? I18n.l(signdate, format: :long) : '',
-      lloc_firma: place.present? ? place : '',
-      propietari: vrental.vrowner.present? && vrental.vrowner.fullname.present? ? vrental.vrowner.fullname : '',
-      dni_propietari: vrental.vrowner.present? && vrental.vrowner.document.present? ? vrental.vrowner.document : '',
-      adr_propietari: vrental.vrowner.present? && vrental.vrowner.address.present? ? vrental.vrowner.address : '',
-      email_propietari: vrental.vrowner.present? && vrental.vrowner.email.present? ? vrental.vrowner.email : '',
-      tel_propietari: vrental.vrowner.present? && vrental.vrowner.phone.present? ? vrental.vrowner.phone : '',
-      compte_propietari: vrental.vrowner.present? && vrental.vrowner.account.present? ? vrental.vrowner.account : '',
-      nom_immoble: vrental.name.present? ? vrental.name.upcase() : '',
-      adr_immoble: vrental.address.present? ? vrental.address : '',
-      cadastre: vrental.cadastre.present? ? vrental.cadastre : '',
-      cedula: vrental.habitability.present? ? vrental.habitability : '',
-      num_HUT: vrental.licence.present? ? vrental.licence : '',
-      descripcio: vrental_description.to_s,
-      data_inici: start_date.present? ? I18n.l(start_date, format: :long) : '',
-      data_fi: end_date.present? ? I18n.l(end_date, format: :long) : '',
-      tarifes: contract_rates.present? ? contract_rates : '',
-      reserves_propietari: vrowner_bookings,
-      carac_immoble: vrental_features.to_s,
-      comissio: format("%.2f", vrental.commission.to_f * 100),
-      clausula_adicional: clause.to_s
-    }
+    details = {}
+    Vrentaltemplate::TEMPLATE_KEYS.each do |key|
+      details[key] = case key
+                     when :signdate, :start_date, :end_date
+                       send(key).present? ? I18n.l(send(key), format: :long) : ''
+                     when :place, :clause
+                       send(key).to_s
+                     when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence, :vrental_description
+                      vrental.present? && vrental.send(key[8..]).present? ? vrental.send(key[8..]) : ''
+                     when :vrowner_fullname, :vrowner_document, :vrowner_address, :vrowner_email, :vrowner_phone, :vrowner_account
+                       vrental.vrowner.present? && vrental.vrowner.send(key[8..]).present? ? vrental.vrowner.send(key[8..]) : ''
+                     when :contract_rates
+                       contract_rates.present? ? contract_rates : ''
+                     when :vrowner_bookings
+                       vrowner_bookings
+                     when :vrental_features
+                       vrental_features.to_s
+                     when :vrental_commission
+                       format("%.2f", vrental.commission.to_f * 100)
+                     else
+                       '' # default value
+                     end
+    end
+    details
   end
 
   def generate_contract_body(contract_rates)
@@ -58,9 +59,11 @@ class Vragreement < ApplicationRecord
 
   def self.parse_template(template, attrs = {})
     result = template
-    attrs.each { |field, value| result.gsub!("{{ #{field} }}", value) }
-    # remove anything that resembles a field but did not match a known field name
-    result.gsub!(/\{\{\.w+\}\}/, '')
+    attrs.each do |field, value|
+      translated_field = I18n.t("vragreement_keys.#{field}")
+      result.gsub!("#{translated_field}", value.to_s)
+    end
+    result.gsub(/\b[A-Z]+_[A-Z]+\b/, '')
     return result
   end
 end

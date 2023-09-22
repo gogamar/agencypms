@@ -91,6 +91,28 @@ fr:
   habitability_addendum: "Copie du certificat de conformité"
   energy_addendum: "Certificat énergétique"
   equipment_addendum: "Équipement"
+  vragreement_keys:
+    signdate: 'DATE_SIGNATURE'
+    place: 'LIEU_SIGNATURE'
+    vrowner_fullname: 'NOM_PROPRIETAIRE'
+    vrowner_document: 'DOCUMENT_PROPRIETAIRE'
+    vrowner_address: 'ADRESSE_PROPRIETAIRE'
+    vrowner_email: 'EMAIL_PROPRIETAIRE'
+    vrowner_phone: 'TELEPHONE_PROPRIETAIRE'
+    vrowner_account: 'COMPTE_BANCAIRE_PROPRIETAIRE'
+    vrental_name: 'NOM_IMMEUBLE'
+    vrental_address: 'ADRESSE_IMMEUBLE'
+    vrental_cadastre: 'CADASTRE_IMMEUBLE'
+    vrental_habitability: 'HABITABILITE_IMMEUBLE'
+    vrental_licence: 'LICENCE_IMMEUBLE'
+    vrental_description: 'DESCRIPTION_IMMEUBLE'
+    start_date: 'DATE_DEBUT'
+    end_date: 'DATE_FIN'
+    contract_rates: 'TARIFS_CONTRAT'
+    vrowner_bookings: 'RESERVATIONS_PROPRIETAIRE'
+    vrental_features: 'CARACTERISTIQUES_IMMEUBLE'
+    vrental_commission: 'COMMISSION_IMMEUBLE'
+    clause: 'CLAUSE_IMMEUBLE'
   date:
     abbr_day_names:
       - Dim

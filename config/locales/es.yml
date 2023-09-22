@@ -91,6 +91,28 @@ es:
   habitability_addendum: "Copia de la cédula de habitabilidad"
   energy_addendum: "Certificado Energético"
   equipment_addendum: "Equipamiento"
+  vragreement_keys:
+    signdate: 'FECHA_FIRMA'
+    place: 'LUGAR_FIRMA'
+    vrowner_fullname: 'NOMBRE_PROPIETARIO'
+    vrowner_document: 'DNI_PROPIETARIO'
+    vrowner_address: 'DIRECCION_PROPIETARIO'
+    vrowner_email: 'CORREO_PROPIETARIO'
+    vrowner_phone: 'TELEFONO_PROPIETARIO'
+    vrowner_account: 'CUENTA_BANCARIA_PROPIETARIO'
+    vrental_name: 'NOMBRE_INMUEBLE'
+    vrental_address: 'DIRECCION_INMUEBLE'
+    vrental_cadastre: 'CATASTRO_INMUEBLE'
+    vrental_habitability: 'CEDULA_INMUEBLE'
+    vrental_licence: 'LICENCIA_INMUEBLE'
+    vrental_description: 'DESCRIPCI0N_INMUEBLE'
+    start_date: 'FECHA_INICIO'
+    end_date: 'FECHA_FIN'
+    contract_rates: 'TARIFAS_CONTRATO'
+    vrowner_bookings: 'RESERVAS_PROPIETARIO'
+    vrental_features: 'CARACTERISTICAS_INMUEBLE'
+    vrental_commission: 'COMISION_INMUEBLE'
+    clause: 'CLAUSULA_INMUEBLE'
   date:
     abbr_day_names:
       - Dom

@@ -15,9 +15,20 @@
     <% end %>
   </div>
   <h5>Variables disponibles</h5>
-  <p>
-    {{ adr_immoble }} {{ adr_propietari }} {{ cadastre }} {{ carac_immoble }} {{ cedula }} {{ clausula_adicional }} {{ comissio }} {{ compte_propietari }} {{ data_fi }} {{ data_firma }} {{ data_inici }} {{ descripcio }} {{ dni_propietari }} {{ email_propietari }} {{ lloc_firma }} {{ nom_immoble }} {{ num_HUT }} {{ propietari }} {{ reserves_propietari }} {{ tarifes }} {{ tel_propietari }}
-  </p>
+  <% translated_sorted_keys = Vrentaltemplate::TEMPLATE_KEYS.sort_by { |key| t("vragreement_keys.#{key}", locale: @vrentaltemplate.language.to_sym) } %>
+  <div class="container-fluid py-3 border">
+    <div class="row">
+      <% columns = 4 %>
+      <% items_per_column = (translated_sorted_keys.length.to_f / columns).ceil %>
+      <% translated_sorted_keys.each_slice(items_per_column).with_index do |slice, index| %>
+        <div class="col-3">
+          <% slice.each do |key| %>
+            <%= t("vragreement_keys.#{key}", locale: @vrentaltemplate.language.to_sym) %><br>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
   <div class="form-inputs">
     <%= f.input :text, as: :ckeditor, input_html: { ckeditor: { toolbar: 'full' } }, label: false%>
   </div>

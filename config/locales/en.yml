@@ -91,6 +91,28 @@ en:
   habitability_addendum: "Habitability Certificate Copy"
   energy_addendum: "Energy Certificate"
   equipment_addendum: "Equipment"
+  vragreement_keys:
+    signdate: 'SIGN_DATE'
+    place: 'SIGN_PLACE'
+    vrowner_fullname: 'OWNER_NAME'
+    vrowner_document: 'OWNER_DOCUMENT'
+    vrowner_address: 'OWNER_ADDRESS'
+    vrowner_email: 'OWNER_EMAIL'
+    vrowner_phone: 'OWNER_PHONE'
+    vrowner_account: 'OWNER_BANK_ACCOUNT'
+    vrental_name: 'PROPERTY_NAME'
+    vrental_address: 'PROPERTY_ADDRESS'
+    vrental_cadastre: 'PROPERTY_CADASTRE'
+    vrental_habitability: 'PROPERTY_HABITABILITY'
+    vrental_licence: 'PROPERTY_LICENCE'
+    vrental_description: 'PROPERTY_DESCRIPTION'
+    start_date: 'START_DATE'
+    end_date: 'END_DATE'
+    contract_rates: 'CONTRACT_RATES'
+    vrowner_bookings: 'OWNER_BOOKINGS'
+    vrental_features: 'PROPERTY_FEATURES'
+    vrental_commission: 'PROPERTY_COMMISSION'
+    clause: 'PROPERTY_CLAUSE'
   date:
     abbr_day_names:
       - Sun

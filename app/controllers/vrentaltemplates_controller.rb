@@ -33,7 +33,7 @@ class VrentaltemplatesController < ApplicationController
     @vrentaltemplate.user_id = current_user.id
     authorize @vrentaltemplate
     if @vrentaltemplate.save
-      redirect_to vrentaltemplates_path, notice: 'Has creat un nou model de contracte de contracte de lloguer turístic.'
+      redirect_to edit_vrentaltemplate_path(@vrentaltemplate), notice: 'Has creat un nou model de contracte de lloguer turístic.'
     else
       render :new
     end
