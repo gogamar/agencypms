@@ -68,7 +68,7 @@
       <%= link_to edit_vrental_earning_path(earning.vrental, earning), class: "text-info text-decoration-none" do %>
         <i class="fas fa-pen fa-sm"></i><small> Modificar</small>
       <% end %>
-      <% if earning.locked == true && earning.booking.present? %>
+      <% if earning.booking.present? && (earning.locked == true || earning.booking.locked == true) %>
         <%= link_to unlock_vrental_earning_path(earning.vrental, earning), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest ingres? Si ho fas, l'import i el descompte s'actualitzaràn al importar reserves des de Beds24." } do %>
           <i class="fas fa-unlock fa-sm"></i><small> Desbloquejar</small>
         <% end %>
