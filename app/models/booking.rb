@@ -7,7 +7,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :charges, allow_destroy: true
 
   def price_with_portal
-    charges.where(charge_type: "rent")&.sum(:price).round(2)
+    charges.where(charge_type: "rent").sum(:price).round(2) || 0
   end
 
   def price_portal_no_commission

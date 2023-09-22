@@ -92,6 +92,28 @@ fr:
   energy_addendum: "Certificat énergétique"
   equipment_addendum: "Équipement"
   vragreement_keys:
+    company_name: 'NOM_ENTREPRISE'
+    company_street: 'RUE_NUMERO_ENTREPRISE'
+    company_city: 'VILLE_ENTREPRISE'
+    company_post_code: 'CODE_POSTAL_ENTREPRISE'
+    company_region: 'REGION_ENTREPRISE'
+    company_country: 'PAYS_ENTREPRISE'
+    company_bank_account: 'COMPTE_BANCAIRE_ENTREPRISE'
+    company_administrator: 'ADMINISTRATEUR_ENTREPRISE'
+    company_vat_tax: 'TVA_%'
+    company_vat_number: 'TVA_NUMERO_ENTREPRISE'
+    company_realtor_number: 'NUMERO_AGENT'
+    office_local_realtor_number: 'NUMERO_AGENT_LOCAL'
+    office_name: 'NOM_BUREAU'
+    office_street: 'RUE_NUMERO_BUREAU'
+    office_city: 'VILLE_BUREAU'
+    office_post_code: 'CODE_POSTAL_BUREAU'
+    office_region: 'REGION_BUREAU'
+    office_country: 'PAYS_BUREAU'
+    office_phone: 'TELEPHONE_BUREAU'
+    office_mobile: 'TELEPHONE_MOBILE_BUREAU'
+    office_email: 'COURRIEL_BUREAU'
+    office_website: 'SITE_WEB_BUREAU'
     signdate: 'DATE_SIGNATURE'
     place: 'LIEU_SIGNATURE'
     vrowner_fullname: 'NOM_PROPRIETAIRE'
@@ -315,7 +337,6 @@ fr:
         vat_tax: "Taxe sur la Valeur Ajoutée (TVA)"
         vat_tax_payer: "Assujetti à la TVA"
         realtor_number: "Numéro d'Agent Immobilier"
-        local_realtor_number: "Numéro d'Agent Immobilier Local"
         user: "Utilisateur"
       office:
         name: "Nom"
@@ -331,6 +352,7 @@ fr:
         website: "Site Web"
         opening_hours: "Horaires d'ouverture"
         manager: "Responsable"
+        local_realtor_number: "Numéro d'Agent Immobilier Local"
       vragreement:
         status: "Statut"
         vrowner: "Propriétaire"

@@ -417,31 +417,9 @@ class Vrental < ApplicationRecord
 
             update_booking(booking, beds_booking, tourist)
 
-            if beds_booking["invoice"].nil? || beds_booking["invoice"].empty?
-              next
-            else
-              beds_booking["invoice"].each do |entry|
-                return if booking.locked == true
-                if (charge = booking.charges.find_by(beds_id: entry["invoiceId"]))
-                  charge.update!(
-                    description: entry["description"],
-                    quantity: 1,
-                    price: entry["price"].to_f * entry["qty"].to_f
-                  )
-                elsif (payment = booking.payments.find_by(beds_id: entry["invoiceId"]))
-                  payment.update!(
-                    description: entry["description"],
-                    quantity: -1,
-                    price: entry["price"].to_f * entry["qty"].to_f
-                    )
-                else
-                  create_charges_and_payments(booking, entry)
-                end
-              end
-              add_description_charges_payments(booking)
-              destroy_deleted_charges_payments(booking, beds_booking["invoice"])
-            end
-
+            destroy_deleted_charges_payments(booking, beds_booking["invoice"])
+            update_charges_and_payments(booking, beds_booking["invoice"])
+            add_description_charges_payments(booking)
             add_earning(booking)
           else
             if !beds_booking["guestEmail"].blank?
@@ -513,6 +491,28 @@ class Vrental < ApplicationRecord
     )
   end
 
+  def update_charges_and_payments(booking, beds_booking_invoice)
+    beds_booking_invoice.each do |entry|
+      return if booking.locked == true
+
+      if (charge = booking.charges.find_by(beds_id: entry["invoiceId"]))
+        charge.update!(
+          description: entry["description"],
+          quantity: 1,
+          price: entry["price"].to_f * entry["qty"].to_f
+        )
+      elsif (payment = booking.payments.find_by(beds_id: entry["invoiceId"]))
+        payment.update!(
+          description: entry["description"],
+          quantity: -1,
+          price: entry["price"].to_f * entry["qty"].to_f
+          )
+      else
+        create_charges_and_payments(booking, entry)
+      end
+    end
+  end
+
   def create_charges_and_payments(booking, entry)
     if entry["qty"] == "1"
       Charge.create!(
@@ -556,11 +556,17 @@ class Vrental < ApplicationRecord
   end
 
   def destroy_deleted_charges_payments(booking, beds_booking_invoice)
-    beds_charges_payments = Set.new(beds_booking_invoice.map { |entry| entry["invoiceId"] })
-
-    (booking.charges + booking.payments).each do |item|
-      unless beds_charges_payments.include?(item.beds_id)
+    if beds_booking_invoice.nil? || beds_booking_invoice.empty?
+      (booking.charges + booking.payments).each do |item|
         item.destroy
+      end
+    else
+      beds_charges_payments = Set.new(beds_booking_invoice.map { |entry| entry["invoiceId"] })
+
+      (booking.charges + booking.payments).each do |item|
+        unless beds_charges_payments.include?(item.beds_id)
+          item.destroy
+        end
       end
     end
   end
@@ -568,6 +574,8 @@ class Vrental < ApplicationRecord
   def add_earning(booking)
     rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout).round(2)
     price = [booking.net_price, rate_price].min
+
+    puts "Booking #{booking.firstname} has a price of #{price}"
 
     discount = rate_price == 0 ? 0 : (rate_price - price) / rate_price
 

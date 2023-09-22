@@ -15,15 +15,15 @@
     <% end %>
   </div>
   <h5>Variables disponibles</h5>
-  <% translated_sorted_keys = Vrentaltemplate::TEMPLATE_KEYS.sort_by { |key| t("vragreement_keys.#{key}", locale: @vrentaltemplate.language.to_sym) } %>
+  <% translated_sorted_keys = Vrentaltemplate::TEMPLATE_KEYS.sort_by { |key| t("vragreement_keys.#{key}", locale: current_user.company.language || :ca) } %>
   <div class="container-fluid py-3 border">
     <div class="row">
       <% columns = 4 %>
       <% items_per_column = (translated_sorted_keys.length.to_f / columns).ceil %>
       <% translated_sorted_keys.each_slice(items_per_column).with_index do |slice, index| %>
-        <div class="col-3">
+        <div class="col-lg-3">
           <% slice.each do |key| %>
-            <%= t("vragreement_keys.#{key}", locale: @vrentaltemplate.language.to_sym) %><br>
+            <%= t("vragreement_keys.#{key}", locale: current_user.company.language || :ca) %><br>
           <% end %>
         </div>
       <% end %>

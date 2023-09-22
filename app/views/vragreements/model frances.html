@@ -1,0 +1,436 @@
+<meta charset="UTF-8" /><meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+/>
+<link
+  crossorigin="anonymous"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  rel="stylesheet"
+/>
+
+<h6 class="text-center text-uppercase">
+  ASSOCIATION DES AGENTS IMMOBILIERS DE GIRONA
+</h6>
+
+<p>&nbsp;</p>
+
+<h5 class="text-center mb-3">
+  <strong>COMMERCIALISATION ET GESTION DU LOGEMENT À USAGE TOURISTIQUE</strong>
+</h5>
+
+<div class="container mt-3">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">DONNÉES DU PROPRIÉTAIRE</div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Nom et prénom :</strong>
+    </div>
+
+    <div class="col-8">
+      <span class="d-block p-2">NOM_PROPIETARI</span>
+    </div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4"><strong class="d-block p-2">Adresse :</strong></div>
+
+    <div class="col-8">
+      <span class="d-block p-2">ADR_PROPIETARI</span>
+    </div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Téléphone :</strong>
+    </div>
+
+    <div class="col-8">
+      <span class="d-block p-2">TEL_PROPIETARI</span>
+    </div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4"><strong class="d-block p-2">Email :</strong></div>
+
+    <div class="col-8">
+      <span class="d-block p-2">EMAIL_PROPIETARI</span>
+    </div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4"><strong class="d-block p-2">DNI/NIF :</strong></div>
+
+    <div class="col-8">
+      <span class="d-block p-2">DNI_PROPIETARI</span>
+    </div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-4">
+      <strong class="d-block p-2">Compte bancaire :</strong>
+    </div>
+
+    <div class="col-8">
+      <span class="d-block p-2">COMPTE_BANCARI_PROPIETARI</span>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">
+      DONNÉES DU LOGEMENT À USAGE TOURISTIQUE
+    </div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Nom de la propriété :</strong>
+    </div>
+
+    <div class="col-8">{{ nom_immoble }}</div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Adresse de la propriété :</strong>
+    </div>
+
+    <div class="col-8">{{ adr_immoble }}</div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Réf. cadastrale :</strong>
+    </div>
+
+    <div class="col-8">{{ cadastre }}</div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Certificat d'habitabilité :</strong>
+    </div>
+
+    <div class="col-8">{{ cedula }}</div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-4">
+      <strong class="d-block p-2">Licence touristique :</strong>
+    </div>
+
+    <div class="col-8">{{ num_HUT }}</div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12">
+      <strong class="d-block">Dates réservées par le propriétaire :</strong>
+    </div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12">{{ reserves_propietari }}</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">
+      AUTORISATION DE CESSION EN FAVEUR D'INVERSTACH, S.L.U.
+    </div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12 d-block p-2">
+      <p>
+        Le propriétaire soussigné déclare avoir la libre disposition du logement
+        et le cède exclusivement à INVERSTACH, S.L.U, avec bureau professionnel
+        situé à c/Església, 34 bajos, 17258 L'Estartit (Girona), avec le C.I.F.
+        B66577537, inscrit au Registre des Agents Immobiliers de Catalogne
+        (AICAT) sous le numéro 6541, membre associé numéro 1009 du
+        Collège/Association des Agents de la Propriété Immobilière de Girona
+        (COAPI Girona), aux fins de commercialisation et de gestion en tant que
+        logement à usage touristique en location. Cette mission professionnelle
+        sera régie par les présentes conditions particulières, par les
+        conditions générales jointes au présent document et par la
+        réglementation spécifique du secteur.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">
+      I – Période de location et tarifs publics :
+    </div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12 d-block p-2">{{ tarifes }}</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">
+      II – Honoraires d'Inverstach, S.L.U.
+    </div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12 d-block p-2">
+      <p>
+        Sur le prix convenu avec le propriétaire pour chaque location,
+        Inverstach, S.L.U. déduira ses honoraires, qui s'élèvent à
+        <strong>{{ comissio }}%</strong>&nbsp;plus la TVA correspondante, et le
+        propriétaire <strong>{{ propietari }}</strong><b> </b>autorise leur
+        compensation au moment du règlement des montants reçus. Les frais
+        nécessaires à la commercialisation en tant que location touristique sont
+        déjà inclus dans les honoraires convenus, tels que le nettoyage après
+        chaque séjour, les vérifications et inventaires de la propriété, la
+        publicité, etc. L'Agent mentionnera dans les factures qu'il émettra à
+        ses clients, de manière distincte de la rémunération pour ses services,
+        le montant de la taxe sur les séjours dans les établissements
+        touristiques (taxe de séjour), en indiquant le nombre d'unités et le
+        taux d'imposition appliqué, si tel est l'accord avec le propriétaire.
+        L'Agent s'engage à liquider et à verser les taxes résultant de la taxe
+        sur les séjours dans les établissements touristiques conformément aux
+        modalités et délais établis par l'Administration.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row p-2 bg-light border-bottom">
+    <div class="col-12 font-weight-bold">III – Règlement des loyers</div>
+  </div>
+
+  <div class="row p-2 border-bottom">
+    <div class="col-12 d-block p-2">
+      Le règlement au propriétaire des loyers perçus, à la fin de la saison, se
+      fera par virement bancaire ou par chèque bancaire dans les bureaux de
+      l'administrateur.
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">IV – Conditions Particulières</div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12 d-block p-2">
+      <p>
+        Le propriétaire s'engage à remettre la propriété à Inverstach, S.L.U.
+        dans un état impeccable au début de la période convenue pour la
+        location, et Inverstach S.L.U. garantit la remise dans le même état à la
+        fin du contrat. Le propriétaire cède les droits d'image de sa propriété
+        et autorise Inverstach, S.L.U. à l'utiliser à des fins de promotion
+        commerciale, ainsi qu'à les céder à des tiers. Le propriétaire déclare
+        tacitement que la propriété dispose du certificat d'habitabilité requis,
+        et exonère Inverstach, S.L.U. de toute responsabilité à cet égard. Dans
+        le cas où le bien n'aurait pas de numéro HUT, le propriétaire autorise
+        Inverstach, S.L.U. à enregistrer sa propriété auprès du registre
+        compétent, conformément au Décret sur les Établissements d'Hébergement
+        Touristique et les Logements à Usage Touristique.
+      </p>
+
+      <p>{{ clausula_adicional }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row p-2 bg-light border-top border-bottom">
+    <div class="col-12 font-weight-bold">Description de la propriété</div>
+  </div>
+
+  <div class="row p-2">
+    <div class="col-12 d-block p-2">
+      <p>{{ descripcio }}</p>
+
+      <p>{{ carac_immoble }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="page-break-before: always">
+  <h5 class="text-center font-weight-bold">CONDITIONS GÉNÉRALES</h5>
+
+  <p>
+    <span
+      ><strong>ARTICLE PREMIER</strong>.- La présente autorisation implique
+      implicitement le mandat exprès et les pouvoirs nécessaires en faveur
+      d'Inverstach, SLU pour commercialiser et gérer la propriété faisant
+      l'objet de la cession, et dans cette condition, la louer et la céder à des
+      tiers en tant que résidence à usage touristique, et en général, accomplir
+      tout acte de gestion cohérent et nécessaire avec l'objet de la cession et
+      la finalité de ce contrat, qui consiste en l'exploitation commerciale de
+      celle-ci en utilisant les moyens et services qu'elle offre.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE DEUXIÈME</strong>.- Pendant la période indiquée, le
+      cessionnaire Inverstach, SLU aura la pleine et entière disponibilité de la
+      résidence. Dans le cas où, pendant cette période, le propriétaire souhaite
+      utiliser personnellement la résidence, ce qui serait incompatible avec son
+      exploitation commerciale, il sera nécessaire de contacter préalablement
+      Inverstach, SLU pour vérifier si la résidence est disponible. En cas de
+      vente ou de transmission à des tiers, le propriétaire cédant est tenu de
+      respecter les engagements pris par Inverstach, SLU. Le propriétaire
+      s'engage à mettre la résidence à la disposition d'Inverstach, SLU, 7 jours
+      avant l'arrivée du premier client, afin de vérifier que tout est en ordre,
+      et le cas échéant, de corriger et de remédier. La présente mission est
+      essentiellement révocable par le propriétaire, mais celui-ci est toujours
+      tenu de respecter les contrats et réservations conclus par le
+      professionnel en vertu des pouvoirs conférés, et en tout cas, si le
+      propriétaire ne souhaite pas les respecter, à titre de clause pénale
+      librement convenue par les parties, il devra verser une indemnité de 2
+      000,00 € en faveur du professionnel gestionnaire.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE TROISIÈME</strong>.- Le propriétaire s'engage à effectuer
+      les réparations et les travaux nécessaires pour conserver et livrer la
+      résidence en parfaites conditions d'habitabilité, de services et de
+      propreté pour son utilisation, y compris le premier nettoyage complet au
+      début de chaque saison. Une attention particulière sera portée au
+      remplacement des meubles qui ont été endommagés en raison de leur
+      utilisation continue, et des améliorations seront toujours apportées à
+      l'équipement domestique de la résidence. Inverstach, SLU est autorisée à
+      éliminer ou à compléter le matériel ou les ustensiles qui doivent être
+      remplacés pendant la durée du présent contrat en raison de leur mauvais
+      état ou de l'omission du propriétaire de les remplacer, ainsi qu'à
+      effectuer de petits travaux de réparation et de maintenance, ces frais
+      étant à la charge du propriétaire. Les dommages causés à la résidence en
+      raison d'une mauvaise utilisation ou d'une négligence du locataire seront
+      à sa charge, Inverstach, SLU s'engageant à effectuer les remplacements ou
+      réparations nécessaires et à facturer au locataire le montant des
+      dommages.</span
+    >
+  </p>
+  <p>
+    <span
+      ><strong>ARTICLE QUATRIÈME</strong>.- La résidence sera louée meublée et
+      équipée ; en cas de service, les frais de consommation d'eau et
+      d'électricité seront à la charge du propriétaire, ainsi que tous les frais
+      et taxes liés à la propriété de la résidence (charges de copropriété, le
+      cas échéant, impôt foncier, etc.). Au moment de la conclusion du contrat,
+      au début de chaque saison, le propriétaire doit joindre une copie de la
+      police d'assurance obligatoire de l'appartement.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE CINQUIÈME</strong>.- À la fin de la saison estivale, à
+      partir du 1er octobre, le cessionnaire Inverstach, SLU liquidera les
+      loyers perçus au propriétaire, sur la base des prix figurant dans la
+      section des conditions particulières du présent contrat. Si le
+      propriétaire souhaite un paiement anticipé, cela peut être fait à la
+      demande du propriétaire, une fois que la première entrée de la première
+      location de la saison a eu lieu, et le montant maximal à verser sera de 60
+      % du montant total à percevoir par le propriétaire.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE SIXIÈME</strong>.- Après le départ du dernier locataire,
+      le propriétaire dispose de quinze jours ouvrables pour signaler à
+      Inverstach, SLU tout dommage ou incident dans la propriété ; passé ce
+      délai, le propriétaire exonère Inverstach, SLU de toute responsabilité. De
+      même, Inverstach, SLU assume la responsabilité de tout ce qui se passe à
+      l'intérieur de la propriété après l'entrée du premier client, et non
+      avant.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE SEPTIÈME</strong>.- Les locations effectuées seront
+      toujours des locations de résidences à usage touristique et, par
+      conséquent, seront soumises à la législation catalane spécifique en la
+      matière. Subsidiairement, le Code civil s'appliquera, la Loi sur les
+      locations urbaines étant expressément exclue. Dans le cas où le
+      propriétaire ne réside pas en Espagne, il déclare être informé des
+      obligations fiscales prévues par la législation espagnole en matière de
+      revenus provenant de la location d'une résidence. Le propriétaire cédant
+      déclare sous sa responsabilité que, dans le cas de propriétés régies par
+      le système de copropriété, celle-ci ne contient aucune disposition
+      statutaire interdisant l'usage touristique ou l'exploitation commerciale
+      de l'appartement. Dans le cas où la copropriété modifierait ses statuts
+      pour interdire l'activité touristique ou l'exploitation commerciale de
+      l'appartement et que cette interdiction prenne effet, empêchant son
+      exploitation normale, le propriétaire indemniserait le cessionnaire de
+      tous les frais utiles engagés dans la publicité et la commercialisation de
+      la résidence, ainsi que dans les réclamations pour dommages et intérêts
+      que les clients locataires pourraient présenter, le cas échéant.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE HUITIÈME</strong>.- En cas d'annulation d'une
+      réservation, les indemnités non remboursées ou retenues sur l'acompte de
+      réservation (20 %) seront partagées à parts égales entre l'Agence et le
+      propriétaire, afin de compenser les frais de l'Agence en matière de
+      publicité et de démarches préalables, comme la conclusion de la
+      réservation elle-même.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE NEUVIÈME</strong>.- En annexe, qui fait partie intégrante
+      du présent contrat, les parties spécifient l'équipement minimal de la
+      résidence, tant en ce qui concerne le mobilier que les appareils
+      électroménagers, et le tout est illustré graphiquement par des
+      photographies en couleur.</span
+    >
+  </p>
+
+  <p>
+    <span
+      ><strong>ARTICLE DIXIÈME</strong>.- Le bailleur déclare connaître toutes
+      les obligations fiscales liées à la location du bien susmentionné, en
+      particulier celles prévues par le Décret royal législatif 5/2004 du 5 mai,
+      qui régit l'impôt sur le revenu des non-résidents. L'entité qui gère la
+      propriété louée agit en tant qu'intermédiaire dans le paiement aux fins de
+      la responsabilité fiscale, conformément à l'article 9.2 du Décret royal
+      législatif 5/2004 du 5 mai, qui régit l'impôt sur le revenu des
+      non-résidents.</span
+    >
+  </p>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 font-italic text-right">
+        <span>{{ data_firma }}, {{ lloc_firma }} </span>
+      </div>
+    </div>
+
+    <div class="row border bg-light text-center font-weight-bold">
+      <div class="col-6 p-2 border-right">Agence - Inverstach s.l.</div>
+
+      <div class="col-6 p-2">Le Propriétaire - {{ propietari }}</div>
+    </div>
+
+    <div class="row border-bottom" style="height: 150px">
+      <div class="col-6 p-2 border-left border-right">&nbsp;</div>
+
+      <div class="col-6 p-2 border-right">&nbsp;</div>
+    </div>
+  </div>
+</div>

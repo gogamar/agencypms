@@ -92,6 +92,28 @@ en:
   energy_addendum: "Energy Certificate"
   equipment_addendum: "Equipment"
   vragreement_keys:
+    company_name: 'COMPANY_NAME'
+    company_street: 'STREET_NUMBER_COMPANY'
+    company_city: 'CITY_COMPANY'
+    company_post_code: 'POSTAL_CODE_COMPANY'
+    company_region: 'REGION_COMPANY'
+    company_country: 'COUNTRY_COMPANY'
+    company_bank_account: 'BANK_ACCOUNT_COMPANY'
+    company_administrator: 'ADMINISTRATOR_COMPANY'
+    company_vat_tax: 'VAT_%'
+    company_vat_number: 'VAT_NUMBER_COMPANY'
+    company_realtor_number: 'REALTOR_NUMBER_COMPANY'
+    office_local_realtor_number: 'LOCAL_REALTOR_NUMBER'
+    office_name: 'OFFICE_NAME'
+    office_street: 'STREET_NUMBER_OFFICE'
+    office_city: 'CITY_OFFICE'
+    office_post_code: 'POSTAL_CODE_OFFICE'
+    office_region: 'REGION_OFFICE'
+    office_country: 'COUNTRY_OFFICE'
+    office_phone: 'OFFICE_PHONE'
+    office_mobile: 'MOBILE_PHONE_OFFICE'
+    office_email: 'OFFICE_EMAIL'
+    office_website: 'OFFICE_WEBSITE'
     signdate: 'SIGN_DATE'
     place: 'SIGN_PLACE'
     vrowner_fullname: 'OWNER_NAME'
@@ -315,7 +337,6 @@ en:
         vat_tax: "VAT Tax"
         vat_tax_payer: "VAT Tax Payer"
         realtor_number: "Realtor Number"
-        local_realtor_number: "Local Realtor Number"
         user: "User"
       office:
         name: "Name"
@@ -331,6 +352,7 @@ en:
         website: "Website"
         opening_hours: "Opening Hours"
         manager: "Manager"
+        local_realtor_number: "Local Realtor Number"
       vragreement:
         status: "Status"
         vrowner: "Owner"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_21_093642) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -127,7 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_093642) do
     t.float "vat_tax"
     t.boolean "vat_tax_payer"
     t.string "realtor_number"
-    t.string "local_realtor_number"
+    t.string "language"
     t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
@@ -199,6 +199,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_093642) do
     t.bigint "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "local_realtor_number"
     t.index ["company_id"], name: "index_offices_on_company_id"
   end
 

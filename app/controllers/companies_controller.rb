@@ -19,6 +19,7 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.new(company_params)
     @company = current_user.build_owned_company(company_params)
+    current_user.company = @company
     authorize @company
 
     if @company.save
@@ -48,6 +49,6 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:name, :street, :city, :vat_number, :user_id, :post_code, :region, :country, :bank_account, :administrator, :vat_tax, :vat_tax_payer, :realtor_number, :local_realtor_number)
+      params.require(:company).permit(:name, :language, :street, :city, :vat_number, :user_id, :post_code, :region, :country, :bank_account, :administrator, :vat_tax, :vat_tax_payer, :realtor_number)
     end
 end
