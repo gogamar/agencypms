@@ -35,6 +35,7 @@ class EarningsController < ApplicationController
   def unlock
     authorize @earning
     @earning.update(locked: false)
+    @earning.booking.update(locked: false) if @earning.booking.present?
     redirect_to vrental_earnings_path(@vrental), notice: 'Ingres desprotegit i serà modificat al importar reserves de nou.'
   end
 

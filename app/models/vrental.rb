@@ -439,6 +439,7 @@ class Vrental < ApplicationRecord
                 end
               end
               add_description_charges_payments(booking)
+              destroy_deleted_charges_payments(booking, beds_booking["invoice"])
             end
 
             add_earning(booking)
@@ -550,6 +551,16 @@ class Vrental < ApplicationRecord
         charge.update(charge_type: "cleaning")
       elsif charge != max_charge
         charge.update(charge_type: "other")
+      end
+    end
+  end
+
+  def destroy_deleted_charges_payments(booking, beds_booking_invoice)
+    beds_charges_payments = Set.new(beds_booking_invoice.map { |entry| entry["invoiceId"] })
+
+    (booking.charges + booking.payments).each do |item|
+      unless beds_charges_payments.include?(item.beds_id)
+        item.destroy
       end
     end
   end
