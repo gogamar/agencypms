@@ -24,6 +24,8 @@ fr:
   invoice_title: "Facture"
   invoice_description_1: "Période de gestion : du %{from} au %{to}"
   invoice_description_2: "%{commission} sur les revenus de %{total}"
+  vrowner_bookings_default: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, veuillez nous contacter à l'adresse %{email}."
+  vrowner_speaks: "Le propriétaire %{name} parle %{language}."
   charge_types:
     rent: "Loyer"
     cleaning: "Nettoyage"

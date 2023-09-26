@@ -21,7 +21,27 @@ export default class extends Controller {
     this.amountTarget.value = amount.toFixed(2);
   }
 
+  calculateDiscount() {
+    const amountInput = parseFloat(this.amountTarget.value);
+    const ratePriceText = this.ratePriceTarget.textContent
+      .replace(/[€.]/g, "")
+      .replace(",", ".");
+    const ratePrice = parseFloat(ratePriceText);
+    let discount;
+
+    if (isNaN(amountInput)) {
+      discount = 0;
+    } else {
+      discount = 1 - amountInput / ratePrice;
+    }
+    this.discountTarget.value = discount.toFixed(4);
+  }
+
   discountValueChanged() {
     this.calculateEarningAmount();
+  }
+
+  amountValueChanged() {
+    this.calculateDiscount();
   }
 }

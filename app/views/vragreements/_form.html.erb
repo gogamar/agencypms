@@ -1,99 +1,48 @@
 <%= simple_form_for [ vrental, vragreement ] do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="row justify-content-md-center">
-    <div class="col-lg-2">
-      <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
-        <%= f.input :year, input_html: {value: params[:year].to_i}, readonly: true %>
-      <% else %>
-        <%= f.input :year, readonly: true %>
-      <% end %>
-    </div>
-    <div class="col-lg-3">
-      <%= f.input :status, as: :radio_buttons, collection: [[t("not sent"),'not sent'],[t("pending"),'pending'],[t("signed"),'signed']] %>
-    </div>
-    <div class="col-lg-7">
-      <%= f.association :vrentaltemplate, include_blank: true, label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path,  target: "_blank"}.").html_safe %>
-    </div>
+  <div class="row">
+    <div class="col"><%= f.input :status, as: :select, collection: [[t("not sent"), 'not sent'], [t("pending"), 'pending'], [t("signed"), 'signed']], include_blank: true %> </div>
+    <div class="col"><%= f.input :signdate, as: :string, input_html: { class: "datepicker"} %></div>
+    <div class="col"><%= f.input :place, label: 'Lloc de la firma' %></div>
+  </div>
+  <div class="row">
+    <div class="col"><%= f.input :year, readonly: true %></div>
+    <div class="col"><%= f.input :start_date, as: :string, input_html: { class: "datepicker" } %></div>
+    <div class="col"><%= f.input :end_date, as: :string, input_html: { class: "datepicker" } %></div>
+  </div>
+  <div class="row">
+    <%= f.association :vrentaltemplate,
+                   include_blank: true,
+                   label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path, target: '_blank'}.").html_safe,
+                   hint: t("vrowner_speaks", name: vrental.vrowner.fullname, language: t("#{vrental.vrowner.language}")) if vrental.vrowner %>
+  </div>
+  <div class="row">
+    <%= f.input :vrowner_bookings %>
   </div>
   <div class="row justify-content-md-center bg-light py-5">
-    <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
-      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).present? %>
-        <h5><%= link_to "Tarifes #{params[:year]}", vrental, target: "_blank" %></h5>
-        <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", params[:year]).order(firstnight: :asc) %>
-      <% else %>
-        <%= link_to "Afegir tarifes per #{params[:year]}", vrental, target: "_blank", class: "btn btn-info" %>
-      <% end %>
+    <% year_to_display = f.object.year || @year || Date.current.year %>
+    <% if @rates.present? %>
+      <h5><%= link_to "Tarifes #{year_to_display}", vrental_rates_path, target: "_blank" %></h5>
+      <%= render @rates %>
     <% else %>
-      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).present? %>
-        <h5><%= link_to "Tarifes #{vragreement.year}", vrental, target: "_blank" %></h5>
-        <%= render vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).order(firstnight: :asc) %>
-      <% else %>
-        <%= link_to "Afegir tarifes per #{vragreement.year}", vrental, target: "_blank", class: "btn btn-info" %>
-      <% end %>
+      <%= link_to "Afegir tarifes", vrental_rates_path, target: "_blank", class: "btn btn-info" %>
     <% end %>
   </div>
-  <div class="row justify-content-md-center">
-    <div class="col-lg-3">
-      <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
-        <%= f.input :signdate, as: :string, input_html: {class: "datepicker", value: Date.today} %>
-      <% else %>
-        <%= f.input :signdate, as: :string, input_html: {class: "datepicker"} %>
+  <% if vragreement.photos.attached? %>
+    <div class="row d-flex justify-content-between align-items-end py-4">
+      <% vragreement.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 200 %>
+        <%= link_to "Esborrar aquesta foto", photo_path(photo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta foto?"} %>
       <% end %>
     </div>
-    <div class="col-lg-3">
-      <%= f.input :place, label: 'Lloc de la firma' %>
-    </div>
-    <div class="col-lg-3">
-      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).present? %>
-        <%= f.input :start_date, as: :string, input_html: {value: vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).order(firstnight: :asc).first.firstnight, class: "datepicker"} %>
-      <% else %>
-        <%# f.input :start_date, as: :string, input_html: {class: "datepicker"} %>
-      <% end %>
-    </div>
-    <div class="col-lg-3">
-      <% if vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).present? %>
-        <%= f.input :end_date, as: :string, input_html: {value: vrental.rates.where("DATE_PART('year', firstnight) = ?", vragreement.year).order(lastnight: :desc).first.lastnight, class: "datepicker"} %>
-      <% else %>
-        <%# f.input :end_date, as: :string, input_html: {class: "datepicker"} %>
-      <% end %>
-    </div>
-  </div>
-  <div class="row justify-content-md-center">
-    <div class="col-lg-12">
-      <% if params[:controller] == 'vragreements' && params[:action] == 'new' %>
-        <% if vrental.vrowner&.language == "ca" %>
-          <%= f.input :vrowner_bookings, input_html: {value: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com"} %>
-        <% elsif vrental.vrowner&.language == "es" %>
-          <%= f.input :vrowner_bookings, input_html: {value: "El propietario todavía no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contacte con nosotros a info@sistachrentals.com"} %>
-        <% elsif vrental.vrowner&.language == "fr" %>
-          <%= f.input :vrowner_bookings, input_html: {value: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, merci de nous contacter par email: info@sistachrentals.com"} %>
-        <% elsif vrental.vrowner&.language == "en" %>
-          <%= f.input :vrowner_bookings, input_html: {value: "The owner has not yet blocked any dates for their own use. If you would like to block some dates, please contact us by email: info@sistachrentals.com"} %>
-        <% end %>
-      <% else %>
-        <%= f.input :vrowner_bookings %>
-      <% end %>
-    </div>
-  </div>
-  <div class="d-flex justify-content-between align-items-end py-4">
-    <div class="d-flex flex-column align-items-center">
-      <% if vragreement.photos.attached? %>
-        <% vragreement.photos.each do |photo| %>
-          <%= cl_image_tag photo.key, height: 200 %>
-          <%= link_to "Esborrar aquesta foto", photo_path(photo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta foto?"} %>
-        <% end %>
-      <% end %>
-    </div>
-    <div>
-      <%= f.input :photos, label: "Afegir fotos", as: :file, input_html: { multiple: true }  %>
-    </div>
+  <% end %>
+  <div class="row">
+    <%= f.input :photos, label: "Afegir fotos", as: :file, input_html: { multiple: true }  %>
   </div>
   <div class="form-actions row gx-4">
-    <div class="col text-end">
-      <div class="p-3">
-        <%= f.submit "Desar", class: "btn btn-primary" %>
-      </div>
+    <div class="col text-end p-3">
+      <%= f.submit "Desar", class: "btn btn-primary" %>
     </div>
   </div>
 <% end %>

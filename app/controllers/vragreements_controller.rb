@@ -28,7 +28,7 @@ class VragreementsController < ApplicationController
     @vragreements = Vragreement.all
     @vrowner = @vragreement.vrental.vrowner
     @vrental = @vragreement.vrental
-    @vrates = Rate.where(vrental_id: @vrental).order(:firstnight)
+    @vrates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
 
     contract_rates = render_to_string(partial: 'rates')
     @vrcontrato = @vragreement.generate_contract_body(contract_rates)
@@ -69,6 +69,25 @@ class VragreementsController < ApplicationController
   def new
     @vragreement = Vragreement.new
     authorize @vragreement
+    @year = params[:year].to_i
+    @rates = @vrental.rates.where("extract(year from firstnight) = ?", @year).order(:firstnight)
+    start_date = @rates.first.firstnight if @rates.present?
+    end_date = @rates.last.lastnight if @rates.present?
+    place = @vrental.office.city if @vrental.office
+    vrentaltemplates = Vrentaltemplate.where(language: @vrental.vrowner.language)
+    default_template = vrentaltemplates.max_by do |template|
+      template.vragreements.count
+    end
+    @vragreement.attributes = {
+      start_date: start_date,
+      end_date: end_date,
+      year: params[:year].to_i,
+      vrentaltemplate: default_template,
+      signdate: Date.today,
+      place: place,
+      status: 'pending',
+      vrowner_bookings: t("vrowner_bookings_default", email: @vrental.office.email)
+    }
     @years_vragreement_exists = @vrental.vragreements.pluck(:year)
     next_three_years = [Date.today.year, Date.today.year + 1, Date.today.year + 2]
     merged_arrays = next_three_years + @years_vragreement_exists
@@ -76,9 +95,42 @@ class VragreementsController < ApplicationController
     @vrentaltemplates = policy_scope(Vrentaltemplate)
   end
 
+  def copy
+    authorize(@vragreement = Vragreement.new)
+
+    @source = Vragreement.find(params[:id])
+    @vrental = @source.vrental
+    @years_vragreement_exists = @vrental.vragreements.pluck(:year)
+    @vrental.copy_rates_to_next_year(@source.year)
+
+    @vragreement.attributes = {
+      year: @source.year + 1,
+      vrentaltemplate: @source.vrentaltemplate,
+      vrental: @vrental,
+      signdate: Date.today,
+      place: @source.place,
+      status: 'pending',
+      vrowner_bookings: t("vrowner_bookings_default", email: @vrental.office.email)
+    }
+
+    @vrates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
+    @vragreement.start_date = @vrates.first.firstnight
+    @vragreement.end_date = @vrates.last.lastnight + 1.day
+
+    authorize @vragreement
+
+    if @vragreement.save
+      redirect_to edit_vrental_vragreement_path(@vrental, @vragreement), notice: "S'ha creat una còpia del contracte per #{@vragreement.year}."
+    else
+      # Handle validation errors or other errors if needed
+      render :new
+    end
+  end
+
   def edit
     authorize @vragreement
     @vrentaltemplates = policy_scope(Vrentaltemplate)
+    @rates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
   end
 
   def create

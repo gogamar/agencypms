@@ -24,6 +24,8 @@ en:
   invoice_title: "Invoice"
   invoice_description_1: "Management Period: from %{from} to %{to}"
   invoice_description_2: "%{commission} on earnings of %{total}"
+  vrowner_bookings_default: "The owner has not yet blocked any dates for their own use. If you want to block some dates, please contact us at %{email}."
+  vrowner_speaks: "The owner %{name} speaks %{language}."
   charge_types:
     rent: "Rent"
     cleaning: "Cleaning"

@@ -27,6 +27,8 @@ ca:
   invoice_title: "Factura"
   invoice_description_1: "Periode de gestió: del %{from} al %{to}"
   invoice_description_2: "%{commission} sobre las rendes de %{total}"
+  vrowner_bookings_default: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}."
+  vrowner_speaks: "El propietari %{name} parla %{language}"
   charge_types:
     rent: "Lloguer"
     cleaning: "Neteja"

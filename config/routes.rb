@@ -50,6 +50,9 @@ Rails.application.routes.draw do
         end
         resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
         resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update, :show, :index] do
+          member do
+            get 'copy'
+          end
           resources :photos, only: :destroy, shallow: true
         end
         member do
