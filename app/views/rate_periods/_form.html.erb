@@ -13,7 +13,7 @@
     <div class="p-1 text-center">
       <%= f.input :firstnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "start" } %>
     </div>
-    <div class="p-1 text-center">
+    <div class="p-1 text-center <%= 'd-none' if f.object.persisted? %>">
       <%= f.input :nights, input_html: { "data-action" => "change->unavailable-dates#updateEnd" } %>
     </div>
     <div class="p-1 text-center">

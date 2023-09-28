@@ -53,6 +53,15 @@ class Vrental < ApplicationRecord
     last_statement.present? ? last_statement.end_date + 1.day : Date.new(Date.today.year, 1, 1)
   end
 
+  def upload_rate_dates
+    rates.each do |rate|
+      rate.update!(
+        firstnight: rate.firstnight + 364,
+        lastnight: rate.lastnight + 364
+      )
+    end
+  end
+
   def rate_price(checkin, checkout)
     overlapping_rates = rates.where(
       "(firstnight <= ? AND lastnight >= ?) OR (firstnight <= ? AND lastnight >= ?) OR (firstnight >= ? AND lastnight <= ?)",

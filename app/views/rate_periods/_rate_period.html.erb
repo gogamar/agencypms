@@ -1,12 +1,13 @@
 <%= turbo_frame_tag rate_period, class: "card-body" do %>
-  <div class="row py-1">
-    <div class="col-lg-1 nowrap"><%= rate_period.name %></div>
-    <div class="col-lg-3 nowrap"><%= l(rate_period.firstnight, format: :long) %></div>
-    <div class="col-lg-3 nowrap"><%= l(rate_period.lastnight, format: :long) %> </div>
-    <div class="col-lg-1 nowrap"><%= rate_period.min_stay %></div>
-    <div class="col-lg-2 nowrap"><%= t("#{rate_period.arrival_day}") %></div>
+  <div class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center">
+    <div class="p-1 text-center"><%= rate_period.name %></div>
+    <div class="p-1 text-center"><%= l(rate_period.firstnight, format: :standard) %></div>
+    <div class="p-1 text-center"><%= rate_period.nights %></div>
+    <div class="p-1 text-center"><%= l(rate_period.lastnight, format: :standard) %> </div>
+    <div class="p-1 text-center"><%= rate_period.min_stay %></div>
+    <div class="p-1 text-center"><%= t("#{rate_period.arrival_day}") %></div>
     <% unless params[:controller] == 'vragreements' %>
-      <div class="col-lg-2 nowrap d-flex justify-content-between">
+      <div class="p-1 text-center d-flex justify-content-between">
         <%= link_to edit_rate_plan_rate_period_path(@rate_plan, rate_period), class: "btn btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>

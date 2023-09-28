@@ -41,6 +41,10 @@ class VrentalPolicy < ApplicationPolicy
     return show?
   end
 
+  def annual_statement?
+    user.admin? || record.user == user
+  end
+
   def export_beds?
     return show?
   end

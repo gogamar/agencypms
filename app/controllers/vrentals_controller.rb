@@ -137,6 +137,11 @@ class VrentalsController < ApplicationController
     redirect_to @vrental, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
   end
 
+  def upload_rate_dates
+    @vrental.upload_rate_dates
+    redirect_back(fallback_location: rate_plans_path, notice: "Ja s'han importat les dates de tarifes.")
+  end
+
   def copy_rates
     current_year = params[:year]
     @vrental.copy_rates_to_next_year(current_year)

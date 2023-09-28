@@ -70,6 +70,7 @@ Rails.application.routes.draw do
           get 'delete_rates'
           get 'delete_year_rates'
           get 'get_bookings'
+          get 'copy_rate_dates'
         end
       end
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]

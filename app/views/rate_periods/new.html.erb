@@ -1,3 +1,5 @@
-<%= turbo_frame_tag @rate_period do %>
-  <%= render "form", rate_period: @rate_period, rate_plan: @rate_plan %>
-<% end %>
+<div class="bg-secondary">
+  <%= turbo_frame_tag @rate_period do %>
+    <%= render "form", rate_period: @rate_period, rate_plan: @rate_plan %>
+  <% end %>
+</div>

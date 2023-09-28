@@ -1,11 +1,23 @@
 <p style="color: green"><%= notice %></p>
-<h1>Plans de tarifa</h1>
+<div class="container d-flex justify-content-end">
+  <div class="d-flex align-items-center">
+    <%= link_to new_rate_plan_path, class: "btn btn-light btn-icon-split" do %>
+      <span class="icon text-white-600">
+        <i class="fas fa-plus"></i>
+      </span>
+      <span class="text">
+        Nou plà de tarifa <%= current_user.company.name %>
+      </span>
+    <% end %>
+  </div>
+</div>
 <div id="rate_plans">
   <% @rate_plans.each do |rate_plan| %>
-    <%= render rate_plan %>
-    <p>
-      <%= link_to "Mostrar aquest plà", rate_plan_rate_periods_path(rate_plan) %>
-    </p>
+    <div class="row border m-3">
+      <div class="col-lg-2"><%= rate_plan.name %></div>
+      <div class="col-lg-4"><%= l(rate_plan.start, format: :standard) %> - <%= l(rate_plan.end, format: :standard) %></div>
+      <div class="col-lg-3"><%= link_to "Veure", rate_plan_rate_periods_path(rate_plan) %></div>
+      <div class="col-lg-3"><%= link_to "Modificar", edit_rate_plan_path(rate_plan) %></div>
+    </div>
   <% end %>
 </div>
-<%= link_to "Nou plà de tarifa", new_rate_plan_path %>

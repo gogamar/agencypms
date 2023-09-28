@@ -1,6 +1,6 @@
 class RatePeriodsController < ApplicationController
   before_action :set_rate_period, only: %i[ show edit update destroy ]
-  before_action :set_rate_plan, only: %i[ index new create destroy ]
+  before_action :set_rate_plan, only: %i[ index new edit update create destroy ]
 
   def index
     @rate_periods = policy_scope(RatePeriod)
