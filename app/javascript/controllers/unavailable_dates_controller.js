@@ -42,4 +42,23 @@ export default class extends Controller {
       },
     });
   }
+
+  updateEnd(event) {
+    const nights = parseInt(event.target.value, 10);
+    if (!isNaN(nights) && this.startTarget.value) {
+      const newEndDate = new Date(this.startTarget.value);
+      newEndDate.setDate(newEndDate.getDate() + nights - 1);
+      console.log(newEndDate);
+      this.endTarget.flatpickr({
+        allowInput: true,
+        altInput: true,
+        altFormat: "d/m/Y",
+        dateFormat: "Y-m-d",
+        defaultDate: newEndDate,
+        onChange: function (selectedDates, dateStr, instance) {
+          startPicker.set("maxDate", dateStr);
+        },
+      });
+    }
+  }
 }

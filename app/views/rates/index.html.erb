@@ -7,21 +7,15 @@
       Importar tarifes des de Beds
     </span>
   <% end %>
-  <% @years.each do |year| %>
-    <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-      <% if (@rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).present? && @rates.where("DATE_PART('year', firstnight) = ?", year).where(sent_to_beds: nil).order(:firstnight).last&.firstnight >= Date.today) %>
-        <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
-          <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes a Beds24
-        <% end %>
-      <% elsif @rates.where("DATE_PART('year', firstnight) = ?", year).order(:firstnight).last.firstnight >= Date.today %>
-        <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades a Beds24</button>
-        <% if year >= Date.today.year && @modified_rates.present? %>
-          <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
-            <i class="fas fa-exclamation-triangle"></i> Esborra les tarifes en Beds24
-          <% end %>
-        <% end %>
-      <% end %>
+  <% if @rates.where("lastnight >= ?", Date.today).present? %>
+    <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
+      <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes a Beds24
     <% end %>
+    <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
+      <i class="fas fa-exclamation-triangle"></i> Esborra les futures tarifes en Beds24
+    <% end %>
+  <% else %>
+    <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades a Beds24</button>
   <% end %>
 </div>
 <hr>
@@ -33,8 +27,9 @@
       <hr>
       <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
       <div class="text-end">
+        <%= link_to "Esborra les tarifes #{year}", delete_year_rates_vrental_path(@vrental, year: year), class: "text-danger" %>
         <% if year <= Date.today.year %>
-          <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-warning" %>
+          <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-secondary" %>
         <% end %>
       </div>
       <hr>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -226,6 +226,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
     t.index ["booking_id"], name: "index_payments_on_booking_id"
   end
 
+  create_table "rate_periods", force: :cascade do |t|
+    t.string "name"
+    t.date "firstnight"
+    t.date "lastnight"
+    t.integer "min_stay"
+    t.string "arrival_day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "rate_plan_id"
+    t.integer "nights"
+    t.index ["rate_plan_id"], name: "index_rate_periods_on_rate_plan_id"
+  end
+
+  create_table "rate_plans", force: :cascade do |t|
+    t.string "name"
+    t.date "start"
+    t.date "end"
+    t.integer "gen_min"
+    t.string "gen_arrival"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_rate_plans_on_company_id"
+  end
+
   create_table "rates", force: :cascade do |t|
     t.float "pricenight"
     t.string "beds_room_id"
@@ -239,6 +264,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
     t.datetime "updated_at", null: false
     t.boolean "sent_to_beds"
     t.datetime "date_sent_to_beds", precision: nil
+    t.integer "nights"
+    t.string "beds_rate_id"
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
   end
 
@@ -334,7 +361,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
     t.bigint "user_id", null: false
     t.decimal "commission", precision: 10, scale: 2
     t.bigint "office_id"
+    t.bigint "rate_plan_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
+    t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
@@ -390,6 +419,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
   add_foreign_key "offices", "companies"
   add_foreign_key "pages", "users"
   add_foreign_key "payments", "bookings"
+  add_foreign_key "rate_periods", "rate_plans"
+  add_foreign_key "rate_plans", "companies"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"
@@ -398,6 +429,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_22_130523) do
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"
+  add_foreign_key "vrentals", "rate_plans"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"

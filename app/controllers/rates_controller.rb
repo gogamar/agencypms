@@ -30,38 +30,29 @@ class RatesController < ApplicationController
     @rate.vrental = @vrental
     authorize @rate
     if @rate.save
-      redirect_to vrental_path(@vrental) + "#tarifes", notice: "Has creat una tarifa nova per #{@rate.vrental.name}."
+      redirect_to vrental_rates_path(@vrental), notice: "Has creat una tarifa nova per #{@rate.vrental.name}."
     else
       render :new, status: :unprocessable_entity
     end
   end
-
-  # def reset
-  #   @rates = policy_scope(Rate)
-  #   @rates = Rate.where(vrental_id: @vrental).order(firstnight: :desc)
-  #   @rates
-  #   redirect_to vrental_path(@vrental) + "#tarifes", notice: "Has esborrat totes les tarifes de #{@vrental.name}."
-  # end
 
   def update
     @vrental = @rate.vrental
     authorize @rate
     if @rate.update(rate_params)
       flash.now[:notice] = "Has actualitzat una tarifa de #{@rate.vrental.name}."
-      redirect_to @vrental
+      redirect_to vrental_rates_path(@vrental)
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
-
   def destroy
     authorize @rate
     @vrental = @rate.vrental
     @rate.destroy
-    redirect_to @vrental, notice: "Has esborrat la tarifa de #{@rate.firstnight}."
+    redirect_to vrental_rates_path(@vrental), notice: "Has esborrat la tarifa de #{@rate.firstnight}."
   end
-
 
   private
 

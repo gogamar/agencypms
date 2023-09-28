@@ -1,4 +1,5 @@
 module VragreementsHelper
+
   def sort_link_vragreement(column:, label:)
     if column == params[:column]
       link_to(label, list_vragreements_path(column: column, direction: next_direction_vragreement))

@@ -59,6 +59,10 @@
                   <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                   Afegir oficina
                 <% end %>
+                <%= link_to rate_plans_path, class: "dropdown-item" do %>
+                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                  Plans de tarifa
+                <% end %>
               <% else %>
                 <%= link_to new_company_path, class: "dropdown-item" do %>
                   <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>

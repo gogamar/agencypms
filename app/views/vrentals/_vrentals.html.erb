@@ -38,7 +38,7 @@
   <% end %>
 </div>
 <%= turbo_frame_tag "vrentals", class: "card-body" do %>
-  <div class="container-fluid my-3">
+  <div class="container-fluid my-3 type--fine-print">
     <div class="row border border-top border-bottom fw-bold bg-light">
       <div class="col col-lg-2 py-3 align-self-center" id="vrstatus" relative>
         <%= sort_indicator if params[:column] == "status" %>
@@ -64,43 +64,25 @@
       <% @vrentals.each do |vrental| %>
         <div class="row border min-height-row">
           <div class="col-lg-2 align-self-center">
-            <small><%= t("#{vrental.status}") if vrental.status %></small>
+            <%= t("#{vrental.status}") if vrental.status %>
           </div>
           <div class="col-lg-2 align-self-center">
-            <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>
+            <%= link_to vrental.name, vrental, class: "text-decoration-none" %>
           </div>
           <div class="col-lg-3 align-self-center">
-            <small><%= link_to vrental.address, vrental, class: "text-decoration-none"  %></small>
+            <%= link_to vrental.address, vrental, class: "text-decoration-none"  %>
           </div>
           <% if vrental.vrowner %>
             <div class="col-lg-2 align-self-center">
-              <small><%= link_to vrental.vrowner.fullname, edit_vrental_vrowner_path(vrental, vrental.vrowner), target: "_blank", class: "text-decoration-none"  %></small>
+              <%= link_to vrental.vrowner.fullname, edit_vrental_vrowner_path(vrental, vrental.vrowner), target: "_blank", class: "text-decoration-none"  %>
             </div>
           <% else %>
             <div class="col-lg-2 align-self-center">
-              <small>
-                <%= link_to "Afegir propietari", edit_vrental_path(vrental, anchor: "vrowner-details"), target: "_blank" %>
-              </small>
+              <%= link_to "Afegir propietari", edit_vrental_path(vrental, anchor: "vrowner-details"), target: "_blank" %>
             </div>
           <% end %>
-          <% latest_vragreement = vrental.vragreements.order(year: :desc).first if vrental.vragreements.present? %>
           <div class="col-lg-2 align-self-center">
-            <small>
-              <% if vrental.rates.present? && vrental.rates.where("EXTRACT(YEAR FROM firstnight) IN (?, ?)", Date.today.year - 1, Date.today.year) %>
-                <% if vrental.vragreements.where("year IN (?, ?)", Date.today.year - 1, Date.today.year ).present? %>
-                  <%= link_to "Contracte #{latest_vragreement.year}", vrental_vragreement_path(vrental, latest_vragreement), class: "text-primary" %>
-                  <br>
-                  <%= link_to "Afegir contracte #{latest_vragreement.year + 1}", copy_vrental_vragreement_path(vrental, latest_vragreement), class: "text-info" %>
-                <% elsif vrental.rates.where("firstnight > ?", Date.today).present? %>
-                  <% future_date = vrental.rates.where("firstnight > ?", Date.today).order(:firstnight).first&.firstnight %>
-                  <%= link_to "Afegir contracte #{future_date.year}", new_vrental_vragreement_path(vrental, year: future_date.year), class: "text-info" %>
-                <% else %>
-                  <%= link_to "Afegir tarifes", vrental_rates_path(vrental) %>
-                <% end %>
-              <% else %>
-                <%= link_to "Afegir tarifes", vrental_rates_path(vrental) %>
-              <% end %>
-            </small>
+            <%= add_vragreement_links(vrental) %>
           </div>
           <div class="col-lg-1 d-flex justify-content-between">
             <%= link_to edit_vrental_path(vrental), class: "text-primary text-decoration-none" do %>

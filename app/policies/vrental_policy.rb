@@ -33,6 +33,10 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
+  def delete_year_rates?
+    return create?
+  end
+
   def send_rates?
     return show?
   end

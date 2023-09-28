@@ -1,9 +1,9 @@
 class Vrental < ApplicationRecord
   include ActionView::Helpers::NumberHelper
-
   belongs_to :user
   belongs_to :vrowner, optional: true
   belongs_to :office
+  belongs_to :rate_plan, optional: true
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
@@ -14,6 +14,17 @@ class Vrental < ApplicationRecord
   has_and_belongs_to_many :features
   validates :name, presence: true
   validates :status, presence: true
+
+
+  EASTER_SEASON_FIRSTNIGHT = {
+    2022 => Date.new(2022,4,2),
+    2023 => Date.new(2023,4,1),
+    2024 => Date.new(2024,3,23),
+    2025 => Date.new(2025,4,12),
+    2026 => Date.new(2026,3,28),
+    2027 => Date.new(2027,3,20),
+    2028 => Date.new(2028,4,8)
+  }.freeze
 
   def unavailable_dates
     rates.pluck(:firstnight, :lastnight).map do |range|
@@ -237,20 +248,22 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def copy_rates_to_next_year(current_year)
+  def first_friday_on_or_after_june_20(year = Date.current.year)
+    date = Date.new(year, 6, 20)
+    date += 1 until date.friday?
+    date
+  end
 
-    easter_season_firstnight = {
-    2022 => Date.new(2022,4,2),
-    2023 => Date.new(2023,4,1),
-    2024 => Date.new(2024,3,23),
-    2025 => Date.new(2025,4,12),
-    2026 => Date.new(2026,3,28),
-    2027 => Date.new(2027,3,20),
-    2028 => Date.new(2028,4,8)
-    }
+  def delete_year_rates(year)
+    rates.where("DATE_PART('year', firstnight) = ?", year).destroy_all
+  end
+
+  def copy_rates_to_next_year(current_year)
     current_rates = rates.where("DATE_PART('year', firstnight) = ?", current_year)
     current_rates.each do |existingrate|
     next_year = existingrate.firstnight.year + 1
+    easter_season_firstnight = EASTER_SEASON_FIRSTNIGHT
+
       # if Easter Rate is 10 days and the rate doesn't already exist for the next year
       if easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
         Rate.create!(
@@ -312,7 +325,6 @@ class Vrental < ApplicationRecord
   end
 
   def get_rates_from_beds
-    rates.destroy_all
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
     beds24rates = client.get_rates(prop_key)
@@ -333,17 +345,40 @@ class Vrental < ApplicationRecord
         if beds24rates.empty?
           return
         end
-          beds24rates.each do |rate|
-            if rate["firstNight"].delete("-").to_i > 20230101 && rate["pricesPer"] == "7"
-              Rate.create!(
-                firstnight: rate["firstNight"],
-                lastnight: rate["lastNight"],
-                priceweek: rate["roomPrice"],
-                beds_room_id: rate["roomId"],
-                vrental_id: self.id,
-                min_stay: 5,
-                arrival_day: 'everyday'
-              )
+        rates_by_firstnight = beds24rates.group_by { |rate| rate["firstNight"] }
+        selected_rates = []
+        rates_by_firstnight.each do |_firstnight, rates|
+          rates_with_prices_per_7 = rates.select { |rate| rate["pricesPer"] == "7" }
+          if rates_with_prices_per_7.any?
+            selected_rates.concat(rates_with_prices_per_7)
+          else
+            selected_rates << rates.find { |rate| rate["pricesPer"] == "1" }
+          end
+        end
+        selected_rates.each do |rate|
+            if rate["firstNight"].delete("-").to_i > 20230101
+
+              existing_rate = rates.find_by(firstnight: rate["firstNight"].to_date)
+
+              if existing_rate
+                existing_rate.update!(
+                  beds_rate_id: rate["rateId"],
+                  lastnight: rate["lastNight"],
+                  priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : (rate["roomPrice"].to_f * 6.295),
+                  beds_room_id: rate["roomId"],
+                )
+              else
+                Rate.create!(
+                  beds_rate_id: rate["rateId"],
+                  firstnight: rate["firstNight"],
+                  lastnight: rate["lastNight"],
+                  priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : (rate["roomPrice"].to_f * 6.295),
+                  beds_room_id: rate["roomId"],
+                  vrental_id: self.id,
+                  min_stay: 5,
+                  arrival_day: 'everyday'
+                )
+              end
             end
           end
       else
@@ -632,7 +667,7 @@ class Vrental < ApplicationRecord
     beds24rates = client.get_rates(prop_key)
     rates_to_delete = []
     beds24rates.each do |rate|
-      if rate["lastNight"].to_date > Date.today.beginning_of_year
+      if rate["lastNight"].to_date > Date.today
         rate_to_delete = {
           action: "delete",
           rateId: "#{rate["rateId"]}",
@@ -642,7 +677,7 @@ class Vrental < ApplicationRecord
       end
     end
     client.set_rates(prop_key, setRates: rates_to_delete)
-    rates_to_send_again = Rate.where("firstnight > ?", Date.today)
+    rates_to_send_again = Rate.where("lastnight > ?", Date.today)
     rates_to_send_again.each do |rate|
       rate.sent_to_beds = nil
       rate.date_sent_to_beds = nil
@@ -686,7 +721,7 @@ class Vrental < ApplicationRecord
     # Then we select the rates older than 2 years for deletion
     rates_to_delete = []
     beds24rates.each do |rate|
-      if rate["firstNight"].to_date.year < (Date.today.year - 1)
+      if rate["firstNight"].to_date.year < (Date.today.year - 2)
         rate_to_delete = {
           action: "delete",
           rateId: "#{rate["rateId"]}",
@@ -696,21 +731,22 @@ class Vrental < ApplicationRecord
       end
     end
 
-    # Then we delete the rates older than 2 years
     client.set_rates(prop_key, setRates: rates_to_delete)
-
-    # Then we get all the rates from this website
 
     vrental_rates = []
 
-    vr_rates = rates.where("firstnight BETWEEN ? AND ?", Date.today.beginning_of_year, Date.today.end_of_year)
-
+    vr_rates = rates.where("lastnight > ?", Date.today)
 
     vr_rates.each do |rate|
+      rate_exists_on_beds_id = beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
+
+      general_rate_exists_on_beds_dates = beds24rates.any? { |beds_rate| beds_rate["firstNight"].to_date == rate.firstnight && beds_rate["lastNight"].to_date == rate.lastnight && beds_rate["pricesPer"] == "1" }
+
+      weekly_rate_exists_on_beds_dates = beds24rates.any? { |beds_rate| beds_rate["firstNight"].to_date == rate.firstnight && beds_rate["lastNight"].to_date == rate.lastnight && beds_rate["pricesPer"] == "7" }
 
       general_rate =
         {
-        action: "new",
+        action: (rate_exists_on_beds_id || general_rate_exists_on_beds_dates) ? "modify" : "new",
         roomId: "#{self.beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",
@@ -735,7 +771,7 @@ class Vrental < ApplicationRecord
         }
       weekly_rate =
         {
-        action: "new",
+        action: (rate_exists_on_beds_id || weekly_rate_exists_on_beds_dates) ? "modify" : "new",
         roomId: "#{self.beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",

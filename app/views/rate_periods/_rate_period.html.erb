@@ -1,0 +1,19 @@
+<%= turbo_frame_tag rate_period, class: "card-body" do %>
+  <div class="row py-1">
+    <div class="col-lg-1 nowrap"><%= rate_period.name %></div>
+    <div class="col-lg-3 nowrap"><%= l(rate_period.firstnight, format: :long) %></div>
+    <div class="col-lg-3 nowrap"><%= l(rate_period.lastnight, format: :long) %> </div>
+    <div class="col-lg-1 nowrap"><%= rate_period.min_stay %></div>
+    <div class="col-lg-2 nowrap"><%= t("#{rate_period.arrival_day}") %></div>
+    <% unless params[:controller] == 'vragreements' %>
+      <div class="col-lg-2 nowrap d-flex justify-content-between">
+        <%= link_to edit_rate_plan_rate_period_path(@rate_plan, rate_period), class: "btn btn-info" do %>
+          <i class="fas fa-pen fa-sm"></i>
+        <% end %>
+        <%= link_to rate_plan_rate_period_path(@rate_plan, rate_period), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest periode?"}, class: "btn btn-danger" do %>
+          <i class="fas fa-trash-can fa-sm"></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

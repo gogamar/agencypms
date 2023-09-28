@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+<h1>Plans de tarifa</h1>
+<div id="rate_plans">
+  <% @rate_plans.each do |rate_plan| %>
+    <%= render rate_plan %>
+    <p>
+      <%= link_to "Mostrar aquest plà", rate_plan_rate_periods_path(rate_plan) %>
+    </p>
+  <% end %>
+</div>
+<%= link_to "Nou plà de tarifa", new_rate_plan_path %>

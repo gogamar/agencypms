@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -141,19 +141,24 @@ class VrentalsController < ApplicationController
     current_year = params[:year]
     @vrental.copy_rates_to_next_year(current_year)
     authorize @vrental
-    redirect_to @vrental, notice: "Les tarifes ja estàn copiades."
+    redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn copiades."
   end
 
   def delete_rates
     @vrental.delete_this_year_rates_on_beds
     authorize @vrental
-    redirect_to @vrental, notice: "Les tarifes ja estàn esborrades. Ara les pots tornar a enviar"
+    redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn esborrades. Ara les pots tornar a enviar"
+  end
+
+  def delete_year_rates
+    @vrental.delete_year_rates(params[:year])
+    redirect_to vrental_rates_path(@vrental), notice: "Les tarifes de #{params[:year]} ja estàn esborrades."
   end
 
   def send_rates
     @vrental.send_rates_to_beds
     authorize @vrental
-    redirect_to @vrental, notice: "Les tarifes ja estàn enviades."
+    redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn enviades."
   end
 
   def get_rates
@@ -276,14 +281,14 @@ class VrentalsController < ApplicationController
 
   def set_vrental
     @vrental = Vrental.find(params[:id])
+    authorize @vrental
   end
 
   def vrental_params
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :commission,
       :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
-      :description, :description_es, :description_fr, :description_en, :status, :office_id,
-      feature_ids: []
+      :description, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, feature_ids: []
     )
   end
 end

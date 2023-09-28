@@ -1,26 +1,29 @@
-<%= simple_form_for [vrental, rate], data: {turbo: :false} do |f| %>
+<%= simple_form_for [rate_plan, rate_period], data: {turbo: :false} do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div
   class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center"
   data-controller="unavailable-dates"
-  data-unavailable="<%= @vrental.unavailable_dates.to_json %>"
-  data-defaultstart="<%= @vrental.default_checkin.to_json %>"
+  data-unavailable="<%= @rate_plan.unavailable_rate_periods.to_json %>"
+  data-defaultstart="<%= @rate_plan.default_start.to_json %>"
   >
     <div class="p-1 text-center">
+      <%= f.input :name, label: t("name"), priority: [t("general"), "general"], collection: [[t("general"), "general"], [t("easter"), "easter"]], include_blank: false %>
+    </div>
+    <div class="p-1 text-center">
       <%= f.input :firstnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "start" } %>
+    </div>
+    <div class="p-1 text-center">
+      <%= f.input :nights, input_html: { "data-action" => "change->unavailable-dates#updateEnd" } %>
     </div>
     <div class="p-1 text-center">
       <%= f.input :lastnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "end" } %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :priceweek %>
-    </div>
-    <div class="p-1 text-center">
       <%= f.input :min_stay %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :arrival_day, label: t("arrival_day"), priority: [t("everyday"), "everyday"], collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
+      <%= f.input :arrival_day, label: t("arrival_day"), collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
     </div>
     <div class="p-1 text-center">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>

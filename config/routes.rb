@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
       root to: "vrentals#index"
@@ -15,6 +16,10 @@ Rails.application.routes.draw do
 
       resources :companies, path: 'empreses' do
         resources :offices, path: 'oficines', except: [:destroy]
+      end
+
+      resources :rate_plans, path: 'plans' do
+        resources :rate_periods, path: 'periods'
       end
 
       resources :offices, path: 'oficines', only: [:destroy]
@@ -63,6 +68,7 @@ Rails.application.routes.draw do
           get 'update_beds'
           get 'get_rates'
           get 'delete_rates'
+          get 'delete_year_rates'
           get 'get_bookings'
         end
       end

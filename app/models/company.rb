@@ -2,6 +2,7 @@ class Company < ApplicationRecord
   belongs_to :admin, class_name: "User", foreign_key: "user_id"
   has_many :users
   has_many :offices
+  has_many :rate_plans
 
   # validate :user_can_create_only_one_company, on: :create
 

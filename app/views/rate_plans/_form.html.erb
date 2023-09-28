@@ -1,0 +1,15 @@
+<%= simple_form_for(@rate_plan) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.hidden_field :company_id, value: current_user.company.id %>
+    <%= f.input :start %>
+    <%= f.input :end %>
+    <%= f.input :gen_min %>
+    <%= f.input :gen_arrival, label: t("arrival_day"), collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>
+  </div>
+<% end %>
