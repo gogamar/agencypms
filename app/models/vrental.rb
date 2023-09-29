@@ -12,8 +12,7 @@ class Vrental < ApplicationRecord
   has_many :statements, dependent: :nullify
   has_many :invoices, dependent: :nullify
   has_and_belongs_to_many :features
-  validates :name, presence: true
-  validates :status, presence: true
+  validates_presence_of :name, :status, :address, :max_guests, :commission, :office_id
 
 
   EASTER_SEASON_FIRSTNIGHT = {
