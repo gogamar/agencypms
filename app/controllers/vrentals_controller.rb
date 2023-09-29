@@ -73,7 +73,7 @@ class VrentalsController < ApplicationController
     @annual_expenses_agency = @vrental.expenses.where(statement_id: @annual_statements.ids).where(expense_type: 'agency')
     @total_annual_expenses_owner = @annual_expenses_owner.sum(:amount)
     @total_annual_earnings = @annual_earnings.sum(:amount)
-    @annual_vrowner_payments = VrownerPayment.where(statement_id: @annual_statements.ids)
+    @annual_vrowner_payments = VrownerPayment.where(statement_id: @annual_statements.ids).order(:date)
     @annual_vrowner_payments_total = @annual_vrowner_payments.sum(:amount)
     @annual_agency_commission = (@annual_earnings.sum(:amount) * @vrental.commission).round(2)
     @annual_agency_commission_vat = @annual_agency_commission * 0.21

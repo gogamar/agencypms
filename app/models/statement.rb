@@ -49,7 +49,7 @@ class Statement < ApplicationRecord
   end
 
   def total_vrowner_payments
-    vrowner_payments.pluck(:amount)&.sum
+    vrowner_payments.pluck(:amount)&.sum.round(2)
   end
 
   def total_expenses_owner

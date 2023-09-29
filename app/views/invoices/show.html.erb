@@ -10,7 +10,7 @@
       <% end %>
     </div>
     <div data-controller="spinner" >
-      <%= link_to 'Factura en PDF', vrental_invoice_path(@vrental, @invoice, format: :pdf), class: "btn btn-primary", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+      <%= link_to 'Factura en PDF', vrental_invoice_path(@vrental, @invoice, format: :pdf), class: "btn btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
     </div>
   </div>
   <div class="container border">
