@@ -1,7 +1,4 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Tourists</h1>
-
 <div id="tourists">
   <% @tourists.each do |tourist| %>
     <%= render tourist %>
@@ -10,5 +7,4 @@
     </p>
   <% end %>
 </div>
-
 <%= link_to "New tourist", new_tourist_path %>

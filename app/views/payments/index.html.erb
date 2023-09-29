@@ -1,7 +1,4 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Payments</h1>
-
 <div id="payments">
   <% @payments.each do |payment| %>
     <%= render payment %>
@@ -10,5 +7,4 @@
     </p>
   <% end %>
 </div>
-
 <%= link_to "New payment", new_payment_path %>
