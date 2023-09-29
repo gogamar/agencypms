@@ -14,13 +14,13 @@
       <%= f.input :lastnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "end" } %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :priceweek %>
+      <%= f.input :arrival_day, label: t("arrival_day"), priority: [t("everyday"), "everyday"], collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
     </div>
     <div class="p-1 text-center">
       <%= f.input :min_stay %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :arrival_day, label: t("arrival_day"), priority: [t("everyday"), "everyday"], collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
+      <%= f.input :priceweek %>
     </div>
     <div class="p-1 text-center">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>

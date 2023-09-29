@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_rate_dates]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -153,6 +153,12 @@ class VrentalsController < ApplicationController
   def delete_year_rates
     @vrental.delete_year_rates(params[:year])
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes de #{params[:year]} ja estàn esborrades."
+  end
+
+  def upload_dates
+    rate_plan = RatePlan.find(params[:rate_plan_id])
+    @vrental.upload_dates_to_rates(rate_plan)
+    redirect_to vrental_rates_path(@vrental), notice: "Les dates ja estàn importades."
   end
 
   def send_rates

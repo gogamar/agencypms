@@ -26,10 +26,14 @@ class RatePlanPolicy < ApplicationPolicy
   end
 
   def update?
-    user.owned_company == record.company
+    user.admin? && user.owned_company == record.company
   end
 
   def destroy?
-    user.owned_company == record.company
+    user.admin? && user.owned_company == record.company
+  end
+
+  def delete_periods?
+    user.admin? && user.owned_company == record.company
   end
 end

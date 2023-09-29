@@ -54,6 +54,7 @@ class RatePeriodsController < ApplicationController
 
     def set_rate_plan
       @rate_plan = RatePlan.find(params[:rate_plan_id])
+      authorize @rate_plan
     end
 
     def rate_period_params

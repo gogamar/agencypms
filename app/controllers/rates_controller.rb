@@ -10,6 +10,7 @@ class RatesController < ApplicationController
     @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
     @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
     @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
+    @rate_plans = RatePlan.where(company_id: @vrental.user.company.id)
   end
 
   def new

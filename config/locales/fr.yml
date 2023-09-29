@@ -275,6 +275,12 @@ fr:
       en: "Anglais"
   activerecord:
     attributes:
+      rate_plan:
+        name: "Nom"
+        start: "De"
+        end: "À"
+        gen_min: "Séjour minimum général"
+        gen_arrival: "Jour d'arrivée général"
       realestate:
         status: "Statut"
         address: "Adresse"

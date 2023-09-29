@@ -29,4 +29,5 @@ class RatePeriodPolicy < ApplicationPolicy
   def destroy?
     user.admin? && user.company.rate_plans.exists?(record.rate_plan_id)
   end
+
 end

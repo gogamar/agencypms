@@ -275,6 +275,12 @@ es:
       en: "Inglés"
   activerecord:
     attributes:
+      rate_plan:
+        name: "Nom"
+        start: "Des de"
+        end: "Fins a"
+        gen_min: "Estada mínima general"
+        gen_arrival: "Dia entrada general"
       realestate:
         status: "Estado"
         address: "Dirección"

@@ -279,12 +279,11 @@ ca:
   activerecord:
     attributes:
       rate_plan:
-        firstnight: "Des de"
-        lastnight: "Fins a"
-        min_stay: "Min."
-        priceweek: "Preu setmana"
-        pricenight: "Preu nit"
-        arrival_day: "Dia entrada"
+        name: "Nom"
+        start: "Des de"
+        end: "Fins a"
+        gen_min: "Estada mínima general"
+        gen_arrival: "Dia entrada general"
       task:
         start_date: "Data d'inici"
         start_time: "Hora d'inici"

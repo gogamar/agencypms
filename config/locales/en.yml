@@ -275,6 +275,12 @@ en:
       en: "English"
   activerecord:
     attributes:
+      rate_plan:
+        name: "Name"
+        start: "From"
+        end: "To"
+        gen_min: "General min stay"
+        gen_arrival: "General arrival day"
       realestate:
         status: "Status"
         address: "Address"

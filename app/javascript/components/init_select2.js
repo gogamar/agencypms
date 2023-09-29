@@ -86,6 +86,11 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#select-rate-plan").select2({
+    placeholder: "Seleccionar plà de tarifa",
+    allowClear: true,
+  });
+
   $("#select_vrental-select2")
     .select2({
       placeholder: "Seleccionar immoble",

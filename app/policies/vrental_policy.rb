@@ -61,6 +61,10 @@ class VrentalPolicy < ApplicationPolicy
     return show?
   end
 
+  def upload_dates?
+    return create?
+  end
+
   def new?
     return create?
   end

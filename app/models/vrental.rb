@@ -53,9 +53,29 @@ class Vrental < ApplicationRecord
     last_statement.present? ? last_statement.end_date + 1.day : Date.new(Date.today.year, 1, 1)
   end
 
-  def upload_rate_dates(year, rate_plan)
+  def upload_dates_to_rates(rate_plan)
+    rate_plan.rate_periods&.each do |period|
+      rate = Rate.new(
+        firstnight: period.firstnight,
+        lastnight: period.lastnight,
+        min_stay: period.min_stay,
+        arrival_day: period.arrival_day,
+        vrental_id: id
+      )
+      unless rate.save(validate: false)
+        logger.error "Unable to save rate for vrental_id: #{id}, errors: #{rate.errors.full_messages.join(", ")}"
+      end
+    end
+  end
+
+  def upload_dates_to_plan(year, rate_plan)
     rate_plan.rate_periods&.destroy_all
     year_rates = rates.where("DATE_PART('year', firstnight) = ?", year)
+
+    if year_rates.empty?
+      return :no_rates_found
+    end
+
     year_rates.each do |rate|
       RatePeriod.create!(
         name: 'general',
@@ -66,6 +86,7 @@ class Vrental < ApplicationRecord
         rate_plan_id: rate_plan.id
       )
     end
+    :success
   end
 
   def rate_price(checkin, checkout)

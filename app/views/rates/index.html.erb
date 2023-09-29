@@ -1,4 +1,10 @@
-<div class="text-end">
+<div class="container d-flex justify-content-center gap-3">
+  <% if !@vrental.rates.any? %>
+    <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row gap-3") do |form| %>
+      <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { id: "select-rate-plan" } %>
+      <%= form.submit 'Carregar dates', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
   <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-light btn-icon-split" do %>
     <span class="icon text-white-600">
       <i class="fas fa-file-import"></i>
@@ -14,8 +20,6 @@
     <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
       <i class="fas fa-exclamation-triangle"></i> Esborra les futures tarifes en Beds24
     <% end %>
-  <% else %>
-    <button type="button" class="btn btn-secondary text-light" disabled>Totes les tarifes futures ja estàn enviades a Beds24</button>
   <% end %>
 </div>
 <hr>
@@ -31,6 +35,15 @@
         <% if year <= Date.today.year %>
           <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-secondary" %>
         <% end %>
+      </div>
+      <hr>
+      <div class="row py-1">
+        <div class="col-lg-2 nowrap fw-bold">Des de</div>
+        <div class="col-lg-2 nowrap fw-bold">Fins a</div>
+        <div class="col-lg-2 nowrap fw-bold">Dia arribada</div>
+        <div class="col-lg-2 nowrap fw-bold">Min estada</div>
+        <div class="col-lg-2 nowrap fw-bold">Preu setmana</div>
+        <div class="col-lg-2"></div>
       </div>
       <hr>
       <div id="rates<%= year %>">

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :rate_plans, path: 'plans' do
         member do
           post 'upload_rate_dates'
+          get 'delete_periods'
         end
         resources :rate_periods, path: 'periods'
       end
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
           get :add_features
           get :annual_statement, path: 'liquidacio-annual'
           get :fetch_earnings
+          post :upload_dates
         end
         resources :statements, path: 'liquidacions'
         resources :invoices, path: 'factures'
