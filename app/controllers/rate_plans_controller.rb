@@ -39,7 +39,7 @@ class RatePlansController < ApplicationController
     authorize @rate_plan
 
     if @rate_plan.save
-      redirect_to rate_plan_rate_periods_path(@rate_plan), notice: "Pla de tarifes creat."
+      redirect_to @rate_plan, notice: "Pla de tarifes creat."
     else
       render :new, status: :unprocessable_entity
     end

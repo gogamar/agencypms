@@ -167,7 +167,7 @@ class Vrental < ApplicationRecord
   def total_owner_payments
     total = 0
     statements.each do |statement|
-      total += statement.vrowner_payment&.amount if statement.vrowner_payment&.amount.present?
+      total += statement.total_vrowner_payments if statement.total_vrowner_payments.present?
     end
     total
   end
@@ -302,6 +302,17 @@ class Vrental < ApplicationRecord
 
       # if Easter Rate is 10 days and the rate doesn't already exist for the next year
       if easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
+        Rate.create!(
+          firstnight: easter_season_firstnight[next_year],
+          lastnight: easter_season_firstnight[next_year] + 10,
+          pricenight: existingrate.pricenight,
+          priceweek: existingrate.priceweek,
+          beds_room_id: existingrate.beds_room_id,
+          vrental_id: existingrate.vrental_id,
+          min_stay: existingrate.min_stay,
+          arrival_day: existingrate.arrival_day
+        )
+      elsif easter_season_firstnight.value?(existingrate.firstnight - 10) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year] + 10).exists?
         Rate.create!(
           firstnight: easter_season_firstnight[next_year],
           lastnight: easter_season_firstnight[next_year] + 10,

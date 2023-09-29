@@ -1,9 +1,7 @@
 class VrownerPayment < ApplicationRecord
   belongs_to :statement
-  validates :statement_id, uniqueness: true
   validates :amount, :date, presence: true
   validate :amount_cannot_be_zero
-
 
   PAYMENT_METHODS = %w(transfer check cash).freeze
 
