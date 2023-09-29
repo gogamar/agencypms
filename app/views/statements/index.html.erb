@@ -121,7 +121,7 @@
                   <%= render "vrowner_payment_modal", statement: statement, vrowner_payment: payment, pending_payment: statement.net_income_owner - statement.total_vrowner_payments %>
                   <br>
                   <% unless statement.invoice.present? && Date.current > statement.invoice.created_at.to_date %>
-                    <%= link_to statement_vrowner_payment_path(statement, statement.vrowner_payment), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el pagament de la liquidació #{statement.start_date}?"} do %>
+                    <%= link_to statement_vrowner_payment_path(statement, payment), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el pagament de la liquidació #{statement.start_date}?"} do %>
                       <i class="fas fa-trash-can"></i>
                     <% end %>
                   <% end %>
