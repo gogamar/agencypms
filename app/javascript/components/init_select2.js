@@ -81,6 +81,11 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#select-vrental").select2({
+    placeholder: "Seleccionar immoble",
+    allowClear: true,
+  });
+
   $("#select_vrental-select2")
     .select2({
       placeholder: "Seleccionar immoble",

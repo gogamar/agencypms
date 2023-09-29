@@ -19,6 +19,9 @@ Rails.application.routes.draw do
       end
 
       resources :rate_plans, path: 'plans' do
+        member do
+          post 'upload_rate_dates'
+        end
         resources :rate_periods, path: 'periods'
       end
 
@@ -70,7 +73,6 @@ Rails.application.routes.draw do
           get 'delete_rates'
           get 'delete_year_rates'
           get 'get_bookings'
-          get 'copy_rate_dates'
         end
       end
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]

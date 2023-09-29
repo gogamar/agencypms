@@ -36,12 +36,14 @@
         </div>
       </div>
     </div>
-    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
-      <div class="container">
-        <div class="copyright text-center my-auto">
-          <span>&copy; <%= current_user.company&.offices&.first.name %> <%= Date.today.year %></span>
+    <% if user_signed_in? %>
+      <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+        <div class="container">
+          <div class="copyright text-center my-auto">
+            <span>&copy; <%= current_user.company&.offices&.first.name %> <%= Date.today.year %></span>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    <% end %>
   </body>
 </html>

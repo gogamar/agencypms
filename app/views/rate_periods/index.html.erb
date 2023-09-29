@@ -3,14 +3,23 @@
   <p>De <%= l(@rate_plan.start, format: :long) %> a <%= l(@rate_plan.end, format: :long) %></p>
   <p>Dia d'arribada general: <%= t("#{@rate_plan.gen_arrival}") %></p>
   <p>Estada mínima general: <%= @rate_plan.gen_min %></p>
-  <p>Importar dates des de un immoble</p>
-</div>
-<div class="text-end">
-  <div class="container border mb-3">
-    <h5 class="text-center text-info mb-5">Afegir periode nou</h5>
-    <%= turbo_frame_tag "new_rate_period", src: new_rate_plan_rate_period_path(@rate_plan), target: "_top" %>
+  <div class="row">
+    <div class="col">Importar les dates des de un immoble</div>
+    <div class="col">
+      <%= form_with(url: upload_rate_dates_rate_plan_path(@rate_plan), method: :post, class: "row") do |form| %>
+        <div class="form-group col">
+          <%= form.select :vrental_id, options_for_select(@all_vrentals.map { |vrental| [vrental.name, vrental.id] }), { include_blank: true }, { class: "js-example-responsive", id: "select-vrental" } %>
+        </div>
+        <div class="col"><%= form.submit 'Carregar dates', class: 'btn btn-primary' %></div>
+      <% end %>
+    </div>
   </div>
-  <div class="container border mb-3" id="rate_periods">
-    <%= render @rate_periods %>
+  <div class="text-end">
+    <div class="container border mb-3">
+      <h5 class="text-center text-info mb-5">Afegir periode nou</h5>
+      <%= turbo_frame_tag "new_rate_period", src: new_rate_plan_rate_period_path(@rate_plan), target: "_top" %>
+    </div>
+    <div class="container border mb-3" id="rate_periods">
+      <%= render @rate_periods %>
+    </div>
   </div>
-</div>

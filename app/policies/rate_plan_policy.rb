@@ -13,6 +13,10 @@ class RatePlanPolicy < ApplicationPolicy
     return create?
   end
 
+  def upload_rate_dates?
+    return create?
+  end
+
   def create?
     return true
   end

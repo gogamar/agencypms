@@ -1,5 +1,5 @@
 class RatePlansController < ApplicationController
-  before_action :set_rate_plan, only: %i[ show edit update destroy ]
+  before_action :set_rate_plan, only: %i[ show edit update destroy upload_rate_dates ]
 
   def index
     @rate_plans = policy_scope(RatePlan)
@@ -14,6 +14,12 @@ class RatePlansController < ApplicationController
     authorize @rate_plan
     @rate_plan.start = Date.today.month < 9 ? Vrental::EASTER_SEASON_FIRSTNIGHT[Date.today.year] : Vrental::EASTER_SEASON_FIRSTNIGHT[Date.today.year + 1]
     @rate_plan.end = Date.today.month < 9 ? Date.new(Date.today.year, 10, 1) : Date.new(Date.today.year + 1, 10, 1)
+  end
+
+  def upload_rate_dates
+    @vrental = Vrental.find(params[:vrental_id])
+    @vrental.upload_rate_dates(@rate_plan.start.year, @rate_plan)
+    redirect_back(fallback_location: rate_plans_path, notice: "Ja s'han importat les dates de tarifes.")
   end
 
   def edit

@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_rate_dates]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -135,11 +135,6 @@ class VrentalsController < ApplicationController
     authorize @vrental
     @vrental.save!
     redirect_to @vrental, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
-  end
-
-  def upload_rate_dates
-    @vrental.upload_rate_dates
-    redirect_back(fallback_location: rate_plans_path, notice: "Ja s'han importat les dates de tarifes.")
   end
 
   def copy_rates

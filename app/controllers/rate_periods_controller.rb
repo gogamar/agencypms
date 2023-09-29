@@ -3,7 +3,7 @@ class RatePeriodsController < ApplicationController
   before_action :set_rate_plan, only: %i[ index new edit update create destroy ]
 
   def index
-    @rate_periods = policy_scope(RatePeriod)
+    @rate_periods = policy_scope(RatePeriod).order(:firstnight)
   end
 
   def show
