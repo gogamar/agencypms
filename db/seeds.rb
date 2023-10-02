@@ -239,7 +239,7 @@ require 'csv'
 #   beds24descriptions = client.get_property_content(prop_key, roomIds: true, texts: true)
 #   if beds24descriptions["roomIds"]
 #     beds24descriptions["roomIds"].each do |room|
-#       vrental.description = room[1]["texts"]["contentDescriptionText"]["CA"]
+#       vrental.description_ca = room[1]["texts"]["contentDescriptionText"]["CA"]
 #       vrental.description_es = room[1]["texts"]["contentDescriptionText"]["ES"]
 #       vrental.description_fr = room[1]["texts"]["contentDescriptionText"]["FR"]
 #       vrental.description_en = room[1]["texts"]["contentDescriptionText"]["EN"]

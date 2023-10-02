@@ -9,7 +9,7 @@ class Vragreement < ApplicationRecord
   def vrental_description
     case vrentaltemplate.language
     when "ca"
-      vrental.description
+      vrental.description_ca
     when "es"
       vrental.description_es
     when "fr"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_02_112811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -41,6 +41,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "bathrooms", force: :cascade do |t|
+    t.string "bathroom_type"
+    t.bigint "vrental_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_bathrooms_on_vrental_id"
+  end
+
+  create_table "bedrooms", force: :cascade do |t|
+    t.string "bedroom_type"
+    t.bigint "vrental_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_bedrooms_on_vrental_id"
+  end
+
+  create_table "beds", force: :cascade do |t|
+    t.string "bed_type"
+    t.bigint "bedroom_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bedroom_id"], name: "index_beds_on_bedroom_id"
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -171,6 +195,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
   create_table "features_vrentals", id: false, force: :cascade do |t|
     t.bigint "feature_id", null: false
     t.bigint "vrental_id", null: false
+  end
+
+  create_table "image_urls", force: :cascade do |t|
+    t.string "url"
+    t.integer "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -306,6 +337,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "towns", force: :cascade do |t|
+    t.string "name"
+    t.text "description_ca"
+    t.text "description_es"
+    t.text "description_en"
+    t.text "description_fr"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -352,7 +393,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
     t.bigint "vrowner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "description"
+    t.text "description_ca"
     t.integer "max_guests"
     t.string "status"
     t.text "description_es"
@@ -362,8 +403,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
     t.decimal "commission", precision: 10, scale: 2
     t.bigint "office_id"
     t.bigint "rate_plan_id"
+    t.bigint "town_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
+    t.index ["town_id"], name: "index_vrentals_on_town_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
@@ -406,6 +449,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bathrooms", "vrentals"
+  add_foreign_key "bedrooms", "vrentals"
+  add_foreign_key "beds", "bedrooms"
   add_foreign_key "blocks", "pages"
   add_foreign_key "bookings", "tourists"
   add_foreign_key "bookings", "vrentals"
@@ -430,6 +476,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"
   add_foreign_key "vrentals", "rate_plans"
+  add_foreign_key "vrentals", "towns"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"

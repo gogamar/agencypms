@@ -1,0 +1,2 @@
+class ImageUrl < ApplicationRecord
+end

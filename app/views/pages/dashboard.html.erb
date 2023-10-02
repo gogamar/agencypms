@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div
+              class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+            >
+              Contractes turístics
+            </div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              <%= @vragreements.count %>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-suitcase fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div
+              class="text-xs font-weight-bold text-success text-uppercase mb-1"
+            >
+              Propietaris HUT
+            </div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              <%= @vrowners.count %>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-user fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 mb-4">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Agenda</h6>
+        <%= link_to "Imprimir totes les cites", tasks_path, class: "btn btn-sm btn-info" %>
+      </div>
+      <div class="card-body" id="tasks">
+        <%= month_calendar(events: @tasks, attribute: :start_date) do |date, tasks| %>
+          <div class="d-flex justify-content-between">
+            <div class="day">
+              <%= date.day %>
+            </div>
+            <div>
+              <small>
+                <% if date >= Date.today %>
+                  <%= link_to new_task_path(starts_at: date), class: "text-success" do %>
+                    <i class="fas fa-calendar-plus fa-sm" data-toggle="tooltip" data-placement="top" title="Afegir cita"></i>
+                  <% end %>
+                <% end %>
+              </small>
+            </div>
+          </div>
+          <% tasks.each do |task| %>
+            <% frame_id = dom_id(task, "name_turbo_frame") %>
+            <%= form_with model: task, data: { turbo_frame: frame_id } do |f|%>
+              <%= turbo_frame_tag frame_id do %>
+                <div class="card-text">
+                  <small>
+                    <%= link_to task, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{task.title}?"} do %>
+                      <i class="fas fa-trash-can fa-sm"></i>
+                    <% end %>
+                    <%= task.start_time.strftime("%H:%M") if task.start_time.present? %>h
+                    <%= link_to task.title, edit_task_path(task), class: "text-info" %>
+                  </small>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

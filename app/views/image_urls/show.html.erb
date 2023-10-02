@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @image_url %>
+
+<div>
+  <%= link_to "Edit this image url", edit_image_url_path(@image_url) %> |
+  <%= link_to "Back to image urls", image_urls_path %>
+
+  <%= button_to "Destroy this image url", @image_url, method: :delete %>
+</div>
