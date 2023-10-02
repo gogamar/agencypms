@@ -271,7 +271,11 @@ class VrentalsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html do
+          error_messages = @vrental.errors.full_messages.join(", ")
+          puts "These are the errors: #{error_messages}"
+          render :edit, status: :unprocessable_entity
+        end
         format.json { render json: @vrental.errors, status: :unprocessable_entity }
       end
     end
