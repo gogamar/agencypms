@@ -42,7 +42,7 @@
                 <%= link_to "Liquidació #{l(expense.statement.date) if expense.statement.date}", vrental_statement_path(expense.vrental, expense.statement) %>
               <% end %>
             </td>
-            <td><%= t("#{expense.expense_type}") if expense.expense_type %></td>
+            <td><%= t("#{expense.expense_type}") if expense.expense_type.present? %></td>
             <td><%= expense.description %></td>
             <td><%= number_to_currency(expense.amount, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
             <td class="d-flex justify-content-between">
