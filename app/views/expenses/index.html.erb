@@ -39,7 +39,7 @@
             <td><%= expense.expense_number %></td>
             <td>
               <% if expense.statement %>
-                <%= link_to "Liquidació #{l(expense.statement.date)}", vrental_statement_path(expense.vrental, expense.statement) %>
+                <%= link_to "Liquidació #{l(expense.statement.date) if expense.statement.date}", vrental_statement_path(expense.vrental, expense.statement) %>
               <% end %>
             </td>
             <td><%= t("#{expense.expense_type}") %></td>
