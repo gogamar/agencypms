@@ -12,8 +12,9 @@ class Vrental < ApplicationRecord
   has_many :statements, dependent: :nullify
   has_many :invoices, dependent: :nullify
   has_and_belongs_to_many :features
+  has_many :image_urls, dependent: :destroy
+  has_many_attached :photos
   validates_presence_of :name, :status, :address, :max_guests, :commission, :office_id
-
 
   EASTER_SEASON_FIRSTNIGHT = {
     2022 => Date.new(2022,4,2),
@@ -385,23 +386,70 @@ class Vrental < ApplicationRecord
     prop_key = self.prop_key
     begin
       beds24content = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)
-      if beds24content["roomIds"]
-        beds24content["roomIds"].each do |room|
-          self.description_ca = room[1]["texts"]["contentDescriptionText"]["CA"]
-          self.description_es = room[1]["texts"]["contentDescriptionText"]["ES"]
-          self.description_fr = room[1]["texts"]["contentDescriptionText"]["FR"]
-          self.description_en = room[1]["texts"]["contentDescriptionText"]["EN"]
-          self.save!
+      if beds24content[0]["roomIds"]
+        self.description_ca = beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["CA"]
+        self.description_es = beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["ES"]
+        self.description_fr = beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["FR"]
+        self.description_en = beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["EN"]
+        self.save!
           puts "Imported the descriptions for #{self.name}!"
+      if beds24content[0]["roomIds"].first[1]["images"]["external"].present?
+        beds24content[0]["roomIds"].first[1]["images"]["external"].each do |key, image|
+          ImageUrl.create!(
+            url: image["url"],
+            order: key.to_i,
+            vrental_id: self.id
+          )
+        end
+        puts "Imported the images for #{self.name}!"
+      end
+      if beds24content[0]["roomIds"].first[1]["featureCodes"].present?
+        beds24content[0]["roomIds"].first[1]["featureCodes"].each do |feature|
+          if feature.include?("BEDROOM")
+            new_bedroom = Bedroom.create!(
+              bedroom_type: "bedroom",
+              vrental_id: self.id
+            )
+            feature.each do |el|
+              if el.start_with?("BED_")
+                Bed.create(
+                  bed_type: el.downcase,
+                  bedroom_id: new_bedroom.id
+                )
+              end
+            end
+          elsif feature.include?("BEDROOM_LIVING_SLEEPING_COMBO")
+            new_living_room = Bedroom.create!(
+              bedroom_type: "living_room",
+              vrental_id: self.id
+            )
+            feature.each do |el|
+              if el.start_with?("BED_")
+                Bed.create(
+                  bed_type: el.downcase,
+                  bedroom_id: new_living_room.id
+                )
+              end
+            end
+          elsif feature.include?("BATHROOM") && feature.include?("BATH_TUB")
+            Bathroom.create!(
+              bathroom_type: "bathroom_bath_tub",
+              vrental_id: self.id
+            )
+          elsif feature.include?("BATHROOM") && feature.include?("BATH_SHOWER")
+            Bathroom.create!(
+              bathroom_type: "bathroom_shower",
+              vrental_id: self.id
+            )
+          elsif feature.include?("BATHROOM") && (!feature.include?("BATH_SHOWER") && !feature.include?("BATH_TUB"))
+            Bathroom.create!(
+              bathroom_type: "toilet",
+              vrental_id: self.id
+            )
+          end
         end
       end
-      if beds24content["images"]["external"]
-        photos = []
-        beds24content["images"]["external"].each do |key, image|
-          photos << image["url"]
-        end
-        self.images = photos
-        puts "Imported the images for #{self.name}!"
+        puts "Imported the bedrooms and bathrooms for #{self.name}!"
       end
     rescue => e
       puts "Error importing content for #{self.name}: #{e.message}"

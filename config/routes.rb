@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :image_urls
+  resources :towns
   resources :bathrooms
   resources :beds
   resources :bedrooms

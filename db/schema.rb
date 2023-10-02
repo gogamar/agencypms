@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_02_112811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -197,6 +197,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
     t.bigint "vrental_id", null: false
   end
 
+  create_table "image_urls", force: :cascade do |t|
+    t.string "url"
+    t.integer "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.date "date"
     t.string "location"
@@ -330,6 +337,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "towns", force: :cascade do |t|
+    t.string "name"
+    t.text "description_ca"
+    t.text "description_es"
+    t.text "description_en"
+    t.text "description_fr"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -376,7 +393,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
     t.bigint "vrowner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "description"
+    t.text "description_ca"
     t.integer "max_guests"
     t.string "status"
     t.text "description_es"
@@ -386,9 +403,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
     t.decimal "commission", precision: 10, scale: 2
     t.bigint "office_id"
     t.bigint "rate_plan_id"
-    t.string "town"
+    t.bigint "town_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
+    t.index ["town_id"], name: "index_vrentals_on_town_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
@@ -458,6 +476,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"
   add_foreign_key "vrentals", "rate_plans"
+  add_foreign_key "vrentals", "towns"
   add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"
