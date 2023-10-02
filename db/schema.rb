@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_02_092847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -41,6 +41,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "bathrooms", force: :cascade do |t|
+    t.string "bathroom_type"
+    t.bigint "vrental_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_bathrooms_on_vrental_id"
+  end
+
+  create_table "bedrooms", force: :cascade do |t|
+    t.string "bedroom_type"
+    t.bigint "vrental_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_bedrooms_on_vrental_id"
+  end
+
+  create_table "beds", force: :cascade do |t|
+    t.string "bed_type"
+    t.bigint "bedroom_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bedroom_id"], name: "index_beds_on_bedroom_id"
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -362,6 +386,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
     t.decimal "commission", precision: 10, scale: 2
     t.bigint "office_id"
     t.bigint "rate_plan_id"
+    t.string "town"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
@@ -406,6 +431,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_110123) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bathrooms", "vrentals"
+  add_foreign_key "bedrooms", "vrentals"
+  add_foreign_key "beds", "bedrooms"
   add_foreign_key "blocks", "pages"
   add_foreign_key "bookings", "tourists"
   add_foreign_key "bookings", "vrentals"

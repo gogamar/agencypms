@@ -254,35 +254,6 @@ class Vrental < ApplicationRecord
     this_year_statements(year).where(invoice_id: nil)
   end
 
-  def self.import_properties_from_beds
-    # should add update if the property exists
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    begin
-      beds24rentals = client.get_properties
-      beds24rentals.each do |bedsrental|
-        if Vrental.where(beds_prop_id: bedsrental["propId"]).exists?
-          next
-        else
-          user_id = User.find_by(admin: true).id
-          Vrental.create!(
-            name: bedsrental["name"],
-            address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
-            beds_prop_id: bedsrental["propId"],
-            beds_room_id: bedsrental["roomTypes"][0]["roomId"],
-            max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i,
-            user_id: user_id,
-            prop_key: bedsrental["name"].delete(" ").delete("'").downcase + "2022987123654",
-            status: "active",
-            office_id: current_user.owned_company&.offices&.find_by("city LIKE ?", "%#{bedsrental['city']}%").id || current_user.owned_company&.offices&.first.id
-          )
-        end
-        sleep 2
-      end
-    rescue StandardError => e
-      Rails.logger.error("Error al importar immobles de Beds24: #{e.message}")
-    end
-  end
-
   def first_friday_on_or_after_june_20(year = Date.current.year)
     date = Date.new(year, 6, 20)
     date += 1 until date.friday?
@@ -363,11 +334,79 @@ class Vrental < ApplicationRecord
     end
   end
 
+  # import from Beds24
+
+  def self.import_properties_from_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    begin
+      beds24rentals = client.get_properties
+      beds24rentals.each do |bedsrental|
+        vrental = Vrental.find_by(beds_prop_id: bedsrental["propId"])
+
+        if vrental
+          vrental.update!(
+            name: bedsrental["name"],
+            address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
+            town: bedsrental["city"],
+            max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i,
+            status: "active",
+            office_id: current_user.owned_company&.offices&.find_by(city: bedsrental['city'])&.id || current_user.owned_company&.offices&.first&.id,
+            town_id: Town.find_by(name: bedsrental["city"]).id || Town.create(name: bedsrental["city"]).id
+          )
+          vrental.get_content_from_beds
+        else
+          user_id = User.find_by(admin: true).id
+          vrental = Vrental.create!(
+            name: bedsrental["name"],
+            address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
+            town: bedsrental["city"],
+            beds_prop_id: bedsrental["propId"],
+            beds_room_id: bedsrental["roomTypes"][0]["roomId"],
+            max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i,
+            user_id: user_id,
+            prop_key: bedsrental["name"].delete(" ").delete("'").downcase + "2022987123654",
+            status: "active",
+            office_id: current_user.owned_company&.offices&.find_by(city: bedsrental['city'])&.id || current_user.owned_company&.offices&.first&.id,
+            town_id: Town.find_by(name: bedsrental["city"]).id || Town.create(name: bedsrental["city"]).id
+          )
+          vrental.get_content_from_beds
+        end
+
+        sleep 2
+      end
+
+    rescue StandardError => e
+      Rails.logger.error("Error al importar immobles de Beds24: #{e.message}")
+    end
+  end
+
   def get_content_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     prop_key = self.prop_key
-    beds24descriptions = client.get_property_content(prop_key, roomIds: true, texts: true)
-    puts beds24descriptions[0]["name"]
+    begin
+      beds24content = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)
+      if beds24content["roomIds"]
+        beds24content["roomIds"].each do |room|
+          self.description_ca = room[1]["texts"]["contentDescriptionText"]["CA"]
+          self.description_es = room[1]["texts"]["contentDescriptionText"]["ES"]
+          self.description_fr = room[1]["texts"]["contentDescriptionText"]["FR"]
+          self.description_en = room[1]["texts"]["contentDescriptionText"]["EN"]
+          self.save!
+          puts "Imported the descriptions for #{self.name}!"
+        end
+      end
+      if beds24content["images"]["external"]
+        photos = []
+        beds24content["images"]["external"].each do |key, image|
+          photos << image["url"]
+        end
+        self.images = photos
+        puts "Imported the images for #{self.name}!"
+      end
+    rescue => e
+      puts "Error importing content for #{self.name}: #{e.message}"
+    end
+    sleep 2
   end
 
   def get_rates_from_beds
@@ -707,29 +746,7 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def delete_this_year_rates_on_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = self.prop_key
-    beds24rates = client.get_rates(prop_key)
-    rates_to_delete = []
-    beds24rates.each do |rate|
-      if rate["lastNight"].to_date > Date.today
-        rate_to_delete = {
-          action: "delete",
-          rateId: "#{rate["rateId"]}",
-          roomId: "#{rate["roomId"]}"
-      }
-        rates_to_delete << rate_to_delete
-      end
-    end
-    client.set_rates(prop_key, setRates: rates_to_delete)
-    rates_to_send_again = Rate.where("lastnight > ?", Date.today)
-    rates_to_send_again.each do |rate|
-      rate.sent_to_beds = nil
-      rate.date_sent_to_beds = nil
-      rate.save!
-    end
-  end
+  # send to Beds24
 
   def create_property_on_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
@@ -757,6 +774,30 @@ class Vrental < ApplicationRecord
     self.beds_prop_id = response[0]["propId"]
     self.beds_room_id = response[0]["roomTypes"][0]["roomId"]
     self.save!
+  end
+
+  def delete_this_year_rates_on_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    prop_key = self.prop_key
+    beds24rates = client.get_rates(prop_key)
+    rates_to_delete = []
+    beds24rates.each do |rate|
+      if rate["lastNight"].to_date > Date.today
+        rate_to_delete = {
+          action: "delete",
+          rateId: "#{rate["rateId"]}",
+          roomId: "#{rate["roomId"]}"
+      }
+        rates_to_delete << rate_to_delete
+      end
+    end
+    client.set_rates(prop_key, setRates: rates_to_delete)
+    rates_to_send_again = Rate.where("lastnight > ?", Date.today)
+    rates_to_send_again.each do |rate|
+      rate.sent_to_beds = nil
+      rate.date_sent_to_beds = nil
+      rate.save!
+    end
   end
 
   def send_rates_to_beds

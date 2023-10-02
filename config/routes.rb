@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :bathrooms
+  resources :beds
+  resources :bedrooms
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
@@ -11,6 +14,14 @@ Rails.application.routes.draw do
           delete :purge_photo
         end
       end
+
+      get 'about', to: 'pages#about'
+      get 'search', to: 'pages#search'
+      get 'contact', to: 'pages#contact'
+      get 'home', to: 'pages#home'
+      get 'dashboard', to: 'pages#dashboard'
+      get 'terms', to: 'pages#terms'
+
 
       resources :tourists, path: 'clients'
 
