@@ -14,7 +14,7 @@ class Vrental < ApplicationRecord
   has_and_belongs_to_many :features
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
-  validates_presence_of :name, :status, :address, :max_guests, :commission, :office_id
+  validates_presence_of :name, :status, :address, :commission, :office_id
 
   EASTER_SEASON_FIRSTNIGHT = {
     2022 => Date.new(2022,4,2),
