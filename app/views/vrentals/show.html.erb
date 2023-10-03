@@ -42,6 +42,28 @@
         <strong>Referencia Beds24:</strong>
         <%= @vrental.beds_room_id %>
       </p>
+      <p class="card-text">
+        <strong><%= @vrental.bedrooms.count %> <%= t("bedroom", count: @vrental.bedrooms.count) %>:</strong>
+        <% @vrental.bedrooms.each do |bedroom| %>
+          <li>
+            <% if bedroom.bedroom_type != "BEDROOM" %>
+              <%= t(bedroom.bedroom_type) %>:
+            <% end %>
+            <% bed_counts = bedroom.beds.group(:bed_type).count %>
+            <% bed_counts.each do |bed_type, count| %>
+              <%= count %> <%= t(bed_type, count: count) %>
+            <% end %>
+          </li>
+        <% end %>
+      </p>
+      <p class="card-text">
+        <strong><%= @vrental.bathrooms.count %> <%= t("bathroom", count: @vrental.bathrooms.count) %>:</strong>
+        <% @vrental.bathrooms&.order(:bathroom_type).each do |bathroom| %>
+          <li>
+            <%= t(bathroom.bathroom_type) %>
+          </li>
+        <% end %>
+      </p>
     </div>
     <div class="col text-start">
       <p class="card-text">

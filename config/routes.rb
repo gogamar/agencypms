@@ -39,12 +39,13 @@ Rails.application.routes.draw do
         resources :rate_periods, path: 'periods'
       end
 
-      resources :offices, path: 'oficines', only: [:destroy]
+      resources :offices, path: 'oficines', only: [:destroy] do
+        get "import_properties", on: :member
+      end
 
       resources :vrentals, path: 'immobles-lloguer-turistic' do
         collection do
           get 'list'
-          get "import_properties"
           get 'total_earnings'
           get 'list_earnings'
         end
@@ -55,6 +56,8 @@ Rails.application.routes.draw do
           get :annual_statement, path: 'liquidacio-annual'
           get :fetch_earnings
           post :upload_dates
+          get :edit_photos
+          patch :update_order
         end
         resources :statements, path: 'liquidacions'
         resources :invoices, path: 'factures'

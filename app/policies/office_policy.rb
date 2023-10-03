@@ -36,4 +36,8 @@ class OfficePolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def import_properties?
+    user.admin?
+  end
 end

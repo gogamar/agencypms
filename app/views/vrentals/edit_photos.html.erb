@@ -1,0 +1,12 @@
+<div class="container" data-controller="sortable" data-url="<%= update_order_vrental_path(@vrental) %>">
+  <ul id="sortable-list" class="d-flex flex-row flex-wrap justify-content-center">
+    <% @image_urls.each do |image| %>
+      <li data-image-id="<%= image.id %>" class="card m-2 pb-2 text-end" style="width: 18rem;">
+        <%= image_tag image.url, alt: "#{@vrental.name} #{@vrental.town&.name}" %>
+        <%= link_to image, data: { turbo_method: :delete, turbo_confirm: 'Segur que vols esborrar la foto?' }, class: "trash-icon text-danger" do %>
+          <i class="fas fa-trash-alt fa-lg"></i>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

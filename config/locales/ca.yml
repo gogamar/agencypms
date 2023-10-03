@@ -29,6 +29,25 @@ ca:
   invoice_description_2: "%{commission} sobre las rendes de %{total}"
   vrowner_bookings_default: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}."
   vrowner_speaks: "El propietari %{name} parla %{language}"
+  BEDROOM: "Habitació"
+  bedroom:
+    one: "habitació"
+    other: "habitacions"
+  bathroom:
+    one: "bany"
+    other: "banys"
+  BED_BUNK:
+    one: "Llitera"
+    other: "Lliteres"
+  BED_SINGLE:
+    one: "Llit individual"
+    other: "Llits individuals"
+  BED_DOUBLE:
+    one: "Llit doble"
+    other: "Llits dobles"
+  BATH_TUB: "Banyera"
+  BATH_SHOWER: "Dutxa"
+  TOILET: "Lavabo"
   charge_types:
     rent: "Lloguer"
     cleaning: "Neteja"

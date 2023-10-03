@@ -34,6 +34,9 @@ application.register("map", MapController)
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
 
+import SortableController from "./sortable_controller"
+application.register("sortable", SortableController)
+
 import SpinnerController from "./spinner_controller"
 application.register("spinner", SpinnerController)
 

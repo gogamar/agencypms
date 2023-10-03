@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :update_order]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -120,6 +120,25 @@ class VrentalsController < ApplicationController
     @features = Feature.all
   end
 
+  def edit_photos
+    @image_urls = @vrental.image_urls.order(order: :asc)
+  end
+
+  def update_order
+    ordered_image_ids = params[:order]
+    valid_image_ids = @vrental.image_urls.pluck(:id)
+
+    if (ordered_image_ids - valid_image_ids).empty?
+      ordered_image_ids.each_with_index do |image_id, index|
+        @vrental.image_urls.find(image_id).update!(order: index + 1)
+      end
+
+      render json: { success: true }
+    else
+      render json: { error: "Invalid image IDs in the request" }, status: :unprocessable_entity
+    end
+  end
+
   def copy
     @source = Vrental.find(params[:id])
     @vrental = @source.dup
@@ -182,12 +201,6 @@ class VrentalsController < ApplicationController
     redirect_to vrental_earnings_path(@vrental), notice: "S'han importat les reserves."
     end
     # redirect_to vrental_earnings_path(@vrental), notice: (result == "property with this propKey not found in account" ? "Immoble amb aquesta clau secreta no existeix a Beds24." : "Ja s'han importat les reserves.")
-  end
-
-  def import_properties
-    policy_scope(Vrental)
-    Vrental.import_properties_from_beds
-    redirect_to vrentals_path, notice: "Properties imported"
   end
 
   def export_beds

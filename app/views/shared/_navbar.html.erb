@@ -49,9 +49,6 @@
               <% end %>
               <li><%= link_to "Actualitzar #{@vrental.name} a Beds24", update_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
             <% end %>
-            <% if !@vrental %>
-              <li><%= link_to 'Importar immobles', import_properties_vrentals_path, class: "dropdown-item text-danger" %></li>
-            <% end %>
           </ul>
         </li>
       </ul>

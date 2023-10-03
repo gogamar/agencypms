@@ -1,13 +1,12 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: %i[ show edit update destroy ]
-  before_action :set_company
+  before_action :set_office, only: %i[ show edit update destroy import_properties ]
+  before_action :set_company, except: %i[ destroy import_properties ]
 
   def index
     @offices = policy_scope(Office)
   end
 
   def show
-    authorize @office
   end
 
   def new
@@ -16,7 +15,6 @@ class OfficesController < ApplicationController
   end
 
   def edit
-    authorize @office
   end
 
   def create
@@ -32,7 +30,6 @@ class OfficesController < ApplicationController
   end
 
   def update
-    authorize @office
 
     if @office.update(office_params)
       redirect_to root_path, notice: "Oficina actualitzada."
@@ -43,15 +40,20 @@ class OfficesController < ApplicationController
   end
 
   def destroy
-    authorize @office
     @office.destroy
 
     redirect_to offices_url, notice: "Oficina esborrada."
   end
 
+  def import_properties
+    @office.import_properties_from_beds
+    redirect_to vrentals_path, notice: "Immobles importats de Beds24."
+  end
+
   private
     def set_office
       @office = Office.find(params[:id])
+      authorize @office
     end
 
     def set_company

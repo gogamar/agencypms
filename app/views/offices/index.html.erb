@@ -1,0 +1,9 @@
+<% current_user.owned_company.offices.each do |office| %>
+  <%= link_to edit_company_office_path(current_user.owned_company, office) do %>
+    <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+    Modificar oficina <%= office.name %>
+  <% end %>
+  <% if !@vrental && current_user.admin? %>
+    <%= link_to 'Importar immobles de la oficina', import_properties_office_path(office), class: "dropdown-item text-danger" %>
+  <% end %>
+<% end %>

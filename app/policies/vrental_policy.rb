@@ -92,4 +92,12 @@ class VrentalPolicy < ApplicationPolicy
   def destroy?
     record.user == user
   end
+
+  def edit_photos?
+    return update?
+  end
+
+  def update_order?
+    return update?
+  end
 end

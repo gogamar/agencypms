@@ -1,5 +1,6 @@
 class ImageUrlsController < ApplicationController
   before_action :set_image_url, only: %i[ show edit update destroy ]
+  before_action :set_vrental, only: %i[ new create edit update destroy ]
 
   # GET /image_urls
   def index
@@ -42,7 +43,7 @@ class ImageUrlsController < ApplicationController
   # DELETE /image_urls/1
   def destroy
     @image_url.destroy
-    redirect_to image_urls_url, notice: "Image url was successfully destroyed."
+    redirect_to image_urls_url, notice: "S'ha esborrat la foto."
   end
 
   private
@@ -53,6 +54,6 @@ class ImageUrlsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def image_url_params
-      params.require(:image_url).permit(:url, :order)
+      params.require(:image_url).permit(:url, :order, :vrental_id)
     end
 end

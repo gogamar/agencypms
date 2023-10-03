@@ -48,16 +48,15 @@
                 <% end %>
                 <div class="dropdown-divider"></div>
                 <% if current_user.owned_company.offices.present? %>
-                  <% current_user.owned_company.offices.each do |office| %>
-                    <%= link_to edit_company_office_path(current_user.owned_company, office), class: "dropdown-item" do %>
-                      <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                      Modificar oficina <%= office.name %>
-                    <% end %>
+                  <%= link_to company_offices_path(current_user.owned_company), class: "dropdown-item" do %>
+                    <i class="fas fa-laptop-house fa-sm fa-fw me-2 text-gray-400"></i>
+                    Oficines
                   <% end %>
-                <% end %>
-                <%= link_to new_company_office_path(current_user.owned_company), class: "dropdown-item" do %>
-                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                  Afegir oficina
+                <% else %>
+                  <%= link_to new_company_office_path(current_user.owned_company), class: "dropdown-item" do %>
+                    <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                    Afegir oficina
+                  <% end %>
                 <% end %>
                 <%= link_to rate_plans_path, class: "dropdown-item" do %>
                   <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
