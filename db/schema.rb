@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_02_112811) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_03_140410) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -202,6 +202,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_112811) do
     t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "vrental_id", null: false
+    t.index ["vrental_id"], name: "index_image_urls_on_vrental_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -400,7 +402,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_112811) do
     t.text "description_fr"
     t.text "description_en"
     t.bigint "user_id", null: false
-    t.decimal "commission", precision: 10, scale: 2
+    t.decimal "commission", precision: 10, scale: 4
     t.bigint "office_id"
     t.bigint "rate_plan_id"
     t.bigint "town_id"
@@ -461,6 +463,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_112811) do
   add_foreign_key "earnings", "vrentals"
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "users"
+  add_foreign_key "image_urls", "vrentals"
   add_foreign_key "invoices", "vrentals"
   add_foreign_key "offices", "companies"
   add_foreign_key "pages", "users"

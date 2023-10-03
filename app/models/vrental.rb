@@ -45,7 +45,7 @@ class Vrental < ApplicationRecord
   end
 
   def commission_percentage
-    number_to_percentage(commission * 100, precision: 2, separator: ',')
+    number_to_percentage(commission * 100, precision: 4, separator: ',')
   end
 
   def default_statement_start
