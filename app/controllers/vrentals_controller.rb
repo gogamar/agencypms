@@ -264,7 +264,7 @@ class VrentalsController < ApplicationController
           if request_context && request_context == 'add_features'
             redirect_to add_vrowner_vrental_path(@vrental)
           else
-            redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.'
+            redirect_to @vrental, notice: 'S\'ha modificat l\'immoble.'
           end
         }
         format.json { render json: @vrental, status: :ok }
