@@ -17,10 +17,18 @@ class InvoicesController < ApplicationController
     workbook = package.workbook
 
     workbook.add_worksheet(name: 'Factures') do |sheet|
-      sheet.add_row ['Número', 'Data', 'Immoble', 'HUT', 'Adreça immoble', 'Propietari', 'DNI', 'Adreça Propietari', 'Import', 'IVA', 'Total']
+      sheet.add_row ['Número', 'Data', 'Immoble', 'Concepte', 'Propietari', 'DNI', 'Adreça Propietari', 'Import', 'IVA', 'Total']
 
       invoices.each do |invoice|
-        sheet.add_row [invoice.number, invoice.date, invoice.vrental.name, invoice.vrental.licence, invoice.vrental.address, invoice.vrental.vrowner&.fullname, invoice.vrental.vrowner&.document, invoice.vrental.vrowner&.address, invoice.agency_commission_total, invoice.agency_vat_total, invoice.agency_total]
+        if invoice.statements.present?
+        invoice_description = t('invoice_description_1',
+          vrental_name: invoice.vrental.name,
+          from: l(invoice.statements.first.start_date, format: :standard),
+          to: l(invoice.statements.last.end_date, format: :standard)
+          )
+        end
+
+        sheet.add_row [invoice.invoice_number_formatted, invoice.date, invoice.vrental.name, invoice_description, invoice.vrental.vrowner&.fullname, invoice.vrental.vrowner&.document, invoice.vrental.vrowner&.address, invoice.agency_commission_total, invoice.agency_vat_total, invoice.agency_total]
       end
     end
 
