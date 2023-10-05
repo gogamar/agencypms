@@ -13,12 +13,8 @@
 @import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder";
 
 // Import Custom Template Mixins and Components
-@import "config/mixins";
 @import "config/global";
-@import "utilities/index";
 
 // Your CSS partials
 @import "components/index";
-@import "navs/index";
-// @import "pages/index";
 @import "simple_calendar";

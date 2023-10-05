@@ -1,22 +1,15 @@
-<!-- ============================ Call To Action ================================== -->
 <section class="theme-bg call-to-act-wrap">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="call-to-act">
           <div class="call-to-act-head">
-            <h3><%= @homepage.send("actitle_#{params[:locale]}") if params[:locale] && @homepage.present? %></h3>
-            <span><%= @homepage.send("actext_#{params[:locale]}") if params[:locale] && @homepage.present? %></span>
+            <h3>Want to Become a Real Estate Agent?</h3>
+            <span>We'll help you to grow your career and growth.</span>
           </div>
-          <%# link_to new_webvrental_path, class: "btn btn-call-to-act" do %>
-            <!--
-            <i class="fas fa-house-circle-check"></i>
-            <span class="ms-1"><%= @homepage.send("acbutton_#{params[:locale]}") if params[:locale] && @homepage.present? %></span>
-          -->
-            <%# end %>
-          </div>
+          <a href="#" class="btn btn-call-to-act">SignUp Today</a>
         </div>
       </div>
     </div>
-  </section>
-  <!-- ============================ Call To Action End ================================== -->
+  </div>
+</section>

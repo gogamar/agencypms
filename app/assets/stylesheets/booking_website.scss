@@ -1,0 +1,26 @@
+@import "config/booking_website_colors";
+
+// External libraries
+@import "bootstrap/scss/bootstrap";
+@import "font-awesome";
+@import "flag-icon";
+@import "flatpickr/dist/flatpickr";
+@import "select2/dist/css/select2";
+@import "select2-bootstrap-5-theme/src/include-all";
+@import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder";
+
+// @import url(../css/plugins/css/bootstrap.min.css);
+// @import url(../css/plugins/date-picker.css);
+// @import url(../css/plugins/ion.rangeSlider.min.css);
+// @import url(../css/plugins/dropzone.css);
+
+// @import url(../css/plugins/slick.css);
+// @import url(../css/plugins/slick-theme.css);
+// @import url(../css/plugins/magnific-popup.css);
+
+// @import url(../css/plugins/icofont.css);
+// @import url(../css/plugins/light-box.css);
+// @import url(../css/plugins/line-icon.css);
+
+@import "utilites/booking_website_animation.css";
+@import "pages/booking_website";
