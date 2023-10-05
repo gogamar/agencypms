@@ -119,6 +119,7 @@ const initSelect2 = () => {
     const pathSegments = window.location.pathname;
     const lastSlashIndex = pathSegments.lastIndexOf("/");
     const path = pathSegments.slice(0, lastSlashIndex);
+    console.log(path);
 
     // Make an AJAX call to update the vrental's vrowner_id
     fetch(path, {

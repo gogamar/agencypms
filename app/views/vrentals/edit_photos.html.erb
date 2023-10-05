@@ -1,12 +1,26 @@
-<div class="container" data-controller="sortable" data-url="<%= update_order_vrental_path(@vrental) %>">
-  <ul id="sortable-list" class="d-flex flex-row flex-wrap justify-content-center">
-    <% @image_urls.each do |image| %>
-      <li data-image-id="<%= image.id %>" class="card m-2 pb-2 text-end" style="width: 18rem;">
-        <%= image_tag image.url, alt: "#{@vrental.name} #{@vrental.town&.name}" %>
-        <%= link_to image, data: { turbo_method: :delete, turbo_confirm: 'Segur que vols esborrar la foto?' }, class: "trash-icon text-danger" do %>
-          <i class="fas fa-trash-alt fa-lg"></i>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+<div class="container d-flex flex-row flex-wrap justify-content-center"><%= simple_form_for @vrental do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <%= f.hidden_field :request_context, value: 'add_photos' %>
+    <%= f.input :photos, as: :file, input_html: {
+          multiple: true,
+          # data: {
+          #   url: f.object.photos.present? ? Cloudinary::Utils.cloudinary_api_url(f.object.photos.first.key, { quality: "auto:good" }) : ''
+          # }
+        }
+      %>
+    <div class="form-actions text-end mb-5">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary text-center' %>
+    </div>
+  <% end %>
+</div>
+<div class="container d-flex flex-row flex-wrap justify-content-center" data-controller="sortable" data-sortable-url="/image_urls/:id/move">
+  <% @image_urls.each do |image| %>
+    <div data-id="<%= image.id %>" class="card m-2 pb-2 text-end" style="width: 18rem;">
+      <%= image_tag image.url, alt: "#{@vrental.name} #{@vrental.town&.name}" %>
+      <%= link_to image, data: { turbo_method: :delete, turbo_confirm: 'Segur que vols esborrar la foto?' }, class: "trash-icon text-danger" do %>
+        <i class="fas fa-trash-alt fa-lg"></i>
+      <% end %>
+    </div>
+  <% end %>
 </div>

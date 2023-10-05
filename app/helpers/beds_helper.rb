@@ -56,6 +56,19 @@ module BedsHelper
       raise e
     end
 
+    def get_property(prop_key, options={})
+      response = self.class.post(
+        '/getProperty',
+        body: payload(prop_key, options)
+      )
+      json = parse!(response)
+      json["getProperty"]
+      rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
     def get_property_content(prop_key, options={})
       response = self.class.post(
         '/getPropertyContent',
@@ -63,6 +76,19 @@ module BedsHelper
       )
       json = parse!(response)
       json["getPropertyContent"]
+      rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
+    def set_property(prop_key, options={})
+      response = self.class.post(
+        '/setProperty',
+        body: payload(prop_key, options)
+      )
+      json = parse!(response)
+      json["setProperty"]
       rescue Oj::ParseError
       raise Error, 'Got encoding different from JSON. Please check passed options'
     rescue APIError => e

@@ -104,3 +104,5 @@ gem "simple_calendar", "~> 2.4"
 group :production do
     gem 'wkhtmltopdf-heroku', '2.12.6.1.pre.jammy'
 end
+
+gem "acts_as_list", "~> 1.1"

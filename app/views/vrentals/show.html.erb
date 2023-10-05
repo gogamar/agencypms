@@ -64,6 +64,15 @@
           </li>
         <% end %>
       </p>
+      <p class="card-text">
+        <strong>Caracteristiques:</strong>
+        <% translated_features = @vrental.features.map { |feature| t(feature.name) }.sort_by { |translation| translation } %>
+        <% translated_features.each do |feature_name| %>
+          <li>
+            <%= feature_name %>
+          </li>
+        <% end %>
+      </p>
     </div>
     <div class="col text-start">
       <p class="card-text">

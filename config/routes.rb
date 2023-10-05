@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :image_urls
-  resources :towns
-  resources :bathrooms
-  resources :beds
-  resources :bedrooms
+  resources :image_urls do
+    member do
+      patch :move
+    end
+  end
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
@@ -26,6 +26,10 @@ Rails.application.routes.draw do
 
 
       resources :tourists, path: 'clients'
+      resources :towns
+      resources :bathrooms
+      resources :beds
+      resources :bedrooms
 
       resources :companies, path: 'empreses' do
         resources :offices, path: 'oficines', except: [:destroy]
@@ -57,7 +61,6 @@ Rails.application.routes.draw do
           get :fetch_earnings
           post :upload_dates
           get :edit_photos
-          patch :update_order
         end
         resources :statements, path: 'liquidacions'
         resources :invoices, path: 'factures'
@@ -86,7 +89,9 @@ Rails.application.routes.draw do
           get 'copy_rates'
           get 'send_rates'
           get 'export_beds'
-          get 'update_beds'
+          get 'update_on_beds'
+          get 'update_from_beds'
+          get 'update_vrowner_from_beds'
           get 'get_rates'
           get 'delete_rates'
           get 'delete_year_rates'

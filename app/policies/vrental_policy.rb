@@ -45,14 +45,6 @@ class VrentalPolicy < ApplicationPolicy
     user.admin? || record.user == user
   end
 
-  def export_beds?
-    return show?
-  end
-
-  def update_beds?
-    return show?
-  end
-
   def get_rates?
     return show?
   end
@@ -97,7 +89,15 @@ class VrentalPolicy < ApplicationPolicy
     return update?
   end
 
-  def update_order?
+  def update_on_beds?
+    return update?
+  end
+
+  def update_from_beds?
+    return update?
+  end
+
+  def update_vrowner_from_beds?
     return update?
   end
 end

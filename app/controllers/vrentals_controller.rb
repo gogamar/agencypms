@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :export_beds, :update_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :update_order]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_vrowner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -121,22 +121,7 @@ class VrentalsController < ApplicationController
   end
 
   def edit_photos
-    @image_urls = @vrental.image_urls.order(order: :asc)
-  end
-
-  def update_order
-    ordered_image_ids = params[:order]
-    valid_image_ids = @vrental.image_urls.pluck(:id)
-
-    if (ordered_image_ids - valid_image_ids).empty?
-      ordered_image_ids.each_with_index do |image_id, index|
-        @vrental.image_urls.find(image_id).update!(order: index + 1)
-      end
-
-      render json: { success: true }
-    else
-      render json: { error: "Invalid image IDs in the request" }, status: :unprocessable_entity
-    end
+    @image_urls = @vrental.image_urls.order(position: :asc)
   end
 
   def copy
@@ -203,16 +188,21 @@ class VrentalsController < ApplicationController
     # redirect_to vrental_earnings_path(@vrental), notice: (result == "property with this propKey not found in account" ? "Immoble amb aquesta clau secreta no existeix a Beds24." : "Ja s'han importat les reserves.")
   end
 
-  def export_beds
-    @vrental.create_property_on_beds
+  def update_on_beds
+    @vrental.update_vrental_on_beds
     authorize @vrental
-    redirect_to @vrental, notice: "L'immoble ja està a Beds."
+    redirect_to @vrental, notice: "S'han exportat canvis a Beds."
   end
 
-  def update_beds
-    @vrental.update_on_beds
+  def update_from_beds
+    @vrental.update_vrental_from_beds
     authorize @vrental
-    redirect_to @vrental, notice: "L'immoble s'ha actualitzat creat a Beds."
+    redirect_to @vrental, notice: "S'han importat canvis des de Beds."
+  end
+
+  def update_vrowner_from_beds
+    @vrental.update_vrowner_from_beds
+    redirect_to @vrental, notice: "S'ha actualitzat el propietari des de Beds."
   end
 
   def new
@@ -271,26 +261,11 @@ class VrentalsController < ApplicationController
     authorize @vrental
     @vrowner = @vrental.vrowner
     request_context = params[:vrental][:request_context]
+
     if @vrental.update(vrental_params)
-      respond_to do |format|
-        format.html {
-          if request_context && request_context == 'add_features'
-            redirect_to add_vrowner_vrental_path(@vrental)
-          else
-            redirect_to vrentals_path, notice: 'S\'ha modificat l\'immoble.'
-          end
-        }
-        format.json { render json: @vrental, status: :ok }
-      end
+      handle_update_success(request_context)
     else
-      respond_to do |format|
-        format.html do
-          error_messages = @vrental.errors.full_messages.join(", ")
-          puts "These are the errors: #{error_messages}"
-          render :edit, status: :unprocessable_entity
-        end
-        format.json { render json: @vrental.errors, status: :unprocessable_entity }
-      end
+      handle_update_failure
     end
   end
 
@@ -302,6 +277,49 @@ class VrentalsController < ApplicationController
 
   private
 
+  def handle_update_success(request_context)
+    respond_to do |format|
+      format.html { redirect_after_update(request_context) }
+      format.json { render json: @vrental, status: :ok }
+    end
+  end
+
+  def handle_update_failure
+    respond_to do |format|
+      format.html { render_update_failure }
+      format.json { render json: @vrental.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def redirect_after_update(request_context)
+    if request_context == 'add_features'
+      redirect_to add_vrowner_vrental_path(@vrental)
+    elsif request_context == 'add_photos'
+      create_new_image_urls
+      redirect_to edit_photos_vrental_path(@vrental)
+    else
+      redirect_to @vrental, notice: 'S\'ha modificat l\'immoble.'
+    end
+  end
+
+  def create_new_image_urls
+    existing_urls = @vrental.image_urls.pluck(:url)
+
+    @vrental.photos.each do |photo|
+      url = photo.url
+      unless existing_urls.include?(url)
+        @vrental.image_urls.create(url: url, position: @vrental.image_urls.count + 1, photo_id: photo.id)
+        existing_urls << url
+      end
+    end
+  end
+
+  def render_update_failure
+    error_messages = @vrental.errors.full_messages.join(", ")
+    flash.now[:alert] = "No s'ha pogut modificar l'immoble. #{error_messages}"
+    render :edit, status: :unprocessable_entity
+  end
+
   def set_vrental
     @vrental = Vrental.find(params[:id])
     authorize @vrental
@@ -311,7 +329,7 @@ class VrentalsController < ApplicationController
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :commission,
       :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, feature_ids: []
+      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, feature_ids: [], photos: []
     )
   end
 end

@@ -6,11 +6,17 @@
     <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
     <%= f.input :name, required: true, input_html: { "data-update-field-target" => "vrentalName", "data-action": "input->update-field#updatePropKey" } %>
     <%= f.input :commission, required: true %>
+    <%= f.input :property_type, collection: Vrental::PROPERTY_TYPE.keys.map { |key| [t(key), key] } %>
     <%= f.input :address %>
     <%= f.input :cadastre %>
     <%= f.input :habitability %>
     <%= f.input :licence %>
+    <%= f.input :max_guests %>
+    <%= f.input :min_price %>
     <%= f.input :description_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :description_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :description_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :description_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
     <%= t("dont-fill") %>
     <%= f.input :beds_prop_id %>
     <%= f.input :beds_room_id %>

@@ -403,20 +403,15 @@ require 'csv'
 
 # 19 Set the start date for vragreement to firstnight of the first rate and end date for the lastnight of the last rate
 
-puts "Importing rates and bookings from Beds24"
+puts "Setting property_type on all vrentals"
 @vrentals = Vrental.all
-
 @vrentals.each do |vrental|
-  unless vrental.rates.where("DATE_PART('year', firstnight) = ?", Date.today.year).present?
-    vrental.get_rates_from_beds
-    puts "Imported rates for #{vrental.name}."
-    sleep 5
+  if vrental.name.downcase.include?("casa")
+    vrental.property_type = "house"
+    vrental.save!
+  else
+    vrental.property_type = "apartment"
+    vrental.save!
   end
-  unless vrental.bookings.where("DATE_PART('year', checkin) = ?", Date.today.year).present?
-    vrental.get_bookings_from_beds
-    puts "Imported bookings for #{vrental.name}."
-    sleep 5
-  end
-  sleep 3
 end
-puts "Imported rates and bookings from Beds24"
+puts "Done!"

@@ -1,4 +1,4 @@
 class ImageUrl < ApplicationRecord
   belongs_to :vrental
-  # validates :url, presence: true
+  acts_as_list
 end

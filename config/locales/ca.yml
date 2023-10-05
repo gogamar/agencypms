@@ -1,6 +1,8 @@
 ca:
   "yes": "Sí"
   "no": "No"
+  apartment: "Apartament"
+  house: "Casa"
   cancelled_booking: "Reserva cancel·lada"
   paid_by_agency: "Pagat per l'agència"
   paid_to_owner: "Pagat al propietari"
@@ -349,6 +351,7 @@ ca:
         name: "Nom"
         status: "Estat"
         office: "Oficina"
+        photos: "Fotos"
       vrowner_payment:
         amount: "Import"
         date: "Data"

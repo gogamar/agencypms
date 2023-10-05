@@ -17,7 +17,15 @@ class Vrental < ApplicationRecord
   has_and_belongs_to_many :features
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
-  validates_presence_of :name, :status, :address, :commission, :office_id
+  validates_presence_of :name, :status, :address, :office_id
+
+  validates :name, uniqueness: true
+
+  PROPERTY_TYPE = {
+    "apartment": "1",
+    "house": "17"
+  }.freeze
+
 
   EASTER_SEASON_FIRSTNIGHT = {
     2022 => Date.new(2022,4,2),
@@ -338,9 +346,249 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def beds_details
+    details = []
+    bedrooms.each do |bedroom|
+      bed_counts = bedroom.beds.group(:bed_type).count
+      bed_counts.each do |bed_type, count|
+        details << count.to_s + t(bed_type, locale: company.language)
+      end
+    end
+    details.join(", ")
+  end
+
+  def beds_room_type
+    {
+      "name": "#{property_type} #{name} #{beds_details if beds_details}",
+      "qty": "1",
+      "minPrice": min_price,
+      "maxPeople": max_guests
+    }
+  end
+
+  def update_vrental_on_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    beds24rentals_prop_names = Set.new(client.get_properties.map { |bedsrental| bedsrental["name"] })
+
+    if beds24rentals_prop_names.include?(name)
+      bedsrental = [
+          {
+            "action": "modify",
+            "roomTypes": [
+              {
+                "action": "modify",
+                "roomId": beds_room_id
+              }.merge(beds_room_type)
+            ]
+          }
+      ]
+      client.set_property(prop_key, setProperty: bedsrental)
+    else
+      new_bedrentals = []
+      new_bedrental = {
+        name: name,
+        prop_key: prop_key,
+        roomTypes: [
+          beds_room_type
+        ]
+      }
+      new_bedrentals << new_bedrental
+      response = client.create_properties(createProperties: new_bedrentals)
+
+      beds_prop_id = response[0]["propId"]
+      beds_room_id = response[0]["roomTypes"][0]["roomId"]
+      save!
+    end
+  end
+
+  def update_vrowner_from_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    begin
+      property = client.get_property(prop_key)[0]
+      existing_vrowner = Vrowner.find_by(fullname: property["template1"])
+      if vrowner.present?
+        if existing_vrowner.present? && existing_vrowner != vrowner
+          self.update!(vrowner: existing_vrowner)
+        elsif existing_vrowner.present? && existing_vrowner == vrowner
+          vrowner.update!(
+            fullname: property["template1"],
+            document: property["template5"],
+            address: property["template2"],
+            email: property["template4"],
+            phone: property["template3"],
+            account: property["template6"],
+            beds_room_id: property["roomTypes"][0]["roomId"],
+            )
+        end
+      elsif !vrowner.present? && existing_vrowner.present?
+        self.update!(vrowner: existing_vrowner)
+      else
+        Vrowner.create!(
+          fullname: property["template1"],
+          language: "ca",
+          document: property["template5"],
+          address: property["template2"],
+          email: property["template4"],
+          phone: property["template3"],
+          account: property["template6"],
+          beds_room_id: property["roomTypes"][0]["roomId"],
+          user: user,
+          vrental_id: id
+          )
+      end
+      sleep 2
+    rescue StandardError => e
+      Rails.logger.error("Error al importar propietari de Beds24: #{e.message}")
+    end
+  end
+
+  def update_vrental_from_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    begin
+      property = client.get_property(prop_key, includeRooms: true)[0]
+        self.update!(
+          name: property["name"],
+          address: property["address"] + ', ' + property["postcode"] + ' ' + property["city"],
+          max_guests: property["roomTypes"][0]["maxPeople"].to_i,
+          status: "active",
+          town_id: Town.find_by(name: property["city"])&.id || Town.create(name: property["city"]).id,
+          cadastre: property["template7"].split("/")[0],
+          habitability: property["template7"].split("/")[1],
+          commission: property["template8"]
+        )
+        sleep 2
+      get_content_from_beds
+      sleep 2
+    rescue StandardError => e
+      Rails.logger.error("Error al importar canvis de Beds24: #{e.message}")
+    end
+  end
+
+  def get_content_from_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    begin
+      beds24content = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)
+      self.update!(licence: beds24content[0]["permit"])
+
+      if beds24content[0]["roomIds"]
+        self.update!(
+          description_ca: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["CA"],
+          description_es: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["ES"],
+          description_fr: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["FR"],
+          description_en: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["EN"]
+        )
+      end
+
+      if beds24content[0]["images"]["external"].present?
+        beds24photos = beds24content[0]["images"]["external"].select { |key, image| image["url"] != "" }
+        beds24_image_urls = beds24photos.map { |key, image| image["url"] }
+        image_urls.each do |image_url|
+          unless beds24_image_urls.include?(image_url.url)
+            image_url.destroy
+          end
+        end
+
+        beds24photos.each do |key, image|
+          image_url = image_urls.find_by(url: image["url"])
+          if image_url
+            image_url.update!(
+              position: key.to_i,
+            )
+          else
+            ImageUrl.create!(
+              url: image["url"],
+              position: key.to_i,
+              vrental_id: id
+            )
+          end
+        end
+        puts "Imported images for #{name}!"
+      end
+
+      if beds24content[0]["roomIds"].first[1]["featureCodes"].present?
+        accepted_features = Feature::FEATURES
+        beds24features = beds24content[0]["roomIds"].first[1]["featureCodes"].flatten.map(&:downcase)
+
+        selected_features = beds24features.select { |feature| accepted_features.include?(feature) }
+
+        puts "these are beds24features: #{selected_features}"
+
+        selected_features.each do |feature|
+          unless features.find_by(name: feature)
+            features << Feature.find_by(name: feature)
+          end
+          save!
+        end
+
+        features.each do |feature|
+          unless selected_features.include?(feature.name)
+            features.delete(feature)
+            save!
+          end
+        end
+
+        beds24bedrooms = beds24content[0]["roomIds"].first[1]["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BEDROOM") } }
+
+        beds24bedrooms.each_with_index do |room_data, index|
+          room_type = room_data.select { |word| word.starts_with?("BEDROOM") }.first
+          room_bed_types = room_data.select { |word| word.starts_with?("BED_") }
+
+          bedroom = bedrooms[index]
+
+          if bedroom
+            room_bed_types.each do |bed_type|
+              bedroom.beds.find_or_create_by(bed_type: bed_type, bedroom: bedroom)
+            end
+          else
+            bedroom = bedrooms.create!(bedroom_type: room_type, vrental_id: id)
+            room_bed_types.each do |bed_type|
+              bedroom.beds.create!(bed_type: bed_type, bedroom: bedroom)
+            end
+          end
+        end
+
+        if beds24bedrooms.length < bedrooms.length
+          bedrooms.last(bedrooms.length - beds24bedrooms.length).each do |bedroom|
+            bedroom.destroy
+          end
+        end
+
+        beds24bathrooms = beds24content[0]["roomIds"].first[1]["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BATHROOM") } }
+
+        beds24bathrooms.each_with_index do |bathroom_data, index|
+          bathroom = bathrooms[index]
+          bathroom_type = case
+          when bathroom_data.include?("BATH_TUB")
+            "BATH_TUB"
+          when bathroom_data.include?("BATH_SHOWER")
+            "BATH_SHOWER"
+          else
+            "TOILET"
+          end
+
+          if bathroom && bathroom.bathroom_type != bathroom_type
+            bathroom.update!(bathroom_type: bathroom_type)
+          else
+            bathrooms.create!(bathroom_type: bathroom_type, vrental_id: id)
+          end
+        end
+
+        if beds24bathrooms.length < bathrooms.length
+          bathrooms.last(bathrooms.length - beds24bedrooms.length).each do |bathroom|
+            bathroom.destroy
+          end
+        end
+        puts "Imported features, bedrooms and bathrooms for #{name}!"
+      end
+    rescue => e
+      puts "Error importing content for #{name}: #{e.message}"
+    end
+    sleep 2
+  end
+
   def get_rates_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = self.prop_key
+    prop_key = prop_key
     beds24rates = client.get_rates(prop_key)
 
     if beds24rates.success?
@@ -388,7 +636,7 @@ class Vrental < ApplicationRecord
                   lastnight: rate["lastNight"],
                   priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : (rate["roomPrice"].to_f * 6.295),
                   beds_room_id: rate["roomId"],
-                  vrental_id: self.id,
+                  vrental_id: id,
                   min_stay: 5,
                   arrival_day: 'everyday'
                 )
@@ -421,7 +669,7 @@ class Vrental < ApplicationRecord
 
   def get_bookings_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = self.prop_key
+    prop_key = prop_key
     options = {
       "arrivalFrom": Date.today.beginning_of_year.to_s,
       "arrivalTo": Date.today.to_s,
@@ -506,7 +754,7 @@ class Vrental < ApplicationRecord
 
   def add_booking(beds_booking, tourist)
     Booking.create!(
-      vrental_id: self.id,
+      vrental_id: id,
       status: beds_booking["status"],
       firstname: tourist&.firstname || beds_booking["guestFirstName"],
       lastname: tourist&.lastname || beds_booking["guestName"],
@@ -675,39 +923,9 @@ class Vrental < ApplicationRecord
     end
   end
 
-  # send to Beds24
-
-  def create_property_on_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    beds24rentals_prop_names = Set.new(client.get_properties.map { |bedsrental| bedsrental["name"] })
-
-    if beds24rentals_prop_names.include?(self.name)
-      return
-    end
-
-    new_bedrentals = []
-    new_bedrental = {
-      name: self.name,
-      prop_key: self.prop_key,
-      roomTypes: [
-        {
-          name: self.name,
-          qty: 1,
-          minPrice: 30
-        }
-      ]
-    }
-    new_bedrentals << new_bedrental
-    response = client.create_properties(createProperties: new_bedrentals)
-
-    self.beds_prop_id = response[0]["propId"]
-    self.beds_room_id = response[0]["roomTypes"][0]["roomId"]
-    self.save!
-  end
-
   def delete_this_year_rates_on_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = self.prop_key
+    prop_key = prop_key
     beds24rates = client.get_rates(prop_key)
     rates_to_delete = []
     beds24rates.each do |rate|
@@ -731,7 +949,7 @@ class Vrental < ApplicationRecord
 
   def send_rates_to_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = self.prop_key
+    prop_key = prop_key
     # First we get all the rates from Beds24
     beds24rates = client.get_rates(prop_key)
     # Then we select the rates older than 2 years for deletion
@@ -763,7 +981,7 @@ class Vrental < ApplicationRecord
       general_rate =
         {
         action: (rate_exists_on_beds_id || general_rate_exists_on_beds_dates) ? "modify" : "new",
-        roomId: "#{self.beds_room_id}",
+        roomId: "#{beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",
         name: "Tarifa #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} amb 10% desc. setmanal",
@@ -788,7 +1006,7 @@ class Vrental < ApplicationRecord
       weekly_rate =
         {
         action: (rate_exists_on_beds_id || weekly_rate_exists_on_beds_dates) ? "modify" : "new",
-        roomId: "#{self.beds_room_id}",
+        roomId: "#{beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",
         name: "Tarifa setmanal només sistachrentals.com #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)}",

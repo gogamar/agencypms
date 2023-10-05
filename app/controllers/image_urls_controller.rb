@@ -1,28 +1,9 @@
 class ImageUrlsController < ApplicationController
-  before_action :set_image_url, only: %i[ show edit update destroy ]
-  before_action :set_vrental, only: %i[ new create edit update destroy ]
+  before_action :set_image_url, only: %i[ destroy move ]
 
-  # GET /image_urls
-  def index
-    @image_urls = ImageUrl.all
-  end
-
-  # GET /image_urls/1
-  def show
-  end
-
-  # GET /image_urls/new
-  def new
-    @image_url = ImageUrl.new
-  end
-
-  # GET /image_urls/1/edit
-  def edit
-  end
-
-  # POST /image_urls
   def create
     @image_url = ImageUrl.new(image_url_params)
+    authorize @image_url
 
     if @image_url.save
       redirect_to @image_url, notice: "Image url was successfully created."
@@ -31,29 +12,32 @@ class ImageUrlsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /image_urls/1
-  def update
-    if @image_url.update(image_url_params)
-      redirect_to @image_url, notice: "Image url was successfully updated."
-    else
-      render :edit, status: :unprocessable_entity
+  def destroy
+    @vrental = @image_url.vrental
+    if @image_url.photo_id.present?
+      photo = ActiveStorage::Attachment.find(@image_url.photo_id)
+      photo.purge
     end
+    @image_url.destroy
+    redirect_to edit_photos_vrental_path(@vrental), notice: "S'ha esborrat la foto."
   end
 
-  # DELETE /image_urls/1
-  def destroy
-    @image_url.destroy
-    redirect_to image_urls_url, notice: "S'ha esborrat la foto."
+  def move
+    @image_url.insert_at(params[:position].to_i)
+    head :ok
+  rescue StandardError => e
+    Rails.logger.error("An error occurred in the move action: #{e.message}")
+    head :internal_server_error
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_image_url
       @image_url = ImageUrl.find(params[:id])
+      authorize @image_url
     end
 
-    # Only allow a list of trusted parameters through.
     def image_url_params
-      params.require(:image_url).permit(:url, :order, :vrental_id)
+      params.require(:image_url).permit(:url, :position, :vrental_id)
     end
 end
