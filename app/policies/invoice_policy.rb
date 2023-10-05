@@ -5,6 +5,11 @@ class InvoicePolicy < ApplicationPolicy
     end
   end
 
+  def download_all?
+    # FIXME: This is temporary
+    user.admin?
+  end
+
   def show?
     user.vrentals.exists?(record.vrental_id)
   end

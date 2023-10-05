@@ -1,11 +1,41 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
-  before_action :set_vrental, except: [:index]
+  before_action :set_vrental, except: [:index, :download_all]
+  # after_action :cleanup_temp_file, only: [:download_all]
 
   def index
     @invoices = policy_scope(Invoice)
     @invoices = @invoices.order(number: :asc)
     @total_agency_fees_invoiced = Invoice.all.map(&:agency_total).sum
+  end
+
+  def download_all
+    invoices = policy_scope(Invoice).order(number: :asc)
+    authorize invoices
+
+    package = Axlsx::Package.new
+    workbook = package.workbook
+
+    workbook.add_worksheet(name: 'Factures') do |sheet|
+      sheet.add_row ['Número', 'Data', 'Immoble', 'Concepte', 'Propietari', 'DNI', 'Adreça Propietari', 'Import', 'IVA', 'Total']
+
+      invoices.each do |invoice|
+        if invoice.statements.present?
+        invoice_description = t('invoice_description_1',
+          vrental_name: invoice.vrental.name,
+          from: l(invoice.statements.first.start_date, format: :standard),
+          to: l(invoice.statements.last.end_date, format: :standard)
+          )
+        end
+
+        sheet.add_row [invoice.invoice_number_formatted, invoice.date, invoice.vrental.name, invoice_description, invoice.vrental.vrowner&.fullname, invoice.vrental.vrowner&.document, invoice.vrental.vrowner&.address, invoice.agency_commission_total, invoice.agency_vat_total, invoice.agency_total]
+      end
+    end
+
+    @tmp_file = Tempfile.new('factures_huts.xlsx')
+    package.serialize(@tmp_file.path)
+
+    send_file @tmp_file.path, type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', filename: 'factures_huts.xlsx'
   end
 
   def show
@@ -105,5 +135,11 @@ class InvoicesController < ApplicationController
 
   def invoice_params
     params.require(:invoice).permit(:date, :location, :number, :vrental_id, statement_ids: [])
+  end
+
+  def cleanup_temp_file
+    sleep(20)
+    @tmp_file.close if @tmp_file
+    @tmp_file.unlink if @tmp_file
   end
 end

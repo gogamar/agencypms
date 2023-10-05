@@ -100,7 +100,9 @@ Rails.application.routes.draw do
       end
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
       resources :earnings, path: 'ingressos', only: [:index, :destroy]
-      resources :invoices, path: 'factures', only: [:index, :destroy]
+      resources :invoices, path: 'factures', only: [:index, :destroy] do
+        get 'download_all', on: :collection
+      end
       resources :vrowners, path: 'propietaris-lloguer-turistic' do
         collection do
           get 'filter'
