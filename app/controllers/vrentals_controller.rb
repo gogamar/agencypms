@@ -333,13 +333,17 @@ class VrentalsController < ApplicationController
   end
 
   def create_new_image_urls
-    existing_urls = @vrental.image_urls.pluck(:url)
+    existing_urls = @vrental.image_urls.pluck(:url).to_set
 
-    @vrental.photos.each do |photo|
+    @vrental.photos.each_with_index do |photo, index|
       url = photo.url
-      unless existing_urls.include?(url)
-        @vrental.image_urls.create(url: url, position: @vrental.image_urls.count + 1, photo_id: photo.id)
-        existing_urls << url
+      url_with_q_auto = url.gsub(/upload\//, 'upload/q_auto/')
+
+      if !existing_urls.include?(url) && !existing_urls.include?(url_with_q_auto)
+        @vrental.image_urls.create(url: url_with_q_auto, position: index + 1, photo_id: photo.id)
+        existing_urls.add(url_with_q_auto)
+      elsif existing_urls.include?(url)
+        @vrental.image_urls.find_by(url: url).update(url: url_with_q_auto)
       end
     end
   end
@@ -359,7 +363,7 @@ class VrentalsController < ApplicationController
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :commission,
       :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, feature_ids: [], photos: []
+      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, :town_id, feature_ids: [], photos: []
     )
   end
 end

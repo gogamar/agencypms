@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_085801) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -189,6 +189,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_085801) do
     t.datetime "updated_at", null: false
     t.string "beds_room_id"
     t.bigint "user_id"
+    t.boolean "highlight", default: false
     t.index ["user_id"], name: "index_features_on_user_id"
   end
 
@@ -410,6 +411,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_085801) do
     t.bigint "town_id"
     t.string "property_type"
     t.decimal "min_price", precision: 8, scale: 2
+    t.float "latitude"
+    t.float "longitude"
+    t.boolean "featured"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["town_id"], name: "index_vrentals_on_town_id"

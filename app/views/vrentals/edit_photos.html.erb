@@ -2,13 +2,7 @@
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <%= f.hidden_field :request_context, value: 'add_photos' %>
-    <%= f.input :photos, as: :file, input_html: {
-          multiple: true,
-          # data: {
-          #   url: f.object.photos.present? ? Cloudinary::Utils.cloudinary_api_url(f.object.photos.first.key, { quality: "auto:good" }) : ''
-          # }
-        }
-      %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
     <div class="form-actions text-end mb-5">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary text-center' %>
     </div>

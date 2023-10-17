@@ -1,4 +1,5 @@
 class Vrental < ApplicationRecord
+  require 'net/http'
   include ActionView::Helpers::NumberHelper
   belongs_to :user
   belongs_to :vrowner, optional: true
@@ -429,6 +430,79 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def send_photos_to_beds
+    # first we delete non valid photos on beds
+    # then we import the valid photos here
+    # then we can add some photos
+    # then we export all the photos to beds
+
+    images_array = []
+    external = {}
+
+    image_urls.each do |image|
+      url_with_q_auto = image.url.gsub(/\/upload\//, '/upload/q_auto:good/')
+      external["#{index + 1}"] = {
+        url: url_with_q_auto,
+        map: [
+          {
+            propId: "#{beds_prop_id}",
+            position: "#{image.position}"
+          }
+        ]
+      }
+    end
+
+    if town.present? && town.photos.attached?
+      town.photos.each do |photo|
+        external["#{external.length + 1}"] = {
+          url: photo.url,
+          map: [
+            {
+              propId: "#{beds_prop_id}",
+              position: "#{external.length + 1}"
+            }
+          ]
+        }
+      end
+    end
+    puts "There are #{external.length} images."
+
+    empty_spaces = 50 - external.length
+
+    empty_spaces.times do |i|
+      external["#{external.length + 1}"] = {
+        url: "",
+        map: [
+          {
+            propId: "#{self.beds_prop_id}",
+            position: "#{external.length + 1}"
+          }
+        ]
+      }
+    end
+
+    property_images = {
+      action: "modify",
+      images: {
+        hosted: [], # this will delete all hosted images - this doesn't work
+        external: external
+      }
+    }
+    images_array << property_images
+
+    auth_token = ENV["BEDSKEY"]
+    client = BedsHelper::Beds.new(auth_token)
+    client.set_property_content(prop_key, setPropertyContent: images_array)
+
+    sent_photos = []
+    self.photos.each do |photo|
+      sent_photos << photo.url.to_s
+    end
+    self.update(sent_photos: sent_photos.join(','))
+
+    puts "Images sent to Beds", self.sent_photos
+  end
+
   def update_vrowner_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     begin
@@ -470,6 +544,69 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def delete_non_valid_images_on_beds
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    begin
+      beds24content= client.get_property_content(prop_key, images: true)
+      beds24photos = beds24content[0]["images"]["external"].select { |key, image| image["url"] != "" }
+
+      valid_photos = []
+
+      beds24photos.each do |key, photo|
+        url = URI.parse(photo["url"])
+        response = Net::HTTP.start(url.host, url.port, use_ssl: url.scheme == 'https') do |http|
+          http.head(url.path)
+        end
+        if response.code.to_i == 200
+          valid_photos << url.to_s
+        end
+      end
+
+      external = {}
+
+      valid_photos = valid_photos.uniq
+
+      valid_photos.each_with_index do |url, index|
+        external["#{index + 1}"] = {
+          url: url,
+          map: [
+            {
+              propId: "#{self.beds_prop_id}",
+              position: "#{index + 1}"
+            }
+          ]
+        }
+      end
+
+      (valid_photos.length + 1).upto(99) do |index|
+        external["#{index}"] = {
+          url: "",
+          map: [
+            {
+              propId: "#{self.beds_prop_id}",
+              position: "#{index}"
+            }
+          ]
+        }
+      end
+
+      images_array = []
+      property_images = {
+        action: "modify",
+        images: {
+          hosted: [],
+          external: external
+        }
+      }
+      images_array << property_images
+
+      client.set_property_content(prop_key, setPropertyContent: images_array)
+    rescue => e
+      puts "Error importing content for #{name}: #{e.message}"
+    end
+    sleep 2
+  end
+
   def update_vrental_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     begin
@@ -480,9 +617,9 @@ class Vrental < ApplicationRecord
           max_guests: property["roomTypes"][0]["maxPeople"].to_i,
           status: "active",
           town_id: Town.find_by(name: property["city"])&.id || Town.create(name: property["city"]).id,
-          cadastre: property["template7"].split("/")[0],
-          habitability: property["template7"].split("/")[1],
-          commission: property["template8"]
+          cadastre: self.cadastre.present? ? self.cadastre : property["template7"].split("/")[0],
+          habitability: self.habitability.present? ? self.habitability : property["template7"].split("/")[1],
+          commission: self.commission.present? ? self.commission : property["template8"]
         )
         sleep 2
       get_content_from_beds
@@ -496,10 +633,10 @@ class Vrental < ApplicationRecord
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     begin
       beds24content = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)
-      self.update!(licence: beds24content[0]["permit"])
+      update!(licence: beds24content[0]["permit"])
 
       if beds24content[0]["roomIds"]
-        self.update!(
+        update!(
           description_ca: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["CA"],
           description_es: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["ES"],
           description_fr: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["FR"],
@@ -508,29 +645,36 @@ class Vrental < ApplicationRecord
       end
 
       if beds24content[0]["images"]["external"].present?
+
         beds24photos = beds24content[0]["images"]["external"].select { |key, image| image["url"] != "" }
-        beds24_image_urls = beds24photos.map { |key, image| image["url"] }
-        image_urls.each do |image_url|
-          unless beds24_image_urls.include?(image_url.url)
-            image_url.destroy
-          end
-        end
+        # not sure if I should delete images locally just because they are not on beds24
+        # beds24_image_urls = beds24photos.map { |key, image| image["url"] }
+        # image_urls.each do |image_url|
+        #   unless beds24_image_urls.include?(image_url.url)
+        #     image_url.destroy
+        #   end
+        # end
+
+        puts "There are #{beds24photos.length} images."
 
         beds24photos.each do |key, image|
-          image_url = image_urls.find_by(url: image["url"])
-          if image_url
-            image_url.update!(
-              position: key.to_i,
-            )
+          new_url = image["url"]
+
+          # Check if the image URL contains 'cloudinary' but not '/upload/q_auto:good/'
+          if new_url.include?('cloudinary') && !new_url.include?('/upload/q_auto:good/')
+            new_url.gsub!('/upload/', '/upload/q_auto:good/')
+          end
+
+          image_url = image_urls.find_or_initialize_by(url: new_url)
+
+          if image_url.persisted?
+            image_url.update!(position: key.to_i)
           else
-            ImageUrl.create!(
-              url: image["url"],
-              position: key.to_i,
-              vrental_id: id
-            )
+            image_url.position = key.to_i
+            image_url.vrental_id = id
+            image_url.save!
           end
         end
-        puts "Imported images for #{name}!"
       end
 
       if beds24content[0]["roomIds"].first[1]["featureCodes"].present?
@@ -901,8 +1045,6 @@ class Vrental < ApplicationRecord
   def add_earning(booking)
     rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout).round(2)
     price = [booking.net_price, rate_price].min
-
-    puts "Booking #{booking.firstname} has a price of #{price}"
 
     discount = rate_price == 0 ? 0 : (rate_price - price) / rate_price
 

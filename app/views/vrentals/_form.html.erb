@@ -20,7 +20,7 @@
     <%= t("dont-fill") %>
     <%= f.input :beds_prop_id %>
     <%= f.input :beds_room_id %>
-    <%= f.input :prop_key, input_html: { "data-update-field-target" => "propKey" }, disabled: true %>
+    <%= f.input :prop_key, input_html: { "data-update-field-target" => "propKey" }, readonly: true %>
   </div>
   <div class="p-3 mt-3 border border-secondary rounded-4" id="vrowner-details">
     <%= f.input :feature_ids, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>

@@ -82,6 +82,19 @@ module BedsHelper
       e.response
     end
 
+    def set_property_content(prop_key, options={})
+      response = self.class.post(
+        '/setPropertyContent',
+        body: payload(prop_key, options)
+      )
+      json = parse!(response)
+      json["setPropertyContent"]
+      rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
     def set_property(prop_key, options={})
       response = self.class.post(
         '/setProperty',

@@ -403,15 +403,15 @@ require 'csv'
 
 # 19 Set the start date for vragreement to firstnight of the first rate and end date for the lastnight of the last rate
 
-puts "Setting property_type on all vrentals"
-@vrentals = Vrental.all
-@vrentals.each do |vrental|
-  if vrental.name.downcase.include?("casa")
-    vrental.property_type = "house"
-    vrental.save!
-  else
-    vrental.property_type = "apartment"
-    vrental.save!
-  end
-end
-puts "Done!"
+# puts "Setting property_type on all vrentals"
+# @vrentals = Vrental.all
+# @vrentals.each do |vrental|
+#   if vrental.name.downcase.include?("casa")
+#     vrental.property_type = "house"
+#     vrental.save!
+#   else
+#     vrental.property_type = "apartment"
+#     vrental.save!
+#   end
+# end
+# puts "Done!"
