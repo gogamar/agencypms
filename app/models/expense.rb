@@ -4,5 +4,5 @@ class Expense < ApplicationRecord
   validates :amount, presence: true
   validates :expense_type, presence: true, inclusion: { in: %w(agency owner) }
 
-  EXPENSE_TYPES = %w(agency owner).freeze
+  EXPENSE_TYPES = %w(agency owner)
 end

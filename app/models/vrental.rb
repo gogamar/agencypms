@@ -25,7 +25,7 @@ class Vrental < ApplicationRecord
   PROPERTY_TYPE = {
     "apartment": "1",
     "house": "17"
-  }.freeze
+  }
 
 
   EASTER_SEASON_FIRSTNIGHT = {
@@ -36,7 +36,7 @@ class Vrental < ApplicationRecord
     2026 => Date.new(2026,3,28),
     2027 => Date.new(2027,3,20),
     2028 => Date.new(2028,4,8)
-  }.freeze
+  }
 
   def unavailable_dates
     rates.pluck(:firstnight, :lastnight).map do |range|

@@ -3,7 +3,7 @@ class VrownerPayment < ApplicationRecord
   validates :amount, :date, presence: true
   validate :amount_cannot_be_zero
 
-  PAYMENT_METHODS = %w(transfer check cash).freeze
+  PAYMENT_METHODS = %w(transfer check cash)
 
   private
 

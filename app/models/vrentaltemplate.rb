@@ -48,5 +48,5 @@ class Vrentaltemplate < ApplicationRecord
     :vrental_features,
     :vrental_commission,
     :clause
-  ].freeze
+  ]
 end
