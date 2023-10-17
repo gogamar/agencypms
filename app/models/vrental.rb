@@ -2,6 +2,7 @@ class Vrental < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   belongs_to :user
   belongs_to :vrowner, optional: true
+  belongs_to :town, optional: true
   belongs_to :office
   belongs_to :rate_plan, optional: true
   has_many :vragreements, dependent: :destroy
@@ -51,6 +52,29 @@ class Vrental < ApplicationRecord
   def default_statement_start
     last_statement = statements.find_by(end_date: statements.maximum('end_date'))
     last_statement.present? ? last_statement.end_date + 1.day : Date.new(Date.today.year, 1, 1)
+  end
+
+  def total_city_tax(from, to)
+    return unless bookings.present?
+
+    total_city_tax = { base: 0, vat: 0, tax: 0 }
+
+    confirmed_bookings = self.bookings.where.not(status: "0")
+    this_year_bookings = confirmed_bookings.where(checkin: from..to)
+
+    this_year_bookings.each do |booking|
+      city_tax_sum = booking.charges.where(charge_type: 'city_tax').sum(:price)
+
+      total_city_tax[:tax] += city_tax_sum
+      total_city_tax[:base] += city_tax_sum / 1.21
+      total_city_tax[:vat] += city_tax_sum * 0.21
+    end
+
+    total_city_tax.each do |key, value|
+      total_city_tax[key] = value.round(2)
+    end
+
+    total_city_tax
   end
 
   def upload_dates_to_rates(rate_plan)
@@ -138,6 +162,8 @@ class Vrental < ApplicationRecord
 
   def total_bookings
     total_bookings = 0
+    bookings = bookings.where.not("firstname ILIKE ?", "%propietari%").where.not("lastname ILIKE ?", "%propietari%")
+    # exclude cancelled bookings with payment?
     bookings.each do |booking|
       total_bookings += booking.price_no_portal
     end
@@ -565,7 +591,7 @@ class Vrental < ApplicationRecord
           return
         end
 
-        confirmed_bookings = beds24bookings.select { |beds_booking| beds_booking["status"] == "1" }
+        confirmed_bookings = beds24bookings.select { |beds_booking| beds_booking["status"] == "1" || beds_booking["status"] == "2" }
         cancelled_bookings = beds24bookings.select { |beds_booking| beds_booking["status"] == "0" }
         cancelled_bookings_with_positive_payments = cancelled_bookings.select do |beds_booking|
           total_payment = beds_booking["invoice"]&.select { |item| item["qty"] == "-1" }.sum { |item| item["price"].to_f }
@@ -624,9 +650,10 @@ class Vrental < ApplicationRecord
   end
 
   def add_booking(beds_booking, tourist)
+    status = beds_booking["status"] == "2" ? "1" : beds_booking["status"]
     Booking.create!(
       vrental_id: self.id,
-      status: beds_booking["status"],
+      status: status,
       firstname: tourist&.firstname || beds_booking["guestFirstName"],
       lastname: tourist&.lastname || beds_booking["guestName"],
       tourist_id: tourist.present? ? tourist.id : nil,
@@ -643,8 +670,9 @@ class Vrental < ApplicationRecord
   end
 
   def update_booking(booking, beds_booking, tourist)
+    status = beds_booking["status"] == "2" ? "1" : beds_booking["status"]
     booking.update!(
-      status: beds_booking["status"],
+      status: status,
       firstname: tourist&.firstname || beds_booking["guestFirstName"],
       lastname: tourist&.lastname || beds_booking["guestName"],
       checkin: Date.parse(beds_booking["firstNight"]),

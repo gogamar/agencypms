@@ -4,19 +4,19 @@ class BookingsController < ApplicationController
 
   def index
     @bookings = policy_scope(Booking).order(checkin: :asc)
-    # @bookings = @vrental.bookings.order(checkin: :asc)
-    # @total_price = @vrental.bookings.pluck(:price)&.sum
-    # @total_commission = @vrental.bookings.pluck(:commission)&.sum
-    # @total_cleaning = @vrental.bookings.map do |booking|
-    #   booking.charges.where(charge_type: 'cleaning').sum(:price)
-    # end.sum
-    # @total_city_tax = @vrental.bookings.map do |booking|
-    #   booking.charges.where(charge_type: 'city_tax').sum(:price)
-    # end.sum
-    # @total_rent = @vrental.bookings.map do |booking|
-    #   booking.charges.where(charge_type: 'rent').sum(:price)
-    # end.sum
-    # @total_net = @total_rent - @total_commission
+    @bookings = @vrental.bookings.order(checkin: :asc)
+    @total_price = @vrental.bookings.pluck(:price)&.sum
+    @total_commission = @vrental.bookings.pluck(:commission)&.sum
+    @total_cleaning = @vrental.bookings.map do |booking|
+      booking.charges.where(charge_type: 'cleaning').sum(:price)
+    end.sum
+    @total_city_tax = @vrental.bookings.map do |booking|
+      booking.charges.where(charge_type: 'city_tax').sum(:price)
+    end.sum
+    @total_rent = @vrental.bookings.map do |booking|
+      booking.charges.where(charge_type: 'rent').sum(:price)
+    end.sum
+    @total_net = @total_rent - @total_commission
   end
 
   def new

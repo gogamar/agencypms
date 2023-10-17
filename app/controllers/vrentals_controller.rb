@@ -26,6 +26,36 @@ class VrentalsController < ApplicationController
     @total_agency_fees = Vrental.total_agency_fees
   end
 
+  def total_city_tax
+    @vrentals = policy_scope(Vrental).order(name: :asc)
+    @vrentals_with_bookings = @vrentals.select { |vrental| vrental.bookings.present? }
+    authorize @vrentals
+  end
+
+  def download_city_tax
+    vrentals = policy_scope(Vrental).order(name: :asc)
+    vrentals_with_bookings = vrentals.select { |vrental| vrental.bookings.present? }
+    authorize vrentals
+
+    package = Axlsx::Package.new
+    workbook = package.workbook
+
+    workbook.add_worksheet(name: 'Taxa turistica') do |sheet|
+      sheet.add_row ['Propietari', 'DNI', 'Propietat', 'NºHUT', 'Adreça immoble', 'Població', 'Base taxa tur.', 'IVA taxa tur.', 'Taxa amb IVA', 'Total estades']
+
+      vrentals_with_bookings.each do |vrental|
+        city_tax_hash = vrental.total_city_tax(Date.today.beginning_of_year, Date.today.end_of_year)
+        bookings_number = vrental.bookings.where(checkin: Date.today.beginning_of_year..Date.today.end_of_year).count
+        sheet.add_row [vrental.vrowner&.fullname, vrental.vrowner&.document, vrental.name, vrental.licence, vrental.address, vrental.town&.name, city_tax_hash[:base], city_tax_hash[:vat], city_tax_hash[:tax], bookings_number]
+      end
+    end
+
+    @tmp_file = Tempfile.new('taxa_turistica_huts.xlsx')
+    package.serialize(@tmp_file.path)
+
+    send_file @tmp_file.path, type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', filename: 'taxa_turistica_huts.xlsx'
+  end
+
   def list_earnings
     @vrentals = policy_scope(Vrental)
     authorize @vrentals

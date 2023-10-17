@@ -47,6 +47,8 @@ Rails.application.routes.draw do
           get "import_properties"
           get 'total_earnings'
           get 'list_earnings'
+          get 'total_city_tax'
+          get 'download_city_tax'
         end
 
         member do
@@ -90,7 +92,7 @@ Rails.application.routes.draw do
           get 'get_bookings'
         end
       end
-      resources :bookings, path: 'reserves', only: [:index]
+
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
       resources :earnings, path: 'ingressos', only: [:index, :destroy]
       resources :invoices, path: 'factures', only: [:index, :destroy] do
