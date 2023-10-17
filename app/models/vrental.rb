@@ -17,11 +17,15 @@ class Vrental < ApplicationRecord
   has_and_belongs_to_many :features
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
+  scope :with_future_rates, -> { joins(:rates).where("rates.firstnight > ?", Date.today).distinct(:id) }
+  geocoded_by :address
+  after_validation :geocode
+
   validates_presence_of :name, :status, :address, :office_id
 
   validates :name, uniqueness: true
 
-  PROPERTY_TYPE = {
+  PROPERTY_TYPES = {
     "apartment": "1",
     "house": "17"
   }.freeze
@@ -37,11 +41,57 @@ class Vrental < ApplicationRecord
     2028 => Date.new(2028,4,8)
   }.freeze
 
-  def unavailable_dates
+  def dates_with_rates
     rates.pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }
     end
   end
+
+  def future_dates_with_rates
+    rates.where("lastnight > ?", Date.today).pluck(:firstnight, :lastnight).map do |range|
+      { from: range[0], to: range[1] }
+    end
+  end
+
+  def future_booked_dates
+    bookings.where("checkin > ?", Date.today).pluck(:checkin, :checkout).map do |range|
+      { from: range[0], to: range[1] }
+    end
+  end
+
+  def future_available_dates(start_date, end_date)
+    # Calculate future dates with rates and future booked dates
+    future_rates_ranges = future_dates_with_rates
+    future_booked_ranges = future_booked_dates
+
+    # Convert start_date and end_date to Date objects
+    start_date = start_date.to_date
+    end_date = end_date.to_date
+
+    # Create a set of booked dates for faster lookup
+    booked_dates_set = future_booked_ranges.flat_map { |range| (range[:from]..range[:to]).to_a }.to_set
+
+    # Initialize an array to store available date ranges
+    available_ranges = []
+
+    # Iterate through the date range from start_date to end_date
+    current_date = start_date
+    while current_date <= end_date
+      # Check if the current date is within any future date range with rates
+      if future_rates_ranges.any? { |range| (range[:from]..range[:to]).cover?(current_date) }
+        # Check if the current date is not booked
+        unless booked_dates_set.include?(current_date)
+          available_ranges << { from: current_date, to: current_date }
+        end
+      end
+
+      # Move to the next day
+      current_date += 1.day
+    end
+
+    return available_ranges
+  end
+
 
   def other_statements_dates(statement=nil)
     other_statements = statement.nil? ? statements : statements.where.not(id: statement.id)
@@ -101,6 +151,9 @@ class Vrental < ApplicationRecord
   end
 
   def rate_price(checkin, checkout)
+    checkin = checkin.is_a?(Date) ? checkin : Date.parse(checkin)
+    checkout = checkout.is_a?(Date) ? checkout : Date.parse(checkout)
+
     overlapping_rates = rates.where(
       "(firstnight <= ? AND lastnight >= ?) OR (firstnight <= ? AND lastnight >= ?) OR (firstnight >= ? AND lastnight <= ?)",
       checkin, checkin, checkout, checkout, checkin, checkout
@@ -347,23 +400,68 @@ class Vrental < ApplicationRecord
   end
 
   def beds_details
+    all_beds = bedrooms.flat_map { |bedroom| bedroom.beds.pluck(:bed_type) }
+
+    all_beds = all_beds.map { |bed_type| bed_type == "BED_BUNK" ? ["BED_SINGLE", "BED_SINGLE"] : bed_type }.flatten.tally
+
+    abbreviation_mapping = {
+      "BED_DOUBLE" => "DBL",
+      "BED_SOFA" => "DSF"
+    }
     details = []
-    bedrooms.each do |bedroom|
-      bed_counts = bedroom.beds.group(:bed_type).count
-      bed_counts.each do |bed_type, count|
-        details << count.to_s + t(bed_type, locale: company.language)
-      end
+    all_beds.each do |bed_type, count|
+      abbr_type = abbreviation_mapping[bed_type] || "SGL"
+
+      details << "#{count}#{I18n.t(abbr_type, count: count, locale: office.company.language)}"
     end
-    details.join(", ")
+
+    details
   end
 
+
   def beds_room_type
+    details = beds_details.join(", ")
     {
-      "name": "#{property_type} #{name} #{beds_details if beds_details}",
+      "name": "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details}",
       "qty": "1",
       "minPrice": min_price,
       "maxPeople": max_guests
     }
+  end
+
+  def get_availability_from_beds(checkin, checkout, guests)
+    begin
+      client = BedsHelper::Beds.new
+
+      options = {
+        "propId": beds_prop_id,
+        "checkIn": checkin.delete("-"),
+        "checkOut": checkout.delete("-"),
+        "numAdult": guests || 1
+      }
+
+      response = client.get_availabilities(options)
+
+      if response.code != 200
+        raise StandardError, "Error: HTTP request failed with status code #{response.code}"
+      end
+
+      parsed_response = JSON.parse(response.body)
+
+      result = {}
+      if parsed_response[beds_room_id]["roomsavail"] == 1
+        result["ratePrice"] = rate_price(checkin, checkout).round(2)
+        result["updatedPrice"] = parsed_response[beds_room_id]["price"]
+      elsif parsed_response[beds_room_id]["roomsavail"] == "0"
+        result["roomsavail"] = "No availability"
+      end
+      return result
+
+    rescue StandardError => e
+      # Handle any exceptions that occurred during execution
+      puts "Error: #{e.message}"
+      return {} # Return an empty hash or handle the error as needed
+    end
   end
 
   def update_vrental_on_beds

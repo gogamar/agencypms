@@ -9,18 +9,21 @@
 @import "select2-bootstrap-5-theme/src/include-all";
 @import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder";
 
-// @import url(../css/plugins/css/bootstrap.min.css);
-// @import url(../css/plugins/date-picker.css);
-// @import url(../css/plugins/ion.rangeSlider.min.css);
-// @import url(../css/plugins/dropzone.css);
+@import "slick-carousel/slick/slick";
+@import "slick-carousel/slick/slick-theme";
+@import "magnific-popup/dist/magnific-popup.css";
+@import "lightbox2";
 
-// @import url(../css/plugins/slick.css);
-// @import url(../css/plugins/slick-theme.css);
-// @import url(../css/plugins/magnific-popup.css);
+// Internal libraries
+@import "utilities/booking_website_animation";
 
-// @import url(../css/plugins/icofont.css);
-// @import url(../css/plugins/light-box.css);
-// @import url(../css/plugins/line-icon.css);
-
-@import "utilites/booking_website_animation.css";
 @import "pages/booking_website";
+@import "pages/mapboxgl_custom";
+
+@import "bootstrap-icons/font/bootstrap-icons";
+@font-face {
+  font-family: "bootstrap-icons";
+  src: font-url("bootstrap-icons/font/fonts/bootstrap-icons.woff2")
+      format("woff2"),
+    font-url("bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff");
+}

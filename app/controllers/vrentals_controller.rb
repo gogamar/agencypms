@@ -329,7 +329,7 @@ class VrentalsController < ApplicationController
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :commission,
       :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, feature_ids: [], photos: []
+      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, :latitude, :longitude, feature_ids: [], photos: []
     )
   end
 end

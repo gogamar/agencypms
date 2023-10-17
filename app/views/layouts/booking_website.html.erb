@@ -23,11 +23,11 @@
       <%= render 'shared/booking_website_navbar' %>
       <%= render 'shared/flashes' %>
       <%= yield %>
-      <%= render 'shared/call_to_action' %>
+      <%= render 'shared/call_to_action' unless controller_name == 'pages' && action_name == 'list_map' %>
       <%= render 'shared/booking_website_footer' %>
       <%= render 'shared/log_in_modal' %>
       <%= render 'shared/sign_up_modal' %>
-      <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+      <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="bi bi-arrow-up"></i></a>
     </div>
   </body>
 </html>

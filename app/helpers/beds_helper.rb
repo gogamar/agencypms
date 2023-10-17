@@ -8,8 +8,20 @@ module BedsHelper
 
     attr_accessor :auth_token
 
-    def initialize(auth_token)
+    def initialize(auth_token = nil)
       @auth_token = auth_token
+    end
+
+    def get_availabilities(options={})
+      self.class.post(
+        '/getAvailabilities',
+        body: options.to_json
+      )
+    rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+      e.message
     end
 
     def get_rates(prop_key, options={})

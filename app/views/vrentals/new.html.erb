@@ -10,7 +10,7 @@
       <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
       <%= f.input :name, required: true, input_html: { "data-update-field-target" => "vrentalName", "data-action": "input->update-field#updatePropKey" } %>
       <%= f.input :commission, required: true %>
-      <%= f.input :property_type, collection: Vrental::PROPERTY_TYPE.keys.map { |key| [t(key), key] } %>
+      <%= f.input :property_type, collection: Vrental::PROPERTY_TYPES.keys.map { |key| [t(key), key] } %>
       <%= f.input :address %>
       <%= f.input :cadastre %>
       <%= f.input :habitability %>

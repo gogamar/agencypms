@@ -1,9 +1,13 @@
-<div class="header header-transparent change-logo">
+<div class="header change-logo">
   <div class="container">
     <nav id="navigation" class="navigation navigation-landscape">
       <div class="nav-header">
-        <a class="nav-brand static-logo" href="#"><img src="assets/img/logo-light.png" class="logo" alt="" /></a>
-        <a class="nav-brand fixed-logo" href="#"><img src="assets/img/logo.png" class="logo" alt="" /></a>
+        <%= link_to home_path, class: "nav-brand static-logo" do %>
+          <%= image_tag("logo-light.png", class: "logo", alt: "") %>
+        <% end %>
+        <%= link_to home_path, class: "nav-brand fixed-logo" do %>
+          <%= image_tag("logo.png", class: "logo", alt: "") %>
+        <% end %>
         <div class="nav-toggle"></div>
       </div>
       <div class="nav-menus-wrapper" style="transition-property: none;">
@@ -98,10 +102,13 @@
         </ul>
         <ul class="nav-menu nav-menu-social align-to-right">
           <li>
-            <a href="submit-property.html" class="text-success"><img src="assets/img/submit.svg" width="20" alt="" class="mr-2" />Add Property</a>
+            <a href="submit-property.html" class="text-success"><%= image_tag("submit.svg", class: "mr-2", width: "20", alt: "") %>Add Property</a>
           </li>
           <li class="add-listing light">
-            <a href="JavaScript:Void(0);" data-bs-toggle="modal" data-bs-target="#login"><img src="assets/img/user-dark.svg" width="12" alt="" class="mr-2" />Sign In</a>
+            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#login">
+              <%= image_tag("user-dark.svg", width: "12", class: "mr-2", alt: "") %>
+              Sign In
+            </a>
           </li>
         </ul>
       </div>

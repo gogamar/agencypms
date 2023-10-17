@@ -1,4 +1,10 @@
 es:
+  guests: "Nº de huéspedes"
+  type: "Tipo de inmueble"
+  bedrooms: "Nº de dormitorios"
+  bathrooms: "Nº de baños"
+  location: "Ubicación"
+  features: "Características"
   cancelled_booking: "Reserva cancelada"
   paid_by_agency: "Pagado por la agencia"
   paid_to_owner: "Pagado al propietario"
@@ -53,7 +59,7 @@ es:
   toaster: "Tostadora"
   microwave: "Microondas"
   hair_dryer: "Secador de pelo"
-  iron_board: "Tabla de planchar"
+  iron_board: "Plancha"
   garden: "Jardín comunitario"
   wifi: "Wifi"
   refrigerator: "Nevera"
@@ -246,9 +252,6 @@ es:
       hello: "Hola mundo"
       welcome: "¡Bienvenidos!"
       services_html: "Ofrecemos unos <em>servicios magníficos</em>"
-  features:
-    form:
-      washer: "Lavadora"
   vrentals:
     show:
       saturdays: "Sá.-Sá."
