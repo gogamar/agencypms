@@ -1,9 +1,9 @@
 class BookingsController < ApplicationController
-  before_action :set_vrental
+  before_action :set_vrental, except: %i[index]
   before_action :set_booking, only: %i[edit update destroy]
 
   def index
-    @bookings = policy_scope(Booking)
+    @bookings = policy_scope(Booking).order(checkin: :asc)
     @bookings = @vrental.bookings.order(checkin: :asc)
     @total_price = @vrental.bookings.pluck(:price)&.sum
     @total_commission = @vrental.bookings.pluck(:commission)&.sum

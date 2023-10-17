@@ -1,9 +1,4 @@
-<h1>Reserves <%= @vrental.name %></h1>
-<p>Total: <%= number_to_currency(@total_price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
-<p>Comissió: <%= number_to_currency(@total_commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
-<p>Neteja: <%= number_to_currency(@total_cleaning, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
-<p>Taxa tur: <%= number_to_currency(@total_city_tax, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
-<p>Net lloguer: <%= number_to_currency(@total_net, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
+<h1>Reserves</h1>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -17,7 +12,6 @@
       <th scope="col">Taxa tur.</th>
       <th scope="col">Altres</th>
       <th scope="col">Comissió</th>
-      <th scope="col">Editar</th>
     </tr>
   </thead>
   <tbody>
@@ -37,11 +31,6 @@
         <td><%= number_to_currency(booking.charges.where(charge_type: 'city_tax')&.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
         <td><%= number_to_currency(booking.charges.where(charge_type: 'other')&.sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
         <td><%= number_to_currency(booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-        <td>
-          <%= link_to edit_vrental_booking_path(@vrental, booking), class: "btn btn-info" do %>
-            <i class="fas fa-pen fa-sm"></i>
-          <% end %>
-        </td>
       </tr>
     <% end %>
   </tbody>

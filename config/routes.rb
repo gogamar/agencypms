@@ -52,6 +52,8 @@ Rails.application.routes.draw do
           get 'list'
           get 'total_earnings'
           get 'list_earnings'
+          get 'total_city_tax'
+          get 'download_city_tax'
         end
 
         member do
@@ -98,6 +100,7 @@ Rails.application.routes.draw do
           get 'get_bookings'
         end
       end
+
       resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
       resources :earnings, path: 'ingressos', only: [:index, :destroy]
       resources :invoices, path: 'factures', only: [:index, :destroy] do

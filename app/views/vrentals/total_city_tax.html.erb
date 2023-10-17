@@ -1,0 +1,42 @@
+<h4 class="font-weight-bold text-primary text-center py-2">Total taxa turística per immoble</h4>
+<% if @vrentals_with_bookings.present? %>
+  <div class="container d-flex justify-content-end">
+    <%= link_to 'Baixar resumen taxa turística en excel', download_city_tax_vrentals_path, class: 'btn btn-primary' %>
+  </div>
+  <div class="container">
+    <hr>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Propietari</th>
+          <th scope="col">DNI</th>
+          <th scope="col">Propietat</th>
+          <th scope="col">NºHUT</th>
+          <th scope="col">Adreça immoble</th>
+          <th scope="col">Població</th>
+          <th scope="col">Base taxa tur.</th>
+          <th scope="col">IVA taxa tur.</th>
+          <th scope="col">Taxa amb IVA</th>
+          <th scope="col">Total estades</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @vrentals_with_bookings.each do |vrental| %>
+          <% city_tax_hash = vrental.total_city_tax(Date.today.beginning_of_year, Date.today.end_of_year) %>
+          <tr>
+            <td><%= vrental.vrowner&.fullname %></td>
+            <td><%= vrental.vrowner&.document %></td>
+            <td><%= vrental.name %></td>
+            <td><%= vrental.licence %></td>
+            <td><%= vrental.address %></td>
+            <td><%= vrental.town&.name %></td>
+            <td><%= number_to_currency(city_tax_hash[:base], unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= number_to_currency(city_tax_hash[:vat], unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= number_to_currency(city_tax_hash[:tax], unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= vrental.bookings.where.not(status: "0").where(checkin: Date.today.beginning_of_year..Date.today.end_of_year).count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

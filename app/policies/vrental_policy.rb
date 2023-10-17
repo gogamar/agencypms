@@ -9,6 +9,14 @@ class VrentalPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def total_city_tax?
+    user.admin?
+  end
+
+  def download_city_tax?
+    user.admin?
+  end
+
   def list_earnings?
     user.admin?
   end
