@@ -697,7 +697,6 @@ class Vrental < ApplicationRecord
 
   def get_bookings_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = prop_key
     options = {
       "arrivalFrom": Date.today.beginning_of_year.to_s,
       "arrivalTo": Date.today.to_s,
@@ -713,7 +712,7 @@ class Vrental < ApplicationRecord
         error_message = parsed_response["error"]
         error_code = parsed_response["errorCode"]
         # Handle the error message and error code as needed
-        puts "Error: #{error_message}, ErrorCode: #{error_code}"
+        puts "#{self.name} with prop_key: #{self.prop_key}: Error: #{error_message}, ErrorCode: #{error_code}"
         return error_message
       end
 
@@ -778,6 +777,7 @@ class Vrental < ApplicationRecord
     else
       return
     end
+    sleep 3
   end
 
   def add_booking(beds_booking, tourist)

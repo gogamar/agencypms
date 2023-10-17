@@ -117,7 +117,7 @@ module BedsHelper
       }
     end
 
-    def payload(prop_key = nil, options={})
+    def payload(prop_key, options={})
       authentication(prop_key)
         .deep_merge(options)
         .to_json
