@@ -149,6 +149,7 @@ class Vrental < ApplicationRecord
   end
 
   def total_rate_price
+    return unless bookings.present?
     total_rate_price = 0
     initial_bookings = bookings.where.not("firstname ILIKE ?", "%propietari%").where.not("lastname ILIKE ?", "%propietari%")
     real_bookings = initial_bookings.select { |booking| booking.price_with_portal != 0 }
@@ -172,10 +173,11 @@ class Vrental < ApplicationRecord
   end
 
   def total_bookings
+    return unless bookings.present?
     total_bookings = 0
-    bookings = bookings.where.not("firstname ILIKE ?", "%propietari%").where.not("lastname ILIKE ?", "%propietari%")
+    real_bookings = bookings.where.not("firstname ILIKE ?", "%propietari%").where.not("lastname ILIKE ?", "%propietari%")
     # exclude cancelled bookings with payment?
-    bookings.each do |booking|
+    real_bookings.each do |booking|
       total_bookings += booking.price_no_portal
     end
     return total_bookings

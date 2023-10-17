@@ -1,5 +1,5 @@
 <div class="container d-flex justify-content-between">
-  <% if @vrental %>
+  <% if @vrental && @vrental.bookings.present? %>
     <div class="flex-column">
       <p>Comissió: <%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></p>
       <p>Ingressos segons contracte (menys les reserves propietari) <%= number_to_currency(@vrental.total_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @vrental.total_rate_price %></p>
