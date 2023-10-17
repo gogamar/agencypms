@@ -1,6 +1,19 @@
 ca:
   "yes": "Sí"
   "no": "No"
+  guests: "persones"
+  location: "ubicació"
+  type: "tipus de immoble"
+  bedrooms: "habitacions"
+  bathrooms: "banys"
+  features: "Característiques"
+  search: "Cercar"
+  book: "Reservar"
+  book_now: "Reservar ara"
+  contact: "Preguntar"
+  description: "Descripció"
+  map: "Mapa"
+  photos: "Fotos"
   apartment: "Apartament"
   house: "Casa"
   cancelled_booking: "Reserva cancel·lada"
@@ -19,7 +32,6 @@ ca:
   agency_vat: "IVA 21 %"
   agency: "Agència"
   owner: "Propietari"
-  property: "Immoble"
   transfer: "Transferència"
   cash: "Efectiu"
   check: "Xec"
@@ -32,12 +44,24 @@ ca:
   vrowner_bookings_default: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}."
   vrowner_speaks: "El propietari %{name} parla %{language}"
   BEDROOM: "Habitació"
+  available:
+    one: "disponible"
+    other: "disponibles"
+  property:
+    one: "immoble"
+    other: "immobles"
   bedroom:
     one: "habitació"
     other: "habitacions"
   bathroom:
     one: "bany"
     other: "banys"
+  guest:
+    one: "persona"
+    other: "persones"
+  BED_MURPHY:
+    one: "Llit niu"
+    other: "Llits niu"
   BED_BUNK:
     one: "Llitera"
     other: "Lliteres"
@@ -47,9 +71,16 @@ ca:
   BED_DOUBLE:
     one: "Llit doble"
     other: "Llits dobles"
-  BATH_TUB: "Banyera"
-  BATH_SHOWER: "Dutxa"
+  BATH_TUB:
+    one: "Bany amb banyera"
+    other: "Banys amb banyera"
+  BATH_SHOWER:
+    one: "Bany amb dutxa"
+    other: "Banys amb dutxa"
   TOILET: "Lavabo"
+  DBL: "D"
+  SGL: "IN"
+  DSF: "DS"
   charge_types:
     rent: "Lloguer"
     cleaning: "Neteja"
@@ -270,9 +301,6 @@ ca:
       hello: "Hola mòn"
       welcome: "Benvinguts!"
       services_html: "Donem uns <em>serveis magnifics</em>"
-  features:
-    form:
-      washer: "rentadora"
   vrentals:
     show:
       saturdays: "Ds.-Ds."

@@ -1,0 +1,64 @@
+<div class="col-lg-12 col-md-12">
+  <div class="property-listing property-1">
+    <% if vrental.image_urls.present? %>
+      <div class="listing-img-wrapper">
+        <%= link_to vrental do %>
+          <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt: vrental.name %>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="listing-content">
+      <div class="listing-detail-wrapper-box">
+        <div class="listing-detail-wrapper">
+          <div class="listing-short-detail">
+            <h4 class="listing-name"><%= link_to vrental.name, vrental %></h4>
+            <div class="fr-can-rating">
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star"></i>
+              <span class="reviews_text">(42 Reviews)</span>
+            </div>
+            <% if discount.present? %>
+              <span class="prt-types sale"><%= "- #{number_to_percentage(discount * 100, precision: 0, separator: ',')}" %></span>
+            <% end %>
+          </div>
+          <div class="list-price">
+            <h6 class="listing-card-info-price"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+          </div>
+        </div>
+      </div>
+      <div class="price-features-wrapper">
+        <div class="list-fx-features">
+          <% if vrental.max_guests %>
+            <div class="listing-card-info-icon">
+              <div class="inc-fleat-icon"><%= image_tag("user.svg", width: "13", alt: "") %></div>
+              <%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %>
+            </div>
+          <% end %>
+          <% if vrental.bedrooms.present? %>
+            <div class="listing-card-info-icon">
+              <div class="inc-fleat-icon"><%= image_tag("bed.svg", width: "13", alt: "") %></div>
+              <%= vrental.bedrooms.count %> <%= t("bedrooms", count: vrental.bedrooms.count) %>
+            </div>
+          <% end %>
+          <% if vrental.bathrooms.present? %>
+            <div class="listing-card-info-icon">
+              <div class="inc-fleat-icon"><%= image_tag("bathtub.svg", width: "13", alt: "") %></div>
+              <%= vrental.bathrooms.count %> <%= t("bathrooms", count: vrental.bathrooms.count) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="listing-footer-wrapper">
+        <div class="listing-locate">
+          <span class="listing-location"><i class="fas fa-map-marker-alt"></i><%= vrental.town&.name %></span>
+        </div>
+        <div class="listing-detail-btn">
+          <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "more-btn" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

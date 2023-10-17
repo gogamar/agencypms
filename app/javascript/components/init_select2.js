@@ -1,83 +1,38 @@
 import "select2";
 
 const initSelect2 = () => {
-  $("#persons-ca").select2({
-    placeholder: "Núm persones",
+  $("#guests").select2({
+    placeholder: $("#guests").data("placeholder"),
     allowClear: true,
   });
 
-  $("#persons-es").select2({
-    placeholder: "Núm personas",
+  $("#location").select2({
+    placeholder: $("#location").data("placeholder"),
     allowClear: true,
   });
 
-  $("#persons-en").select2({
-    placeholder: "Num guests",
+  $("#type").select2({
+    placeholder: $("#type").data("placeholder"),
     allowClear: true,
   });
 
-  $("#persons-fr").select2({
-    placeholder: "Num personnes",
+  $("#bedrooms").select2({
+    placeholder: $("#bedrooms").data("placeholder"),
     allowClear: true,
   });
 
-  $("#maxprice-ca").select2({
-    placeholder: "Màx",
+  $("#bathrooms").select2({
+    placeholder: $("#bathrooms").data("placeholder"),
     allowClear: true,
   });
 
-  $("#maxprice-es").select2({
-    placeholder: "Máx",
+  $("#maxprice").select2({
+    placeholder: $("#maxprice").data("placeholder"),
     allowClear: true,
   });
 
-  $("#maxprice-en").select2({
-    placeholder: "Max",
-    allowClear: true,
-  });
-
-  $("#maxprice-fr").select2({
-    placeholder: "Max",
-    allowClear: true,
-  });
-
-  $("#minprice-ca").select2({
-    placeholder: "Mín",
-    allowClear: true,
-  });
-
-  $("#minprice-es").select2({
-    placeholder: "Mín",
-    allowClear: true,
-  });
-
-  $("#minprice-en").select2({
-    placeholder: "Min",
-    allowClear: true,
-  });
-
-  $("#minprice-fr").select2({
-    placeholder: "Min",
-    allowClear: true,
-  });
-
-  $("#town-ca").select2({
-    placeholder: "Ubicació",
-    allowClear: true,
-  });
-
-  $("#town-es").select2({
-    placeholder: "Ubicación",
-    allowClear: true,
-  });
-
-  $("#town-en").select2({
-    placeholder: "Location",
-    allowClear: true,
-  });
-
-  $("#town-fr").select2({
-    placeholder: "Emplacement",
+  $("#minprice").select2({
+    placeholder: $("#minprice").data("placeholder"),
     allowClear: true,
   });
 

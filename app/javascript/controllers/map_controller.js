@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 // Connects to data-controller="map"
@@ -9,7 +10,6 @@ export default class extends Controller {
   };
 
   connect() {
-    console.log("Map connected.");
     mapboxgl.accessToken = this.apiKeyValue;
     this.map = new mapboxgl.Map({
       container: this.element,
@@ -30,37 +30,36 @@ export default class extends Controller {
 
     this.#fitMapToMarkers();
 
-    this.map.on("zoomend", () => {
-      const currentZoomLevel = this.map.getZoom();
-      if (currentZoomLevel >= 10) {
-        this.#priceMarkers(map_markers);
-      } else if (currentZoomLevel < 10) {
-        this.#smallMarkers(map_markers);
-      }
-    });
+    // this.map.on("zoomend", () => {
+    //   const currentZoomLevel = this.map.getZoom();
+    //   if (currentZoomLevel >= 10) {
+    //     this.#nameMarkers(map_markers);
+    //   } else if (currentZoomLevel < 10) {
+    //     this.#smallMarkers(map_markers);
+    //   }
+    // });
   }
 
-  // # means it's a private method
-  #priceMarkers(map_markers) {
-    map_markers.forEach((marker) => {
-      marker._element.classList.remove("smallmarker");
-      marker._element.classList.add("marker");
-    });
-  }
+  // #nameMarkers(map_markers) {
+  //   map_markers.forEach((marker) => {
+  //     marker._element.classList.remove("smallmarker");
+  //     marker._element.classList.add("marker");
+  //   });
+  // }
 
-  #smallMarkers(map_markers) {
-    map_markers.forEach((marker) => {
-      marker._element.classList.remove("marker");
-      marker._element.classList.add("smallmarker");
-    });
-  }
+  // #smallMarkers(map_markers) {
+  //   map_markers.forEach((marker) => {
+  //     marker._element.classList.remove("marker");
+  //     marker._element.classList.add("smallmarker");
+  //   });
+  // }
 
   #addSmallMarkersToMap(map_markers) {
     this.markersValue.forEach((marker) => {
       const popup = new mapboxgl.Popup().setHTML(marker.info_window);
       const customMarker = document.createElement("div");
       customMarker.classList.add("smallmarker");
-      customMarker.innerHTML = `<span>${marker.price}</span>`;
+      // customMarker.innerHTML = `<span class="type--fine-print">${marker.name}</span>`;
       customMarker.style.backgroundImage = `url('${marker.image_url}')`;
       customMarker.style.backgroundSize = "contain";
       customMarker.style.backgroundRepeat = "no-repeat";
@@ -81,6 +80,6 @@ export default class extends Controller {
     this.markersValue.forEach((marker) =>
       bounds.extend([marker.lng, marker.lat])
     );
-    this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 });
+    this.map.fitBounds(bounds, { padding: 70, maxZoom: 10, duration: 0 });
   }
 }

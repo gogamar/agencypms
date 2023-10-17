@@ -18,11 +18,14 @@ Rails.application.routes.draw do
       end
 
       get 'about', to: 'pages#about'
-      get 'search', to: 'pages#search'
+      get 'list_map', to: 'pages#list_map'
+      get 'book_property', to: 'pages#book_property'
+      get 'confirm_booking', to: 'pages#confirm_booking'
       get 'contact', to: 'pages#contact'
       get 'home', to: 'pages#home'
       get 'dashboard', to: 'pages#dashboard'
       get 'terms', to: 'pages#terms'
+      get 'get_availability', to: 'pages#get_availability'
 
 
       resources :tourists, path: 'clients'

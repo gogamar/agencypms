@@ -52,6 +52,6 @@ class FeaturesController < ApplicationController
   end
 
   def feature_params
-    params.require(:feature).permit(:name, :vrental_id)
+    params.require(:feature).permit(:name, :highlight, :vrental_id)
   end
 end

@@ -10,9 +10,6 @@ application.register("add-vrowner", AddVrownerController)
 import AddressAutocompleteController from "./address_autocomplete_controller"
 application.register("address-autocomplete", AddressAutocompleteController)
 
-import CallFlatpickrController from "./call_flatpickr_controller"
-application.register("call-flatpickr", CallFlatpickrController)
-
 import CheckboxController from "./checkbox_controller"
 application.register("checkbox", CheckboxController)
 
@@ -22,17 +19,14 @@ application.register("earning-calculator", EarningCalculatorController)
 import FetchEarningsController from "./fetch_earnings_controller"
 application.register("fetch-earnings", FetchEarningsController)
 
-import FlatpickrController from "./flatpickr_controller"
-application.register("flatpickr", FlatpickrController)
-
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
 import MapController from "./map_controller"
 application.register("map", MapController)
 
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)
 
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)

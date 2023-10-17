@@ -1,0 +1,98 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+  <div class="property-listing list_view style_new">
+    <div class="listing-img-wrapper">
+      <% if discount.present? %>
+        <div class="_exlio_125"><%= "- #{number_to_percentage(discount * 100, precision: 0, separator: ',')}" %></div>
+      <% end %>
+      <div class="like_unlike_prt">
+        <label class="toggler toggler-danger"><input type="checkbox"><i class="fa fa-heart"></i></label>
+      </div>
+      <div class="list-img-slide">
+        <div class="clior">
+          <% if vrental.image_urls.present? %>
+            <% vrental.image_urls.order(position: :asc).each do |image| %>
+              <div>
+                <%= link_to vrental do %>
+                  <div>
+                    <%= image_tag image.url, class: "img-fluid mx-auto", alt: vrental.name %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="list_view_flex">
+      <div class="listing-detail-wrapper mt-1">
+        <div class="listing-short-detail-wrap">
+          <div class="_card_list_flex mb-2">
+            <div class="_card_flex_01">
+              <% highlights = vrental.features.where(highlight: true) %>
+              <% if highlights.present? %>
+                <span class="_list_blickes _netork"><%= t(highlights.first.name) %></span>
+                <span class="_list_blickes types"><%= t(highlights.second.name) if highlights.second.present? %></span>
+              <% end %>
+            </div>
+            <div class="_card_flex_last">
+              <h6 class="listing-card-info-price mb-0"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+            </div>
+          </div>
+          <div class="_card_list_flex">
+            <div class="_card_flex_01">
+              <h4 class="listing-name verified"><a href="single-property-1.html" class="prt-link-detail"><%= vrental.name %></a></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="price-features-wrapper">
+        <div class="list-fx-features">
+          <% if vrental.max_guests %>
+            <div class="listing-card-info-icon">
+              <div class="inc-fleat-icon"><i class="fas fa-user"></i></div>
+              <%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %>
+            </div>
+          <% end %>
+          <% if vrental.bedrooms.present? %>
+            <div class="listing-card-info-icon">
+              <div class="inc-fleat-icon"><i class="fas fa-bed"></i></div>
+              <%= vrental.bedrooms.count %> <%= t("bedrooms", count: vrental.bedrooms.count) %>
+            </div>
+          <% end %>
+          <% if vrental.bathrooms.present? %>
+            <div class="listing-card-info-icon">
+              <div class="inc-fleat-icon"><i class="fas fa-bath"></i></div>
+              <%= vrental.bathrooms.count %> <%= t("bathrooms", count: vrental.bathrooms.count) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="listing-detail-footer pl-0">
+        <div class="footer-first">
+          <div class="listing-features-info">
+            <ul class="featur_5269">
+              <li>
+                <div class="ft_th" data-bs-toggle="tooltip" data-bs-placement="top" title="Pet Allowed"><%= image_tag("pet.svg", alt: "") %></div>
+              </li>
+              <li>
+                <div class="ft_th" data-bs-toggle="tooltip" data-bs-placement="top" title="Air Conditions"><%= image_tag("cooling.svg", alt: "") %></div>
+              </li>
+              <li>
+                <div class="ft_th" data-bs-toggle="tooltip" data-bs-placement="top" title="Wifi Avaialable"><%= image_tag("wifi.svg", alt: "") %></div>
+              </li>
+              <li>
+                <div class="ft_th" data-bs-toggle="tooltip" data-bs-placement="top" title="Gym Center"><%= image_tag("gym.svg", alt: "") %></div>
+              </li>
+              <li>
+                <div class="ft_th" data-bs-toggle="tooltip" data-bs-placement="top" title="Car Parking"><%= image_tag("car.svg", alt: "") %></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-flex">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#availability" class="prt-view theme-bg small"><%= t("book").capitalize %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

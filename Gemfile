@@ -49,6 +49,9 @@ gem "sassc-rails"
 gem 'caxlsx'
 gem 'caxlsx_rails'
 
+# Geocoder
+gem 'geocoder'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -110,3 +113,4 @@ group :production do
 end
 
 gem "acts_as_list", "~> 1.1"
+gem 'lightbox2'

@@ -1,6 +1,7 @@
 import "magnific-popup";
 
 const initMagnificPopUp = () => {
+  // MagnificPopup
   $("body").magnificPopup({
     type: "image",
     delegate: "a.mfp-gallery",
@@ -8,7 +9,7 @@ const initMagnificPopUp = () => {
     fixedBgPos: true,
     overflowY: "auto",
     closeBtnInside: false,
-    // preloader: true,
+    preloader: true,
     removalDelay: 0,
     mainClass: "mfp-fade",
     gallery: {

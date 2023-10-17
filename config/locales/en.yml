@@ -1,4 +1,10 @@
 en:
+  guests: "Nº guests"
+  location: "Location"
+  type: "Property type"
+  bedrooms: "Nº of bedrooms"
+  bathrooms: "Nº of bathrooms"
+  features: "Features"
   cancelled_booking: "Cancelled Booking"
   paid_by_agency: "Paid by Agency"
   paid_to_owner: "Paid to Owner"
@@ -53,7 +59,7 @@ en:
   toaster: "Toaster"
   microwave: "Microwave"
   hair_dryer: "Hair Dryer"
-  iron_board: "Ironing Board"
+  iron_board: "Iron"
   garden: "Communal Garden"
   wifi: "Wifi"
   refrigerator: "Refrigerator"
@@ -246,9 +252,6 @@ en:
       hello: "Hello world"
       welcome: "Welcome!"
       services_html: "We offer some <em>magnificent services</em>"
-  features:
-    form:
-      washer: "Washer"
   vrentals:
     show:
       saturdays: "Sa.-Sa."

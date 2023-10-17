@@ -7,22 +7,29 @@ export default class extends Controller {
   static targets = ["address"];
 
   connect() {
-    console.log("Address autocomplete controller.");
+    console.log(document.querySelector('input[name="vrental[latitude]"]'));
     this.geocoder = new MapboxGeocoder({
       accessToken: this.apiKeyValue,
       types: "country,region,place,postcode,locality,neighborhood,address",
     });
     this.geocoder.addTo(this.element);
-    this.geocoder.on("result", (event) => this.#setInputValue(event));
-    this.geocoder.on("clear", () => this.#clearInputValue());
+
+    this.geocoder.on("result", (event) => this.#setInputValues(event.result));
+    this.geocoder.on("clear", () => this.#clearInputValues());
   }
 
-  #setInputValue(event) {
-    this.addressTarget.value = event.result["place_name"];
+  #setInputValues(result) {
+    this.addressTarget.value = result["place_name"];
+    document.querySelector('input[name="vrental[latitude]"]').value =
+      result["center"][1]; // Latitude is at index 1
+    document.querySelector('input[name="vrental[longitude]"]').value =
+      result["center"][0]; // Longitude is at index 0
   }
 
-  #clearInputValue() {
+  #clearInputValues() {
     this.addressTarget.value = "";
+    document.querySelector('input[name="vrental[latitude]"]').value = "";
+    document.querySelector('input[name="vrental[longitude]"]').value = "";
   }
 
   disconnect() {

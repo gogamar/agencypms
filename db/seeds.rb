@@ -415,3 +415,34 @@ require 'csv'
 #   end
 # end
 # puts "Done!"
+
+# puts "Geocoding all vrentals"
+# @vrentals = Vrental.all
+# @vrentals.each do |vrental|
+#   vrental.geocode
+#   vrental.save
+#   sleep 2
+# end
+
+# puts "Done! The first geocoded vrental is #{Vrental.first.name} and it's latitude is #{Vrental.first.latitude} and longitude is #{Vrental.first.longitude}"
+
+
+client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+
+begin
+  beds24rentals = client.get_properties
+  beds24rentals.each do |bedsrental|
+    vrental = Vrental.find_by(beds_prop_id: bedsrental["propId"])
+    if vrental.present?
+      vrental.update!(
+        latitude: bedsrental["latitude"],
+        longitude: bedsrental["longitude"],
+        max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i
+      )
+    puts vrental.name + " updated!"
+    end
+    sleep 2
+  end
+rescue StandardError => e
+  Rails.logger.error("Error al importar immobles de Beds24: #{e.message}")
+end

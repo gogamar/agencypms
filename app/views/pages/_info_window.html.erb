@@ -1,0 +1,5 @@
+<%= link_to vrental, class: "" do %>
+  <%= image_tag vrental.image_urls.first.url, class: "img-fluid mx-auto", alt:"Lloguer turístic a #{vrental.town}" if vrental.image_urls.present? %>
+  <p><%= vrental.name %></p>
+  <p><%= vrental.town&.name %></p>
+<% end %>

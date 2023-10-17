@@ -1,4 +1,10 @@
 fr:
+  guests: "Nº de personnes"
+  location: "Emplacement"
+  type: "Type du bien"
+  bedrooms: "Nº de chambres"
+  bathrooms: "Nº de salles de bain"
+  features: "Caractéristiques"
   cancelled_booking: "Réservation annulée"
   paid_by_agency: "Payé par l'agence"
   paid_to_owner: "Payé au propriétaire"
@@ -246,9 +252,6 @@ fr:
       hello: "Bonjour le monde"
       welcome: "Bienvenue !"
       services_html: "Nous offrons quelques <em>services magnifiques</em>"
-  features:
-    form:
-      washer: "Lave-linge"
   vrentals:
     show:
       saturdays: "Sa.-Sa."
