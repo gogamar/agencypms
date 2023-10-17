@@ -529,18 +529,17 @@ class Vrental < ApplicationRecord
   end
 
   def send_photos_to_beds
-    # first we delete non valid photos on beds
-    # then we import the valid photos here
-    # then we can add some photos
-    # then we export all the photos to beds
-
     images_array = []
     external = {}
 
-    image_urls.each do |image|
-      url_with_q_auto = image.url.gsub(/\/upload\//, '/upload/q_auto:good/')
+    image_urls.each_with_index do |image, index|
+      if image.url.include?("cloudinary") && !image.url.include?("q_auto:good")
+        url = image.url.gsub(/\/upload\//, '/upload/q_auto:good/')
+      else
+        url = image.url
+      end
       external["#{index + 1}"] = {
-        url: url_with_q_auto,
+        url: url,
         map: [
           {
             propId: "#{beds_prop_id}",
@@ -553,7 +552,7 @@ class Vrental < ApplicationRecord
     if town.present? && town.photos.attached?
       town.photos.each do |photo|
         external["#{external.length + 1}"] = {
-          url: photo.url,
+          url: photo.url.gsub(/\/upload\//, '/upload/q_auto:good/'),
           map: [
             {
               propId: "#{beds_prop_id}",
@@ -563,16 +562,15 @@ class Vrental < ApplicationRecord
         }
       end
     end
-    puts "There are #{external.length} images."
 
-    empty_spaces = 50 - external.length
+    empty_spaces = 99 - external.length
 
     empty_spaces.times do |i|
       external["#{external.length + 1}"] = {
         url: "",
         map: [
           {
-            propId: "#{self.beds_prop_id}",
+            propId: "#{beds_prop_id}",
             position: "#{external.length + 1}"
           }
         ]
@@ -582,23 +580,14 @@ class Vrental < ApplicationRecord
     property_images = {
       action: "modify",
       images: {
-        hosted: [], # this will delete all hosted images - this doesn't work
+        hosted: [],
         external: external
       }
     }
     images_array << property_images
 
-    auth_token = ENV["BEDSKEY"]
-    client = BedsHelper::Beds.new(auth_token)
+    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     client.set_property_content(prop_key, setPropertyContent: images_array)
-
-    sent_photos = []
-    self.photos.each do |photo|
-      sent_photos << photo.url.to_s
-    end
-    self.update(sent_photos: sent_photos.join(','))
-
-    puts "Images sent to Beds", self.sent_photos
   end
 
   def update_vrowner_from_beds

@@ -101,6 +101,10 @@ class VrentalPolicy < ApplicationPolicy
     return update?
   end
 
+  def send_photos?
+    return update?
+  end
+
   def update_from_beds?
     return update?
   end

@@ -95,6 +95,7 @@ Rails.application.routes.draw do
           get 'send_rates'
           get 'export_beds'
           get 'update_on_beds'
+          get 'send_photos'
           get 'update_from_beds'
           get 'update_vrowner_from_beds'
           get 'get_rates'

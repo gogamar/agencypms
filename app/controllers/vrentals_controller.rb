@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_vrowner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_vrowner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -220,13 +220,16 @@ class VrentalsController < ApplicationController
 
   def update_on_beds
     @vrental.update_vrental_on_beds
-    authorize @vrental
     redirect_to @vrental, notice: "S'han exportat canvis a Beds."
+  end
+
+  def send_photos
+    @vrental.send_photos_to_beds
+    redirect_to @vrental, notice: "S'han enviat les fotos a Beds."
   end
 
   def update_from_beds
     @vrental.update_vrental_from_beds
-    authorize @vrental
     redirect_to @vrental, notice: "S'han importat canvis des de Beds."
   end
 
