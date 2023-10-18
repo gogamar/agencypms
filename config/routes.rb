@@ -1,56 +1,36 @@
 Rails.application.routes.draw do
-  resources :image_urls do
-    member do
-      patch :move
-    end
-  end
-
-  scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    scope(path_names: { new: 'nou', edit: 'modificar', sign_in: 'entrar', sign_up: 'registrar_se', password: 'contrasenya'}) do
-      root to: "vrentals#index"
-      devise_for :users, path: 'usuaris'
-      resources :tasks, path: 'cites'
-
-      resources :users, path: 'usuaris' do
-        member do
-          delete :purge_photo
-        end
+  # scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+    resources :image_urls do
+      member do
+        patch :move
       end
+    end
+    resources :rate_plans do
+      member do
+        post :upload_rate_dates
+        get :delete_periods
+      end
+      resources :rate_periods
+    end
 
-      get 'about', to: 'pages#about'
-      get 'list_map', to: 'pages#list_map'
-      get 'book_property', to: 'pages#book_property'
-      get 'confirm_booking', to: 'pages#confirm_booking'
-      get 'contact', to: 'pages#contact'
-      get 'home', to: 'pages#home'
-      get 'dashboard', to: 'pages#dashboard'
-      get 'terms', to: 'pages#terms'
-      get 'get_availability', to: 'pages#get_availability'
-
-
-      resources :tourists, path: 'clients'
+    localized do
+      devise_for :users
+      resources :users
+      root to: "pages#home", as: :root
+      resources :tasks
+      resources :tourists
       resources :towns
       resources :bathrooms
       resources :beds
       resources :bedrooms
-
-      resources :companies, path: 'empreses' do
-        resources :offices, path: 'oficines', except: [:destroy]
+      resources :companies do
+        resources :offices, except: [:destroy]
       end
-
-      resources :rate_plans, path: 'plans' do
-        member do
-          post 'upload_rate_dates'
-          get 'delete_periods'
-        end
-        resources :rate_periods, path: 'periods'
-      end
-
-      resources :offices, path: 'oficines', only: [:destroy] do
+      resources :offices, only: [:destroy] do
         get "import_properties", on: :member
       end
 
-      resources :vrentals, path: 'immobles-lloguer-turistic' do
+      resources :vrentals do
         collection do
           get 'list'
           get 'total_earnings'
@@ -62,83 +42,96 @@ Rails.application.routes.draw do
         member do
           get :add_vrowner
           get :add_features
-          get :annual_statement, path: 'liquidacio-annual'
+          get :annual_statement
           get :fetch_earnings
           post :upload_dates
           get :edit_photos
+          get :copy
+          get :copy_rates
+          get :send_rates
+          get :export_beds
+          get :update_on_beds
+          get :send_photos
+          get :update_from_beds
+          get :update_vrowner_from_beds
+          get :get_rates
+          get :delete_rates
+          get :delete_year_rates
+          get :get_bookings
         end
-        resources :statements, path: 'liquidacions'
-        resources :invoices, path: 'factures'
-        resources :vrowners, path: 'propietaris-lloguer-turistic', only: [:new, :create, :edit, :update]
 
-        resources :earnings, path: 'ingressos', only: [:new, :edit, :create, :update, :index, :show] do
+        resources :statements
+        resources :invoices
+        resources :vrowners, only: [:new, :create, :edit, :update]
+
+        resources :earnings, only: [:new, :edit, :create, :update, :index, :show] do
           member do
             get 'unlock'
           end
         end
-        resources :expenses, path: 'despeses'
+        resources :expenses
 
         resources :bookings do
           resources :payments
           resources :charges
         end
-        resources :rates, path: 'tarifes', only: [:new, :edit, :create, :update, :index, :show]
-        resources :vragreements, path: 'contractes-lloguer-turistic', only: [:new, :edit, :create, :update, :show, :index] do
+
+        resources :rates, only: [:new, :edit, :create, :update, :index, :show]
+        resources :vragreements, only: [:new, :edit, :create, :update, :show, :index] do
           member do
             get 'copy'
           end
           resources :photos, only: :destroy, shallow: true
         end
-        member do
-          get 'copy'
-          get 'copy_rates'
-          get 'send_rates'
-          get 'export_beds'
-          get 'update_on_beds'
-          get 'send_photos'
-          get 'update_from_beds'
-          get 'update_vrowner_from_beds'
-          get 'get_rates'
-          get 'delete_rates'
-          get 'delete_year_rates'
-          get 'get_bookings'
+      end
+
+      resources :expenses, only: [:new, :create, :index, :destroy]
+      resources :earnings, only: [:index, :destroy]
+      resources :invoices, only: [:index, :destroy] do
+        collection do
+          get 'download_all'
         end
       end
 
-      resources :expenses, path: 'despeses', only: [:new, :create, :index, :destroy]
-      resources :earnings, path: 'ingressos', only: [:index, :destroy]
-      resources :invoices, path: 'factures', only: [:index, :destroy] do
-        get 'download_all', on: :collection
-      end
-      resources :vrowners, path: 'propietaris-lloguer-turistic' do
+      resources :vrowners do
         collection do
           get 'filter'
         end
       end
 
-      resources :vrentaltemplates, path: 'models-de-contracte-lloguer-turistic' do
+      resources :vrentaltemplates do
         member do
           get 'copy'
         end
       end
 
-      resources :vragreements, path: 'contractes-lloguer-turistic', only: [:index, :destroy, :show] do
+      resources :vragreements, only: [:index, :destroy, :show] do
         collection do
           get 'list'
         end
       end
 
-      resources :rates, path: 'tarifes', only: :destroy
-      resources :earnings, path: 'ingressos', only: :destroy
-      resources :statements, path: 'liquidacions' do
-        resources :vrowner_payments, path: 'pagaments-lloguer-turistic'
+      resources :rates, only: :destroy
+      resources :earnings, only: :destroy
+      resources :statements do
+        resources :vrowner_payments
       end
 
-      resources :features, path: 'caracteristiques'
-
-      resources :features_vrentals, path: 'caracteristiques-lloguer-turistic'
+      resources :features
+      resources :features_vrentals
 
       mount Ckeditor::Engine => '/ckeditor'
+
+      get 'about', to: 'pages#about'
+      get 'list_map', to: 'pages#list_map'
+      get 'book_property', to: 'pages#book_property'
+      get 'confirm_booking', to: 'pages#confirm_booking'
+      get 'contact', to: 'pages#contact'
+      get 'home', to: 'pages#home'
+      get 'dashboard', to: 'pages#dashboard'
+      get 'terms', to: 'pages#terms'
+      get 'get_availability', to: 'pages#get_availability'
+      get 'submit_property', to: 'pages#submit_property'
     end
-  end
+  # end
 end

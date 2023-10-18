@@ -4,31 +4,17 @@
       <span class="mod-close" data-bs-dismiss="modal" aria-hidden="true"><i class="bi bi-
 close"></i></span>
       <div class="modal-body">
-        <h4 class="modal-header-title">Sign Up</h4>
+        <div class="col-md-12">
+          <h4 class="modal-header-title"><%= t("sign_up") %></h4>
+        </div>
         <div class="login-form">
-          <form>
+          <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |f| %>
+            <%= f.error_notification %>
             <div class="row">
               <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                   <div class="input-with-icon">
-                    <input type="text" class="form-control" placeholder="Full Name">
-                    <i class="bi bi-person-fill
-"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="form-group">
-                  <div class="input-with-icon">
-                    <input type="email" class="form-control" placeholder="Email">
-                    <i class="bi bi-email"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="form-group">
-                  <div class="input-with-icon">
-                    <input type="text" class="form-control" placeholder="Username" autocomplete="username">
+                    <%= f.text_field :email, class: "form-control", placeholder: "E-mail", autocomplete: "email" %>
                     <i class="bi bi-person-fill"></i>
                   </div>
                 </div>
@@ -36,19 +22,39 @@ close"></i></span>
               <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                   <div class="input-with-icon">
-                    <input type="password" class="form-control" placeholder="*******" autocomplete="current-password">
-                    <i class="bi bi-unlock"></i>
+                    <%= f.text_field :email, class: "form-control", placeholder: "E-mail", autocomplete: "email" %>
+                    <i class="bi bi-person-fill"></i>
                   </div>
                 </div>
               </div>
               <div class="col-lg-6 col-md-6">
-                <div class="form-group">
-                  <div class="input-with-icon">
-                    <input type="password" class="form-control" placeholder="123 546 5847" autocomplete="current-password">
-                    <i class="lni-phone-handset"></i>
-                  </div>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password,
+                        required: true,
+                        placeholder: t("password"),
+                        autocomplete: "new-password",
+                        hint: (t('devise.shared.minimum_password_length', count: @minimum_password_length) if @minimum_password_length),
+                        data: { "password-toggle-target" => "unhide" },
+                        class: "form-control" %>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
                 </div>
               </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password_confirmation,
+                        required: true,
+                        placeholder: t("confirm_password"),
+                        autocomplete: "new-password",
+                        data: { "password-toggle-target" => "unhide" },
+                        class: "form-control" %>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
+                </div>
+              </div>
+              <!--
               <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                   <div class="input-with-icon">
@@ -57,28 +63,19 @@ close"></i></span>
                       <option>As a Agent</option>
                       <option>As a Agency</option>
                     </select>
-                    <i class="
-bi bi-briefcase
-"></i>
+                    <i class="bi bi-briefcase"></i>
                   </div>
                 </div>
               </div>
+              -->
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-md full-width btn-theme-light-2 rounded">Sign Up</button>
+              <%= f.button :submit, t("sign_up"), class: "btn btn-md full-width btn-theme-light-2 rounded" %>
             </div>
-          </form>
-        </div>
-        <div class="modal-divider"><span>Or login via</span></div>
-        <div class="social-login mb-3">
-          <ul>
-            <li><a href="#" class="btn connect-fb"><i class="bi bi-facebook"></i>Facebook</a></li>
-            <li><a href="#" class="btn connect-google"><i class="bi bi-google"></i>Google+</a></li>
-          </ul>
+          <% end %>
         </div>
         <div class="text-center">
-          <p class="mt-5"><i class="bi bi-person-fill
- mr-1"></i>Already Have An Account? <a href="#" class="link">Go For LogIn</a></p>
+          <p class="mt-5"><i class="bi bi-person-fill mr-1"></i>Already Have An Account? <a href="#" class="link">Go For LogIn</a></p>
         </div>
       </div>
     </div>

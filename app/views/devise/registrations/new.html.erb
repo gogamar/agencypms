@@ -5,47 +5,45 @@
       <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center mb-4 box-shadow">
           <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 rounded-4" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1668032265/undraw_my_app_re_gxtj_u5qbm5.svg" alt="Registrar-se" /></div>
-            <div class="col-md-6">
-<h2><%= t(".sign_up") %></h2>
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :email,
+          <div class="col-md-6">
+            <h2><%= t(".sign_up") %></h2>
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |f| %>
+              <%= f.error_notification %>
+              <div class="form-inputs">
+                <%= f.input :email,
                 required: true,
                 autofocus: true ,
                 input_html: { autocomplete: "email" }%>
-
-    <%= f.label :password, class: "form-label" %>
-    <div class="input-group mb-3" data-controller="password-toggle">
-      <%= f.input_field :password,
+                <%= f.label :password, class: "form-label" %>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password,
                         required: true,
                         autocomplete: "new-password",
                         hint: (t('devise.shared.minimum_password_length', count: @minimum_password_length) if @minimum_password_length),
                         data: { "password-toggle-target" => "unhide" },
                         class: "form-control" %>
-      <span class="input-group-text">
-        <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
-      </span>
-    </div>
-    <%= f.label :password_confirmation, class: "form-label" %>
-    <div class="input-group mb-3" data-controller="password-toggle">
-      <%= f.input_field :password_confirmation,
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
+                </div>
+                <%= f.label :password_confirmation, class: "form-label" %>
+                <div class="input-group mb-3" data-controller="password-toggle">
+                  <%= f.input_field :password_confirmation,
                         required: true,
                         autocomplete: "new-password",
                         data: { "password-toggle-target" => "unhide" },
                         class: "form-control" %>
-      <span class="input-group-text">
-        <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
-      </span>
-    </div>
-  </div>
-  <div class="form-actions d-grid">
-    <%= f.button :submit, t(".sign_up"), class: "btn btn-primary" %>
-  </div>
-<% end %>
-<%= render "devise/shared/links" %>
-            </div>
+                  <span class="input-group-text">
+                    <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
+                  </span>
+                </div>
+              </div>
+              <div class="form-actions d-grid">
+                <%= f.button :submit, t(".sign_up"), class: "btn btn-primary" %>
+              </div>
+            <% end %>
+            <%= render "devise/shared/links" %>
+          </div>
         </div>
       </div>
     </section>

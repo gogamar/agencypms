@@ -106,6 +106,9 @@ class PagesController < ApplicationController
     @guests = params[:guests]
   end
 
+  def submit_property
+  end
+
   private
 
   def generate_marker(vrental, price=nil)

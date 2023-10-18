@@ -104,13 +104,11 @@ gem "pundit"
 gem "font-awesome-sass", "~> 6.1"
 gem 'pagy', '~> 5.10'
 gem "simple_calendar", "~> 2.4"
-
-
+gem "acts_as_list", "~> 1.1"
+gem 'lightbox2'
+gem 'route_translator'
 
 # for heroku stack heroku-22
 group :production do
     gem 'wkhtmltopdf-heroku', '2.12.6.1.pre.jammy'
 end
-
-gem "acts_as_list", "~> 1.1"
-gem 'lightbox2'

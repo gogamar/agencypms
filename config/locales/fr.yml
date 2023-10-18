@@ -32,6 +32,8 @@ fr:
   invoice_description_2: "%{commission} sur les revenus de %{total}"
   vrowner_bookings_default: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, veuillez nous contacter à l'adresse %{email}."
   vrowner_speaks: "Le propriétaire %{name} parle %{language}."
+  vrentals: "Propriétés"
+  vrowners: "Propriétaires"
   charge_types:
     rent: "Loyer"
     cleaning: "Nettoyage"
@@ -100,49 +102,49 @@ fr:
   energy_addendum: "Certificat énergétique"
   equipment_addendum: "Équipement"
   vragreement_keys:
-    company_name: 'NOM_ENTREPRISE'
-    company_street: 'RUE_NUMERO_ENTREPRISE'
-    company_city: 'VILLE_ENTREPRISE'
-    company_post_code: 'CODE_POSTAL_ENTREPRISE'
-    company_region: 'REGION_ENTREPRISE'
-    company_country: 'PAYS_ENTREPRISE'
-    company_bank_account: 'COMPTE_BANCAIRE_ENTREPRISE'
-    company_administrator: 'ADMINISTRATEUR_ENTREPRISE'
-    company_vat_tax: 'TVA_%'
-    company_vat_number: 'TVA_NUMERO_ENTREPRISE'
-    company_realtor_number: 'NUMERO_AGENT'
-    office_local_realtor_number: 'NUMERO_AGENT_LOCAL'
-    office_name: 'NOM_BUREAU'
-    office_street: 'RUE_NUMERO_BUREAU'
-    office_city: 'VILLE_BUREAU'
-    office_post_code: 'CODE_POSTAL_BUREAU'
-    office_region: 'REGION_BUREAU'
-    office_country: 'PAYS_BUREAU'
-    office_phone: 'TELEPHONE_BUREAU'
-    office_mobile: 'TELEPHONE_MOBILE_BUREAU'
-    office_email: 'COURRIEL_BUREAU'
-    office_website: 'SITE_WEB_BUREAU'
-    signdate: 'DATE_SIGNATURE'
-    place: 'LIEU_SIGNATURE'
-    vrowner_fullname: 'NOM_PROPRIETAIRE'
-    vrowner_document: 'DOCUMENT_PROPRIETAIRE'
-    vrowner_address: 'ADRESSE_PROPRIETAIRE'
-    vrowner_email: 'EMAIL_PROPRIETAIRE'
-    vrowner_phone: 'TELEPHONE_PROPRIETAIRE'
-    vrowner_account: 'COMPTE_BANCAIRE_PROPRIETAIRE'
-    vrental_name: 'NOM_IMMEUBLE'
-    vrental_address: 'ADRESSE_IMMEUBLE'
-    vrental_cadastre: 'CADASTRE_IMMEUBLE'
-    vrental_habitability: 'HABITABILITE_IMMEUBLE'
-    vrental_licence: 'LICENCE_IMMEUBLE'
-    vrental_description: 'DESCRIPTION_IMMEUBLE'
-    start_date: 'DATE_DEBUT'
-    end_date: 'DATE_FIN'
-    contract_rates: 'TARIFS_CONTRAT'
-    vrowner_bookings: 'RESERVATIONS_PROPRIETAIRE'
-    vrental_features: 'CARACTERISTIQUES_IMMEUBLE'
-    vrental_commission: 'COMMISSION_IMMEUBLE'
-    clause: 'CLAUSE_IMMEUBLE'
+    company_name: "NOM_ENTREPRISE"
+    company_street: "RUE_NUMERO_ENTREPRISE"
+    company_city: "VILLE_ENTREPRISE"
+    company_post_code: "CODE_POSTAL_ENTREPRISE"
+    company_region: "REGION_ENTREPRISE"
+    company_country: "PAYS_ENTREPRISE"
+    company_bank_account: "COMPTE_BANCAIRE_ENTREPRISE"
+    company_administrator: "ADMINISTRATEUR_ENTREPRISE"
+    company_vat_tax: "TVA_%"
+    company_vat_number: "TVA_NUMERO_ENTREPRISE"
+    company_realtor_number: "NUMERO_AGENT"
+    office_local_realtor_number: "NUMERO_AGENT_LOCAL"
+    office_name: "NOM_BUREAU"
+    office_street: "RUE_NUMERO_BUREAU"
+    office_city: "VILLE_BUREAU"
+    office_post_code: "CODE_POSTAL_BUREAU"
+    office_region: "REGION_BUREAU"
+    office_country: "PAYS_BUREAU"
+    office_phone: "TELEPHONE_BUREAU"
+    office_mobile: "TELEPHONE_MOBILE_BUREAU"
+    office_email: "COURRIEL_BUREAU"
+    office_website: "SITE_WEB_BUREAU"
+    signdate: "DATE_SIGNATURE"
+    place: "LIEU_SIGNATURE"
+    vrowner_fullname: "NOM_PROPRIETAIRE"
+    vrowner_document: "DOCUMENT_PROPRIETAIRE"
+    vrowner_address: "ADRESSE_PROPRIETAIRE"
+    vrowner_email: "EMAIL_PROPRIETAIRE"
+    vrowner_phone: "TELEPHONE_PROPRIETAIRE"
+    vrowner_account: "COMPTE_BANCAIRE_PROPRIETAIRE"
+    vrental_name: "NOM_IMMEUBLE"
+    vrental_address: "ADRESSE_IMMEUBLE"
+    vrental_cadastre: "CADASTRE_IMMEUBLE"
+    vrental_habitability: "HABITABILITE_IMMEUBLE"
+    vrental_licence: "LICENCE_IMMEUBLE"
+    vrental_description: "DESCRIPTION_IMMEUBLE"
+    start_date: "DATE_DEBUT"
+    end_date: "DATE_FIN"
+    contract_rates: "TARIFS_CONTRAT"
+    vrowner_bookings: "RESERVATIONS_PROPRIETAIRE"
+    vrental_features: "CARACTERISTIQUES_IMMEUBLE"
+    vrental_commission: "COMMISSION_IMMEUBLE"
+    clause: "CLAUSE_IMMEUBLE"
   date:
     abbr_day_names:
       - Dim
@@ -243,39 +245,6 @@ fr:
       day: jour
       month: mois
       year: an
-  hello: "Bonjour"
-  welcome: "Bienvenue !"
-  services_html: "Nous offrons quelques <em>services magnifiques</em>"
-  create_profile: "Créer un profil"
-  pages:
-    home:
-      hello: "Bonjour le monde"
-      welcome: "Bienvenue !"
-      services_html: "Nous offrons quelques <em>services magnifiques</em>"
-  vrentals:
-    show:
-      saturdays: "Sa.-Sa."
-      everyday: "Tous les jours"
-    form:
-      labels:
-        washer: "Lave-linge"
-    form:
-      dishwasher: "Lave-vaisselle"
-      name:
-        washer: "Lave-linge"
-  rates:
-    index:
-      saturdays: "Sa.-Sa."
-      everyday: "Tous les jours"
-  vragreements:
-    form:
-      vrowner_bookings: "Le propriétaire n'a pas encore bloqué de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, veuillez nous contacter à l'adresse info@sistachrentals.com."
-  vrentaltemplates:
-    form:
-      ca: "Catalan"
-      es: "Espagnol"
-      fr: "Français"
-      en: "Anglais"
   activerecord:
     attributes:
       rate_plan:

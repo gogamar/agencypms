@@ -1,0 +1,31 @@
+<div
+  class="modal fade"
+  id="logout"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="logoutModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Vols tancar la sessió?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <i class="fas fa-sign-out-alt"></i> Selecciona "Sortir" si vols tancar la sessió.
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-dismiss="modal"
+        >
+          Cancel·lar
+        </button>
+        <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>

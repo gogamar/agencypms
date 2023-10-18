@@ -44,6 +44,26 @@ ca:
   vrowner_bookings_default: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}."
   vrowner_speaks: "El propietari %{name} parla %{language}"
   BEDROOM: "Habitació"
+  vrentals: "Immobles"
+  vrowners: "Propietaris"
+  hello: "Hola"
+  sign_in: "Iniciar sessió"
+  sign_out: "Tancar sessió"
+  sign_up: "Registrar-se"
+  password: "Contrassenya"
+  confirm_password: "Confirmar contrassenya"
+  add_property: "Afegir immoble"
+  vacation_rentals: "Lloguer turístic"
+  with_view: "Amb vista"
+  with_pool: "Amb piscina comunitària"
+  with_private_pool: "Amb piscina privada"
+  in_centre: "Al centre"
+  on_budget: "Econòmics"
+  with_garden: "Amb jardí"
+  unique: "Singulars"
+  home: "Inici"
+  apartments: "Apartaments"
+  houses: "Cases"
   available:
     one: "disponible"
     other: "disponibles"
@@ -149,49 +169,49 @@ ca:
   energy_addendum: "Certificat Energètic"
   equipment_addendum: "Equipament"
   vragreement_keys:
-    company_name: 'NOM_EMPRESA'
-    company_street: 'CARRER_NUMERO_EMPRESA'
-    company_city: 'MUNICIPI_EMPRESA'
-    company_post_code: 'CP_EMPRESA'
-    company_region: 'PROVINCIA_EMPRESA'
-    company_country: 'PAIS_EMPRESA'
-    company_bank_account: 'COMPTE_BANCARI_EMPRESA'
-    company_administrator: 'ADMINISTRADOR_EMPRESA'
-    company_vat_tax: 'IVA_%'
-    company_vat_number: 'CIF_EMPRESA'
-    company_realtor_number: 'API_EMPRESA'
-    office_local_realtor_number: 'API_PROVINCIA'
-    office_name: 'NOM_OFICINA'
-    office_street: 'CARRER_NUMERO_OFICINA'
-    office_city: 'MUNICIPI_OFICINA'
-    office_post_code: 'CP_OFICINA'
-    office_region: 'PROVINCIA_OFICINA'
-    office_country: 'PAIS_OFICINA'
-    office_phone: 'TELEFON_OFICINA'
-    office_mobile: 'MOBIL_OFICINA'
-    office_email: 'EMAIL_OFICINA'
-    office_website: 'WEB_OFICINA'
-    signdate: 'DATA_FIRMA'
-    place: 'LLOC_FIRMA'
-    vrowner_fullname: 'NOM_PROPIETARI'
-    vrowner_document: 'DNI_PROPIETARI'
-    vrowner_address: 'ADR_PROPIETARI'
-    vrowner_email: 'EMAIL_PROPIETARI'
-    vrowner_phone: 'TELEFON_PROPIETARI'
-    vrowner_account: 'COMPTE_BANCARI_PROPIETARI'
-    vrental_name: 'NOM_IMMOBLE'
-    vrental_address: 'ADR_IMMOBLE'
-    vrental_cadastre: 'CADASTRE_IMMOBLE'
-    vrental_habitability: 'CEDULA_IMMOBLE'
-    vrental_licence: 'HUT_IMMOBLE'
-    vrental_description: 'DESCRIPCIO_IMMOBLE'
-    start_date: 'DATA_INICI'
-    end_date: 'DATA_FI'
-    contract_rates: 'TARIFES_CONTRACTE'
-    vrowner_bookings: 'RESERVES_PROPIETARI'
-    vrental_features: 'CARACTERISTIQUES_IMMOBLE'
-    vrental_commission: 'COMISSIO_IMMOBLE'
-    clause: 'CLAUSULA_IMMOBLE'
+    company_name: "NOM_EMPRESA"
+    company_street: "CARRER_NUMERO_EMPRESA"
+    company_city: "MUNICIPI_EMPRESA"
+    company_post_code: "CP_EMPRESA"
+    company_region: "PROVINCIA_EMPRESA"
+    company_country: "PAIS_EMPRESA"
+    company_bank_account: "COMPTE_BANCARI_EMPRESA"
+    company_administrator: "ADMINISTRADOR_EMPRESA"
+    company_vat_tax: "IVA_%"
+    company_vat_number: "CIF_EMPRESA"
+    company_realtor_number: "API_EMPRESA"
+    office_local_realtor_number: "API_PROVINCIA"
+    office_name: "NOM_OFICINA"
+    office_street: "CARRER_NUMERO_OFICINA"
+    office_city: "MUNICIPI_OFICINA"
+    office_post_code: "CP_OFICINA"
+    office_region: "PROVINCIA_OFICINA"
+    office_country: "PAIS_OFICINA"
+    office_phone: "TELEFON_OFICINA"
+    office_mobile: "MOBIL_OFICINA"
+    office_email: "EMAIL_OFICINA"
+    office_website: "WEB_OFICINA"
+    signdate: "DATA_FIRMA"
+    place: "LLOC_FIRMA"
+    vrowner_fullname: "NOM_PROPIETARI"
+    vrowner_document: "DNI_PROPIETARI"
+    vrowner_address: "ADR_PROPIETARI"
+    vrowner_email: "EMAIL_PROPIETARI"
+    vrowner_phone: "TELEFON_PROPIETARI"
+    vrowner_account: "COMPTE_BANCARI_PROPIETARI"
+    vrental_name: "NOM_IMMOBLE"
+    vrental_address: "ADR_IMMOBLE"
+    vrental_cadastre: "CADASTRE_IMMOBLE"
+    vrental_habitability: "CEDULA_IMMOBLE"
+    vrental_licence: "HUT_IMMOBLE"
+    vrental_description: "DESCRIPCIO_IMMOBLE"
+    start_date: "DATA_INICI"
+    end_date: "DATA_FI"
+    contract_rates: "TARIFES_CONTRACTE"
+    vrowner_bookings: "RESERVES_PROPIETARI"
+    vrental_features: "CARACTERISTIQUES_IMMOBLE"
+    vrental_commission: "COMISSIO_IMMOBLE"
+    clause: "CLAUSULA_IMMOBLE"
   date:
     abbr_day_names:
       - Dg
@@ -292,39 +312,6 @@ ca:
       day: dia
       month: mes
       year: any
-  hello: "Hola"
-  welcome: "Benvinguts!"
-  services_html: "Donem uns <em>serveis magnifics</em>"
-  create_profile: "Crea un perfil"
-  pages:
-    home:
-      hello: "Hola mòn"
-      welcome: "Benvinguts!"
-      services_html: "Donem uns <em>serveis magnifics</em>"
-  vrentals:
-    show:
-      saturdays: "Ds.-Ds."
-      everyday: "Qualsevol dia"
-    form:
-      labels:
-        washer: "rentadora"
-    form:
-      dishwasher: "rentaplats"
-      name:
-        washer: "rentadora"
-  rates:
-    index:
-      saturdays: "Ds.-Ds."
-      everyday: "Qualsevol dia"
-  vragreements:
-    form:
-      vrowner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com."
-  vrentaltemplates:
-    form:
-      ca: "Català"
-      es: "Castellà"
-      fr: "Francès"
-      en: "Anglès"
   activerecord:
     attributes:
       rate_plan:
@@ -449,5 +436,6 @@ ca:
     year: "any"
     day: "dia"
   routes:
-    users:
-      purge_photo: "purge_photo"
+    users: "usuaris"
+    vrentals: "immobles-lloguer-turistic"
+    vrowners: "propietaris"

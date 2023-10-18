@@ -32,6 +32,8 @@ en:
   invoice_description_2: "%{commission} on earnings of %{total}"
   vrowner_bookings_default: "The owner has not yet blocked any dates for their own use. If you want to block some dates, please contact us at %{email}."
   vrowner_speaks: "The owner %{name} speaks %{language}."
+  vrentals: "Properties"
+  vrowners: "Owners"
   charge_types:
     rent: "Rent"
     cleaning: "Cleaning"
@@ -100,49 +102,49 @@ en:
   energy_addendum: "Energy Certificate"
   equipment_addendum: "Equipment"
   vragreement_keys:
-    company_name: 'COMPANY_NAME'
-    company_street: 'STREET_NUMBER_COMPANY'
-    company_city: 'CITY_COMPANY'
-    company_post_code: 'POSTAL_CODE_COMPANY'
-    company_region: 'REGION_COMPANY'
-    company_country: 'COUNTRY_COMPANY'
-    company_bank_account: 'BANK_ACCOUNT_COMPANY'
-    company_administrator: 'ADMINISTRATOR_COMPANY'
-    company_vat_tax: 'VAT_%'
-    company_vat_number: 'VAT_NUMBER_COMPANY'
-    company_realtor_number: 'REALTOR_NUMBER_COMPANY'
-    office_local_realtor_number: 'LOCAL_REALTOR_NUMBER'
-    office_name: 'OFFICE_NAME'
-    office_street: 'STREET_NUMBER_OFFICE'
-    office_city: 'CITY_OFFICE'
-    office_post_code: 'POSTAL_CODE_OFFICE'
-    office_region: 'REGION_OFFICE'
-    office_country: 'COUNTRY_OFFICE'
-    office_phone: 'OFFICE_PHONE'
-    office_mobile: 'MOBILE_PHONE_OFFICE'
-    office_email: 'OFFICE_EMAIL'
-    office_website: 'OFFICE_WEBSITE'
-    signdate: 'SIGN_DATE'
-    place: 'SIGN_PLACE'
-    vrowner_fullname: 'OWNER_NAME'
-    vrowner_document: 'OWNER_DOCUMENT'
-    vrowner_address: 'OWNER_ADDRESS'
-    vrowner_email: 'OWNER_EMAIL'
-    vrowner_phone: 'OWNER_PHONE'
-    vrowner_account: 'OWNER_BANK_ACCOUNT'
-    vrental_name: 'PROPERTY_NAME'
-    vrental_address: 'PROPERTY_ADDRESS'
-    vrental_cadastre: 'PROPERTY_CADASTRE'
-    vrental_habitability: 'PROPERTY_HABITABILITY'
-    vrental_licence: 'PROPERTY_LICENCE'
-    vrental_description: 'PROPERTY_DESCRIPTION'
-    start_date: 'START_DATE'
-    end_date: 'END_DATE'
-    contract_rates: 'CONTRACT_RATES'
-    vrowner_bookings: 'OWNER_BOOKINGS'
-    vrental_features: 'PROPERTY_FEATURES'
-    vrental_commission: 'PROPERTY_COMMISSION'
-    clause: 'PROPERTY_CLAUSE'
+    company_name: "COMPANY_NAME"
+    company_street: "STREET_NUMBER_COMPANY"
+    company_city: "CITY_COMPANY"
+    company_post_code: "POSTAL_CODE_COMPANY"
+    company_region: "REGION_COMPANY"
+    company_country: "COUNTRY_COMPANY"
+    company_bank_account: "BANK_ACCOUNT_COMPANY"
+    company_administrator: "ADMINISTRATOR_COMPANY"
+    company_vat_tax: "VAT_%"
+    company_vat_number: "VAT_NUMBER_COMPANY"
+    company_realtor_number: "REALTOR_NUMBER_COMPANY"
+    office_local_realtor_number: "LOCAL_REALTOR_NUMBER"
+    office_name: "OFFICE_NAME"
+    office_street: "STREET_NUMBER_OFFICE"
+    office_city: "CITY_OFFICE"
+    office_post_code: "POSTAL_CODE_OFFICE"
+    office_region: "REGION_OFFICE"
+    office_country: "COUNTRY_OFFICE"
+    office_phone: "OFFICE_PHONE"
+    office_mobile: "MOBILE_PHONE_OFFICE"
+    office_email: "OFFICE_EMAIL"
+    office_website: "OFFICE_WEBSITE"
+    signdate: "SIGN_DATE"
+    place: "SIGN_PLACE"
+    vrowner_fullname: "OWNER_NAME"
+    vrowner_document: "OWNER_DOCUMENT"
+    vrowner_address: "OWNER_ADDRESS"
+    vrowner_email: "OWNER_EMAIL"
+    vrowner_phone: "OWNER_PHONE"
+    vrowner_account: "OWNER_BANK_ACCOUNT"
+    vrental_name: "PROPERTY_NAME"
+    vrental_address: "PROPERTY_ADDRESS"
+    vrental_cadastre: "PROPERTY_CADASTRE"
+    vrental_habitability: "PROPERTY_HABITABILITY"
+    vrental_licence: "PROPERTY_LICENCE"
+    vrental_description: "PROPERTY_DESCRIPTION"
+    start_date: "START_DATE"
+    end_date: "END_DATE"
+    contract_rates: "CONTRACT_RATES"
+    vrowner_bookings: "OWNER_BOOKINGS"
+    vrental_features: "PROPERTY_FEATURES"
+    vrental_commission: "PROPERTY_COMMISSION"
+    clause: "PROPERTY_CLAUSE"
   date:
     abbr_day_names:
       - Sun
@@ -243,39 +245,6 @@ en:
       day: day
       month: month
       year: year
-  hello: "Hello"
-  welcome: "Welcome!"
-  services_html: "We offer some <em>magnificent services</em>"
-  create_profile: "Create a Profile"
-  pages:
-    home:
-      hello: "Hello world"
-      welcome: "Welcome!"
-      services_html: "We offer some <em>magnificent services</em>"
-  vrentals:
-    show:
-      saturdays: "Sa.-Sa."
-      everyday: "Any day"
-    form:
-      labels:
-        washer: "Washer"
-    form:
-      dishwasher: "Dishwasher"
-      name:
-        washer: "Washer"
-  rates:
-    index:
-      saturdays: "Sa.-Sa."
-      everyday: "Any day"
-  vragreements:
-    form:
-      vrowner_bookings: "The owner has not yet blocked any dates for their own use. If you want to block some dates, please contact us at info@sistachrentals.com."
-  vrentaltemplates:
-    form:
-      ca: "Catalan"
-      es: "Spanish"
-      fr: "French"
-      en: "English"
   activerecord:
     attributes:
       rate_plan:
