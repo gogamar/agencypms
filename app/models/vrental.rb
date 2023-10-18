@@ -124,8 +124,12 @@ class Vrental < ApplicationRecord
     confirmed_bookings = self.bookings.where.not(status: "0")
     this_year_bookings = confirmed_bookings.where(checkin: from..to)
 
+    puts "these are this year bookings: #{this_year_bookings.inspect}"
+
     this_year_bookings.each do |booking|
       city_tax_sum = booking.charges.where(charge_type: 'city_tax').sum(:price)
+
+      puts "this is city_tax_sum: #{city_tax_sum}"
 
       total_city_tax[:tax] += city_tax_sum
       total_city_tax[:base] += city_tax_sum / 1.21
@@ -1103,7 +1107,7 @@ class Vrental < ApplicationRecord
     max_charge = booking.charges.order(price: :desc).first
     max_charge.update(charge_type: "rent") if max_charge
     booking.charges.each do |charge|
-      if charge.description.match?(/0,99|tax|taxa|taxe|tasa|0\.99/i)
+      if charge.description.match?(/0,99|tax|taxa|taxe|tasa|impuesto|impost|0\.99/i)
         charge.update(charge_type: "city_tax")
       elsif charge.description.match?(/neteja|cleaning|nettoyage|limpieza/i)
         charge.update(charge_type: "cleaning")

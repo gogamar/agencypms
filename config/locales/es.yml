@@ -421,3 +421,6 @@ es:
     month: "mes"
     year: "año"
     day: "día"
+  routes:
+    users:
+      purge_photo: "purge_photo"

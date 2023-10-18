@@ -448,3 +448,6 @@ ca:
     month: "mes"
     year: "any"
     day: "dia"
+  routes:
+    users:
+      purge_photo: "purge_photo"
