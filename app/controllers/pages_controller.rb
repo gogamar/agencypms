@@ -5,7 +5,7 @@ class PagesController < ApplicationController
 
   def dashboard
     @vragreements = policy_scope(Vragreement)
-    @vrowners = policy_scope(Vrowner)
+    @owners = policy_scope(Owner)
     @task = Task.new
     @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_date: :asc)
   end
@@ -82,18 +82,19 @@ class PagesController < ApplicationController
     checkout = params[:checkOut]
     guests = params[:numAdult]
     response = @vrental.get_availability_from_beds(checkin, checkout, guests)
-    puts "this is the response: #{response}"
     render json: response
   end
 
   def book_property
     @vrental = Vrental.find(params[:vrental_id])
-    @checkin = params[:checkin]
-    @checkout = params[:checkout]
-    @guests = params[:guests]
-    @price = params[:price]
+    @checkin = params[:checkin] || (Date.today + 14.days).strftime("%Y-%m-%d")
+    @checkout = params[:checkout] || (Date.today + 21.days).strftime("%Y-%m-%d")
+    @guests = params[:guests] || 1
+    response = @vrental.get_availability_from_beds(@checkin, @checkout, @guests)
+    @price = response["updatedPrice"]
+    @rate_price = response["updatedPrice"]
+    @not_available = response["notAvailable"]
     @discount = params[:discount]
-    @rate_price = @vrental.rate_price(@checkin, @checkout)
     @markers = []
     @markers << generate_marker(@vrental)
   end

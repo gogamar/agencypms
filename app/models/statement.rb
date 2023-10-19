@@ -5,7 +5,7 @@ class Statement < ApplicationRecord
   belongs_to :invoice, optional: true
   has_many :expenses, dependent: :nullify
   has_many :earnings, dependent: :nullify
-  has_many :vrowner_payments, dependent: :destroy
+  has_many :owner_payments, dependent: :destroy
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :earnings, reject_if: :all_blank, allow_destroy: true
   validate :start_and_end_dates_within_same_year
@@ -48,8 +48,8 @@ class Statement < ApplicationRecord
     expenses.pluck(:amount)&.sum
   end
 
-  def total_vrowner_payments
-    vrowner_payments.pluck(:amount)&.sum.round(2)
+  def total_owner_payments
+    owner_payments.pluck(:amount)&.sum.round(2)
   end
 
   def total_expenses_owner

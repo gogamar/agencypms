@@ -2,7 +2,7 @@ class Vrental < ApplicationRecord
   require 'net/http'
   include ActionView::Helpers::NumberHelper
   belongs_to :user
-  belongs_to :vrowner, optional: true
+  belongs_to :owner, optional: true
   belongs_to :town, optional: true
   belongs_to :office
   belongs_to :rate_plan, optional: true
@@ -264,7 +264,7 @@ class Vrental < ApplicationRecord
   def total_owner_payments
     total = 0
     statements.each do |statement|
-      total += statement.total_vrowner_payments if statement.total_vrowner_payments.present?
+      total += statement.total_owner_payments if statement.total_owner_payments.present?
     end
     total
   end
@@ -486,7 +486,7 @@ class Vrental < ApplicationRecord
         result["ratePrice"] = rate_price(checkin, checkout).round(2)
         result["updatedPrice"] = parsed_response[beds_room_id]["price"]
       elsif parsed_response[beds_room_id]["roomsavail"] == "0"
-        result["roomsavail"] = "No availability"
+        result["notAvailable"] = "No availability"
       end
       return result
 
@@ -594,16 +594,16 @@ class Vrental < ApplicationRecord
     client.set_property_content(prop_key, setPropertyContent: images_array)
   end
 
-  def update_vrowner_from_beds
+  def update_owner_from_beds
     client = BedsHelper::Beds.new(ENV["BEDSKEY"])
     begin
       property = client.get_property(prop_key)[0]
-      existing_vrowner = Vrowner.find_by(fullname: property["template1"])
-      if vrowner.present?
-        if existing_vrowner.present? && existing_vrowner != vrowner
-          self.update!(vrowner: existing_vrowner)
-        elsif existing_vrowner.present? && existing_vrowner == vrowner
-          vrowner.update!(
+      existing_owner = Owner.find_by(fullname: property["template1"])
+      if owner.present?
+        if existing_owner.present? && existing_owner != owner
+          self.update!(owner: existing_owner)
+        elsif existing_owner.present? && existing_owner == owner
+          owner.update!(
             fullname: property["template1"],
             document: property["template5"],
             address: property["template2"],
@@ -613,10 +613,10 @@ class Vrental < ApplicationRecord
             beds_room_id: property["roomTypes"][0]["roomId"],
             )
         end
-      elsif !vrowner.present? && existing_vrowner.present?
-        self.update!(vrowner: existing_vrowner)
+      elsif !owner.present? && existing_owner.present?
+        self.update!(owner: existing_owner)
       else
-        Vrowner.create!(
+        Owner.create!(
           fullname: property["template1"],
           language: "ca",
           document: property["template5"],

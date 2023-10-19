@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_vrowner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos]
 
   def index
     all_vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -7,7 +7,7 @@ class VrentalsController < ApplicationController
   end
 
   def list
-    @vrentals = policy_scope(Vrental).includes(:vrowner)
+    @vrentals = policy_scope(Vrental).includes(:owner)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:name]}%") if params[:name].present?
     @vrentals = @vrentals.where(status: params[:status]) if params[:status].present?
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
@@ -46,7 +46,7 @@ class VrentalsController < ApplicationController
       vrentals_with_bookings.each do |vrental|
         city_tax_hash = vrental.total_city_tax(Date.today.beginning_of_year, Date.today.end_of_year)
         bookings_number = vrental.bookings.where(checkin: Date.today.beginning_of_year..Date.today.end_of_year).count
-        sheet.add_row [vrental.vrowner&.fullname, vrental.vrowner&.document, vrental.name, vrental.licence, vrental.address, vrental.town&.name, city_tax_hash[:base], city_tax_hash[:vat], city_tax_hash[:tax], bookings_number]
+        sheet.add_row [vrental.owner&.fullname, vrental.owner&.document, vrental.name, vrental.licence, vrental.address, vrental.town&.name, city_tax_hash[:base], city_tax_hash[:vat], city_tax_hash[:tax], bookings_number]
       end
     end
 
@@ -89,7 +89,7 @@ class VrentalsController < ApplicationController
   end
 
   def annual_statement
-    @vrowner = @vrental.vrowner
+    @owner = @vrental.owner
     @year = params[:year].to_i
     @statements = policy_scope(Statement)
     @annual_statements = @vrental.statements.where("EXTRACT(year FROM start_date) = ?", params[:year])
@@ -103,8 +103,8 @@ class VrentalsController < ApplicationController
     @annual_expenses_agency = @vrental.expenses.where(statement_id: @annual_statements.ids).where(expense_type: 'agency')
     @total_annual_expenses_owner = @annual_expenses_owner.sum(:amount)
     @total_annual_earnings = @annual_earnings.sum(:amount)
-    @annual_vrowner_payments = VrownerPayment.where(statement_id: @annual_statements.ids).order(:date)
-    @annual_vrowner_payments_total = @annual_vrowner_payments.sum(:amount)
+    @annual_owner_payments = OwnerPayment.where(statement_id: @annual_statements.ids).order(:date)
+    @annual_owner_payments_total = @annual_owner_payments.sum(:amount)
     @annual_agency_commission = (@annual_earnings.sum(:amount) * (@vrental.commission || 0)).round(2)
     @annual_agency_commission_vat = @annual_agency_commission * 0.21
     @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses_owner.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
@@ -233,8 +233,8 @@ class VrentalsController < ApplicationController
     redirect_to @vrental, notice: "S'han importat canvis des de Beds."
   end
 
-  def update_vrowner_from_beds
-    @vrental.update_vrowner_from_beds
+  def update_owner_from_beds
+    @vrental.update_owner_from_beds
     redirect_to @vrental, notice: "S'ha actualitzat el propietari des de Beds."
   end
 
@@ -260,10 +260,10 @@ class VrentalsController < ApplicationController
     authorize @vrental
   end
 
-  def add_vrowner
+  def add_owner
     @vrental = Vrental.find(params[:id])
     authorize @vrental
-    @vrowner = Vrowner.new
+    @owner = Owner.new
   end
 
   def fetch_earnings
@@ -286,13 +286,13 @@ class VrentalsController < ApplicationController
   def edit
     @feature_list = Feature.all.uniq
     authorize @vrental
-    @vrowner = @vrental.vrowner
-    # @vrowners = policy_scope(Vrowner).sort_by(&:fullname)
+    @owner = @vrental.owner
+    # @owners = policy_scope(Owner).sort_by(&:fullname)
   end
 
   def update
     authorize @vrental
-    @vrowner = @vrental.vrowner
+    @owner = @vrental.owner
     request_context = params[:vrental][:request_context]
 
     if @vrental.update(vrental_params)
@@ -326,7 +326,7 @@ class VrentalsController < ApplicationController
 
   def redirect_after_update(request_context)
     if request_context == 'add_features'
-      redirect_to add_vrowner_vrental_path(@vrental)
+      redirect_to add_owner_vrental_path(@vrental)
     elsif request_context == 'add_photos'
       create_new_image_urls
       redirect_to edit_photos_vrental_path(@vrental)
@@ -365,7 +365,7 @@ class VrentalsController < ApplicationController
   def vrental_params
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :commission,
-      :beds_prop_id, :beds_room_id, :prop_key, :vrowner_id, :max_guests,
+      :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests,
       :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, :latitude, :longitude, :town_id, feature_ids: [], photos: []
     )
   end

@@ -48,8 +48,6 @@ export default class extends Controller {
 
     const url = `/get_availability?${params.toString()}`;
 
-    console.log(url);
-
     try {
       const response = await fetch(url);
 
@@ -62,12 +60,20 @@ export default class extends Controller {
       const ratePriceElement = document.getElementById(
         `${vrentalId}-rate-price`
       );
+      const notAvailableElement = document.getElementById(
+        `${vrentalId}-not-available`
+      );
+      const bookNowElement = document.getElementById(`${vrentalId}-book-now`);
 
       if (priceElement && ratePriceElement) {
         if (
           typeof responseData.updatedPrice === "number" &&
           typeof responseData.ratePrice === "number"
         ) {
+          notAvailableElement.classList.add("d-none");
+          bookNowElement.classList.remove("d-none");
+          ratePriceElement.classList.remove("d-none");
+          priceElement.classList.remove("d-none");
           const priceDifference =
             responseData.ratePrice - responseData.updatedPrice;
           const updatedPriceFormatted = this.formatCurrency(
@@ -85,9 +91,11 @@ export default class extends Controller {
 
           priceElement.textContent = updatedPriceFormatted;
           ratePriceElement.textContent = ratePriceFormatted;
-        } else if (responseData.roomsavail) {
+        } else if (responseData.notAvailable) {
           ratePriceElement.classList.add("d-none");
-          priceElement.textContent = responseData.roomsavail;
+          priceElement.classList.add("d-none");
+          notAvailableElement.classList.remove("d-none");
+          bookNowElement.classList.add("d-none");
         }
       }
     } catch (error) {

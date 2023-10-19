@@ -72,7 +72,7 @@
                 <%= link_to vragreement.vrental.name, vragreement.vrental%>
               </div>
               <div class="col-lg-1 border-start border-end nowrap">
-                <%= vragreement.vrental.vrowner&.language %>
+                <%= vragreement.vrental.owner&.language %>
               </div>
               <div class="col-lg-1 border-start border-end nowrap">
                 <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>

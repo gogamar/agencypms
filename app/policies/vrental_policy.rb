@@ -69,7 +69,7 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
-  def add_vrowner?
+  def add_owner?
     return create?
   end
 
@@ -109,7 +109,7 @@ class VrentalPolicy < ApplicationPolicy
     return update?
   end
 
-  def update_vrowner_from_beds?
+  def update_owner_from_beds?
     return update?
   end
 end

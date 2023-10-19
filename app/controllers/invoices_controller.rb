@@ -28,7 +28,7 @@ class InvoicesController < ApplicationController
           )
         end
 
-        sheet.add_row [invoice.invoice_number_formatted, invoice.date, invoice.vrental.name, invoice_description, invoice.vrental.vrowner&.fullname, invoice.vrental.vrowner&.document, invoice.vrental.vrowner&.address, invoice.agency_commission_total, invoice.agency_vat_total, invoice.agency_total]
+        sheet.add_row [invoice.invoice_number_formatted, invoice.date, invoice.vrental.name, invoice_description, invoice.vrental.owner&.fullname, invoice.vrental.owner&.document, invoice.vrental.owner&.address, invoice.agency_commission_total, invoice.agency_vat_total, invoice.agency_total]
       end
     end
 
@@ -41,7 +41,7 @@ class InvoicesController < ApplicationController
   def show
     authorize @invoice
     @invoice_statements = @invoice.statements.order(start_date: :asc)
-    @vrowner = @vrental.vrowner
+    @owner = @vrental.owner
 
     respond_to do |format|
       format.html

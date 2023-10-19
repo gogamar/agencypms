@@ -35,8 +35,8 @@ class Vragreement < ApplicationRecord
                         send(key).to_s
                      when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence, :vrental_description
                         vrental.present? ? vrental.send(key[8..]) : ''
-                     when :vrowner_fullname, :vrowner_document, :vrowner_address, :vrowner_email, :vrowner_phone, :vrowner_account
-                        vrental.vrowner.present? ? vrental.vrowner.send(key[8..]) : ''
+                     when :owner_fullname, :owner_document, :owner_address, :owner_email, :owner_phone, :owner_account
+                        vrental.owner.present? ? vrental.owner.send(key[8..]) : ''
                       when :company_name, :company_street, :company_city, :company_post_code, :company_region, :company_country, :company_bank_account, :company_administrator, :company_vat_tax, :company_vat_number, :company_realtor_number
                         vrental.office&.company.present? ? vrental.office.company.send(key[8..]) : ''
                      when
@@ -44,8 +44,8 @@ class Vragreement < ApplicationRecord
                         vrental.office.present? ? vrental.office.send(key[7..]) : ''
                      when :contract_rates
                         contract_rates.present? ? contract_rates : ''
-                     when :vrowner_bookings
-                        vrowner_bookings
+                     when :owner_bookings
+                        owner_bookings
                      when :vrental_features
                         vrental_features.to_s
                      when :vrental_commission

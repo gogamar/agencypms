@@ -53,7 +53,7 @@
       <% @vrentals.each do |vrental| %>
         <div class="row border min-height-row">
           <div class="col-lg-3 align-self-center">
-            <small><%= link_to vrental.vrowner.fullname, vrental.vrowner, class: "text-decoration-none" if vrental.vrowner %></small>
+            <small><%= link_to vrental.owner.fullname, vrental.owner, class: "text-decoration-none" if vrental.owner %></small>
           </div>
           <div class="col-lg-3 align-self-center">
             <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>

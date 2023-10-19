@@ -24,8 +24,8 @@
         <% @vrentals_with_bookings.each do |vrental| %>
           <% city_tax_hash = vrental.total_city_tax(Date.today.beginning_of_year, Date.today.end_of_year) %>
           <tr>
-            <td><%= vrental.vrowner&.fullname %></td>
-            <td><%= vrental.vrowner&.document %></td>
+            <td><%= vrental.owner&.fullname %></td>
+            <td><%= vrental.owner&.document %></td>
             <td><%= vrental.name %></td>
             <td><%= vrental.licence %></td>
             <td><%= vrental.address %></td>

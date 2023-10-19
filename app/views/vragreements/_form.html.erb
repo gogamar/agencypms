@@ -15,10 +15,10 @@
     <%= f.association :vrentaltemplate,
                    include_blank: true,
                    label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path, target: '_blank'}.").html_safe,
-                   hint: t("vrowner_speaks", name: vrental.vrowner.fullname, language: t("#{vrental.vrowner.language}")) if vrental.vrowner %>
+                   hint: t("owner_speaks", name: vrental.owner.fullname, language: t("#{vrental.owner.language}")) if vrental.owner %>
   </div>
   <div class="row">
-    <%= f.input :vrowner_bookings %>
+    <%= f.input :owner_bookings %>
   </div>
   <div class="row justify-content-md-center bg-light py-5">
     <% year_to_display = f.object.year || @year || Date.current.year %>

@@ -24,8 +24,8 @@
           <td><%= I18n.l(vragreement.end_date) if vragreement.end_date %></td>
           <td><%= vragreement.status %></td>
           <td><%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></td>
-          <td><%= @vrental.vrowner.fullname %></td>
-          <td><%= @vrental.vrowner.language %></td>
+          <td><%= @vrental.owner.fullname %></td>
+          <td><%= @vrental.owner.language %></td>
           <td><%= vragreement.year %></td>
           <td class="">
             <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>

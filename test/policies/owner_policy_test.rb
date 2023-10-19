@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VrownerPolicyTest < ActiveSupport::TestCase
+class OwnerPolicyTest < ActiveSupport::TestCase
   def test_scope
   end
 

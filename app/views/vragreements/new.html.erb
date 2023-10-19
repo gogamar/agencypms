@@ -1,8 +1,8 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <h4 class="font-weight-bold text-primary text-center mb-2">Afegir contracte de lloguer turístic per a <%= @vrental.name %></h4>
-    <p class="text-center text-info">Propietari: <%= @vrental.vrowner&.fullname %></p>
-    <p class="text-center text-info">Idioma: <%= t("#{@vrental.vrowner.language}") if @vrental.vrowner %></p>
+    <p class="text-center text-info">Propietari: <%= @vrental.owner&.fullname %></p>
+    <p class="text-center text-info">Idioma: <%= t("#{@vrental.owner.language}") if @vrental.owner %></p>
     <div class="text-center text-warning">
       <% if @vrental.vragreements.exists? %>
         <small><%= link_to "El contracte ja existeix per #{@years_vragreement_exists.to_sentence}", vragreements_path(immoble: @vrental), target: "_blank", class: "text-info" %></small>

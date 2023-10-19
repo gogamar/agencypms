@@ -16,10 +16,10 @@ require 'csv'
 
 # puts "Importing vacation rental owners from a csv file.."
 
-# filepath = "db/vrowners.csv"
+# filepath = "db/owners.csv"
 
 # CSV.foreach(filepath, headers: true, col_sep: ";") do |row|
-#   Vrowner.create!(
+#   Owner.create!(
 #     fullname: row["Owner"],
 #     document: row["Document"],
 #     address: row["Address"],
@@ -31,7 +31,7 @@ require 'csv'
 #   )
 # end
 
-# puts "Created #{Vrowner.count} vacation rental owners."
+# puts "Created #{Owner.count} vacation rental owners."
 
 # 2
 
@@ -61,12 +61,12 @@ require 'csv'
 # @vrentals = Vrental.all
 
 # @vrentals.each do |vrental|
-#   if vrental.vrowner_id
+#   if vrental.owner_id
 #     puts "The #{vrental.name} already has an owner assigned."
 #   else
-#     vrowner = Vrowner.find_by(beds_room_id: vrental.beds_room_id)
-#     if vrowner
-#       vrental.vrowner_id = vrowner.id
+#     owner = Owner.find_by(beds_room_id: vrental.beds_room_id)
+#     if owner
+#       vrental.owner_id = owner.id
 #       vrental.save!
 #       puts "Assigned owner to #{vrental.name}"
 #     else
@@ -79,11 +79,11 @@ require 'csv'
 
 # 4
 
-# puts "Importing cadastre, habitability and commission from vrowners csv file"
+# puts "Importing cadastre, habitability and commission from owners csv file"
 
 # @vrentals = Vrental.all
 
-# filepath = "db/vrowners.csv"
+# filepath = "db/owners.csv"
 
 # CSV.foreach(filepath, headers: true, col_sep: ";") do |row|
 #   @vrentals.each do |vrental|
@@ -96,7 +96,7 @@ require 'csv'
 #   end
 # end
 
-# puts "Done adding fields from vrowners csv file."
+# puts "Done adding fields from owners csv file."
 
 # 5
 
@@ -166,17 +166,17 @@ require 'csv'
 
 # 8 Done already
 
-# @vrowners = Vrowner.all
+# @owners = Owner.all
 
 # puts "Assigning each owner to its rental in rails..."
 
 # @vrentals.each do |vrental|
-#   if vrental.vrowner_id
+#   if vrental.owner_id
 #     puts "The #{vrental.name} already has a vacation rental owner assigned."
 #   else
-#     vrowner = Vrowner.find_by(beds_room_id: vrental.beds_room_id)
-#     if vrowner
-#       vrental.vrowner_id = vrowner.id
+#     owner = Owner.find_by(beds_room_id: vrental.beds_room_id)
+#     if owner
+#       vrental.owner_id = owner.id
 #       vrental.save!
 #       puts "Assigned vacation rental owner to #{vrental.name}"
 #     else
@@ -320,8 +320,8 @@ require 'csv'
 
 # @vrentals = Vrental.all
 #   @vrentals.each do |vrental|
-#   if vrental.vrowner.present?
-#     if vrental.vrowner.language == "ca"
+#   if vrental.owner.present?
+#     if vrental.owner.language == "ca"
 #       Vragreement.create!(
 #         signdate: Date.parse("2022/12/01"),
 #         place: "Estartit",
@@ -329,12 +329,12 @@ require 'csv'
 #         end_date: Date.parse("2023/09/30"),
 #         vrentaltemplate_id: Vrentaltemplate.find_by(language: "ca").id,
 #         vrental_id: vrental.id,
-#         vrowner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com.",
+#         owner_bookings: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a info@sistachrentals.com.",
 #         clause: "La propietat autoritza a rebaixar el preu de lloguers pactats que els turistes paguen en un 10% en el cas que faltant 4 setmanes per a la data no hi hagués cap reserva confirmada.
 #         La propietat autoritza a augmentar un 15% els preus de venda al públic establerts, de forma excepcional per a les reserves que entrin del portal www.booking.com, quedant la totalitat d'aquest increment en benefici de l'agència per poder pagar el 15% de comissions que el referit portal cobra a l'agència."
 #       )
 #       puts "Added agreements in Catalan."
-#     elsif vrental.vrowner.language == "es"
+#     elsif vrental.owner.language == "es"
 #       Vragreement.create!(
 #         signdate: Date.parse("2022/12/01"),
 #         place: "Estartit",
@@ -342,12 +342,12 @@ require 'csv'
 #         end_date: Date.parse("2023/09/30"),
 #         vrentaltemplate_id: Vrentaltemplate.find_by(language: "es").id,
 #         vrental_id: vrental.id,
-#         vrowner_bookings: "El propietario todavía no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contacte con nosotros enviando un email a info@sistachrentals.com.",
+#         owner_bookings: "El propietario todavía no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contacte con nosotros enviando un email a info@sistachrentals.com.",
 #         clause: "La propiedad autoriza a rebajar el precio de alquileres pactados que los turistas pagan en un 10% en el caso de que faltando 4 semanas para la fecha no hubiera ninguna reserva confirmada.
 #         La propiedad autoriza a aumentar un 15% los precios de venta al público establecidos, de forma excepcional para las reservas que entren del portal www.booking.com, quedando la totalidad de este incremento en beneficio de la agencia para poder pagar el 15% de comisiones que el referido portal cobra a la agencia."
 #       )
 #       puts "Added agreements in Spanish."
-#     elsif vrental.vrowner.language == "fr"
+#     elsif vrental.owner.language == "fr"
 #       Vragreement.create!(
 #         signdate: Date.parse("2022/12/01"),
 #         place: "Estartit",
@@ -355,12 +355,12 @@ require 'csv'
 #         end_date: Date.parse("2023/09/30"),
 #         vrentaltemplate_id: Vrentaltemplate.find_by(language: "fr").id,
 #         vrental_id: vrental.id,
-#         vrowner_bookings: "Le propriétaire n'a pas encore verrouillé de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, veuillez nous contacter à info@sistachrentals.com.",
+#         owner_bookings: "Le propriétaire n'a pas encore verrouillé de dates pour son propre usage. Si vous souhaitez bloquer certaines dates, veuillez nous contacter à info@sistachrentals.com.",
 #         clause: "Réduction de dernière minute 10%: Le propriétaire autorise à réduire les tarifs de location convenus de 10% dans le cas où 4 semaines avant il n'y a pas de réservation confirmée.
 #         Le Propriétaire autorise l'augmentation des tarifs de location établis de 15%, exceptionnellement pour les réservations effectuées via le site www.booking.com, afin que l'Agence puisse couvrir la commission de 15% que le portail référencé facture à l'Agence."
 #       )
 #       puts "Added agreements in French."
-#     elsif vrental.vrowner.language == "en"
+#     elsif vrental.owner.language == "en"
 #       Vragreement.create!(
 #         signdate: Date.parse("2022/12/01"),
 #         place: "Estartit",
@@ -368,7 +368,7 @@ require 'csv'
 #         end_date: Date.parse("2023/09/30"),
 #         vrentaltemplate_id: Vrentaltemplate.find_by(language: "en").id,
 #         vrental_id: vrental.id,
-#         vrowner_bookings: "The owner has not yet blocked any dates for their personal use. If the owner would like to block some dates for their own use, please contact us at info@sistachrentals.com.",
+#         owner_bookings: "The owner has not yet blocked any dates for their personal use. If the owner would like to block some dates for their own use, please contact us at info@sistachrentals.com.",
 #         clause: "Last minute reduction 10%: The Property Owner authorizes to reduce the agreed rental rates by 10% in the event that 4 weeks before there are no confirmed reservations.
 #         The Property Owner authorizes the increase of the established rental rates by 15%, exceptionally for reservations made through the website www.booking.com, so that the Agency can cover the 15% commission that the referred portal charges to the Agency."
 #       )

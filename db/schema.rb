@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_19_093509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -239,6 +239,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
     t.index ["company_id"], name: "index_offices_on_company_id"
   end
 
+  create_table "owner_payments", force: :cascade do |t|
+    t.string "description"
+    t.decimal "amount"
+    t.date "date"
+    t.bigint "statement_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["statement_id"], name: "index_owner_payments_on_statement_id"
+  end
+
+  create_table "owners", force: :cascade do |t|
+    t.string "fullname"
+    t.string "language"
+    t.string "document"
+    t.string "address"
+    t.string "email"
+    t.string "phone"
+    t.string "account"
+    t.string "beds_room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_owners_on_user_id"
+  end
+
   create_table "pages", force: :cascade do |t|
     t.string "title_en"
     t.string "title_ca"
@@ -360,9 +385,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "admin"
     t.boolean "approved", default: false, null: false
     t.bigint "company_id"
+    t.integer "role", default: 0
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -378,7 +403,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
     t.bigint "vrental_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "vrowner_bookings"
+    t.text "owner_bookings"
     t.text "clause"
     t.string "status"
     t.integer "year"
@@ -395,7 +420,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
     t.string "beds_room_id"
     t.string "beds_prop_id"
     t.string "prop_key"
-    t.bigint "vrowner_id"
+    t.bigint "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description_ca"
@@ -415,10 +440,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
     t.float "longitude"
     t.boolean "featured"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
+    t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["town_id"], name: "index_vrentals_on_town_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
-    t.index ["vrowner_id"], name: "index_vrentals_on_vrowner_id"
   end
 
   create_table "vrentaltemplates", force: :cascade do |t|
@@ -430,31 +455,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
     t.bigint "user_id", null: false
     t.boolean "public", default: false
     t.index ["user_id"], name: "index_vrentaltemplates_on_user_id"
-  end
-
-  create_table "vrowner_payments", force: :cascade do |t|
-    t.string "description"
-    t.decimal "amount"
-    t.date "date"
-    t.bigint "statement_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["statement_id"], name: "index_vrowner_payments_on_statement_id"
-  end
-
-  create_table "vrowners", force: :cascade do |t|
-    t.string "fullname"
-    t.string "language"
-    t.string "document"
-    t.string "address"
-    t.string "email"
-    t.string "phone"
-    t.string "account"
-    t.string "beds_room_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_vrowners_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -474,6 +474,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
   add_foreign_key "image_urls", "vrentals"
   add_foreign_key "invoices", "vrentals"
   add_foreign_key "offices", "companies"
+  add_foreign_key "owner_payments", "statements"
+  add_foreign_key "owners", "users"
   add_foreign_key "pages", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "rate_periods", "rate_plans"
@@ -486,11 +488,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_092546) do
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"
+  add_foreign_key "vrentals", "owners"
   add_foreign_key "vrentals", "rate_plans"
   add_foreign_key "vrentals", "towns"
   add_foreign_key "vrentals", "users"
-  add_foreign_key "vrentals", "vrowners"
   add_foreign_key "vrentaltemplates", "users"
-  add_foreign_key "vrowner_payments", "statements"
-  add_foreign_key "vrowners", "users"
 end

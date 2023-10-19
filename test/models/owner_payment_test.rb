@@ -1,6 +1,6 @@
 require "test_helper"
 
-class VrownersControllerTest < ActionDispatch::IntegrationTest
+class OwnerPaymentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

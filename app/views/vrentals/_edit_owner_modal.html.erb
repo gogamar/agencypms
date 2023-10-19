@@ -1,0 +1,14 @@
+<div class="modal fade" id="editModalOwner" tabindex="-1" aria-labelledby="editModalOwnerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <input type="hidden" id="formTypeInput">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalOwnerLabel">Modificar propietari <%= @vrental.owner.fullname %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tancar"></button>
+      </div>
+      <div class="modal-body" id="owner-form-content">
+        <%= render "owners/form", vrental: @vrental, owner: @vrental.owner %>
+      </div>
+    </div>
+  </div>
+</div>

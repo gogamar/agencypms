@@ -11,7 +11,7 @@ class Office < ApplicationRecord
       beds24rentals.each do |bedsrental|
         vrental = Vrental.find_by(beds_prop_id: bedsrental["propId"])
         unless vrental.present?
-          new_vrowner = Vrowner.create!(
+          new_owner = Owner.create!(
             fullname: bedsrental["template1"],
             language: "ca",
             document: bedsrental["template5"],
@@ -33,7 +33,7 @@ class Office < ApplicationRecord
             status: "active",
             office_id: id,
             town_id: Town.find_by(name: bedsrental["city"])&.id || Town.create(name: bedsrental["city"]).id,
-            vrowner: new_vrowner,
+            owner: new_owner,
             cadastre: bedsrental["template7"].split("/")[0],
             habitability: bedsrental["template7"].split("/")[1],
             commission: bedsrental["template8"],

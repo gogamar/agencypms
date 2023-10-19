@@ -46,6 +46,13 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#filter-status").select2({});
+
+  $("#shorty").select2({
+    placeholder: "Show All",
+    allowClear: true,
+  });
+
   $("#select_vrental-select2")
     .select2({
       placeholder: "Seleccionar immoble",
@@ -64,19 +71,19 @@ const initSelect2 = () => {
       }
     });
 
-  $("#select_vrowner-select2").select2({
+  $("#select_owner-select2").select2({
     placeholder: "Seleccionar propietari",
     allowClear: true,
     theme: "bootstrap-5",
   });
 
-  function updateVrowner(selectedVrownerId) {
+  function updateOwner(selectedOwnerId) {
     const pathSegments = window.location.pathname;
     const lastSlashIndex = pathSegments.lastIndexOf("/");
     const path = pathSegments.slice(0, lastSlashIndex);
     console.log(path);
 
-    // Make an AJAX call to update the vrental's vrowner_id
+    // Make an AJAX call to update the vrental's owner_id
     fetch(path, {
       method: "PATCH",
       headers: {
@@ -87,36 +94,36 @@ const initSelect2 = () => {
       },
       body: JSON.stringify({
         vrental: {
-          vrowner_id: selectedVrownerId,
+          owner_id: selectedOwnerId,
         },
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.vrowner_id);
+        console.log(data.owner_id);
       })
       .catch((error) => {
         console.error("There was an error updating the vrental:", error);
       });
   }
 
-  $("#edit_vrowner-select2")
+  $("#edit_owner-select2")
     .select2({
       placeholder: "Seleccionar propietari",
       allowClear: true,
       theme: "bootstrap-5",
     })
     .on("select2:select", function (e) {
-      const editVrownerBox = document.querySelector(".edit_vrowner-js");
+      const editOwnerBox = document.querySelector(".edit_owner-js");
 
-      editVrownerBox.classList.add("d-none");
-      const selectedVrownerId = e.params.data.id;
-      updateVrowner(selectedVrownerId);
+      editOwnerBox.classList.add("d-none");
+      const selectedOwnerId = e.params.data.id;
+      updateOwner(selectedOwnerId);
     })
     .on("select2:unselect", function (e) {
       // This function will be triggered when an item is unselected.
-      document.querySelector(".edit_vrowner-js").classList.add("d-none");
-      updateVrowner(null);
+      document.querySelector(".edit_owner-js").classList.add("d-none");
+      updateOwner(null);
     });
 };
 

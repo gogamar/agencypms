@@ -19,7 +19,7 @@ class StatementsController < ApplicationController
     @total_statement_earnings = @statement.total_statement_earnings
     @agency_commission = @statement.agency_commission
     @agency_commission_vat = @statement.agency_commission_vat
-    @vrowner = @vrental.vrowner
+    @owner = @vrental.owner
 
     respond_to do |format|
       format.html

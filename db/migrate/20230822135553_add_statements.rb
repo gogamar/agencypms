@@ -33,7 +33,7 @@ class AddStatements < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    create_table :vrowner_payments do |t|
+    create_table :owner_payments do |t|
       t.string :description
       t.decimal :amount
       t.date :date

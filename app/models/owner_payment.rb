@@ -1,4 +1,4 @@
-class VrownerPayment < ApplicationRecord
+class OwnerPayment < ApplicationRecord
   belongs_to :statement
   validates :amount, :date, presence: true
   validate :amount_cannot_be_zero

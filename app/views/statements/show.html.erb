@@ -34,18 +34,18 @@
       </div>
     </div>
     <div class="row mb-2 align-items-center border">
-      <div class="col-6 font-weight-bold fw-bold"><%= t("activerecord.attributes.vrowner.vrowner").upcase %></div>
+      <div class="col-6 font-weight-bold fw-bold"><%= t("activerecord.attributes.owner.owner").upcase %></div>
       <div class="col-6 text-right text-end font-weight-bold fw-bold"><%= t("activerecord.attributes.vrental.vrental").upcase %></div>
     </div>
     <div class="row mb-2 align-items-center">
       <div class="col-6">
-        <% if @vrental.vrowner %>
+        <% if @vrental.owner %>
           <ul class="list-unstyled p-0">
-            <li class="fw-bold"><%= @vrental.vrowner.fullname %></li>
-            <li class="fw-bold"><%= @vrental.vrowner.document %></li>
-            <li><%= @vrental.vrowner.address %></li>
-            <li><%= @vrental.vrowner.email %></li>
-            <li><%= @vrental.vrowner.phone %></li>
+            <li class="fw-bold"><%= @vrental.owner.fullname %></li>
+            <li class="fw-bold"><%= @vrental.owner.document %></li>
+            <li><%= @vrental.owner.address %></li>
+            <li><%= @vrental.owner.email %></li>
+            <li><%= @vrental.owner.phone %></li>
           </ul>
         <% end %>
       </div>
@@ -132,9 +132,9 @@
       <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= number_to_currency(@statement.net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
     </div>
   </div>
-  <% if @statement.vrowner_payments.present? %>
+  <% if @statement.owner_payments.present? %>
     <div class="container mt-5">
-      <% @statement.vrowner_payments.order(:date).each do |payment| %>
+      <% @statement.owner_payments.order(:date).each do |payment| %>
         <div class="row">
           <div class="col-12"><%= number_to_currency((payment.amount), unit: "€", separator: ",", delimiter: ".", precision: 2) %> <%= t("paid_to_owner").downcase %> <%= l(payment.date) if payment.date.present? %></div>
         </div>

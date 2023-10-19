@@ -40,7 +40,7 @@ Rails.application.routes.draw do
         end
 
         member do
-          get :add_vrowner
+          get :add_owner
           get :add_features
           get :annual_statement
           get :fetch_earnings
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
           get :update_on_beds
           get :send_photos
           get :update_from_beds
-          get :update_vrowner_from_beds
+          get :update_owner_from_beds
           get :get_rates
           get :delete_rates
           get :delete_year_rates
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
 
         resources :statements
         resources :invoices
-        resources :vrowners, only: [:new, :create, :edit, :update]
+        resources :owners, only: [:new, :create, :edit, :update]
 
         resources :earnings, only: [:new, :edit, :create, :update, :index, :show] do
           member do
@@ -93,7 +93,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :vrowners do
+      resources :owners do
         collection do
           get 'filter'
         end
@@ -114,7 +114,7 @@ Rails.application.routes.draw do
       resources :rates, only: :destroy
       resources :earnings, only: :destroy
       resources :statements do
-        resources :vrowner_payments
+        resources :owner_payments
       end
 
       resources :features

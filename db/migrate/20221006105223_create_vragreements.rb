@@ -5,7 +5,7 @@ class CreateVragreements < ActiveRecord::Migration[7.0]
       t.string :place
       t.date :start_date
       t.date :end_date
-      t.references :vrowner, foreign_key: true
+      t.references :owner, foreign_key: true
       t.references :vrentaltemplate, foreign_key: true
       t.references :vrental, foreign_key: true
 

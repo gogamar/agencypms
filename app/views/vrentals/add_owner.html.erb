@@ -1,23 +1,23 @@
-<div class="card shadow mb-4 d-flex" data-controller="add-vrowner">
+<div class="card shadow mb-4 d-flex" data-controller="add-owner">
   <div class="card-header py-3">
     <h4 class="font-weight-bold text-primary text-center mb-2">Immoble turístic</h4>
     <h6 class="text-center mb-2">Pas 3. Propietari</h6>
     <hr>
     <div class="d-flex justify-content-around mb-3">
-      <button class="btn btn-primary" type="button" data-action="click->add-vrowner#showCreateCard">
+      <button class="btn btn-primary" type="button" data-action="click->add-owner#showCreateCard">
         Afegir propietari nou
       </button>
-      <button class="btn btn-info" type="button" data-action="click->add-vrowner#showSelectCard">
+      <button class="btn btn-info" type="button" data-action="click->add-owner#showSelectCard">
         Seleccionar propietari existent
       </button>
-      <%= link_to "No afegir propietari de moment", vrental_path(@vrental), class: "btn btn-secondary", data: { action: "click->add-vrowner#clearAllForms" } %>
+      <%= link_to "No afegir propietari de moment", vrental_path(@vrental), class: "btn btn-secondary", data: { action: "click->add-owner#clearAllForms" } %>
     </div>
-    <div class="card card-body d-none" data-add-vrowner-target="create">
-      <%= simple_form_for [@vrental, @vrowner] do |f| %>
+    <div class="card card-body d-none" data-add-owner-target="create">
+      <%= simple_form_for [@vrental, @owner] do |f| %>
         <%= f.error_notification %>
         <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
         <div class="form-inputs">
-          <%= f.hidden_field :request_context, value: 'add_vrowner' %>
+          <%= f.hidden_field :request_context, value: 'add_owner' %>
           <%= f.input :fullname %>
           <%= f.input :address %>
           <%= f.input :phone %>
@@ -31,17 +31,17 @@
         </div>
       <% end %>
     </div>
-    <div class="card card-body d-none" data-add-vrowner-target="select">
+    <div class="card card-body d-none" data-add-owner-target="select">
       <%= simple_form_for @vrental do |f| %>
         <%= f.error_notification %>
         <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
         <div class="form-inputs">
-          <%= f.association :vrowner,
+          <%= f.association :owner,
                  label_method: :fullname,
                  label: false,
                  class: "js-example-responsive",
                  required: true,
-                 input_html: { id: "select_vrowner-select2" } %>
+                 input_html: { id: "select_owner-select2" } %>
         </div>
         <div class="form-actions text-end mb-5">
           <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>

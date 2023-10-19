@@ -10,7 +10,7 @@ class CreateVrentals < ActiveRecord::Migration[7.0]
       t.string :beds_room_id
       t.string :beds_prop_id
       t.string :prop_key
-      t.references :vrowner, foreign_key: true
+      t.references :owner, foreign_key: true
 
       t.timestamps
     end

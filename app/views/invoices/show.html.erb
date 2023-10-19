@@ -25,7 +25,7 @@
     </div>
     <div class="row mb-2 border">
       <div class="col-6 font-weight-bold fw-bold p-2"><%= t("agency").upcase %></div>
-      <div class="col-6 text-right text-end font-weight-bold fw-bold p-2"><%= t("activerecord.attributes.vrowner.vrowner").upcase %></div>
+      <div class="col-6 text-right text-end font-weight-bold fw-bold p-2"><%= t("activerecord.attributes.owner.owner").upcase %></div>
     </div>
     <div class="row mb-2">
       <div class="col-6 p-2">
@@ -37,13 +37,13 @@
         </ul>
       </div>
       <div class="col-6 text-right text-end p-2">
-        <% if @vrental.vrowner %>
+        <% if @vrental.owner %>
           <ul class="list-unstyled p-0">
-            <li class="fw-bold"><%= @vrental.vrowner.fullname %></li>
-            <li class="fw-bold"><%= @vrental.vrowner.document %></li>
-            <li><%= @vrental.vrowner.address %></li>
-            <li><%= @vrental.vrowner.email %></li>
-            <li><%= @vrental.vrowner.phone %></li>
+            <li class="fw-bold"><%= @vrental.owner.fullname %></li>
+            <li class="fw-bold"><%= @vrental.owner.document %></li>
+            <li><%= @vrental.owner.address %></li>
+            <li><%= @vrental.owner.email %></li>
+            <li><%= @vrental.owner.phone %></li>
           </ul>
         <% end %>
       </div>

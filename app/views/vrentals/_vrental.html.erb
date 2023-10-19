@@ -1,13 +1,19 @@
 <div class="col-md-12 col-sm-12 col-md-12">
   <div class="singles-dashboard-list">
     <div class="sd-list-left">
-      <img src="https://via.placeholder.com/1200x850" class="img-fluid" alt="" />
+      <div class="image-container">
+        <% if vrental.image_urls.present? %>
+          <%= image_tag vrental.image_urls.first.url, class: "img-fluid", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
+        <% else %>
+          <img src="https://via.placeholder.com/1200x850" class="img-fluid" alt="" />
+        <% end %>
+        <% if vrental.status %>
+          <span class="label-status"><%= t("#{vrental.status}") %></span>
+        <% end %>
+      </div>
     </div>
     <div class="sd-list-right">
-      <h4 class="listing_dashboard_title"><%= link_to vrental.name, vrental, class: "text-primary" %></h4>
-      <% if vrental.status %>
-        <span class="ms-2 label-new"><%= t("#{vrental.status}") %></span>
-      <% end %>
+      <h4 class="listing_dashboard_title"><%= link_to truncate(vrental.name, length: 150), vrental, class: "text-primary" %></h4>
       <div class="user_dashboard_listed">
         <%= link_to vrental.address, vrental %>
       </div>
@@ -19,12 +25,21 @@
         <% end %>
       </div>
       <div class="user_dashboard_listed">
-        City: <a href="javascript:void(0);" class="text-primary">KASIA</a> , Area:540 sq ft
+        <%= add_vragreement_links(vrental) %>
       </div>
       <div class="action">
-        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="202 User View"><i class="fa-regular fa-eye"></i></a>
-        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Property" class="delete"><i class="fa-regular fa-circle-xmark"></i></a>
+        <%= link_to book_property_path(vrental_id: vrental.id), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
+          <i class="fa-solid fa-eye"></i>
+        <% end %>
+        <%= link_to edit_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("edit_vrental") do %>
+          <i class="fa-solid fa-pen-to-square"></i>
+        <% end %>
+        <%= link_to copy_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("copy_vrental") do %>
+          <i class="fa-solid fa-copy"></i>
+        <% end %>
+        <%= link_to vrental, class: "text-danger text-decoration-none",  data: { bs_toggle: "tooltip", bs_placement: "top", turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"}, title: t("delete_vrental")  do %>
+          <i class="fas fa-trash-can"></i>
+        <% end %>
         <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Make Featured" class="delete"><i class="fa-solid fa-star"></i></a>
       </div>
     </div>

@@ -77,7 +77,7 @@
           </a>
           <%= render "statement_modal", vrental: @vrental, statement: last_statement %>
         <% else %>
-          <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
+          <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.owner ? @vrental.owner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>
@@ -97,12 +97,12 @@
       <% @vrental.this_year_statements(year).each do |statement| %>
         <div class="row">
           <div class="col-lg-3 nowrap">
-            <%= link_to vrental_statement_path(@vrental, statement, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "btn btn-info text-decoration-none" do %>
+            <%= link_to vrental_statement_path(@vrental, statement, locale: @vrental.owner ? @vrental.owner.language : "ca"), class: "btn btn-info text-decoration-none" do %>
               <%= I18n.l(statement.start_date) %> - <%= I18n.l(statement.end_date) %>
             <% end %>
           </div>
           <div class="col-lg-1 nowrap">
-            <%= link_to "#{statement.invoice.invoice_number_formatted}", vrental_invoice_path(@vrental, statement.invoice, locale: @vrental.vrowner ? @vrental.vrowner.language : "ca"), class: "btn btn-info" if statement.invoice.present? %>
+            <%= link_to "#{statement.invoice.invoice_number_formatted}", vrental_invoice_path(@vrental, statement.invoice, locale: @vrental.owner ? @vrental.owner.language : "ca"), class: "btn btn-info" if statement.invoice.present? %>
           </div>
           <div class="col-lg-1 nowrap border-end text-info">
             <%= number_to_currency(statement.total_statement_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) %>
@@ -117,14 +117,14 @@
             <%= number_to_currency(statement.net_income_owner, unit: "€", separator: ",", delimiter: ".", precision: 2) %>
           </div>
           <div class="col-lg-3 d-flex flex-column align-items-end">
-            <% if statement.vrowner_payments.present? %>
-              <% statement.vrowner_payments.order(:date).each do |payment| %>
+            <% if statement.owner_payments.present? %>
+              <% statement.owner_payments.order(:date).each do |payment| %>
                 <div>
                   <i class="fas fa-check-circle text-success"></i>
-                  <%= l(payment.date) %>: <%= link_to "#{number_to_currency(payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", edit_statement_vrowner_payment_path(statement, payment), data: { bs_toggle: "modal", bs_target: "#vrownerPayment#{statement.id}#{payment.id}"} %>
-                  <%= render "vrowner_payment_modal", statement: statement, vrowner_payment: payment, pending_payment: statement.net_income_owner - statement.total_vrowner_payments %>
+                  <%= l(payment.date) %>: <%= link_to "#{number_to_currency(payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2)}", edit_statement_owner_payment_path(statement, payment), data: { bs_toggle: "modal", bs_target: "#ownerPayment#{statement.id}#{payment.id}"} %>
+                  <%= render "owner_payment_modal", statement: statement, owner_payment: payment, pending_payment: statement.net_income_owner - statement.total_owner_payments %>
                   <% unless statement.invoice.present? && Date.current > statement.invoice.created_at.to_date %>
-                    <%= link_to statement_vrowner_payment_path(statement, payment), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el pagament de la liquidació #{statement.start_date}?"} do %>
+                    <%= link_to statement_owner_payment_path(statement, payment), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el pagament de la liquidació #{statement.start_date}?"} do %>
                       <i class="fas fa-trash-can"></i>
                     <% end %>
                   <% end %>
@@ -132,10 +132,10 @@
               <% end %>
             <% end %>
             <div>
-              <a type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#vrownerPayment<%= statement.id %>">
+              <a type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#ownerPayment<%= statement.id %>">
                 Afegir pagament
               </a>
-              <%= render "vrowner_payment_modal", statement: statement, vrowner_payment: VrownerPayment.new, pending_payment: statement.net_income_owner - statement.total_vrowner_payments %>
+              <%= render "owner_payment_modal", statement: statement, owner_payment: OwnerPayment.new, pending_payment: statement.net_income_owner - statement.total_owner_payments %>
             </div>
           </div>
           <div class="col-lg-1 border-start">

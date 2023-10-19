@@ -1,0 +1,9 @@
+<div class="form-submit">
+  <h4><%= t("vacation_rental_properties") %></h4>
+</div>
+<div class="row">
+  <%= render @vrentals %>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>

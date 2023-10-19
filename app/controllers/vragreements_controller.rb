@@ -26,7 +26,7 @@ class VragreementsController < ApplicationController
     authorize @vragreement
     @vrentaltemplates = Vrentaltemplate.all
     @vragreements = Vragreement.all
-    @vrowner = @vragreement.vrental.vrowner
+    @owner = @vragreement.vrental.owner
     @vrental = @vragreement.vrental
     @vrates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
 
@@ -36,7 +36,7 @@ class VragreementsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: [@vrental.address, @vrowner].join('-'),
+        render pdf: [@vrental.address, @owner].join('-'),
               template: "vragreements/show",
               margin:  {
               top: 50,
@@ -74,7 +74,7 @@ class VragreementsController < ApplicationController
     start_date = @rates.first.firstnight if @rates.present?
     end_date = @rates.last.lastnight if @rates.present?
     place = @vrental.office.city if @vrental.office
-    vrentaltemplates = Vrentaltemplate.where(language: @vrental.vrowner.language)
+    vrentaltemplates = Vrentaltemplate.where(language: @vrental.owner.language)
     default_template = vrentaltemplates.max_by do |template|
       template.vragreements.count
     end
@@ -86,7 +86,7 @@ class VragreementsController < ApplicationController
       signdate: Date.today,
       place: place,
       status: 'pending',
-      vrowner_bookings: t("vrowner_bookings_default", email: @vrental.office.email)
+      owner_bookings: t("owner_bookings_default", email: @vrental.office.email)
     }
     @years_vragreement_exists = @vrental.vragreements.pluck(:year)
     next_three_years = [Date.today.year, Date.today.year + 1, Date.today.year + 2]
@@ -110,7 +110,7 @@ class VragreementsController < ApplicationController
       signdate: Date.today,
       place: @source.place,
       status: 'pending',
-      vrowner_bookings: t("vrowner_bookings_default", email: @vrental.office.email)
+      owner_bookings: t("owner_bookings_default", email: @vrental.office.email)
     }
 
     @vrates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
@@ -168,8 +168,8 @@ class VragreementsController < ApplicationController
   def set_vrental
     @vrental = Vrental.find(params[:vrental_id])
   end
-  def set_vrowner
-    @vrowner = Vrowner.find(params[:vrowner_id])
+  def set_owner
+    @owner = Owner.find(params[:owner_id])
   end
 
   def set_vrentaltemplate
@@ -178,6 +178,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :vrowner_bookings, photos: [])
+    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :owner_bookings, photos: [])
   end
 end

@@ -1,7 +1,7 @@
-<h4 class="font-weight-bold text-primary text-center mb-2"><%= t("vrowners") %></h4>
+<h4 class="font-weight-bold text-primary text-center mb-2"><%= t("owners") %></h4>
 <hr>
 <div class="container d-flex justify-content-center mt-5">
-  <%= form_with url: filter_vrowners_path, method: :get, data: { turbo_frame: "vrowners"}, class: "row g-3" do |form| %>
+  <%= form_with url: filter_owners_path, method: :get, data: { turbo_frame: "owners"}, class: "row g-3" do |form| %>
     <div class="col-auto">
       <%= form.select :language,
             options_for_select(
@@ -23,10 +23,10 @@
       <% end %>
     </div>
     <div class="col-auto">
-      <%= link_to "Veure tots els propietaris", vrowners_path, class: "btn btn-secondary" %>
+      <%= link_to "Veure tots els propietaris", owners_path, class: "btn btn-secondary" %>
     </div>
     <div class="col-auto">
-      <%= link_to new_vrowner_path, class: "btn btn-light btn-icon-split" do %>
+      <%= link_to new_owner_path, class: "btn btn-light btn-icon-split" do %>
         <span class="icon text-white-600">
           <i class="fas fa-plus"></i>
         </span>
@@ -37,23 +37,23 @@
     </div>
   <% end %>
 </div>
-<%= turbo_frame_tag "vrowners", class: "card-body" do %>
+<%= turbo_frame_tag "owners", class: "card-body" do %>
   <div class="container-fluid my-3">
     <div>
       <div class="row border border-top border-bottom fw-bold bg-light">
-        <div class="col col-lg-3 py-3 nowrap" id="vrowner-fullname" relative>
+        <div class="col col-lg-3 py-3 nowrap" id="owner-fullname" relative>
           Nom i cognoms
         </div>
-        <div class="col-lg-1 py-3" id="vrowner-language" relative>
+        <div class="col-lg-1 py-3" id="owner-language" relative>
           Idioma
         </div>
-        <div class="col-lg-2 py-3" id="vrowner-phone" relative>
+        <div class="col-lg-2 py-3" id="owner-phone" relative>
           Telèfon
         </div>
-        <div class="col-lg-3 py-3" id="vrowner-email" relative>
+        <div class="col-lg-3 py-3" id="owner-email" relative>
           Email
         </div>
-        <div class="col-lg-2 py-3" id="vrowner-vrentals" relative>
+        <div class="col-lg-2 py-3" id="owner-vrentals" relative>
           Immobles
         </div>
         <div class="col-lg-1 py-3">
@@ -61,18 +61,18 @@
       </div>
     </div>
     <div class="tbody">
-      <% @vrowners.each do |vrowner| %>
+      <% @owners.each do |owner| %>
         <div class="row border">
-          <div class="col-lg-3 align-self-center nowrap"><%= link_to vrowner.fullname, vrowner %></div>
-          <div class="col-lg-1 align-self-center"><%= vrowner.language if vrowner.language %></div>
-          <div class="col-lg-2 align-self-center"><%= vrowner.phone %></div>
-          <div class="col-lg-3 align-self-center nowrap"><%= vrowner.email %></div>
-          <div class="col-lg-2 align-self-center"><%= vrowner.vrentals.map {|vrental| vrental.name}.to_sentence  %></div>
+          <div class="col-lg-3 align-self-center nowrap"><%= link_to owner.fullname, owner %></div>
+          <div class="col-lg-1 align-self-center"><%= owner.language if owner.language %></div>
+          <div class="col-lg-2 align-self-center"><%= owner.phone %></div>
+          <div class="col-lg-3 align-self-center nowrap"><%= owner.email %></div>
+          <div class="col-lg-2 align-self-center"><%= owner.vrentals.map {|vrental| vrental.name}.to_sentence  %></div>
           <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
-            <%= link_to edit_vrowner_path(vrowner), class: "text-info text-decoration-none" do %>
+            <%= link_to edit_owner_path(owner), class: "text-info text-decoration-none" do %>
               <i class="fas fa-edit fa-sm"></i>
             <% end %>
-            <%= link_to vrowner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrowner.fullname}?"}, class: "text-danger text-decoration-none" do %>
+            <%= link_to owner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{owner.fullname}?"}, class: "text-danger text-decoration-none" do %>
               <i class="fas fa-trash fa-sm"></i>
             <% end %>
           </div>

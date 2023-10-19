@@ -1,33 +1,4 @@
-/*
-* Theme Name: Resido - Real Estate HTML Template
-* Author: Themez Hub
-* Version: 1.0
-* Last Change: 17 Jan 2021
-  Author URI    : http://www.Themezhub.com/
--------------------------------------------------------------------*/
-/*------------- List Of Table -----------
-# Fonts
-# GLobal Settings
-# Header Navigation Styles
-# Homes Banner
-# Property Style
-# How it Work
-# Contact Info
-# PopUp Modal
-# Agency & Agents Design
-# Blog Designs
-# General Features
-# Dashboard
-# Footer Start
-# Responsiveness Start
-# Bottom To top Scroll
-------------- List Of Table ----------*/
-
-/*------------------------------------
-	Fonts
-------------------------------------*/
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Muli:300,400,600,700");
 
 /*------------------------------------
 	Slick carousel
@@ -1473,372 +1444,314 @@ html body .b-all {
   border-radius: 4px;
 }
 
-/*-------------- GLobal Settings: Text Colors ----------------*/
+/*-------------- Global Settings: Text Colors ----------------*/
+.text-primary {
+  color: #074da3 !important;
+}
 .text-white {
   color: #ffffff !important;
 }
-
 .text-danger {
-  color: #f33066 !important;
+  color: #a70a29 !important;
 }
-
 .text-muted {
-  color: #8d97ad !important;
+  color: #a0abb8 !important;
 }
-
+.text-muted-2 {
+  color: #8a98a9 !important;
+}
 .text-warning {
-  color: #ff9b20 !important;
+  color: #f69520 !important;
 }
-
 .text-success {
-  color: #0fca98 !important;
+  color: #009868 !important;
 }
-
 .text-info {
-  color: #fd5332 !important;
+  color: #008aff !important;
 }
-
-.text-inverse {
-  color: #3e4555 !important;
+.text-royal {
+  color: #073aa8 !important;
 }
-
-html body .text-blue {
-  color: #1d96ff;
+.text-orange {
+  color: #e95f33 !important;
 }
-
-html body .text-purple {
-  color: #7460ee;
+.text-black {
+  color: #041b2d !important;
 }
-
-html body .text-primary {
-  color: #fd5332 !important;
+.text-purple {
+  color: #6363f5 !important;
 }
-
-html body .text-megna {
-  color: #1dc8cd;
+.text-seegreen {
+  color: #0a5f59 !important;
 }
-
-html body .text-dark {
-  color: #8d97ad;
+.text-sm-muted {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 44, 63, 0.6);
 }
-
-html body .text-themecolor {
-  color: #fd5332;
+.text-sm {
+  font-size: 12px;
 }
-
 /*-------------- Global Settings: Alerts & Notification --------------*/
 .alert-primary {
-  color: #0055ff;
-  background-color: #eaf1ff;
-  border-color: #eaf1ff;
+  color: #074da3;
+  background-color: rgba(7, 77, 163, 0.12);
+  border-color: rgba(7, 77, 163, 0.2);
 }
 .alert-success {
-  color: #27b737;
-  background-color: #e9ffeb;
-  border-color: #e9ffeb;
+  color: #009868;
+  background-color: rgba(0, 152, 104, 0.12);
+  border-color: rgba(0, 152, 104, 0.2);
 }
 .alert-warning {
-  color: #ff9b20;
-  background-color: #fff5e9;
-  border-color: #fff5e9;
+  color: #f69520;
+  background-color: rgba(246, 149, 32, 0.12);
+  border-color: rgba(246, 149, 32, 0.2);
 }
 .alert-info {
-  color: #08a7c1;
-  background-color: #effdff;
-  border-color: #effdff;
+  color: #008aff;
+  background-color: rgba(0, 138, 255, 0.12);
+  border-color: rgba(0, 138, 255, 0.2);
 }
 .alert-danger {
-  color: #f33066;
-  background-color: #ffe9e9;
-  border-color: #ffe9e9;
+  color: #a70a29;
+  background-color: rgba(167, 10, 41, 0.12);
+  border-color: rgba(167, 10, 41, 0.2);
 }
 .alert-dark {
-  color: #3e4758;
-  background-color: #eff4ff;
-  border-color: #eff4ff;
+  color: #041b2d;
+  background-color: rgba(4, 27, 45, 0.12);
+  border-color: rgba(4, 27, 45, 0.2);
+}
+.alert-purple {
+  color: #6363f5;
+  background-color: rgba(99, 99, 245, 0.12);
+  border-color: rgba(99, 99, 245, 0.2);
+}
+.alert-orange {
+  color: #e95f33;
+  background-color: rgba(233, 95, 51, 0.12);
+  border-color: rgba(233, 95, 51, 0.2);
+}
+.alert-seegreen {
+  color: #0a5f59;
+  background-color: rgba(10, 95, 89, 0.12);
+  border-color: rgba(10, 95, 89, 0.2);
+}
+.alert-royal {
+  color: #073aa8;
+  background-color: rgba(7, 58, 168, 0.12);
+  border-color: rgba(7, 58, 168, 0.2);
 }
 .alert-secondary {
   color: #4b5d6f;
   background-color: #d6dfe8;
   border-color: #d6dfe8;
 }
-/*-------------- GLobal Settings: Background Colors ----------------*/
+/*-------------- Global Settings: Background Colors ----------------*/
 .bg-primary {
-  background-color: #fd5332 !important;
+  background-color: #074da3 !important;
 }
-
 .bg-success {
-  background-color: #27b737 !important;
+  background-color: #009868 !important;
 }
-
 .bg-info {
-  background-color: #1ac790 !important;
+  background-color: #008aff !important;
 }
-
 .bg-warning {
-  background-color: #ff9b20 !important;
+  background-color: #f69520 !important;
 }
-
 .bg-danger {
-  background-color: #f33066 !important;
+  background-color: #a70a29 !important;
 }
-
+.bg-purple {
+  background-color: #6363f5 !important;
+}
 .bg-orange {
-  background-color: #ec2828 !important;
+  background-color: #e95f33 !important;
+}
+.bg-seegreen {
+  background-color: #0a5f59 !important;
+}
+.bg-inverse {
+  background-color: #3e4555 !important;
+}
+.bg-royal {
+  background-color: #073aa8 !important;
+}
+.bg-dark {
+  background-color: #041b2d !important;
+}
+.bg-white {
+  background-color: #ffffff !important;
+}
+.bg-light-primary {
+  background-color: rgba(7, 77, 163, 0.1) !important;
+}
+.bg-light-success {
+  background-color: rgba(0, 152, 104, 0.1) !important;
+}
+.bg-light-info {
+  background-color: rgba(0, 138, 255, 0.1) !important;
+}
+.bg-light-warning {
+  background-color: rgba(246, 149, 32, 0.1) !important;
+}
+.bg-light-danger {
+  background-color: rgba(167, 10, 41, 0.1) !important;
+}
+.bg-light-purple {
+  background-color: rgba(99, 99, 245, 0.1) !important;
+}
+.bg-light-orange {
+  background-color: rgba(233, 95, 51, 0.1) !important;
+}
+.bg-light-seegreen {
+  background-color: rgba(10, 95, 89, 0.1) !important;
+}
+.bg-light-royal {
+  background-color: rgba(7, 58, 168, 0.1) !important;
+}
+.bg-light-dark {
+  background-color: rgba(4, 27, 45, 0.1) !important;
+}
+.bg-transparent {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.bg-yellow {
-  background-color: #fed700;
+.bg--graysmoke {
+  background-image: linear-gradient(
+    180deg,
+    rgba(244, 244, 249, 0.8) 50%,
+    rgba(244, 244, 249, 0.05) 100%
+  );
 }
-
-.bg-facebook {
-  background-color: #3b5a9a;
+.shape--bg:after {
+  width: 48%;
+  height: 72%;
+  top: 21%;
+  left: 52%;
 }
-
-.bg-twitter {
-  background-color: #56adf2;
+.shape--bg:before {
+  width: 48%;
+  height: 72%;
+  top: 21%;
+  right: 52%;
 }
-
-html body .bg-megna {
-  background-color: #1dc8cd;
-}
-
-html body .bg-theme {
-  background-color: #fd5332;
-}
-
-html body .bg-inverse {
-  background-color: #374158;
-}
-
-html body .bg-purple {
-  background-color: #7460ee;
-}
-
-html body .bg-orange {
-  background-color: #fff6f5 !important;
-}
-
-html body .bg-light {
-  background-color: #f5faff !important;
-}
-
-html body .bg-light-primary {
-  background-color: #f1effd;
-}
-
-html body .bg-light-success {
-  background-color: #e8fdeb;
-}
-
-html body .bg-light-info {
-  background-color: #cfecfe;
-}
-
-html body .bg-light-extra {
-  background-color: #ebf3f5;
-}
-
-html body .bg-light-warning {
-  background-color: #fff8ec;
-}
-
-html body .bg-light-danger {
-  background-color: #f9e7eb;
-}
-
-html body .bg-light-inverse {
-  background-color: #f6f6f6;
-}
-
-html body .bg-light {
-  background-color: #f5f7f9;
-}
-
-html body .bg-white {
-  background-color: #ffffff;
-}
-
-html body .bg-whites {
-  background-color: #f4f5f7;
-}
-
-html body .bg-red {
-  background-color: #e21137;
-}
-
-html body .bg-green {
-  background-color: #4caf50;
-}
-
-html body .bg-sky {
-  background-color: #20b2c1;
-}
-
-html body .bg-blue {
-  background-color: #03a9f4;
-}
-
-html body .bg-dark-blue {
-  background-color: #192c48;
-}
-/*-------------- GLobal Settings: Rounds ----------------*/
-.round {
-  line-height: 48px;
-  color: #ffffff;
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  border-radius: 100%;
-  background: #fd5332;
-}
-.round img {
-  border-radius: 100%;
-}
-
-.round-lg {
-  line-height: 65px;
-  width: 60px;
-  height: 60px;
-  font-size: 30px;
-}
-
-.round.round-info {
-  background: #fd5332;
-}
-
-.round.round-warning {
-  background: #ff9b20;
-}
-
-.round.round-danger {
-  background: #f33066;
-}
-
-.round.round-success {
-  background: #27b737;
-}
-
-.round.round-primary {
-  background: #fd5332;
-}
-
-/*----------- GLobal Settings: Simple List -----------*/
-ul.simple-list {
+/*----------- Global Settings: Simple List -----------*/
+ul.simple-list,
+ul.colored-list,
+ul.simple {
   padding: 0;
   margin: 0;
 }
-ul.simple-list li {
+ul.simple-list li,
+ul.colored-list li {
   list-style: none;
-  padding: 10px 5px 10px 28px;
-}
-ul.simple-list li {
-  list-style: none;
-  padding: 10px 5px 10px 28px;
   position: relative;
+  color: rgba(0, 44, 63, 0.6);
+  font-weight: 500;
+  padding: 0.2rem 0rem 0.2rem 1.4rem;
 }
 ul.simple-list li:before {
-  content: "\F7F4";
-  font-family: "bootstrap-icons";
+  content: "\f192";
+  font-family: "Font Awesome 6 Free";
   position: absolute;
   left: 0;
 }
-
-/*-------------- GLobal Settings: Labels ----------------*/
+ul.colored-list li:before {
+  content: "\f192";
+  font-family: "Font Awesome 6 Free";
+  color: #074da3;
+  position: absolute;
+  left: 0;
+}
+/*-------------- Global Settings: Labels ----------------*/
 .label {
-  padding: 3px 15px;
+  padding: 4px 15px;
   color: #ffffff;
-  font-weight: 400;
+  font-weight: 500;
   border-radius: 4px;
   font-size: 75%;
 }
-
-.label-rounded {
-  border-radius: 60px;
-}
-
-.label-custom {
-  background-color: #1dc8cd;
-}
-
-.label-success {
-  background-color: #27b737;
-}
-
-.label-info {
-  background-color: #fd5332;
-}
-
-.label-warning {
-  background-color: #ff9b20;
-}
-
-.label-danger {
-  background-color: #f33066;
-}
-
-.label-megna {
-  background-color: #1dc8cd;
-}
-
 .label-primary {
-  background-color: #fd5332;
+  background-color: #074da3;
 }
-
+.label-success {
+  background-color: #009868;
+}
+.label-info {
+  background-color: #008aff;
+}
+.label-warning {
+  background-color: #f69520;
+}
+.label-danger {
+  background-color: #a70a29;
+}
+.label-royal {
+  background-color: #073aa8;
+}
 .label-purple {
-  background-color: #7460ee;
+  background-color: #6363f5;
 }
-
-.label-red {
-  background-color: #fb3a3a;
+.label-orange {
+  background-color: #e95f33;
 }
-
+.label-seegreen {
+  background-color: #0a5f59;
+}
+.label-dark {
+  background-color: #041b2d;
+}
 .label-inverse {
   background-color: #3e4555;
 }
-
-.label-default {
-  background-color: #f4f8fa;
-}
-
 .label-white {
   background-color: #ffffff;
 }
-
-.label-light-success {
-  background-color: #e8fdeb;
-  color: #27b737;
-}
-
-.label-light-info {
-  background-color: #cfecfe;
-  color: #fd5332;
-}
-
-.label-light-warning {
-  background-color: #fff8ec;
-  color: #ff9b20;
-}
-
-.label-light-danger {
-  background-color: #f9e7eb;
-  color: #f33066;
-}
-
-.label-light-megna {
-  background-color: #e0f2f4;
-  color: #1dc8cd;
-}
-
 .label-light-primary {
-  background-color: #f1effd;
-  color: #fd5332;
+  background-color: rgba(7, 77, 163, 0.12);
+  color: #074da3;
 }
-
+.label-light-success {
+  background-color: rgba(0, 152, 104, 0.12);
+  color: #009868;
+}
+.label-light-info {
+  background-color: rgba(0, 138, 255, 0.12);
+  color: #008aff;
+}
+.label-light-warning {
+  background-color: rgba(246, 149, 32, 0.12);
+  color: #f69520;
+}
+.label-light-danger {
+  background-color: rgba(167, 10, 41, 0.12);
+  color: #a70a29;
+}
+.label-light-royal {
+  background-color: rgba(7, 58, 168, 0.12);
+  color: #073aa8;
+}
+.label-light-purple {
+  background-color: rgba(99, 99, 245, 0.12);
+  color: #6363f5;
+}
+.label-light-orange {
+  background-color: rgba(233, 95, 51, 0.12);
+  color: #e95f33;
+}
+.label-light-seegreen {
+  background-color: rgba(10, 95, 89, 0.12);
+  color: #0a5f59;
+}
+.label-light-dark {
+  background-color: rgba(4, 27, 45, 0.12);
+  color: #041b2d;
+}
 .label-light-inverse {
-  background-color: #f6f6f6;
+  background-color: rgba(62, 69, 85, 0.1);
   color: #3e4555;
 }
 
@@ -13694,4 +13607,23 @@ a.blue2-theme {
   width: 100%; /* Set a fixed width for the container if needed */
   height: 1100px; /* Set a fixed height for the container if needed */
   overflow: hidden;
+}
+
+.image-container {
+  position: relative; /* Container needs relative positioning */
+  display: inline-block; /* Ensures inline-level behavior */
+}
+
+.label-status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 11px;
+  font-weight: 500;
+  height: 24px;
+  text-align: center;
+  background:#f95734;
+  padding: 2px 12px;
+  border-radius: 0.2rem;
+  color: #ffffff;
 }
