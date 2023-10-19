@@ -10,7 +10,8 @@
     <!-- External styles -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.2/css/all.css">
     <!-- Internal styles -->
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%# stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "booking_website", "data-turbo-track": "reload" %>
     <%= favicon_link_tag asset_path('sistach_favicon.png') %>
     <!-- External scripts -->
     <%= javascript_include_tag Ckeditor.cdn_url %>
@@ -31,7 +32,9 @@
           <% end %>
           <div id="content" class="flex-shrink-0">
             <div class="container-fluid my-5">
-              <%= yield %>
+              <%= render 'shared/sidebar' do %>
+                <%= yield %>
+              <% end %>
             </div>
           </div>
         </div>

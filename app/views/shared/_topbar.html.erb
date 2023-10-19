@@ -23,7 +23,7 @@
               Editar el compte
             <% end %>
             <div class="dropdown-divider"></div>
-            <% if current_user.admin %>
+            <% if current_user.admin? %>
               <%= link_to users_path, class: "dropdown-item" do %>
                 <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                 Autoritzar usuaris
@@ -40,7 +40,7 @@
             </span>
           <% end %>
           <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-            <% if current_user.admin %>
+            <% if current_user.admin? %>
               <% if current_user.owned_company.present? %>
                 <%= link_to edit_company_path(current_user.owned_company), class: "dropdown-item" do %>
                   <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>

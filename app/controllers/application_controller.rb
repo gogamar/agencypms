@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_vrentals, unless: :skip_pundit?
   # before_action :configure_permitted_parameters, if: :devise_controller?
+  layout :layout_by_resource
 
   include Pundit::Authorization
   include Pagy::Backend
@@ -54,5 +55,13 @@ class ApplicationController < ActionController::Base
 
   def skip_pundit?
     devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+  end
+
+  def layout_by_resource
+    if devise_controller?
+      "booking_website"
+    else
+      "application"
+    end
   end
 end

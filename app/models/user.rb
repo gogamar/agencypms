@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :tasks, dependent: :destroy
   has_many :vrentals, dependent: :destroy
-  has_many :vrowners, dependent: :destroy
+  has_many :owners, dependent: :destroy
   has_many :vrentaltemplates, dependent: :destroy
   has_many :features, dependent: :destroy
   has_many :vragreements, through: :vrentals
@@ -16,7 +16,7 @@ class User < ApplicationRecord
   # after_create :send_welcome_email
   after_create :send_admin_mail
   attribute :approved, :boolean, default: false
-  attribute :admin, :boolean, default: false
+  enum role: { tourist: 0, owner: 1, admin: 2, manager: 3}
 
   def self.send_reset_password_instructions(attributes = {})
     recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
