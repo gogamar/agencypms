@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg navbar-light border-bottom">
+  <div class="container-fluid d-flex justify-content-end">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <% if @vrental || params[:controller] == 'vrentals' %>
+        <div class="form-group borders">
+          <div class="input-with-icon">
+            <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
+              <option value="">&nbsp;</option>
+              <% @all_vrentals.each do |vrental| %>
+                <option value="<%= vrental_path(vrental) %>"><%= vrental.name %></option>
+              <% end %>
+            </select>
+            <i class="fas fa-home"></i>
+          </div>
+        </div>
+      <% end %>
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
+        <li class="nav-item">
+          <%= link_to "Immobles", vrentals_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Propietaris", owners_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Informes
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><%= link_to "Ingressos", total_earnings_vrentals_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Despeses", expenses_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Factures", invoices_path, class: "dropdown-item" %></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Contractes
+          </a>
+          <ul class="dropdown-menu <%= 'dropdown-menu-end' if !@vrental&.persisted? %>" aria-labelledby="navbarDropdown">
+            <li><%= link_to "Contractes", vragreements_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Models de contracte", vrentaltemplates_path, class: "dropdown-item" %></li>
+          </ul>
+        </li>
+        <% if @vrental&.persisted? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="beds24" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Beds24
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="beds24">
+              <li><%= link_to @vrental.beds_prop_id.present? ? "#{@vrental.name}: exportar canvis a Beds24" : "Crear #{@vrental.name} a Beds24", update_on_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+              <li><%= link_to "#{@vrental.name}: enviar fotos a Beds24", send_photos_vrental_path(@vrental), class: "dropdown-item" %></li>
+              <li><%= link_to "#{@vrental.name}: importar canvis des de Beds24", update_from_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+              <li><%= link_to "#{@vrental.name}: importar propietari des de Beds24", update_owner_from_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

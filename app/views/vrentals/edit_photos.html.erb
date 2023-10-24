@@ -13,6 +13,7 @@
     <div data-id="<%= image.id %>" class="card m-2 pb-2 text-end" style="width: 18rem;">
       <%= image_tag image.url, alt: "#{@vrental.name} #{@vrental.town&.name}" %>
       <%= link_to image, data: { turbo_method: :delete, turbo_confirm: 'Segur que vols esborrar la foto?' }, class: "trash-icon text-danger" do %>
+        <%= "Foto d'Airbnb, esborrar" if image.url.include?("muscache") %>
         <i class="fas fa-trash-alt fa-lg"></i>
       <% end %>
     </div>

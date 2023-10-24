@@ -89,11 +89,21 @@
                 </button>
                 <div class="dropdown-menu pull-right animated flipInX" id="showing">
                   <%= link_to edit_user_registration_path do %>
-                    <i class="fa-solid fa-address-card"></i><%= t("my_profile") %>
+                    <i class="fa-solid fa-address-card"></i><%= t("edit_profile") %>
                   <% end %>
-                  <a href="#"><i class="fa-solid fa-building-circle-check"></i>Property List</a>
+                  <%= link_to vrentals_path do %>
+                    <i class="fa-solid fa-building-circle-check"></i><%= t("vrentals") %>
+                  <% end %>
+                  <%= link_to owners_path do %>
+                    <i class="fa-solid fa-building-user"></i><%= t("owners") %>
+                  <% end %>
+                  <%= link_to vragreements_path do %>
+                    <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
+                  <% end %>
+                  <!--
                   <a href="#"><i class="fa-solid fa-bookmark"></i>Bookmarked Listings</a>
                   <a href="#"><i class="fa-solid fa-unlock"></i>Change Password</a>
+                  -->
                   <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#logout">
                     <%= image_tag("user-dark.svg", width: "12", class: "mr-2", alt: "") %>
                     <%= t("sign_out") %>

@@ -56,9 +56,8 @@ const initSelect2 = () => {
 
   $("#select_vrental-select2")
     .select2({
-      placeholder: "Seleccionar immoble",
+      placeholder: $("#select_vrental-select2").data("placeholder"),
       allowClear: true,
-      theme: "bootstrap-5",
     })
     .on("select2:select", function (e) {
       const currentURL = window.location.pathname;

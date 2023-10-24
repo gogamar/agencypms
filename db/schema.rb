@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_23_195940) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -441,6 +441,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_195940) do
     t.float "latitude"
     t.float "longitude"
     t.boolean "featured"
+    t.string "contract_type", default: "fixed_price"
+    t.decimal "fixed_price_amount", precision: 10, scale: 2
+    t.string "fixed_price_frequency"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"

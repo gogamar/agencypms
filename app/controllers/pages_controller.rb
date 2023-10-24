@@ -12,7 +12,7 @@ class PagesController < ApplicationController
 
   def home
     @towns = Town.all
-    @property_types = Vrental::PROPERTY_TYPES.keys
+    @property_types = Vrental::PROPERTY_TYPES.values
 
     @highest_bedroom_count = Vrental.joins(:bedrooms)
                                     .group('vrentals.id')

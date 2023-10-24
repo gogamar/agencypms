@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
       resources :offices, only: [:destroy] do
         get "import_properties", on: :member
+        get "destroy_all_properties", on: :member
       end
 
       resources :vrentals do

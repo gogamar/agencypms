@@ -1,6 +1,6 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: %i[ show edit update destroy import_properties ]
-  before_action :set_company, except: %i[ destroy import_properties ]
+  before_action :set_office, only: %i[ show edit update destroy import_properties destroy_all_properties ]
+  before_action :set_company, except: %i[ destroy import_properties destroy_all_properties]
 
   def index
     @offices = policy_scope(Office)
@@ -45,8 +45,14 @@ class OfficesController < ApplicationController
   end
 
   def import_properties
-    @office.import_properties_from_beds
+    no_import = params[:no_import] if params[:no_import].present?
+    import_name = params[:import_name] if params[:import_name].present?
+    @office.import_properties_from_beds(no_import, import_name)
     redirect_to vrentals_path, notice: "Immobles importats de Beds24."
+  end
+
+  def destroy_all_properties
+    @office.vrentals.destroy_all
   end
 
   private

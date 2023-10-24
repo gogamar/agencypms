@@ -23,13 +23,19 @@ class Vrental < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-  validates_presence_of :name, :status, :address, :office_id
+  CONTRACT_TYPES = ['commission', 'fixed_price'].freeze
+  FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
 
+  validates_presence_of :name, :status, :address, :office_id
   validates :name, uniqueness: true
+  validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
+  validates :commission, presence: true, if: -> { contract_type == 'commission' }
+  # validates :fixed_price_amount, presence: true, if: -> { contract_type == 'fixed_price' }
+  # validates :fixed_price_frequency, presence: true, inclusion: { in: FIXED_PRICE_FREQUENCIES }, if: -> { contract_type == 'fixed_price' }
 
   PROPERTY_TYPES = {
-    "apartment": "1",
-    "house": "17"
+    "1": "apartment",
+    "17": "house"
   }
 
   EASTER_SEASON_FIRSTNIGHT = {
@@ -92,7 +98,6 @@ class Vrental < ApplicationRecord
 
     return available_ranges
   end
-
 
   def other_statements_dates(statement=nil)
     other_statements = statement.nil? ? statements : statements.where.not(id: statement.id)
@@ -213,7 +218,7 @@ class Vrental < ApplicationRecord
 
     real_bookings.each do |booking|
       rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout)
-      total_rate_price += rate_price
+      total_rate_price += rate_price if rate_price
     end
     return total_rate_price
   end
@@ -223,7 +228,7 @@ class Vrental < ApplicationRecord
     all_vrentals = Vrental.all
 
     all_vrentals.each do |vrental|
-      total_rate_price_for_all += vrental.total_rate_price
+      total_rate_price_for_all += vrental.total_rate_price if vrental.total_rate_price
     end
 
     total_rate_price_for_all
@@ -637,8 +642,28 @@ class Vrental < ApplicationRecord
   def delete_non_valid_images_on_beds
     client = BedsHelper::Beds.new(office.beds_key)
     begin
-      beds24content= client.get_property_content(prop_key, images: true)
-      beds24photos = beds24content[0]["images"]["external"].select { |key, image| image["url"] != "" }
+      beds24content = client.get_property_content(prop_key, images: true, roomIds: true)[0]
+
+      beds24photos_property = beds24content["images"]["external"].select { |key, image| image["url"] != "" }
+      beds24photos_room = beds24content["roomIds"][beds_room_id]["images"]["external"].select { |key, image| image["url"] != "" }
+
+      # delete all hosted images
+      beds24photos_hosted = beds24content["images"]["hosted"]
+
+      hosted_photos = {}
+      number_of_hosted_photos = beds24photos_hosted.length
+      number_of_hosted_photos.times do |index|
+        hosted_photos["#{index + 1}"] = {
+          url: "",
+          map: beds24photos_hosted["#{index + 1}"]["map"]
+        }
+      end
+      # trying another way
+      # beds24photos_hosted.each do |key, photo|
+      #   hosted_photos[key] = {}
+      # end
+
+      beds24photos = beds24photos_property.merge(beds24photos_room)
 
       valid_photos = []
 
@@ -682,9 +707,9 @@ class Vrental < ApplicationRecord
 
       images_array = []
       property_images = {
-        action: "modify",
+        action: "delete",
         images: {
-          hosted: [],
+          hosted: {},
           external: external
         }
       }
@@ -701,15 +726,14 @@ class Vrental < ApplicationRecord
     client = BedsHelper::Beds.new(office.beds_key)
     begin
       property = client.get_property(prop_key, includeRooms: true)[0]
+      vrental_room = property["roomTypes"].find { |room| room["roomId"] == beds_room_id }
         self.update!(
-          name: property["name"],
+          # name: property["name"],
+          property_type: PROPERTY_TYPES[property["propTypeId"]],
           address: property["address"] + ', ' + property["postcode"] + ' ' + property["city"],
-          max_guests: property["roomTypes"][0]["maxPeople"].to_i,
+          max_guests: vrental_room["maxPeople"].to_i,
           status: "active",
-          town_id: Town.find_by(name: property["city"])&.id || Town.create(name: property["city"]).id,
-          cadastre: self.cadastre.present? ? self.cadastre : property["template7"].split("/")[0],
-          habitability: self.habitability.present? ? self.habitability : property["template7"].split("/")[1],
-          commission: self.commission.present? ? self.commission : property["template8"]
+          town_id: Town.where("name ILIKE ?", "%#{property["city"]}%").first&.id || Town.create(name: property["city"]).id
         )
         sleep 2
       get_content_from_beds
@@ -722,21 +746,16 @@ class Vrental < ApplicationRecord
   def get_content_from_beds
     client = BedsHelper::Beds.new(office.beds_key)
     begin
-      beds24content = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)
-      update!(licence: beds24content[0]["permit"])
+      vrental_property = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)[0]
+      vrental_room = vrental_property["roomIds"][beds_room_id]
 
-      if beds24content[0]["roomIds"]
-        update!(
-          description_ca: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["CA"],
-          description_es: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["ES"],
-          description_fr: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["FR"],
-          description_en: beds24content[0]["roomIds"].first[1]["texts"]["contentDescriptionText"]["EN"]
-        )
-      end
+      update!(licence: vrental_property["permit"], description_ca: vrental_room["texts"]["contentDescriptionText"]["CA"], description_es: vrental_room["texts"]["contentDescriptionText"]["ES"], description_fr: vrental_room["texts"]["contentDescriptionText"]["FR"], description_en: vrental_room["texts"]["contentDescriptionText"]["EN"])
 
-      if beds24content[0]["images"]["external"].present?
+      if vrental_property["images"]["external"].present? || vrental_room["images"]["external"].present?
 
-        beds24photos = beds24content[0]["images"]["external"].select { |key, image| image["url"] != "" }
+        beds24photos_property = vrental_property["images"]["external"].select { |key, image| image["url"] != "" }
+        beds24photos_room = vrental_room["images"]["external"].select { |key, image| image["url"] != "" }
+
         # not sure if I should delete images locally just because they are not on beds24
         # beds24_image_urls = beds24photos.map { |key, image| image["url"] }
         # image_urls.each do |image_url|
@@ -745,7 +764,7 @@ class Vrental < ApplicationRecord
         #   end
         # end
 
-        puts "There are #{beds24photos.length} images."
+        beds24photos = beds24photos_property.merge(beds24photos_room)
 
         beds24photos.each do |key, image|
           new_url = image["url"]
@@ -767,13 +786,11 @@ class Vrental < ApplicationRecord
         end
       end
 
-      if beds24content[0]["roomIds"].first[1]["featureCodes"].present?
+      if vrental_room["featureCodes"].present?
         accepted_features = Feature::FEATURES
-        beds24features = beds24content[0]["roomIds"].first[1]["featureCodes"].flatten.map(&:downcase)
+        beds24features = vrental_room["featureCodes"].flatten.map(&:downcase)
 
         selected_features = beds24features.select { |feature| accepted_features.include?(feature) }
-
-        puts "these are beds24features: #{selected_features}"
 
         selected_features.each do |feature|
           unless features.find_by(name: feature)
@@ -789,7 +806,7 @@ class Vrental < ApplicationRecord
           end
         end
 
-        beds24bedrooms = beds24content[0]["roomIds"].first[1]["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BEDROOM") } }
+        beds24bedrooms = vrental_room["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BEDROOM") } }
 
         beds24bedrooms.each_with_index do |room_data, index|
           room_type = room_data.select { |word| word.starts_with?("BEDROOM") }.first
@@ -815,7 +832,7 @@ class Vrental < ApplicationRecord
           end
         end
 
-        beds24bathrooms = beds24content[0]["roomIds"].first[1]["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BATHROOM") } }
+        beds24bathrooms = vrental_room["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BATHROOM") } }
 
         beds24bathrooms.each_with_index do |bathroom_data, index|
           bathroom = bathrooms[index]

@@ -4,17 +4,21 @@ class VrentalsController < ApplicationController
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
     @statuses = @vrentals.pluck(:status).uniq
+    @towns = Town.all
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
     @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
+    @vrentals = @vrentals.where(town_id: params[:filter_town]) if params[:filter_town].present?
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
   end
 
   def list
     @vrentals = policy_scope(Vrental)
     @statuses = @vrentals.pluck(:status).uniq
+    @towns = Town.all
     @vrentals = @vrentals.includes(:owner)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
     @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
+    @vrentals = @vrentals.where(town_id: params[:filter_town]) if params[:filter_town].present?
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
     render(partial: 'vrentals', locals: { vrentals: @vrentals })
@@ -369,8 +373,7 @@ class VrentalsController < ApplicationController
 
   def vrental_params
     params.require(:vrental).permit(
-      :name, :address, :licence, :cadastre, :habitability, :commission,
-      :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests,
+      :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests,
       :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, :latitude, :longitude, :town_id, feature_ids: [], photos: []
     )
   end

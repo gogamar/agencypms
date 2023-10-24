@@ -7,7 +7,6 @@ export default class extends Controller {
   static targets = ["address"];
 
   connect() {
-    console.log(document.querySelector('input[name="vrental[latitude]"]'));
     this.geocoder = new MapboxGeocoder({
       accessToken: this.apiKeyValue,
       types: "country,region,place,postcode,locality,neighborhood,address",

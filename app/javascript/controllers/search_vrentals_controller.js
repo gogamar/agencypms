@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["form", "filterName", "filterStatus"];
+  static targets = ["form", "filterName", "filterStatus", "filterTown"];
   static values = {
     url: String,
   };
@@ -9,6 +9,7 @@ export default class extends Controller {
   search() {
     const filterName = this.filterNameTarget.value;
     const filterStatus = this.filterStatusTarget.value;
+    const filterTown = this.filterTownTarget.value;
 
     // Construct a new URL with the parameters
     const searchParams = new URLSearchParams();
@@ -20,9 +21,11 @@ export default class extends Controller {
       searchParams.set("filter_status", filterStatus);
     }
 
+    if (filterTown.trim() !== "") {
+      searchParams.set("filter_town", filterTown);
+    }
+
     const paramString = searchParams.toString();
-    console.log("paramString is?", paramString);
-    console.log("this.urlValue is?", this.urlValue);
 
     if (paramString !== "") {
       history.pushState({}, "", `${this.urlValue}?${paramString}`);

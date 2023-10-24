@@ -10,8 +10,13 @@
     <% if @statuses.count > 1 %>
       <div class="form-group col">
         <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterStatus" } %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
+    <% if @towns.count > 1 %>
+      <div class="form-group col">
+        <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterTown" } %>
+      </div>
+    <% end %>
   <% end %>
 </div>
 <%= turbo_frame_tag "vrentals" do %>

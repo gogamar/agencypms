@@ -1,0 +1,30 @@
+<div class="form-inputs">
+  <%= f.association :office %>
+  <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
+  <%= f.input :name %>
+  <%= f.input :contract_type, collection: Vrental::CONTRACT_TYPES.map { |contract_type| [t(contract_type), contract_type] }, input_html: { "data-update-field-target" => "contractType", "data-action": "change->update-field#toggleFields" } %>
+  <div class="d-none" data-update-field-target="commissionField">
+    <%= f.input :commission, as: :string %>
+  </div>
+  <div class="d-none" data-update-field-target="fixedPriceFields">
+    <%= f.input :fixed_price_amount, as: :string  %>
+    <%= f.input :fixed_price_frequency, collection: Vrental::FIXED_PRICE_FREQUENCIES.map { |frequency| [t(frequency), frequency] } %>
+  </div>
+  <%= f.input :property_type, collection: Vrental::PROPERTY_TYPES.values.map { |key| [t(key), key] } %>
+  <%= f.input :address, input_html: {data: {address_autocomplete_target: "address"}}, wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}} %>
+  <%= f.input :latitude, id: "latitude-input" %>
+  <%= f.input :longitude, id: "longitude-input" %>
+  <%= f.input :cadastre %>
+  <%= f.input :habitability %>
+  <%= f.input :licence %>
+  <%= f.input :max_guests %>
+  <%= f.input :min_price %>
+  <%= f.input :description_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :description_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :description_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :description_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= t("dont-fill") %>
+  <%= f.input :beds_prop_id %>
+  <%= f.input :beds_room_id %>
+  <%= f.input :prop_key %>
+</div>

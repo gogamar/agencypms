@@ -6,46 +6,57 @@ class Office < ApplicationRecord
   validates :beds_owner_id, presence: true, uniqueness: true
   encrypts :beds_key, deterministic: true
 
-  def import_properties_from_beds
+  def import_properties_from_beds(no_import=nil, import_name)
     client = BedsHelper::Beds.new(beds_key)
 
     begin
       beds24rentals = client.get_properties
-      puts "BEDS24RENTALS: #{beds24rentals}"
       beds24rentals.each do |bedsrental|
-        vrental = Vrental.find_by(beds_prop_id: bedsrental["propId"])
-        unless vrental.present?
-          # new_owner = Owner.create!(
-          #   fullname: bedsrental["template1"],
-          #   language: "ca",
-          #   document: bedsrental["template5"],
-          #   address: bedsrental["template2"],
-          #   email: bedsrental["template4"],
-          #   phone: bedsrental["template3"],
-          #   account: bedsrental["template6"],
-          #   beds_room_id: bedsrental["roomTypes"][0]["roomId"],
-          #   user_id: vrental.user_id
-          #   )
-          vrental = Vrental.create!(
-            name: bedsrental["name"],
-            address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
-            beds_prop_id: bedsrental["propId"],
-            beds_room_id: bedsrental["roomTypes"][0]["roomId"],
-            max_guests: bedsrental["roomTypes"][0]["maxPeople"].to_i,
-            user_id: company.admin.id,
-            prop_key: bedsrental["name"].delete(" ").delete("'").downcase + "2022987123654",
-            status: "active",
-            office_id: id,
-            town_id: Town.find_by(name: bedsrental["city"])&.id || Town.create(name: bedsrental["city"]).id,
-            # owner: new_owner || company.admin,
-            cadastre: bedsrental["template7"].present? ? bedsrental["template7"].split("/")[0]: '',
-            habitability: bedsrental["template7"].present? ? bedsrental["template7"].split("/")[1]: '',
-            commission: bedsrental["template8"],
-            licence: bedsrental["permit"]
-          )
+        # secure_prop_key = SecureRandom.alphanumeric(16)
+        secure_prop_key = bedsrental["propId"] + "#2t0h2i3s1i0s2s4e$c€ure"
+        bedsrental["roomTypes"].each do |room|
+          words_array = no_import.split(', ').map(&:downcase)
+          match_found = words_array.any? do |word|
+            bedsrental["name"].downcase.include?(word) || room["name"].downcase.include?(word)
+          end
+          next if no_import.present? && match_found
+          vrental_name = import_name == "property" ? bedsrental["name"] : room["name"]
+          vrental = Vrental.find_by(beds_room_id: room["roomId"])
+          unless vrental.present?
+            # new_owner = Owner.create!(
+            #   fullname: bedsrental["template1"],
+            #   language: "ca",
+            #   document: bedsrental["template5"],
+            #   address: bedsrental["template2"],
+            #   email: bedsrental["template4"],
+            #   phone: bedsrental["template3"],
+            #   account: bedsrental["template6"],
+            #   beds_room_id: bedsrental["roomTypes"][0]["roomId"],
+            #   user_id: vrental.user_id
+            #   )
+            vrental = Vrental.create!(
+              name: vrental_name,
+              property_type: Vrental::PROPERTY_TYPES[bedsrental["propTypeId"]],
+              address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
+              beds_prop_id: bedsrental["propId"],
+              beds_room_id: room["roomId"],
+              max_guests: room["maxPeople"].to_i,
+              user_id: company.admin.id,
+              prop_key: secure_prop_key,
+              status: "active",
+              office_id: id,
+              town_id: Town.where("name ILIKE ?", "%#{bedsrental["city"]}%").first&.id || Town.create(name: bedsrental["city"]).id,
+              latitude: bedsrental["latitude"],
+              longitude: bedsrental["longitude"],
+              # owner: new_owner || company.admin,
+              cadastre: bedsrental["template7"].present? ? bedsrental["template7"].split("/")[0] : '',
+              habitability: bedsrental["template7"].present? ? bedsrental["template7"].split("/")[1] : '',
+              commission: bedsrental["template8"].present? ? bedsrental["template8"] : ''
+            )
+          end
+          # vrental.get_content_from_beds
+          sleep 2
         end
-        vrental.get_content_from_beds
-        sleep 2
       end
     rescue StandardError => e
       Rails.logger.error("Error al importar immobles de Beds24: #{e.message}")

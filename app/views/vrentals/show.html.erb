@@ -60,7 +60,7 @@
         <strong><%= @vrental.bathrooms.count %> <%= t("bathroom", count: @vrental.bathrooms.count) %>:</strong>
         <% @vrental.bathrooms&.order(:bathroom_type).each do |bathroom| %>
           <li>
-            <%= t(bathroom.bathroom_type) %>
+            <%= t(bathroom.bathroom_type, count: 1) %>
           </li>
         <% end %>
       </p>

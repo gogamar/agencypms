@@ -2,6 +2,17 @@ module BedsHelper
   require 'httparty'
   require 'oj'
 
+  class Error < StandardError; end
+
+  class APIError < StandardError
+    attr_accessor :response
+
+    def initialize(msg, response)
+      super(msg)
+      @response = response
+    end
+  end
+
   class Beds
     include HTTParty
     base_uri 'https://beds24.com/api/json'
@@ -75,10 +86,10 @@ module BedsHelper
       )
       json = parse!(response)
       json["getProperty"]
-      rescue Oj::ParseError
+    rescue Oj::ParseError
       raise Error, 'Got encoding different from JSON. Please check passed options'
     rescue APIError => e
-      e.response
+      raise e
     end
 
     def get_property_content(prop_key, options={})

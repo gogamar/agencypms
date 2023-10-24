@@ -1,16 +1,21 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["vrentalName", "propKey"];
+  static targets = ["contractType", "commissionField", "fixedPriceFields"];
 
   connect() {
-    this.updatePropKey();
+    this.toggleFields();
   }
 
-  updatePropKey() {
-    const name = this.vrentalNameTarget.value;
-    const propKey =
-      name.replace(/[-.'\s]/g, "").toLowerCase() + "2022987123654";
-    this.propKeyTarget.value = propKey;
+  toggleFields() {
+    const contractTypeValue = this.contractTypeTarget.value;
+
+    if (contractTypeValue === "commission") {
+      this.commissionFieldTarget.classList.remove("d-none");
+      this.fixedPriceFieldsTarget.classList.add("d-none");
+    } else if (contractTypeValue === "fixed_price") {
+      this.commissionFieldTarget.classList.add("d-none");
+      this.fixedPriceFieldsTarget.classList.remove("d-none");
+    }
   }
 }
