@@ -49,10 +49,11 @@ class TownsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_town
       @town = Town.find(params[:id])
+      authorize @town
     end
 
     # Only allow a list of trusted parameters through.
     def town_params
-      params.require(:town).permit(:name, :description, photos: [])
+      params.require(:town).permit(:name, :description_ca, :description_es, :description_fr, :description_en, photos: [])
     end
 end

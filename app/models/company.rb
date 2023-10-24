@@ -5,12 +5,12 @@ class Company < ApplicationRecord
   has_many :rate_plans
   # validate :user_can_create_only_one_company, on: :create
 
-  def get_availability_from_beds(checkin, checkout, guests, prop_ids)
+  def get_availability_from_beds(beds_owner_id, checkin, checkout, guests, prop_ids)
     begin
       client = BedsHelper::Beds.new
 
       options = {
-        "ownerId": "55640",
+        "ownerId": beds_owner_id,
         "checkIn": checkin.delete("-"),
         "checkOut": checkout.delete("-"),
         "numAdult": guests,

@@ -10,7 +10,10 @@ class Rate < ApplicationRecord
   validates :priceweek, presence: true
 
 
-  def send_to_beds
+  def send_to_beds(encrypted_key)
+    key = get_beds_key(encrypted_key)
+    client = BedsHelper::Beds.new(key)
+
     prop_key = self.vrental.prop_key
 
     new_beds24_rates = [
@@ -93,8 +96,6 @@ class Rate < ApplicationRecord
       }
     ]
 
-    auth_token = ENV["BEDSKEY"]
-    client = BedsHelper::Beds.new(auth_token)
     client.set_rates(prop_key, setRates: new_beds24_rates)
   end
 end

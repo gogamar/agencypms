@@ -13,6 +13,7 @@ class PagesController < ApplicationController
   def home
     @towns = Town.all
     @property_types = Vrental::PROPERTY_TYPES.keys
+
     @highest_bedroom_count = Vrental.joins(:bedrooms)
                                     .group('vrentals.id')
                                     .order('COUNT(bedrooms.id) DESC')
@@ -26,6 +27,10 @@ class PagesController < ApplicationController
                                       .count('bathrooms.id')
                                       .values.first
     @features = Feature.all.uniq
+    # @towns_with_photo = Town.joins(:photos_attachments).distinct
+    @featured_towns = Town.joins(:vrentals).select('towns.*, COUNT(vrentals.id) AS vrentals_count').group('towns.id').order('vrentals_count DESC').distinct.limit(4)
+
+    @properties_in_town = Vrental.joins(:town).group('towns.id').count
 
 
     # FIXME: make these featured rentals
@@ -46,7 +51,12 @@ class PagesController < ApplicationController
                                     false
                                   end
                                 end
-                                .first(6)
+    if @featured_vrentals.count >= 6
+      @featured_vrentals = @featured_vrentals.first(6)
+    else
+      @featured_vrentals = @featured_vrentals.first(3)
+    end
+
   end
 
   def list_map
@@ -55,10 +65,19 @@ class PagesController < ApplicationController
     @checkout = params[:check_out]
     @guests = params[:guests]
     prop_ids = @vrentals.pluck(:beds_prop_id)
+    # fixme - need to get the company from url (subdomain)
     @company = Company.first
-    @available_vrentals = @company.get_availability_from_beds(@checkin, @checkout, @guests, prop_ids)
-    @vrentals = @vrentals.where(id: @available_vrentals.map { |item| item.keys.first.to_i })
+    @available_vrentals = []
+    @company.offices.each do |office|
+      owner_id = office.beds_owner_id
+      availability_data = get_availability_from_beds(owner_id, @checkin, @checkout, @guests, prop_ids)
+      @available_vrentals.concat(availability_data)
+    end
+    vrental_ids = @available_vrentals.map { |item| item.keys.first.to_i }
+    @vrentals = @vrentals.where(id: vrental_ids)
     @vrentals_number = @vrentals.count
+    @vrentals = Vrental.joins(:features).where(features: { name: 'pool' }) if params[:pool].present?
+    @vrentals = Vrental.joins(:rates).where('rates.priceweek <= ?', 350).distinct if params[:economy].present?
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
     puts "these are the available_vrentals: #{@available_vrentals}"
     @markers = @available_vrentals.map do |property|

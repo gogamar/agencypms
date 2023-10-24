@@ -30,7 +30,6 @@ class OfficesController < ApplicationController
   end
 
   def update
-
     if @office.update(office_params)
       redirect_to root_path, notice: "Oficina actualitzada."
     else
@@ -61,6 +60,6 @@ class OfficesController < ApplicationController
     end
 
     def office_params
-      params.require(:office).permit(:name, :street, :city, :post_code, :region, :country, :phone, :mobile, :email, :website, :opening_hours, :manager, :company_id, :local_realtor_number)
+      params.require(:office).permit(:name, :street, :city, :post_code, :region, :country, :phone, :mobile, :email, :website, :opening_hours, :manager, :company_id, :local_realtor_number, :beds_owner_id, :beds_key)
     end
 end

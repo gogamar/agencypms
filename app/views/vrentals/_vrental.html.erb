@@ -13,13 +13,13 @@
       </div>
     </div>
     <div class="sd-list-right">
-      <h4 class="listing_dashboard_title"><%= link_to truncate(vrental.name, length: 150), vrental, class: "text-primary" %></h4>
+      <h4 class="listing_dashboard_title"><%= link_to truncate(vrental.name, length: 50), vrental, class: "text-primary" %></h4>
       <div class="user_dashboard_listed">
-        <%= link_to vrental.address, vrental %>
+        <%= link_to truncate(vrental.address, length: 50), vrental %>
       </div>
       <div class="user_dashboard_listed">
         <% if vrental.owner %>
-          <%= link_to vrental.owner.fullname, edit_vrental_owner_path(vrental, vrental.owner), target: "_blank", class: "text-primary"  %>
+          <%= link_to truncate(vrental.owner.fullname, length: 50), edit_vrental_owner_path(vrental, vrental.owner), target: "_blank", class: "text-primary"  %>
         <% else %>
           <%= link_to t("add_owner"), edit_vrental_path(vrental, anchor: "owner-details"), target: "_blank" %>
         <% end %>

@@ -1,6 +1,14 @@
 import "slick-carousel";
 
 const initSlick = () => {
+  // Compare Slide
+  $(".csm-trigger").on("click", function () {
+    $(".compare-slide-menu").toggleClass("active");
+  });
+  $(".compare-button").on("click", function () {
+    $(".compare-slide-menu").addClass("active");
+  });
+
   // smart-textimonials
   $("#smart-textimonials").slick({
     slidesToShow: 3,
@@ -43,6 +51,37 @@ const initSlick = () => {
         breakpoint: 600,
         settings: {
           arrows: false,
+          slidesToShow: 1,
+        },
+      },
+    ],
+  });
+
+  // slide-livok
+  $(".slide-livok").slick({
+    slidesToShow: 4,
+    arrows: true,
+    dots: false,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1400,
+        settings: {
+          arrows: true,
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 1023,
+        settings: {
+          arrows: true,
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          arrows: true,
           slidesToShow: 1,
         },
       },
@@ -105,22 +144,32 @@ const initSlick = () => {
     ],
   });
 
-  // Home Slider
-  $(".home-slider").slick({
-    centerMode: false,
-    slidesToShow: 1,
+  // Property Slide
+  $(".featured-prt-slide").slick({
+    slidesToShow: 4,
+    arrows: true,
+    autoplay: true,
+    dots: false,
     responsive: [
       {
-        breakpoint: 768,
+        breakpoint: 1600,
         settings: {
           arrows: true,
-          slidesToShow: 1,
+          dots: false,
+          slidesToShow: 3,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 1024,
         settings: {
-          arrows: false,
+          arrows: true,
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          arrows: true,
           slidesToShow: 1,
         },
       },
@@ -162,6 +211,47 @@ const initSlick = () => {
     arrows: false,
     autoplay: true,
     fade: true,
+    dots: true,
+    autoplaySpeed: 4000,
+  });
+
+  // Single Reviews
+  $(".single-reviews").slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    fade: true,
+    dots: false,
+    autoplaySpeed: 2000,
+  });
+
+  // Home Slider
+  $(".home-slider").slick({
+    centerMode: false,
+    slidesToShow: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: true,
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          slidesToShow: 1,
+        },
+      },
+    ],
+  });
+
+  $(".click").slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
     dots: true,
     autoplaySpeed: 4000,
   });
@@ -267,13 +357,6 @@ const initSlick = () => {
         },
       },
     ],
-  });
-
-  $(".click").slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: false,
-    autoplaySpeed: 2000,
   });
 };
 

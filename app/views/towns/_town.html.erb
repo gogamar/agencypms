@@ -3,10 +3,13 @@
     <strong>Name:</strong>
     <%= town.name %>
   </p>
-
   <p>
     <strong>Description:</strong>
-    <%= town.description %>
+    <%= town.description_ca %>
   </p>
-
+  <% if town.photos.attached? %>
+    <% town.photos.each do |photo| %>
+      <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+    <% end %>
+  <% end %>
 </div>

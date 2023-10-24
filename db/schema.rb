@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_19_093509) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_23_195940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -236,6 +236,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_19_093509) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "local_realtor_number"
+    t.string "beds_owner_id"
+    t.text "beds_key"
     t.index ["company_id"], name: "index_offices_on_company_id"
   end
 

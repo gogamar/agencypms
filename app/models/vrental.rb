@@ -32,7 +32,6 @@ class Vrental < ApplicationRecord
     "house": "17"
   }
 
-
   EASTER_SEASON_FIRSTNIGHT = {
     2022 => Date.new(2022,4,2),
     2023 => Date.new(2023,4,1),
@@ -498,7 +497,7 @@ class Vrental < ApplicationRecord
   end
 
   def update_vrental_on_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     beds24rentals_prop_names = Set.new(client.get_properties.map { |bedsrental| bedsrental["name"] })
 
     if beds24rentals_prop_names.include?(name)
@@ -590,12 +589,12 @@ class Vrental < ApplicationRecord
     }
     images_array << property_images
 
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     client.set_property_content(prop_key, setPropertyContent: images_array)
   end
 
   def update_owner_from_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     begin
       property = client.get_property(prop_key)[0]
       existing_owner = Owner.find_by(fullname: property["template1"])
@@ -636,7 +635,7 @@ class Vrental < ApplicationRecord
   end
 
   def delete_non_valid_images_on_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     begin
       beds24content= client.get_property_content(prop_key, images: true)
       beds24photos = beds24content[0]["images"]["external"].select { |key, image| image["url"] != "" }
@@ -699,7 +698,7 @@ class Vrental < ApplicationRecord
   end
 
   def update_vrental_from_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     begin
       property = client.get_property(prop_key, includeRooms: true)[0]
         self.update!(
@@ -721,7 +720,7 @@ class Vrental < ApplicationRecord
   end
 
   def get_content_from_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     begin
       beds24content = client.get_property_content(prop_key, images: true, roomIds: true, texts: true)
       update!(licence: beds24content[0]["permit"])
@@ -850,8 +849,8 @@ class Vrental < ApplicationRecord
   end
 
   def get_rates_from_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = prop_key
+    client = BedsHelper::Beds.new(office.beds_key)
+
     beds24rates = client.get_rates(prop_key)
 
     if beds24rates.success?
@@ -931,7 +930,7 @@ class Vrental < ApplicationRecord
   end
 
   def get_bookings_from_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
+    client = BedsHelper::Beds.new(office.beds_key)
     options = {
       "arrivalFrom": Date.today.beginning_of_year.to_s,
       "arrivalTo": Date.today.to_s,
@@ -1187,8 +1186,7 @@ class Vrental < ApplicationRecord
   end
 
   def delete_this_year_rates_on_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = prop_key
+    client = BedsHelper::Beds.new(office.beds_key)
     beds24rates = client.get_rates(prop_key)
     rates_to_delete = []
     beds24rates.each do |rate|
@@ -1211,9 +1209,8 @@ class Vrental < ApplicationRecord
   end
 
   def send_rates_to_beds
-    client = BedsHelper::Beds.new(ENV["BEDSKEY"])
-    prop_key = prop_key
-    # First we get all the rates from Beds24
+    client = BedsHelper::Beds.new(office.beds_key)
+
     beds24rates = client.get_rates(prop_key)
     # Then we select the rates older than 2 years for deletion
     rates_to_delete = []

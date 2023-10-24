@@ -1,11 +1,14 @@
 import "select2";
 
 const initSelect2 = () => {
+  $("#guests").val(null).trigger("change");
+
   $("#guests").select2({
     placeholder: $("#guests").data("placeholder"),
     allowClear: true,
   });
 
+  $("#location").val(null).trigger("change");
   $("#location").select2({
     placeholder: $("#location").data("placeholder"),
     allowClear: true,
@@ -45,8 +48,6 @@ const initSelect2 = () => {
     placeholder: "Seleccionar plà de tarifa",
     allowClear: true,
   });
-
-  $("#filter-status").select2({});
 
   $("#shorty").select2({
     placeholder: "Show All",

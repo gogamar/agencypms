@@ -1,0 +1,200 @@
+/*------------------------------------------------------------
+	Agency & Agents Design
+-------------------------------------------------------------*/
+
+/*------------ Agent Widgets ----------*/
+.sides-widget {
+  background-color: #fff;
+  color: #707070;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 0.5s;
+  margin-bottom: 30px;
+}
+
+.sides-widget {
+  margin-bottom: 30px;
+}
+
+.sides-widget:last-child {
+  margin-bottom: 0;
+}
+
+.sides-widget-header {
+  position: relative;
+  display: flex;
+  padding: 1.5rem 1.4rem;
+  color: #ffffff;
+  align-items: center;
+}
+
+.sides-widget-details {
+  padding-left: 20px;
+  display: block;
+  position: relative;
+}
+
+.sides-widget-body {
+  padding: 1.5rem 1.4rem;
+}
+
+.sides-widget-details h4 {
+  margin-bottom: 2px;
+  color: #ffffff !important;
+}
+
+.sides-widget-details h4 > a {
+  color: #ffffff !important;
+}
+
+.sides-widget-header .agent-photo {
+  float: left;
+  display: block;
+}
+
+.sides-widget-header .agent-photo img {
+  border-radius: 50%;
+  max-width: 60px;
+}
+
+.sides-widget-details span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.sides-widget-details span i {
+  font-size: 18px;
+  position: relative;
+  top: 3px;
+  color: #ffeb3b;
+  margin-right: 10px;
+}
+
+.simple-form .form-control,
+.modal-dialog-centered .form-control {
+  box-shadow: none;
+  background: #f8fbfd;
+  border: 1px solid #eff3f6;
+}
+
+/*--------------- Agency --------------*/
+.agency {
+  box-shadow: 0 0 20px 0 rgba(19, 115, 234, 0.1);
+  background-color: #fff;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.agency-list {
+  padding: 0;
+  display: flex;
+  padding-right: 30px;
+  margin-bottom: 30px;
+}
+
+.agency-list .agency-avatar {
+  flex: 1;
+  padding: 1rem;
+}
+
+.agency-list .agency-avatar img {
+  margin: 0;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.agency-list .agency-content {
+  padding: 0 40px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  flex: 3;
+}
+
+.agency-list .agency-name {
+  padding-left: 0;
+  margin-bottom: 5px;
+}
+
+.agency-list .agency-desc {
+  line-height: 1.7;
+}
+
+.agency-list .agency-name h4 {
+  margin-bottom: 5px;
+}
+
+.agency-list .agency-name span {
+  margin-top: 2px;
+  font-size: 15px;
+}
+
+.agency-list .agency-name span i {
+  margin-right: 5px;
+}
+
+.prt-detio span {
+  padding: 5px 15px;
+  display: inline-block;
+  background: rgba(255, 87, 34, 0.1);
+  border-radius: 50px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  color: #ff5722;
+}
+
+.agency-detail-info {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #909090;
+  display: block;
+  padding: 10px 0px;
+}
+
+.agency-detail-info li {
+  position: relative;
+  margin-left: 28px;
+  line-height: 24px;
+  padding: 3px 0;
+  word-break: break-all;
+}
+
+.agency-detail-info li i {
+  font-size: 18px;
+  position: relative;
+  top: 5px;
+  left: -28px;
+  position: absolute;
+}
+
+.agency-list .social-icons {
+  left: 0;
+  padding: 0;
+  margin: 7px 0 0px 0;
+  float: none;
+}
+
+.agency-list .social-icons li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.agency-list .social-icons li a {
+  border: 1px solid #e7ebfb;
+  background: #f0f3ff;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  top: 0 !important;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.agency-list .social-icons li a i {
+  height: auto;
+  width: auto;
+}

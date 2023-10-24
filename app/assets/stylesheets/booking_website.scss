@@ -6,7 +6,7 @@
 @import "flag-icon";
 @import "flatpickr/dist/flatpickr";
 @import "select2/dist/css/select2";
-@import "select2-bootstrap-5-theme/src/include-all";
+// @import "select2-bootstrap-5-theme/src/include-all";
 @import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder";
 
 @import "slick-carousel/slick/slick";
@@ -16,9 +16,13 @@
 
 // Internal libraries
 @import "utilities/booking_website_animation";
-
-@import "pages/booking_website";
 @import "pages/mapboxgl_custom";
+
+// Your CSS partials
+@import "components/index";
+@import "simple_calendar";
+
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap");
 
 @import "bootstrap-icons/font/bootstrap-icons";
 @font-face {

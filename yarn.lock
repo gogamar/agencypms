@@ -1628,6 +1628,11 @@ typed-js@^0.2.3:
   resolved "https://registry.yarnpkg.com/typed-js/-/typed-js-0.2.3.tgz#4fbb94aafcce7c3da8f5399214ad9e2bdc95b4db"
   integrity sha512-3/dcS9uIxBTvN6lWoC2dA6BfmGjcxlIzJe9VlzvJcTADuYGvj3rHRvyP7g8rRq72C8yqqEN6C4mL3qBRk4Le2w==
 
+typed.js@^2.0.16:
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/typed.js/-/typed.js-2.0.16.tgz#2ba416821ec8a59521466f405784077eddb1d95e"
+  integrity sha512-IBB52GlJiTUOnomwdVVf7lWgC6gScn8md+26zTHj5oJWA+4pSuclHE76rbGI2hnyO+NT+QXdIUHbfjAY5nEtcw==
+
 update-browserslist-db@^1.0.9:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.10.tgz#0f54b876545726f17d00cd9a2561e6dade943ff3"

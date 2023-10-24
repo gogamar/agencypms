@@ -2,14 +2,19 @@ class VrentalsController < ApplicationController
   before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos]
 
   def index
-    all_vrentals = policy_scope(Vrental).order(created_at: :desc)
-    @pagy, @vrentals = pagy(all_vrentals, page: params[:page], items: 10)
+    @vrentals = policy_scope(Vrental).order(created_at: :desc)
+    @statuses = @vrentals.pluck(:status).uniq
+    @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
+    @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
   end
 
   def list
-    @vrentals = policy_scope(Vrental).includes(:owner)
-    @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:name]}%") if params[:name].present?
-    @vrentals = @vrentals.where(status: params[:status]) if params[:status].present?
+    @vrentals = policy_scope(Vrental)
+    @statuses = @vrentals.pluck(:status).uniq
+    @vrentals = @vrentals.includes(:owner)
+    @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
+    @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
     render(partial: 'vrentals', locals: { vrentals: @vrentals })
