@@ -74,7 +74,7 @@
               <div class="listing-detail-footer d-flex align-items-center justify-content-between py-4">
                 <div class="listing-short-detail-flex">
                   <% lowest_price = vrental.rates.present? ? vrental.rates.minimum(:priceweek) : vrental.min_price * 7 %>
-                  <h6 class="listing-card-info-price m-0"><%= number_to_currency(lowest_price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %></h6>
+                  <h6 class="listing-card-info-price m-0"><%= number_to_currency(lowest_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %></h6>
                   <span class="text-muted-2 fs-sm"><%= t("week") %></span>
                 </div>
                 <div class="footer-flex">

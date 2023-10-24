@@ -12,7 +12,7 @@
           <th scope="col">Data</th>
           <th scope="col">Immoble</th>
           <th scope="col">Liquidació</th>
-          <th scope="col" class="text-end">Import (Total: <%= number_to_currency(@total_agency_fees_invoiced, unit: "€", separator: ",", delimiter: ".", precision: 2) %>)</th>
+          <th scope="col" class="text-end">Import (Total: <%= number_to_currency(@total_agency_fees_invoiced, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>)</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -31,7 +31,7 @@
                 </div>
               <% end %>
             </td>
-            <td class="text-end"><%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td class="text-end"><%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></td>
             <td>
               <% if Date.current == invoice.created_at.to_date %>
                 <%= link_to invoice, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta factura?"}, class: "text-danger text-decoration-none" do %>

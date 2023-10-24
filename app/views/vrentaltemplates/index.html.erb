@@ -1,65 +1,53 @@
-<div class="container-fluid">
-  <div class="my-3 text-end">
-    <%= link_to 'Afegir un model de contracte', new_vrentaltemplate_path, class: "btn btn-primary" %>
+<div class="my-3 text-end">
+  <%= link_to 'Afegir un model de contracte', new_vrentaltemplate_path, class: "link fw-medium" %>
+</div>
+<div class="row border border-top border-bottom fw-bold bg-light">
+  <div class="col-lg-8 py-2 border-start border-end nowrap" id="owner-fullname" relative>
+    Model
   </div>
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h4 class="font-weight-bold text-primary text-center mb-2">Models de contracte HUT</h4>
-      <hr>
-      <div class="container-fluid my-3">
-        <div>
-          <div class="row border border-top border-bottom fw-bold bg-light">
-            <div class="col col-lg-8 py-2 border-start border-end nowrap" id="owner-fullname" relative>
-              Model
-            </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap" id="owner-address" relative>
-              <small>Idioma</small>
-            </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap text-center" id="owner-language" relative>
-              <small>Modificar</small>
-            </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap text-center">
-              <small>Copiar</small>
-            </div>
-            <div class="col-lg-1 py-2 border-start border-end nowrap text-center">
-              <small>Esborrar</small>
-            </div>
-          </div>
-        </div>
-        <div class="tbody">
-          <% @vrentaltemplates.each do |vrentaltemplate| %>
-            <div class="row border">
-              <div class="col-lg-8 border-start border-end nowrap">
-                <%= link_to vrentaltemplate.title, vrentaltemplate %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap">
-                <%= vrentaltemplate.language %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap text-center">
-                <% if policy(vrentaltemplate).edit? %>
-                  <%= link_to edit_vrentaltemplate_path(vrentaltemplate), class: "text-info text-decoration-none" do %>
-                    <i class="fas fa-edit fa-sm"></i>
-                  <% end %>
-                <% end %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap text-center">
-                <% if policy(vrentaltemplate).copy? %>
-                  <%= link_to copy_vrentaltemplate_path(vrentaltemplate), class: "text-success text-decoration-none" do %>
-                    <i class="fas fa-copy fa-sm"></i>
-                  <% end %>
-                <% end %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap text-center">
-                <% if policy(vrentaltemplate).destroy? && !vrentaltemplate.vragreements.any? %>
-                  <%= link_to vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"}, class: "text-danger text-decoration-none" do %>
-                    <i class="fas fa-trash fa-sm"></i>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
+  <div class="col-lg-1 py-2 border-start border-end nowrap" id="owner-address" relative>
+    <small>Idioma</small>
+  </div>
+  <div class="col-lg-1 py-2 border-start border-end nowrap text-center" id="owner-language" relative>
+    <small>Modificar</small>
+  </div>
+  <div class="col-lg-1 py-2 border-start border-end nowrap text-center">
+    <small>Copiar</small>
+  </div>
+  <div class="col-lg-1 py-2 border-start border-end nowrap text-center">
+    <small>Esborrar</small>
+  </div>
+</div>
+<div class="tbody">
+  <% @vrentaltemplates.each do |vrentaltemplate| %>
+    <div class="row border">
+      <div class="col-lg-8 border-start border-end nowrap">
+        <%= link_to vrentaltemplate.title, vrentaltemplate %>
+      </div>
+      <div class="col-lg-1 border-start border-end nowrap">
+        <%= vrentaltemplate.language %>
+      </div>
+      <div class="col-lg-1 border-start border-end nowrap text-center">
+        <% if policy(vrentaltemplate).edit? %>
+          <%= link_to edit_vrentaltemplate_path(vrentaltemplate), class: "text-info text-decoration-none" do %>
+            <i class="fas fa-edit fa-sm"></i>
           <% end %>
-        </div>
+        <% end %>
+      </div>
+      <div class="col-lg-1 border-start border-end nowrap text-center">
+        <% if policy(vrentaltemplate).copy? %>
+          <%= link_to copy_vrentaltemplate_path(vrentaltemplate), class: "text-success text-decoration-none" do %>
+            <i class="fas fa-copy fa-sm"></i>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="col-lg-1 border-start border-end nowrap text-center">
+        <% if policy(vrentaltemplate).destroy? && !vrentaltemplate.vragreements.any? %>
+          <%= link_to vrentaltemplate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrentaltemplate.title}?"}, class: "text-danger text-decoration-none" do %>
+            <i class="fas fa-trash fa-sm"></i>
+          <% end %>
+        <% end %>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>

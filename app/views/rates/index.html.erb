@@ -5,13 +5,8 @@
       <%= form.submit 'Carregar dates', class: 'btn btn-primary' %>
     <% end %>
   <% end %>
-  <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-light btn-icon-split" do %>
-    <span class="icon text-white-600">
-      <i class="fas fa-file-import"></i>
-    </span>
-    <span class="text">
-      Importar tarifes des de Beds
-    </span>
+  <%= link_to get_rates_vrental_path(@vrental), class: "text-muted-2" do %>
+    <i class="fa-solid fa-file-import me-1"></i>Importar tarifes des de Beds
   <% end %>
   <% if @rates.where("lastnight >= ?", Date.today).present? %>
     <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>

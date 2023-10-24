@@ -1,9 +1,9 @@
 <div class="property-sidebar side_stiky">
   <div class="sider_blocks_wrap">
     <div class="side-booking-header d-flex justify-content-center">
-      <h3 class="prt-price-fix text-secondary type--strikethrough me-3 <%= 'd-none' unless @discount %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h3>
+      <h3 class="prt-price-fix text-secondary type--strikethrough me-3 <%= 'd-none' unless @discount %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h3>
       <h3 class="prt-price-fix text-primary" id="<%= @vrental.id %>-price">
-        <%= number_to_currency(@price, unit: "€", separator: ",", delimiter: ".", precision: 2) %>
+        <%= number_to_currency(@price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
       </h3>
       <span id="<%= @vrental.id %>-not-available" <%= 'd-none' unless @not_available %>><%= t("not_available") %></span>
       </div>

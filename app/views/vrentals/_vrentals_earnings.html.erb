@@ -1,11 +1,11 @@
 <div class="my-3 border border-secondary p-2">
   <p>Comissió mitjana: <%= number_to_percentage(@average_commission.to_f*100, precision: 2) %></p>
-  <p>Segons contracte (menys les reserves propietari) <%= number_to_currency(@total_rate_price_all_vrentals, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @total_rate_price_all_vrentals %></p>
-  <p>Segons reserves <%= number_to_currency(@total_bookings_all_vrentals, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @total_bookings_all_vrentals %></p>
-  <p>Segons liquidacions <%= number_to_currency(@total_earnings_all_vrentals, unit: "€", separator: ",", delimiter: ".", precision: 2) %></p>
-  <p>Diferencia reserves i liquidacions: <%= number_to_currency((@total_bookings_all_vrentals - @total_earnings_all_vrentals), unit: "€", separator: ",", delimiter: ".", precision: 2) if @total_earnings_all_vrentals %> <%= rental_balance_message(@vrental) %></p>
-  <p>Total Honoraris Agència (net): <%= number_to_currency(@total_agency_fees, unit: "€", separator: ",", delimiter: ".", precision: 2) if @total_agency_fees %></p>
-  <p>Total IVA Agència: <%= number_to_currency(@total_agency_fees * 0.21, unit: "€", separator: ",", delimiter: ".", precision: 2) if @total_agency_fees %></p>
+  <p>Segons contracte (menys les reserves propietari) <%= number_to_currency(@total_rate_price_all_vrentals, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @total_rate_price_all_vrentals %></p>
+  <p>Segons reserves <%= number_to_currency(@total_bookings_all_vrentals, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @total_bookings_all_vrentals %></p>
+  <p>Segons liquidacions <%= number_to_currency(@total_earnings_all_vrentals, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></p>
+  <p>Diferencia reserves i liquidacions: <%= number_to_currency((@total_bookings_all_vrentals - @total_earnings_all_vrentals), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @total_earnings_all_vrentals %> <%= rental_balance_message(@vrental) %></p>
+  <p>Total Honoraris Agència (net): <%= number_to_currency(@total_agency_fees, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @total_agency_fees %></p>
+  <p>Total IVA Agència: <%= number_to_currency(@total_agency_fees * 0.21, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @total_agency_fees %></p>
   <div><%= link_to 'Refrescar la pàgina', request.original_url, class: 'btn btn-secondary' %>
   </div>
 </div>
@@ -58,9 +58,9 @@
           <div class="col-lg-3 align-self-center">
             <small><%= link_to vrental.name, vrental, class: "text-decoration-none" %></small>
           </div>
-          <div class="col-lg-2"><%= number_to_currency(vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if vrental.total_bookings %></div>
-          <div class="col-lg-2"><%= number_to_currency(vrental.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2) if vrental.total_earnings %></div>
-          <div class="col-lg-2"><%= number_to_currency((vrental.agency_fees), unit: "€", separator: ",", delimiter: ".", precision: 2) if vrental.agency_fees %></div>
+          <div class="col-lg-2"><%= number_to_currency(vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if vrental.total_bookings %></div>
+          <div class="col-lg-2"><%= number_to_currency(vrental.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if vrental.total_earnings %></div>
+          <div class="col-lg-2"><%= number_to_currency((vrental.agency_fees), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if vrental.agency_fees %></div>
         </div>
       <% end %>
     </div>

@@ -34,9 +34,9 @@ class Vragreement < ApplicationRecord
                      when :place, :clause
                         send(key).to_s
                      when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence, :vrental_description
-                        vrental.present? ? vrental.send(key[8..]) : ''
+                        vrental.present? ? vrental_description : ''
                      when :owner_fullname, :owner_document, :owner_address, :owner_email, :owner_phone, :owner_account
-                        vrental.owner.present? ? vrental.owner.send(key[8..]) : ''
+                        vrental.owner.present? ? vrental.owner.send(key[6..]) : ''
                       when :company_name, :company_street, :company_city, :company_post_code, :company_region, :company_country, :company_bank_account, :company_administrator, :company_vat_tax, :company_vat_number, :company_realtor_number
                         vrental.office&.company.present? ? vrental.office.company.send(key[8..]) : ''
                      when

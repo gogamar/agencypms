@@ -30,9 +30,9 @@
             <td><%= vrental.licence %></td>
             <td><%= vrental.address %></td>
             <td><%= vrental.town&.name %></td>
-            <td><%= number_to_currency(city_tax_hash[:base], unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td><%= number_to_currency(city_tax_hash[:vat], unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
-            <td><%= number_to_currency(city_tax_hash[:tax], unit: "€", separator: ",", delimiter: ".", precision: 2) %></td>
+            <td><%= number_to_currency(city_tax_hash[:base], unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></td>
+            <td><%= number_to_currency(city_tax_hash[:vat], unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></td>
+            <td><%= number_to_currency(city_tax_hash[:tax], unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></td>
             <td><%= vrental.bookings.where.not(status: "0").where(checkin: Date.today.beginning_of_year..Date.today.end_of_year).count %></td>
           </tr>
         <% end %>

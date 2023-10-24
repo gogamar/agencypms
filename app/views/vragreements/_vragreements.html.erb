@@ -1,101 +1,94 @@
-<div class="card shadow mb-4 type--fine-print">
-  <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Contractes lloguer turístic</h4>
-    <hr>
-    <div class="container d-flex justify-content-center mt-5">
-      <%= form_with url: list_vragreements_path, method: :get, data: { turbo_frame: "vragreements" }, class: "row g-3" do |form| %>
-        <div class="col-auto">
-          <%= form.select :status,
+<%= form_with url: list_vragreements_path, method: :get, data: { turbo_frame: "vragreements" }, class: "row g-3" do |form| %>
+  <div class="col-auto">
+    <%= form.select :status,
               options_for_select([[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']]),
               { include_blank: 'Tots els immobles' },
               class: "form-select"
             %>
-        </div>
-        <div class="col-auto">
-          <%= form.select :year,
+  </div>
+  <div class="col-auto">
+    <%= form.select :year,
               options_for_select(
               [[Date.today.last_year.year],[Date.today.year],[Date.today.next_year.year]],
              ),
               { include_blank: 'Tots els anys' },
               class: "form-select"
             %>
-        </div>
-        <div class="col-auto">
-          <%= form.text_field :vrental, placeholder: "Buscar per nom", class: "form-control bg-white border-0 small",
+  </div>
+  <div class="col-auto">
+    <%= form.text_field :vrental, placeholder: "Buscar per nom", class: "form-control bg-white border-0 small",
           autocomplete: "off" %>
-        </div>
-        <div class="col-auto">
-          <%= form.button class: "btn btn-primary me-3" do %>
-            <i class="fas fa-search fa-sm"></i>
-          <% end %>
-        </div>
-      <% end %>
-      <div class="col-auto">
-        <%= link_to "Tots els contractes", vragreements_path, class: "btn btn-secondary" %>
-      </div>
-    </div>
-    <%= turbo_frame_tag "vragreements", class: "card-body" do %>
-      <div class="container-fluid my-3">
-        <div>
-          <div class="row border border-top border-bottom fw-bold bg-light">
-            <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
-              <%= sort_indicator if params[:column] == "status" %>
-              <%= sort_link_vragreement(column: "status", label: "Estat") %>
-            </div>
-            <div class="col col-lg-2 py-3 border-start border-end" id="vrdate" relative>
-              <%= sort_indicator if params[:column] == "signdate" %>
-              <%= sort_link_vragreement(column: "signdate", label: "Data firma") %>
-            </div>
-            <div class="col-lg-3 py-3 border-start border-end nowrap" id="vrental" relative>
-              Immoble
-            </div>
-            <div class="col-lg-1 py-3 border-start border-end nowrap" id="vrental" relative>
-              Idioma
-            </div>
-            <div class="col-lg-1 py-3 border-start border-end" id="comission" relative>
-              Comissió
-            </div>
-            <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
-            <div class="col-lg-1 py-3 border-start border-end"></div>
-          </div>
-        </div>
-        <div class="tbody">
-          <% @vragreements.each do |vragreement| %>
-            <div class="row border">
-              <div class="col-lg-2 border-start border-end">
-                <%= t(vragreement.status) if vragreement.status.present? %>
-              </div>
-              <div class="col-lg-2 border-start border-end nowrap">
-                <%= l(vragreement.signdate, format: :default) if vragreement.signdate %>
-              </div>
-              <div class="col-lg-3 border-start border-end nowrap text-primary">
-                <%= link_to vragreement.vrental.name, vragreement.vrental%>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap">
-                <%= vragreement.vrental.owner&.language %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap">
-                <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
-              </div>
-              <div class="col-lg-2 border-start border-end nowrap">
-                <%= add_vragreement_links(vragreement.vrental) %>
-              </div>
-              <div class="col-lg-1 border-start border-end nowrap d-flex justify-content-between">
-                <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement, year: vragreement.year), class: "text-info text-decoration-none" do %>
-                  <i class="fas fa-edit fa-sm"></i>
-                <% end %>
-                <%= link_to vragreement, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{vragreement.vrental.name}?"} do %>
-                  <i class="fas fa-trash-can fa-sm"></i>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-      <%# two equal signs is the same as .html_safe after or raw in front %>
-      <div class="d-flex justify-content-center">
-        <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
-      </div>
+  </div>
+  <div class="col-auto">
+    <%= form.button class: "btn btn-primary me-3" do %>
+      <i class="fas fa-search fa-sm"></i>
     <% end %>
   </div>
+<% end %>
+<div class="col-auto">
+  <%= link_to "Tots els contractes", vragreements_path, class: "btn btn-secondary" %>
 </div>
+</div>
+<%= turbo_frame_tag "vragreements", class: "card-body" do %>
+  <div class="container-fluid my-3">
+    <div>
+      <div class="row border border-top border-bottom fw-bold bg-light">
+        <div class="col-lg-2 py-3 border-start border-end" id="vrental" relative>
+          <%= sort_indicator if params[:column] == "status" %>
+          <%= sort_link_vragreement(column: "status", label: "Estat") %>
+        </div>
+        <div class="col col-lg-2 py-3 border-start border-end" id="vrdate" relative>
+          <%= sort_indicator if params[:column] == "signdate" %>
+          <%= sort_link_vragreement(column: "signdate", label: "Data firma") %>
+        </div>
+        <div class="col-lg-3 py-3 border-start border-end nowrap" id="vrental" relative>
+          Immoble
+        </div>
+        <div class="col-lg-1 py-3 border-start border-end nowrap" id="vrental" relative>
+          Idioma
+        </div>
+        <div class="col-lg-1 py-3 border-start border-end" id="comission" relative>
+          Comissió
+        </div>
+        <div class="col-lg-2 py-3 border-start border-end">Contracte</div>
+        <div class="col-lg-1 py-3 border-start border-end"></div>
+      </div>
+    </div>
+    <div class="tbody">
+      <% @vragreements.each do |vragreement| %>
+        <div class="row border">
+          <div class="col-lg-2 border-start border-end">
+            <%= t(vragreement.status) if vragreement.status.present? %>
+          </div>
+          <div class="col-lg-2 border-start border-end nowrap">
+            <%= l(vragreement.signdate, format: :default) if vragreement.signdate %>
+          </div>
+          <div class="col-lg-3 border-start border-end nowrap text-primary">
+            <%= link_to vragreement.vrental.name, vragreement.vrental%>
+          </div>
+          <div class="col-lg-1 border-start border-end nowrap">
+            <%= vragreement.vrental.owner&.language %>
+          </div>
+          <div class="col-lg-1 border-start border-end nowrap">
+            <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
+          </div>
+          <div class="col-lg-2 border-start border-end nowrap">
+            <%= add_vragreement_links(vragreement.vrental) %>
+          </div>
+          <div class="col-lg-1 border-start border-end nowrap d-flex justify-content-between">
+            <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement, year: vragreement.year), class: "text-info text-decoration-none" do %>
+              <i class="fas fa-edit fa-sm"></i>
+            <% end %>
+            <%= link_to vragreement, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{vragreement.vrental.name}?"} do %>
+              <i class="fas fa-trash-can fa-sm"></i>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <%# two equal signs is the same as .html_safe after or raw in front %>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
+<% end %>

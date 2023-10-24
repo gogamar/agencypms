@@ -25,7 +25,7 @@
             <% end %>
           </div>
           <div class="list-price">
-            <h6 class="listing-card-info-price"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2) %></h6>
+            <h6 class="listing-card-info-price"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
           </div>
         </div>
       </div>

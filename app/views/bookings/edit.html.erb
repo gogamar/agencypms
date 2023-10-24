@@ -2,8 +2,8 @@
   <div class="mb-4">
     <h4>Reserva <%= @booking.firstname %> <%= @booking.lastname %></h4>
     <p>Dates: <%= l(@booking.checkin, format: :long) if @booking.checkin %> - <%= l(@booking.checkout, format: :long) if @booking.checkout %></p>
-    <p>Preu: <%= number_to_currency(@booking.price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @booking.price %></p>
-    <p>Comissió: <%= number_to_currency(@booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') if @booking.commission %></p>
+    <p>Preu: <%= number_to_currency(@booking.price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @booking.price %></p>
+    <p>Comissió: <%= number_to_currency(@booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @booking.commission %></p>
     <p>Portal: <%= @booking.referrer %></p>
     <p>Ref. Beds24: <%= @booking.beds_booking_id %></p>
   </div>
@@ -18,7 +18,7 @@
           <%= charge.description %>
         </div>
         <div class="col-md-auto">
-          <%= number_to_currency(charge.price, unit: "€", separator: ",", delimiter: ".", precision: 2).delete(' ') %>
+          <%= number_to_currency(charge.price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>
         </div>
         <div class="col col-lg-2">
           <%= f.fields_for :charges, charge do |charge_fields| %>

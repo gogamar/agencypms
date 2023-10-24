@@ -42,7 +42,7 @@
     <div class="p-4">
       <% exps = statement.persisted? ? vrental.expenses.where(statement_id: nil) + statement.expenses : vrental.expenses.where(statement_id: nil) %>
       <% if exps.present? %>
-        <div data-controller="checkbox">
+        <div data-controller="checkbox" class="d-flex flex-column align-items-start">
           <div class="form-check <%= "d-none" if exps.count < 2 %>">
             <%= check_box_tag 'select_all', '1', false, data: { checkbox_target: 'selectAll', action: 'click->checkbox#toggleAll' }, class: "form-check-input is-valid check_boxes optional" %>
             <%= label_tag 'select-all-checkbox', 'Selecciona totes les despeses' %>

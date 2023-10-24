@@ -82,20 +82,20 @@
         <% if @vrental.commission.present? %>
           <%= t('invoice_description_2',
             commission: number_to_percentage(@vrental.commission * 100, precision: 2, separator: ','),
-            total: number_to_currency(@invoice.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2)
+            total: number_to_currency(@invoice.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")
             )
         %>
         <% end %>
       </div>
-      <div class="col-2 text-right text-end p-2"><%= number_to_currency(@invoice.agency_commission_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+      <div class="col-2 text-right text-end p-2"><%= number_to_currency(@invoice.agency_commission_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
     </div>
     <div class="row border-bottom">
       <div class="col-10 border-right p-2"><%= t("agency_vat") %></div>
-      <div class="col-2 text-right text-end p-2"><%= number_to_currency(@invoice.agency_vat_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+      <div class="col-2 text-right text-end p-2"><%= number_to_currency(@invoice.agency_vat_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
     </div>
     <div class="row">
       <div class="col-10 border-right font-weight-bold fw-bold p-2"><%= t("total").upcase %></div>
-      <div class="col-2 text-right text-end font-weight-bold fw-bold p-2"><%= number_to_currency(@invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2) %></div>
+      <div class="col-2 text-right text-end font-weight-bold fw-bold p-2"><%= number_to_currency(@invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
     </div>
   </div>
 </div>

@@ -139,7 +139,7 @@ class PagesController < ApplicationController
       # move this pin to the assets folder or cloudinary used for this project
       image_url: helpers.asset_url("https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/location_khgiyz.png"),
       # image_url: vrental.image_urls.first.url,
-      price: price.present? ? number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2) : nil,
+      price: price.present? ? number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") : nil,
       name: vrental.name
     }
   end
