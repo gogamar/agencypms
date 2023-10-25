@@ -135,4 +135,5 @@ Rails.application.routes.draw do
       get 'submit_property', to: 'pages#submit_property'
     end
   # end
+  get '/ca', to: redirect('/'), as: :redirect_default_locale
 end

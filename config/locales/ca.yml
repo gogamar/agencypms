@@ -10,7 +10,8 @@ ca:
   search: "Cercar"
   book: "Reservar"
   book_now: "Reservar ara"
-  contact: "Preguntar"
+  contact: "Contactar"
+  consult: "Fer una pregunta"
   description: "Descripció"
   map: "Mapa"
   photos: "Fotos"
@@ -101,6 +102,7 @@ ca:
   home: "Inici"
   apartments: "Apartaments"
   houses: "Cases"
+  view_photos: "Veure fotos"
   vrental:
     one: "immoble de lloguer turístic"
     other: "immobles de lloguer turístic"

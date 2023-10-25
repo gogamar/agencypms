@@ -1,21 +1,23 @@
 <!-- ============================ Hero Banner  Start================================== -->
-<div class="featured_slick_gallery gray">
+<div class="featured_slick_gallery gray-simple">
   <div class="featured_slick_gallery-slide">
     <% if @vrental.image_urls.present? %>
       <% @vrental.image_urls.each do |image| %>
         <div class="featured_slick_padd">
           <%= link_to image.url, class: "mfp-gallery" do %>
-            <%= image_tag image.url, class: "img-fluid mx-auto height-400", alt:"Lloguer vacances #{@vrental.town&.name}", quality: "auto" %>
+            <%= image_tag image.url, class: "img-fluid mx-auto height-400 w-100", alt:"Lloguer vacances #{@vrental.town&.name}", quality: "auto" %>
           <% end %>
         </div>
       <% end %>
     <% end %>
   </div>
-  <a href="JavaScript:Void(0);" class="btn-view-pic">View photos</a>
+  <%= link_to @vrental.image_urls.first.url, class: "btn-view-pic mfp-gallery" do %>
+    <%= t("view_photos") %>
+  <% end %>
 </div>
 <!-- ============================ Hero Banner End ================================== -->
 <!-- ============================ Property Detail Start ================================== -->
-<section class="gray-simple">
+<section class="gray-simple pt-5">
   <div class="container">
     <div class="row">
       <!-- property main detail -->
@@ -23,7 +25,9 @@
         <%# Property Details Start %>
         <div class="property_block_wrap style-2 p-4">
           <div class="prt-detail-title-desc">
-            <span class="label text-light bg-success me-3"><%= t(@vrental.property_type) if @vrental.property_type %></span>
+            <% if @vrental.property_type.present?  %>
+              <span class="label text-light bg-success me-3"><%= t(@vrental.property_type) %></span>
+            <% end %>
             <h3 class="mb-1"><%= @vrental.name %></h3>
             <span><i class="lni-map-marker"></i> <%= @vrental.town&.name %></span>
             <div class="list-fx-features">
@@ -73,7 +77,7 @@
           </div>
           <div id="clTwo" class="panel-collapse collapse show" aria-labelledby="clOne" aria-expanded="true">
             <div class="block-body">
-              <ul class="detail_features">
+              <ul class="deatil_features">
                 <% @vrental.bedrooms.each_with_index do |bedroom, index| %>
                   <li>
                     <strong><%= t(bedroom.bedroom_type) %>  <%= index + 1 %>:</strong>
@@ -96,11 +100,11 @@
         <% if @vrental.features.present? %>
           <div class="property_block_wrap style-2">
             <div class="property_block_wrap_header">
-              <a data-bs-toggle="collapse" data-bs-target="#clThree" aria-controls="clThree" href="javascript:void(0);" aria-expanded="true" class="collapsed">
+              <a data-bs-toggle="collapse" data-bs-target="#clThree" aria-controls="clThree" href="javascript:void(0);" aria-expanded="true">
                 <h4 class="property_block_title"><%= t("features") %></h4>
               </a>
             </div>
-            <div id="clThree" class="panel-collapse collapse">
+            <div id="clThree" class="panel-collapse collapse show">
               <div class="block-body">
                 <ul class="avl-features third color">
                   <% @vrental.features.each do |feature| %>
@@ -130,11 +134,11 @@
         <% if @vrental.image_urls.present? %>
           <div class="property_block_wrap style-2">
             <div class="property_block_wrap_header">
-              <a data-bs-toggle="collapse" data-bs-target="#clFive" aria-controls="clFive" href="javascript:void(0);" aria-expanded="true" class="collapsed">
+              <a data-bs-toggle="collapse" data-bs-target="#clFive" aria-controls="clFive" href="javascript:void(0);" aria-expanded="true">
                 <h4 class="property_block_title"><%= t("photos") %></h4>
               </a>
             </div>
-            <div id="clFive" class="panel-collapse collapse">
+            <div id="clFive" class="panel-collapse collapse show">
               <div class="block-body">
                 <ul class="list-gallery-inline">
                   <% @vrental.image_urls.each do |image| %>
@@ -152,8 +156,8 @@
       </div>
       <!-- property Sidebar -->
       <div class="col-lg-4 col-md-12 col-sm-12">
+        <%# render "save_share" %>
         <%= render "book_now" %>
-        <%= render "save_share" %>
       </div>
     </div>
   </div>

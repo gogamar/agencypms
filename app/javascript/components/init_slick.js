@@ -189,13 +189,13 @@ const initSlick = () => {
           arrows: true,
           centerMode: true,
           centerPadding: "20px",
-          slidesToShow: 3,
+          slidesToShow: 1,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          arrows: false,
+          arrows: true,
           centerMode: true,
           centerPadding: "20px",
           slidesToShow: 1,
