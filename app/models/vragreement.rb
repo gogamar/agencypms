@@ -33,7 +33,9 @@ class Vragreement < ApplicationRecord
                         send(key).present? ? I18n.l(send(key), format: :long) : ''
                      when :place, :clause
                         send(key).to_s
-                     when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence, :vrental_description
+                     when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence
+                        vrental.present? ? vrental.send(key[8..]) : ''
+                     when :vrental_description
                         vrental.present? ? vrental_description : ''
                      when :owner_fullname, :owner_document, :owner_address, :owner_email, :owner_phone, :owner_account
                         vrental.owner.present? ? vrental.owner.send(key[6..]) : ''
