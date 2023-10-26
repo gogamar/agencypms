@@ -2051,3 +2051,33 @@ th.next.available,
 .sort-color {
   color: #d2d7e2;
 }
+
+.trash-icon {
+  position: absolute;
+  top: 0.5em;
+  left: 1em;
+}
+
+.border-around {
+  border: 1px solid #e0ecf5 !important;
+}
+
+.select-photos .select2-container--default .select2-selection--single,
+.select-photos
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__rendered {
+  height: auto;
+  line-height: 1.5;
+}
+
+.select-photos
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow {
+  height: 10px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 20px;
+}

@@ -14,7 +14,8 @@ class ImageUrlsController < ApplicationController
 
   def destroy
     @vrental = @image_url.vrental
-    if @image_url.photo_id.present?
+
+    if @image_url.photo_id.present? && !@image_url.is_group_photo?
       photo = ActiveStorage::Attachment.find(@image_url.photo_id)
       photo.purge
     end

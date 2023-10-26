@@ -3073,6 +3073,13 @@ table.table tr th {
 
 /*------------ GLobal Settings: All Forms Style ---------------*/
 .form-control {
+  font-size: 16px;
+  box-shadow: none;
+  border: 1px solid #e0ecf5;
+  background-clip: initial;
+}
+
+.form-control.high-field {
   height: 56px;
   font-size: 16px;
   box-shadow: none;

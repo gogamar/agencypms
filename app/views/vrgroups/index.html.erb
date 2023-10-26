@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+<h1>Vrgroups</h1>
+<div id="vrgroups">
+  <% vrgroups.each do |vrgroup| %>
+    <%= render vrgroup %>
+    <p>
+      <%= link_to "Show this vrgroup", vrgroup %>
+    </p>
+  <% end %>
+</div>
+<%= link_to "New vrgroup", new_vrgroup_path %>

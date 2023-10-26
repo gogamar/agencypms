@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-end mb-3">
   <div data-controller="spinner" >
-    <%= link_to 'Liquidació annual en PDF', annual_statement_vrental_path(@vrental, year: @year, format: :pdf), class: "btn btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
+    <%= link_to 'Liquidació annual en PDF', annual_statement_vrental_path(@vrental, year: @year, format: :pdf), class: "btn btn-sm btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
   </div>
 </div>
 <div class="container border">

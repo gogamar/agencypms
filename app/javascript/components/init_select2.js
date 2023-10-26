@@ -54,6 +54,11 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#select_vrental").select2({
+    placeholder: $("#select_vrental").data("placeholder"),
+    allowClear: true,
+  });
+
   $("#select_vrental-select2")
     .select2({
       placeholder: $("#select_vrental-select2").data("placeholder"),

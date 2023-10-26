@@ -23,7 +23,7 @@
       <div class="d-flex flex-column align-items-start">
         <h4 class="text-primary text-center pe-3">Liquidacions <%= year %></h4>
         <% if @vrental.statements_without_invoice(year).present? %>
-          <%= link_to new_vrental_invoice_path(@vrental), class: "text-muted-2" do %>
+          <%= link_to new_vrental_invoice_path(@vrental), class: "btn btn-sm btn-success" do %>
             <i class="fa-solid fa-plus"></i>
             Afegir factura
           <% end %>
@@ -57,7 +57,7 @@
           </a>
           <%= render "statement_modal", vrental: @vrental, statement: last_statement %>
         <% else %>
-          <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.owner ? @vrental.owner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-primary" %>
+          <%= link_to "Liquidació annual #{year}", annual_statement_vrental_path(@vrental, year: year, locale: @vrental.owner ? @vrental.owner.language : "ca"), class: "text-info text-decoration-none fw-bold", class: "btn btn-sm btn-primary" %>
         <% end %>
       </div>
     </div>
@@ -112,15 +112,15 @@
               <% end %>
             <% end %>
             <div>
-              <a type="button" class="text-primary" data-bs-toggle="modal" data-bs-target="#ownerPayment<%= statement.id %>">
+              <a type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ownerPayment<%= statement.id %>">
                 Afegir pagament
               </a>
               <%= render "owner_payment_modal", statement: statement, owner_payment: OwnerPayment.new, pending_payment: statement.net_income_owner - statement.total_owner_payments %>
             </div>
           </div>
-          <div class="col-lg-1 border-start text-end">
-            <a type="button" class="text-primary text-decoration-none p-1" data-bs-toggle="modal" data-bs-target="#statement<%= statement.id %>">
-              <i class="fas fa-edit me-1"></i>
+          <div class="col-lg-1 d-flex justify-content-between border-start">
+            <a type="button" class="text-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#statement<%= statement.id %>">
+              <i class="fas fa-edit"></i>
             </a>
             <%= render "statement_modal", vrental: @vrental, statement: statement %>
             <% if !statement.invoice || (statement.invoice && Date.current == statement.invoice.created_at.to_date) %>

@@ -1,21 +1,45 @@
-<div class="container d-flex flex-row flex-wrap justify-content-center"><%= simple_form_for @vrental do |f| %>
+<div class="select-photos d-flex justify-content-around align-items-end mb-3">
+  <%= simple_form_for @vrental, html: { class: 'col-lg-5 d-flex align-items-end me-3' } do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <%= f.hidden_field :request_context, value: 'add_photos' %>
-    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
-    <div class="form-actions text-end mb-5">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary text-center' %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false, placeholder: t("add_photos"), wrapper_html: { style: "margin-bottom: 0px !important"} %>
+    <%= f.button :submit, t('add_photos'), class: 'btn btn-sm btn-primary' %>
+  <% end %>
+  <% if @vrental.vrgroup.present? && !@all_group_photos_imported %>
+    <div class="col-lg-3 me-3 text-center">
+      <%= link_to import_from_group_vrental_path(@vrental), class:"btn btn-sm btn-success" do %>
+        <i class="fas fa-sync-alt fa-lg me-1"></i>Importar fotos del grup
+      <% end %>
     </div>
+    <%= simple_form_for @vrental, html: { class: 'col-lg-4 d-flex align-items-end' } do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <select name="select_vrental" id="select_vrental" data-placeholder="<%= t('select_vrental').capitalize %>">
+        <option value="">&nbsp;</option>
+        <% @vrental.vrgroup.vrentals.each do |vrental| %>
+          <option value="<%= vrental.id %>"><%= vrental.name %></option>
+        <% end %>
+      </select>
+      <%= f.button :submit, t('import_photos'), class: 'btn btn-sm btn-primary text-center' %>
+    <% end %>
   <% end %>
 </div>
-<div class="container d-flex flex-row flex-wrap justify-content-center" data-controller="sortable" data-sortable-url="/image_urls/:id/move">
+<div class="row row-cols-1 row-cols-md-3 g-4" data-controller="sortable" data-sortable-url="/image_urls/:id/move">
   <% @image_urls.each do |image| %>
-    <div data-id="<%= image.id %>" class="card m-2 pb-2 text-end" style="width: 18rem;">
-      <%= image_tag image.url, alt: "#{@vrental.name} #{@vrental.town&.name}" %>
-      <%= link_to image, data: { turbo_method: :delete, turbo_confirm: 'Segur que vols esborrar la foto?' }, class: "trash-icon text-danger" do %>
-        <%= "Foto d'Airbnb, esborrar" if image.url.include?("muscache") %>
-        <i class="fas fa-trash-alt fa-lg"></i>
-      <% end %>
+    <div class="col" data-id="<%= image.id %>">
+      <div class="card border-around" >
+        <%= image_tag image.url, class: "card-img-top", alt: "#{@vrental.name} #{@vrental.town&.name}" %>
+        <div class="card-body">
+          <p class="card-text">
+            <%= link_to image, data: { turbo_method: :delete, turbo_confirm: 'Segur que vols esborrar la foto?' }, class: "text-danger" do %>
+              <%= "Foto d'Airbnb, esborrar" if image.url.include?("muscache") %>
+              <i class="fas fa-trash-alt fa-lg"></i>
+            <% end %>
+            <small class="text-muted"><%= "Foto del grup" if image.is_group_photo? %></small>
+          </p>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>

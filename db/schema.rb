@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_081935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -390,9 +390,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
     t.boolean "approved", default: false, null: false
     t.bigint "company_id"
     t.integer "role", default: 0
+    t.bigint "office_id"
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["office_id"], name: "index_users_on_office_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -444,11 +446,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
     t.string "contract_type", default: "fixed_price"
     t.decimal "fixed_price_amount", precision: 10, scale: 2
     t.string "fixed_price_frequency"
+    t.bigint "vrgroup_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["town_id"], name: "index_vrentals_on_town_id"
     t.index ["user_id"], name: "index_vrentals_on_user_id"
+    t.index ["vrgroup_id"], name: "index_vrentals_on_vrgroup_id"
   end
 
   create_table "vrentaltemplates", force: :cascade do |t|
@@ -460,6 +464,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
     t.bigint "user_id", null: false
     t.boolean "public", default: false
     t.index ["user_id"], name: "index_vrentaltemplates_on_user_id"
+  end
+
+  create_table "vrgroups", force: :cascade do |t|
+    t.string "name"
+    t.bigint "office_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_vrgroups_on_office_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -490,6 +502,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
   add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
   add_foreign_key "users", "companies"
+  add_foreign_key "users", "offices"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"
@@ -497,5 +510,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_110455) do
   add_foreign_key "vrentals", "rate_plans"
   add_foreign_key "vrentals", "towns"
   add_foreign_key "vrentals", "users"
+  add_foreign_key "vrentals", "vrgroups"
   add_foreign_key "vrentaltemplates", "users"
+  add_foreign_key "vrgroups", "offices"
 end

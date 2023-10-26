@@ -3,7 +3,7 @@
     <div class="sd-list-left">
       <div class="image-container">
         <% if vrental.image_urls.present? %>
-          <%= image_tag vrental.image_urls.first.url, class: "img-fluid", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
+          <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
         <% else %>
           <img src="https://via.placeholder.com/1200x850" class="img-fluid" alt="" />
         <% end %>

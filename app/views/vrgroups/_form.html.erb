@@ -1,0 +1,12 @@
+<%= simple_form_for(@vrgroup) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.association :office %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+  </div>
+  <div class="form-actions">
+    <%= f.submit t("global.forms.submit"), class: "btn btn-primary px-5 rounded" %>
+  </div>
+<% end %>

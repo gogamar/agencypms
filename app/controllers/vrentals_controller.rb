@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos, :import_photos, :import_from_group]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -160,7 +160,17 @@ class VrentalsController < ApplicationController
   end
 
   def edit_photos
+    @vrgroup = @vrental.vrgroup
+    @vrgroup_photos_ids = @vrgroup.photos.pluck(:id).compact if @vrgroup and @vrgroup.photos.present?
+    # @vrgroup_photos = @vrental.image_urls.where(photo_id: @vrgroup_photos_ids)
     @image_urls = @vrental.image_urls.order(position: :asc)
+    @all_group_photos_imported = @vrental.all_group_photos_imported?
+  end
+
+  def import_from_group
+    @vrgroup = @vrental.vrgroup
+    create_new_image_urls(@vrgroup.photos)
+    redirect_to edit_photos_vrental_path(@vrental), notice: "Importació del grup acabada."
   end
 
   def copy
@@ -230,6 +240,11 @@ class VrentalsController < ApplicationController
   def update_on_beds
     @vrental.update_vrental_on_beds
     redirect_to @vrental, notice: "S'han exportat canvis a Beds."
+  end
+
+  def import_photos
+    @vrental.import_photos_from_beds
+    redirect_to @vrental, notice: "S'han importat les fotos des de Beds."
   end
 
   def send_photos
@@ -337,17 +352,17 @@ class VrentalsController < ApplicationController
     if request_context == 'add_features'
       redirect_to add_owner_vrental_path(@vrental)
     elsif request_context == 'add_photos'
-      create_new_image_urls
+      create_new_image_urls(@vrental.photos)
       redirect_to edit_photos_vrental_path(@vrental)
     else
       redirect_to @vrental, notice: 'S\'ha modificat l\'immoble.'
     end
   end
 
-  def create_new_image_urls
+  def create_new_image_urls(photos)
     existing_urls = @vrental.image_urls.pluck(:url).to_set
 
-    @vrental.photos.each_with_index do |photo, index|
+    photos.each_with_index do |photo, index|
       url = photo.url
       url_with_q_auto = url.gsub(/upload\//, 'upload/q_auto/')
 
@@ -374,7 +389,7 @@ class VrentalsController < ApplicationController
   def vrental_params
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :rate_plan_id, :latitude, :longitude, :town_id, feature_ids: [], photos: []
+      :description_ca, :description_es, :description_fr, :description_en, :status, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, feature_ids: [], photos: []
     )
   end
 end

@@ -32,6 +32,16 @@
                   <li><a href="change-password.html"><i class="fa-solid fa-unlock"></i>Change Password</a></li>
                   <li><a href="#"><i class="fa-solid fa-power-off"></i>Log Out</a></li>
                   -->
+                  <li>
+                    <%= link_to "dashboard_path" do %>
+                      <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to new_vrgroup_path do %>
+                      <i class="fa-solid fa-link"></i><%= t("add_group") %>
+                    <% end %>
+                  </li>
                 </ul>
               </div>
             </div>

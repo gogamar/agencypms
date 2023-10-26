@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     resources :image_urls do
       member do
@@ -27,8 +28,10 @@ Rails.application.routes.draw do
         resources :offices, except: [:destroy]
       end
       resources :offices, only: [:destroy] do
-        get "import_properties", on: :member
-        get "destroy_all_properties", on: :member
+        member do
+          get "import_properties"
+          get "destroy_all_properties"
+        end
       end
 
       resources :vrentals do
@@ -53,12 +56,14 @@ Rails.application.routes.draw do
           get :export_beds
           get :update_on_beds
           get :send_photos
+          get :import_photos
           get :update_from_beds
           get :update_owner_from_beds
           get :get_rates
           get :delete_rates
           get :delete_year_rates
           get :get_bookings
+          get :import_from_group
         end
 
         resources :statements
@@ -117,6 +122,8 @@ Rails.application.routes.draw do
       resources :statements do
         resources :owner_payments
       end
+
+      resources :vrgroups
 
       resources :features
       resources :features_vrentals

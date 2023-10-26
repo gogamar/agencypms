@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :vragreements, through: :vrentals
   has_many :rates, through: :vrentals, dependent: :destroy
   belongs_to :company, optional: true
+  belongs_to :office, optional: true
   has_one :owned_company, class_name: "Company", foreign_key: "user_id"
   has_one_attached :photo, dependent: :destroy
   # after_create :send_welcome_email

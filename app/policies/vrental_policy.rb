@@ -105,6 +105,10 @@ class VrentalPolicy < ApplicationPolicy
     return update?
   end
 
+  def import_photos?
+    return update?
+  end
+
   def update_from_beds?
     return update?
   end
@@ -112,4 +116,9 @@ class VrentalPolicy < ApplicationPolicy
   def update_owner_from_beds?
     return update?
   end
+
+  def import_from_group?
+    return update?
+  end
+
 end

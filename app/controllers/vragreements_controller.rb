@@ -74,7 +74,7 @@ class VragreementsController < ApplicationController
     start_date = @rates.first.firstnight if @rates.present?
     end_date = @rates.last.lastnight if @rates.present?
     place = @vrental.office.city if @vrental.office
-    vrentaltemplates = Vrentaltemplate.where(language: @vrental.owner.language)
+    vrentaltemplates = Vrentaltemplate.where(language: @vrental.owner.present? ? @vrental.owner.language : I18n.default_locale)
     default_template = vrentaltemplates.max_by do |template|
       template.vragreements.count
     end

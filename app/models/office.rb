@@ -11,13 +11,16 @@ class Office < ApplicationRecord
 
     begin
       beds24rentals = client.get_properties
+      puts beds24rentals
       beds24rentals.each do |bedsrental|
         # secure_prop_key = SecureRandom.alphanumeric(16)
-        secure_prop_key = bedsrental["propId"] + "#2t0h2i3s1i0s2s4e$c€ure"
+        secure_prop_key = bedsrental["propId"] + "2t0h2i3s1i0s2s4ec€ure"
         bedsrental["roomTypes"].each do |room|
-          words_array = no_import.split(', ').map(&:downcase)
-          match_found = words_array.any? do |word|
-            bedsrental["name"].downcase.include?(word) || room["name"].downcase.include?(word)
+          if no_import.present?
+            words_array = no_import.split(', ').map(&:downcase)
+            match_found = words_array.any? do |word|
+              bedsrental["name"].downcase.include?(word) || room["name"].downcase.include?(word)
+            end
           end
           next if no_import.present? && match_found
           vrental_name = import_name == "property" ? bedsrental["name"] : room["name"]

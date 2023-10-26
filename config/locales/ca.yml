@@ -103,6 +103,10 @@ ca:
   apartments: "Apartaments"
   houses: "Cases"
   view_photos: "Veure fotos"
+  add_group: "Afegir nou grup"
+  dashboard: "Panell de control"
+  import_photos: "Importar fotos"
+  add_photos: "Afegir fotos"
   vrental:
     one: "immoble de lloguer turístic"
     other: "immobles de lloguer turístic"
@@ -420,6 +424,10 @@ ca:
         status: "Estat"
         office: "Oficina"
         photos: "Fotos"
+      vrgroup:
+        name: "Nom del grup"
+        office: "Oficina"
+        photos: "Fotos comunes del grup"
       owner_payment:
         amount: "Import"
         date: "Data"

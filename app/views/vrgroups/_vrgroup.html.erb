@@ -1,0 +1,13 @@
+<div id="<%= dom_id vrgroup %>">
+  <p>
+    <strong>Name:</strong>
+    <%= vrgroup.name %>
+  </p>
+  <p>
+    <strong>Office:</strong>
+    <%= vrgroup.office_id %>
+  </p>
+  <% @vrgroup.photos.each do |photo| %>
+    <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+  <% end %>
+</div>

@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:approved, :company_id)
+    params.require(:user).permit(:approved, :company_id, :office_id)
   end
 
 end

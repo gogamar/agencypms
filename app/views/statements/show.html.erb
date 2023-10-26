@@ -1,29 +1,28 @@
 <div class="container">
-  <div class="d-flex justify-content-end mb-3">
-    <div class="me-2">
-      <button type="button" class="btn btn-secondary rounded-3" data-bs-toggle="modal" data-bs-target="#statement<%= @statement.id %>">
-        <span class="icon text-white-600">
-          <i class="fas fa-edit"></i> Modificar la liquidació
-        </span>
-      </button>
-      <%= render "statement_modal", vrental: @vrental, statement: @statement %>
-    </div>
+  <div class="d-flex justify-content-end mb-3 gap-2">
+    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#statement<%= @statement.id %>">
+      <i class="fa-solid fa-edit me-1"></i> Modificar la liquidació
+    </button>
+    <%= render "statement_modal", vrental: @vrental, statement: @statement %>
     <% if @statement.invoice %>
-      <div class="me-2">
-        <%= link_to 'Factura', vrental_invoice_path(@vrental, @statement.invoice), class: "btn btn-secondary rounded-3" %>
-      </div>
+      <%= link_to vrental_invoice_path(@vrental, @statement.invoice), class: "btn btn-sm btn-primary" do %>
+        <i class="fa-solid fa-file-invoice-dollar me-1"></i>
+        Factura
+      <% end %>
     <% else %>
-      <div class="me-2">
-        <%= link_to 'Afegir factura', new_vrental_invoice_path(@vrental), class: "btn btn-secondary rounded-3" %>
-      </div>
+      <%= link_to new_vrental_invoice_path(@vrental), class: "btn btn-sm btn-success" do %>
+        <i class="fa-solid fa-plus me-1"></i>
+        Afegir factura
+      <% end %>
     <% end %>
     <% if !@statement.invoice || (@statement.invoice && Date.current == @statement.invoice.created_at.to_date) %>
-      <div class="me-2">
-        <%= link_to 'Esborrar', vrental_statement_path(@vrental, @statement), class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} %>
-      </div>
+      <%= link_to vrental_statement_path(@vrental, @statement), class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} do %>
+        <i class="fa-solid fa-trash-can me-1"></i>
+        Esborrar
+      <% end %>
     <% end %>
     <div data-controller="spinner" >
-      <%= link_to 'Liquidació en PDF', vrental_statement_path(@vrental, @statement, format: :pdf), class: "btn btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"} %>
+      <%= link_to 'Liquidació en PDF', vrental_statement_path(@vrental, @statement, format: :pdf), class: "btn btn-sm btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"} %>
     </div>
   </div>
   <div class="container border">

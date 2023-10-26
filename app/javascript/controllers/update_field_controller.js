@@ -3,10 +3,6 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["contractType", "commissionField", "fixedPriceFields"];
 
-  connect() {
-    this.toggleFields();
-  }
-
   toggleFields() {
     const contractTypeValue = this.contractTypeTarget.value;
 
