@@ -596,7 +596,6 @@ class Vrental < ApplicationRecord
         map: [
           {
             propId: "#{beds_prop_id}",
-            roomId: "#{beds_room_id}",
             position: "#{image.position}"
           }
         ]
