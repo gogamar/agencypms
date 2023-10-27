@@ -6,12 +6,17 @@
     <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false, placeholder: t("add_photos"), wrapper_html: { style: "margin-bottom: 0px !important"} %>
     <%= f.button :submit, t('add_photos'), class: 'btn btn-sm btn-primary' %>
   <% end %>
-  <% if @vrental.vrgroup.present? && !@all_group_photos_imported %>
+  <% if @vrental.vrgroup && !@all_group_photos_imported %>
     <div class="col-lg-3 me-3 text-center">
       <%= link_to import_from_group_vrental_path(@vrental), class:"btn btn-sm btn-success" do %>
         <i class="fas fa-sync-alt fa-lg me-1"></i>Importar fotos del grup
       <% end %>
     </div>
+  <% end %>
+  <% if @vrental.vrgroup %>
+    <%# this one should be form_with_url to copy/import photos from selected vrental to this one %>
+    <%# destroy action on photos should check if there is another image with this photo id %>
+    <%# however if a vrental is destroyed I believe this photo would also be destroyed so it's not ideal, just a way to save time and money on cloudinary %>
     <%= simple_form_for @vrental, html: { class: 'col-lg-4 d-flex align-items-end' } do |f| %>
       <%= f.error_notification %>
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>

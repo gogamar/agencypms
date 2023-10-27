@@ -1,0 +1,26 @@
+<div class="single_search_boxed">
+  <div class="widget-boxed-header">
+    <h4>
+      <a href="#<%= target_id %>" data-bs-toggle="collapse" aria-expanded="false" role="button" class="<%= 'collapsed' unless params[target_param] %>"><%= t("location") %></a>
+    </h4>
+  </div>
+  <div class="widget-boxed-body collapse <%= 'show' if params[target_param] %>" id="<%= target_id %>" data-parent="#<%= target_id %>">
+    <div class="side-list no-border">
+      <div class="single_filter_card">
+        <div class="card-body pt-0">
+          <div class="inner_widget_link">
+            <ul class="no-ul-list filter-list">
+              <% items.each do |item| %>
+                <% checked_item = selected_items.include?(item) if selected_items %>
+                <li class="form-check">
+                  <input type="checkbox" name="<%= param_name %>[]" value="<%= item %>" class="form-check-input" <%= 'checked' if checked_item %>>
+                  <label class="form-check-label"><%= item %></label>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

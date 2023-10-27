@@ -107,6 +107,9 @@ ca:
   dashboard: "Panell de control"
   import_photos: "Importar fotos"
   add_photos: "Afegir fotos"
+  find_by_vrental_name: "Cercar per nom d'immoble..."
+  select_dates: "Selecciona dates"
+  where_to: "On busques?"
   vrental:
     one: "immoble de lloguer turístic"
     other: "immobles de lloguer turístic"

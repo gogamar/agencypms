@@ -198,6 +198,7 @@ class Vrental < ApplicationRecord
       "(firstnight <= ? AND lastnight >= ?) OR (firstnight <= ? AND lastnight >= ?) OR (firstnight >= ? AND lastnight <= ?)",
       checkin, checkin, checkout, checkout, checkin, checkout
     )
+    return if overlapping_rates.empty?
     total_price = 0.0
     overlapping_rates.each do |rate|
       rate_start = [checkin, rate.firstnight].max
@@ -633,7 +634,6 @@ class Vrental < ApplicationRecord
     property_images = {
       action: "modify",
       images: {
-        hosted: [],
         external: external
       }
     }
@@ -984,7 +984,8 @@ class Vrental < ApplicationRecord
   def get_bookings_from_beds
     client = BedsHelper::Beds.new(office.beds_key)
     options = {
-      "arrivalFrom": Date.today.beginning_of_year.to_s,
+      # "arrivalFrom": Date.today.beginning_of_year.to_s,
+      "arrivalFrom": Date.new(2021, 1, 1).to_s,
       "arrivalTo": Date.today.to_s,
       "includeInvoice": true,
     }

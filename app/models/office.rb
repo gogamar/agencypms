@@ -14,7 +14,7 @@ class Office < ApplicationRecord
       puts beds24rentals
       beds24rentals.each do |bedsrental|
         # secure_prop_key = SecureRandom.alphanumeric(16)
-        secure_prop_key = bedsrental["propId"] + "2t0h2i3s1i0s2s4ec€ure"
+        secure_prop_key = bedsrental["propId"] + "2t0h2i3s1i0s2s4ecure"
         bedsrental["roomTypes"].each do |room|
           if no_import.present?
             words_array = no_import.split(', ').map(&:downcase)
@@ -94,6 +94,52 @@ class Office < ApplicationRecord
     beds_prop_id = response[0]["propId"]
     beds_room_id = response[0]["roomTypes"][0]["roomId"]
     save!
+  end
+
+  def get_availability_from_beds(checkin, checkout, guests, prop_ids)
+    client = BedsHelper::Beds.new
+    begin
+      options = {
+        "ownerId": beds_owner_id,
+        "checkIn": checkin.delete("-"),
+        "checkOut": checkout.delete("-"),
+        "numAdult": guests,
+        "propIds": prop_ids
+      }
+
+      response = client.get_availabilities(options)
+
+      # Handle any errors that might occur during JSON parsing or API calls
+      if response.code != 200
+        raise StandardError, "Error: HTTP request failed with status code #{response.code}"
+      end
+
+      parsed_response = JSON.parse(response.body)
+
+      metadata = parsed_response.slice("checkIn", "lastNight", "checkOut", "ownerId", "numAdult")
+      beds24_availabilities = parsed_response.reject { |key, _| metadata.key?(key) }
+      puts "these are the beds24_availabilities for #{name}: #{beds24_availabilities}"
+
+      result = []
+
+      beds24_availabilities.each do |_room_id, avail_details|
+        if avail_details["roomsavail"] != "0"
+          vrental = Vrental.find_by(beds_prop_id: avail_details["propId"]).id
+          if vrental
+            property_hash = {
+              vrental => avail_details["price"]
+            }
+            result << property_hash
+          end
+        end
+      end
+
+      return result
+    rescue StandardError => e
+      # Handle any exceptions that occurred during execution
+      puts "Error: #{e.message}"
+      return [] # Return an empty array or handle the error as needed
+    end
   end
 
 end

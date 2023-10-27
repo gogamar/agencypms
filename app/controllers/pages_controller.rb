@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :list_map, :book_property, :confirm_booking, :get_availability]
+  skip_before_action :authenticate_user!, only: [:home, :list_map, :list, :book_property, :confirm_booking, :get_availability]
   layout 'booking_website'
   include ActionView::Helpers::NumberHelper
 
@@ -11,7 +11,7 @@ class PagesController < ApplicationController
   end
 
   def home
-    @towns = Town.all
+    @towns = Town.all.order(:name)
     @property_types = Vrental::PROPERTY_TYPES.values
 
     @highest_bedroom_count = Vrental.joins(:bedrooms)
@@ -59,20 +59,35 @@ class PagesController < ApplicationController
 
   end
 
-  def list_map
-    fetch_vrentals
+  def list
+    simple_search
     @checkin = params[:check_in]
     @checkout = params[:check_out]
     @guests = params[:guests]
     prop_ids = @vrentals.pluck(:beds_prop_id)
+    # fixme - company from url (subdomain)
+    @company = Company.first
+    @available_vrentals = @company.available_vrentals(@checkin, @checkout, @guests, prop_ids)
+    @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
+    @vrentals = @vrentals.where(id: @available_vrentals_with_price.map { |item| item.keys.first.to_i }) if @available_vrentals_with_price.present?
+    @locations = Town.pluck(:name).sort
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
+    @selected_locations = params[:location]
+    @property_types = Vrental::PROPERTY_TYPES.values
+    @selected_property_types = params[:type]
+    num_bedrooms = Vrental.all.map { |vrental| vrental.bedrooms.count }.uniq.sort
+    @num_bedrooms = num_bedrooms.map { |num| [num, num] }
+  end
+
+  def list_map
+    simple_search
+    @checkin = params[:check_in]
+    @checkout = params[:check_out]
+    @guests = params[:guests]
+    prop_ids = @vrentals.pluck(:beds_prop_id)
+    puts "these are the prop_ids: #{prop_ids}"
     # fixme - need to get the company from url (subdomain)
     @company = Company.first
-    @available_vrentals = []
-    @company.offices.each do |office|
-      owner_id = office.beds_owner_id
-      availability_data = get_availability_from_beds(owner_id, @checkin, @checkout, @guests, prop_ids)
-      @available_vrentals.concat(availability_data)
-    end
     vrental_ids = @available_vrentals.map { |item| item.keys.first.to_i }
     @vrentals = @vrentals.where(id: vrental_ids)
     @vrentals_number = @vrentals.count
@@ -144,10 +159,23 @@ class PagesController < ApplicationController
     }
   end
 
-  def fetch_vrentals
+  def simple_search
+    @vrentals = Vrental.all
     guest_count = params[:guests].to_i
-    selected_type = params[:type]
+
+    @vrentals = @vrentals.where("vrentals.max_guests >= ?", guest_count) if guest_count.present?
+    selected_locations = params[:location]
+
+    if selected_locations.present?
+      @vrentals = @vrentals.joins(:town).where("towns.name IN (?)", selected_locations)
+    end
+
+  end
+
+  def advanced_search
+    guest_count = params[:guests].to_i
     selected_location = params[:location]
+    selected_type = params[:type]
     selected_bedrooms_count = params[:bedrooms].to_i
     selected_bathrooms_count = params[:bathrooms].to_i
     selected_features = params[:selected_features]

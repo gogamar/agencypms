@@ -1,0 +1,62 @@
+<div class="col-xl-12 col-lg-12 col-md-12">
+  <div class="property-listing property-1 bg-white p-2 rounded">
+    <div class="listing-img-wrapper">
+      <% if vrental.image_urls.present? %>
+        <%= link_to vrental do %>
+          <%= image_tag vrental.image_urls.order(position: :asc).first, class: "img-fluid mx-auto rounded", alt: vrental.name %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="listing-content">
+      <div class="listing-detail-wrapper-box">
+        <div class="listing-detail-wrapper d-flex align-items-start justify-content-between">
+          <div class="listing-short-detail">
+            <span class="label bg-light-danger text-danger d-inline-flex mb-1">For Rent</span>
+            <h4 class="listing-name mb-0"><a href="single-property-2.html"><%= link_to vrental.name, vrental %></a></h4>
+            <div class="fr-can-rating">
+              <i class="fas fa-star fs-xs filled"></i>
+              <i class="fas fa-star fs-xs filled"></i>
+              <i class="fas fa-star fs-xs filled"></i>
+              <i class="fas fa-star fs-xs filled"></i>
+              <i class="fas fa-star fs-xs"></i>
+              <span class="reviews_text fs-sm text-muted ms-2">(34 Reviews)</span>
+            </div>
+          </div>
+          <div class="list-price">
+            <% if price.present? %>
+              <h6 class="listing-card-info-price text-primary"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
+            <% else %>
+              <span class="label bg-light-warning text-warning d-inline-flex mb-1"><%= t("select_dates") %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="price-features-wrapper">
+        <div class="list-fx-features d-flex align-items-center justify-content-between mt-3 mb-1">
+          <% if vrental.max_guests %>
+            <div class="listing-card d-flex align-items-center">
+              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-users fs-xs"></i></div>
+              <span class="text-muted-2 fs-sm"><%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %></span>
+            </div>
+          <% end %>
+          <div class="listing-card d-flex align-items-center">
+            <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bed fs-xs"></i></div>
+            <span class="text-muted-2 fs-sm">3 Beds</span>
+          </div>
+          <div class="listing-card d-flex align-items-center">
+            <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-clone fs-xs"></i></div>
+            <span class="text-muted-2 fs-sm">1800 SQFT</span>
+          </div>
+        </div>
+      </div>
+      <div class="listing-footer-wrapper">
+        <div class="listing-locate">
+          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-1"></i>Quice Market, Canada</span>
+        </div>
+        <div class="listing-detail-btn">
+          <a href="single-property-2.html" class="btn btn-sm px-4 fw-medium btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -287,7 +287,7 @@
   .main-banner.image-banner,
   .hero-header,
   .hero-banner {
-    min-height: 660px;
+    min-height: 450px;
   }
 
   .hero-header.min-banner {
@@ -295,7 +295,11 @@
     min-height: 400px;
   }
 
-  .hero-banner h2,
+  .hero-banner h2 {
+    font-size: 42px;
+    line-height: 1.1;
+  }
+
   .main-banner h1 {
     font-size: 60px;
     line-height: 1.1;
@@ -367,7 +371,7 @@
   .main-banner.image-banner,
   .hero-header,
   .hero-banner {
-    min-height: 660px;
+    min-height: 450px;
     height: 100vh;
   }
 }
