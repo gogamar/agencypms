@@ -1186,13 +1186,15 @@ class Vrental < ApplicationRecord
   end
 
   def add_earning(booking)
-    rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout).round(2)
-    price = [booking.net_price, rate_price].min
+    rate_price = booking.vrental.rate_price(booking.checkin, booking.checkout)&.round(2)
+    if rate_price.present?
+      price = [booking.net_price, rate_price].min
 
-    discount = rate_price == 0 ? 0 : (rate_price - price) / rate_price
+      discount = rate_price == 0 ? 0 : (rate_price - price) / rate_price
 
-    discount = [0, discount].max # Ensure it's not negative
-    discount = [1, discount].min # Ensure it's not greater than 1
+      discount = [0, discount].max # Ensure it's not negative
+      discount = [1, discount].min # Ensure it's not greater than 1
+    end
 
     if booking.earning.present?
       if booking.earning.locked == true

@@ -48,7 +48,10 @@
       </div>
       <div class="col-lg-2 nowrap">
         <small class="text-info">Segons contracte</small><br>
-        <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>
+        <% contract_price = earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout) %>
+        <% if contract_price.present? %>
+          <%= number_to_currency(contract_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>
+        <% end %>
       </div>
       <div class="col-lg-2">
         <small class="text-info nowrap">Descompte</small><br>
