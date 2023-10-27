@@ -981,11 +981,10 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def get_bookings_from_beds
+  def get_bookings_from_beds(from_date)
     client = BedsHelper::Beds.new(office.beds_key)
     options = {
-      # "arrivalFrom": Date.today.beginning_of_year.to_s,
-      "arrivalFrom": Date.new(2021, 1, 1).to_s,
+      "arrivalFrom": from_date || Date.today.beginning_of_year.to_s,
       "arrivalTo": Date.today.to_s,
       "includeInvoice": true,
     }
@@ -1194,6 +1193,9 @@ class Vrental < ApplicationRecord
 
       discount = [0, discount].max # Ensure it's not negative
       discount = [1, discount].min # Ensure it's not greater than 1
+    else
+      price = booking.net_price
+      discount = 0
     end
 
     if booking.earning.present?

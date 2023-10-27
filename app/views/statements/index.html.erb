@@ -15,6 +15,7 @@
       <% end %>
     </h6>
   </div>
+  <%= render 'shared/get_bookings' %>
 </div>
 <% @booking_years.each do |year| %>
   <div class="container">
@@ -30,18 +31,6 @@
         <% end %>
       </div>
       <div class="d-flex flex-column align-items-end gap-3">
-        <% if @vrental.rates.where("DATE_PART('year', firstnight) = ?", Date.today.year).exists? %>
-          <%= link_to get_bookings_vrental_path(@vrental, request_context: "statements"), class: "text-muted-2" do %>
-            <i class="fa-solid fa-file-import me-1"></i>Importar reserves des de Beds
-          <% end %>
-        <% else %>
-          <div class="alert alert-warning position-relative" role="alert">
-            Per importar reserves, primer has de importar tarifes del <%= Date.today.year %>
-          </div>
-          <%= link_to get_rates_vrental_path(@vrental), class: "text-muted-2" do %>
-            <i class="fa-solid fa-file-import me-1"></i>Importar tarifes des de Beds
-          <% end %>
-        <% end %>
         <% if @vrental.periods_missing_statement(year).present? %>
           <% @vrental.periods_missing_statement(year).each do |period| %>
             <button type="button" class="btn btn-sm bg-light-purple text-purple property-cats" data-bs-toggle="modal" data-bs-target="#statement">

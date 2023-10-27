@@ -227,7 +227,8 @@ class VrentalsController < ApplicationController
   end
 
   def get_bookings
-    @vrental.get_bookings_from_beds
+    from_date = params[:from_date] if params[:from_date].present?
+    @vrental.get_bookings_from_beds(from_date)
     authorize @vrental
     if params[:request_context] == 'statements'
       redirect_to vrental_statements_path(@vrental), notice: "S'han importat les reserves."
