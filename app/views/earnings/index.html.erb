@@ -1,3 +1,4 @@
+  <%= render 'shared/get_bookings' %>
 <div class="container d-flex justify-content-between">
   <% if @vrental && @vrental.bookings.present? %>
     <div class="flex-column">
@@ -11,7 +12,6 @@
       <% end %>
     </div>
   <% end %>
-  <%= render 'shared/get_bookings' %>
 </div>
 <% if @earnings.present? %>
   <div id="earnings" class="container mt-5">
