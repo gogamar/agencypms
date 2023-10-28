@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
 import { initFlatpickr as flatpickr } from "../plugins/flatpickr";
-import { start } from "@popperjs/core";
 
 export default class extends Controller {
   static targets = ["start", "end"];

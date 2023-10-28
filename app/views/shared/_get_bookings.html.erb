@@ -1,7 +1,9 @@
-<div class="d-flex flex-column align-items-center">
+<%# fixme add conditional to first import the rates if they are not present %>
+<div class="d-flex justify-content-end">
   <p class="text-muted-2">Importar reserves de Beds des de la data...</p>
   <%= form_with url: get_bookings_vrental_path(@vrental), method: 'get', class: "d-flex justify-content-around gap-2" do |form| %>
     <%= form.date_field :from_date, value: Date.today.beginning_of_year.strftime('%Y-%m-%d'), class: 'datepicker' %>
     <%= form.submit 'Importar', class: 'btn btn-sm btn-secondary' %>
   <% end %>
 </div>
+<hr>
