@@ -5,7 +5,6 @@ export default class extends Controller {
 
   spin() {
     const buttonName = this.printbuttonTarget.innerHTML;
-    console.log(buttonName);
     this.printbuttonTarget.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     Preparant el pdf...`;
     this.printbuttonTarget.classList.add("disabled");

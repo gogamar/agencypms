@@ -47,7 +47,6 @@ export default class extends Controller {
     if (!isNaN(nights) && this.startTarget.value) {
       const newEndDate = new Date(this.startTarget.value);
       newEndDate.setDate(newEndDate.getDate() + nights - 1);
-      console.log(newEndDate);
       this.endTarget.flatpickr({
         allowInput: true,
         altInput: true,

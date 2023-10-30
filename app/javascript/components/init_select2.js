@@ -14,6 +14,18 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  const url = new URL(window.location.href);
+  const guestsParam = url.searchParams.get("guests");
+  const locationParam = url.searchParams.get("location");
+
+  if (guestsParam !== null) {
+    $("#guests").val(guestsParam).trigger("change");
+  }
+
+  if (locationParam !== null) {
+    $("#location").val(locationParam).trigger("change");
+  }
+
   $("#type").select2({
     placeholder: $("#type").data("placeholder"),
     allowClear: true,
@@ -86,7 +98,6 @@ const initSelect2 = () => {
     const pathSegments = window.location.pathname;
     const lastSlashIndex = pathSegments.lastIndexOf("/");
     const path = pathSegments.slice(0, lastSlashIndex);
-    console.log(path);
 
     // Make an AJAX call to update the vrental's owner_id
     fetch(path, {
@@ -105,7 +116,7 @@ const initSelect2 = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.owner_id);
+        console.log("Success:", data);
       })
       .catch((error) => {
         console.error("There was an error updating the vrental:", error);

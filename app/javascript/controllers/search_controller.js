@@ -7,17 +7,20 @@ export default class extends Controller {
   connect() {
     console.log("Search controller.");
     flatpickr();
-    // const today = new Date();
-    // const checkinDate = new Date(today.setDate(today.getDate() + 1));
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
 
     const checkinPicker = this.checkinTarget.flatpickr({
       allowInput: true,
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      minDate: new Date(),
+      minDate: tomorrow,
       onChange: function (selectedDates, dateStr, instance) {
-        checkoutPicker.set("minDate", new Date(selectedDates).fp_incr(1));
+        checkoutPicker.set("minDate", new Date(dateStr).fp_incr(1));
       },
     });
 

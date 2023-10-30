@@ -38,9 +38,9 @@
             <div class="input-with-icon">
               <select name="location" id="location" class="form-control" data-placeholder="<%= t('location').capitalize %>">
                 <option value="">&nbsp;</option>
-                <% if @towns %>
-                  <% @towns.each do |town| %>
-                    <option value="<%= town.id %>"><%= town.name %></option>
+                <% if @locations %>
+                  <% @locations.each do |location| %>
+                    <option value="<%= location %>"><%= location %></option>
                   <% end %>
                 <% end %>
               </select>

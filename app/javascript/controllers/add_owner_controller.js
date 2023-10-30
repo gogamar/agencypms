@@ -4,7 +4,6 @@ export default class extends Controller {
   static targets = ["create", "select"];
 
   connect() {
-    console.log("Owner controller...");
     this.hideCreateCard();
     this.hideSelectCard();
   }

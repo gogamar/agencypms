@@ -11,7 +11,11 @@
         <small>Sortida: <%= I18n.l(earning.booking.checkout, format: :standard) %></small><br>
         <small>Nits: <%= earning.booking.nights %></small>
         <br>
-        <small><%= link_to "Modificar la reserva", edit_vrental_booking_path(earning.vrental, earning.booking) if earning.booking %></small>
+        <% if earning.booking  %>
+          <%= link_to edit_vrental_booking_path(earning.vrental, earning.booking), class: "btn btn-sm btn-info" do  %>
+            <i class="fa-solid fa-pen-to-square me-1"></i>Modificar reserva
+          <% end %>
+        <% end %>
       </div>
       <% if earning.booking && earning.booking.charges.where(description: "rent") %>
         <div class="col-lg-2">
@@ -31,7 +35,8 @@
         <div class="col-lg-2">
           <small class="text-info">Segons contracte</small><br>
           <span data-earning-calculator-target="ratePrice">
-            <%= number_to_currency(earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>
+            <% earning_rate_price = earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout) %>
+            <%= number_to_currency(earning_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if earning_rate_price %>
           </span>
         </div>
       <% end %>

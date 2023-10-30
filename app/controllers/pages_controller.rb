@@ -11,7 +11,7 @@ class PagesController < ApplicationController
   end
 
   def home
-    @towns = Town.all.order(:name)
+    @locations = Town.pluck(:name).sort
     @property_types = Vrental::PROPERTY_TYPES.values
 
     @highest_bedroom_count = Vrental.joins(:bedrooms)
@@ -70,8 +70,10 @@ class PagesController < ApplicationController
     @available_vrentals = @company.available_vrentals(@checkin, @checkout, @guests, prop_ids)
     @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
     @vrentals = @vrentals.where(id: @available_vrentals_with_price.map { |item| item.keys.first.to_i }) if @available_vrentals_with_price.present?
-    @locations = Town.pluck(:name).sort
+    puts "these are the vrentals after list: #{@vrentals.count}"
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
+
+    @locations = Town.pluck(:name).sort
     @selected_locations = params[:location]
     @property_types = Vrental::PROPERTY_TYPES.values
     @selected_property_types = params[:type]
@@ -162,14 +164,11 @@ class PagesController < ApplicationController
   def simple_search
     @vrentals = Vrental.all
     guest_count = params[:guests].to_i
-
     @vrentals = @vrentals.where("vrentals.max_guests >= ?", guest_count) if guest_count.present?
-    selected_locations = params[:location]
-
-    if selected_locations.present?
-      @vrentals = @vrentals.joins(:town).where("towns.name IN (?)", selected_locations)
-    end
-
+    selected_location = params[:location]
+    @vrentals = @vrentals.joins(:town).where("towns.name ILIKE ?", "%#{selected_location}%") if selected_location.present?
+    puts "these are the vrentals after simple search: #{@vrentals.count}"
+    return @vrentals
   end
 
   def advanced_search

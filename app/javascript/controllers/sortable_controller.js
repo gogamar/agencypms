@@ -3,7 +3,6 @@ import Sortable from "sortablejs";
 
 export default class extends Controller {
   connect() {
-    console.log("Sortable.");
     this.sortable = Sortable.create(this.element, {
       group: "shared",
       animation: 150,

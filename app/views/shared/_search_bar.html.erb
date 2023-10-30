@@ -1,4 +1,4 @@
-<div class="full-search-2 eclip-search italian-search hero-search-radius shadow-hard mt-5">
+<div class="full-search-2 eclip-search italian-search hero-search-radius shadow-hard">
   <div class="hero-search-content">
     <%= form_with url: list_path, data: { controller: 'search' }, method: :get, 'data-turbo-cache': false do |form| %>
       <div class="row">
@@ -8,12 +8,12 @@
               <ul>
                 <li>
                   <div class="form-check ps-0">
-                    <%= form.text_field :check_in, as: :string, data: { search_target: "checkin" }, class: "form-control", placeholder: "Check-in", required: true %>
+                    <%= form.text_field :check_in, value: params[:check_in], as: :string, data: { search_target: "checkin" }, class: "form-control", placeholder: "Check-in", required: true %>
                   </div>
                 </li>
                 <li>
                   <div class="form-check">
-                    <%= form.text_field :check_out, as: :string, data: { search_target: "checkout" }, class: "form-control", placeholder: "Check-out", required: true %>
+                    <%= form.text_field :check_out, value: params[:check_out], as: :string, data: { search_target: "checkout" }, class: "form-control", placeholder: "Check-out", required: true %>
                   </div>
                 </li>
               </ul>
@@ -38,9 +38,9 @@
             <div class="input-with-icon">
               <select name="location" id="location" class="form-control" data-placeholder="<%= t('location').capitalize %>">
                 <option value="">&nbsp;</option>
-                <% if @towns %>
-                  <% @towns.each do |town| %>
-                    <option value="<%= town.id %>"><%= town.name %></option>
+                <% if @locations %>
+                  <% @locations.each do |location| %>
+                    <option value="<%= location %>"><%= location %></option>
                   <% end %>
                 <% end %>
               </select>
