@@ -1,0 +1,14 @@
+<%= turbo_frame_tag feature, class: "card-body" do %>
+  <div class="row py-1">
+    <div class="col-lg-3 nowrap"><%= t(feature.name) %></div>
+    <div class="col-lg-3 nowrap"><%= t(feature.highlight) %> </div>
+    <div class="col-lg-6 nowrap d-flex justify-content-start gap-3">
+      <%= link_to edit_feature_path(feature), class: "btn btn-sm btn-info" do %>
+        <i class="fas fa-pen fa-sm"></i>
+      <% end %>
+      <%= link_to feature, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta característica?"}, class: "btn btn-sm btn-danger" do %>
+        <i class="fas fa-trash-can fa-sm"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>

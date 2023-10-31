@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  before_action :filter_params
   skip_before_action :authenticate_user!, only: [:home, :list_map, :list, :book_property, :confirm_booking, :get_availability]
   layout 'booking_website'
   include ActionView::Helpers::NumberHelper
@@ -70,34 +71,46 @@ class PagesController < ApplicationController
     @available_vrentals = @company.available_vrentals(@checkin, @checkout, @guests, prop_ids)
     @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
     @vrentals = @vrentals.where(id: @available_vrentals_with_price.map { |item| item.keys.first.to_i }) if @available_vrentals_with_price.present?
-    puts "these are the vrentals after list: #{@vrentals.count}"
-    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
 
-    @locations = Town.pluck(:name).sort
-    @selected_locations = params[:location]
     @property_types = Vrental::PROPERTY_TYPES.values
-    @selected_property_types = params[:type]
-    num_bedrooms = Vrental.all.map { |vrental| vrental.bedrooms.count }.uniq.sort
-    @num_bedrooms = num_bedrooms.map { |num| [num, num] }
+    @selected_property_types = params[:pt]
+    property_bedrooms = Vrental.all.map { |vrental| vrental.bedrooms.count }.uniq.sort
+    @property_bedrooms = property_bedrooms.map { |num| [num, 'bedroom', 'or_more'] }
+    @selected_property_bedrooms = params[:pb]
+    @property_features = Feature.where(highlight: true).map { |feature| feature.name }
+    @selected_property_features = params[:pf]
+    @all_vrentals_number = Vrental.all.count
+    @dates_selected = params[:check_in].present? && params[:check_out].present?
+    @guests_selected = params[:guests].present?
+
+    if params[:pt] || params[:pb] || params[:pf]
+      advanced_search(params[:pt], params[:pb], params[:pf])
+    end
+
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
   end
 
   def list_map
-    simple_search
-    @checkin = params[:check_in]
-    @checkout = params[:check_out]
-    @guests = params[:guests]
-    prop_ids = @vrentals.pluck(:beds_prop_id)
-    puts "these are the prop_ids: #{prop_ids}"
-    # fixme - need to get the company from url (subdomain)
-    @company = Company.first
-    vrental_ids = @available_vrentals.map { |item| item.keys.first.to_i }
-    @vrentals = @vrentals.where(id: vrental_ids)
-    @vrentals_number = @vrentals.count
-    @vrentals = Vrental.joins(:features).where(features: { name: 'pool' }) if params[:pool].present?
-    @vrentals = Vrental.joins(:rates).where('rates.priceweek <= ?', 350).distinct if params[:economy].present?
+    # simple_search
+    # @checkin = params[:check_in]
+    # @checkout = params[:check_out]
+    # @guests = params[:guests]
+    # prop_ids = @vrentals.pluck(:beds_prop_id)
+    # # fixme - need to get the company from url (subdomain)
+    # @company = Company.first
+    # vrental_ids = @vrentals.map { |item| item.keys.first.to_i }
+    # @vrentals = @vrentals.where(id: vrental_ids)
+    # @vrentals_number = @vrentals.count
+    # @vrentals = Vrental.joins(:features).where(features: { name: 'pool' }) if params[:pool].present?
+    # @vrentals = Vrental.joins(:rates).where('rates.priceweek <= ?', 350).distinct if params[:economy].present?
+    @vrentals = Vrental.all
+    @available_vrentals_with_price = params[:avp]
+    @vrentals = @vrentals.where(id: @available_vrentals_with_price.map { |item| item.keys.first.to_i }) if @available_vrentals_with_price.present?
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
-    puts "these are the available_vrentals: #{@available_vrentals}"
-    @markers = @available_vrentals.map do |property|
+
+    if @available_vrentals_with_price.present?
+
+    @markers = @available_vrentals_with_price.map do |property|
       vrental = Vrental.find_by(id: property.keys.first)
       price = property.values.first
       if vrental&.geocoded?
@@ -106,6 +119,11 @@ class PagesController < ApplicationController
         nil
       end
     end.compact
+    else
+      @markers = @vrentals.geocoded.map do |vrental|
+        generate_marker(vrental)
+      end
+    end
 
     params_hash = params.to_unsafe_h
     @type_bedrooms_bathrooms = params_hash.slice(:type, :bedrooms, :bathrooms).select { |k, v| v.present? }
@@ -148,6 +166,10 @@ class PagesController < ApplicationController
 
   private
 
+  def filter_params
+    params.reject! { |_, value| value.blank? }
+  end
+
   def generate_marker(vrental, price=nil)
     {
       lat: vrental.latitude,
@@ -171,37 +193,21 @@ class PagesController < ApplicationController
     return @vrentals
   end
 
-  def advanced_search
-    guest_count = params[:guests].to_i
-    selected_location = params[:location]
-    selected_type = params[:type]
-    selected_bedrooms_count = params[:bedrooms].to_i
-    selected_bathrooms_count = params[:bathrooms].to_i
-    selected_features = params[:selected_features]
-
-    @vrentals = Vrental.joins(:bedrooms, :bathrooms, :features)
-
-    @vrentals = @vrentals.where(property_type: selected_type) unless selected_type.blank?
-    @vrentals = @vrentals.where(town: selected_location) unless selected_location.blank?
-    @vrentals = @vrentals.where("vrentals.max_guests >= ?", guest_count) if guest_count.present?
-    @vrentals = @vrentals.where(features: { id: selected_features }) if selected_features.present?
-
-    # Add the bedrooms and bathrooms counts only if their respective values are provided
-    if selected_bedrooms_count > 0
-      @vrentals = @vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(DISTINCT bedrooms.id) = ?', selected_bedrooms_count)
+  def advanced_search(pt=nil, pb=nil, pf=nil)
+    if pt.present?
+      pt_translation_keys = pt.map { |type| I18n.backend.translations[I18n.locale].key type}
+      @vrentals.where(property_type: pt_translation_keys)
     end
 
-    if selected_bathrooms_count > 0
-      @vrentals = @vrentals.joins(:bathrooms).group('vrentals.id').having('COUNT(DISTINCT bathrooms.id) = ?', selected_bathrooms_count)
+    if pf.present?
+      pf_translation_keys = pf.map { |feature| I18n.backend.translations[I18n.locale].key feature}
+      @vrentals = @vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", pf_translation_keys)
     end
 
-    # If both bedroom and bathroom counts are provided, make sure features count condition is added
-    if selected_features.present? && (selected_bedrooms_count > 0 || selected_bathrooms_count > 0)
-      @vrentals = @vrentals.having('COUNT(DISTINCT features.id) = ?', selected_features.length)
-    elsif selected_features.present?
-      @vrentals = @vrentals.group('vrentals.id').having('COUNT(DISTINCT features.id) = ?', selected_features.length)
+    if pb.present?
+      @vrentals = @vrentals.joins(:bedrooms)
+                         .group('vrentals.id')
+                         .having('COUNT(bedrooms.id) >= ?', pb.to_i)
     end
-    @vrentals = @vrentals.distinct
   end
-
 end

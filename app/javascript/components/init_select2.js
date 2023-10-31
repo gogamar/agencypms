@@ -51,11 +51,6 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
-  $("#select-vrental").select2({
-    placeholder: "Seleccionar immoble",
-    allowClear: true,
-  });
-
   $("#select-rate-plan").select2({
     placeholder: "Seleccionar plà de tarifa",
     allowClear: true,
@@ -70,6 +65,23 @@ const initSelect2 = () => {
     placeholder: $("#select_vrental").data("placeholder"),
     allowClear: true,
   });
+
+  $("#order-by-select2")
+    .select2({
+      placeholder: $("#order-by-select2").data("placeholder"),
+      allowClear: true,
+    })
+    .on("select2:select", function (e) {
+      const currentURL = window.location.pathname;
+      const pattern = /\/(\d+)\/(.*)/;
+      const match = currentURL.match(pattern);
+
+      if (match && match.length > 2) {
+        window.location.href = e.params.data.id + "/" + match[2];
+      } else {
+        window.location.href = e.params.data.id;
+      }
+    });
 
   $("#select_vrental-select2")
     .select2({

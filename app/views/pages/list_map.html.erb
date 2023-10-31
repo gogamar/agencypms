@@ -52,11 +52,13 @@
       </div>
       <!--- All List -->
       <div class="row list-layout">
-        <% @available_vrentals.each do |hash| %>
-          <% vrental = Vrental.find_by(id: hash.keys.first) %>
-          <% price = hash.values.first %>
-          <% rate_price = vrental.rate_price(@checkin, @checkout) %>
-          <% discount = (rate_price - price) / rate_price if rate_price.present? %>
+        <% @vrentals.each do |vrental| %>
+          <% if @available_vrentals_with_price.present? %>
+            <% vrental_id = vrental.id %>
+            <% price = @available_vrentals_with_price.select { |hash| hash.key?(vrental_id) }.first[vrental_id] %>
+            <% rate_price = vrental.rate_price(@checkin, @checkout) %>
+            <% discount = (rate_price - price) / rate_price if rate_price.present? %>
+          <% end %>
           <%= render "single_property_list", vrental: vrental, price: price, rate_price: rate_price, discount: discount, checkin: @checkin, checkout: @checkout, guests: @guests %>
         <% end %>
         <div class="row">

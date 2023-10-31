@@ -1,7 +1,7 @@
 <div class="property-sidebar side_stiky">
   <div class="sider_blocks_wrap">
     <div class="side-booking-header d-flex justify-content-center">
-      <h3 class="prt-price-fix text-secondary type--strikethrough me-3 <%= 'd-none' unless @discount %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h3>
+      <h3 class="prt-price-fix text-secondary type--strikethrough me-3 <%= 'd-none' unless @discount.to_i > 10 %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h3>
       <h3 class="prt-price-fix text-primary" id="<%= @vrental.id %>-price">
         <%= number_to_currency(@price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
       </h3>
@@ -10,7 +10,7 @@
     <div class="sidetab-content mb-2">
       <div class="side-booking-body">
         <%= form_with url: confirm_booking_path, data: { controller: 'search' }, method: :get, 'data-turbo-cache': false do |form| %>
-          <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
+          <%= form.hidden_field :guests, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">

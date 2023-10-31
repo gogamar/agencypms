@@ -1,7 +1,7 @@
 <div class="single_search_boxed">
   <div class="widget-boxed-header">
     <h4>
-      <a href="#<%= target_id %>" data-bs-toggle="collapse" aria-expanded="false" role="button" class="<%= 'collapsed' unless params[target_param] %>"><%= t("location") %></a>
+      <a href="#<%= target_id %>" data-bs-toggle="collapse" aria-expanded="false" role="button" class="<%= 'collapsed' unless params[target_param] %>"><%= t(filter_name) %></a>
     </h4>
   </div>
   <div class="widget-boxed-body collapse <%= 'show' if params[target_param] %>" id="<%= target_id %>" data-parent="#<%= target_id %>">
@@ -11,11 +11,19 @@
           <div class="inner_widget_link">
             <ul class="no-ul-list filter-list">
               <% items.each do |item| %>
-                <% checked_item = selected_items.include?(item) if selected_items %>
-                <li class="form-check">
-                  <input type="checkbox" name="<%= param_name %>[]" value="<%= item %>" class="form-check-input" <%= 'checked' if checked_item %>>
-                  <label class="form-check-label"><%= item %></label>
-                </li>
+                <% if item.is_a?(String) %>
+                  <% checked_item = selected_items.include?(item) if selected_items %>
+                  <li class="form-check">
+                    <input type="checkbox" name="<%= param_name %>[]" value="<%= item %>" class="form-check-input" <%= 'checked' if checked_item %>>
+                    <label class="form-check-label"><%= item %></label>
+                  </li>
+                <% elsif item.is_a?(Array) %>
+                  <% checked_item = selected_items.include?(item[0].to_s) if selected_items %>
+                  <li class="form-check">
+                    <input type="radio" name="<%= param_name %>" id="<%param_name%><%item[0]%>"  value="<%= item[0] %>" class="form-check-input" <%= 'checked' if checked_item %>>
+                    <label class="form-check-label" for="<%param_name%><%item[0]%>"><%= item[0] %> <%= t(item[1], count: item[0]) %> <%= t(item[2]) %></label>
+                  </li>
+                <% end %>
               <% end %>
             </ul>
           </div>

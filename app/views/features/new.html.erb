@@ -1,3 +1,3 @@
-<h1>Afegir una caracteristica nova</h1>
-
-<%= render 'form', vrental: @vrental, feature: @feature %>
+<%= turbo_frame_tag @feature do %>
+  <%= render "form", feature: @feature %>
+<% end %>

@@ -1,16 +1,17 @@
-<div class="d-flex justify-content-center">
-  <%= simple_form_for [ vrental, feature ] do |f| %>
+<div class="card-body">
+  <%= simple_form_for feature, data: {turbo_frame: feature} do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-    <div class="form-inputs three-columns">
-      <%= f.input :name, collection: @features, as: :check_boxes, label_text: false, input_html: { multiple: true } %>
-      <%# f.input :name, collection: @features_not_confirmed, as: :check_boxes, label_text: false, input_html: { multiple: true, checked: false } %>
-    </div>
-
-
-    <div class="form-actions">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn-primary' %>
+    <div class="row py-1">
+      <div class="col-lg-3 nowrap">
+        <%= t(f.object.name) %>
+      </div>
+      <div class="col-lg-3 nowrap">
+        <%= f.input :highlight, label: false, priority: [t("false"), false], collection: [[t("false"), false], [t("true"), true]], include_blank: false %>
+      </div>
+      <div class="col-lg-6 nowrap d-flex justify-content-start gap-3">
+        <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-info' %>
+      </div>
     </div>
   <% end %>
 </div>

@@ -1,6 +1,8 @@
 ca:
   "yes": "Sí"
   "no": "No"
+  "true": "Sí"
+  "false": "No"
   guests: "persones"
   location: "ubicació"
   type: "tipus de immoble"
@@ -110,6 +112,15 @@ ca:
   find_by_vrental_name: "Cercar per nom d'immoble..."
   select_dates: "Selecciona dates"
   where_to: "On busques?"
+  property_type: "Tipus d'immoble"
+  property_bedrooms: "Número d'habitacions"
+  property_features: "Característiques"
+  out_of: "de"
+  or_more: "o més"
+  order_by: "Ordenar per"
+  property_available:
+    one: "immoble disponible"
+    other: "immobles disponibles"
   vrental:
     one: "immoble de lloguer turístic"
     other: "immobles de lloguer turístic"
@@ -485,8 +496,8 @@ ca:
         payment_date: "Data pagament"
         payment_method: "Mètode pagament"
       feature:
-        name:
-          washer: "rentadora"
+        name: "Nom"
+        highlight: "Destacada"
   global:
     forms:
       submit: "Desar"

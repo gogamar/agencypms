@@ -11,8 +11,11 @@
       <div class="listing-detail-wrapper-box">
         <div class="listing-detail-wrapper d-flex align-items-start justify-content-between">
           <div class="listing-short-detail">
-            <span class="label bg-light-danger text-danger d-inline-flex mb-1">For Rent</span>
-            <h4 class="listing-name mb-0"><a href="single-property-2.html"><%= link_to vrental.name, vrental %></a></h4>
+            <span class="label bg-light-danger text-danger d-inline-flex mb-1"><%= t(vrental.property_type) %></span>
+            <h4 class="listing-name mb-0">
+              <%= link_to vrental.name, vrental %>
+            </h4>
+            <!--
             <div class="fr-can-rating">
               <i class="fas fa-star fs-xs filled"></i>
               <i class="fas fa-star fs-xs filled"></i>
@@ -21,12 +24,15 @@
               <i class="fas fa-star fs-xs"></i>
               <span class="reviews_text fs-sm text-muted ms-2">(34 Reviews)</span>
             </div>
+            -->
           </div>
           <div class="list-price">
             <% if price.present? %>
               <h6 class="listing-card-info-price text-primary"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
-            <% else %>
+            <% elsif @dates_selected && @guests_selected %>
               <span class="label bg-light-warning text-warning d-inline-flex mb-1"><%= t("not_available") %></span>
+            <% elsif !@dates_selected && !@guests_selected %>
+              <a class="btn btn-sm btn-warning d-inline-flex mb-1 dates-missing-js"><%= t("select_dates") %></a>
             <% end %>
           </div>
         </div>
@@ -36,25 +42,29 @@
           <% if vrental.max_guests %>
             <div class="listing-card d-flex align-items-center">
               <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-users fs-xs"></i></div>
-              <span class="text-muted-2 fs-sm"><%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %></span>
+              <%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %>
             </div>
           <% end %>
-          <div class="listing-card d-flex align-items-center">
-            <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bed fs-xs"></i></div>
-            <span class="text-muted-2 fs-sm">3 Beds</span>
-          </div>
-          <div class="listing-card d-flex align-items-center">
-            <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-clone fs-xs"></i></div>
-            <span class="text-muted-2 fs-sm">1800 SQFT</span>
-          </div>
+          <% if vrental.bedrooms.present? %>
+            <div class="listing-card d-flex align-items-center">
+              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bed fs-xs"></i></div>
+              <%= vrental.bedrooms.count %> <%= t("bedrooms", count: vrental.bedrooms.count) %>
+            </div>
+          <% end %>
+          <% if vrental.bathrooms.present? %>
+            <div class="listing-card d-flex align-items-center">
+              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bath fs-xs"></i></div>
+              <%= vrental.bathrooms.count %> <%= t("bathrooms", count: vrental.bathrooms.count) %>
+            </div>
+          <% end %>
         </div>
       </div>
       <div class="listing-footer-wrapper">
         <div class="listing-locate">
-          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-1"></i>Quice Market, Canada</span>
+          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-1"></i><%= vrental.town&.name %></span>
         </div>
         <div class="listing-detail-btn">
-          <a href="single-property-2.html" class="btn btn-sm px-4 fw-medium btn-primary">View</a>
+          <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
         </div>
       </div>
     </div>

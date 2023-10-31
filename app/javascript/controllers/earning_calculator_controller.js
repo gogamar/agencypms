@@ -34,7 +34,7 @@ export default class extends Controller {
     } else {
       discount = 1 - amountInput / ratePrice;
     }
-    this.discountTarget.value = discount.toFixed(4);
+    this.discountTarget.value = discount <= 0 ? "" : discount;
   }
 
   discountValueChanged() {

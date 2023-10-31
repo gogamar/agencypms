@@ -3,7 +3,7 @@ class FeaturesController < ApplicationController
 
   # Index for features is not really necessary
   def index
-    @features = policy_scope(Feature)
+    @features = policy_scope(Feature).order('highlight DESC')
   end
 
   def new

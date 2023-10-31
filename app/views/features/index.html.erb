@@ -1,10 +1,18 @@
-<%# @vrental.features.each do |feature| %>
-  <%# feature.name %>
-<%# end %>
-
-<% Feature.all.each do |feature| %>
-<%= feature.name %>
-<%= link_to 'Esborrar', feature, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{feature.name}?"} %>
-<% end %>
-
-<%# Feature.distinct.pluck(:name) %>
+<div class="container">
+  <!--
+  <h5 class="text-center text-info mb-5"><%= t("add_new_feature") %></h5>
+  <%# turbo_frame_tag "new_feature", src: new_feature_path, target: "_top" %>
+  <hr>
+  <h5 class="m-3 font-weight-bold text-primary text-center"><%= t("features") %></h5>
+  <hr>
+-->
+  <div class="row py-1">
+    <div class="col-lg-3 nowrap fw-bold">Nom</div>
+    <div class="col-lg-3 nowrap fw-bold">Destacada</div>
+    <div class="col-lg-6"></div>
+  </div>
+  <hr>
+  <div id="features">
+    <%= render @features %>
+  </div>
+</div>

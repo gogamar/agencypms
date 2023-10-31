@@ -29,27 +29,30 @@
           <div class="filter_wraps">
             <%= render 'single_search',
               form: form,
-              target_id: 'where',
-              target_param: :location,
-              items: @locations,
-              selected_items: @selected_locations,
-              param_name: :location
+              target_id: 'ptype',
+              target_param: :pt,
+              items: @property_types.map {|name| t(name)}.sort_by { |translation| translation },
+              selected_items: @selected_property_types,
+              param_name: :pt,
+              filter_name: 'property_type'
             %>
             <%= render 'single_search',
               form: form,
-              target_id: 'ptype',
-              target_param: :property_type,
-              items: @property_types,
-              selected_items: @selected_property_types,
-              param_name: :property_type
+              target_id: 'pbedrooms',
+              target_param: :pb,
+              items: @property_bedrooms,
+              selected_items: @selected_property_bedrooms,
+              param_name: :pb,
+              filter_name: 'property_bedrooms'
             %>
-            <%# render 'single_search',
+            <%= render 'single_search',
               form: form,
-              target_id: 'num_bedrooms',
-              target_param: :bedroom_number,
-              items: @bedroom_numbers,
-              selected_items: @selected_bedroom_numbers,
-              param_name: :bedroom_number
+              target_id: 'pfeatures',
+              target_param: :pf,
+              items: @property_features.map {|name| t(name).capitalize }.sort_by { |translation| translation },
+              selected_items: @selected_property_types,
+              param_name: :pf,
+              filter_name: 'property_features'
             %>
             <div class="form-group filter_button">
               <button type="submit" class="btn btn btn-primary rounded full-width">Cercar</button>
