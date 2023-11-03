@@ -7,32 +7,14 @@
     </div>
     <div class="sidebar-widgets">
       <div class="search-inner p-0">
-        <div class="filter-search-box">
-          <div class="_mp_filter_first">
-            <div class="index-search">
-              <%= form_with url: list_path, method: :get, class: "d-flex" do |form| %>
-                <%= form.text_field :ref,
-                      class: "form-control",
-                      value: params[:property_name],
-                      placeholder: t("find_by_vrental_name")
-                    %>
-                <div class="input-group-append">
-                  <%= form.button class: "input-group-text index-button", value: t("search") do %>
-                    <i class="fas fa-search fa-sm"></i>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-        <%= form_with url: list_path, method: :get do |form| %>
+        <%= form_with url: filter_path, method: :get, data: { controller: "search-properties", search_properties_target: "form" } do |form| %>
           <div class="filter_wraps">
             <%= render 'single_search',
               form: form,
               target_id: 'ptype',
               target_param: :pt,
               items: @property_types.map {|name| t(name)}.sort_by { |translation| translation },
-              selected_items: @selected_property_types,
+              selected_items: params[:pt],
               param_name: :pt,
               filter_name: 'property_type'
             %>
@@ -41,7 +23,7 @@
               target_id: 'pbedrooms',
               target_param: :pb,
               items: @property_bedrooms,
-              selected_items: @selected_property_bedrooms,
+              selected_items: params[:pb],
               param_name: :pb,
               filter_name: 'property_bedrooms'
             %>
@@ -49,13 +31,17 @@
               form: form,
               target_id: 'pfeatures',
               target_param: :pf,
-              items: @property_features.map {|name| t(name).capitalize }.sort_by { |translation| translation },
-              selected_items: @selected_property_types,
+              items: @property_features.map {|name| t(name) }.sort_by { |translation| translation },
+              selected_items: params[:pf],
               param_name: :pf,
               filter_name: 'property_features'
             %>
+            <%= hidden_field_tag(:check_in, params[:check_in]) %>
+            <%= hidden_field_tag(:check_out, params[:check_out]) %>
+            <%= hidden_field_tag(:guests, params[:guests]) %>
+            <%= hidden_field_tag(:location, params[:location]) %>
             <div class="form-group filter_button">
-              <button type="submit" class="btn btn btn-primary rounded full-width">Cercar</button>
+              <%= form.submit t("search"), class: "btn btn-primary rounded full-width", data: { action: "click->search-properties#addParams"} %>
             </div>
           </div>
         <% end %>

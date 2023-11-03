@@ -2819,6 +2819,10 @@ table.table tr th {
   background-color: #074da3;
   border-color: none;
 }
+.prev .page-link,
+.next .page-link {
+  background: transparent !important;
+}
 
 /*---------- Global Settings: Section Heading Style ---------*/
 .sec-heading {

@@ -66,21 +66,29 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
+  $("#sort_order")
+    .select2({
+      placeholder: $("#sort_order").data("placeholder"),
+      allowClear: false,
+    })
+    .on("select2:select", function (e) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        Rails.fire(this.closest("form"), "submit");
+      }, 200);
+    });
+
   $("#order-by-select2")
     .select2({
       placeholder: $("#order-by-select2").data("placeholder"),
       allowClear: true,
     })
     .on("select2:select", function (e) {
-      const currentURL = window.location.pathname;
-      const pattern = /\/(\d+)\/(.*)/;
-      const match = currentURL.match(pattern);
-
-      if (match && match.length > 2) {
-        window.location.href = e.params.data.id + "/" + match[2];
-      } else {
-        window.location.href = e.params.data.id;
-      }
+      console.log("this is the data", e.params.data.id);
+      Turbo.visit(e.params.data.id, {
+        action: "replace",
+        target: "properties",
+      });
     });
 
   $("#select_vrental-select2")

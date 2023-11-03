@@ -10,12 +10,12 @@
     <div class="sidetab-content mb-2">
       <div class="side-booking-body">
         <%= form_with url: confirm_booking_path, data: { controller: 'search' }, method: :get, 'data-turbo-cache': false do |form| %>
-          <%= form.hidden_field :guests, value: @guests, data: { search_target: "numAdult" } %>
+          <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
-                <label for="guests">Check In</label>
+                <label for="check_in">Check In</label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
                   <%= form.text_field :check_in,
@@ -29,7 +29,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
-                <label for="guests">Check Out</label>
+                <label for="check_out">Check Out</label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
                   <%= form.text_field :check_out,

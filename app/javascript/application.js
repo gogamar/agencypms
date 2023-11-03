@@ -15,9 +15,13 @@ window.Rails = Rails;
 
 document.addEventListener("turbo:load", function () {
   initSlick();
-  initMagnificPopUp();
   initSelect2();
+  initMagnificPopUp();
   initFlatpickr();
+});
+
+document.addEventListener("turbo:frame-load", function () {
+  initSelect2();
 });
 
 import "./packs/custom";

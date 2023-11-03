@@ -127,7 +127,7 @@ class Office < ApplicationRecord
           vrental = Vrental.find_by(beds_prop_id: avail_details["propId"]).id
           if vrental
             property_hash = {
-              vrental => avail_details["price"]
+              vrental.to_s => avail_details["price"]
             }
             result << property_hash
           end

@@ -2,8 +2,8 @@
   <div class="property-listing property-1 bg-white p-2 rounded">
     <div class="listing-img-wrapper">
       <% if vrental.image_urls.present? %>
-        <%= link_to vrental do %>
-          <%= image_tag vrental.image_urls.order(position: :asc).first, class: "img-fluid mx-auto rounded", alt: vrental.name %>
+        <%= link_to book_property_path(vrental_id: vrental.id) do %>
+          <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto rounded", alt: vrental.name %>
         <% end %>
       <% end %>
     </div>
@@ -13,7 +13,7 @@
           <div class="listing-short-detail">
             <span class="label bg-light-danger text-danger d-inline-flex mb-1"><%= t(vrental.property_type) %></span>
             <h4 class="listing-name mb-0">
-              <%= link_to vrental.name, vrental %>
+              <%= vrental.name %>
             </h4>
             <!--
             <div class="fr-can-rating">
@@ -31,8 +31,6 @@
               <h6 class="listing-card-info-price text-primary"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
             <% elsif @dates_selected && @guests_selected %>
               <span class="label bg-light-warning text-warning d-inline-flex mb-1"><%= t("not_available") %></span>
-            <% elsif !@dates_selected && !@guests_selected %>
-              <a class="btn btn-sm btn-warning d-inline-flex mb-1 dates-missing-js"><%= t("select_dates") %></a>
             <% end %>
           </div>
         </div>
@@ -64,7 +62,11 @@
           <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-1"></i><%= vrental.town&.name %></span>
         </div>
         <div class="listing-detail-btn">
-          <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
+          <% if @dates_selected && @guests_selected %>
+            <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
+          <% else %>
+            <a class="btn btn-sm btn-warning d-inline-flex mb-1 dates-missing-js"><%= t("select_dates") %></a>
+          <% end %>
         </div>
       </div>
     </div>

@@ -135,12 +135,8 @@ class Vrental < ApplicationRecord
     confirmed_bookings = self.bookings.where.not(status: "0")
     this_year_bookings = confirmed_bookings.where(checkin: from..to)
 
-    puts "these are this year bookings: #{this_year_bookings.inspect}"
-
     this_year_bookings.each do |booking|
       city_tax_sum = booking.charges.where(charge_type: 'city_tax').sum(:price)
-
-      puts "this is city_tax_sum: #{city_tax_sum}"
 
       total_city_tax[:tax] += city_tax_sum
       total_city_tax[:base] += city_tax_sum / 1.21
@@ -1054,7 +1050,7 @@ class Vrental < ApplicationRecord
           end
         end
 
-        bookings_to_delete = bookings.where.not(beds_booking_id: selected_bookings.map { |beds_booking| beds_booking['bookId'] })
+        bookings_to_delete = bookings.where('checkin >= ?', from_date.to_date).where.not(beds_booking_id: selected_bookings.map { |beds_booking| beds_booking['bookId'] })
 
         if bookings_to_delete.any?
           bookings_to_delete.destroy_all

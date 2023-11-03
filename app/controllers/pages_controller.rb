@@ -1,5 +1,8 @@
 class PagesController < ApplicationController
   before_action :filter_params
+  before_action :load_vrentals, only: [:list, :filter]
+  before_action :load_filters, only: [:home, :list, :filter]
+  before_action :load_search_params, only: [:list, :filter]
   skip_before_action :authenticate_user!, only: [:home, :list_map, :list, :book_property, :confirm_booking, :get_availability]
   layout 'booking_website'
   include ActionView::Helpers::NumberHelper
@@ -12,9 +15,6 @@ class PagesController < ApplicationController
   end
 
   def home
-    @locations = Town.pluck(:name).sort
-    @property_types = Vrental::PROPERTY_TYPES.values
-
     @highest_bedroom_count = Vrental.joins(:bedrooms)
                                     .group('vrentals.id')
                                     .order('COUNT(bedrooms.id) DESC')
@@ -61,48 +61,42 @@ class PagesController < ApplicationController
   end
 
   def list
-    simple_search
-    @checkin = params[:check_in]
-    @checkout = params[:check_out]
-    @guests = params[:guests]
-    prop_ids = @vrentals.pluck(:beds_prop_id)
-    # fixme - company from url (subdomain)
-    @company = Company.first
-    @available_vrentals = @company.available_vrentals(@checkin, @checkout, @guests, prop_ids)
-    @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
-    @vrentals = @vrentals.where(id: @available_vrentals_with_price.map { |item| item.keys.first.to_i }) if @available_vrentals_with_price.present?
+    load_availability
+    load_advanced_search
+    paginate_vrentals
+  end
 
-    @property_types = Vrental::PROPERTY_TYPES.values
-    @selected_property_types = params[:pt]
-    property_bedrooms = Vrental.all.map { |vrental| vrental.bedrooms.count }.uniq.sort
-    @property_bedrooms = property_bedrooms.map { |num| [num, 'bedroom', 'or_more'] }
-    @selected_property_bedrooms = params[:pb]
-    @property_features = Feature.where(highlight: true).map { |feature| feature.name }
-    @selected_property_features = params[:pf]
-    @all_vrentals_number = Vrental.all.count
-    @dates_selected = params[:check_in].present? && params[:check_out].present?
-    @guests_selected = params[:guests].present?
-
-    if params[:pt] || params[:pb] || params[:pf]
-      advanced_search(params[:pt], params[:pb], params[:pf])
+  def filter
+    if params[:request_context].present? && params[:request_context] == 'availability'
+      load_availability
     end
 
-    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
+    if params[:sort_order]
+      sort_order = params[:sort_order]
+      avail_props = JSON.parse(params[:avp])
+      if sort_order == 'asc'
+        @available_vrentals_with_price = avail_props.sort_by! { |hash| hash.values.first }
+      elsif sort_order == 'desc'
+        @available_vrentals_with_price = avail_props.sort_by! { |hash| -hash.values.first }
+      end
+
+      sorted_property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
+
+      @vrentals = @vrentals.where(id: sorted_property_ids).order(
+        Arel.sql("CASE id #{sorted_property_ids.map.with_index { |id, index| "WHEN #{id} THEN #{index}" }.join(' ')} END")
+      )
+      @checkin = params[:check_in]
+      @checkout = params[:check_out]
+      @guests = params[:guests]
+    end
+
+    load_advanced_search
+    paginate_vrentals
+
+    render(partial: 'properties')
   end
 
   def list_map
-    # simple_search
-    # @checkin = params[:check_in]
-    # @checkout = params[:check_out]
-    # @guests = params[:guests]
-    # prop_ids = @vrentals.pluck(:beds_prop_id)
-    # # fixme - need to get the company from url (subdomain)
-    # @company = Company.first
-    # vrental_ids = @vrentals.map { |item| item.keys.first.to_i }
-    # @vrentals = @vrentals.where(id: vrental_ids)
-    # @vrentals_number = @vrentals.count
-    # @vrentals = Vrental.joins(:features).where(features: { name: 'pool' }) if params[:pool].present?
-    # @vrentals = Vrental.joins(:rates).where('rates.priceweek <= ?', 350).distinct if params[:economy].present?
     @vrentals = Vrental.all
     @available_vrentals_with_price = params[:avp]
     @vrentals = @vrentals.where(id: @available_vrentals_with_price.map { |item| item.keys.first.to_i }) if @available_vrentals_with_price.present?
@@ -158,7 +152,7 @@ class PagesController < ApplicationController
     @checkin = params[:check_in].to_date
     @checkout = params[:check_out].to_date
     @nights = @checkout - @checkin
-    @guests = params[:guests]
+    @guests = params[:num_adults]
   end
 
   def submit_property
@@ -183,31 +177,75 @@ class PagesController < ApplicationController
     }
   end
 
-  def simple_search
+  def load_vrentals
     @vrentals = Vrental.all
-    guest_count = params[:guests].to_i
-    @vrentals = @vrentals.where("vrentals.max_guests >= ?", guest_count) if guest_count.present?
-    selected_location = params[:location]
-    @vrentals = @vrentals.joins(:town).where("towns.name ILIKE ?", "%#{selected_location}%") if selected_location.present?
-    puts "these are the vrentals after simple search: #{@vrentals.count}"
-    return @vrentals
   end
 
-  def advanced_search(pt=nil, pb=nil, pf=nil)
-    if pt.present?
-      pt_translation_keys = pt.map { |type| I18n.backend.translations[I18n.locale].key type}
-      @vrentals.where(property_type: pt_translation_keys)
-    end
+  def load_search_params
+    @guests = params[:guests]
+    @location = params[:location]
+    simple_search(@vrentals, @guests, @location) if @guests.present? || @location.present?
+    @checkin = params[:check_in]
+    @checkout = params[:check_out]
+  end
 
-    if pf.present?
-      pf_translation_keys = pf.map { |feature| I18n.backend.translations[I18n.locale].key feature}
-      @vrentals = @vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", pf_translation_keys)
-    end
+  def load_availability
+    return unless @checkin.present? && @checkout.present?
+    prop_ids = @vrentals.pluck(:beds_prop_id)
+    check_availability_on_api(params[:check_in], params[:check_out], params[:guests], prop_ids)
 
-    if pb.present?
-      @vrentals = @vrentals.joins(:bedrooms)
-                         .group('vrentals.id')
-                         .having('COUNT(bedrooms.id) >= ?', pb.to_i)
+    if @available_vrentals_with_price.present?
+      property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
+      @vrentals = @vrentals.where(id: property_ids)
     end
+  end
+
+  def check_availability_on_api(checkin, checkout, guests, prop_ids)
+    # fixme - company from url (subdomain)
+    @company = Company.first
+    @available_vrentals = @company.available_vrentals(checkin, checkout, guests, prop_ids)
+    @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
+  end
+
+  def load_advanced_search
+    advanced_search(params[:pt], params[:pb], params[:pf], params[:n]) if params[:pt] || params[:pb] || params[:pf] || params[:n]
+  end
+
+  def paginate_vrentals
+    @all_vrentals_number = Vrental.all.count
+    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
+  end
+
+  def simple_search(vrentals, guests, location)
+    @vrentals = vrentals.where("vrentals.max_guests >= ?", guests.to_i) if guests.present?
+    @vrentals = vrentals.joins(:town).where("towns.name ILIKE ?", "%#{location}%") if location.present?
+  end
+
+  def advanced_search(pt, pb, pf, n)
+    @vrentals = @vrentals.where("name ILIKE ?", "%#{params[:n]}%") if params[:n].present?
+    @vrentals = @vrentals.where(property_type: pt_translation_keys(pt)) if pt.present?
+    @vrentals = @vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", feature_translation_keys(pf)) if pf.present?
+    @vrentals = @vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
+  end
+
+  def pt_translation_keys(pt)
+    pt.map { |type| I18n.backend.translations[I18n.locale].key(type) }
+  end
+
+  def feature_translation_keys(pf)
+    pf.map { |feature| I18n.backend.translations[I18n.locale].key(feature) }
+  end
+
+  def load_filters
+    @locations = Town.pluck(:name).sort
+    @property_types = Vrental::PROPERTY_TYPES.values
+    @property_features = Feature.where(highlight: true).map { |feature| feature.name }
+    max_bedsrooms = Vrental.left_joins(:bedrooms)
+       .group('vrentals.id')
+       .order('COUNT(bedrooms.id) DESC')
+       .limit(1)
+       .count('bedrooms.id')
+    property_bedrooms = (2..max_bedsrooms.values.first).to_a
+    @property_bedrooms = property_bedrooms.map { |num| [num, 'bedroom', 'or_more'] }
   end
 end

@@ -16,96 +16,20 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <%= render "sidebar_filter" %>
-      <div class="col-lg-8 col-md-12 list-layout">
-        <div class="row justify-content-center">
-          <div class="col-lg-12 col-md-12">
-            <div class="item-shorting-box">
-              <div class="item-shorting clearfix">
-                <% if params[:check_in].present? %>
-                  <div class="left-column pull-left">
-                    <h4 class="fs-6 m-0"><%= @available_vrentals_with_price.length %> <%= t("property_available", count: @available_vrentals_with_price.length ) %> <%= t("out_of") %> <%= @all_vrentals_number %> <%= t("property", count: @all_vrentals_number) %></h4>
-                  </div>
-                <% end %>
-              </div>
-              <div class="item-shorting-box-right">
-                <%# if @available_vrentals_with_price.present? %>
-                <div class="shorting-by">
-                  <select name="order_by" id="order-by-select2" class="form-control" data-placeholder="<%= t('order_by').capitalize %>">
-                    <option value="">&nbsp;</option>
-                    <option value="<%= request.params.except(:page).merge(p: :min_price, d: 'asc') %>">Low Price</option>
-                    <option value="<%= request.params.except(:page).merge(p: :min_price, d: 'desc') %>">High Price</option>
-                  </select>
-                </div>
-                <%# end %>
-                <ul class="shorting-list">
-                  <li>
-                    <%= link_to list_map_path(avp: @available_vrentals_with_price | []), class: "active w-12 h-12" do %>
-                      <span class="svg-icon text-muted-2 svg-icon-2hx">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                          <path d="M408 120c0 54.6-73.1 151.9-105.2 192c-7.7 9.6-22 9.6-29.6 0C241.1 271.9 168 174.6 168 120C168 53.7 221.7 0 288 0s120 53.7 120 120zm8 80.4c3.5-6.9 6.7-13.8 9.6-20.6c.5-1.2 1-2.5 1.5-3.7l116-46.4C558.9 123.4 576 135 576 152V422.8c0 9.8-6 18.6-15.1 22.3L416 503V200.4zM137.6 138.3c2.4 14.1 7.2 28.3 12.8 41.5c2.9 6.8 6.1 13.7 9.6 20.6V451.8L32.9 502.7C17.1 509 0 497.4 0 480.4V209.6c0-9.8 6-18.6 15.1-22.3l122.6-49zM327.8 332c13.9-17.4 35.7-45.7 56.2-77V504.3L192 449.4V255c20.5 31.3 42.3 59.6 56.2 77c20.5 25.6 59.1 25.6 79.6 0zM288 152c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40s17.9 40 40 40z" fill="currentColor"/>
-                        </svg>
-                      </span>
-                    <% end %>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row justify-content-center">
-          <% alert_message = if !@dates_selected
-                    "No has seleccionat cap data. Selecciona dates per veure la disponibilidat i preus."
-                  elsif !@guests_selected
-                    "No has seleccionat cap nombre de persones. Selecciona el nombre de persones per veure la disponibilidat i preus."
-                  elsif !@available_vrentals_with_price.present?
-                    "No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus."
-                  elsif !@vrentals.present?
-                    "No tenim disponibilitat per aquesta selecció."
-                  end %>
-          <% if alert_message %>
-            <div class="col-xl-12 col-lg-12 col-md-12">
-              <div class="alert alert-info alert-dismissible fade show property-1 position-relative" role="alert">
-                <% if alert_message.present? %>
-                  <strong>Atenció!</strong> <%= alert_message %>
-                <% end %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            </div>
-          <% end %>
-          <% @vrentals.each do |vrental| %>
-            <% if @available_vrentals_with_price.present? %>
-              <% vrental_id = vrental.id %>
-              <% price = @available_vrentals_with_price.select { |hash| hash.key?(vrental_id) }.first[vrental_id] %>
-              <% rate_price = vrental.rate_price(@checkin, @checkout) %>
-              <% discount = (rate_price - price) / rate_price if rate_price.present? %>
-            <% end %>
-            <%= render "single_property_list", vrental: vrental, price: price, rate_price: rate_price, discount: discount, checkin: @checkin, checkout: @checkout, guests: @guests %>
-          <% end %>
-        </div>
-        <!-- Pagination -->
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-            <%# pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<script>
-  const searchBar = document.querySelector('.full-search-2');
-  const datesMissing = document.querySelectorAll('.dates-missing-js');
+    <%= render "properties" %>
+  </section>
+  <script>
+    const searchBar = document.querySelector('.full-search-2');
+    const datesMissing = document.querySelectorAll('.dates-missing-js');
 
-  datesMissing.forEach(dateMissing => {
-    dateMissing.addEventListener('click', () => {
-      searchBar.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      const checkInField = document.getElementById("check_in");
-      checkInField.click();
-      if (checkInField._flatpickr) {
-        checkInField._flatpickr.open();
-      }
+    datesMissing.forEach(dateMissing => {
+      dateMissing.addEventListener('click', () => {
+        searchBar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const checkInField = document.getElementById("check_in");
+        checkInField.click();
+        if (checkInField._flatpickr) {
+          checkInField._flatpickr.open();
+        }
+      });
     });
-  });
-</script>
+  </script>

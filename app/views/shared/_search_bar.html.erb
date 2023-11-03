@@ -1,59 +1,64 @@
 <div class="full-search-2 eclip-search italian-search hero-search-radius shadow-hard">
   <div class="hero-search-content">
-    <%= form_with url: list_path, data: { controller: 'search' }, method: :get, 'data-turbo-cache': false do |form| %>
-      <div class="row">
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 b-r">
-          <div class="form-group">
-            <div class="choose-propert-type">
-              <ul>
-                <li>
-                  <div class="form-check ps-0">
-                    <%= form.text_field :check_in, value: params[:check_in], as: :string, data: { search_target: "checkin" }, class: "form-control", placeholder: "Check-in", required: true %>
-                  </div>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <%= form.text_field :check_out, value: params[:check_out], as: :string, data: { search_target: "checkout" }, class: "form-control", placeholder: "Check-out", required: true %>
-                  </div>
-                </li>
-              </ul>
+    <%# if controller_name == 'pages' && action_name == 'list' %>
+    <%= form_with url: filter_path, remote: true, method: :get, data: { controller: 'search search-properties', search_properties_target: "form", turbo_frame: "properties" } do |form| %>
+      <%# else %>
+      <%# form_with url: list_path, method: :get, data: { controller: 'search', turbo_frame: "properties", 'turbo-cache': false } do |form| %>
+        <%# end %>
+        <%= form.hidden_field :request_context, value: "availability" %>
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 b-r">
+            <div class="form-group">
+              <div class="choose-propert-type">
+                <ul>
+                  <li>
+                    <div class="form-check ps-0">
+                      <%= form.text_field :check_in, value: params[:check_in], as: :string, data: { search_target: "checkin", search_properties_target: "filterCheckin" }, class: "form-control", placeholder: "Check-in", required: true %>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="form-check">
+                      <%= form.text_field :check_out, value: params[:check_out], as: :string, data: { search_target: "checkout", search_properties_target: "filterCheckout" }, class: "form-control", placeholder: "Check-out", required: true %>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 p-md-0 elio">
-          <div class="form-group border-start borders">
-            <div class="input-with-icon">
-              <select name="guests" id="guests" class="form-control" data-placeholder="<%= t('guests').capitalize %>" required>
-                <option value="">&nbsp;</option>
-                <% (1..20).each do |n| %>
-                  <option value="<%= n %>"><%= n %> <%= t("guest", count: n) %></option>
-                <% end %>
-              </select>
-              <i class="fas fa-user"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 p-md-0 elio">
-          <div class="form-group border-start borders">
-            <div class="input-with-icon">
-              <select name="location" id="location" class="form-control" data-placeholder="<%= t('location').capitalize %>">
-                <option value="">&nbsp;</option>
-                <% if @locations %>
-                  <% @locations.each do |location| %>
-                    <option value="<%= location %>"><%= location %></option>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 p-md-0 elio">
+            <div class="form-group border-start borders">
+              <div class="input-with-icon">
+                <select name="guests" id="guests" class="form-control" data-placeholder="<%= t('guests').capitalize %>" data-search-properties-target="filterGuests" required>
+                  <option value="">&nbsp;</option>
+                  <% (1..20).each do |n| %>
+                    <option value="<%= n %>"><%= n %> <%= t("guest", count: n) %></option>
                   <% end %>
-                <% end %>
-              </select>
-              <i class="fas fa-location-dot"></i>
+                </select>
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 p-md-0 elio">
+            <div class="form-group border-start borders">
+              <div class="input-with-icon">
+                <select name="location" id="location" class="form-control" data-placeholder="<%= t('location').capitalize %>" data-search-properties-target="filterLocation">
+                  <option value="">&nbsp;</option>
+                  <% if @locations %>
+                    <% @locations.each do |location| %>
+                      <option value="<%= location %>"><%= location %></option>
+                    <% end %>
+                  <% end %>
+                </select>
+                <i class="fas fa-location-dot"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="form-group">
+              <%= button_tag t("search"), class: "btn btn-dark full-width", data: { action: "click->search-properties#addParams"} %>
             </div>
           </div>
         </div>
-        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
-          <div class="form-group">
-            <%= button_tag t("search"), class: "btn btn-dark full-width", data: { turbo: false } %>
-          </div>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
-</div>

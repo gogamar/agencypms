@@ -133,6 +133,8 @@ Rails.application.routes.draw do
       get 'about', to: 'pages#about'
       get 'list_map', to: 'pages#list_map'
       get 'list', to: 'pages#list'
+      get 'filter', to: 'pages#filter'
+      get 'sort_properties', to: 'pages#sort_properties'
       get 'book_property', to: 'pages#book_property'
       get 'confirm_booking', to: 'pages#confirm_booking'
       get 'contact', to: 'pages#contact'
