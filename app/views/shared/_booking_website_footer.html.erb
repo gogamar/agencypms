@@ -13,7 +13,7 @@
                         class: 'form-control form-control-sm',
                         placeholder: t("search_by_name"),
                         aria: { label: t("search_by_name"), describedby: "button-addon2" } %>
-                    <%= form.button type: 'button', class: 'btn btn-sm btn-outline-secondary', id: 'button-addon2' do %>
+                    <%= form.button class: 'btn btn-sm btn-outline-secondary', id: 'button-addon2' do %>
                       <i class="fa-solid fa-magnifying-glass"></i>
                     <% end %>
                   </div>
@@ -64,8 +64,10 @@
         <div class="col-lg-6 col-md-6">
           <p class="mb-0">
             ©  <%= Date.current.year %> Sistach Finques | <a href="/avis-legal">Avís legal | Política de privacitat</a>
+            <%= link_to t('privacy_policy'), privacy_policy_path, class: "text-white" %>
           </p>
         </div>
+        <!--
         <div class="col-lg-6 col-md-6 text-right">
           <ul class="footer-bottom-social">
             <li>
@@ -82,6 +84,7 @@
             </li>
           </ul>
         </div>
+        -->
       </div>
     </div>
   </div>

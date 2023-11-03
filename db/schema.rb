@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_081935) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_03_121511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -447,6 +447,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_081935) do
     t.decimal "fixed_price_amount", precision: 10, scale: 2
     t.string "fixed_price_frequency"
     t.bigint "vrgroup_id"
+    t.string "rental_term"
+    t.integer "min_stay"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"

@@ -9,10 +9,10 @@
                     "No has seleccionat cap data. Selecciona dates per veure la disponibilidat i preus."
                   elsif params[:guests].nil?
                     "No has seleccionat cap nombre de persones. Selecciona el nombre de persones per veure la disponibilidat i preus."
-                  elsif !@available_vrentals_with_price.present?
-                    "No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus."
                   elsif !@vrentals.present?
                     "No tenim disponibilitat per aquesta selecció."
+                  elsif !@available_vrentals_with_price.present?
+                    "No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus."
                   end %>
             <% if alert_message %>
               <div class="col-xl-12 col-lg-12 col-md-12">
@@ -34,14 +34,17 @@
               <% end %>
             </div>
             <div class="item-shorting-box-right">
-              <% if @available_vrentals_with_price.present? %>
+              <% if @available_vrentals_with_price.present? && @available_vrentals_with_price.length > 2 %>
                 <%= form_with(url: filter_path, remote: true, method: :get) do |form| %>
                   <%= form.hidden_field :avp, value: @available_vrentals_with_price.to_json %>
-                  <%= form.hidden_field :check_in, value: @checkin %>
-                  <%= form.hidden_field :check_out, value: @checkout %>
-                  <%= form.hidden_field :guests, value: @guests %>
-                  <div class="shorting-by">
-                    <%= form.select :sort_order, options_for_select([[t('ascending'), 'asc'], [t('descending'), 'desc']], params[:sort_order]), {}, class: 'form-control', data: { placeholder: t('order_by').capitalize } %>
+                  <%= form.hidden_field :check_in, value: params[:check_in] %>
+                  <%= form.hidden_field :check_out, value: params[:check_out] %>
+                  <%= form.hidden_field :guests, value: params[:guests] %>
+                  <%= form.hidden_field :pt, value: params[:pt] %>
+                  <%= form.hidden_field :pb, value: params[:pb] %>
+                  <%= form.hidden_field :pf, value: params[:pf] %>
+                  <div class="shorting-by w-100">
+                    <%= form.select :sort_order, options_for_select([['', ''], [t('ascending'), 'asc'], [t('descending'), 'desc']], params[:sort_order]), {}, class: 'form-control', data: { placeholder: t('order_by').capitalize } %>
                   </div>
                 <% end %>
               <% end %>
@@ -64,10 +67,10 @@
         <% if @available_vrentals_with_price.present? %>
           <% vrental_id = vrental.id.to_s %>
           <% price = @available_vrentals_with_price.find { |hash| hash.key?(vrental_id) }&.[](vrental_id) %>
-          <% rate_price = vrental.rate_price(@checkin, @checkout) %>
-          <% discount = (rate_price - price) / rate_price if rate_price.present? %>
+          <% rate_price = vrental.rate_price(params[:check_in], params[:check_out]) %>
+          <% discount = rate_price - price if rate_price.present? %>
         <% end %>
-        <%= render "single_property_list", vrental: vrental, price: price, rate_price: rate_price, discount: discount, checkin: @checkin, checkout: @checkout, guests: @guests %>
+        <%= render "single_property_list", vrental: vrental, price: price, rate_price: rate_price, discount: discount, check_in: params[:check_in], check_out: params[:check_out], guests: params[:guests] %>
       <% end %>
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">

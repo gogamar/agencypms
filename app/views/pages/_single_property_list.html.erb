@@ -26,10 +26,11 @@
             </div>
             -->
           </div>
-          <div class="list-price">
+          <div class="list-price d-flex flex-row">
             <% if price.present? %>
+              <h6 class="listing-card-info-price text-secondary type--strikethrough me-3 <%= 'd-none' unless discount.to_i > 10 %>"><%= number_to_currency(rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
               <h6 class="listing-card-info-price text-primary"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
-            <% elsif @dates_selected && @guests_selected %>
+            <% elsif params[:check_in].present? && params[:check_out].present? && params[:guests] %>
               <span class="label bg-light-warning text-warning d-inline-flex mb-1"><%= t("not_available") %></span>
             <% end %>
           </div>
@@ -62,8 +63,8 @@
           <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-1"></i><%= vrental.town&.name %></span>
         </div>
         <div class="listing-detail-btn">
-          <% if @dates_selected && @guests_selected %>
-            <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
+          <% if params[:check_in] && params[:check_out] && params[:guests] %>
+            <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
           <% else %>
             <a class="btn btn-sm btn-warning d-inline-flex mb-1 dates-missing-js"><%= t("select_dates") %></a>
           <% end %>

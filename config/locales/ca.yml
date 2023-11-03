@@ -1,284 +1,206 @@
 ca:
-  "yes": "Sí"
-  "no": "No"
-  "true": "Sí"
-  "false": "No"
-  guests: "persones"
-  location: "ubicació"
-  type: "tipus de immoble"
-  bedrooms: "habitacions"
-  bathrooms: "banys"
-  features: "Característiques"
-  search: "Cercar"
-  book: "Reservar"
-  book_now: "Reservar ara"
-  contact: "Contactar"
-  consult: "Fer una pregunta"
-  description: "Descripció"
-  map: "Mapa"
-  photos: "Fotos"
-  apartment: "Apartament"
-  house: "Casa"
-  garden: "Jardi"
-  cancelled_booking: "Reserva cancel·lada"
-  paid_by_agency: "Pagat per l'agència"
-  paid_to_owner: "Pagat al propietari"
-  statement_title: "Liquidació lloguers"
-  earnings: "Ingressos"
-  amount: "Import"
-  booking: "Reserva"
-  discount: "Descompte"
-  commission: "Comissió"
-  expenses: "Despeses"
-  total: "Total"
-  total_revenue: "Total rendiment propietari"
-  agency_fees: "Honoraris"
-  agency_vat: "IVA 21 %"
-  agency: "Agència"
-  owner: "Propietari"
-  view_vrental: "Veure l'immoble"
-  view: "Veure"
-  realtor: "Immobiliària"
-  services: "Serveis"
-  bookings: "Reserves"
-  contact_us: "Contacte"
-  news: "Notícies"
-  edit_vrental: "Modificar l'immoble"
-  copy_vrental: "Copiar l'immoble"
-  delete_vrental: "Eliminar l'immoble"
-  not_available: "No disponible"
-  vacation_rental_properties: "Immobles de lloguer turístic"
-  show_all: "Mostrar tots"
-  search_by_name: "Cercar immobles per nom"
-  unselect_all: "Desmarcar tots"
-  ascending: "Primer els més barats"
-  descending: "Primer els més cars"
-  featured_title: "Cases i apartaments destacats"
-  featured_text: "A continuació us presentem una selecció dels nostres immobles destacats. Si no trobeu el que busqueu, no dubteu en contactar amb nosaltres."
-  verified: "Verificat"
-  find_your: "Troba"
-  next_getaway: "la teva propera escapada"
-  perfect_holiday: "les teves vacances perfectes"
-  search_locations_title: "Cercar per ubicació"
-  search_locations_text: "Selecciona l'ubicació per veure els immobles."
-  browse_more_locations: "Veure més ubicacions"
-  call_to_action_title: "Planificant les teves properes vacances?"
-  call_to_action_text_1: "T'ajudarem a"
-  call_to_action_typed_1: "trobar la casa o apartament perfecte."
-  call_to_action_typed_2: "trobar la millor oferta."
-  transfer: "Transferència"
-  cash: "Efectiu"
-  check: "Xec"
-  select_or_add: "Selecciona o afegeix propietari nou"
-  statement_period: "Període de liquidació"
-  invoice_agency_fees: "Honoraris gestió lloguer turístic"
-  invoice_title: "Factura"
-  invoice_description_1: "Periode de gestió: del %{from} al %{to}"
-  invoice_description_2: "%{commission} sobre las rendes de %{total}"
-  owner_bookings_default: "El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}."
-  owner_speaks: "El propietari %{name} parla %{language}"
-  BEDROOM: "Habitació"
-  vrentals: "Immobles"
-  owners: "Propietaris"
-  hello: "Hola"
-  sign_in: "Iniciar sessió"
-  sign_out: "Tancar sessió"
-  sign_up: "Registrar-se"
-  password: "Contrassenya"
-  confirm_password: "Confirmar contrassenya"
-  add_property: "Afegir immoble"
-  add_owner: "Afegir propietari"
-  vacation_rentals: "Lloguer turístic"
-  vacation_rental: "Immoble de lloguer turístic"
-  new_vrental_step_1: "Pas 1. Detalls sobre l'immoble"
-  commission: "Comissió"
-  fixed_price: "Preu fixe"
-  monthly: "Mensual"
-  yearly: "Anual"
-  select_vrental: "Seleccionar immoble"
-  contracts: "Contractes"
-  edit_profile: "Editar perfil"
-  with_view: "Amb vista"
-  with_pool: "Amb piscina comunitària"
-  with_private_pool: "Amb piscina privada"
-  in_centre: "Al centre"
-  on_budget: "Econòmics"
-  with_garden: "Amb jardí"
-  unique: "Singulars"
-  home: "Inici"
-  apartments: "Apartaments"
-  houses: "Cases"
-  view_photos: "Veure fotos"
-  add_group: "Afegir nou grup"
-  dashboard: "Panell de control"
-  import_photos: "Importar fotos"
-  add_photos: "Afegir fotos"
-  find_by_vrental_name: "Cercar per nom d'immoble..."
-  select_dates: "Selecciona dates"
-  where_to: "On busques?"
-  property_type: "Tipus d'immoble"
-  property_bedrooms: "Número d'habitacions"
-  property_features: "Característiques"
-  out_of: "de"
-  or_more: "o més"
-  order_by: "Ordenar per"
-  property_available:
-    one: "immoble disponible"
-    other: "immobles disponibles"
-  vrental:
-    one: "immoble de lloguer turístic"
-    other: "immobles de lloguer turístic"
-  guest:
-    one: "persona"
-    other: "persones"
-  available:
-    one: "disponible"
-    other: "disponibles"
-  property:
-    one: "immoble"
-    other: "immobles"
-  bedroom:
-    one: "habitació"
-    other: "habitacions"
-  bathroom:
-    one: "bany"
-    other: "banys"
-  guest:
-    one: "persona"
-    other: "persones"
-  BED_MURPHY:
-    one: "Llit niu"
-    other: "Llits niu"
-  BED_BUNK:
-    one: "Llitera"
-    other: "Lliteres"
-  BED_SINGLE:
-    one: "Llit individual"
-    other: "Llits individuals"
-  BED_DOUBLE:
-    one: "Llit doble"
-    other: "Llits dobles"
-  BATH_TUB:
-    one: "Bany amb banyera"
-    other: "Banys amb banyera"
   BATH_SHOWER:
-    one: "Bany amb dutxa"
-    other: "Banys amb dutxa"
-  TOILET: "Lavabo"
-  DBL: "D"
-  SGL: "IN"
-  DSF: "DS"
+    one: Bany amb dutxa
+    other: Banys amb dutxa
+  BATH_TUB:
+    one: Bany amb banyera
+    other: Banys amb banyera
+  BEDROOM: Habitació
+  BED_BUNK:
+    one: Llitera
+    other: Lliteres
+  BED_DOUBLE:
+    one: Llit doble
+    other: Llits dobles
+  BED_MURPHY:
+    one: Llit niu
+    other: Llits niu
+  BED_SINGLE:
+    one: Llit individual
+    other: Llits individuals
+  DBL: D
+  DSF: DS
+  SGL: IN
+  TOILET: Lavabo
+  active: Actiu
+  activerecord:
+    attributes:
+      company:
+        administrator: Administrador
+        bank_account: Compte bancari
+        city: Municipi
+        company: Empresa
+        country: País
+        local_realtor_number: Número d'API província
+        name: Nom
+        post_code: Codi postal
+        realtor_number: Número d'API
+        region: Província
+        street: Carrer i número
+        user: Usuari
+        vat_number: CIF
+        vat_tax: IVA %
+        vat_tax_payer: Contribuent d'IVA
+      expense:
+        amount: Import
+        description: Descripció
+        expense_company: Industrial
+        expense_number: Número despesa
+        expense_type: Tipus despesa
+      feature:
+        highlight: Destacada
+        name: Nom
+      office:
+        city: Municipi
+        country: País
+        email: Email
+        manager: Encarregat
+        mobile: Mòbil
+        name: Nom
+        opening_hours: Horari
+        phone: Telèfon
+        post_code: Codi postal
+        region: Província
+        street: Carrer i número
+        vat_number: CIF
+        website: Web
+      owner:
+        account: Compte bancari
+        address: Adreça
+        document: DNI
+        email: Email
+        fullname: Nom i cognoms
+        language: Idioma
+        owner: Propietari
+        phone: Telèfon
+      owner_payment:
+        amount: Import
+        date: Data
+        description: Mètode de pagament
+      rate:
+        arrival_day: Dia entrada
+        firstnight: Des de
+        lastnight: Fins a
+        min_stay: Min.
+        pricenight: Preu nit
+        priceweek: Preu setmana
+      rate_plan:
+        end: Fins a
+        gen_arrival: Dia entrada general
+        gen_min: Estada mínima general
+        name: Nom
+        start: Des de
+      statement:
+        amount: Import
+        date: Data liquidació
+        end_date: Fins a
+        location: Ubicació
+        payment: Liquidació pagada
+        payment_date: Data pagament
+        payment_method: Mètode pagament
+        start_date: Des de
+      task:
+        start_date: Data d'inici
+        start_time: Hora d'inici
+        title: Tema
+      vragreement:
+        account: Compte bancari
+        email: Email
+        end_date: Fi contracte
+        owner: Propietari
+        owner_bookings: Reserves per el propietari
+        phone: Telèfon
+        signdate: Data firma
+        start_date: Inici contracte
+        status: Estat
+        vrental: Casa o apartament
+        year: Any contracte
+      vrental:
+        address: Adreça
+        beds_prop_id: ID propietat a Beds24
+        beds_room_id: ID immoble a Beds24
+        cadastre: Cadastre
+        commission: Comissió
+        contract_type: Tipus de contracte
+        description: Descripció
+        feature_ids: Caracteristiques
+        fixed_price: Preu fixe
+        fixed_price_amount: Import preu fixe
+        fixed_price_frequency: Frequencia de pagament
+        habitability: Cédula de habitabilitat
+        latitude: Latitud
+        licence: Número HUT
+        longitude: Longitud
+        name: Nom
+        office: Oficina
+        owner: Propietari
+        photos: Fotos
+        prop_key: Bed24 clau secreta propietat
+        property_type: Tipus d'immoble
+        status: Estat
+        vrental: Immoble
+      vrentaltemplate:
+        language: Idioma
+        title: Títol
+      vrgroup:
+        name: Nom del grup
+        office: Oficina
+        photos: Fotos comunes del grup
+  add_group: Afegir nou grup
+  add_owner: Afegir propietari
+  add_photos: Afegir fotos
+  add_property: Afegir immoble
+  agency: Agència
+  agency_fees: Honoraris
+  agency_vat: IVA 21 %
+  air_conditioning: Aire acondicionat
+  amount: Import
+  apartment: Apartament
+  apartments: Apartaments
+  arrival_day: Dia entrada
+  ascending: Ordenar per (preu més baix)
+  available:
+    one: disponible
+    other: disponibles
+  balcony: Balcó
+  bathroom:
+    one: bany
+    other: banys
+  bathrooms: banys
+  beach_front: Primera línia del mar
+  beach_view: Vista a la platja
+  bedroom:
+    one: habitació
+    other: habitacions
+  bedrooms: habitacions
+  book: Reservar
+  book_now: Reservar ara
+  booking: Reserva
+  bookings: Reserves
+  browse_more_locations: Veure més ubicacions
+  ca: Català
+  call_to_action_text_1: T'ajudarem a
+  call_to_action_title: Planificant les teves properes vacances?
+  call_to_action_typed_1: trobar la casa o apartament perfecte.
+  call_to_action_typed_2: trobar la millor oferta.
+  cancelled_booking: Reserva cancel·lada
+  cash: Efectiu
+  ceiling_fan: Ventilador del sostre
   charge_types:
-    rent: "Lloguer"
-    cleaning: "Neteja"
-    city_tax: "Impost turístic"
-    other: "Altres"
-  ca: "Català"
-  en: "Anglès"
-  es: "Castellà"
-  fr: "Francès"
-  dont-fill: "No omplir si no saps que és:"
-  real estate: "Immobiliària"
-  vacation rentals: "Lloguer turístic"
-  page: "Pàgina"
-  of: "de"
-  nights: "nits"
-  from: "Des de"
-  to: "Fins a"
-  arrival_day: "Dia entrada"
-  min: "Min."
-  week: "Setmana"
-  night_7: "Nit (7)"
-  night_5: "Nit (5-6)"
-  washer: "Rentadora"
-  oven: "Forn"
-  toaster: "Torradora"
-  microwave: "Microones"
-  hair_dryer: "Secador de cabells"
-  iron_board: "Planxa"
-  garden: "Jardí comunitari"
-  wifi: "Wifi"
-  refrigerator: "Nevera"
-  grill: "Barbacoa"
-  ocean_view: "Vista al mar"
-  dishwasher: "Rentaplats"
-  pool_private: "Piscina privada"
-  pets_considered: "S'accepten mascotes"
-  air_conditioning: "Aire acondicionat"
-  freezer: "Congelador"
-  elevator: "Ascensor"
-  beach_view: "Vista a la platja"
-  private_yard: "Jardí privat"
-  smoke_detector: "Detector de fum"
-  pets_not_allowed: "No s'accepten mascotes"
-  balcony: "Balcó"
-  parking_included: "Parking inclòs"
-  parking_possible: "Parking possible al carrer"
-  deck_patio_uncovered: "Terrassa"
-  kettle: "Bullidor d'aigua"
-  beach_front: "Primera línia del mar"
-  pool: "Piscina comunitària"
-  coffee_maker: "Cafetera"
-  roof_terrace: "Terrassa comunitària"
-  tv: "TV"
-  fireplace: "Xemeneia"
-  ceiling_fan: "Ventilador del sostre"
-  inactive: "Inactiu"
-  proposal: "Proposta enviada"
-  not sent: "No enviat"
-  active: "Actiu"
-  pending: "Pendent"
-  signed: "Signat"
-  saturdays: "Ds.-Ds."
-  everyday: "Qualsevol dia"
-  registry_addendum: "Nota Simple Informativa de l’habitatge objecte del present contracte"
-  habitability_addendum: "Còpia de la cèdula d’habitabilitat"
-  energy_addendum: "Certificat Energètic"
-  equipment_addendum: "Equipament"
-  vragreement_keys:
-    company_name: "NOM_EMPRESA"
-    company_street: "CARRER_NUMERO_EMPRESA"
-    company_city: "MUNICIPI_EMPRESA"
-    company_post_code: "CP_EMPRESA"
-    company_region: "PROVINCIA_EMPRESA"
-    company_country: "PAIS_EMPRESA"
-    company_bank_account: "COMPTE_BANCARI_EMPRESA"
-    company_administrator: "ADMINISTRADOR_EMPRESA"
-    company_vat_tax: "IVA_%"
-    company_vat_number: "CIF_EMPRESA"
-    company_realtor_number: "API_EMPRESA"
-    office_local_realtor_number: "API_PROVINCIA"
-    office_name: "NOM_OFICINA"
-    office_street: "CARRER_NUMERO_OFICINA"
-    office_city: "MUNICIPI_OFICINA"
-    office_post_code: "CP_OFICINA"
-    office_region: "PROVINCIA_OFICINA"
-    office_country: "PAIS_OFICINA"
-    office_phone: "TELEFON_OFICINA"
-    office_mobile: "MOBIL_OFICINA"
-    office_email: "EMAIL_OFICINA"
-    office_website: "WEB_OFICINA"
-    signdate: "DATA_FIRMA"
-    place: "LLOC_FIRMA"
-    owner_fullname: "NOM_PROPIETARI"
-    owner_document: "DNI_PROPIETARI"
-    owner_address: "ADR_PROPIETARI"
-    owner_email: "EMAIL_PROPIETARI"
-    owner_phone: "TELEFON_PROPIETARI"
-    owner_account: "COMPTE_BANCARI_PROPIETARI"
-    vrental_name: "NOM_IMMOBLE"
-    vrental_address: "ADR_IMMOBLE"
-    vrental_cadastre: "CADASTRE_IMMOBLE"
-    vrental_habitability: "CEDULA_IMMOBLE"
-    vrental_licence: "HUT_IMMOBLE"
-    vrental_description: "DESCRIPCIO_IMMOBLE"
-    start_date: "DATA_INICI"
-    end_date: "DATA_FI"
-    contract_rates: "TARIFES_CONTRACTE"
-    owner_bookings: "RESERVES_PROPIETARI"
-    vrental_features: "CARACTERISTIQUES_IMMOBLE"
-    vrental_commission: "COMISSIO_IMMOBLE"
-    clause: "CLAUSULA_IMMOBLE"
+    city_tax: Impost turístic
+    cleaning: Neteja
+    other: Altres
+    rent: Lloguer
+  check: Xec
+  coffee_maker: Cafetera
+  commission: Comissió
+  confirm_password: Confirmar contrassenya
+  consult: Fer una pregunta
+  contact: Contactar
+  contact_us: Contacte
+  contracts: Contractes
+  copy_vrental: Copiar l'immoble
+  dashboard: Panell de control
   date:
     abbr_day_names:
       - Dg
@@ -289,7 +211,7 @@ ca:
       - Dv
       - Ds
     abbr_month_names:
-      -
+      - null
       - Gen
       - Feb
       - Mar
@@ -312,11 +234,11 @@ ca:
       - Dissabte
     formats:
       default: "%d/%m/%Y"
-      standard: "%a, %d/%m/%Y"
       long: "%a, %d de %b de %Y"
       short: "%d de %b"
+      standard: "%a, %d/%m/%Y"
     month_names:
-      -
+      - null
       - Gener
       - Febrer
       - Març
@@ -330,9 +252,9 @@ ca:
       - Novembre
       - Desembre
     order:
-      - :day
-      - :month
-      - :year
+      - ":day"
+      - ":month"
+      - ":year"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -348,177 +270,259 @@ ca:
         one: quasi 1 any
         other: quasi %{count} anys
       half_a_minute: mig minut
-      less_than_x_seconds:
-        one: menys d'1 segon
-        other: menys de %{count} segons
       less_than_x_minutes:
         one: menys d'1 minut
         other: menys de %{count} minuts
+      less_than_x_seconds:
+        one: menys d'1 segon
+        other: menys de %{count} segons
       over_x_years:
         one: més d'1 any
         other: més de %{count} anys
-      x_seconds:
-        one: 1 segon
-        other: "%{count} segons"
-      x_minutes:
-        one: 1 minut
-        other: "%{count} minuts"
       x_days:
         one: 1 dia
         other: "%{count} dies"
+      x_minutes:
+        one: 1 minut
+        other: "%{count} minuts"
       x_months:
         one: 1 mes
         other: "%{count} mesos"
+      x_seconds:
+        one: 1 segon
+        other: "%{count} segons"
       x_years:
         one: 1 year
         other: "%{count} years"
     prompts:
-      second: segon
-      minute: minut
-      hour: hora
       day: dia
+      hour: hora
+      minute: minut
       month: mes
+      second: segon
       year: any
-  activerecord:
-    attributes:
-      rate_plan:
-        name: "Nom"
-        start: "Des de"
-        end: "Fins a"
-        gen_min: "Estada mínima general"
-        gen_arrival: "Dia entrada general"
-      task:
-        start_date: "Data d'inici"
-        start_time: "Hora d'inici"
-        title: "Tema"
-      expense:
-        expense_number: "Número despesa"
-        expense_type: "Tipus despesa"
-        description: "Descripció"
-        expense_company: "Industrial"
-        amount: "Import"
-      owner:
-        owner: "Propietari"
-        fullname: "Nom i cognoms"
-        address: "Adreça"
-        phone: "Telèfon"
-        email: "Email"
-        document: "DNI"
-        account: "Compte bancari"
-        language: "Idioma"
-      vragreement:
-        status: "Estat"
-        owner: "Propietari"
-        vrental: "Casa o apartament"
-        phone: "Telèfon"
-        email: "Email"
-        account: "Compte bancari"
-        owner_bookings: "Reserves per el propietari"
-        signdate: "Data firma"
-        start_date: "Inici contracte"
-        end_date: "Fi contracte"
-        year: "Any contracte"
-      vrental:
-        vrental: "Immoble"
-        owner: "Propietari"
-        address: "Adreça"
-        latitude: "Latitud"
-        longitude: "Longitud"
-        contract_type: "Tipus de contracte"
-        property_type: "Tipus d'immoble"
-        commission: "Comissió"
-        fixed_price: "Preu fixe"
-        fixed_price_amount: "Import preu fixe"
-        fixed_price_frequency: "Frequencia de pagament"
-        habitability: "Cédula de habitabilitat"
-        beds_prop_id: "ID propietat a Beds24"
-        beds_room_id: "ID immoble a Beds24"
-        prop_key: "Bed24 clau secreta propietat"
-        cadastre: "Cadastre"
-        licence: "Número HUT"
-        description: "Descripció"
-        feature_ids: "Caracteristiques"
-        name: "Nom"
-        status: "Estat"
-        office: "Oficina"
-        photos: "Fotos"
-      vrgroup:
-        name: "Nom del grup"
-        office: "Oficina"
-        photos: "Fotos comunes del grup"
-      owner_payment:
-        amount: "Import"
-        date: "Data"
-        description: "Mètode de pagament"
-      company:
-        company: "Empresa"
-        name: "Nom"
-        street: "Carrer i número"
-        city: "Municipi"
-        vat_number: "CIF"
-        post_code: "Codi postal"
-        region: "Província"
-        country: "País"
-        bank_account: "Compte bancari"
-        administrator: "Administrador"
-        vat_tax: "IVA %"
-        vat_tax_payer: "Contribuent d'IVA"
-        realtor_number: "Número d'API"
-        local_realtor_number: "Número d'API província"
-        user: "Usuari"
-      office:
-        name: "Nom"
-        street: "Carrer i número"
-        city: "Municipi"
-        vat_number: "CIF"
-        post_code: "Codi postal"
-        region: "Província"
-        country: "País"
-        phone: "Telèfon"
-        mobile: "Mòbil"
-        email: "Email"
-        website: "Web"
-        opening_hours: "Horari"
-        manager: "Encarregat"
-      rate:
-        firstnight: "Des de"
-        lastnight: "Fins a"
-        min_stay: "Min."
-        priceweek: "Preu setmana"
-        pricenight: "Preu nit"
-        arrival_day: "Dia entrada"
-      vrentaltemplate:
-        language: "Idioma"
-        title: "Títol"
-      statement:
-        date: "Data liquidació"
-        amount: "Import"
-        location: "Ubicació"
-        start_date: "Des de"
-        end_date: "Fins a"
-        payment: "Liquidació pagada"
-        payment_date: "Data pagament"
-        payment_method: "Mètode pagament"
-      feature:
-        name: "Nom"
-        highlight: "Destacada"
+  deck_patio_uncovered: Terrassa
+  delete_vrental: Eliminar l'immoble
+  descending: Ordenar per (preu més alt)
+  description: Descripció
+  discount: Descompte
+  dishwasher: Rentaplats
+  dont-fill: "No omplir si no saps que és:"
+  earnings: Ingressos
+  edit_profile: Editar perfil
+  edit_vrental: Modificar l'immoble
+  elevator: Ascensor
+  en: Anglès
+  energy_addendum: Certificat Energètic
+  equipment_addendum: Equipament
+  es: Castellà
+  everyday: Qualsevol dia
+  expenses: Despeses
+  "false": "No"
+  featured_text: A continuació us presentem una selecció dels nostres immobles destacats. Si no trobeu el que busqueu, no dubteu en contactar amb nosaltres.
+  featured_title: Cases i apartaments destacats
+  features: Característiques
+  find_by_vrental_name: Cercar per nom d'immoble...
+  find_your: Troba
+  fireplace: Xemeneia
+  fixed_price: Preu fixe
+  fr: Francès
+  freezer: Congelador
+  from: Des de
+  garden: Jardí comunitari
+  general_conditions: Condicions generals
   global:
     forms:
-      submit: "Desar"
-      continue: "Continuar"
-      back: "Tornar"
-  simple_calendar:
-    previous: "<<"
-    next: ">>"
-    week: "setmana"
-    month: "mes"
-    year: "any"
-    day: "dia"
-  routes:
-    users: "usuaris"
-    vrentals: "immobles-lloguer-turistic"
-    owners: "propietaris"
+      back: Tornar
+      continue: Continuar
+      submit: Desar
+  grill: Barbacoa
+  guest:
+    one: persona
+    other: persones
+  guests: persones
+  habitability_addendum: Còpia de la cèdula d’habitabilitat
+  hair_dryer: Secador de cabells
+  hello: Hola
+  home: Inici
+  house: Casa
+  houses: Cases
+  import_photos: Importar fotos
+  in_centre: Al centre
+  inactive: Inactiu
+  invoice_agency_fees: Honoraris gestió lloguer turístic
+  invoice_description_1: "Periode de gestió: del %{from} al %{to}"
+  invoice_description_2: "%{commission} sobre las rendes de %{total}"
+  invoice_title: Factura
+  iron_board: Planxa
+  kettle: Bullidor d'aigua
+  legal_notice: Avís legal
+  location: ubicació
+  map: Mapa
+  microwave: Microones
+  min: Min.
+  monthly: Mensual
+  new_vrental_step_1: Pas 1. Detalls sobre l'immoble
+  news: Notícies
+  next_getaway: la teva propera escapada
+  night_5: Nit (5-6)
+  night_7: Nit (7)
+  nights: nits
+  "no": "No"
+  not sent: No enviat
+  not_available: No disponible
+  ocean_view: Vista al mar
+  of: de
+  on_budget: Econòmics
+  or_more: o més
+  order_by: Ordenar per
+  out_of: de
+  oven: Forn
+  owner: Propietari
+  owner_bookings_default: El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}.
+  owner_speaks: El propietari %{name} parla %{language}
+  owners: Propietaris
+  page: Pàgina
   pagy:
     nav:
-      prev: "<<"
       next: ">>"
+      prev: "<<"
+  paid_by_agency: Pagat per l'agència
+  paid_to_owner: Pagat al propietari
+  parking_included: Parking inclòs
+  parking_possible: Parking possible al carrer
+  password: Contrassenya
+  pending: Pendent
+  perfect_holiday: les teves vacances perfectes
+  pets_considered: S'accepten mascotes
+  pets_not_allowed: No s'accepten mascotes
+  photos: Fotos
+  pool: Piscina comunitària
+  pool_private: Piscina privada
+  privacy_policy: Política de privacitat
+  private_yard: Jardí privat
+  property:
+    one: immoble
+    other: immobles
+  property_available:
+    one: immoble disponible
+    other: immobles disponibles
+  property_bedrooms: Número d'habitacions
+  property_features: Característiques
+  property_type: Tipus d'immoble
+  proposal: Proposta enviada
+  real estate: Immobiliària
+  realtor: Immobiliària
+  refrigerator: Nevera
+  registry_addendum: Nota Simple Informativa de l’habitatge objecte del present contracte
+  roof_terrace: Terrassa comunitària
+  routes:
+    owners: propietaris
+    users: usuaris
+    vrentals: immobles-lloguer-turistic
+  saturdays: Ds.-Ds.
+  search: Cercar
+  search_by_name: Cercar immobles per nom
+  search_locations_text: Selecciona l'ubicació per veure els immobles.
+  search_locations_title: Cercar per ubicació
+  select_dates: Selecciona dates
+  select_or_add: Selecciona o afegeix propietari nou
+  select_vrental: Seleccionar immoble
+  services: Serveis
+  show_all: Mostrar tots
+  sign_in: Iniciar sessió
+  sign_out: Tancar sessió
+  sign_up: Registrar-se
+  signed: Signat
+  simple_calendar:
+    day: dia
+    month: mes
+    next: ">>"
+    previous: "<<"
+    week: setmana
+    year: any
+  smoke_detector: Detector de fum
+  statement_period: Període de liquidació
+  statement_title: Liquidació lloguers
+  to: Fins a
+  toaster: Torradora
+  total: Total
+  total_revenue: Total rendiment propietari
+  transfer: Transferència
+  "true": Sí
+  tv: TV
+  type: tipus de immoble
+  unique: Singulars
+  unselect_all: Desmarcar tots
+  vacation rentals: Lloguer turístic
+  vacation_rental: Immoble de lloguer turístic
+  vacation_rental_properties: Immobles de lloguer turístic
+  vacation_rentals: Lloguer turístic
+  verified: Verificat
+  view: Veure
+  view_photos: Veure fotos
+  view_vrental: Veure l'immoble
+  vragreement_keys:
+    clause: CLAUSULA_IMMOBLE
+    company_administrator: ADMINISTRADOR_EMPRESA
+    company_bank_account: COMPTE_BANCARI_EMPRESA
+    company_city: MUNICIPI_EMPRESA
+    company_country: PAIS_EMPRESA
+    company_name: NOM_EMPRESA
+    company_post_code: CP_EMPRESA
+    company_realtor_number: API_EMPRESA
+    company_region: PROVINCIA_EMPRESA
+    company_street: CARRER_NUMERO_EMPRESA
+    company_vat_number: CIF_EMPRESA
+    company_vat_tax: IVA_%
+    contract_rates: TARIFES_CONTRACTE
+    end_date: DATA_FI
+    office_city: MUNICIPI_OFICINA
+    office_country: PAIS_OFICINA
+    office_email: EMAIL_OFICINA
+    office_local_realtor_number: API_PROVINCIA
+    office_mobile: MOBIL_OFICINA
+    office_name: NOM_OFICINA
+    office_phone: TELEFON_OFICINA
+    office_post_code: CP_OFICINA
+    office_region: PROVINCIA_OFICINA
+    office_street: CARRER_NUMERO_OFICINA
+    office_website: WEB_OFICINA
+    owner_account: COMPTE_BANCARI_PROPIETARI
+    owner_address: ADR_PROPIETARI
+    owner_bookings: RESERVES_PROPIETARI
+    owner_document: DNI_PROPIETARI
+    owner_email: EMAIL_PROPIETARI
+    owner_fullname: NOM_PROPIETARI
+    owner_phone: TELEFON_PROPIETARI
+    place: LLOC_FIRMA
+    signdate: DATA_FIRMA
+    start_date: DATA_INICI
+    vrental_address: ADR_IMMOBLE
+    vrental_cadastre: CADASTRE_IMMOBLE
+    vrental_commission: COMISSIO_IMMOBLE
+    vrental_description: DESCRIPCIO_IMMOBLE
+    vrental_features: CARACTERISTIQUES_IMMOBLE
+    vrental_habitability: CEDULA_IMMOBLE
+    vrental_licence: HUT_IMMOBLE
+    vrental_name: NOM_IMMOBLE
+  vrental:
+    one: immoble de lloguer turístic
+    other: immobles de lloguer turístic
+  vrentals: Immobles
+  washer: Rentadora
+  week: Setmana
+  where_to: On busques?
+  wifi: Wifi
+  with_garden: Amb jardí
+  with_pool: Amb piscina comunitària
+  with_private_pool: Amb piscina privada
+  with_view: Amb vista
+  yearly: Anual
+  "yes": Sí
+  # up to here
+  book_online: Reserva online
+  discover_our_offers: Descobreix les nostres suggerències
+  short_term: Lloguer turístic
+  long_term: Lloguer anual
+  medium_term: Lloguer de temporada

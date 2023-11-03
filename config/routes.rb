@@ -135,6 +135,8 @@ Rails.application.routes.draw do
       get 'list', to: 'pages#list'
       get 'filter', to: 'pages#filter'
       get 'sort_properties', to: 'pages#sort_properties'
+      get 'privacy_policy', to: 'pages#privacy_policy'
+      get 'terms_of_service', to: 'pages#terms_of_service'
       get 'book_property', to: 'pages#book_property'
       get 'confirm_booking', to: 'pages#confirm_booking'
       get 'contact', to: 'pages#contact'

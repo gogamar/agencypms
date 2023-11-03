@@ -1,173 +1,229 @@
 es:
-  guests: "Nº de huéspedes"
-  type: "Tipo de inmueble"
-  bedrooms: "Nº de dormitorios"
-  bathrooms: "Nº de baños"
-  location: "Ubicación"
-  features: "Características"
-  cancelled_booking: "Reserva cancelada"
-  paid_by_agency: "Pagado por la agencia"
-  paid_to_owner: "Pagado al propietario"
-  statement_title: "Liquidación de alquileres"
-  earnings: "Ingresos"
-  amount: "Importe"
-  booking: "Reserva"
-  discount: "Descuento"
-  commission: "Comisión"
-  expenses: "Gastos"
-  total: "Total"
-  total_revenue: "Total rendimiento propietario"
-  agency_fees: "Honorarios de agencia"
-  agency_vat: "IVA 21 %"
-  agency: "Agencia"
-  owner: "Propietario"
-  property: "Propiedad"
-  transfer: "Transferencia"
-  cash: "Efectivo"
-  check: "Cheque"
-  select_or_add: "Selecciona o añade propietario nuevo"
-  invoice_agency_fees: "Honorarios de gestión de alquiler turístico"
-  invoice_title: "Factura"
-  invoice_description_1: "Período de gestión: del %{from} al %{to}"
-  invoice_description_2: "%{commission} sobre los ingresos de %{total}"
-  owner_bookings_default: "El propietario aún no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, contáctenos a %{email}."
-  owner_speaks: "El propietario %{name} habla %{language}."
-  vrentals: "Inmuebles"
-  owners: "Propietarios"
+  BATH_SHOWER:
+    one: Baño con ducha
+    other: Baños con ducha
+  BATH_TUB:
+    one: Baño con bañera
+    other: Baños con bañera
+  BEDROOM: Habitación
+  BED_BUNK:
+    one: Litera
+    other: Literas
+  BED_DOUBLE:
+    one: Cama doble
+    other: Camas dobles
+  BED_MURPHY:
+    one: Cama nido
+    other: Camas nido
+  BED_SINGLE:
+    one: Cama individual
+    other: Camas individuales
+  DBL: D
+  DSF: DS
+  SGL: IN
+  TOILET: Lavabo
+  active: Activo
+  activerecord:
+    attributes:
+      company:
+        administrator: Administrador
+        bank_account: Cuenta bancaria
+        city: Municipio
+        company: Empresa
+        country: País
+        local_realtor_number: Número de agente local
+        name: Nombre
+        post_code: Código postal
+        realtor_number: Número de agente
+        region: Provincia
+        street: Calle y número
+        user: Usuario
+        vat_number: CIF
+        vat_tax: IVA %
+        vat_tax_payer: Contribuyente de IVA
+      expense:
+        amount: Importe
+        description: Descripción
+        expense_company: Industrial
+        expense_number: Número de gasto
+        expense_type: Tipo de gasto
+      feature:
+        highlight: Destacada
+        name: Nombre
+      office:
+        city: Municipio
+        country: País
+        email: Email
+        manager: Encargado
+        mobile: Móvil
+        name: Nombre
+        opening_hours: Horario
+        phone: Teléfono
+        post_code: Código postal
+        region: Provincia
+        street: Calle y número
+        vat_number: CIF
+        website: Web
+      owner:
+        account: Cuenta bancaria
+        address: Dirección
+        document: DNI
+        email: Email
+        fullname: Nombre y apellidos
+        language: Idioma
+        owner: Propietario
+        phone: Teléfono
+      owner_payment:
+        amount: Importe
+        date: Fecha
+        description: Método de pago
+      rate:
+        arrival_day: Día de llegada
+        firstnight: Desde
+        lastnight: Hasta
+        min_stay: Mín.
+        pricenight: Precio por noche
+        priceweek: Precio por semana
+      rate_plan:
+        end: Hasta
+        gen_arrival: Día de llegada general
+        gen_min: Estadía mínima general
+        name: Nombre
+        start: Desde
+      statement:
+        amount: Importe
+        date: Fecha de liquidación
+        end_date: Hasta
+        location: Ubicación
+        payment: Liquidación pagada
+        payment_date: Fecha de pago
+        payment_method: Método de pago
+        start_date: Desde
+      task:
+        start_date: Fecha de inicio
+        start_time: Hora de inicio
+        title: Tema
+      vragreement:
+        account: Cuenta bancaria
+        email: Email
+        end_date: Fin de contrato
+        owner: Propietario
+        owner_bookings: Reservas por el propietario
+        phone: Teléfono
+        signdate: Fecha de firma
+        start_date: Inicio de contrato
+        status: Estado
+        vrental: Casa o apartamento
+        year: Año de contrato
+      vrental:
+        address: Dirección
+        beds_prop_id: ID de propiedad en Beds24
+        beds_room_id: ID de habitación en Beds24
+        cadastre: Cadastro
+        commission: Comisión
+        contract_type: Tipo de contrato
+        description: Descripción
+        feature_ids: Características
+        fixed_price: Precio fijo
+        fixed_price_amount: Importe de precio fijo
+        fixed_price_frequency: Frecuencia de pago
+        habitability: Cédula de habitabilidad
+        latitude: Latitud
+        licence: Número HUT
+        longitude: Longitud
+        name: Nombre
+        office: Oficina
+        owner: Propietario
+        photos: Fotos
+        prop_key: Clave secreta de Beds24 de la propiedad
+        property_type: Tipo de propiedad
+        status: Estado
+        vrental: Inmueble
+      vrentaltemplate:
+        language: Idioma
+        title: Título
+      vrgroup:
+        name: Nombre del grupo
+        office: Oficina
+        photos: Fotos comunes del grupo
+  add_group: Añadir nuevo grupo
+  add_owner: Añadir propietario
+  add_photos: Añadir fotos
+  add_property: Añadir inmueble
+  agency: Agencia
+  agency_fees: Honorarios de agencia
+  agency_vat: IVA 21 %
+  air_conditioning: Aire acondicionado
+  amount: Importe
+  apartment: Apartamento
+  apartments: Apartamentos
+  arrival_day: Día de llegada
+  ascending: Ordenar por (precio más bajo)
+  available:
+    one: disponible
+    other: disponibles
+  balcony: Balcón
+  bathroom:
+    one: baño
+    other: baños
+  bathrooms: baños
+  beach_front: Primera línea de mar
+  beach_view: Vista a la playa
+  bedroom:
+    one: habitación
+    other: habitaciones
+  bedrooms: habitaciones
+  book: Reservar
+  book_now: Reservar ahora
+  booking: Reserva
+  bookings: Reservas
+  browse_more_locations: Ver más ubicaciones
+  ca: Catalán
+  call_to_action_text_1: Te ayudaremos a
+  call_to_action_title: ¿Planificando tus próximas vacaciones?
+  call_to_action_typed_1: encontrar la casa o apartamento perfecto.
+  call_to_action_typed_2: encontrar la mejor oferta.
+  cancelled_booking: Reserva cancelada
+  cash: Efectivo
+  ceiling_fan: Ventilador de techo
   charge_types:
-    rent: "Alquiler"
-    cleaning: "Limpieza"
-    city_tax: "Impuesto turístico"
-    other: "Otros"
-  ca: "Catalán"
-  en: "Inglés"
-  es: "Español"
-  fr: "Francés"
-  dont-fill: "No rellenar si no sabe qué es:"
-  real estate: "Inmobiliaria"
-  vacation rentals: "Alquiler turístico"
-  page: "Página"
-  of: "de"
-  nights: "noches"
-  from: "Desde"
-  to: "Hasta"
-  arrival_day: "Día de llegada"
-  min: "Min."
-  week: "Semana"
-  night_7: "Noche (7)"
-  night_5: "Noche (5-6)"
-  washer: "Lavadora"
-  oven: "Horno"
-  toaster: "Tostadora"
-  microwave: "Microondas"
-  hair_dryer: "Secador de pelo"
-  iron_board: "Plancha"
-  garden: "Jardín comunitario"
-  wifi: "Wifi"
-  refrigerator: "Nevera"
-  grill: "Barbacoa"
-  ocean_view: "Vista al mar"
-  dishwasher: "Lavavajillas"
-  pool_private: "Piscina privada"
-  pets_considered: "Se admiten mascotas"
-  air_conditioning: "Aire acondicionado"
-  freezer: "Congelador"
-  elevator: "Ascensor"
-  beach_view: "Vista a la playa"
-  private_yard: "Jardín privado"
-  smoke_detector: "Detector de humo"
-  pets_not_allowed: "No se admiten mascotas"
-  balcony: "Balcón"
-  parking_included: "Parking incluido"
-  parking_possible: "Posible aparcamiento en la calle"
-  deck_patio_uncovered: "Terraza"
-  kettle: "Hervidor de agua"
-  beach_front: "Primera línea de playa"
-  pool: "Piscina comunitaria"
-  coffee_maker: "Cafetera"
-  roof_terrace: "Terraza comunitaria"
-  tv: "TV"
-  fireplace: "Chimenea"
-  ceiling_fan: "Ventilador de techo"
-  inactive: "Inactivo"
-  proposal: "Propuesta enviada"
-  not sent: "No enviado"
-  active: "Activo"
-  pending: "Pendiente"
-  signed: "Firmado"
-  saturdays: "Sá.-Sá."
-  everyday: "Cualquier día"
-  registry_addendum: "Nota Simple Informativa del inmueble objeto del presente contrato"
-  habitability_addendum: "Copia de la cédula de habitabilidad"
-  energy_addendum: "Certificado Energético"
-  equipment_addendum: "Equipamiento"
-  vragreement_keys:
-    company_name: "NOMBRE_EMPRESA"
-    company_street: "CALLE_NUMERO_EMPRESA"
-    company_city: "CIUDAD_EMPRESA"
-    company_post_code: "CODIGO_POSTAL_EMPRESA"
-    company_region: "PROVINCIA_EMPRESA"
-    company_country: "PAIS_EMPRESA"
-    company_bank_account: "CUENTA_BANCARIA_EMPRESA"
-    company_administrator: "ADMINISTRADOR_EMPRESA"
-    company_vat_tax: "IVA_%"
-    company_vat_number: "CIF_EMPRESA"
-    company_realtor_number: "NUMERO_API_EMPRESA"
-    office_local_realtor_number: "NUMERO_API_PROVINCIAL"
-    office_name: "NOMBRE_OFICINA"
-    office_street: "CALLE_NUMERO_OFICINA"
-    office_city: "CIUDAD_OFICINA"
-    office_post_code: "CODIGO_POSTAL_OFICINA"
-    office_region: "PROVINCIA_OFICINA"
-    office_country: "PAIS_OFICINA"
-    office_phone: "TELEFONO_OFICINA"
-    office_mobile: "TELEFONO_MOVIL_OFICINA"
-    office_email: "CORREO_ELECTRONICO_OFICINA"
-    office_website: "SITIO_WEB_OFICINA"
-    signdate: "FECHA_FIRMA"
-    place: "LUGAR_FIRMA"
-    owner_fullname: "NOMBRE_PROPIETARIO"
-    owner_document: "DNI_PROPIETARIO"
-    owner_address: "DIRECCION_PROPIETARIO"
-    owner_email: "CORREO_PROPIETARIO"
-    owner_phone: "TELEFONO_PROPIETARIO"
-    owner_account: "CUENTA_BANCARIA_PROPIETARIO"
-    vrental_name: "NOMBRE_INMUEBLE"
-    vrental_address: "DIRECCION_INMUEBLE"
-    vrental_cadastre: "CATASTRO_INMUEBLE"
-    vrental_habitability: "CEDULA_INMUEBLE"
-    vrental_licence: "LICENCIA_INMUEBLE"
-    vrental_description: "DESCRIPCI0N_INMUEBLE"
-    start_date: "FECHA_INICIO"
-    end_date: "FECHA_FIN"
-    contract_rates: "TARIFAS_CONTRATO"
-    owner_bookings: "RESERVAS_PROPIETARIO"
-    vrental_features: "CARACTERISTICAS_INMUEBLE"
-    vrental_commission: "COMISION_INMUEBLE"
-    clause: "CLAUSULA_INMUEBLE"
+    city_tax: Impuesto turístico
+    cleaning: Limpieza
+    other: Otros
+    rent: Alquiler
+  check: Cheque
+  coffee_maker: Cafetera
+  commission: Comisión
+  confirm_password: Confirmar contraseña
+  consult: Hacer una pregunta
+  contact: Contactar
+  contact_us: Contacto
+  contracts: Contratos
+  copy_vrental: Copiar el inmueble
+  dashboard: Panel de control
   date:
     abbr_day_names:
-      - Dom
-      - Lun
-      - Mar
-      - Mié
-      - Jue
-      - Vie
-      - Sáb
+      - Dg
+      - Dl
+      - Dm
+      - Dc
+      - Dj
+      - Dv
+      - Ds
     abbr_month_names:
-      -
-      - Ene
+      - null
+      - Gen
       - Feb
       - Mar
       - Abr
-      - May
+      - Mai
       - Jun
       - Jul
       - Ago
-      - Sep
+      - Set
       - Oct
       - Nov
-      - Dic
+      - Des
     day_names:
       - Domingo
       - Lunes
@@ -178,11 +234,11 @@ es:
       - Sábado
     formats:
       default: "%d/%m/%Y"
-      standard: "%a, %d/%m/%Y"
-      long: "%A, %d de %B de %Y"
+      long: "%a, %d de %b de %Y"
       short: "%d de %b"
+      standard: "%a, %d/%m/%Y"
     month_names:
-      -
+      - null
       - Enero
       - Febrero
       - Marzo
@@ -196,9 +252,9 @@ es:
       - Noviembre
       - Diciembre
     order:
-      - :day
-      - :month
-      - :year
+      - ":day"
+      - ":month"
+      - ":year"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -214,183 +270,256 @@ es:
         one: casi 1 año
         other: casi %{count} años
       half_a_minute: medio minuto
-      less_than_x_seconds:
-        one: menos de 1 segundo
-        other: menos de %{count} segundos
       less_than_x_minutes:
         one: menos de 1 minuto
         other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
       over_x_years:
         one: más de 1 año
         other: más de %{count} años
-      x_seconds:
-        one: 1 segundo
-        other: "%{count} segundos"
-      x_minutes:
-        one: 1 minuto
-        other: "%{count} minutos"
       x_days:
         one: 1 día
         other: "%{count} días"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
       x_months:
         one: 1 mes
         other: "%{count} meses"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
       x_years:
         one: 1 año
         other: "%{count} años"
     prompts:
-      second: segundo
-      minute: minuto
-      hour: hora
       day: día
+      hour: hora
+      minute: minuto
       month: mes
+      second: segundo
       year: año
-  activerecord:
-    attributes:
-      rate_plan:
-        name: "Nom"
-        start: "Des de"
-        end: "Fins a"
-        gen_min: "Estada mínima general"
-        gen_arrival: "Dia entrada general"
-      realestate:
-        status: "Estado"
-        address: "Dirección"
-        city: "Municipio"
-        description: "Descripción de la finca (del registro de propiedad)"
-        seller: "Vendedor"
-        cadastre: "Ref. Catastral"
-        energy: "Certificado energético"
-        registrar: "Oficina de Registro"
-        volume: "Tomo"
-        book: "Libro"
-        sheet: "Folio"
-        registry: "Finca registral número"
-        registry_code: "Código Registro CRU"
-        entry: "Inscripción"
-        charges: "Cargas y gravámenes"
-        habitability: "Cédula de habitabilidad"
-        hab_date: "Fecha cédula de habitabilidad"
-        protocol: "Protocolo Escritura"
-        deed_date: "Fecha Escritura"
-        notary: "Notaría Escritura"
-        notary_fullname: "Nombre del notario"
-        mortgage_bank: "Banco donde tienen la hipoteca"
-        mortgage_amount: "Importe de la hipoteca"
-      task:
-        start_date: "Fecha de inicio"
-        start_time: "Hora de inicio"
-        title: "Tema"
-      expense:
-        expense_number: "Número gasto"
-        expense_type: "Tipo gasto"
-        description: "Descripción"
-        expense_company: "Industrial"
-        amount: "Importe"
-      comtype:
-        company_type: "Tipo de empresa"
-      owner:
-        owner: "Propietario"
-        fullname: "Nombre y apellidos"
-        address: "Dirección"
-        phone: "Teléfono"
-        email: "Email"
-        document: "DNI"
-        account: "Cuenta bancaria"
-        language: "Idioma"
-      owner_payment:
-        amount: "Importe"
-        date: "Fecha"
-        payment_type: "Tipo de Pago"
-        description: "Descripción"
-      company:
-        company: "Empresa"
-        name: "Nombre"
-        street: "Calle y número"
-        city: "Ciudad"
-        vat_number: "Número de IVA"
-        post_code: "Código Postal"
-        region: "Región"
-        country: "País"
-        bank_account: "Cuenta Bancaria"
-        administrator: "Administrador"
-        vat_tax: "Impuesto de Valor Añadido (IVA)"
-        vat_tax_payer: "Contribuyente de IVA"
-        realtor_number: "Número de Agente Inmobiliario"
-        user: "Usuario"
-      office:
-        name: "Nombre"
-        street: "Calle y número"
-        city: "Ciudad"
-        vat_number: "VAT Number"
-        post_code: "Código Postal"
-        region: "Región"
-        country: "País"
-        phone: "Teléfono"
-        mobile: "Móvil"
-        email: "Email"
-        website: "Sitio Web"
-        opening_hours: "Horario de Apertura"
-        manager: "Encargado"
-        local_realtor_number: "Número de Agente Inmobiliario Local"
-      vragreement:
-        status: "Estado"
-        owner: "Propietario"
-        vrental: "Casa o apartamento"
-        phone: "Teléfono"
-        email: "Email"
-        account: "Cuenta bancaria"
-        owner_bookings: "Reservas para el propietario"
-        signdate: "Fecha de firma"
-        start_date: "Inicio de contrato"
-        end_date: "Fin de contrato"
-        year: "Año de contrato"
-      vrental:
-        vrental: "Inmueble"
-        owner: "Propietario"
-        address: "Dirección"
-        habitability: "Cédula de habitabilidad"
-        beds_prop_id: "ID propiedad en Beds24"
-        beds_room_id: "ID inmueble en Beds24"
-        prop_key: "Clave secreta Beds24 propiedad"
-        cadastre: "Catastro"
-        licence: "Número HUT"
-        description: "Descripción"
-        feature_ids: "Características"
-        name: "Nombre"
-        status: "Estado"
-        office: "Oficina"
-      rate:
-        firstnight: "Desde"
-        lastnight: "Hasta"
-        min_stay: "Min."
-        priceweek: "Precio semana"
-        pricenight: "Precio noche"
-        arrival_day: "Día de entrada"
-      vrentaltemplate:
-        language: "Idioma"
-        title: "Título"
-      statement:
-        date: "Fecha"
-        amount: "Importe"
-        location: "Ubicación"
-        start_date: "Desde"
-        end_date: "Hasta"
-      feature:
-        name:
-          washer: "Lavadora"
+  deck_patio_uncovered: Terraza
+  delete_vrental: Eliminar el inmueble
+  descending: Ordenar por (precio más alto)
+  description: Descripción
+  discount: Descuento
+  dishwasher: Lavavajillas
+  dont-fill: "No rellenar si no sabes qué es:"
+  earnings: Ingresos
+  edit_profile: Editar perfil
+  edit_vrental: Modificar el inmueble
+  elevator: Ascensor
+  en: Inglés
+  energy_addendum: Certificado Energético
+  equipment_addendum: Equipamiento
+  es: Español
+  everyday: Cualquier día
+  expenses: Gastos
+  "false": "No"
+  featured_text: A continuación te presentamos una selección de nuestros inmuebles destacados. Si no encuentras lo que buscas, no dudes en contactarnos.
+  featured_title: Casas y apartamentos destacados
+  features: Características
+  find_by_vrental_name: Buscar por nombre de inmueble...
+  find_your: Encuentra
+  fireplace: Chimenea
+  fixed_price: Precio fijo
+  fr: Francés
+  freezer: Congelador
+  from: Desde
+  garden: Jardín comunitario
+  general_conditions: Condiciones generales
   global:
     forms:
-      submit: "Guardar"
-      continue: "Continuar"
-  simple_calendar:
-    previous: "<<"
-    next: ">>"
-    week: "semana"
-    month: "mes"
-    year: "año"
-    day: "día"
+      back: Volver
+      continue: Continuar
+      submit: Guardar
+  grill: Barbacoa
+  guest:
+    one: persona
+    other: personas
+  guests: personas
+  habitability_addendum: Copia de la cédula de habitabilidad
+  hair_dryer: Secador de cabello
+  hello: Hola
+  home: Inicio
+  house: Casa
+  houses: Casas
+  import_photos: Importar fotos
+  in_centre: En el centro
+  inactive: Inactivo
+  invoice_agency_fees: Honorarios gestión alquiler turístico
+  invoice_description_1: "Período de gestión: del %{from} al %{to}"
+  invoice_description_2: "%{commission} sobre las rentas de %{total}"
+  invoice_title: Factura
+  iron_board: Tabla de planchar
+  kettle: Hervidor de agua
+  legal_notice: Aviso legal
+  location: ubicación
+  map: Mapa
+  microwave: Microondas
+  min: Mín.
+  monthly: Mensual
+  new_vrental_step_1: Paso 1. Detalles sobre el inmueble
+  news: Noticias
+  next_getaway: tu próxima escapada
+  night_5: Noche (5-6)
+  night_7: Noche (7)
+  nights: noches
+  "no": "No"
+  not sent: No enviado
+  not_available: No disponible
+  ocean_view: Vista al mar
+  of: de
+  on_budget: Económicos
+  or_more: o más
+  order_by: Ordenar por
+  out_of: de
+  oven: Horno
+  owner: Propietario
+  owner_bookings_default: El propietario aún no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contáctenos a %{email}.
+  owner_speaks: El propietario %{name} habla %{language}
+  owners: Propietarios
+  page: Página
+  pagy:
+    nav:
+      next: ">>"
+      prev: "<<"
+  paid_by_agency: Pagado por la agencia
+  paid_to_owner: Pagado al propietario
+  parking_included: Aparcamiento incluido
+  parking_possible: Aparcamiento posible en la calle
+  password: Contraseña
+  pending: Pendiente
+  perfect_holiday: tus vacaciones perfectas
+  pets_considered: Se admiten mascotas
+  pets_not_allowed: No se admiten mascotas
+  photos: Fotos
+  pool: Piscina comunitaria
+  pool_private: Piscina privada
+  privacy_policy: Política de privacidad
+  private_yard: Jardín privado
+  property:
+    one: inmueble
+    other: inmuebles
+  property_available:
+    one: inmueble disponible
+    other: inmuebles disponibles
+  property_bedrooms: Número de habitaciones
+  property_features: Características
+  property_type: Tipo de propiedad
+  proposal: Propuesta enviada
+  real estate: Inmobiliaria
+  realtor: Agente inmobiliario
+  refrigerator: Nevera
+  registry_addendum: Nota Simple Informativa del inmueble objeto del presente contrato
+  roof_terrace: Terraza comunitaria
   routes:
-    users: "usuarios"
-    vrentals: "inmuebles-alquiler-turistico"
-    owners: "propietarios"
+    owners: propietarios
+    users: usuarios
+    vrentals: inmuebles-alquiler-turistico
+  saturdays: Sá.-Sá.
+  search: Buscar
+  search_by_name: Buscar inmuebles por nombre
+  search_locations_text: Selecciona la ubicación para ver los inmuebles.
+  search_locations_title: Buscar por ubicación
+  select_dates: Selecciona fechas
+  select_or_add: Selecciona o añade nuevo propietario
+  select_vrental: Seleccionar inmueble
+  services: Servicios
+  show_all: Mostrar todos
+  sign_in: Iniciar sesión
+  sign_out: Cerrar sesión
+  sign_up: Registrarse
+  signed: Firmado
+  simple_calendar:
+    day: día
+    month: mes
+    next: ">>"
+    previous: "<<"
+    week: semana
+    year: año
+  smoke_detector: Detector de humo
+  statement_period: Período de liquidación
+  statement_title: Liquidación alquileres
+  to: Hasta
+  toaster: Tostadora
+  total: Total
+  total_revenue: Total rendimiento propietario
+  transfer: Transferencia
+  "true": Sí
+  tv: TV
+  type: tipo de inmueble
+  unique: Únicos
+  unselect_all: Desmarcar todos
+  vacation rentals: Alquiler turístico
+  vacation_rental: Inmueble de alquiler turístico
+  vacation_rental_properties: Inmuebles de alquiler turístico
+  vacation_rentals: Alquiler turístico
+  verified: Verificado
+  view: Ver
+  view_photos: Ver fotos
+  view_vrental: Ver el inmueble
+  vragreement_keys:
+    clause: CLÁUSULA_INMUEBLE
+    company_administrator: ADMINISTRADOR_EMPRESA
+    company_bank_account: CUENTA_BANCARIA_EMPRESA
+    company_city: MUNICIPIO_EMPRESA
+    company_country: PAÍS_EMPRESA
+    company_name: NOMBRE_EMPRESA
+    company_post_code: CP_EMPRESA
+    company_realtor_number: API_EMPRESA
+    company_region: PROVINCIA_EMPRESA
+    company_street: CALLE_NUMERO_EMPRESA
+    company_vat_number: CIF_EMPRESA
+    company_vat_tax: IVA_%
+    contract_rates: TARIFAS_CONTRATO
+    end_date: FECHA_FIN
+    office_city: MUNICIPIO_OFICINA
+    office_country: PAÍS_OFICINA
+    office_email: EMAIL_OFICINA
+    office_local_realtor_number: API_PROVINCIA
+    office_mobile: MÓVIL_OFICINA
+    office_name: NOMBRE_OFICINA
+    office_phone: TELÉFONO_OFICINA
+    office_post_code: CP_OFICINA
+    office_region: PROVINCIA_OFICINA
+    office_street: CALLE_NUMERO_OFICINA
+    office_website: WEB_OFICINA
+    owner_account: CUENTA_BANCARIA_PROPIETARIO
+    owner_address: DIR_PROPIETARIO
+    owner_bookings: RESERVAS_PROPIETARIO
+    owner_document: DNI_PROPIETARIO
+    owner_email: EMAIL_PROPIETARIO
+    owner_fullname: NOMBRE_PROPIETARIO
+    owner_phone: TELÉFONO_PROPIETARIO
+    place: LUGAR_FIRMA
+    signdate: FECHA_FIRMA
+    start_date: FECHA_INICIO
+    vrental_address: DIR_INMUEBLE
+    vrental_cadastre: CATASTRO_INMUEBLE
+    vrental_commission: COMISIÓN_INMUEBLE
+    vrental_description: DESCRIPCIÓN_INMUEBLE
+    vrental_features: CARACTERÍSTICAS_INMUEBLE
+    vrental_habitability: CÉDULA_INMUEBLE
+    vrental_licence: HUT_INMUEBLE
+    vrental_name: NOMBRE_INMUEBLE
+  vrental:
+    one: inmueble de alquiler turístico
+    other: inmuebles de alquiler turístico
+  vrentals: Inmuebles
+  washer: Lavadora
+  week: Semana
+  where_to: ¿Dónde buscas?
+  wifi: Wifi
+  with_garden: Con jardín
+  with_pool: Con piscina comunitaria
+  with_private_pool: Con piscina privada
+  with_view: Con vista
+  yearly: Anual
+  "yes": Sí
+  # Hasta aquí
+  book_online: Reserva en línea
+  discover_our_offers: Descubre nuestras ofertas

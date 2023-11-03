@@ -69,26 +69,13 @@ const initSelect2 = () => {
   $("#sort_order")
     .select2({
       placeholder: $("#sort_order").data("placeholder"),
-      allowClear: false,
+      allowClear: true,
     })
     .on("select2:select", function (e) {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         Rails.fire(this.closest("form"), "submit");
       }, 200);
-    });
-
-  $("#order-by-select2")
-    .select2({
-      placeholder: $("#order-by-select2").data("placeholder"),
-      allowClear: true,
-    })
-    .on("select2:select", function (e) {
-      console.log("this is the data", e.params.data.id);
-      Turbo.visit(e.params.data.id, {
-        action: "replace",
-        target: "properties",
-      });
     });
 
   $("#select_vrental-select2")

@@ -1,0 +1,10 @@
+<%= render partial: "shared/page_title", locals: { title: t('privacy_policy'), subtitle: t('legal_notice') } %>
+<section class="gray-simple pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <%= render partial: "pages/#{I18n.locale.to_s}/privacy" %>
+      </div>
+    </div>
+  </div>
+</section>

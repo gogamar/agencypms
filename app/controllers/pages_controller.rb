@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   before_action :load_vrentals, only: [:list, :filter]
   before_action :load_filters, only: [:home, :list, :filter]
   before_action :load_search_params, only: [:list, :filter]
-  skip_before_action :authenticate_user!, only: [:home, :list_map, :list, :book_property, :confirm_booking, :get_availability]
+  skip_before_action :authenticate_user!, except: [:dashboard]
   layout 'booking_website'
   include ActionView::Helpers::NumberHelper
 
@@ -62,7 +62,9 @@ class PagesController < ApplicationController
 
   def list
     load_availability
-    load_advanced_search
+    if params[:pt] || params[:pb] || params[:pf] || params[:n]
+    advanced_search(params[:pt], params[:pb], params[:pf], params[:n], @vrentals)
+    end
     paginate_vrentals
   end
 
@@ -71,26 +73,31 @@ class PagesController < ApplicationController
       load_availability
     end
 
-    if params[:sort_order]
-      sort_order = params[:sort_order]
-      avail_props = JSON.parse(params[:avp])
-      if sort_order == 'asc'
-        @available_vrentals_with_price = avail_props.sort_by! { |hash| hash.values.first }
-      elsif sort_order == 'desc'
-        @available_vrentals_with_price = avail_props.sort_by! { |hash| -hash.values.first }
+    if params[:sort_order].present? || params[:pt].present? || params[:pb].present? || params[:pf].present?
+      @available_vrentals_with_price = JSON.parse(params[:avp])
+      if @available_vrentals_with_price.present?
+        property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
+        @vrentals = @vrentals.where(id: property_ids)
       end
 
-      sorted_property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
+      puts "these are the vrentals in filter #{@vrentals.count}"
 
-      @vrentals = @vrentals.where(id: sorted_property_ids).order(
-        Arel.sql("CASE id #{sorted_property_ids.map.with_index { |id, index| "WHEN #{id} THEN #{index}" }.join(' ')} END")
-      )
-      @checkin = params[:check_in]
-      @checkout = params[:check_out]
-      @guests = params[:guests]
+      if params[:sort_order]
+        sort_order = params[:sort_order]
+        if sort_order == 'asc'
+          @available_vrentals_with_price = @available_vrentals_with_price.sort_by! { |hash| hash.values.first }
+        elsif sort_order == 'desc'
+          @available_vrentals_with_price = @available_vrentals_with_price.sort_by! { |hash| -hash.values.first }
+        end
+        sorted_property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
+        @vrentals = @vrentals.where(id: sorted_property_ids).order(
+          Arel.sql("CASE id #{sorted_property_ids.map.with_index { |id, index| "WHEN #{id} THEN #{index}" }.join(' ')} END")
+        )
+      end
+      if params[:pt].present? || params[:pb].present? || params[:pf].present?
+        advanced_search(params[:pt], params[:pb], params[:pf], nil, @vrentals)
+      end
     end
-
-    load_advanced_search
     paginate_vrentals
 
     render(partial: 'properties')
@@ -135,14 +142,21 @@ class PagesController < ApplicationController
 
   def book_property
     @vrental = Vrental.find(params[:vrental_id])
-    @checkin = params[:checkin] || (Date.today + 14.days).strftime("%Y-%m-%d")
-    @checkout = params[:checkout] || (Date.today + 21.days).strftime("%Y-%m-%d")
+    @checkin = params[:check_in] || (Date.today + 14.days).strftime("%Y-%m-%d")
+    @checkout = params[:check_out] || (Date.today + 21.days).strftime("%Y-%m-%d")
     @guests = params[:guests] || 1
-    response = @vrental.get_availability_from_beds(@checkin, @checkout, @guests)
-    @price = response["updatedPrice"]
-    @rate_price = response["updatedPrice"]
-    @not_available = response["notAvailable"]
+    @price = params[:price]
+    @rate_price = params[:rate_price]
     @discount = params[:discount]
+
+    unless params[:price].present?
+      response = @vrental.get_availability_from_beds(@checkin, @checkout, @guests)
+      @price = response["updatedPrice"]
+      @rate_price = response["updatedPrice"]
+      @not_available = response["notAvailable"]
+    end
+
+
     @markers = []
     @markers << generate_marker(@vrental)
   end
@@ -156,6 +170,12 @@ class PagesController < ApplicationController
   end
 
   def submit_property
+  end
+
+  def privacy_policy
+  end
+
+  def terms_of_service
   end
 
   private
@@ -207,10 +227,6 @@ class PagesController < ApplicationController
     @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
   end
 
-  def load_advanced_search
-    advanced_search(params[:pt], params[:pb], params[:pf], params[:n]) if params[:pt] || params[:pb] || params[:pf] || params[:n]
-  end
-
   def paginate_vrentals
     @all_vrentals_number = Vrental.all.count
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
@@ -221,11 +237,19 @@ class PagesController < ApplicationController
     @vrentals = vrentals.joins(:town).where("towns.name ILIKE ?", "%#{location}%") if location.present?
   end
 
-  def advanced_search(pt, pb, pf, n)
-    @vrentals = @vrentals.where("name ILIKE ?", "%#{params[:n]}%") if params[:n].present?
-    @vrentals = @vrentals.where(property_type: pt_translation_keys(pt)) if pt.present?
-    @vrentals = @vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", feature_translation_keys(pf)) if pf.present?
-    @vrentals = @vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
+  def advanced_search(pt, pb, pf, n, vrentals)
+    puts "these are the vrentals in advanced search #{vrentals.count}"
+    vrentals = vrentals.where("name ILIKE ?", "%#{n}%") if n.present?
+    vrentals = vrentals.where(property_type: pt_translation_keys(pt)) if pt.present?
+    vrentals = vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
+    if pf.present?
+      feature_keys = feature_translation_keys(pf)
+      vrentals = vrentals.joins(:features)
+                        .where("features.name ILIKE ANY (array[?])", feature_keys)
+                        .group("vrentals.id")
+                        .having("COUNT(DISTINCT features.name) = ?", feature_keys.length)
+    end
+    @vrentals = vrentals
   end
 
   def pt_translation_keys(pt)

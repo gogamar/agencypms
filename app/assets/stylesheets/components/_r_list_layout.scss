@@ -207,6 +207,13 @@
   height: 48px;
 }
 
+.shorting-by
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__clear {
+  top: 11px;
+}
+
 /*--------------------- page Sidebar ------------------------*/
 .page-sidebar {
   border-radius: 0.4rem;

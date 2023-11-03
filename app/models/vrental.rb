@@ -26,6 +26,7 @@ class Vrental < ApplicationRecord
 
   CONTRACT_TYPES = ['commission', 'fixed_price'].freeze
   FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
+  RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
 
   validates_presence_of :name, :status, :address, :office_id
   validates :name, uniqueness: true
@@ -810,6 +811,7 @@ class Vrental < ApplicationRecord
   end
 
   def get_content_from_beds
+    # add check for minimum stay, and set min_stay and rental_term accordingly
     client = BedsHelper::Beds.new(office.beds_key)
     begin
       vrental_property = client.get_property_content(prop_key, roomIds: true, texts: true)[0]

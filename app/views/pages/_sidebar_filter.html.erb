@@ -7,7 +7,11 @@
     </div>
     <div class="sidebar-widgets">
       <div class="search-inner p-0">
-        <%= form_with url: filter_path, method: :get, data: { controller: "search-properties", search_properties_target: "form" } do |form| %>
+        <%= form_with url: filter_path, method: :get, remote: true, data: { controller: "search-properties", search_properties_target: "form" } do |form| %>
+          <%= form.hidden_field :avp, value: @available_vrentals_with_price.to_json %>
+          <%= form.hidden_field :check_in, value: params[:checkin] %>
+          <%= form.hidden_field :check_out, value: params[:checkout] %>
+          <%= form.hidden_field :guests, value: params[:guests] %>
           <div class="filter_wraps">
             <%= render 'single_search',
               form: form,
