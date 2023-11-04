@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   before_action :filter_params
-  before_action :load_vrentals, only: [:list, :filter]
+  before_action :load_vrentals, only: [:home, :list, :filter]
   before_action :load_filters, only: [:home, :list, :filter]
   before_action :load_search_params, only: [:list, :filter]
   skip_before_action :authenticate_user!, except: [:dashboard]
@@ -15,43 +15,36 @@ class PagesController < ApplicationController
   end
 
   def home
-    @highest_bedroom_count = Vrental.joins(:bedrooms)
-                                    .group('vrentals.id')
-                                    .order('COUNT(bedrooms.id) DESC')
-                                    .limit(1)
-                                    .count('bedrooms.id')
-                                    .values.first
-    @highest_bathroom_count = Vrental.joins(:bathrooms)
-                                      .group('vrentals.id')
-                                      .order('COUNT(bathrooms.id) DESC')
-                                      .limit(1)
-                                      .count('bathrooms.id')
-                                      .values.first
+    @budget_vrentals = @vrentals.where("rates.lastnight > ?", Date.today).order("rates.firstnight ASC").limit(3)
     @features = Feature.all.uniq
     # @towns_with_photo = Town.joins(:photos_attachments).distinct
     @featured_towns = Town.joins(:vrentals).select('towns.*, COUNT(vrentals.id) AS vrentals_count').group('towns.id').order('vrentals_count DESC').distinct.limit(4)
 
-    @properties_in_town = Vrental.joins(:town).group('towns.id').count
+    @properties_in_town = @vrentals.joins(:town).group('towns.id').count
 
-
-    # FIXME: make these featured rentals
-    vrentals_with_future_rates = Vrental.with_future_rates
-    vrentals_cl_good = vrentals_with_future_rates
+    # temporary solution for featured rentals
+    # fixme: make these featured rentals set on the dashboard or a combination of featured and available
+    @featured_vrentals = @vrentals
                           .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
                           .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
-                          .select("vrentals.id")
-                          .distinct
 
-    @featured_vrentals = Vrental.where(id: vrentals_cl_good)
-                                .select do |vrental|
-                                  first_future_rate_date = vrental.rates.where("lastnight > ?", Date.today).minimum(:firstnight)
-                                  if first_future_rate_date.present?
-                                    available_dates = vrental.future_available_dates(first_future_rate_date, first_future_rate_date + 30.days)
-                                    available_dates.any?
-                                  else
-                                    false
-                                  end
-                                end
+    # vrentals_with_future_rates = Vrental.with_future_rates
+    # vrentals_cl_good = vrentals_with_future_rates
+    #                       .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
+    #                       .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
+    #                       .select("vrentals.id")
+    #                       .distinct
+
+    # @featured_vrentals = Vrental.where(id: vrentals_cl_good)
+    #                             .select do |vrental|
+    #                               first_future_rate_date = vrental.rates.where("lastnight > ?", Date.today).minimum(:firstnight)
+    #                               if first_future_rate_date.present?
+    #                                 available_dates = vrental.future_available_dates(first_future_rate_date, first_future_rate_date + 30.days)
+    #                                 available_dates.any?
+    #                               else
+    #                                 false
+    #                               end
+    #                             end
     if @featured_vrentals.count >= 6
       @featured_vrentals = @featured_vrentals.first(6)
     else
@@ -79,8 +72,6 @@ class PagesController < ApplicationController
         property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
         @vrentals = @vrentals.where(id: property_ids)
       end
-
-      puts "these are the vrentals in filter #{@vrentals.count}"
 
       if params[:sort_order]
         sort_order = params[:sort_order]
@@ -198,7 +189,7 @@ class PagesController < ApplicationController
   end
 
   def load_vrentals
-    @vrentals = Vrental.all
+    @vrentals = Vrental.where(status: 'active')
   end
 
   def load_search_params
@@ -221,8 +212,6 @@ class PagesController < ApplicationController
   end
 
   def check_availability_on_api(checkin, checkout, guests, prop_ids)
-    # fixme - company from url (subdomain)
-    @company = Company.first
     @available_vrentals = @company.available_vrentals(checkin, checkout, guests, prop_ids)
     @available_vrentals_with_price = @available_vrentals.select { |item| item.values.first.present? }
   end

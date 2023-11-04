@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
 
   connect() {
-    console.log("Search controller...");
+    console.log("Search controller.");
     flatpickr();
 
     const today = new Date();

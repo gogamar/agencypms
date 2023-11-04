@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   around_action :set_locale_from_url
   before_action :authenticate_user!
   before_action :set_vrentals, unless: :skip_pundit?
+  before_action :set_company
   # before_action :configure_permitted_parameters, if: :devise_controller?
   layout :layout_by_resource
 
@@ -27,6 +28,11 @@ class ApplicationController < ActionController::Base
 
   def set_vrentals
     @all_vrentals = policy_scope(Vrental)
+  end
+
+  def set_company
+    # fixme: this is a hack to get the company
+    @company = Company.first
   end
 
   def default_url_options

@@ -20,6 +20,10 @@
   <%= f.input :licence %>
   <%= f.input :max_guests %>
   <%= f.input :min_price %>
+  <%= f.input :rental_term, collection: Vrental::RENTAL_TERMS.map { |term| [t(term), term] } %>
+  <%= f.input :res_fee %>
+  <%= f.input :min_stay %>
+  <%= f.input :free_cancel %>
   <%= f.input :description_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
   <%= f.input :description_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
   <%= f.input :description_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>

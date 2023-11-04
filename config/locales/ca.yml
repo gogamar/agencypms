@@ -526,3 +526,12 @@ ca:
   short_term: Lloguer turístic
   long_term: Lloguer anual
   medium_term: Lloguer de temporada
+  good_choice: Bona elecció!
+  to_confirm_booking: "Per confirmar la reserva, cal omplir el formulari i pagar el %{res_fee} del preu de la reserva a la propera pàgina."
+  cancellation_policy: Política de cancel·lació
+  cancellation_details: Cobrem un %{res_fee} de prepagament per garantir la reserva. Si la notificació adequada es proporciona fins a %{free_cancel} dies abans de l'arribada, li retornarem el seu pagament inicial. Si cancel·la %{free_cancel_minus_one} o menys dies abans de l'arribada, el %{res_fee} de prepagament no serà reemborsat.
+  where_to_next: On anem de vacances?
+  featured_locations: Llocs destacats
+  view_more_properties: Veure més immobles
+  terms_of_service: Termes i condicions
+  office: Oficina

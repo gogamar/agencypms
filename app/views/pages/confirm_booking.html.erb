@@ -1,3 +1,71 @@
-<div class="iframe-container mt-3">
-  <iframe src="https://beds24.com/booking.php?propid=<%= @vrental.beds_prop_id %>&page=book3&limitstart=0&lang=<%= params[:locale] %>&checkin=<%= @checkin %>&checkin_hide=<%= @checkin %>&checkout=<%= @checkout %>&checkout_hide=<%= @checkout %>&numnight=<%= @nights %>&numadult=<%= @guests %>&numchild=0&br1-<%= @vrental.beds_room_id %>=Book" width="100%" height="1100px"></iframe>
-</div>
+<section class="gray-simple pt-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="row justify-content-center">
+          <% if @vrental.res_fee.present? %>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+              <div class="alert alert-success alert-dismissible fade show property-1 position-relative" role="alert">
+                <strong><%= t('good_choice') %></strong> <%= t('to_confirm_booking', res_fee: number_to_percentage(@vrental.res_fee * 100, precision: 2)) %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+          <% end %>
+          <% if @vrental.res_fee.present? && @vrental.free_cancel.present? %>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+              <div class="alert alert-info alert-dismissible fade show property-1 position-relative" role="alert">
+                <strong><%= t('cancellation_policy') %>: </strong><%= t('cancellation_details', res_fee: number_to_percentage(@vrental.res_fee * 100, precision: 2), free_cancel: @vrental.free_cancel, free_cancel_minus_one: @vrental.free_cancel - 1) %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12">
+        <div class="iframe-container h-100">
+          <iframe id="confirm-booking-js" src="https://beds24.com/booking.php?propid=<%= @vrental.beds_prop_id %>&page=book3&limitstart=0&lang=<%= params[:locale] %>&checkin=<%= @checkin %>&checkin_hide=<%= @checkin %>&checkout=<%= @checkout %>&checkout_hide=<%= @checkout %>&numnight=<%= @nights %>&numadult=<%= @guests %>&numchild=0&br1-<%= @vrental.beds_room_id %>=Book" style="width: 100%; height: 100%"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function updateIframeHeight(height) {
+    // Get the iframe element
+    const iframe = document.getElementById('confirm-booking-js');
+    if (!iframe) {
+      console.error('The iframe with id "confirm-booking-js" was not found.');
+      return;
+    }
+
+    // Determine base height depending on screen width
+    const baseHeight = window.innerWidth < 768 ? 1600 : 1000;
+    // Use the height from the message event if available, otherwise use baseHeight
+    const finalHeight = height ? parseInt(height, 10) + 20 : baseHeight;
+
+    // Set the height and overflow properties of the iframe
+    iframe.style.height = `${finalHeight}px`;
+    iframe.style.overflow = 'hidden';
+  }
+
+  // Event listener for receiving message from iframe
+  window.addEventListener('message', function(event) {
+    // Check origin if you want to restrict messages
+    // if (event.origin !== 'http://example.com') return;
+
+    // If the event data contains frameHeight, update the iframe height
+    if (event.data.frameHeight) {
+      console.log("The height from iframe:", event.data.frameHeight);
+      updateIframeHeight(event.data.frameHeight); // Update the height based on the message
+    }
+  }, false);
+
+  // Event listener for window resize
+  window.addEventListener('resize', function() {
+    // Update the height based on the current window width
+    updateIframeHeight();
+  });
+
+  // Call initially to set up the correct size
+  updateIframeHeight();
+</script>

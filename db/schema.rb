@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_03_121511) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_04_083307) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -332,6 +332,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_121511) do
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
   end
 
+  create_table "regions", force: :cascade do |t|
+    t.string "name_ca"
+    t.string "name_es"
+    t.string "name_fr"
+    t.string "name_en"
+    t.text "description_ca"
+    t.text "description_es"
+    t.text "description_fr"
+    t.text "description_en"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "statements", force: :cascade do |t|
     t.date "start_date"
     t.date "end_date"
@@ -377,6 +390,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_121511) do
     t.text "description_fr"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "region_id"
+    t.index ["region_id"], name: "index_towns_on_region_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -449,6 +464,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_121511) do
     t.bigint "vrgroup_id"
     t.string "rental_term"
     t.integer "min_stay"
+    t.decimal "res_fee", precision: 10, scale: 2
+    t.integer "free_cancel"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -503,6 +520,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_121511) do
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
+  add_foreign_key "towns", "regions"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "offices"
   add_foreign_key "vragreements", "vrentals"

@@ -17,11 +17,10 @@
             <ul class="nav-dropdown nav-submenu">
               <li><a href="JavaScript:void(0);"><%= t("apartments") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
-                  <li>
-                    <%= link_to t("with_pool"), list_path(pt: [t("apartment")], pf: [t("pool")]) %>
-                  </li>
+                  <li><%= link_to t("with_pool"), list_path(pt: [t("apartment")], pf: [t("pool")]) %></li>
+                  <li><%= link_to t("with_view"), list_path(pt: [t("apartment")], pf: [t("beach_view"), t("ocean_view")]) %></li>
+                  <li><%= link_to t("in_centre"), list_path(pt: [t("apartment")], pf: [t("beach_view"), t("ocean_view")]) %></li>
                   <li><a href="list-layout-with-map.html"><%= t("with_view") %></a></li>
-                  <li><a href="list-layout-full.html"><%= t("in_centre") %></a></li>
                   <li><a href="list-layout-full.html"><%= t("on_budget") %></a></li>
                 </ul>
               </li>

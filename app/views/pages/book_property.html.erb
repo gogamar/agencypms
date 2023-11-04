@@ -1,7 +1,7 @@
 <!-- ============================ Hero Banner  Start================================== -->
-<div class="featured_slick_gallery gray-simple">
-  <div class="featured_slick_gallery-slide">
-    <% if @vrental.image_urls.present? %>
+<% if @vrental.image_urls.present? %>
+  <div class="featured_slick_gallery gray-simple">
+    <div class="featured_slick_gallery-slide">
       <% @vrental.image_urls.each do |image| %>
         <div class="featured_slick_padd">
           <%= link_to image.url, class: "mfp-gallery" do %>
@@ -9,12 +9,12 @@
           <% end %>
         </div>
       <% end %>
+    </div>
+    <%= link_to @vrental.image_urls.first.url, class: "btn-view-pic mfp-gallery" do %>
+      <%= t("view_photos") %>
     <% end %>
   </div>
-  <%= link_to @vrental.image_urls.first.url, class: "btn-view-pic mfp-gallery" do %>
-    <%= t("view_photos") %>
-  <% end %>
-</div>
+<% end %>
 <!-- ============================ Hero Banner End ================================== -->
 <!-- ============================ Property Detail Start ================================== -->
 <section class="gray-simple pt-5">

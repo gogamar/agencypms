@@ -21,6 +21,12 @@ class Vrental < ApplicationRecord
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
   scope :with_future_rates, -> { joins(:rates).where("rates.firstnight > ?", Date.today).distinct(:id) }
+  scope :with_past_year_rates, -> {
+    joins(:rates)
+      .where("rates.firstnight >= ?", 1.year.ago.beginning_of_year)
+      .distinct(:id)
+  }
+
   geocoded_by :address
   after_validation :geocode
 
@@ -812,6 +818,8 @@ class Vrental < ApplicationRecord
 
   def get_content_from_beds
     # add check for minimum stay, and set min_stay and rental_term accordingly
+    # also get the booking conditions (deposit payment (30%?) cancellation policy (14 days?))
+    # also set status to inactive if no rates or no bookings this year, whatever's easier
     client = BedsHelper::Beds.new(office.beds_key)
     begin
       vrental_property = client.get_property_content(prop_key, roomIds: true, texts: true)[0]
