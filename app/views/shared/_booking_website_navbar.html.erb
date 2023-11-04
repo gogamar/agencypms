@@ -17,20 +17,21 @@
             <ul class="nav-dropdown nav-submenu">
               <li><a href="JavaScript:void(0);"><%= t("apartments") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
-                  <li><%= link_to t("with_pool"), list_path(pt: [t("apartment")], pf: [t("pool")]) %></li>
-                  <li><%= link_to t("with_view"), list_path(pt: [t("apartment")], pf: [t("beach_view"), t("ocean_view")]) %></li>
-                  <li><%= link_to t("in_centre"), list_path(pt: [t("apartment")], pf: [t("beach_view"), t("ocean_view")]) %></li>
-                  <li><a href="list-layout-with-map.html"><%= t("with_view") %></a></li>
-                  <li><a href="list-layout-full.html"><%= t("on_budget") %></a></li>
+                  <li><%= link_to t("with_pool"), list_path(location: "Costa Brava", pt: [t("apartment")], pf: [t("pool")]) %></li>
+                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: [t("apartment")], pf: [t("ocean_view")]) %></li>
+                  <li><%= link_to t("on_budget"), list_path(location: "Costa Brava", pt: [t("apartment")], budget: true) %></li>
                 </ul>
               </li>
               <li><a href="javascript:void(0);"><%= t("houses") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
-                  <li><a href="grid-layout-with-sidebar.html"><%= t("with_pool") %></a></li>
-                  <li><a href="classical-layout-with-sidebar.html"><%= t("with_private_pool") %></a></li>
-                  <li><a href="grid-layout-with-map.html"><%= t("with_view") %></a></li>
-                  <li><a href="grid-layout-with-map.html"><%= t("with_garden") %></a></li>
+                  <li><%= link_to t("with_pool"), list_path(location: "Costa Brava", pt: [t("house")], pf: [t("pool")]) %></li>
+                  <li><%= link_to t("with_private_pool"), list_path(location: "Costa Brava", pt: [t("house")], pf: [t("pool_private")]) %></li>
+                  <li><%= link_to t("with_garden"), list_path(location: "Costa Brava", pt: [t("house")], pf: [t("garden")]) %></li>
+                  <li><%= link_to t("with_private_garden"), list_path(location: "Costa Brava", pt: [t("house")], pf: [t("private_yard")]) %></li>
+                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: [t("house")], pf: [t("ocean_view")]) %></li>
+                  <!--
                   <li><a href="classical-property.html"><%= t("unique") %></a></li>
+                  -->
                 </ul>
               </li>
               <!--
@@ -49,14 +50,14 @@
             <ul class="nav-dropdown nav-submenu">
               <li><a href="JavaScript:void(0);"><%= t("vacation_rentals") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
-                  <li><a href="single-property-1.html"><%= t("with_view") %></a></li>
-                  <li><a href="single-property-2.html"><%= t("without_view") %></a></li>
+                  <li><%= link_to t("with_monument_view"), list_path(location: "Barcelona", pt: [t("apartment")], pf: [t("monument_view")], rt: "short_term") %></li>
+                  <li><%= link_to t("without_view"), list_path(location: "Barcelona", pt: [t("apartment")], nv: true, rt: "short_term") %></li>
                 </ul>
               </li>
               <li><a href="JavaScript:void(0);"><%= t("long_term") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
-                  <li><a href="single-property-1.html"><%= t("with_view") %></a></li>
-                  <li><a href="single-property-2.html"><%= t("without_view") %></a></li>
+                  <li><%= link_to t("with_monument_view"), list_path(location: "Barcelona", pt: [t("apartment")], pf: [t("monument_view")], rt: "medium_term") %></li>
+                  <li><%= link_to t("without_view"), list_path(location: "Barcelona", pt: [t("apartment")], nv: true, rt: "medium_term") %></li>
                 </ul>
               </li>
             </ul>

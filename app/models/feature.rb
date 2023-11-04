@@ -11,6 +11,6 @@ class Feature < ApplicationRecord
     "private_yard", "smoke_detector", "pets_not_allowed", "balcony",
     "parking_included", "parking_possible", "deck_patio_uncovered",
     "kettle", "beach_front", "pool", "coffee_maker", "roof_terrace",
-    "tv", "fireplace", "ceiling_fan"
+    "tv", "fireplace", "ceiling_fan", "monument_view"
   ]
 end

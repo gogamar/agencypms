@@ -15,7 +15,6 @@ class PagesController < ApplicationController
   end
 
   def home
-    @budget_vrentals = @vrentals.where("rates.lastnight > ?", Date.today).order("rates.firstnight ASC").limit(3)
     @features = Feature.all.uniq
     # @towns_with_photo = Town.joins(:photos_attachments).distinct
     @featured_towns = Town.joins(:vrentals).select('towns.*, COUNT(vrentals.id) AS vrentals_count').group('towns.id').order('vrentals_count DESC').distinct.limit(4)
@@ -54,6 +53,13 @@ class PagesController < ApplicationController
   end
 
   def list
+    @vrentals = @vrentals.on_budget if params[:budget].present?
+    @vrentals = @vrentals.where(rental_term: params[:rt]) if params[:rt].present?
+    if params[:nv].present?
+      vrentals_with_monument_view = Vrental.joins(:features).where("features.name ILIKE ?", "%monument%").pluck(:id)
+      @vrentals = @vrentals.where.not(id: vrentals_with_monument_view)
+    end
+
     load_availability
     if params[:pt] || params[:pb] || params[:pf] || params[:n]
     advanced_search(params[:pt], params[:pb], params[:pf], params[:n], @vrentals)
@@ -222,17 +228,25 @@ class PagesController < ApplicationController
   end
 
   def simple_search(vrentals, guests, location)
+    current_locale = I18n.locale.to_s
     @vrentals = vrentals.where("vrentals.max_guests >= ?", guests.to_i) if guests.present?
-    @vrentals = vrentals.joins(:town).where("towns.name ILIKE ?", "%#{location}%") if location.present?
+
+    if location.present?
+      if Region.pluck("name_#{current_locale}").include?(location)
+        @vrentals = vrentals.joins(town: :region).where("regions.name_#{current_locale} ILIKE ?", "%#{location}%")
+      else
+        @vrentals = vrentals.joins(:town).where("towns.name ILIKE ?", "%#{location}%")
+      end
+    end
   end
 
   def advanced_search(pt, pb, pf, n, vrentals)
-    puts "these are the vrentals in advanced search #{vrentals.count}"
     vrentals = vrentals.where("name ILIKE ?", "%#{n}%") if n.present?
     vrentals = vrentals.where(property_type: pt_translation_keys(pt)) if pt.present?
     vrentals = vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
     if pf.present?
       feature_keys = feature_translation_keys(pf)
+      puts "these are the feature keys #{feature_keys}"
       vrentals = vrentals.joins(:features)
                         .where("features.name ILIKE ANY (array[?])", feature_keys)
                         .group("vrentals.id")
@@ -250,7 +264,11 @@ class PagesController < ApplicationController
   end
 
   def load_filters
-    @locations = Town.pluck(:name).sort
+    current_locale = I18n.locale.to_s
+    regions = Region.pluck("name_#{current_locale}")
+    towns = Town.pluck(:name).sort
+
+    @locations = regions + towns
     @property_types = Vrental::PROPERTY_TYPES.values
     @property_features = Feature.where(highlight: true).map { |feature| feature.name }
     max_bedsrooms = Vrental.left_joins(:bedrooms)

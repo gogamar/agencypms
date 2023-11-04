@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
 
   connect() {
-    console.log("Search controller.");
+    console.log("Set.");
     flatpickr();
 
     const today = new Date();
@@ -18,9 +18,13 @@ export default class extends Controller {
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      minDate: tomorrow,
+      minDate: today,
       onChange: function (selectedDates, dateStr, instance) {
-        checkoutPicker.set("minDate", new Date(dateStr).fp_incr(1));
+        const selectedDate = new Date(dateStr);
+        const checkoutDate = new Date(selectedDate);
+        checkoutDate.setDate(checkoutDate.getDate() + 1);
+        checkoutPicker.set("minDate", checkoutDate);
+        checkoutPicker.jumpToDate(checkoutDate);
       },
     });
 
@@ -29,10 +33,7 @@ export default class extends Controller {
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
-      // defaultDate: checkinDate.setDate(checkinDate.getDate() + 7),
-      onChange: function (selectedDates, dateStr, instance) {
-        checkinPicker.set("maxDate", dateStr);
-      },
+      minDate: tomorrow,
     });
   }
 

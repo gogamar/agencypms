@@ -13,7 +13,11 @@
           <div class="listing-short-detail">
             <span class="label bg-light-danger text-danger d-inline-flex mb-1"><%= t(vrental.property_type) %></span>
             <h4 class="listing-name mb-0">
-              <%= vrental.name %>
+              <% if user_signed_in? && current_user.admin? %>
+                <%= link_to vrental.name, edit_vrental_path(vrental) %>
+              <% else %>
+                <%= vrental.name %>
+              <% end %>
             </h4>
             <!--
             <div class="fr-can-rating">

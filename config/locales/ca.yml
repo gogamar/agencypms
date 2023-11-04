@@ -362,6 +362,7 @@ ca:
   microwave: Microones
   min: Min.
   monthly: Mensual
+  monument_view: Vista a la Sagrada Familia
   new_vrental_step_1: Pas 1. Detalls sobre l'immoble
   news: Notícies
   next_getaway: la teva propera escapada
@@ -514,10 +515,14 @@ ca:
   week: Setmana
   where_to: On busques?
   wifi: Wifi
-  with_garden: Amb jardí
+  with_garden: Amb jardí comunitari
+  with_private_garden: Amb jardí privat
   with_pool: Amb piscina comunitària
   with_private_pool: Amb piscina privada
   with_view: Amb vista
+  with_sea_view: Amb vista al mar
+  with_monument_view: Amb vista a la Sagrada Familia
+  without_view: Interiors
   yearly: Anual
   "yes": Sí
   # up to here

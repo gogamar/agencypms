@@ -27,6 +27,13 @@ class Vrental < ApplicationRecord
       .distinct(:id)
   }
 
+  scope :on_budget, -> {
+    with_past_year_rates
+      .joins(:rates)
+      .where("rates.priceweek <= ? OR rates.pricenight <= ?", 300, 60)
+      .distinct(:id)
+  }
+
   geocoded_by :address
   after_validation :geocode
 
@@ -833,12 +840,14 @@ class Vrental < ApplicationRecord
 
         selected_features = beds24features.select { |feature| accepted_features.include?(feature) }
 
-        selected_features.each do |feature|
-          unless features.find_by(name: feature)
-            features << Feature.find_by(name: feature)
+        if selected_features.include?("beach_view")
+          features << Feature.where(name: ["beach_view", "ocean_view"])
+        else
+          selected_features.each do |feature|
+            features << Feature.find_or_create_by(name: feature)
           end
-          save!
         end
+        save!
 
         features.each do |feature|
           unless selected_features.include?(feature.name)
