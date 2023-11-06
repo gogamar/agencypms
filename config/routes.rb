@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  resources :regions
-
-  # scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     resources :image_urls do
       member do
         patch :move
@@ -15,12 +12,15 @@ Rails.application.routes.draw do
       resources :rate_periods
     end
 
+    post 'cookie_consent', to: 'pages#cookie_consent', as: 'cookie_consent'
+
     localized do
       devise_for :users
       resources :users
       root to: "pages#home", as: :root
       resources :tasks
       resources :tourists
+      resources :regions
       resources :towns
       resources :bathrooms
       resources :beds
@@ -147,6 +147,5 @@ Rails.application.routes.draw do
       get 'get_availability', to: 'pages#get_availability'
       get 'submit_property', to: 'pages#submit_property'
     end
-  # end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
 end

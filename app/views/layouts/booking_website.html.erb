@@ -24,6 +24,7 @@
       <%= render 'shared/booking_website_navbar' %>
       <%= render 'shared/flashes' %>
       <%= yield %>
+      <%= render 'shared/cookie_consent' if session[:cookie_consent].nil? %>
       <%= render 'shared/call_to_action' unless controller_name == 'pages' && action_name == 'list_map' %>
       <%= render 'shared/booking_website_footer' %>
       <%= render 'shared/log_in_modal' %>

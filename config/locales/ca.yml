@@ -196,8 +196,8 @@ ca:
   commission: Comissió
   confirm_password: Confirmar contrassenya
   consult: Fer una pregunta
-  contact: Contactar
-  contact_us: Contacte
+  contact: Contacte
+  contact_us: Contacta amb nosaltres
   contracts: Contractes
   copy_vrental: Copiar l'immoble
   dashboard: Panell de control
@@ -540,3 +540,6 @@ ca:
   view_more_properties: Veure més immobles
   terms_of_service: Termes i condicions
   office: Oficina
+  how_to_contact_us: Si vols posar-te en contacte amb nosaltres, pots contactar directament per email o telèfon o també pots omplir el formulari i el nostre equip et contestarà el més ràpid possible.
+  cookie_consent: Aquest lloc web utilitza cookies per millorar la teva experiència. Si continues navegant, considerem que acceptes la nostra
+  cookies_policy: política de cookies

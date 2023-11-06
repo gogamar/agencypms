@@ -64,16 +64,20 @@
           </li>
           <li><a href="JavaScript:void(0);"><%= t("services") %><span class="submenu-indicator"></span></a>
             <ul class="nav-dropdown nav-submenu">
-              <li><a href="blog.html"><%= t("realtor") %></a></li>
+              <li><a href="https://www.sistachfinques.com" target="_blank"><%= t("realtor") %></a></li>
+              <!--
               <li>
-                <%= link_to submit_property_path, class: "text-success" do %>
-                  <%= image_tag("submit.svg", class: "mr-2", width: "20", alt: "") %> <%= t("add_property") %>
-                <% end %>
+                <%# link_to submit_property_path, class: "text-success" do %>
+                  <%# image_tag("submit.svg", class: "mr-2", width: "20", alt: "") %> <%# t("add_property") %>
+                <%# end %>
               </li>
+              -->
             </ul>
           </li>
-          <li class="active"><%= link_to t("contact_us"), root_path, class: "active" %></li>
-          <li class="active"><%= link_to t("news"), root_path, class: "active" %></li>
+          <li><%= link_to t("contact"), contact_path %></li>
+          <!--
+          <li><%= link_to t("news"), root_path %></li>
+          -->
           <!--
           <li><a href="JavaScript:void(0);" data-bs-toggle="modal" data-bs-target="#signup">Sign Up</a></li>
           -->

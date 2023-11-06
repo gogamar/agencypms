@@ -1,0 +1,26 @@
+<%= turbo_frame_tag :cookie_consent do %>
+  <div class="cookies-bar fixed-bottom d-flex justify-content-between gap-5 bg-dark">
+    <div class="container-fluid p-4 d-flex justify-content-between">
+      <div>
+        <h6 class="text-light"><%= t('cookies_policy').capitalize %></h6>
+        <div class="text-justify">
+          <%= t('cookie_consent') %> <%= link_to t('cookies_policy'), privacy_policy_path, data: { turbo_frame: 'top' }, target: "_blank", class: "text-light" %>.
+        </div>
+      </div>
+      <div class="d-flex flex-column justify-content-around align-items-end">
+        <%= form_with url: cookie_consent_path, method: :post  do |form| %>
+          <%= form.hidden_field :consent, value: true %>
+          <%= button_tag "OK", class: "btn btn-outline-secondary fw-medium full-width" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<script>
+  document.addEventListener('turbo:load', function() {
+    const cookiesBar = document.querySelector('.cookies-bar');
+    if (cookiesBar) {
+      cookiesBar.classList.add('loaded');
+    }
+  });
+</script>

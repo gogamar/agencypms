@@ -169,10 +169,18 @@ class PagesController < ApplicationController
   def submit_property
   end
 
+  def contact
+  end
+
   def privacy_policy
   end
 
   def terms_of_service
+  end
+
+  def cookie_consent
+    session[:cookie_consent] = params[:consent].presence
+    render turbo_stream: turbo_stream.remove(:cookie_consent)
   end
 
   private
