@@ -48,6 +48,6 @@ class TownsController < ApplicationController
   end
 
   def town_params
-    params.require(:town).permit(:name, :description_ca, :description_es, :description_fr, :description_en, photos: [])
+    params.require(:town).permit(:name, :description_ca, :description_es, :description_fr, :description_en, :region_id, photos: [])
   end
 end

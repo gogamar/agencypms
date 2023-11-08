@@ -7,6 +7,7 @@
     <%= f.input :description_es %>
     <%= f.input :description_en %>
     <%= f.input :description_fr %>
+    <%= f.association :region, label_method: "name_#{I18n.locale.to_s}" %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
   </div>
   <div class="form-actions">
