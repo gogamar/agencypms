@@ -18,10 +18,12 @@ class PagesController < ApplicationController
     @meta_title = t('meta_titles.home')
     @meta_description = t('meta_descriptions.home')
     @features = Feature.all.uniq
-    # @towns_with_photo = Town.joins(:photos_attachments).distinct
-    @featured_towns = Town.joins(:vrentals).select('towns.*, COUNT(vrentals.id) AS vrentals_count').group('towns.id').order('vrentals_count DESC').distinct.limit(4)
+    @featured_towns = Town.joins(:vrentals)
+                .where(vrentals: { id: @vrentals })
+                .select('towns.*, COUNT(vrentals.id) AS vrentals_count')
+                .group('towns.id')
+                .order('vrentals_count DESC')
 
-    @properties_in_town = @vrentals.joins(:town).group('towns.id').count
 
     # temporary solution for featured rentals
     # fixme: make these featured rentals set on the dashboard or a combination of featured and available
@@ -123,6 +125,8 @@ class PagesController < ApplicationController
         generate_marker(vrental)
       end
     end
+
+    @found_vrentals_number = @vrentals.count
 
     paginate_vrentals
   end

@@ -181,6 +181,7 @@ const initSlick = () => {
     centerMode: true,
     infinite: true,
     centerPadding: "40px",
+    autoplay: true,
     slidesToShow: 2,
     responsive: [
       {
