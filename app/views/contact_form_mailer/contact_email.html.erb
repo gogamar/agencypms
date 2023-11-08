@@ -1,0 +1,5 @@
+<h2><%= t("new_contact_form_submitted", locale: @company_language) %></h2>
+<p><strong><%= t("name", locale: @company_language) %>:</strong> <%= @contact_form.name %></p>
+<p><strong><%= t("email", locale: @company_language) %>:</strong> <%= @contact_form.email %></p>
+<p><strong><%= t("subject", locale: @company_language) %>:</strong><%= @contact_form.subject %></p>
+<p><strong><%= t("message", locale: @company_language) %>:</strong> <%= @contact_form.message %></p>

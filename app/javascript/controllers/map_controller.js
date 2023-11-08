@@ -11,10 +11,17 @@ export default class extends Controller {
 
   connect() {
     mapboxgl.accessToken = this.apiKeyValue;
+
     this.map = new mapboxgl.Map({
       container: this.element,
       style: "mapbox://styles/mapbox/streets-v10",
     });
+
+    this.map.on("load", function () {
+      map.resize();
+    });
+
+    console.log(this.map);
 
     this.map.addControl(
       new MapboxGeocoder({

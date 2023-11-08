@@ -10,7 +10,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="logoutModalLabel">Vols tancar la sessió?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=<%= t("close") %>>
         </button>
       </div>
       <div class="modal-body">
@@ -26,6 +26,6 @@
         </button>
         <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "btn btn-primary" %>
       </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>

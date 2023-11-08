@@ -16,11 +16,13 @@
           </div>
           <div class="sidebar-widgets">
             <div class="dashboard-navbar">
-              <div class="d-user-avater">
-                <img src="https://via.placeholder.com/800x800" class="img-fluid avater" alt="">
-                <%# <h4>Adam Harshvardhan</h4> %>
-                <%# <span>Canada USA</span> %>
-              </div>
+              <% if @office && @office.office_photos.present? %>
+                <div class="d-user-avater">
+                  <%= cl_image_tag @office.office_photos.first.key, crop: :fill, class: "img-fluid avater", alt: "#{@company.name}" %>
+                  <%# <h4>Adam Harshvardhan</h4> %>
+                  <%# <span>Canada USA</span> %>
+                </div>
+              <% end %>
               <div class="d-navigation">
                 <ul>
                   <!--
@@ -42,6 +44,13 @@
                       <i class="fa-solid fa-link"></i><%= t("add_group") %>
                     <% end %>
                   </li>
+                  <% if @office %>
+                    <li>
+                      <%= link_to company_office_coupons_path(@company, @office) do %>
+                        <i class="fa-solid fa-tags"></i><%= t("coupons") %>
+                      <% end %>
+                    </li>
+                  <% end %>
                 </ul>
               </div>
             </div>

@@ -11,18 +11,20 @@
         <div class="card-body pt-0">
           <div class="inner_widget_link">
             <ul class="no-ul-list filter-list">
-              <% items.each do |item| %>
-                <% if item.is_a?(String) %>
-                  <% checked_item = selected_items.include?(item) if selected_items %>
-                  <li class="form-check">
-                    <input type="checkbox" name="<%= param_name %>[]" value="<%= item %>" class="form-check-input" data-search-properties-target="filter<%= param_name.to_s.capitalize %>" <%= 'checked' if checked_item %>>
-                    <label class="form-check-label"><%= item %></label>
-                  </li>
-                <% elsif item.is_a?(Array) %>
+              <% if items == @property_bedrooms %>
+                <% items.each do |item| %>
                   <% checked_item = selected_items.include?(item[0].to_s) if selected_items %>
                   <li class="form-check">
-                    <input type="radio" name="<%= param_name %>" id="<%=param_name%><%=item[0]%>"  value="<%= item[0] %>" class="form-check-input" data-search-properties-target="filter<%= param_name.to_s.capitalize %>" <%= 'checked' if checked_item %>>
+                    <input type="radio" name="<%= param_name %>" id="<%=param_name%><%=item[0]%>"  value="<%= item[0] %>" class="form-check-input" <%= 'checked' if checked_item %>>
                     <label class="form-check-label" for="<%param_name%><%item[0]%>"><%= item[0] %> <%= t(item[1], count: item[0]) %> <%= t(item[2]) %></label>
+                  </li>
+                <% end %>
+              <% else %>
+                <% items.each do |attribute, translation| %>
+                  <% checked_item = selected_items.include?(attribute) if selected_items %>
+                  <li class="form-check">
+                    <input type="checkbox" name="<%= param_name %>[]" value="<%= attribute %>" class="form-check-input" <%= 'checked' if checked_item %>>
+                    <label class="form-check-label"><%= translation %></label>
                   </li>
                 <% end %>
               <% end %>

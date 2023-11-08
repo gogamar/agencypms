@@ -6,7 +6,7 @@ class ImageUrlsController < ApplicationController
     authorize @image_url
 
     if @image_url.save
-      redirect_to @image_url, notice: "Image url was successfully created."
+      redirect_to @image_url, notice: "Foto afegida."
     else
       render :new, status: :unprocessable_entity
     end

@@ -1,150 +1,218 @@
 en:
-  guests: "Nº guests"
-  location: "Location"
-  type: "Property type"
-  bedrooms: "Nº of bedrooms"
-  bathrooms: "Nº of bathrooms"
-  features: "Features"
-  cancelled_booking: "Cancelled Booking"
-  paid_by_agency: "Paid by Agency"
-  paid_to_owner: "Paid to Owner"
-  statement_title: "Rental Settlement"
-  earnings: "Earnings"
-  amount: "Amount"
-  booking: "Booking"
-  discount: "Discount"
-  commission: "Commission"
-  expenses: "Expenses"
-  total: "Total"
-  total_revenue: "Total Revenue Owner"
-  agency_fees: "Agency Fees"
-  agency_vat: "VAT 21%"
-  agency: "Agency"
-  owner: "Owner"
-  property: "Property"
-  transfer: "Transfer"
-  cash: "Cash"
-  check: "Check"
-  select_or_add: "Select or add new owner"
-  invoice_agency_fees: "Tourist Rental Management Fees"
-  invoice_title: "Invoice"
-  invoice_description_1: "Management Period: from %{from} to %{to}"
-  invoice_description_2: "%{commission} on earnings of %{total}"
-  owner_bookings_default: "The owner has not yet blocked any dates for their own use. If you want to block some dates, please contact us at %{email}."
-  owner_speaks: "The owner %{name} speaks %{language}."
-  vrentals: "Properties"
-  owners: "Owners"
+  BATH_SHOWER:
+    one: Bathroom with shower
+    other: Bathrooms with shower
+  BATH_TUB:
+    one: Bathroom with bathtub
+    other: Bathrooms with bathtub
+  BEDROOM: Bedroom
+  BED_BUNK:
+    one: Bunk bed
+    other: Bunk beds
+  BED_DOUBLE:
+    one: Double bed
+    other: Double beds
+  BED_MURPHY:
+    one: Murphy bed
+    other: Murphy beds
+  BED_SINGLE:
+    one: Single bed
+    other: Single beds
+  DBL: Double
+  DSF: DS
+  SGL: Single
+  TOILET: Toilet
+  active: Active
+  activerecord:
+    attributes:
+      company:
+        administrator: Administrator
+        bank_account: Bank Account
+        city: City
+        company: Company
+        country: Country
+        local_realtor_number: Local Realtor Number
+        name: Name
+        post_code: Postal Code
+        realtor_number: Realtor Number
+        region: Region
+        street: Street and Number
+        user: User
+        vat_number: VAT Number
+        vat_tax: VAT %
+        vat_tax_payer: VAT Tax Payer
+      contact_form:
+        email: Email
+        message: Message
+        name: Name
+        subject: Subject
+      expense:
+        amount: Amount
+        description: Description
+        expense_company: Industrial
+        expense_number: Expense Number
+        expense_type: Expense Type
+      feature:
+        highlight: Highlighted
+        name: Name
+      office:
+        city: City
+        country: Country
+        email: Email
+        manager: Manager
+        mobile: Mobile
+        name: Name
+        opening_hours: Opening Hours
+        phone: Phone
+        post_code: Postal Code
+        region: Region
+        street: Street and Number
+        vat_number: VAT Number
+        website: Website
+      owner:
+        account: Bank Account
+        address: Address
+        document: ID
+        email: Email
+        fullname: Full Name
+        language: Language
+        owner: Owner
+        phone: Phone
+      owner_payment:
+        amount: Amount
+        date: Date
+        description: Payment Method
+      rate:
+        arrival_day: Arrival Day
+        firstnight: From
+        lastnight: To
+        min_stay: Min.
+        pricenight: Price per Night
+        priceweek: Price per Week
+      rate_plan:
+        end: To
+        gen_arrival: General Arrival Day
+        gen_min: General Minimum Stay
+        name: Name
+        start: From
+      statement:
+        amount: Amount
+        date: Statement Date
+        end_date: To
+        location: Location
+        payment: Paid Statement
+        payment_date: Payment Date
+        payment_method: Payment Method
+        start_date: From
+      task:
+        start_date: Start Date
+        start_time: Start Time
+        title: Title
+      vragreement:
+        account: Bank Account
+        email: Email
+        end_date: Contract End
+        owner: Owner
+        owner_bookings: Owner Bookings
+        phone: Phone
+        signdate: Signature Date
+        start_date: Contract Start
+        status: Status
+        vrental: House or Apartment
+        year: Contract Year
+      vrental:
+        address: Address
+        beds_prop_id: Beds24 Property ID
+        beds_room_id: Beds24 Room ID
+        cadastre: Cadastre
+        commission: Commission
+        contract_type: Contract Type
+        description: Description
+        feature_ids: Features
+        fixed_price: Fixed Price
+        fixed_price_amount: Fixed Price Amount
+        fixed_price_frequency: Payment Frequency
+        habitability: Habitability Certificate
+        latitude: Latitude
+        licence: HUT Number
+        longitude: Longitude
+        name: Name
+        office: Office
+        owner: Owner
+        photos: Photos
+        prop_key: Bed24 Property Secret Key
+        property_type: Property Type
+        status: Status
+        vrental: Property
+      vrentaltemplate:
+        language: Language
+        title: Title
+      vrgroup:
+        name: Group Name
+        office: Office
+        photos: Group Common Photos
+  add_group: Add New Group
+  add_owner: Add Owner
+  add_photos: Add Photos
+  add_property: Add Property
+  agency: Agency
+  agency_fees: Agency Fees
+  agency_vat: VAT 21%
+  air_conditioning: Air Conditioning
+  amount: Amount
+  apartment: Apartment
+  apartments: Apartments
+  arrival_day: Arrival Day
+  ascending: Sort by (lowest price)
+  available:
+    one: available
+    other: available
+  balcony: Balcony
+  bathroom:
+    one: bathroom
+    other: bathrooms
+  bathrooms: bathrooms
+  beach_front: Beachfront
+  beach_view: Beach View
+  bedroom:
+    one: bedroom
+    other: bedrooms
+  bedrooms: bedrooms
+  book: Book
+  book_now: Book Now
+  book_online: Book Online
+  booking: Booking
+  bookings: Bookings
+  browse_more_locations: Browse More Locations
+  ca: Catalan
+  call_to_action_text_1: We'll help you
+  call_to_action_title: Planning your next vacation?
+  call_to_action_typed_1: find the perfect house or apartment.
+  call_to_action_typed_2: find the best deal.
+  cancellation_details: "We charge a %{res_fee} prepayment to guarantee the reservation. If proper notice is provided up to %{free_cancel} days before arrival, we will refund your initial payment. If you cancel %{free_cancel_minus_one} or fewer days before arrival, the %{res_fee} prepayment will not be refunded."
+  cancellation_policy: Cancellation Policy
+  cancelled_booking: Cancelled Booking
+  cash: Cash
+  ceiling_fan: Ceiling Fan
   charge_types:
-    rent: "Rent"
-    cleaning: "Cleaning"
-    city_tax: "Tourist Tax"
-    other: "Other"
-  ca: "Catalan"
-  en: "English"
-  es: "Spanish"
-  fr: "French"
-  dont-fill: "Do not fill if you do not know what it is:"
-  real estate: "Real Estate"
-  vacation rentals: "Vacation Rentals"
-  page: "Page"
-  of: "of"
-  nights: "nights"
-  from: "From"
-  to: "To"
-  arrival_day: "Arrival Day"
-  min: "Min."
-  week: "Week"
-  night_7: "Night (7)"
-  night_5: "Night (5-6)"
-  washer: "Washer"
-  oven: "Oven"
-  toaster: "Toaster"
-  microwave: "Microwave"
-  hair_dryer: "Hair Dryer"
-  iron_board: "Iron"
-  garden: "Communal Garden"
-  wifi: "Wifi"
-  refrigerator: "Refrigerator"
-  grill: "Barbecue"
-  ocean_view: "Ocean View"
-  dishwasher: "Dishwasher"
-  pool_private: "Private Pool"
-  pets_considered: "Pets Considered"
-  air_conditioning: "Air Conditioning"
-  freezer: "Freezer"
-  elevator: "Elevator"
-  beach_view: "Beach View"
-  private_yard: "Private Yard"
-  smoke_detector: "Smoke Detector"
-  pets_not_allowed: "Pets Not Allowed"
-  balcony: "Balcony"
-  parking_included: "Parking Included"
-  parking_possible: "Street Parking Possible"
-  deck_patio_uncovered: "Terrace"
-  kettle: "Kettle"
-  beach_front: "Beachfront"
-  pool: "Communal Pool"
-  coffee_maker: "Coffee Maker"
-  roof_terrace: "Communal Roof Terrace"
-  tv: "TV"
-  fireplace: "Fireplace"
-  ceiling_fan: "Ceiling Fan"
-  inactive: "Inactive Property"
-  proposal: "Proposal Sent"
-  not sent: "Not Sent"
-  active: "Active Property"
-  pending: "Pending Signature"
-  signed: "Signed"
-  saturdays: "Sa.-Sa."
-  everyday: "Any Day"
-  registry_addendum: "Property Registry Note"
-  habitability_addendum: "Habitability Certificate Copy"
-  energy_addendum: "Energy Certificate"
-  equipment_addendum: "Equipment"
-  vragreement_keys:
-    company_name: "COMPANY_NAME"
-    company_street: "STREET_NUMBER_COMPANY"
-    company_city: "CITY_COMPANY"
-    company_post_code: "POSTAL_CODE_COMPANY"
-    company_region: "REGION_COMPANY"
-    company_country: "COUNTRY_COMPANY"
-    company_bank_account: "BANK_ACCOUNT_COMPANY"
-    company_administrator: "ADMINISTRATOR_COMPANY"
-    company_vat_tax: "VAT_%"
-    company_vat_number: "VAT_NUMBER_COMPANY"
-    company_realtor_number: "REALTOR_NUMBER_COMPANY"
-    office_local_realtor_number: "LOCAL_REALTOR_NUMBER"
-    office_name: "OFFICE_NAME"
-    office_street: "STREET_NUMBER_OFFICE"
-    office_city: "CITY_OFFICE"
-    office_post_code: "POSTAL_CODE_OFFICE"
-    office_region: "REGION_OFFICE"
-    office_country: "COUNTRY_OFFICE"
-    office_phone: "OFFICE_PHONE"
-    office_mobile: "MOBILE_PHONE_OFFICE"
-    office_email: "OFFICE_EMAIL"
-    office_website: "OFFICE_WEBSITE"
-    signdate: "SIGN_DATE"
-    place: "SIGN_PLACE"
-    owner_fullname: "OWNER_NAME"
-    owner_document: "OWNER_DOCUMENT"
-    owner_address: "OWNER_ADDRESS"
-    owner_email: "OWNER_EMAIL"
-    owner_phone: "OWNER_PHONE"
-    owner_account: "OWNER_BANK_ACCOUNT"
-    vrental_name: "PROPERTY_NAME"
-    vrental_address: "PROPERTY_ADDRESS"
-    vrental_cadastre: "PROPERTY_CADASTRE"
-    vrental_habitability: "PROPERTY_HABITABILITY"
-    vrental_licence: "PROPERTY_LICENCE"
-    vrental_description: "PROPERTY_DESCRIPTION"
-    start_date: "START_DATE"
-    end_date: "END_DATE"
-    contract_rates: "CONTRACT_RATES"
-    owner_bookings: "OWNER_BOOKINGS"
-    vrental_features: "PROPERTY_FEATURES"
-    vrental_commission: "PROPERTY_COMMISSION"
-    clause: "PROPERTY_CLAUSE"
+    city_tax: City Tax
+    cleaning: Cleaning
+    other: Other
+    rent: Rent
+  check: Check
+  coffee_maker: Coffee Maker
+  commission: Commission
+  confirm_password: Confirm Password
+  consult: Ask a Question
+  contact: Contact
+  contact_form: Contact Form
+  contact_form_success: Your message has been sent. We will get back to you as soon as possible.
+  contact_us: Contact Us
+  contracts: Contracts
+  cookie_consent: This website uses cookies to enhance your experience. If you continue browsing, we consider that you accept our
+  cookies_policy: cookies policy
+  copy_vrental: Copy Property
+  dashboard: Dashboard
   date:
     abbr_day_names:
       - Sun
@@ -245,148 +313,267 @@ en:
       day: day
       month: month
       year: year
-  activerecord:
-    attributes:
-      rate_plan:
-        name: "Name"
-        start: "From"
-        end: "To"
-        gen_min: "General min stay"
-        gen_arrival: "General arrival day"
-      realestate:
-        status: "Status"
-        address: "Address"
-        city: "City"
-        description: "Property Description (from the property registry)"
-        seller: "Seller"
-        cadastre: "Cadastral Reference"
-        energy: "Energy Certificate"
-        registrar: "Registry Office"
-        volume: "Volume"
-        book: "Book"
-        sheet: "Sheet"
-        registry: "Property Registry Number"
-        registry_code: "CRU Registry Code"
-        entry: "Entry"
-        charges: "Charges and Encumbrances"
-        habitability: "Habitability Certificate"
-        hab_date: "Habitability Certificate Date"
-        protocol: "Deed Protocol"
-        deed_date: "Deed Date"
-        notary: "Notary Deed"
-        notary_fullname: "Notary's Full Name"
-        mortgage_bank: "Bank with Mortgage"
-        mortgage_amount: "Mortgage Amount"
-      task:
-        start_date: "Start Date"
-        start_time: "Start Time"
-        title: "Title"
-      expense:
-        expense_number: "Expense Number"
-        expense_type: "Expense Type"
-        description: "Description"
-        expense_company: "Industrial"
-        amount: "Amount"
-      comtype:
-        company_type: "Company Type"
-      owner:
-        owner: "Owner"
-        fullname: "Name and Surname"
-        address: "Address"
-        phone: "Phone"
-        email: "Email"
-        document: "ID"
-        account: "Bank Account"
-        language: "Language"
-      owner_payment:
-        amount: "Amount"
-        date: "Date"
-        payment_type: "Payment Type"
-        description: "Description"
-      company:
-        company: "Company"
-        name: "Name"
-        street: "Street and number"
-        city: "City"
-        vat_number: "VAT Number"
-        post_code: "Post Code"
-        region: "Region"
-        country: "Country"
-        bank_account: "Bank Account"
-        administrator: "Administrator"
-        vat_tax: "VAT Tax"
-        vat_tax_payer: "VAT Tax Payer"
-        realtor_number: "Realtor Number"
-        user: "User"
-      office:
-        name: "Name"
-        street: "Street and number"
-        city: "City"
-        vat_number: "VAT Number"
-        post_code: "Postal Code"
-        region: "Region"
-        country: "Country"
-        phone: "Phone"
-        mobile: "Mobile"
-        email: "Email"
-        website: "Website"
-        opening_hours: "Opening Hours"
-        manager: "Manager"
-        local_realtor_number: "Local Realtor Number"
-      vragreement:
-        status: "Status"
-        owner: "Owner"
-        vrental: "House or Apartment"
-        phone: "Phone"
-        email: "Email"
-        account: "Bank Account"
-        owner_bookings: "Bookings for the owner"
-        signdate: "Signature Date"
-        start_date: "Start of Contract"
-        end_date: "End of Contract"
-        year: "Contract Year"
-      vrental:
-        vrental: "Property"
-        owner: "Owner"
-        address: "Address"
-        habitability: "Habitability Certificate"
-        beds_prop_id: "Beds24 Property ID"
-        beds_room_id: "Beds24 Room ID"
-        prop_key: "Beds24 Property Secret Key"
-        cadastre: "Cadastral"
-        licence: "HUT Number"
-        description: "Description"
-        feature_ids: "Features"
-        name: "Name"
-        status: "Status"
-        office: "Office"
-      rate:
-        firstnight: "From"
-        lastnight: "To"
-        min_stay: "Min."
-        priceweek: "Price per Week"
-        pricenight: "Price per Night"
-        arrival_day: "Arrival Day"
-      vrentaltemplate:
-        language: "Language"
-        title: "Title"
-      statement:
-        date: "Date"
-        amount: "Amount"
-        location: "Location"
-        start_date: "From"
-        end_date: "To"
-      feature:
-        name:
-          washer: "Washer"
+  deck_patio_uncovered: Uncovered Terrace
+  delete_vrental: Delete Property
+  descending: Sort by (highest price)
+  description: Description
+  discount: Discount
+  discover_our_offers: Discover our suggestions
+  dishwasher: Dishwasher
+  dont-fill: "Don't fill if you don't know what it is:"
+  earnings: Earnings
+  edit_profile: Edit Profile
+  edit_vrental: Edit Property
+  elevator: Elevator
+  en: English
+  energy_addendum: Energy Certificate
+  equipment_addendum: Equipment
+  es: Spanish
+  everyday: Any day
+  expenses: Expenses
+  "false": "No"
+  featured_locations: Featured Locations
+  featured_text: Here is a selection of our featured properties. If you can't find what you're looking for, don't hesitate to contact us.
+  featured_title: Featured Houses and Apartments
+  features: Features
+  find_by_vrental_name: Search by property name...
+  find_your: Find Your
+  fireplace: Fireplace
+  fixed_price: Fixed Price
+  fr: French
+  freezer: Freezer
+  from: From
+  garden: Communal Garden
+  general_conditions: General Conditions
   global:
     forms:
-      submit: "Save"
-      continue: "Continue"
+      back: Back
+      continue: Continue
+      submit: Save
+  good_choice: Good choice!
+  grill: Grill
+  guest:
+    one: guest
+    other: guests
+  guests: guests
+  habitability_addendum: Copy of the Habitability Certificate
+  hair_dryer: Hair Dryer
+  hello: Hello
+  home: Home
+  house: House
+  houses: Houses
+  how_to_contact_us: If you want to get in touch with us, you can contact us directly by email or phone, or you can also fill out the form, and our team will get back to you as soon as possible.
+  import_photos: Import Photos
+  in_centre: In the center
+  inactive: Inactive
+  invoice_agency_fees: Tourist Rental Management Fees
+  invoice_description_1: "Management Period: from %{from} to %{to}"
+  invoice_description_2: "%{commission} on the income of %{total}"
+  invoice_title: Invoice
+  iron_board: Ironing Board
+  kettle: Kettle
+  legal_notice: Legal Notice
+  location: location
+  long_term: Annual Rental
+  map: Map
+  medium_term: Seasonal Rental
+  meta_descriptions:
+    bookings: Book your perfect vacation now! Check availability, rates, and secure your stay in Barcelona or the Costa Brava today. Don't miss out on exclusive offers! Save on your getaway to Barcelona or the Costa Brava.
+    contact: Contact form for any questions or inquiries. You can also contact us by phone or email.
+    home: "Real estate agency with over 12 years of experience with offices in Barcelona and Estartit, specializing in property management on the Costa Brava and Barcelona. Discover ideal apartments for short and long stays."
+    map: Interactive map with all our tourist rental properties in Barcelona and the Costa Brava. Discover the location of our apartments and houses.
+    property: "Book now for an ideal getaway. %{property_type} with %{property_features}."
+  meta_titles:
+    bookings: Reservations | Sistach Rentals
+    contact: Contact | Sistach Rentals
+    home: "Apartment and House Rentals | Barcelona & Costa Brava |\_Sistach Rentals"
+    map: Map | Sistach Rentals
+    property: "%{property_type} %{rental_term} in %{property_location} | %{property_name} | Sistach Rentals"
+  microwave: Microwave
+  min: Min.
+  monthly: Monthly
+  monument_view: View of the Sagrada Familia
+  new_vrental_step_1: Step 1. Property Details
+  news: News
+  next_getaway: your next getaway
+  night_5: Night (5-6)
+  night_7: Night (7)
+  nights: nights
+  "no": "No"
+  not sent: Not Sent
+  not_available: Not Available
+  ocean_view: Ocean View
+  of: of
+  office: Office
+  on_budget: Budget-friendly
+  or_more: or more
+  order_by: Order by
+  out_of: of
+  oven: Oven
+  owner: Owner
+  owner_bookings_default: "The owner has not yet blocked any dates for their own use. If you want to block some dates, please contact us at %{email}."
+  owner_speaks: "Owner %{name} speaks %{language}"
+  owners: Owners
+  page: Page
+  pagy:
+    nav:
+      next: ">>"
+      prev: "<<"
+  paid_by_agency: Paid by Agency
+  paid_to_owner: Paid to Owner
+  parking_included: Parking Included
+  parking_possible: Street Parking Possible
+  password: Password
+  pending: Pending
+  perfect_holiday: your perfect vacation
+  pets_considered: Pets Considered
+  pets_not_allowed: Pets Not Allowed
+  photos: Photos
+  pool: Communal Pool
+  pool_private: Private Pool
+  privacy_policy: Privacy Policy
+  private_yard: Private Yard
+  property:
+    one: property
+    other: properties
+  property_available:
+    one: property available
+    other: properties available
+  property_bedrooms: Number of Bedrooms
+  property_features: Features
+  property_type: Property Type
+  proposal: Proposal Sent
+  real estate: Real Estate
+  realtor: Realtor
+  refrigerator: Refrigerator
+  registry_addendum: Informative Note of the Property Object of this Contract
+  roof_terrace: Communal Roof Terrace
+  routes:
+    owners: owners
+    users: users
+    vrentals: vacation-rentals
+  saturdays: Sat.-Sat.
+  search: Search
+  search_by_name: Property Name
+  search_locations_text: Select the location to view properties.
+  search_locations_title: Search by Location
+  select_dates: Select Dates
+  select_or_add: Select or Add New Owner
+  select_vrental: Select Property
+  send: Send
+  services: Services
+  short_term: Tourist Rental
+  show_all: Show All
+  sign_in: Sign In
+  sign_out: Sign Out
+  sign_up: Sign Up
+  signed: Signed
   simple_calendar:
-    previous: "<<"
+    day: day
+    month: month
     next: ">>"
-    week: "week"
-    month: "month"
-    year: "year"
-    day: "day"
+    previous: "<<"
+    week: week
+    year: year
+  smoke_detector: Smoke Detector
+  statement_period: Statement Period
+  statement_title: Rental Statements
+  terms_of_service: Terms and Conditions
+  to: To
+  to_confirm_booking: "To confirm the reservation, please fill out the form and pay the %{res_fee} of the reservation price on the next page."
+  toaster: Toaster
+  total: Total
+  total_revenue: Total Owner Revenue
+  transfer: Transfer
+  "true": Yes
+  tv: TV
+  type: property type
+  unique: Unique
+  unselect_all: Deselect All
+  vacation rentals: Vacation Rentals
+  vacation_rental: Vacation Rental Property
+  vacation_rental_properties: Vacation Rental Properties
+  vacation_rentals: Vacation Rentals
+  verified: Verified
+  view: View
+  view_more_properties: View More Properties
+  view_photos: View Photos
+  view_vrental: View Property
+  vragreement_keys:
+    clause: PROPERTY_CLAUSE
+    company_administrator: COMPANY_ADMINISTRATOR
+    company_bank_account: COMPANY_BANK_ACCOUNT
+    company_city: COMPANY_CITY
+    company_country: COMPANY_COUNTRY
+    company_name: COMPANY_NAME
+    company_post_code: COMPANY_POST_CODE
+    company_realtor_number: COMPANY_REALTOR_NUMBER
+    company_region: COMPANY_REGION
+    company_street: COMPANY_STREET
+    company_vat_number: COMPANY_VAT_NUMBER
+    company_vat_tax: COMPANY_VAT_TAX
+    contract_rates: CONTRACT_RATES
+    end_date: END_DATE
+    office_city: OFFICE_CITY
+    office_country: OFFICE_COUNTRY
+    office_email: OFFICE_EMAIL
+    office_local_realtor_number: OFFICE_LOCAL_REALTOR_NUMBER
+    office_mobile: OFFICE_MOBILE
+    office_name: OFFICE_NAME
+    office_phone: OFFICE_PHONE
+    office_post_code: OFFICE_POST_CODE
+    office_region: OFFICE_REGION
+    office_street: OFFICE_STREET
+    office_website: OFFICE_WEBSITE
+    owner_account: OWNER_BANK_ACCOUNT
+    owner_address: OWNER_ADDRESS
+    owner_bookings: OWNER_BOOKINGS
+    owner_document: OWNER_DOCUMENT
+    owner_email: OWNER_EMAIL
+    owner_fullname: OWNER_FULLNAME
+    owner_phone: OWNER_PHONE
+    place: SIGNATURE_PLACE
+    signdate: SIGNATURE_DATE
+    start_date: START_DATE
+    vrental_address: VRENTAL_ADDRESS
+    vrental_cadastre: VRENTAL_CADASTRE
+    vrental_commission: VRENTAL_COMMISSION
+    vrental_description: VRENTAL_DESCRIPTION
+    vrental_features: VRENTAL_FEATURES
+    vrental_habitability: VRENTAL_HABITABILITY
+    vrental_licence: VRENTAL_LICENCE
+    vrental_name: VRENTAL_NAME
+  vrental:
+    one: vacation rental property
+    other: vacation rental properties
+  vrentals: Properties
+  washer: Washer
+  week: Week
+  where_to: Where are you looking?
+  where_to_next: Where are we going for vacation?
+  wifi: Wifi
+  with_garden: With Communal Garden
+  with_monument_view: With a view of the Sagrada Familia
+  with_pool: With Communal Pool
+  with_private_garden: With Private Garden
+  with_private_pool: With Private Pool
+  with_sea_view: With a view of the sea
+  with_view: With a view
+  without_view: Interiors
+  yearly: Yearly
+  "yes": Yes
+  no_dates_selected: You haven't selected any dates. Please select dates to view availability and prices.
+  no_guests_selected: You haven't selected the number of guests. Please select the number of guests to view availability and prices.
+  no_availability_for_selection: We don't have availability for this selection.
+  no_availability_for_dates: We don't have availability for these dates. Please select other dates to view availability and prices.
+  attention: Attention!
+  close: Close
+  contact_form_subject: New contact form submission from Web
+  new_contact_form_submitted: New contact form submission from Web
+  name: Name
+  email: Email
+  subject: Subject
+  message: Message
+  add_coupon: Add New Coupon
+  coupons: Coupons
+  select_other_dates: Select Other Dates

@@ -14,8 +14,20 @@ module ApplicationHelper
       concat(content_tag(:ul, class: 'dropdown-menu dropdown-menu-end', 'aria-labelledby': 'languageDropdown') do
         (I18n.available_locales - [current_locale]).each do |locale|
           flag_code = set_flag(locale)
-          # Generate the localized URL using url_for with the locale parameter
-          locale_path = url_for(locale: locale.to_s)
+          # Extract and preserve the current query parameters
+          query_params = params.except(:locale).permit!.to_h
+
+          # query_params.each do |key, value|
+          #   if key == "pf" || key == "pt"
+          #     translation_keys = value.map { |el| I18n.backend.translations[params[:locale].to_sym].key(el) } if value.is_a?(Array)
+          #     puts "translation_keys for #{value}: #{translation_keys}"
+          #     query_params[key] = translation_keys.map { |el| I18n.t(el)}
+          #   end
+          # end
+          # puts "query_params after translation: #{query_params}"
+
+          # Generate the localized URL with preserved query parameters
+          locale_path = url_for(locale: locale.to_s, **query_params)
 
           concat(content_tag(:li) do
             concat(link_to(locale_path, class: 'dropdown-item') do
@@ -52,13 +64,4 @@ module ApplicationHelper
    @devise_mapping ||= Devise.mappings[:user]
   end
 
-  # def inline_error_for(field, form_obj)
-  #   html = []
-  #   if form_obj.errors[field].any?
-  #     html << form_obj.errors[field].map do |msg|
-  #       tag.div(msg, class: "mt-2 form-error-2")
-  #     end
-  #   end
-  #   html.join.html_safe
-  # end
 end

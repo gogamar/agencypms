@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
     resources :image_urls do
       member do
         patch :move
@@ -26,7 +27,13 @@ Rails.application.routes.draw do
       resources :beds
       resources :bedrooms
       resources :companies do
-        resources :offices, except: [:destroy]
+        resources :offices, except: [:destroy] do
+          resources :coupons, only: [:new, :create, :index, :edit, :update] do
+            member do
+              get 'apply_to_all'
+            end
+          end
+        end
       end
       resources :offices, only: [:destroy] do
         member do
@@ -90,6 +97,7 @@ Rails.application.routes.draw do
           end
           resources :photos, only: :destroy, shallow: true
         end
+
       end
 
       resources :expenses, only: [:new, :create, :index, :destroy]
@@ -129,18 +137,21 @@ Rails.application.routes.draw do
       resources :features
       resources :features_vrentals
 
+      resources :coupons, only: [:destroy]
+      resources :coupons_vrentals
+
+      get 'contact', to: 'contact_forms#new', as: 'contact'
+      post 'contact_forms', to: 'contact_forms#create'
+
       mount Ckeditor::Engine => '/ckeditor'
 
       get 'about', to: 'pages#about'
-      get 'list_map', to: 'pages#list_map'
       get 'list', to: 'pages#list'
-      get 'filter', to: 'pages#filter'
       get 'sort_properties', to: 'pages#sort_properties'
       get 'privacy_policy', to: 'pages#privacy_policy'
       get 'terms_of_service', to: 'pages#terms_of_service'
       get 'book_property', to: 'pages#book_property'
       get 'confirm_booking', to: 'pages#confirm_booking'
-      get 'contact', to: 'pages#contact'
       get 'home', to: 'pages#home'
       get 'dashboard', to: 'pages#dashboard'
       get 'terms', to: 'pages#terms'

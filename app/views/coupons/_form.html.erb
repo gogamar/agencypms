@@ -1,0 +1,8 @@
+<%= simple_form_for [@company, @office, @coupon] do |f| %>
+  <%= f.input :name %>
+  <%= f.input :amount %>
+  <%= f.input :discount_type, collection: Coupon::DISCOUNT_TYPES.map { |discount_type| [t(discount_type), discount_type] } %>
+  <%= f.input :usage_limit %>
+  <%= f.input :last_date, as: :string, input_html: { class: "datepicker" }%>
+  <%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %>
+<% end %>

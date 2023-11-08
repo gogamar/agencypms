@@ -1,8 +1,22 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.action_mailer.delivery_method = :letter_opener #:smtp
-  config.action_mailer.default_url_options = { host: "http://localhost:3000" }
+  # config.action_mailer.delivery_method = :letter_opener #:smtp
+  # config.action_mailer.default_url_options = { host: "http://localhost:3000" }
+
+  config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.default_url_options = { host: "localhost:3000", protocol: "http" }
+
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_PASSWORD"],
+    authentication: "plain",
+    enable_starttls_auto: true
+  }
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time

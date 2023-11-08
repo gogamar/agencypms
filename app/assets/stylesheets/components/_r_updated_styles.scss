@@ -2098,3 +2098,14 @@ th.next.available,
 .cookies-bar.loaded {
   opacity: 1;
 }
+
+.map-list.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: var(--bs-nav-tabs-link-active-color) !important;
+  background-color: var(--bs-nav-tabs-link-active-bg);
+  border-color: var(--bs-nav-tabs-link-active-border-color);
+}
+
+.z-index-9 {
+  z-index: 9;
+}

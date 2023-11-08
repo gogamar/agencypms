@@ -1,0 +1,59 @@
+<%= render "shared/page_title", title: t('contact_form'), subtitle: nil %>
+<section>
+  <div class="container">
+    <!-- row Start -->
+    <div class="row">
+      <div class="col-lg-7 col-md-7">
+        <%= form_with(model: @contact_form, url: contact_forms_path, method: :post) do |form| %>
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <%= form.label :name %>
+                <%= form.text_field :name, class: 'form-control simple' %>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <%= form.label :email %>
+                <%= form.email_field :email, class: 'form-control simple' %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= form.label :subject %>
+            <%= form.text_field :subject, class: 'form-control simple' %>
+          </div>
+          <div class="form-group">
+            <%= form.label :message %>
+            <%= form.text_area :message, class: 'form-control simple' %>
+          </div>
+          <div class="form-group">
+            <%= form.submit t('send'), class: 'btn btn-primary px-5 rounded' %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-lg-5 col-md-5">
+        <div class="contact-info">
+          <h2><%= t('contact_us') %></h2>
+          <p><%= t('how_to_contact_us') %> </p>
+          <% @company.offices.each do |office| %>
+            <div class="cn-info-detail">
+              <div class="cn-info-icon">
+                <i class="fa-solid fa-house-laptop"></i>
+              </div>
+              <div class="cn-info-content">
+                <h4 class="cn-info-title"><%= t('office') %> <%= office.name %></h4>
+                <%= office.street %><br>
+                <%= office.post_code %> <%= office.city %><br>
+                <%= "(#{office.region})" if office.region %><br>
+                <span class="text-muted-2"><i class="fa-solid fa-envelope-circle-check me-1"></i><a href="mailto:<%= office.email %>"><%= office.email %></a></span><br>
+                <span class="text-muted-2"><i class="fa-solid fa-phone-volume me-1"></i><a href="tel:<%= office.phone.gsub(/[^0-9]/, '') if office.phone %>"><%= office.phone %></a></span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+</section>

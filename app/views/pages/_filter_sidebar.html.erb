@@ -7,17 +7,18 @@
     </div>
     <div class="sidebar-widgets">
       <div class="search-inner p-0">
-        <%= form_with url: filter_path, method: :get, remote: true, data: { controller: "search-properties", search_properties_target: "form" } do |form| %>
+        <%= form_with url: list_path, method: :get, data: { controller: "search-properties" } do |form| %>
           <%= form.hidden_field :avp, value: @available_vrentals_with_price.to_json %>
-          <%= form.hidden_field :check_in, value: params[:checkin] %>
-          <%= form.hidden_field :check_out, value: params[:checkout] %>
+          <%= form.hidden_field :check_in, value: params[:check_in] %>
+          <%= form.hidden_field :check_out, value: params[:check_out] %>
           <%= form.hidden_field :guests, value: params[:guests] %>
+          <%= form.hidden_field :location, value: params[:location] %>
           <div class="filter_wraps">
             <%= render 'single_search',
               form: form,
               target_id: 'ptype',
               target_param: :pt,
-              items: @property_types.map {|name| t(name)}.sort_by { |translation| translation },
+              items: @property_types,
               selected_items: params[:pt],
               param_name: :pt,
               filter_name: 'property_type'
@@ -35,17 +36,13 @@
               form: form,
               target_id: 'pfeatures',
               target_param: :pf,
-              items: @property_features.map {|name| t(name) }.sort_by { |translation| translation },
+              items: @property_features,
               selected_items: params[:pf],
               param_name: :pf,
               filter_name: 'property_features'
             %>
-            <%= hidden_field_tag(:check_in, params[:check_in]) %>
-            <%= hidden_field_tag(:check_out, params[:check_out]) %>
-            <%= hidden_field_tag(:guests, params[:guests]) %>
-            <%= hidden_field_tag(:location, params[:location]) %>
             <div class="form-group filter_button">
-              <%= form.submit t("search"), class: "btn btn-primary rounded full-width", data: { action: "click->search-properties#addParams"} %>
+              <%= form.submit t("search"), class: "btn btn-primary rounded full-width" %>
             </div>
           </div>
         <% end %>

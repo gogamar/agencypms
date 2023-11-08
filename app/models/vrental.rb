@@ -18,6 +18,7 @@ class Vrental < ApplicationRecord
   has_many :statements, dependent: :nullify
   has_many :invoices, dependent: :nullify
   has_and_belongs_to_many :features
+  has_and_belongs_to_many :coupons
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
   scope :with_future_rates, -> { joins(:rates).where("rates.firstnight > ?", Date.today).distinct(:id) }
@@ -41,7 +42,7 @@ class Vrental < ApplicationRecord
   FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
   RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
 
-  validates_presence_of :name, :status, :address, :office_id
+  validates_presence_of :name, :status, :address, :office_id, :min_price
   validates :name, uniqueness: true
   validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
   validates :commission, presence: true, if: -> { contract_type == 'commission' }
@@ -504,9 +505,13 @@ class Vrental < ApplicationRecord
       parsed_response = JSON.parse(response.body)
 
       result = {}
-      if parsed_response[beds_room_id]["roomsavail"] == 1
-        result["ratePrice"] = rate_price(checkin, checkout).round(2)
+      if parsed_response[beds_room_id]["roomsavail"] != "0"
+        rate_price = rate_price(checkin, checkout)
+        result["ratePrice"] = rate_price.round(2) if rate_price
         result["updatedPrice"] = parsed_response[beds_room_id]["price"]
+        if (parsed_response[beds_room_id]["price"]).nil?
+          result["notAvailable"] = "No availability"
+        end
       elsif parsed_response[beds_room_id]["roomsavail"] == "0"
         result["notAvailable"] = "No availability"
       end

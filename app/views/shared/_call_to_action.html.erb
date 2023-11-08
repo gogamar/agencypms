@@ -8,7 +8,7 @@
             <h3 class="text-secondary"><%= t("call_to_action_title") %></h3>
             <h2 class="text-white"><span><%= t("call_to_action_text_1") %></span> <span data-controller="typed-js" data-typed-js-typedtext-value="<%= typedtext %>"></span></h2>
           </div>
-          <a href="#" class="btn btn-call-to-act">Reserva online</a>
+          <%= link_to t("book_online"), list_path, class: "btn btn-call-to-act" %>
         </div>
       </div>
     </div>

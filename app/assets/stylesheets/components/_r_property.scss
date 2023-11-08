@@ -1937,6 +1937,8 @@ ul.list-gallery-inline li {
   width: 33.333333%;
   flex: 0 0 33.33333%;
   padding: 5px;
+  // added
+  height: 164px;
 }
 
 ul.list-gallery-inline li a {
@@ -2420,12 +2422,12 @@ a.classical-cats-boxs {
 .cn-info-icon {
   float: left;
   display: inline-block;
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
 }
 
 .cn-info-icon i {
-  font-size: 35px;
+  font-size: 25px;
   color: #074da3;
 }
 

@@ -1,11 +1,17 @@
+.mapboxgl-map {
+  overflow: unset;
+}
+
 .mapboxgl-popup {
   max-width: 200px;
   height: 100%;
+  z-index: 9;
 }
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Jost", sans-serif;
+  border-radius: 6px;
 }
 
 .marker {

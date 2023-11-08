@@ -28,19 +28,24 @@ es:
       company:
         administrator: Administrador
         bank_account: Cuenta bancaria
-        city: Municipio
+        city: Ciudad
         company: Empresa
         country: País
-        local_realtor_number: Número de agente local
+        local_realtor_number: Número de API local
         name: Nombre
         post_code: Código postal
-        realtor_number: Número de agente
-        region: Provincia
+        realtor_number: Número de API
+        region: Región
         street: Calle y número
         user: Usuario
         vat_number: CIF
         vat_tax: IVA %
         vat_tax_payer: Contribuyente de IVA
+      contact_form:
+        email: Correo electrónico
+        message: Mensaje
+        name: Nombre
+        subject: Asunto
       expense:
         amount: Importe
         description: Descripción
@@ -51,25 +56,25 @@ es:
         highlight: Destacada
         name: Nombre
       office:
-        city: Municipio
+        city: Ciudad
         country: País
-        email: Email
-        manager: Encargado
+        email: Correo electrónico
+        manager: Gerente
         mobile: Móvil
         name: Nombre
         opening_hours: Horario
         phone: Teléfono
         post_code: Código postal
-        region: Provincia
+        region: Región
         street: Calle y número
         vat_number: CIF
-        website: Web
+        website: Sitio web
       owner:
         account: Cuenta bancaria
         address: Dirección
         document: DNI
-        email: Email
-        fullname: Nombre y apellidos
+        email: Correo electrónico
+        fullname: Nombre completo
         language: Idioma
         owner: Propietario
         phone: Teléfono
@@ -87,7 +92,7 @@ es:
       rate_plan:
         end: Hasta
         gen_arrival: Día de llegada general
-        gen_min: Estadía mínima general
+        gen_min: Estancia mínima general
         name: Nombre
         start: Desde
       statement:
@@ -105,10 +110,10 @@ es:
         title: Tema
       vragreement:
         account: Cuenta bancaria
-        email: Email
+        email: Correo electrónico
         end_date: Fin de contrato
         owner: Propietario
-        owner_bookings: Reservas por el propietario
+        owner_bookings: Reservas para el propietario
         phone: Teléfono
         signdate: Fecha de firma
         start_date: Inicio de contrato
@@ -135,8 +140,8 @@ es:
         office: Oficina
         owner: Propietario
         photos: Fotos
-        prop_key: Clave secreta de Beds24 de la propiedad
-        property_type: Tipo de propiedad
+        prop_key: Clave secreta de propiedad en Beds24
+        property_type: Tipo de inmueble
         status: Estado
         vrental: Inmueble
       vrentaltemplate:
@@ -167,7 +172,7 @@ es:
     one: baño
     other: baños
   bathrooms: baños
-  beach_front: Primera línea de mar
+  beach_front: Primera línea de playa
   beach_view: Vista a la playa
   bedroom:
     one: habitación
@@ -175,6 +180,7 @@ es:
   bedrooms: habitaciones
   book: Reservar
   book_now: Reservar ahora
+  book_online: Reserva online
   booking: Reserva
   bookings: Reservas
   browse_more_locations: Ver más ubicaciones
@@ -183,6 +189,8 @@ es:
   call_to_action_title: ¿Planificando tus próximas vacaciones?
   call_to_action_typed_1: encontrar la casa o apartamento perfecto.
   call_to_action_typed_2: encontrar la mejor oferta.
+  cancellation_details: "Cobramos un %{res_fee} de prepago para garantizar la reserva. Si se proporciona la notificación adecuada hasta %{free_cancel} días antes de la llegada, le devolveremos su pago inicial. Si cancela %{free_cancel_minus_one} o menos días antes de la llegada, el %{res_fee} de prepago no será reembolsado."
+  cancellation_policy: Política de cancelación
   cancelled_booking: Reserva cancelada
   cash: Efectivo
   ceiling_fan: Ventilador de techo
@@ -196,10 +204,14 @@ es:
   commission: Comisión
   confirm_password: Confirmar contraseña
   consult: Hacer una pregunta
-  contact: Contactar
-  contact_us: Contacto
+  contact: Contacto
+  contact_form: Formulario de contacto
+  contact_form_success: Tu mensaje ha sido enviado. Nos pondremos en contacto contigo lo antes posible.
+  contact_us: Contáctanos
   contracts: Contratos
-  copy_vrental: Copiar el inmueble
+  cookie_consent: Este sitio web utiliza cookies para mejorar tu experiencia. Si continúas navegando, consideramos que aceptas nuestra
+  cookies_policy: política de cookies
+  copy_vrental: Copiar inmueble
   dashboard: Panel de control
   date:
     abbr_day_names:
@@ -306,8 +318,9 @@ es:
   descending: Ordenar por (precio más alto)
   description: Descripción
   discount: Descuento
+  discover_our_offers: Descubre nuestras sugerencias
   dishwasher: Lavavajillas
-  dont-fill: "No rellenar si no sabes qué es:"
+  dont-fill: "No llenar si no sabes qué es:"
   earnings: Ingresos
   edit_profile: Editar perfil
   edit_vrental: Modificar el inmueble
@@ -319,7 +332,8 @@ es:
   everyday: Cualquier día
   expenses: Gastos
   "false": "No"
-  featured_text: A continuación te presentamos una selección de nuestros inmuebles destacados. Si no encuentras lo que buscas, no dudes en contactarnos.
+  featured_locations: Lugares destacados
+  featured_text: A continuación, presentamos una selección de nuestros inmuebles destacados. Si no encuentras lo que buscas, no dudes en contactarnos.
   featured_title: Casas y apartamentos destacados
   features: Características
   find_by_vrental_name: Buscar por nombre de inmueble...
@@ -336,6 +350,7 @@ es:
       back: Volver
       continue: Continuar
       submit: Guardar
+  good_choice: ¡Buena elección!
   grill: Barbacoa
   guest:
     one: persona
@@ -347,21 +362,37 @@ es:
   home: Inicio
   house: Casa
   houses: Casas
+  how_to_contact_us: Si deseas ponerte en contacto con nosotros, puedes hacerlo directamente por correo electrónico o teléfono, o también puedes completar el formulario y nuestro equipo te responderá lo más rápido posible.
   import_photos: Importar fotos
   in_centre: En el centro
   inactive: Inactivo
   invoice_agency_fees: Honorarios gestión alquiler turístico
   invoice_description_1: "Período de gestión: del %{from} al %{to}"
-  invoice_description_2: "%{commission} sobre las rentas de %{total}"
+  invoice_description_2: "%{commission} sobre los ingresos de %{total}"
   invoice_title: Factura
   iron_board: Tabla de planchar
   kettle: Hervidor de agua
   legal_notice: Aviso legal
   location: ubicación
+  long_term: Alquiler anual
   map: Mapa
+  medium_term: Alquiler de temporada
+  meta_descriptions:
+    bookings: ¡Reserva ahora tus vacaciones perfectas! Comprueba la disponibilidad, las tarifas y asegura tu estancia en Barcelona o la Costa Brava hoy mismo. ¡No te pierdas nuestras ofertas exclusivas! Ahorra en tu escapada a Barcelona o la Costa Brava.
+    contact: Formulario de contacto para cualquier duda o consulta. También puedes contactarnos por teléfono o correo electrónico.
+    home: "Agencia Inmobiliaria con más de 12 años de experiencia, con oficinas en Barcelona y Estartit, especializada en la gestión de propiedades en la Costa Brava y Barcelona. Descubre apartamentos ideales para estancias cortas y largas."
+    map: Mapa interactivo con todos nuestros inmuebles de alquiler turístico en Barcelona y la Costa Brava. Descubre la ubicación de nuestros apartamentos y casas.
+    property: "Reserva ahora para una escapada ideal. %{property_type} con %{property_features}."
+  meta_titles:
+    bookings: Reservas | Sistach Rentals
+    contact: Contacto | Sistach Rentals
+    home: "Alquiler de apartamentos y casas | Barcelona y Costa Brava |\_Sistach Rentals"
+    map: Mapa | Sistach Rentals
+    property: "%{property_type} %{rental_term} en %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microondas
   min: Mín.
   monthly: Mensual
+  monument_view: Vista a la Sagrada Familia
   new_vrental_step_1: Paso 1. Detalles sobre el inmueble
   news: Noticias
   next_getaway: tu próxima escapada
@@ -373,14 +404,15 @@ es:
   not_available: No disponible
   ocean_view: Vista al mar
   of: de
+  office: Oficina
   on_budget: Económicos
   or_more: o más
   order_by: Ordenar por
   out_of: de
   oven: Horno
   owner: Propietario
-  owner_bookings_default: El propietario aún no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contáctenos a %{email}.
-  owner_speaks: El propietario %{name} habla %{language}
+  owner_bookings_default: "El propietario aún no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contáctenos en %{email}."
+  owner_speaks: "El propietario %{name} habla %{language}"
   owners: Propietarios
   page: Página
   pagy:
@@ -389,12 +421,12 @@ es:
       prev: "<<"
   paid_by_agency: Pagado por la agencia
   paid_to_owner: Pagado al propietario
-  parking_included: Aparcamiento incluido
-  parking_possible: Aparcamiento posible en la calle
+  parking_included: Parking incluido
+  parking_possible: Posibilidad de aparcamiento en la calle
   password: Contraseña
   pending: Pendiente
   perfect_holiday: tus vacaciones perfectas
-  pets_considered: Se admiten mascotas
+  pets_considered: Se aceptan mascotas
   pets_not_allowed: No se admiten mascotas
   photos: Fotos
   pool: Piscina comunitaria
@@ -409,26 +441,28 @@ es:
     other: inmuebles disponibles
   property_bedrooms: Número de habitaciones
   property_features: Características
-  property_type: Tipo de propiedad
+  property_type: Tipo de inmueble
   proposal: Propuesta enviada
   real estate: Inmobiliaria
-  realtor: Agente inmobiliario
+  realtor: Inmobiliaria
   refrigerator: Nevera
-  registry_addendum: Nota Simple Informativa del inmueble objeto del presente contrato
+  registry_addendum: Nota Simple Informativa de la vivienda objeto del presente contrato
   roof_terrace: Terraza comunitaria
   routes:
     owners: propietarios
     users: usuarios
-    vrentals: inmuebles-alquiler-turistico
-  saturdays: Sá.-Sá.
+    vrentals: inmuebles-lloguer-turistic
+  saturdays: Sb.-Sb.
   search: Buscar
-  search_by_name: Buscar inmuebles por nombre
+  search_by_name: Nombre de l'inmueble
   search_locations_text: Selecciona la ubicación para ver los inmuebles.
   search_locations_title: Buscar por ubicación
   select_dates: Selecciona fechas
   select_or_add: Selecciona o añade nuevo propietario
   select_vrental: Seleccionar inmueble
+  send: Enviar
   services: Servicios
+  short_term: Alquiler turístico
   show_all: Mostrar todos
   sign_in: Iniciar sesión
   sign_out: Cerrar sesión
@@ -444,7 +478,9 @@ es:
   smoke_detector: Detector de humo
   statement_period: Período de liquidación
   statement_title: Liquidación alquileres
+  terms_of_service: Términos y condiciones
   to: Hasta
+  to_confirm_booking: "Para confirmar la reserva, es necesario completar el formulario y pagar el %{res_fee} del precio de la reserva en la próxima página."
   toaster: Tostadora
   total: Total
   total_revenue: Total rendimiento propietario
@@ -452,7 +488,7 @@ es:
   "true": Sí
   tv: TV
   type: tipo de inmueble
-  unique: Únicos
+  unique: Singulares
   unselect_all: Desmarcar todos
   vacation rentals: Alquiler turístico
   vacation_rental: Inmueble de alquiler turístico
@@ -460,6 +496,7 @@ es:
   vacation_rentals: Alquiler turístico
   verified: Verificado
   view: Ver
+  view_more_properties: Ver más inmuebles
   view_photos: Ver fotos
   view_vrental: Ver el inmueble
   vragreement_keys:
@@ -489,7 +526,7 @@ es:
     office_street: CALLE_NUMERO_OFICINA
     office_website: WEB_OFICINA
     owner_account: CUENTA_BANCARIA_PROPIETARIO
-    owner_address: DIR_PROPIETARIO
+    owner_address: DIRECCIÓN_PROPIETARIO
     owner_bookings: RESERVAS_PROPIETARIO
     owner_document: DNI_PROPIETARIO
     owner_email: EMAIL_PROPIETARIO
@@ -498,8 +535,8 @@ es:
     place: LUGAR_FIRMA
     signdate: FECHA_FIRMA
     start_date: FECHA_INICIO
-    vrental_address: DIR_INMUEBLE
-    vrental_cadastre: CATASTRO_INMUEBLE
+    vrental_address: DIRECCIÓN_INMUEBLE
+    vrental_cadastre: CADASTRO_INMUEBLE
     vrental_commission: COMISIÓN_INMUEBLE
     vrental_description: DESCRIPCIÓN_INMUEBLE
     vrental_features: CARACTERÍSTICAS_INMUEBLE
@@ -513,13 +550,30 @@ es:
   washer: Lavadora
   week: Semana
   where_to: ¿Dónde buscas?
+  where_to_next: ¿Dónde vamos de vacaciones?
   wifi: Wifi
-  with_garden: Con jardín
+  with_garden: Con jardín comunitario
+  with_monument_view: Con vista a la Sagrada Familia
   with_pool: Con piscina comunitaria
+  with_private_garden: Con jardín privado
   with_private_pool: Con piscina privada
+  with_sea_view: Con vista al mar
   with_view: Con vista
+  without_view: Interiores
   yearly: Anual
   "yes": Sí
-  # Hasta aquí
-  book_online: Reserva en línea
-  discover_our_offers: Descubre nuestras ofertas
+  no_dates_selected: No has seleccionado ninguna fecha. Selecciona fechas para ver la disponibilidad y los precios.
+  no_guests_selected: No has seleccionado la cantidad de huéspedes. Selecciona la cantidad de huéspedes para ver la disponibilidad y los precios.
+  no_availability_for_selection: No tenemos disponibilidad para esta selección.
+  no_availability_for_dates: No tenemos disponibilidad para estas fechas. Selecciona otras fechas para ver la disponibilidad y los precios.
+  attention: ¡Atención!
+  close: Cerrar
+  contact_form_subject: Nuevo envío de formulario de contacto desde la web
+  new_contact_form_submitted: Nuevo envío de formulario de contacto desde la web
+  name: Nombre
+  email: Correo electrónico
+  subject: Asunto
+  message: Mensaje
+  add_coupon: Añadir cupón
+  coupons: Cupones
+  select_other_dates: Selecciona otras fechas

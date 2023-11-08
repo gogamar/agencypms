@@ -17,6 +17,7 @@
     <%= f.input :opening_hours %>
     <%= f.input :manager %>
     <%= f.input :local_realtor_number %>
+    <%= f.input :office_photos, as: :file, input_html: { multiple: true } %>
   </div>
   <div class="form-actions d-flex justify-content-end">
     <%= f.button :submit, t("global.forms.submit"), class: "btn btn-secondary" %>

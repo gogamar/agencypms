@@ -1,82 +1,67 @@
-<%= turbo_frame_tag "properties" do %>
-  <div class="row">
-    <%= render "sidebar_filter" %>
-    <div class="col-lg-8 col-md-12 list-layout">
-      <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12">
-          <div class="row justify-content-center">
-            <% alert_message = if params[:check_in].nil? || params[:check_out].nil?
-                    "No has seleccionat cap data. Selecciona dates per veure la disponibilidat i preus."
-                  elsif params[:guests].nil?
-                    "No has seleccionat cap nombre de persones. Selecciona el nombre de persones per veure la disponibilidat i preus."
-                  elsif !@vrentals.present?
-                    "No tenim disponibilitat per aquesta selecció."
-                  elsif !@available_vrentals_with_price.present?
-                    "No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus."
-                  end %>
-            <% if alert_message %>
-              <div class="col-xl-12 col-lg-12 col-md-12">
-                <div class="alert alert-info alert-dismissible fade show property-1 position-relative" role="alert">
-                  <strong>Atenció!</strong> <%= alert_message %>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+<div class="col-lg-8 col-md-12 list-layout">
+  <div class="row justify-content-center">
+    <div class="col-lg-12 col-md-12">
+      <% if @alert_message %>
+        <div class="alert alert-info alert-dismissible fade show property-1 position-relative" role="alert">
+          <strong><%= t("attention") %></strong> <%= @alert_message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t("close") %>"></button>
+        </div>
+      <% end %>
+      <div class="item-shorting-box">
+        <div class="item-shorting clearfix">
+          <div class="left-column pull-left">
+            <% if @vrentals.present? %>
+              <div class="left-column pull-left">
+                <h4 class="fs-6 m-0"><%= @vrentals.count %> <%= t("property", count: @vrentals.count ) %> <%= t("out_of") %> <%= @all_vrentals_number %> <%= t("property", count: @all_vrentals_number) %></h4>
               </div>
             <% end %>
           </div>
         </div>
-        <div class="col-lg-12 col-md-12">
-          <div class="item-shorting-box">
-            <div class="item-shorting clearfix">
-              <% if @available_vrentals_with_price.present? %>
-                <div class="left-column pull-left">
-                  <h4 class="fs-6 m-0"><%= @available_vrentals_with_price.length %> <%= t("property_available", count: @available_vrentals_with_price.length ) %> <%= t("out_of") %> <%= @all_vrentals_number %> <%= t("property", count: @all_vrentals_number) %></h4>
-                </div>
-              <% end %>
-            </div>
-            <div class="item-shorting-box-right">
-              <% if @available_vrentals_with_price.present? && @available_vrentals_with_price.length > 2 %>
-                <%= form_with(url: filter_path, remote: true, method: :get) do |form| %>
-                  <%= form.hidden_field :avp, value: @available_vrentals_with_price.to_json %>
-                  <%= form.hidden_field :check_in, value: params[:check_in] %>
-                  <%= form.hidden_field :check_out, value: params[:check_out] %>
-                  <%= form.hidden_field :guests, value: params[:guests] %>
-                  <%= form.hidden_field :pt, value: params[:pt] %>
-                  <%= form.hidden_field :pb, value: params[:pb] %>
-                  <%= form.hidden_field :pf, value: params[:pf] %>
-                  <div class="shorting-by w-100">
-                    <%= form.select :sort_order, options_for_select([['', ''], [t('ascending'), 'asc'], [t('descending'), 'desc']], params[:sort_order]), {}, class: 'form-control', data: { placeholder: t('order_by').capitalize } %>
-                  </div>
-                <% end %>
-              <% end %>
-              <ul class="shorting-list">
-                <li>
-                  <%= link_to list_map_path(avp: @available_vrentals_with_price | []), class: "active w-12 h-12" do %>
-                    <span class="svg-icon text-muted-2 svg-icon-2hx">
-                      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                        <path d="M408 120c0 54.6-73.1 151.9-105.2 192c-7.7 9.6-22 9.6-29.6 0C241.1 271.9 168 174.6 168 120C168 53.7 221.7 0 288 0s120 53.7 120 120zm8 80.4c3.5-6.9 6.7-13.8 9.6-20.6c.5-1.2 1-2.5 1.5-3.7l116-46.4C558.9 123.4 576 135 576 152V422.8c0 9.8-6 18.6-15.1 22.3L416 503V200.4zM137.6 138.3c2.4 14.1 7.2 28.3 12.8 41.5c2.9 6.8 6.1 13.7 9.6 20.6V451.8L32.9 502.7C17.1 509 0 497.4 0 480.4V209.6c0-9.8 6-18.6 15.1-22.3l122.6-49zM327.8 332c13.9-17.4 35.7-45.7 56.2-77V504.3L192 449.4V255c20.5 31.3 42.3 59.6 56.2 77c20.5 25.6 59.1 25.6 79.6 0zM288 152c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40s17.9 40 40 40z" fill="currentColor"/>
-                      </svg>
-                    </span>
-                  <% end %>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <% @vrentals.each do |vrental| %>
-        <% if @available_vrentals_with_price.present? %>
-          <% vrental_id = vrental.id.to_s %>
-          <% price = @available_vrentals_with_price.find { |hash| hash.key?(vrental_id) }&.[](vrental_id) %>
-          <% rate_price = vrental.rate_price(params[:check_in], params[:check_out]) %>
-          <% discount = rate_price - price if rate_price.present? %>
-        <% end %>
-        <%= render "single_property_list", vrental: vrental, price: price, rate_price: rate_price, discount: discount, check_in: params[:check_in], check_out: params[:check_out], guests: params[:guests] %>
-      <% end %>
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-          <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+        <div class="item-shorting-box-right gap-3">
+          <% if @available_vrentals_with_price.present? && @available_vrentals_with_price.length > 2 %>
+            <%= form_with(url: list_path, method: :get) do |form| %>
+              <%= form.hidden_field :avp, value: @available_vrentals_with_price.to_json %>
+              <%= form.hidden_field :check_in, value: params[:check_in] %>
+              <%= form.hidden_field :check_out, value: params[:check_out] %>
+              <%= form.hidden_field :guests, value: params[:guests] %>
+              <%= form.hidden_field :pt, value: params[:pt] %>
+              <%= form.hidden_field :pb, value: params[:pb] %>
+              <%= form.hidden_field :pf, value: params[:pf] %>
+              <div class="shorting-by w-100">
+                <%= form.select :sort_order, options_for_select([['', ''], [t('ascending'), 'asc'], [t('descending'), 'desc']], params[:sort_order]), {}, class: 'form-control', data: { placeholder: t('order_by').capitalize } %>
+              </div>
+            <% end %>
+          <% end %>
+          <ul class="shorting-list">
+            <li>
+              <a href="#properties-map" class="w-12 h-12">
+                <span class="svg-icon text-muted-2 svg-icon-2hx ms-1">
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path d="M408 120c0 54.6-73.1 151.9-105.2 192c-7.7 9.6-22 9.6-29.6 0C241.1 271.9 168 174.6 168 120C168 53.7 221.7 0 288 0s120 53.7 120 120zm8 80.4c3.5-6.9 6.7-13.8 9.6-20.6c.5-1.2 1-2.5 1.5-3.7l116-46.4C558.9 123.4 576 135 576 152V422.8c0 9.8-6 18.6-15.1 22.3L416 503V200.4zM137.6 138.3c2.4 14.1 7.2 28.3 12.8 41.5c2.9 6.8 6.1 13.7 9.6 20.6V451.8L32.9 502.7C17.1 509 0 497.4 0 480.4V209.6c0-9.8 6-18.6 15.1-22.3l122.6-49zM327.8 332c13.9-17.4 35.7-45.7 56.2-77V504.3L192 449.4V255c20.5 31.3 42.3 59.6 56.2 77c20.5 25.6 59.1 25.6 79.6 0zM288 152c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40s17.9 40 40 40z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
-<% end %>
+  <div class="row justify-content-center">
+    <% @vrentals.each do |vrental| %>
+      <% if @available_vrentals_with_price.present? %>
+        <% vrental_id = vrental.id.to_s %>
+        <% price = @available_vrentals_with_price.find { |hash| hash.key?(vrental_id) }&.[](vrental_id) %>
+        <% rate_price = vrental.rate_price(params[:check_in], params[:check_out]) %>
+        <% discount = rate_price - price if rate_price.present? %>
+      <% end %>
+      <%= render "single_property_list", vrental: vrental, price: price, rate_price: rate_price, discount: discount, check_in: params[:check_in], check_out: params[:check_out], guests: params[:guests] %>
+    <% end %>
+  </div>
+  <!-- Pagination -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+      <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+    </div>
+  </div>
+</div>

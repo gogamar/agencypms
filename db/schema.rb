@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_04_083307) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_08_074626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -153,6 +153,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_083307) do
     t.string "realtor_number"
     t.string "language"
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "contact_forms", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "subject"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string "name"
+    t.decimal "amount", precision: 10, scale: 2
+    t.string "discount_type"
+    t.integer "usage_limit"
+    t.date "last_date"
+    t.bigint "office_id", null: false
+    t.index ["office_id"], name: "index_coupons_on_office_id"
+  end
+
+  create_table "coupons_vrentals", id: false, force: :cascade do |t|
+    t.bigint "coupon_id", null: false
+    t.bigint "vrental_id", null: false
   end
 
   create_table "earnings", force: :cascade do |t|
@@ -503,6 +527,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_083307) do
   add_foreign_key "bookings", "vrentals"
   add_foreign_key "charges", "bookings"
   add_foreign_key "companies", "users"
+  add_foreign_key "coupons", "offices"
   add_foreign_key "earnings", "bookings"
   add_foreign_key "earnings", "vrentals"
   add_foreign_key "expenses", "vrentals"

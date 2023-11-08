@@ -2,7 +2,8 @@
 <html>
   <head>
     <!-- Meta tags -->
-    <title>Sistach Rentals Reserves</title>
+    <meta name="title" content="<%= @meta_title %>" />
+    <meta name="description" content="<%= @meta_description %>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="turbo-visit-control" content="reload">
     <%= csrf_meta_tags %>
@@ -25,7 +26,7 @@
       <%= render 'shared/flashes' %>
       <%= yield %>
       <%= render 'shared/cookie_consent' if session[:cookie_consent].nil? %>
-      <%= render 'shared/call_to_action' unless controller_name == 'pages' && action_name == 'list_map' %>
+      <%= render 'shared/call_to_action' %>
       <%= render 'shared/booking_website_footer' %>
       <%= render 'shared/log_in_modal' %>
       <%= render 'shared/sign_up_modal' %>

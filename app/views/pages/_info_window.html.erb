@@ -1,5 +1,18 @@
-<%= link_to vrental, class: "" do %>
-  <%= image_tag vrental.image_urls.first.url, class: "img-fluid mx-auto", alt:"Lloguer turístic a #{vrental.town}" if vrental.image_urls.present? %>
-  <p><%= vrental.name %></p>
-  <p><%= vrental.town&.name %></p>
-<% end %>
+<div class="card p-2 rounded-2" style="width: 100%;">
+  <%= link_to book_property_path(vrental_id: vrental.id) do %>
+    <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term)} #{vrental.town&.name}" if vrental.image_urls.present? %>
+  <% end %>
+  <div class="card-body">
+    <h6 class="card-title"><%= vrental.name %><%= ", #{vrental.town&.name.capitalize}" if vrental.town&.name %></h6>
+    <% if price.present? %>
+      <h6 class="text-primary"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
+    <% end %>
+    <% unless controller_name == "pages" && action_name == "book_property" %>
+      <% if @available_vrentals_with_price.present? %>
+        <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount), class: "btn btn-sm btn-success" %>
+      <% else %>
+        <%= link_to t("view_vrental"), book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests), class: "btn btn-sm btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
