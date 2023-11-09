@@ -11,13 +11,13 @@
       <%= f.input :name, label: t("name"), priority: [t("general"), "general"], collection: [[t("general"), "general"], [t("easter"), "easter"]], include_blank: false %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :firstnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "start" } %>
+      <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" } %>
     </div>
     <div class="p-1 text-center <%= 'd-none' if f.object.persisted? %>">
       <%= f.input :nights, input_html: { "data-action" => "change->unavailable-dates#updateEnd" } %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :lastnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "end" } %>
+      <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
     </div>
     <div class="p-1 text-center">
       <%= f.input :min_stay %>

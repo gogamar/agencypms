@@ -20,7 +20,7 @@
     <!-- Internal scripts -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
-  <body class="darkblue-skin">
+  <body class="darkblue-skin" data-locale="<%= locale %>">
     <div id="main-wrapper">
       <%= render 'shared/booking_website_navbar' %>
       <%= render 'shared/flashes' %>

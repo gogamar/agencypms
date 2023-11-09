@@ -23,7 +23,8 @@
                                   data: { search_target: "checkin", action: "change->search#updatePrice" },
                                   class: "form-control",
                                   placeholder: "Check-in",
-                                  value: @checkin.presence %>
+                                  value: "#{@checkin.presence}"
+                  %>
                 </div>
               </div>
             </div>
@@ -37,7 +38,8 @@
                                   data: { search_target: "checkout", action: "change->search#updatePrice"  },
                                   class: "form-control",
                                   placeholder: "Check-out",
-                                  value: @checkout.presence %>
+                                  value: "#{@checkout.presence}"
+                  %>
                 </div>
               </div>
             </div>

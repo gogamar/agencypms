@@ -17,12 +17,6 @@ export default class extends Controller {
       style: "mapbox://styles/mapbox/streets-v10",
     });
 
-    this.map.on("load", function () {
-      map.resize();
-    });
-
-    console.log(this.map);
-
     this.map.addControl(
       new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,

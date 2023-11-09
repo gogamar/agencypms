@@ -16,10 +16,6 @@ export default class extends Controller {
   //   url: String,
   // };
 
-  connect() {
-    console.log("SearchPropertiesController connected");
-  }
-
   // addParams() {
   //   const mainPageUrl = new URL(window.location.href);
   //   const searchParams = new URLSearchParams(mainPageUrl.search);

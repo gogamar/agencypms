@@ -17,4 +17,10 @@ module.exports = {
       maxChunks: 1,
     }),
   ],
+  cache: {
+    type: "filesystem", // Enable filesystem caching
+    buildDependencies: {
+      config: [__filename], // Invalidate cache when configuration changes
+    },
+  },
 };

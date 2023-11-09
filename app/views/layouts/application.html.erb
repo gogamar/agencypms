@@ -20,7 +20,7 @@
     <!-- Internal scripts -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
-  <body class="d-flex flex-column">
+  <body class="d-flex flex-column" data-locale="<%= locale %>">
     <div id="page-content">
       <div id="wrapper">
         <div id="content-wrapper" class="d-flex flex-column">

@@ -1,62 +1,45 @@
 import { Controller } from "@hotwired/stimulus";
-import { initFlatpickr as flatpickr } from "../plugins/flatpickr";
+import { initFlatpickr } from "../plugins/flatpickr";
 
 export default class extends Controller {
   static targets = ["start", "end"];
 
   connect() {
-    flatpickr();
     const unavailableDates = JSON.parse(this.element.dataset.unavailable);
+
     const defaultStart = this.element.dataset.defaultstart
-      ? this.element.dataset.defaultstart
-      : null;
+      ? new Date(this.element.dataset.defaultstart)
+      : new Date();
+
     const defaultEnd = this.element.dataset.defaultend
-      ? this.element.dataset.defaultend
-      : null;
+      ? new Date(this.element.dataset.defaultend)
+      : new Date(defaultStart).fp_incr(7);
 
-    let start = defaultStart ? new Date(defaultStart) : null;
-    let end = defaultEnd ? new Date(defaultEnd) : null;
-
-    const startPicker = this.startTarget.flatpickr({
-      allowInput: true,
-      altInput: true,
-      altFormat: "d/m/Y",
-      dateFormat: "Y-m-d",
-      defaultDate: start,
+    const startOptions = {
+      defaultDate: defaultStart,
       disable: unavailableDates,
-      onChange: function (selectedDates, dateStr, instance) {
-        checkoutPicker.set("minDate", new Date(selectedDates).fp_incr(1));
+      onChange: (selectedDates, dateStr, instance) => {
+        this.endPicker.set("minDate", selectedDates[0].fp_incr(1));
       },
-    });
+    };
+    this.startPicker = initFlatpickr(this.startTarget, startOptions);
 
-    const endPicker = this.endTarget.flatpickr({
-      allowInput: true,
-      altInput: true,
-      altFormat: "d/m/Y",
-      dateFormat: "Y-m-d",
-      defaultDate: end || start.setDate(start.getDate() + 7),
+    const endOptions = {
+      defaultDate: defaultEnd,
       disable: unavailableDates,
-      onChange: function (selectedDates, dateStr, instance) {
-        startPicker.set("maxDate", dateStr);
+      onChange: (selectedDates, dateStr, instance) => {
+        this.startPicker.set("maxDate", selectedDates[0]);
       },
-    });
+    };
+    this.endPicker = initFlatpickr(this.endTarget, endOptions);
   }
 
   updateEnd(event) {
     const nights = parseInt(event.target.value, 10);
     if (!isNaN(nights) && this.startTarget.value) {
       const newEndDate = new Date(this.startTarget.value);
-      newEndDate.setDate(newEndDate.getDate() + nights - 1);
-      this.endTarget.flatpickr({
-        allowInput: true,
-        altInput: true,
-        altFormat: "d/m/Y",
-        dateFormat: "Y-m-d",
-        defaultDate: newEndDate,
-        onChange: function (selectedDates, dateStr, instance) {
-          startPicker.set("maxDate", dateStr);
-        },
-      });
+      newEndDate.setDate(newEndDate.getDate() + nights);
+      this.endPicker.setDate(newEndDate, true, "d/m/Y");
     }
   }
 }

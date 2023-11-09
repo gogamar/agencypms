@@ -108,8 +108,8 @@ class PagesController < ApplicationController
       @markers = @available_vrentals_with_price.map do |property|
         vrental = Vrental.find_by(id: property.keys.first)
         price = property.values.first
-        rate_price = vrental.rate_price(@checkin, @checkout)
-        discount = rate_price - price if rate_price.present?
+        rate_price = vrental.rate_price(@checkin, @checkout) || price
+        discount = rate_price - price
         if vrental&.geocoded?
           generate_marker(vrental, @checkin, @checkout, @guests, price, rate_price, discount)
         else
@@ -205,7 +205,7 @@ class PagesController < ApplicationController
     {
       lat: vrental.latitude,
       lng: vrental.longitude,
-      info_window: render_to_string(partial: "info_window", locals: { vrental: vrental, check_in: check_in, check_out: check_out, guests: guests, price: price }),
+      info_window: render_to_string(partial: "info_window", locals: { vrental: vrental, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount }),
       # move this pin to the assets folder or cloudinary used for this project
       image_url: helpers.asset_url("https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/location_khgiyz.png"),
       # image_url: vrental.image_urls.first.url,

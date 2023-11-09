@@ -55,7 +55,6 @@
 
                   // If the event data contains frameHeight, update the iframe height
                   if (event.data.frameHeight) {
-                    console.log("The height from iframe:", event.data.frameHeight);
                     updateIframeHeight(event.data.frameHeight); // Update the height based on the message
                   }
                 }, false);

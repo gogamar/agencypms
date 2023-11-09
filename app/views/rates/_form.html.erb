@@ -8,10 +8,10 @@
   data-defaultstart="<%= @vrental.default_checkin.to_json %>"
   >
     <div class="p-1 text-center">
-      <%= f.input :firstnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "start" } %>
+      <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" } %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :lastnight, as: :string, required: true, input_html: f.object.persisted? ? { class: "datepicker" } : { "data-unavailable-dates-target" => "end" } %>
+      <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
     </div>
     <div class="p-1 text-center">
       <%= f.input :arrival_day, label: t("arrival_day"), priority: [t("everyday"), "everyday"], collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>

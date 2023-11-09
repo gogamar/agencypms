@@ -18,7 +18,10 @@ document.addEventListener("turbo:load", function () {
   initSlick();
   initSelect2();
   initMagnificPopUp();
-  initFlatpickr();
+  const datepickers = document.querySelectorAll(".datepicker");
+  datepickers.forEach((datepicker) => {
+    initFlatpickr(datepicker);
+  });
 });
 
 document.addEventListener("turbo:frame-load", function () {

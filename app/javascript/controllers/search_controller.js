@@ -1,43 +1,35 @@
 import { Controller } from "@hotwired/stimulus";
-import { initFlatpickr as flatpickr } from "../plugins/flatpickr";
+import { initFlatpickr } from "../plugins/flatpickr";
 
 export default class extends Controller {
   static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
 
   connect() {
-    console.log("Set.");
-    flatpickr();
-
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
 
-    const checkinPicker = this.checkinTarget.flatpickr({
-      allowInput: true,
-      altInput: true,
-      altFormat: "d/m/Y",
-      dateFormat: "Y-m-d",
+    const checkinOptions = {
       minDate: today,
-      onChange: function (selectedDates, dateStr, instance) {
+      onChange: (selectedDates, dateStr, instance) => {
         const selectedDate = new Date(dateStr);
         const checkoutDate = new Date(selectedDate);
         checkoutDate.setDate(checkoutDate.getDate() + 1);
-        checkoutPicker.set("minDate", checkoutDate);
-        checkoutPicker.jumpToDate(checkoutDate);
+        this.checkoutPicker.set("minDate", checkoutDate);
+        this.checkoutPicker.jumpToDate(checkoutDate);
       },
-    });
+    };
+    this.checkinPicker = initFlatpickr(this.checkinTarget, checkinOptions);
 
-    const checkoutPicker = this.checkoutTarget.flatpickr({
-      allowInput: true,
-      altInput: true,
-      altFormat: "d/m/Y",
-      dateFormat: "Y-m-d",
+    const checkoutOptions = {
       minDate: tomorrow,
-    });
+    };
+    this.checkoutPicker = initFlatpickr(this.checkoutTarget, checkoutOptions);
   }
 
   async updatePrice() {
+    console.log("separated rate price and price");
     const checkIn = this.checkinTarget.value;
     const checkOut = this.checkoutTarget.value;
     const numAdult = this.numAdultTarget.value;
@@ -69,37 +61,43 @@ export default class extends Controller {
       );
       const bookNowElement = document.getElementById(`${vrentalId}-book-now`);
 
-      if (priceElement && ratePriceElement) {
-        if (
-          typeof responseData.updatedPrice === "number" &&
-          typeof responseData.ratePrice === "number"
-        ) {
+      if (priceElement) {
+        if (typeof responseData.updatedPrice === "number") {
           notAvailableElement.classList.add("d-none");
           bookNowElement.classList.remove("d-none");
-          ratePriceElement.classList.remove("d-none");
           priceElement.classList.remove("d-none");
-          const priceDifference =
-            responseData.ratePrice - responseData.updatedPrice;
+
           const updatedPriceFormatted = this.formatCurrency(
             responseData.updatedPrice
           );
+
+          priceElement.textContent = updatedPriceFormatted;
+        } else if (responseData.notAvailable) {
+          priceElement.classList.add("d-none");
+          notAvailableElement.classList.remove("d-none");
+          bookNowElement.classList.add("d-none");
+        }
+      }
+
+      if (ratePriceElement) {
+        if (typeof responseData.ratePrice === "number") {
+          ratePriceElement.classList.remove("d-none");
           const ratePriceFormatted = this.formatCurrency(
             responseData.ratePrice
           );
 
-          if (priceDifference < 5) {
-            ratePriceElement.classList.add("d-none");
-          } else {
-            ratePriceElement.classList.remove("d-none");
-          }
+          if (typeof responseData.updatedPrice === "number") {
+            const priceDifference =
+              responseData.ratePrice - responseData.updatedPrice;
 
-          priceElement.textContent = updatedPriceFormatted;
-          ratePriceElement.textContent = ratePriceFormatted;
-        } else if (responseData.notAvailable) {
+            if (priceDifference < 5) {
+              ratePriceElement.classList.add("d-none");
+            }
+
+            ratePriceElement.textContent = ratePriceFormatted;
+          }
+        } else {
           ratePriceElement.classList.add("d-none");
-          priceElement.classList.add("d-none");
-          notAvailableElement.classList.remove("d-none");
-          bookNowElement.classList.add("d-none");
         }
       }
     } catch (error) {
