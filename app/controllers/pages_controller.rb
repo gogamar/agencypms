@@ -63,8 +63,8 @@ class PagesController < ApplicationController
       load_availability
     end
     if params[:sort_order].present? || params[:pt].present? || params[:pb].present? || params[:pf].present?
-      @available_vrentals_with_price = JSON.parse(params[:avp])
       if @available_vrentals_with_price.present?
+        @available_vrentals_with_price = JSON.parse(params[:avp])
         property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
         @vrentals = @vrentals.where(id: property_ids)
       end
@@ -256,22 +256,10 @@ class PagesController < ApplicationController
     vrentals = vrentals.where("name ILIKE ?", "%#{n}%") if n.present?
     vrentals = vrentals.where(property_type: pt) if pt.present?
     vrentals = vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
-    if pf.present?
-      vrentals = vrentals.joins(:features)
-                        .where("features.name ILIKE ANY (array[?])", pf)
-                        .group("vrentals.id")
-                        .having("COUNT(DISTINCT features.name) = ?", pf.length)
-    end
+    vrentals = vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", pf) if pf.present?
+
     @vrentals = vrentals
   end
-
-  # def pt_translation_keys(pt)
-  #   pt.map { |type| I18n.backend.translations[I18n.locale].key(type) }
-  # end
-
-  # def feature_translation_keys(pf)
-  #   pf.map { |feature| I18n.backend.translations[I18n.locale].key(feature) }
-  # end
 
   def load_filters
     @featured_towns = Town.joins(:vrentals)
