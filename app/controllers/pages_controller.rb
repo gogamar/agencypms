@@ -17,14 +17,6 @@ class PagesController < ApplicationController
   def home
     @meta_title = t('meta_titles.home')
     @meta_description = t('meta_descriptions.home')
-    @features = Feature.all.uniq
-    @featured_towns = Town.joins(:vrentals)
-                .where(vrentals: { id: @vrentals })
-                .select('towns.*, COUNT(vrentals.id) AS vrentals_count')
-                .group('towns.id')
-                .order('vrentals_count DESC')
-
-
     # temporary solution for featured rentals
     # fixme: make these featured rentals set on the dashboard or a combination of featured and available
     @featured_vrentals = @vrentals
@@ -282,11 +274,15 @@ class PagesController < ApplicationController
   # end
 
   def load_filters
-    current_locale = I18n.locale.to_s
-    regions = Region.pluck("name_#{current_locale}")
-    towns = Town.pluck(:name).sort
+    @featured_towns = Town.joins(:vrentals)
+                .where(vrentals: { id: @vrentals })
+                .select('towns.*, COUNT(vrentals.id) AS vrentals_count')
+                .group('towns.id')
+                .order('vrentals_count DESC')
+    @locations = @featured_towns.map(&:name)
+    # fixme: make this dynamic
+    @locations << "Costa Brava"
 
-    @locations = regions + towns
     @property_types = Vrental::PROPERTY_TYPES.values.map { |ptype| [ptype, t(ptype)] }
     @property_features = Feature.where(highlight: true).map { |feature| [feature.name, t(feature.name)] }
     max_bedsrooms = Vrental.left_joins(:bedrooms)

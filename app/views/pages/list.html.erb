@@ -23,7 +23,9 @@
     </div>
   </div>
 </section>
-<div style="width: 100%; height: 400px;" data-controller="map" data-map-markers-value="<%= @markers.to_json %>" data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+<% if @vrentals.present? %>
+  <div style="width: 100%; height: 400px;" data-controller="map" data-map-markers-value="<%= @markers.to_json %>" data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+<% end %>
 <script>
   const searchBar = document.querySelector('.full-search-2');
   const datesMissing = document.querySelectorAll('.dates-missing-js');
