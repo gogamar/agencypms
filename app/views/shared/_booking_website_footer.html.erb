@@ -9,7 +9,7 @@
               <li class="me-5">
                 <%= form_with url: list_path, method: :get, local: true do |form| %>
                   <div class="input-group input-group-sm mb-3">
-                    <%= form.text_field :n,
+                    <%= form.text_field :nm,
                         class: 'form-control form-control-sm',
                         placeholder: t("search_by_name"),
                         aria: { label: t("search_by_name"), describedby: "button-addon2" } %>

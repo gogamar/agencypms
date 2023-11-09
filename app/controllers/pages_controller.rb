@@ -58,6 +58,8 @@ class PagesController < ApplicationController
       vrentals_with_monument_view = Vrental.joins(:features).where("features.name ILIKE ?", "%monument%").pluck(:id)
       @vrentals = @vrentals.where.not(id: vrentals_with_monument_view)
     end
+    @vrentals = @vrentals.where("name ILIKE ?", "%#{params[:nm]}%") if params[:nm].present?
+
     # search bar filtering
     if params[:request_context].present? && params[:request_context] == 'availability'
       load_availability
@@ -81,7 +83,7 @@ class PagesController < ApplicationController
         )
       end
       if params[:pt].present? || params[:pb].present? || params[:pf].present?
-        advanced_search(params[:pt], params[:pb], params[:pf], nil, @vrentals)
+        advanced_search(params[:pt], params[:pb], params[:pf], @vrentals)
       end
     end
 
@@ -252,8 +254,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def advanced_search(pt, pb, pf, n, vrentals)
-    vrentals = vrentals.where("name ILIKE ?", "%#{n}%") if n.present?
+  def advanced_search(pt, pb, pf, vrentals)
     vrentals = vrentals.where(property_type: pt) if pt.present?
     vrentals = vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
     vrentals = vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", pf) if pf.present?
