@@ -237,7 +237,7 @@ class PagesController < ApplicationController
   end
 
   def paginate_vrentals
-    @all_vrentals_number = Vrental.all.count
+    @all_vrentals_number = Vrental.where(status: "active").count
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
   end
 
