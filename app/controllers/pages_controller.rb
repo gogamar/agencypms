@@ -246,6 +246,7 @@ class PagesController < ApplicationController
     @vrentals = vrentals.where("vrentals.max_guests >= ?", guests.to_i) if guests.present?
 
     if location.present?
+      # fixme: if we create a new region, for example Barcelona, which has the same name as town, and we don't link the town to region, the search will show nothing in Barcelona
       if Region.pluck("name_#{current_locale}").include?(location)
         @vrentals = vrentals.joins(town: :region).where("regions.name_#{current_locale} ILIKE ?", "%#{location}%")
       else

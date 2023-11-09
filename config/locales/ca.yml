@@ -579,3 +579,5 @@ ca:
   select_other_dates: Selecciona altres dates
   check_in: Entrada
   check_out: Sortida
+  open_filter: Obrir filtres
+  close_filter: Tancar filtres

@@ -579,3 +579,5 @@ es:
   select_other_dates: Selecciona otras fechas
   check_in: Entrada
   check_out: Salida
+  open_filter: Abrir filtros
+  close_filter: Cerrar filtros
