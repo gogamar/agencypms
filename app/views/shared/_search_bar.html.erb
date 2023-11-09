@@ -4,20 +4,12 @@
       <%= form.hidden_field :request_context, value: "availability" %>
       <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 b-r">
-          <div class="form-group">
-            <div class="choose-propert-type">
-              <ul>
-                <li>
-                  <div class="form-check ps-0">
-                    <%= form.text_field :check_in, value: params[:check_in], as: :string, data: { search_target: "checkin" }, class: "form-control", placeholder: "Check-in", required: true %>
-                  </div>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <%= form.text_field :check_out, value: params[:check_out], as: :string, data: { search_target: "checkout" }, class: "form-control", placeholder: "Check-out", required: true %>
-                  </div>
-                </li>
-              </ul>
+          <div class="form-group d-flex flex-column flex-lg-row gap-2">
+            <div class="form-check ps-0">
+              <%= form.text_field :check_in, value: params[:check_in], as: :string, data: { search_target: "checkin" }, class: "form-control high-field", placeholder: "Check-in", required: true %>
+            </div>
+            <div class="form-check ps-0">
+              <%= form.text_field :check_out, value: params[:check_out], as: :string, data: { search_target: "checkout" }, class: "form-control high-field", placeholder: "Check-out", required: true %>
             </div>
           </div>
         </div>
