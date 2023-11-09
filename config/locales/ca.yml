@@ -577,3 +577,5 @@ ca:
   add_coupon: Afegir codi de descompte nou
   coupons: Codis de descompte
   select_other_dates: Selecciona altres dates
+  check_in: Entrada
+  check_out: Sortida
