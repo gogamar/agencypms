@@ -1,6 +1,10 @@
 <div class="card p-2 rounded-2" style="width: 100%;">
-  <%= link_to book_property_path(vrental_id: vrental.id) do %>
+  <% if controller_name == "pages" && action_name == "book_property" %>
     <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term)} #{vrental.town&.name}" if vrental.image_urls.present? %>
+  <% else %>
+    <%= link_to book_property_path(vrental_id: vrental.id) do %>
+      <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term)} #{vrental.town&.name}" if vrental.image_urls.present? %>
+    <% end %>
   <% end %>
   <div class="card-body">
     <h6 class="card-title"><%= vrental.name %><%= ", #{vrental.town&.name.capitalize}" if vrental.town&.name %></h6>
