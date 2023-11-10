@@ -236,13 +236,15 @@ span.tag_t {
 }
 
 .slick-next:before {
-  content: "\f061";
+  content: "\f0da";
   font-family: "Font Awesome 6 Free";
+  font-size: 50px;
 }
 
 .slick-prev:before {
-  content: "\f060";
+  content: "\f0d9";
   font-family: "Font Awesome 6 Free";
+  font-size: 50px;
 }
 
 .property-listing .slick-next {

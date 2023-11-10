@@ -1,8 +1,8 @@
 <!-- ============================ Hero Banner  Start================================== -->
-<% if @vrental.image_urls.present? %>
+<% if @property_images.present? %>
   <div class="featured_slick_gallery gray-simple">
     <div class="featured_slick_gallery-slide">
-      <% @vrental.image_urls.each do |image| %>
+      <% @property_images.each do |image| %>
         <div class="featured_slick_padd">
           <%= link_to image.url, class: "mfp-gallery" do %>
             <%= image_tag image.url, class: "img-fluid mx-auto height-400 w-100", alt:"Lloguer vacances #{@vrental.town&.name}", quality: "auto" %>
@@ -10,9 +10,6 @@
         </div>
       <% end %>
     </div>
-    <%= link_to @vrental.image_urls.first.url, class: "btn-view-pic mfp-gallery" do %>
-      <%= t("view_photos") %>
-    <% end %>
   </div>
 <% end %>
 <!-- ============================ Hero Banner End ================================== -->
@@ -162,4 +159,3 @@
     </div>
   </div>
 </section>
-<!-- ============================ Property Detail End ================================== -->
