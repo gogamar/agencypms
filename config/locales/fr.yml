@@ -143,7 +143,15 @@ fr:
         prop_key: Clé secrète de la propriété Bed24
         property_type: Type de propriété
         status: Statut
-        vrental: Propriété
+        name_on_web: Afficher le nom sur le site web
+        title_ca: Titre de la page web en catalan
+        title_es: Titre de la page web en espagnol
+        title_fr: Titre de la page web en français
+        title_en: Titre de la page web en anglais
+        description_ca: Description de la page web en catalan
+        description_es: Description de la page web en espagnol
+        description_fr: Description de la page web en français
+        description_en: Description de la page web en anglais
       vrentaltemplate:
         language: Langue
         title: Titre
@@ -402,7 +410,7 @@ fr:
   "no": Non
   not sent: Non envoyé
   not_available: Non disponible
-  ocean_view: Vue sur l'océan
+  sea_view: Vue sur la mer
   of: de
   office: Bureau
   on_budget: Adapté au budget
@@ -581,3 +589,4 @@ fr:
   check_out: Départ
   open_filter: Ouvrir le filtre
   close_filter: Fermer le filtre
+  price_with_coupon: Prix avec code promo

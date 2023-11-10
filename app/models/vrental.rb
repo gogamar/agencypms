@@ -70,6 +70,14 @@ class Vrental < ApplicationRecord
     group_photos.all? { |id| image_urls.pluck(:photo_id).include?(id) }
   end
 
+  def display_name
+    if send("title_#{I18n.locale.to_s}").present?
+      send("title_#{I18n.locale.to_s}")
+    else
+      name
+    end
+  end
+
   def dates_with_rates
     rates.pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }
@@ -834,22 +842,39 @@ class Vrental < ApplicationRecord
     # also set status to inactive if no rates or no bookings this year, whatever's easier
     client = BedsHelper::Beds.new(office.beds_key)
     begin
-      vrental_property = client.get_property_content(prop_key, roomIds: true, texts: true)[0]
+      vrental_property = client.get_property_content(prop_key, roomIds: true, texts: true, includeAirbnb: true)[0]
       vrental_room = vrental_property["roomIds"][beds_room_id]
 
-      update!(licence: vrental_property["permit"], description_ca: vrental_room["texts"]["contentDescriptionText"]["CA"], description_es: vrental_room["texts"]["contentDescriptionText"]["ES"], description_fr: vrental_room["texts"]["contentDescriptionText"]["FR"], description_en: vrental_room["texts"]["contentDescriptionText"]["EN"])
+      update!(
+        licence: vrental_property["permit"],
+        title_ca: vrental_room["airbnb"]["name"]["CA"].present? ? vrental_room["airbnb"]["name"]["CA"] : vrental_room["texts"]["contentHeadlineText"]["CA"],
+        title_es: vrental_room["airbnb"]["name"]["ES"].present? ? vrental_room["airbnb"]["name"]["ES"] : vrental_room["texts"]["contentHeadlineText"]["ES"],
+        title_fr: vrental_room["airbnb"]["name"]["FR"].present? ? vrental_room["airbnb"]["name"]["FR"] : vrental_room["texts"]["contentHeadlineText"]["FR"],
+        title_en: vrental_room["airbnb"]["name"]["EN"].present? ? vrental_room["airbnb"]["name"]["EN"] : vrental_room["texts"]["contentHeadlineText"]["EN"],
+        description_ca: vrental_room["texts"]["contentDescriptionText"]["CA"].present? ? vrental_room["texts"]["contentDescriptionText"]["CA"] : vrental_room["airbnb"]["summaryText"]["CA"],
+        description_es: vrental_room["texts"]["contentDescriptionText"]["ES"].present? ? vrental_room["texts"]["contentDescriptionText"]["ES"] : vrental_room["airbnb"]["summaryText"]["ES"],
+        description_fr: vrental_room["texts"]["contentDescriptionText"]["FR"].present? ? vrental_room["texts"]["contentDescriptionText"]["FR"] : vrental_room["airbnb"]["summaryText"]["FR"],
+        description_en: vrental_room["texts"]["contentDescriptionText"]["EN"].present? ? vrental_room["texts"]["contentDescriptionText"]["EN"] : vrental_room["airbnb"]["summaryText"]["EN"]
+      )
+
+      puts "Updated titles and texts for #{name}!"
 
       if vrental_room["featureCodes"].present?
         accepted_features = Feature::FEATURES
-        beds24features = vrental_room["featureCodes"].flatten.map(&:downcase)
+        # beds24features = vrental_room["featureCodes"].flatten.map(&:downcase)
+        beds24features = vrental_room["featureCodes"].flatten.map do |code|
+          code.downcase == 'ocean_view' ? 'sea_view' : code.downcase
+        end
+
+        puts "beds24features: #{beds24features}"
 
         selected_features = beds24features.select { |feature| accepted_features.include?(feature) }
 
         if selected_features.include?("beach_view")
-          features << Feature.where(name: ["beach_view", "ocean_view"])
+          features << Feature.where(name: ["beach_view", "sea_view"])
         else
           selected_features.each do |feature|
-            features << Feature.find_or_create_by(name: feature)
+            features << Feature.find_by(name: feature)
           end
         end
         save!
@@ -862,6 +887,8 @@ class Vrental < ApplicationRecord
         end
 
         beds24bedrooms = vrental_room["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BEDROOM") } }
+
+        puts "these are the bedrooms for #{name}: #{beds24bedrooms}"
 
         beds24bedrooms.each_with_index do |room_data, index|
           room_type = room_data.select { |word| word.starts_with?("BEDROOM") }.first

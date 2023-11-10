@@ -143,7 +143,15 @@ ca:
         prop_key: Bed24 clau secreta propietat
         property_type: Tipus d'immoble
         status: Estat
-        vrental: Immoble
+        name_on_web: Mostrar nom a la web
+        title_ca: Títol pàgina web català
+        title_es: Títol pàgina web castellà
+        title_fr: Títol pàgina web francès
+        title_en: Títol pàgina web anglès
+        description_ca: Descripció pàgina web català
+        description_es: Descripció pàgina web castellà
+        description_fr: Descripció pàgina web francès
+        description_en: Descripció pàgina web anglès
       vrentaltemplate:
         language: Idioma
         title: Títol
@@ -402,7 +410,7 @@ ca:
   "no": "No"
   not sent: No enviat
   not_available: No disponible
-  ocean_view: Vista al mar
+  sea_view: Vista al mar
   of: de
   office: Oficina
   on_budget: Econòmics
@@ -581,3 +589,4 @@ ca:
   check_out: Sortida
   open_filter: Obrir filtres
   close_filter: Tancar filtres
+  price_with_coupon: Preu amb codi descompte

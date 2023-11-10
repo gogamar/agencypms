@@ -143,7 +143,15 @@ en:
         prop_key: Bed24 Property Secret Key
         property_type: Property Type
         status: Status
-        vrental: Property
+        name_on_web: Show name on website
+        title_ca: Catalan webpage title
+        title_es: Spanish webpage title
+        title_fr: French webpage title
+        title_en: English webpage title
+        description_ca: Catalan webpage description
+        description_es: Spanish webpage description
+        description_fr: French webpage description
+        description_en: English webpage description
       vrentaltemplate:
         language: Language
         title: Title
@@ -402,7 +410,7 @@ en:
   "no": "No"
   not sent: Not Sent
   not_available: Not Available
-  ocean_view: Ocean View
+  sea_view: Sea View
   of: of
   office: Office
   on_budget: Budget-friendly
@@ -581,3 +589,4 @@ en:
   check_out: Check-out
   open_filter: Open Filter
   close_filter: Close Filter
+  price_with_coupon: Price with Coupon

@@ -64,9 +64,10 @@ class PagesController < ApplicationController
     if params[:request_context].present? && params[:request_context] == 'availability'
       load_availability
     end
+
     if params[:sort_order].present? || params[:pt].present? || params[:pb].present? || params[:pf].present?
+      @available_vrentals_with_price = JSON.parse(params[:avp]) if params[:avp].present?
       if @available_vrentals_with_price.present?
-        @available_vrentals_with_price = JSON.parse(params[:avp])
         property_ids = @available_vrentals_with_price.map { |item| item.keys.first.to_i }
         @vrentals = @vrentals.where(id: property_ids)
       end
@@ -150,6 +151,12 @@ class PagesController < ApplicationController
       @rate_price = response["updatedPrice"]
       @not_available = response["notAvailable"]
     end
+    # fixme check for valid coupons only and for the right coupon
+    if @vrental.coupons.present?
+      @coupon_code = @vrental.coupons.first.name
+      @coupon_discount = @vrental.coupons.first.amount_discounted(@price)
+      @price_with_coupon = @price.to_f - @coupon_discount
+    end
 
     @markers = []
     @markers << generate_marker(@vrental)
@@ -205,7 +212,7 @@ class PagesController < ApplicationController
       image_url: helpers.asset_url("https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/location_khgiyz.png"),
       # image_url: vrental.image_urls.first.url,
       price: price.present? ? number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") : nil,
-      name: vrental.name
+      name: vrental.send("title_#{I18n.locale.to_s}")
     }
   end
 

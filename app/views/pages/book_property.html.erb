@@ -25,7 +25,10 @@
             <% if @vrental.property_type.present?  %>
               <span class="label text-light bg-success me-3"><%= t(@vrental.property_type) %></span>
             <% end %>
-            <h3 class="mb-1"><%= @vrental.name %></h3>
+            <% if @vrental.name_on_web == true %>
+              <h3 class="mb-1"><%= @vrental.name %></h3>
+            <% end %>
+            <h3 class="mb-1"><%= @vrental.send("title_#{I18n.locale.to_s}") %></h3>
             <span><i class="lni-map-marker"></i> <%= @vrental.town&.name %></span>
             <div class="list-fx-features">
               <% if @vrental.max_guests %>

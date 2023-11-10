@@ -3,6 +3,7 @@
   <%= f.association :vrgroup, include_blank: 'Sense grup' %>
   <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
   <%= f.input :name %>
+  <%= f.input :name_on_web, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
   <%= f.input :contract_type, collection: Vrental::CONTRACT_TYPES.map { |contract_type| [t(contract_type), contract_type] }, input_html: { "data-update-field-target" => "contractType", "data-action": "change->update-field#toggleFields", value: f.object.contract_type } %>
   <div <%= 'class=d-none' if f.object.contract_type != "commission" %> data-update-field-target="commissionField">
     <%= f.input :commission, as: :string %>
@@ -24,9 +25,13 @@
   <%= f.input :res_fee %>
   <%= f.input :min_stay %>
   <%= f.input :free_cancel %>
+  <%= f.input :title_ca, maxlength: 32 %>
   <%= f.input :description_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :title_es, maxlength: 32 %>
   <%= f.input :description_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :title_en, maxlength: 32 %>
   <%= f.input :description_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :title_fr, maxlength: 32 %>
   <%= f.input :description_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
   <%= t("dont-fill") %>
   <%= f.input :beds_prop_id %>

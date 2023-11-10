@@ -45,7 +45,11 @@
                       <% end %>
                     </div>
                     <h4 class="listing-name fw-semibold fs-5 mb-1">
-                      <%= link_to vrental.name, vrental %>
+                      <% if user_signed_in? && current_user.admin? %>
+                        <%= link_to vrental.name, edit_vrental_path(vrental) %>
+                      <% else %>
+                        <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id) %>
+                      <% end %>
                     </h4>
                     <div class="prt-location text-muted-2">
                       <span class="svg-icon svg-icon-2hx">

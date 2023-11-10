@@ -143,7 +143,15 @@ es:
         prop_key: Clave secreta de propiedad en Beds24
         property_type: Tipo de inmueble
         status: Estado
-        vrental: Inmueble
+        name_on_web: Mostrar nombre en la web
+        title_ca: Título de la página web en catalán
+        title_es: Título de la página web en español
+        title_fr: Título de la página web en francés
+        title_en: Título de la página web en inglés
+        description_ca: Descripción de la página web en catalán
+        description_es: Descripción de la página web en español
+        description_fr: Descripción de la página web en francés
+        description_en: Descripción de la página web en inglés
       vrentaltemplate:
         language: Idioma
         title: Título
@@ -402,7 +410,7 @@ es:
   "no": "No"
   not sent: No enviado
   not_available: No disponible
-  ocean_view: Vista al mar
+  sea_view: Vista al mar
   of: de
   office: Oficina
   on_budget: Económicos
@@ -581,3 +589,4 @@ es:
   check_out: Salida
   open_filter: Abrir filtros
   close_filter: Cerrar filtros
+  price_with_coupon: Precio con cupón

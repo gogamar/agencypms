@@ -19,7 +19,7 @@
               <li><a href="JavaScript:void(0);"><%= t("apartments") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
                   <li><%= link_to t("with_pool"), list_path(location: "Costa Brava", pt: ["apartment"], pf: ["pool"]) %></li>
-                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: ["apartment"], pf: ["ocean_view"]) %></li>
+                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: ["apartment"], pf: ["sea_view"]) %></li>
                   <li><%= link_to t("on_budget"), list_path(location: "Costa Brava", pt: ["apartment"], budget: true) %></li>
                 </ul>
               </li>
@@ -30,7 +30,7 @@
                   <li><%= link_to t("with_garden"), list_path(location: "Costa Brava", pt: ["house"], pf: ["garden"]) %></li>
                   <li><%= link_to t("with_private_garden"), list_path(location: "Costa Brava", pt: ["house"], pf: ["private_yard"]) %></li>
                   <!--
-                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: [t("house")], pf: ["ocean_view"]) %></li>
+                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: [t("house")], pf: ["sea_view"]) %></li>
                   <li><a href="classical-property.html"><%= t("unique") %></a></li>
                   -->
                 </ul>
