@@ -17,6 +17,7 @@ Vrental.where(min_price: nil).each do |vrental|
 end
 
 Vrental.all.each do |vrental|
+  vrental.features.clear
   vrental.get_content_from_beds
 end
 

@@ -871,12 +871,14 @@ class Vrental < ApplicationRecord
         selected_features = beds24features.select { |feature| accepted_features.include?(feature) }
 
         if selected_features.include?("beach_view")
-          features << Feature.where(name: ["beach_view", "sea_view"])
-        else
-          selected_features.each do |feature|
-            features << Feature.find_by(name: feature)
-          end
+          features << Feature.where(name: "sea_view")
         end
+
+        selected_features.each do |feature|
+          existing_feature = Feature.find_or_create_by(name: feature)
+          features << existing_feature unless features.include?(existing_feature)
+        end
+
         save!
 
         features.each do |feature|
@@ -915,9 +917,11 @@ class Vrental < ApplicationRecord
         end
 
         beds24bathrooms = vrental_room["featureCodes"].select { |feature| feature.any? { |word| word.starts_with?("BATHROOM") } }
+        existing_bathrooms = {}
+        bathrooms.each { |bathroom| existing_bathrooms[bathroom.bathroom_type] ||= [] }
+        bathrooms.each { |bathroom| existing_bathrooms[bathroom.bathroom_type] << bathroom }
 
-        beds24bathrooms.each_with_index do |bathroom_data, index|
-          bathroom = bathrooms[index]
+        beds24bathrooms.each do |bathroom_data|
           bathroom_type = case
           when bathroom_data.include?("BATH_TUB")
             "BATH_TUB"
@@ -927,18 +931,13 @@ class Vrental < ApplicationRecord
             "TOILET"
           end
 
-          if bathroom && bathroom.bathroom_type != bathroom_type
-            bathroom.update!(bathroom_type: bathroom_type)
+          if existing_bathrooms.key?(bathroom_type) && existing_bathrooms[bathroom_type].any?
+            existing_bathrooms[bathroom_type].shift.update!(bathroom_type: bathroom_type)
           else
             bathrooms.create!(bathroom_type: bathroom_type, vrental_id: id)
           end
         end
-
-        if beds24bathrooms.length < bathrooms.length
-          bathrooms.last(bathrooms.length - beds24bedrooms.length).each do |bathroom|
-            bathroom.destroy
-          end
-        end
+        existing_bathrooms.values.flatten.each(&:destroy)
         puts "Imported features, bedrooms and bathrooms for #{name}!"
       end
     rescue => e
