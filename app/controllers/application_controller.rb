@@ -14,7 +14,10 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized, except: [:index, :list, :filter, :import_properties], unless: :skip_pundit?
   after_action :verify_policy_scoped, only: [:index, :list, :filter, :import_properties], unless: :skip_pundit?
 
-
+  def redirect_to_homepage
+    skip_authorization
+    redirect_to root_path
+  end
 
   def configure_permitted_parameters
     # For additional fields in app/views/devise/registrations/new.html.erb

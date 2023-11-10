@@ -157,6 +157,8 @@ Rails.application.routes.draw do
       get 'terms', to: 'pages#terms'
       get 'get_availability', to: 'pages#get_availability'
       get 'submit_property', to: 'pages#submit_property'
+      get '*path' => 'application#redirect_to_homepage'
     end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
+  get '*path' => 'application#redirect_to_homepage'
 end
