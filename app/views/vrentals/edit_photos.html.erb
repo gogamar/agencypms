@@ -14,19 +14,14 @@
     </div>
   <% end %>
   <% if @vrental.vrgroup %>
-    <%# this one should be form_with_url to copy/import photos from selected vrental to this one %>
-    <%# destroy action on photos should check if there is another image with this photo id %>
-    <%# however if a vrental is destroyed I believe this photo would also be destroyed so it's not ideal, just a way to save time and money on cloudinary %>
-    <%= simple_form_for @vrental, html: { class: 'col-lg-4 d-flex align-items-end' } do |f| %>
-      <%= f.error_notification %>
-      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-      <select name="select_vrental" id="select_vrental" data-placeholder="<%= t('select_vrental').capitalize %>">
+    <%= form_with(model: @vrental, url: copy_images_vrental_path(@vrental), method: :post, local: false, class: 'col-lg-4 d-flex align-items-end') do |form| %>
+      <select name="source_vrental_id" id="select_vrental" data-placeholder="<%= t('select_vrental').capitalize %>">
         <option value="">&nbsp;</option>
-        <% @vrental.vrgroup.vrentals.each do |vrental| %>
+        <% @vrentals_with_images.each do |vrental| %>
           <option value="<%= vrental.id %>"><%= vrental.name %></option>
         <% end %>
       </select>
-      <%= f.button :submit, t('import_photos'), class: 'btn btn-sm btn-primary text-center' %>
+      <%= form.submit t('import_photos'), class: 'btn btn-sm btn-primary text-center' %>
     <% end %>
   <% end %>
 </div>

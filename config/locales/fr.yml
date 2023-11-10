@@ -590,3 +590,4 @@ fr:
   open_filter: Ouvrir le filtre
   close_filter: Fermer le filtre
   price_with_coupon: Prix avec code promo
+  min_stay: "Min. %{min_stay} nuits"

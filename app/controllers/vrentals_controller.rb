@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos, :import_photos, :import_from_group]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos, :import_photos, :import_from_group]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -161,8 +161,11 @@ class VrentalsController < ApplicationController
 
   def edit_photos
     @vrgroup = @vrental.vrgroup
-    @vrgroup_photos_ids = @vrgroup.photos.pluck(:id).compact if @vrgroup and @vrgroup.photos.present?
-    # @vrgroup_photos = @vrental.image_urls.where(photo_id: @vrgroup_photos_ids)
+    if @vrgroup
+      @vrentals_with_images = @vrgroup.vrentals.joins(:image_urls).distinct
+      @vrgroup_photos_ids = @vrgroup.photos.pluck(:id).compact if @vrgroup and @vrgroup.photos.present?
+      # @vrgroup_photos = @vrental.image_urls.where(photo_id: @vrgroup_photos_ids)
+    end
     @image_urls = @vrental.image_urls.order(position: :asc)
     @all_group_photos_imported = @vrental.all_group_photos_imported?
   end
@@ -195,6 +198,15 @@ class VrentalsController < ApplicationController
     @vrental.copy_rates_to_next_year(current_year)
     authorize @vrental
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn copiades."
+  end
+
+  def copy_images
+    source_vrental = Vrental.find(params[:source_vrental_id])
+    source_vrental.image_urls.each do |source_image|
+      duplicated_image = source_image.dup
+      @vrental.image_urls << duplicated_image
+    end
+    redirect_to edit_photos_vrental_path(@vrental), notice: 'Fotos importades!'
   end
 
   def delete_rates
@@ -389,7 +401,7 @@ class VrentalsController < ApplicationController
 
   def vrental_params
     params.require(:vrental).permit(
-      :name, :name_on_web, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en,
+      :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en,
       :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :min_price, feature_ids: [], photos: []
     )
   end

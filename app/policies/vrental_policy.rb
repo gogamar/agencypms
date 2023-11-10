@@ -37,6 +37,10 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
+  def copy_images?
+    return create?
+  end
+
   def delete_rates?
     return create?
   end

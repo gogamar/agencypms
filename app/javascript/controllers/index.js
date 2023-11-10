@@ -19,6 +19,9 @@ application.register("earning-calculator", EarningCalculatorController)
 import FetchEarningsController from "./fetch_earnings_controller"
 application.register("fetch-earnings", FetchEarningsController)
 
+import IframeController from "./iframe_controller"
+application.register("iframe", IframeController)
+
 import MapController from "./map_controller"
 application.register("map", MapController)
 

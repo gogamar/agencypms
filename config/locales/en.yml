@@ -590,3 +590,4 @@ en:
   open_filter: Open Filter
   close_filter: Close Filter
   price_with_coupon: Price with Coupon
+  min_stay: "Min. %{min_stay} nights"

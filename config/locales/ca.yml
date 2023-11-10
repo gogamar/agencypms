@@ -590,3 +590,4 @@ ca:
   open_filter: Obrir filtres
   close_filter: Tancar filtres
   price_with_coupon: Preu amb codi descompte
+  min_stay: "Min. %{min_stay} nits"

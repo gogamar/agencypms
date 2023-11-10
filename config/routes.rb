@@ -57,6 +57,7 @@ Rails.application.routes.draw do
           get :annual_statement
           get :fetch_earnings
           post :upload_dates
+          post :copy_images
           get :edit_photos
           get :copy
           get :copy_rates
