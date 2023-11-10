@@ -8,7 +8,7 @@
         </h3>
       </div>
       <span id="<%= @vrental.id %>-not-available" class="<%= 'd-none' unless @not_available.present? %>"><%= t("not_available") %></span>
-      <% if @price_with_coupon %>
+      <% if @price && @price_with_coupon %>
         <div class="text-secondary"><%= t('price_with_coupon') %> <span class="text-success"><%= @coupon_code %></span></div>
         <h3 class="prt-price-fix text-success">
           <%= number_to_currency(@price_with_coupon, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
