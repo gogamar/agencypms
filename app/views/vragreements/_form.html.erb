@@ -19,7 +19,7 @@
   <div class="row">
     <%= f.association :vrentaltemplate,
                    include_blank: true,
-                   value: f.object.persisted? ? vrentaltemplate_id : @default_template&.id,
+                   value: f.object.persisted? ? f.object.vrentaltemplate_id : @default_template&.id,
                    label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path, target: '_blank'}.").html_safe,
                    hint: vrental.owner.present? ? t("owner_speaks", name: vrental.owner&.fullname, language: t("#{vrental.owner&.language}")) : '' %>
   </div>
