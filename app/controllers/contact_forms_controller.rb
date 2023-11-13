@@ -9,7 +9,7 @@ class ContactFormsController < ApplicationController
   def create
     @contact_form = ContactForm.new(contact_form_params)
 
-    if @contact_form.save
+    if verify_recaptcha(model: @contact_form) && @contact_form.save
       @company = Company.first
       @company_language = @company.language
       ContactFormMailer.contact_email(@contact_form, @company_language).deliver_now

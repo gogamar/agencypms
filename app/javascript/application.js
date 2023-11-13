@@ -21,6 +21,7 @@ document.addEventListener("turbo:load", function () {
   const datepickers = document.querySelectorAll(".datepicker");
   datepickers.forEach((datepicker) => {
     initFlatpickr(datepicker);
+    console.log("datepicker initialized");
   });
 });
 

@@ -78,11 +78,27 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def dates_with_rates
+  # def dates_with_rates(fnight = nil, lnight = nil)
+  #   rates.pluck(:firstnight, :lastnight).map do |range|
+  #     { from: range[0], to: range[1] }
+  #   end
+  #   end.compact # Remove any nil entries
+  # end
+
+  def dates_with_rates(fnight = nil, lnight = nil)
     rates.pluck(:firstnight, :lastnight).map do |range|
-      { from: range[0], to: range[1] }
-    end
+      from = range[0]
+      to = range[1]
+
+      # Check if the current range overlaps with or is contained within the specified period
+      if fnight.present? && lnight.present? && from <= fnight && to >= lnight
+        nil # Exclude this range
+      else
+        { from: from, to: to }
+      end
+    end.compact # Remove any nil entries
   end
+
 
   def future_dates_with_rates
     rates.where("lastnight > ?", Date.today).pluck(:firstnight, :lastnight).map do |range|

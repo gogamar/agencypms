@@ -1,5 +1,5 @@
 <%= turbo_frame_tag rate, class: "card-body" do %>
-  <div class="row py-1">
+  <div class="row py-1 rate-dates">
     <div class="col-lg-2 nowrap"><%= l(rate.firstnight, format: :standard) %></div>
     <div class="col-lg-2 nowrap"><%= l(rate.lastnight, format: :standard) %> </div>
     <div class="col-lg-2 nowrap"><%= t("#{rate.arrival_day}") %></div>
@@ -7,10 +7,10 @@
     <div class="col-lg-2 nowrap"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if rate.priceweek %></div>
     <% unless params[:controller] == 'vragreements' %>
       <div class="col-lg-2 nowrap d-flex justify-content-between">
-        <%= link_to edit_vrental_rate_path(@vrental, rate), class: "btn btn-info" do %>
+        <%= link_to edit_vrental_rate_path(@vrental, rate), class: "btn btn-sm btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>
-        <%= link_to rate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tarifa?"}, class: "btn btn-danger" do %>
+        <%= link_to rate, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta tarifa?"}, class: "btn btn-sm btn-danger" do %>
           <i class="fas fa-trash-can fa-sm"></i>
         <% end %>
       </div>

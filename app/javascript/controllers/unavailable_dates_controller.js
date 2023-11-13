@@ -7,12 +7,12 @@ export default class extends Controller {
   connect() {
     const unavailableDates = JSON.parse(this.element.dataset.unavailable);
 
-    const defaultStart = this.element.dataset.defaultstart
-      ? new Date(this.element.dataset.defaultstart)
-      : new Date();
+    const defaultStart = this.startTarget.value
+      ? new Date(this.startTarget.value)
+      : new Date(this.element.dataset.defaultstart);
 
-    const defaultEnd = this.element.dataset.defaultend
-      ? new Date(this.element.dataset.defaultend)
+    const defaultEnd = this.endTarget.value
+      ? new Date(this.endTarget.value)
       : new Date(defaultStart).fp_incr(7);
 
     const startOptions = {
