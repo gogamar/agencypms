@@ -1,4 +1,4 @@
-<div class="header change-logo">
+<div class="header header-light head-shadow change-logo">
   <div class="container">
     <nav id="navigation" class="navigation navigation-landscape">
       <div class="nav-header">
@@ -9,6 +9,65 @@
           <%= image_tag("logo.png", class: "logo", alt: "") %>
         <% end %>
         <div class="nav-toggle"></div>
+        <div class="mobile_nav">
+          <ul>
+            <!--
+            <li>
+              <a href="submit-property.html" class="text-primary">
+                <span class="svg-icon svg-icon-2hx">
+                  <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"/>
+                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"/>
+                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"/>
+                  </svg>
+                </span>
+              </a>
+            </li>
+            -->
+            <% if user_signed_in? %>
+              <li>
+                <div class="btn-group account-drop">
+                  <button type="button" class="btn btn-order-by-filt dropdown-toggle" id="showbutton">
+                    <%# if current_user.photo.attached? %>
+                    <%# cl_image_tag current_user.photo.key, class: "avater-img", alt="" %>
+                    <%# else %>
+                    <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/sistach_favicon_c9rb1y.png", alt: "Sistach Finques", class: "avater-img" %>
+                    <%# end %>
+                  </button>
+                  <div class="dropdown-menu pull-right animated flipInX" id="showing">
+                    <%= link_to edit_user_registration_path do %>
+                      <i class="fa-solid fa-address-card"></i><%= t("edit_profile") %>
+                    <% end %>
+                    <%= link_to vrentals_path do %>
+                      <i class="fa-solid fa-building-circle-check"></i><%= t("vrentals") %>
+                    <% end %>
+                    <%= link_to owners_path do %>
+                      <i class="fa-solid fa-building-user"></i><%= t("owners") %>
+                    <% end %>
+                    <%= link_to vragreements_path do %>
+                      <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
+                    <% end %>
+                    <!--
+                  <a href="#"><i class="fa-solid fa-bookmark"></i>Bookmarked Listings</a>
+                  <a href="#"><i class="fa-solid fa-unlock"></i>Change Password</a>
+                  -->
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#logout">
+                      <%= image_tag("user-dark.svg", width: "12", class: "mr-2", alt: "") %>
+                      <%= t("sign_out") %>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            <% else %>
+              <li class="add-listing light">
+                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#login">
+                  <%= image_tag("user-dark.svg", width: "12", class: "mr-2", alt: "") %>
+                  <%= t("sign_in") %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
       <div class="nav-menus-wrapper" style="transition-property: none;">
         <ul class="nav-menu">
@@ -66,23 +125,17 @@
             </ul>
           </li>
           <li><%= link_to t("contact"), contact_path %></li>
-          <!--
-          <li><%= link_to t("news"), root_path %></li>
-          -->
-          <!--
-          <li><a href="JavaScript:void(0);" data-bs-toggle="modal" data-bs-target="#signup">Sign Up</a></li>
-          -->
         </ul>
-        <ul class="nav-menu align-to-right">
+        <ul class="nav-menu nav-menu-social align-to-right">
           <% if user_signed_in? %>
             <li>
               <div class="btn-group account-drop">
                 <button type="button" class="btn btn-order-by-filt dropdown-toggle" id="showbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <% if current_user.photo.attached? %>
-                    <%# cl_image_tag current_user.photo.key, class: "avater-img", alt="" %>
-                  <% else %>
-                    <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/sistach_favicon_c9rb1y.png", alt: "Sistach Finques", class: "avater-img" %>
-                  <% end %>
+                  <%# if current_user.photo.attached? %>
+                  <%# cl_image_tag current_user.photo.key, class: "avater-img", alt="" %>
+                  <%# else %>
+                  <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/sistach_favicon_c9rb1y.png", alt: "Sistach Finques", class: "avater-img" %>
+                  <%# end %> <%= current_user.email %>
                 </button>
                 <div class="dropdown-menu pull-right animated flipInX" id="showing">
                   <%= link_to edit_user_registration_path do %>
@@ -116,7 +169,6 @@
               </a>
             </li>
           <% end %>
-          <%= language_dropdown(I18n.locale || params[:locale]) %>
         </ul>
       </div>
     </nav>
@@ -126,3 +178,11 @@
 <%= render 'shared/log_in_modal' %>
 <%= render 'shared/log_out_modal' %>
 <%# render 'shared/sign_up_modal' %>
+<!-- End Navigation -->
+<script>
+  $(document).ready(function(){
+  				$("#showbutton").click(function(){
+  				$("#showing").slideToggle("slow");
+  });
+  });
+</script>

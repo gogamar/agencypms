@@ -2,7 +2,7 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def language_dropdown(current_locale)
-    content_tag(:li, class: 'nav-item dropdown') do
+    content_tag(:li, class: 'nav-item dropdown language-dropdown') do
       flag_code = set_flag(current_locale)
       concat(link_to("#", class: 'nav-link dropdown-toggle', id: 'languageDropdown', data: { bs_toggle: 'dropdown' }, 'aria-haspopup': true, 'aria-expanded': false) do
         content_tag(:small) do
