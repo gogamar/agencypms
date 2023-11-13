@@ -78,13 +78,6 @@ class Vrental < ApplicationRecord
     end
   end
 
-  # def dates_with_rates(fnight = nil, lnight = nil)
-  #   rates.pluck(:firstnight, :lastnight).map do |range|
-  #     { from: range[0], to: range[1] }
-  #   end
-  #   end.compact # Remove any nil entries
-  # end
-
   def dates_with_rates(fnight = nil, lnight = nil)
     rates.pluck(:firstnight, :lastnight).map do |range|
       from = range[0]
@@ -156,6 +149,22 @@ class Vrental < ApplicationRecord
     last_rate = rates.find_by(lastnight: rates.maximum('lastnight'))
     last_rate.present? ? last_rate.lastnight + 1.day : Date.today
   end
+
+  def years_possible_contract
+    years_with_contract = vragreements.pluck(:year)
+
+    last_rate_year = rates.order(firstnight: :desc).first.firstnight.year
+    current_year = Date.today.year
+
+    if last_rate_year > current_year
+      (current_year..last_rate_year).to_a - years_with_contract
+    elsif last_rate_year == current_year
+      [current_year] - years_with_contract
+    else
+      []
+    end
+  end
+
 
   def commission_percentage
     number_to_percentage(commission * 100, precision: 4, separator: ',')

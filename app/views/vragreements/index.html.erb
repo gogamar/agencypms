@@ -22,10 +22,10 @@
           </th>
           <td><%= I18n.l(vragreement.start_date) if vragreement.start_date %></td>
           <td><%= I18n.l(vragreement.end_date) if vragreement.end_date %></td>
-          <td><%= vragreement.status %></td>
+          <td><%= t(vragreement.status) %></td>
           <td><%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></td>
-          <td><%= @vrental.owner.fullname %></td>
-          <td><%= @vrental.owner.language %></td>
+          <td><%= @vrental.owner&.fullname %></td>
+          <td><%= @vrental.owner&.language %></td>
           <td><%= vragreement.year %></td>
           <td class="">
             <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
@@ -40,10 +40,12 @@
     </tbody>
   </table>
   <div class="my-3">
-    <% if @vrental %>
-      <%= link_to new_vrental_vragreement_path(@vrental), class: "btn btn-primary" do %>
-        <i class="fas fa-plus fa-sm"></i>
-        <span class="text">Nou contracte per <%= @vrental.name %></span>
+    <% if @vrental && @years_possible_contract %>
+      <% @years_possible_contract.each do |year| %>
+        <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
+          <i class="fas fa-plus fa-sm"></i>
+          <span class="text">Nou contracte per <%= @vrental.name %> per l'any <%= year %></span>
+        <% end %> <br>
       <% end %>
     <% end %>
   </div>

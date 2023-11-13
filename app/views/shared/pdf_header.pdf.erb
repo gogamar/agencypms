@@ -15,7 +15,7 @@
         <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px;" />
       </div>
       <div class="text-center col-6">
-        <span class="font-weight-bold"><%= @vrental.office&.name %> · <%= @vrental.office&.company&.name %> · <%= @vrental.office&.company&.vat_number %></span>
+        <span class="font-weight-bold"><%= @vrental.office&.company&.name %> · <%= @vrental.office&.company&.vat_number %></span>
         <br>
         <span><%= @vrental.office&.street %>, <%= @vrental.office&.post_code %> <%= @vrental.office&.city %></span>
         <br>
@@ -24,10 +24,10 @@
         <span><%= @vrental.office&.phone %> · <%= @vrental.office&.mobile %></span>
       </div>
       <div class="col-3 text-end text-right">
-        <% if current_user.photo.attached? %>
-          <%= cl_image_tag current_user.photo.key, width: "170px" %>
+        <% if @vrental.office.company.logo.attached? %>
+          <%= cl_image_tag @vrental.office.company.logo.key, width: "170px" %>
         <% else %>
-          <img src="https://www.sistachrentals.com/wp-content/uploads/2019/12/marca_sistach_rentals_transparent.png" style="width: 170px;">
+          <%= image_tag("logo-light.png", class: "logo", alt: "") %>
         <% end %>
       </div>
     </div>

@@ -8,7 +8,9 @@ class VragreementsController < ApplicationController
     active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
     active_vragreements = active_vragreements.order(created_at: :desc)
+    @years_possible_contract = @vrental.years_possible_contract
     @pagy, @vragreements = pagy(active_vragreements, page: params[:page], items: 10)
+
   end
 
   def list
@@ -69,22 +71,25 @@ class VragreementsController < ApplicationController
   def new
     @vragreement = Vragreement.new
     authorize @vragreement
+
+    @years_possible_contract = @vrental.years_possible_contract
+
     @year = params[:year].to_i
     @rates = @vrental.rates.where("extract(year from firstnight) = ?", @year).order(:firstnight)
-    start_date = @rates.first.firstnight if @rates.present?
-    end_date = @rates.last.lastnight if @rates.present?
-    place = @vrental.office.city if @vrental.office
-    vrentaltemplates = Vrentaltemplate.where(language: @vrental.owner.present? ? @vrental.owner.language : I18n.default_locale)
-    default_template = vrentaltemplates.max_by do |template|
+    @contract_start_date = @rates.first.firstnight if @rates.present?
+    @contract_end_date = @rates.last.lastnight if @rates.present?
+    @place = @vrental.office.city if @vrental.office
+    @vrentaltemplates = Vrentaltemplate.where(language: @vrental.owner.present? ? @vrental.owner.language : I18n.default_locale)
+    @default_template = @vrentaltemplates.max_by do |template|
       template.vragreements.count
     end
     @vragreement.attributes = {
-      start_date: start_date,
-      end_date: end_date,
+      start_date: @contract_start_date,
+      end_date: @contract_end_date,
       year: params[:year].to_i,
-      vrentaltemplate: default_template,
+      vrentaltemplate: @default_template,
       signdate: Date.today,
-      place: place,
+      place: @place,
       status: 'pending',
       owner_bookings: t("owner_bookings_default", email: @vrental.office.email)
     }
@@ -138,7 +143,7 @@ class VragreementsController < ApplicationController
     @vragreement.vrental = @vrental
     authorize @vragreement
     if @vragreement.save
-      redirect_to vragreements_path, notice: "Has creat el contracte per #{@vrental.name}."
+      redirect_to vrental_vragreements_path(@vrental), notice: "Has creat el contracte per #{@vrental.name}."
     else
       render :new
     end

@@ -3,6 +3,7 @@ class Company < ApplicationRecord
   has_many :users
   has_many :offices
   has_many :rate_plans
+  has_one_attached :logo
   # validate :user_can_create_only_one_company, on: :create
 
   def available_vrentals(checkin, checkout, guests, prop_ids)

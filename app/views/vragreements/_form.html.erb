@@ -2,20 +2,26 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row">
-    <div class="col"><%= f.input :status, as: :select, collection: [[t("not sent"), 'not sent'], [t("pending"), 'pending'], [t("signed"), 'signed']], include_blank: true %> </div>
-    <div class="col"><%= f.input :signdate, as: :string, input_html: { class: "datepicker"} %></div>
-    <div class="col"><%= f.input :place, label: 'Lloc de la firma' %></div>
+    <div class="col">
+      <%= f.input :status, as: :select, collection: [[t("not sent"), 'not sent'], [t("pending"), 'pending'], [t("signed"), 'signed']], include_blank: true, selected: [t("not sent"), 'not sent'] %>
+    </div>
+    <div class="col"><%= f.input :signdate, as: :string, input_html: { class: "datepicker", value: f.object.persisted? ? f.object.signdate : Date.today } %></div>
+    <div class="col"><%= f.input :place, label: 'Lloc de la firma', input_html: { value: f.object.persisted? ? f.object.place : @place } %></div>
+    <div class="col">
+      <%# f.input :year, as: :select, collection: @years_possible_contract, include_blank: true, selected: @years_possible_contract.last if @years_possible_contract %>
+      <%= f.input :year, value: @year, readonly: true %>
+    </div>
   </div>
   <div class="row">
-    <div class="col"><%= f.input :year, readonly: true %></div>
-    <div class="col"><%= f.input :start_date, as: :string, input_html: { class: "datepicker" } %></div>
-    <div class="col"><%= f.input :end_date, as: :string, input_html: { class: "datepicker" } %></div>
+    <div class="col"><%= f.input :start_date, as: :string, input_html: { class: "datepicker", value: f.object.persisted? ? f.object.start_date : @contract_start_date } %></div>
+    <div class="col"><%= f.input :end_date, as: :string, input_html: { class: "datepicker", value: f.object.persisted? ? f.object.end_date : @contract_end_date  } %></div>
   </div>
   <div class="row">
     <%= f.association :vrentaltemplate,
                    include_blank: true,
+                   value: f.object.persisted? ? vrentaltemplate_id : @default_template&.id,
                    label: ("Seleccionar model de contracte o #{link_to 'Afegir model de contracte nou', new_vrentaltemplate_path, target: '_blank'}.").html_safe,
-                   hint: t("owner_speaks", name: vrental.owner.fullname, language: t("#{vrental.owner.language}")) if vrental.owner %>
+                   hint: vrental.owner.present? ? t("owner_speaks", name: vrental.owner&.fullname, language: t("#{vrental.owner&.language}")) : '' %>
   </div>
   <div class="row">
     <%= f.input :owner_bookings %>
@@ -24,7 +30,9 @@
     <% year_to_display = f.object.year || @year || Date.current.year %>
     <% if @rates.present? %>
       <h5><%= link_to "Tarifes #{year_to_display}", vrental_rates_path, target: "_blank" %></h5>
-      <%= render @rates %>
+      <div class="container">
+        <%= render @rates %>
+      </div>
     <% else %>
       <%= link_to "Afegir tarifes", vrental_rates_path, target: "_blank", class: "btn btn-info" %>
     <% end %>

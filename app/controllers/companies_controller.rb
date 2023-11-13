@@ -31,7 +31,7 @@ class CompaniesController < ApplicationController
 
   def update
     if @company.update(company_params)
-      redirect_to root_path, notice: "Empresa actualitzada."
+      redirect_to edit_company_path, notice: "Empresa actualitzada."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -49,6 +49,6 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:name, :language, :street, :city, :vat_number, :user_id, :post_code, :region, :country, :bank_account, :administrator, :vat_tax, :vat_tax_payer, :realtor_number)
+      params.require(:company).permit(:name, :language, :street, :city, :vat_number, :user_id, :post_code, :region, :country, :bank_account, :administrator, :vat_tax, :vat_tax_payer, :realtor_number, :logo)
     end
 end
