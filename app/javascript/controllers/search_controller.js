@@ -29,7 +29,6 @@ export default class extends Controller {
   }
 
   async updatePrice() {
-    console.log("separated rate price and price");
     const checkIn = this.checkinTarget.value;
     const checkOut = this.checkoutTarget.value;
     const numAdult = this.numAdultTarget.value;
@@ -80,7 +79,12 @@ export default class extends Controller {
       }
 
       if (ratePriceElement) {
-        if (typeof responseData.ratePrice === "number") {
+        if (
+          responseData.notAvailable ||
+          typeof responseData.ratePrice !== "number"
+        ) {
+          ratePriceElement.classList.add("d-none");
+        } else {
           ratePriceElement.classList.remove("d-none");
           const ratePriceFormatted = this.formatCurrency(
             responseData.ratePrice
@@ -92,12 +96,12 @@ export default class extends Controller {
 
             if (priceDifference < 5) {
               ratePriceElement.classList.add("d-none");
+            } else {
+              ratePriceElement.textContent = ratePriceFormatted;
             }
-
+          } else {
             ratePriceElement.textContent = ratePriceFormatted;
           }
-        } else {
-          ratePriceElement.classList.add("d-none");
         }
       }
     } catch (error) {
