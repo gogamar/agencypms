@@ -15,8 +15,7 @@
         <%= link_to t('delete'), user, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: t('sure_delete')} %>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 <% else %>
   <p><%= t('no_users') %></p>
 <% end %>
