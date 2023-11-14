@@ -78,6 +78,14 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def real_bedrooms
+    bedrooms.where(bedroom_type: "BEDROOM")
+  end
+
+  def living_room_bedrooms
+    bedrooms.where(bedroom_type: "BEDROOM_LIVING_SLEEPING_COMBO")
+  end
+
   def has_future_rates?
     rates.where('lastnight > ?', Date.today).exists?
   end

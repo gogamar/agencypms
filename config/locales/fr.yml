@@ -6,6 +6,7 @@ fr:
     one: Salle de bains avec baignoire
     other: Salles de bains avec baignoire
   BEDROOM: Chambre
+  BEDROOM_LIVING_SLEEPING_COMBO: Salon
   BED_BUNK:
     one: Lit superposé
     other: Lits superposés
@@ -18,6 +19,12 @@ fr:
   BED_SINGLE:
     one: Lit simple
     other: Lits simples
+  BED_SOFA:
+    one: Canapé-lit
+    other: Canapés-lits
+  BED_CRIB:
+    one: Lit escamotable
+    other: Lits escamotables
   DBL: Double
   DSF: DS
   SGL: Simple

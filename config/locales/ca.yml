@@ -6,6 +6,7 @@ ca:
     one: Bany amb banyera
     other: Banys amb banyera
   BEDROOM: Habitació
+  BEDROOM_LIVING_SLEEPING_COMBO: Sala d'estar
   BED_BUNK:
     one: Llitera
     other: Lliteres
@@ -18,6 +19,12 @@ ca:
   BED_SINGLE:
     one: Llit individual
     other: Llits individuals
+  BED_CRIB:
+    one: Llit niu
+    other: Llits niu
+  BED_SOFA:
+    one: Sofà llit
+    other: Sofàs llit
   DBL: D
   DSF: DS
   SGL: IN

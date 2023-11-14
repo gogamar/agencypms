@@ -37,10 +37,10 @@
                   <%= @vrental.max_guests %> <%= t("guests", count: @vrental.max_guests) %>
                 </div>
               <% end %>
-              <% if @vrental.bedrooms.present? %>
+              <% if @vrental.real_bedrooms.present? %>
                 <div class="listing-card-info-icon">
                   <div class="inc-fleat-icon me-1"><%= image_tag("bed.svg", width: "13", alt: "") %></div>
-                  <%= @vrental.bedrooms.count %> <%= t("bedrooms", count: @vrental.bedrooms.count) %>
+                  <%= @vrental.real_bedrooms.count %> <%= t("bedrooms", count: @vrental.real_bedrooms.count) %>
                 </div>
               <% end %>
               <% if @vrental.bathrooms.present? %>
@@ -78,14 +78,27 @@
           <div id="clTwo" class="panel-collapse collapse show" aria-labelledby="clOne" aria-expanded="true">
             <div class="block-body">
               <ul class="deatil_features">
-                <% @vrental.bedrooms.each_with_index do |bedroom, index| %>
-                  <li>
-                    <strong><%= t(bedroom.bedroom_type) %>  <%= index + 1 %>:</strong>
-                    <% bedroom.beds.group(:bed_type).count.each do |bed_type, count| %>
-                      <br>
-                      <%= count %> <%= t(bed_type, count: count) %>
-                    <% end %>
-                  </li>
+                <% if @vrental.real_bedrooms.present? %>
+                  <% @vrental.real_bedrooms.each_with_index do |bedroom, index| %>
+                    <li>
+                      <strong><%= t(bedroom.bedroom_type) %>  <%= index + 1 %>:</strong>
+                      <% bedroom.beds.group(:bed_type).count.each do |bed_type, count| %>
+                        <br>
+                        <%= count %> <%= t(bed_type, count: count) %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                <% end %>
+                <% if @vrental.living_room_bedrooms.present? %>
+                  <% @vrental.living_room_bedrooms.each do |bedroom| %>
+                    <li>
+                      <strong><%= t(bedroom.bedroom_type) %></strong>
+                      <% bedroom.beds.group(:bed_type).count.each do |bed_type, count| %>
+                        <br>
+                        <%= count %> <%= t(bed_type, count: count) %>
+                      <% end %>
+                    </li>
+                  <% end %>
                 <% end %>
                 <% @vrental.bathrooms.group(:bathroom_type).count.each do |bathroom_type, count| %>
                   <li>

@@ -6,6 +6,7 @@ en:
     one: Bathroom with bathtub
     other: Bathrooms with bathtub
   BEDROOM: Bedroom
+  BEDROOM_LIVING_SLEEPING_COMBO: Living Room
   BED_BUNK:
     one: Bunk bed
     other: Bunk beds
@@ -18,6 +19,12 @@ en:
   BED_SINGLE:
     one: Single bed
     other: Single beds
+  BED_SOFA:
+    one: Sofa bed
+    other: Sofa beds
+  BED_CRIB:
+    one: Crib bed
+    other: Crib beds
   DBL: Double
   DSF: DS
   SGL: Single

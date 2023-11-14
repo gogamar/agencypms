@@ -37,10 +37,10 @@
               <%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %>
             </div>
           <% end %>
-          <% if vrental.bedrooms.present? %>
+          <% if vrental.real_bedrooms.present? %>
             <div class="listing-card-info-icon">
               <div class="inc-fleat-icon"><%= image_tag("bed.svg", width: "13", alt: "") %></div>
-              <%= vrental.bedrooms.count %> <%= t("bedrooms", count: vrental.bedrooms.count) %>
+              <%= vrental.real_bedrooms.count %> <%= t("bedrooms", count: vrental.real_bedrooms.count) %>
             </div>
           <% end %>
           <% if vrental.bathrooms.present? %>

@@ -43,17 +43,28 @@
         <%= @vrental.beds_room_id %>
       </p>
       <p class="card-text">
-        <strong><%= @vrental.bedrooms.count %> <%= t("bedroom", count: @vrental.bedrooms.count) %>:</strong>
-        <% @vrental.bedrooms.each do |bedroom| %>
-          <li>
-            <% if bedroom.bedroom_type != "BEDROOM" %>
+        <% if @vrental.real_bedrooms.present? %>
+          <strong><%= @vrental.real_bedrooms.count %> <%= t("bedroom", count: @vrental.bedrooms.count) %>:</strong>
+          <% @vrental.real_bedrooms.each do |bedroom| %>
+            <li>
               <%= t(bedroom.bedroom_type) %>:
-            <% end %>
-            <% bed_counts = bedroom.beds.group(:bed_type).count %>
-            <% bed_counts.each do |bed_type, count| %>
-              <%= count %> <%= t(bed_type, count: count) %>
-            <% end %>
-          </li>
+              <% bed_counts = bedroom.beds.group(:bed_type).count %>
+              <% bed_counts.each do |bed_type, count| %>
+                <%= count %> <%= t(bed_type, count: count) %>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+        <% if @vrental.living_room_bedrooms.present? %>
+          <% @vrental.living_room_bedrooms.each do |bedroom| %>
+            <li>
+              <%= t(bedroom.bedroom_type) %>:
+              <% bed_counts = bedroom.beds.group(:bed_type).count %>
+              <% bed_counts.each do |bed_type, count| %>
+                <%= count %> <%= t(bed_type, count: count) %>
+              <% end %>
+            </li>
+          <% end %>
         <% end %>
       </p>
       <p class="card-text">
