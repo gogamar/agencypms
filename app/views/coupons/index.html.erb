@@ -3,7 +3,7 @@
   <% @coupons.each do |coupon| %>
     <div>
       <%= coupon.name %> - <%= coupon.amount %> -  <%= coupon.discount_type %>
-      <%= link_to t('edit'), edit_company_office_coupon_path(@company, @office, coupon), class: "btn btn-sm btn-secondary" %> <%= link_to t('delete'), coupon, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{coupon.name}?"} %>
+      <%= link_to t('edit'), edit_company_office_coupon_path(@company, @office, coupon), class: "btn btn-sm btn-secondary" %> <%= link_to t('delete'), coupon, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: t('sure_delete')} %>
       <%= link_to "Aplicar a tots els immobles d'aquesta oficina", apply_to_all_company_office_coupon_path(@company, @office, coupon), class: "btn btn-sm btn-success" %>
     </div>
   <% end %>

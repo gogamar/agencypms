@@ -28,6 +28,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    authorize @user
+    @user.destroy
+    redirect_back fallback_location: users_path, notice: 'Has esborrat l\'usuari.'
+  end
 
   private
 
@@ -38,5 +43,4 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:approved, :company_id, :office_id)
   end
-
 end

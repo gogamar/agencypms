@@ -634,3 +634,5 @@ ca:
   tourist: Viatger
   admin: Administrador
   manager: Encarregat
+  sure_delete: Estàs segur?
+  no_users: No hi ha usuaris.
