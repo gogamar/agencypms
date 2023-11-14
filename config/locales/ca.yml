@@ -628,3 +628,9 @@ ca:
   delete: Eliminar
   add_rates_to_add_contract: Afegir tarifes per poder crear contracte
   new_contract_for: "Nou contracte per %{prop_name} any %{year}"
+  approved: Aprovat
+  update: Actualitzar
+  registered: Registrat
+  tourist: Viatger
+  admin: Administrador
+  manager: Encarregat
