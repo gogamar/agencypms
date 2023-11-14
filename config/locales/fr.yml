@@ -152,6 +152,13 @@ fr:
         description_es: Description de la page web en espagnol
         description_fr: Description de la page web en français
         description_en: Description de la page web en anglais
+        vrgroup: Groupe de propriétés
+        max_guests: Nombre maximum de personnes
+        min_stay: Séjour minimum
+        min_price: Prix minimum
+        rental_term: Type de location
+        res_fee: Pourcentage pour confirmer la réservation
+        free_cancel: Jours pour annuler sans frais
       vrentaltemplate:
         language: Langue
         title: Titre

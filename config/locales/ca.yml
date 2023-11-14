@@ -152,6 +152,13 @@ ca:
         description_es: Descripció pàgina web castellà
         description_fr: Descripció pàgina web francès
         description_en: Descripció pàgina web anglès
+        vrgroup: Grup d'immobles
+        max_guests: Nombre màxim de persones
+        min_stay: Estada mínima
+        min_price: Preu mínim
+        rental_term: Tipus de lloguer
+        res_fee: Percentatge per confirmar reserva
+        free_cancel: Dies per cancel·lar sense càrrec
       vrentaltemplate:
         language: Idioma
         title: Títol
@@ -591,3 +598,26 @@ ca:
   close_filter: Tancar filtres
   price_with_coupon: Preu amb codi descompte
   min_stay: "Min. %{min_stay} nits"
+  website: Pàgina web
+  authorize_users: Autoritzar usuaris
+  export_changes_to_beds24: Exportar canvis a Beds24
+  create: Crear
+  on_beds24: a Beds24
+  import_photos_from_beds24: Importar fotos de Beds24
+  send_photos_to_beds24: Enviar fotos a Beds24
+  import_changes_from_beds24: Importar canvis de Beds24
+  import_owner_from_beds24: Importar propietari de Beds24
+  contracts: Contractes
+  contract_templates: Plantilles de contracte
+  reports: Informes
+  invoices: Factures
+  rates: Tarifes
+  statements: Liquidacions
+  edit_property: Editar immoble
+  property_details: Detalls immoble
+  view_on_website: Immoble Web
+  pdf_contract: Contracte PDF
+  edit: Modificar
+  delete: Eliminar
+  add_rates_to_add_contract: Afegir tarifes per poder crear contracte
+  new_contract_for: "Nou contracte per %{prop_name} any %{year}"

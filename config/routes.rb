@@ -92,7 +92,7 @@ Rails.application.routes.draw do
         end
 
         resources :rates, only: [:new, :edit, :create, :update, :index, :show]
-        resources :vragreements, only: [:new, :edit, :create, :update, :show, :index] do
+        resources :vragreements do
           member do
             get 'copy'
           end

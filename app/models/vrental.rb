@@ -78,6 +78,10 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def has_future_rates?
+    rates.where('lastnight > ?', Date.today).exists?
+  end
+
   def dates_with_rates(fnight = nil, lnight = nil)
     rates.pluck(:firstnight, :lastnight).map do |range|
       from = range[0]
@@ -151,6 +155,7 @@ class Vrental < ApplicationRecord
   end
 
   def years_possible_contract
+    return if rates.empty?
     years_with_contract = vragreements.pluck(:year)
 
     last_rate_year = rates.order(firstnight: :desc).first.firstnight.year

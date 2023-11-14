@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between">
   <div>
-    <%= link_to 'Modificar', edit_rental_path(@rental), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @rental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@rental.address}?"} %>
+    <%= link_to t('edit'), edit_rental_path(@rental), class: "btn btn-secondary" %> <%= link_to t('delete'), @rental, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@rental.address}?"} %>
   </div>
 </div>
 <div>

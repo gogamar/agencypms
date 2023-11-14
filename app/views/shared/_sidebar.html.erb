@@ -1,4 +1,4 @@
-<section class="bg-light">
+<section class="bg-light pt-3">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12 col-md-12">
@@ -19,33 +19,69 @@
               <% if @office && @office.office_photos.present? %>
                 <div class="d-user-avater">
                   <%= cl_image_tag @office.office_photos.first.key, crop: :fill, class: "img-fluid avater", alt: "#{@company.name}" %>
-                  <%# <h4>Adam Harshvardhan</h4> %>
-                  <%# <span>Canada USA</span> %>
                 </div>
               <% end %>
               <div class="d-navigation">
                 <ul>
-                  <!--
-                  <li><a href="dashboard.html"><i class="fa-solid fa-gauge"></i>Dashboard</a></li>
-                  <li class="active"><a href="my-profile.html"><i class="fa-solid fa-address-card"></i>My Profile</a></li>
-                  <li><a href="bookmark-list.html"><i class="fa-solid fa-bookmark"></i>Bookmarked Listings</a></li>
-                  <li><a href="my-property.html"><i class="fa-solid fa-building-circle-check"></i>My Properties</a></li>
-                  <li><a href="submit-property-dashboard.html"><i class="fa-solid fa-house"></i>Submit New Property</a></li>
-                  <li><a href="change-password.html"><i class="fa-solid fa-unlock"></i>Change Password</a></li>
-                  <li><a href="#"><i class="fa-solid fa-power-off"></i>Log Out</a></li>
-                  -->
-                  <li>
-                    <%= link_to "dashboard_path" do %>
+                  <% if @vrental && @vrental.persisted? %>
+                    <li class="<%= 'active' if current_page?(@vrental) %>">
+                      <%= link_to @vrental do %>
+                        <i class="fa-solid fa-house"></i><%= t("property_details") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(edit_vrental_path(@vrental)) %>">
+                      <%= link_to edit_vrental_path(@vrental) do %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("edit_property") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(edit_photos_vrental_path(@vrental)) %>">
+                      <%= link_to edit_photos_vrental_path(@vrental) do %>
+                        <i class="fa-solid fa-image"></i><%= t('photos') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrental_rates_path(@vrental)) %>">
+                      <%= link_to vrental_rates_path(@vrental) do %>
+                        <i class="fa-solid fa-money-check-dollar"></i><%= t('rates') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrental_vragreements_path(@vrental)) %>">
+                      <%= link_to vrental_vragreements_path(@vrental) do %>
+                        <i class="fa-solid fa-file-signature"></i><%= t('contracts') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrental_earnings_path(@vrental)) %>">
+                      <%= link_to vrental_earnings_path(@vrental) do %>
+                        <i class="fa-solid fa-arrow-trend-up"></i><%= t('earnings') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrental_expenses_path(@vrental)) %>">
+                      <%= link_to vrental_expenses_path(@vrental) do %>
+                        <i class="fa-solid fa-arrow-trend-down"></i><%= t('expenses') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrental_statements_path(@vrental)) %>">
+                      <%= link_to vrental_statements_path(@vrental) do %>
+                        <i class="fa-solid fa-file-invoice-dollar"></i><%= t('statements') %>
+                      <% end %>
+                    </li>
+                    <li>
+                      <%= link_to book_property_path(vrental_id: @vrental.id), target: '_blank' do %>
+                        <i class="fa-solid fa-eye"></i><%= t('view_on_website') %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                  <li class="<%= 'active' if current_page?(dashboard_path) %>">
+                    <%= link_to dashboard_path do %>
                       <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
                     <% end %>
                   </li>
-                  <li>
+                  <li class="<%= 'active' if current_page?(new_vrgroup_path) %>">
                     <%= link_to new_vrgroup_path do %>
                       <i class="fa-solid fa-link"></i><%= t("add_group") %>
                     <% end %>
                   </li>
                   <% if @office %>
-                    <li>
+                    <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %>">
                       <%= link_to company_office_coupons_path(@company, @office) do %>
                         <i class="fa-solid fa-tags"></i><%= t("coupons") %>
                       <% end %>

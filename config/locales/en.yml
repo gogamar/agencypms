@@ -152,6 +152,13 @@ en:
         description_es: Spanish webpage description
         description_fr: French webpage description
         description_en: English webpage description
+        vrgroup: Property Group
+        max_guests: Maximum Number of Guests
+        min_stay: Minimum Stay
+        min_price: Minimum Price
+        rental_term: Rental Type
+        res_fee: Percentage to Confirm Reservation
+        free_cancel: Days to Cancel Without Charge
       vrentaltemplate:
         language: Language
         title: Title

@@ -4,11 +4,14 @@ class VragreementsController < ApplicationController
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
+    if params[:vrental_id].present?
+      @vrental = Vrental.find(params[:vrental_id])
+      @years_possible_contract = @vrental.years_possible_contract
+    end
     active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
     active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
     active_vragreements = active_vragreements.order(created_at: :desc)
-    @years_possible_contract = @vrental.years_possible_contract
+
     @pagy, @vragreements = pagy(active_vragreements, page: params[:page], items: 10)
 
   end
@@ -161,8 +164,14 @@ class VragreementsController < ApplicationController
 
   def destroy
     authorize @vragreement
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
     @vragreement.destroy
-    redirect_to vragreements_path, notice: "Has esborrat el contracte del #{@vragreement.vrental.name}."
+
+    if @vrental
+      redirect_to vrental_vragreements_path(@vrental), notice: "Has esborrat el contracte del #{@vragreement.vrental.name}."
+    else
+      redirect_to vragreements_path, notice: "Has esborrat el contracte."
+    end
   end
 
   private

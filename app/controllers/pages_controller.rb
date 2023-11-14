@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   before_action :load_filters, only: [:home, :list]
   before_action :load_search_params, only: [:list]
   skip_before_action :authenticate_user!, except: [:dashboard]
-  layout 'booking_website'
+  layout 'booking_website', except: [:dashboard]
   include ActionView::Helpers::NumberHelper
 
   def dashboard

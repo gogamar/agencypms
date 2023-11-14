@@ -28,14 +28,12 @@
           <% if user_signed_in? %>
             <%= render "shared/topbar" %>
             <%= render "shared/navbar" unless devise_controller? %>
-            <%= render "shared/subnav" if @vrental && @vrental.persisted? %>
+            <%= render "shared/page_title", title: @vrental.name, subtitle: "#{@vrental.address}" if @vrental && @vrental.persisted? %>
           <% end %>
           <div id="content" class="flex-shrink-0">
-            <div class="container-fluid my-5">
-              <%= render 'shared/sidebar' do %>
-                <% yield %>
-              <% end %>
-            </div>
+            <%= render 'shared/sidebar' do %>
+              <% yield %>
+            <% end %>
           </div>
         </div>
       </div>

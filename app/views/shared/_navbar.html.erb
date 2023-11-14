@@ -1,66 +1,118 @@
-<nav class="navbar navbar-expand-lg navbar-light border-bottom">
-  <div class="container-fluid d-flex justify-content-end">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <% if @vrental || params[:controller] == 'vrentals' %>
-        <div class="form-group borders col-lg-4">
-          <div class="input-with-icon">
-            <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
-              <option value="">&nbsp;</option>
-              <% @all_vrentals.each do |vrental| %>
-                <option value="<%= vrental_path(vrental) %>"><%= vrental.name %></option>
-              <% end %>
-            </select>
-            <i class="fas fa-home"></i>
-          </div>
+<div class="header header-light head-shadow change-logo">
+  <div class="container">
+    <nav id="navigation" class="navigation navigation-landscape">
+      <div class="nav-header">
+        <%= link_to home_path, class: "nav-brand static-logo" do %>
+          <%= image_tag("logo-light.png", class: "logo", alt: "") %>
+        <% end %>
+        <%= link_to home_path, class: "nav-brand fixed-logo" do %>
+          <%= image_tag("logo.png", class: "logo", alt: "") %>
+        <% end %>
+        <div class="nav-toggle"></div>
+        <div class="mobile_nav">
+          <ul>
+            <li>
+              <a href="submit-property.html" class="text-primary">
+                <span class="svg-icon svg-icon-2hx">
+                  <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"/>
+                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"/>
+                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"/>
+                  </svg>
+                </span>
+              </a>
+            </li>
+            <%= render 'shared/user_menu' %>
+          </ul>
         </div>
-      <% end %>
-      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-        <li class="nav-item">
-          <%= link_to "Immobles", vrentals_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Propietaris", owners_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Informes
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><%= link_to "Ingressos", total_earnings_vrentals_path, class: "dropdown-item" %></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Despeses", expenses_path, class: "dropdown-item" %></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Factures", invoices_path, class: "dropdown-item" %></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Contractes
-          </a>
-          <ul class="dropdown-menu <%= 'dropdown-menu-end' if !@vrental&.persisted? %>" aria-labelledby="navbarDropdown">
-            <li><%= link_to "Contractes", vragreements_path, class: "dropdown-item" %></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Models de contracte", vrentaltemplates_path, class: "dropdown-item" %></li>
-          </ul>
-        </li>
-        <% if @vrental&.persisted? %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="beds24" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Beds24
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="beds24">
-              <li><%= link_to @vrental.beds_prop_id.present? ? "#{@vrental.name}: exportar canvis a Beds24" : "Crear #{@vrental.name} a Beds24", update_on_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
-              <li><%= link_to "#{@vrental.name}: importar fotos des de Beds24", import_photos_vrental_path(@vrental), class: "dropdown-item" %></li>
-              <li><%= link_to "#{@vrental.name}: enviar fotos a Beds24", send_photos_vrental_path(@vrental), class: "dropdown-item" %></li>
-              <li><%= link_to "#{@vrental.name}: importar canvis des de Beds24", update_from_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
-              <li><%= link_to "#{@vrental.name}: importar propietari des de Beds24", update_owner_from_beds_vrental_path(@vrental), class: "dropdown-item" %></li>
+      </div>
+      <div class="nav-menus-wrapper" style="transition-property: none;">
+        <ul class="nav-menu">
+          <% if @vrental || params[:controller] == 'vrentals' %>
+            <li class="form-group borders mx-2">
+              <div class="input-with-icon">
+                <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
+                  <option value="">&nbsp;</option>
+                  <% @all_vrentals.each do |vrental| %>
+                    <option value="<%= vrental_path(vrental) %>"><%= vrental.name %></option>
+                  <% end %>
+                </select>
+                <i class="fas fa-home"></i>
+              </div>
+            </li>
+          <% end %>
+          <li><a href="JavaScript:void(0);"><%= t('vrentals') %><span class="submenu-indicator"></span></a>
+            <ul class="nav-dropdown nav-submenu">
+              <li><%= link_to vrentals_path do %>
+                  <i class="fa-solid fa-house-circle-check me-1"></i><%= t("vrentals") %>
+                <% end %></li>
+              <li><%= link_to owners_path do %>
+                  <i class="fa-solid fa-house-user me-1"></i><%= t("owners") %>
+                <% end %></li>
+              <li><%= link_to vragreements_path do %>
+                  <i class="fa-solid fa-file-signature me-1"></i><%= t("contracts") %>
+                <% end %></li>
+              <li><%= link_to vrentaltemplates_path do %>
+                  <i class="fa-solid fa-file me-1"></i><%= t("contract_templates") %>
+                <% end %></li>
             </ul>
           </li>
-        <% end %>
-      </ul>
-    </div>
+          <li><a href="JavaScript:void(0);"><%= t('reports') %><span class="submenu-indicator"></span></a>
+            <ul class="nav-dropdown nav-submenu">
+              <li><%= link_to total_earnings_vrentals_path do %>
+                  <i class="fa-solid fa-arrow-trend-up me-1"></i><%= t('earnings') %>
+                <% end %></li>
+              <li><%= link_to expenses_path do %>
+                  <i class="fa-solid fa-arrow-trend-down me-1"></i><%= t('expenses') %>
+                <% end %></li>
+              <li><%= link_to invoices_path do %>
+                  <i class="fa-solid fa-file-invoice-dollar me-1"></i><%= t('invoices') %>
+                <% end %></li>
+            </ul>
+          </li>
+          <% if @vrental&.persisted? %>
+            <li><a href="JavaScript:void(0);">Beds24<span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu">
+                <li><%= link_to update_on_beds_vrental_path(@vrental) do %>
+                    <i class="fa-solid fa-upload me-1"></i><%= @vrental.beds_prop_id.present? ? "#{@vrental.name}: #{t('export_changes_to_beds24')}" : "#{t('create')} #{@vrental.name} #{t('on_beds24')}" %>
+                  <% end %></li>
+                <li><%= link_to send_photos_vrental_path(@vrental) do %>
+                    <i class="fa-solid fa-upload me-1"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
+                  <% end %></li>
+                <li><%= link_to update_from_beds_vrental_path(@vrental) do %>
+                    <i class="fa-solid fa-download me-1"></i> <%= "#{@vrental.name}: #{t('import_changes_from_beds24')}" %>
+                  <% end %></li>
+                <li><%= link_to import_photos_vrental_path(@vrental) do %>
+                    <i class="fa-solid fa-download me-1"></i><%= "#{@vrental.name}: #{t('import_photos_from_beds24')}" %>
+                  <% end %></li>
+                <li><%= link_to update_owner_from_beds_vrental_path(@vrental) do %>
+                    <i class="fa-solid fa-user-plus me-1"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
+                  <% end %></li>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+        <ul class="nav-menu nav-menu-social align-to-right d-flex align-items-center gap-3">
+          <li>
+            <%= link_to submit_property_path, class: "text-success" do %>
+              <i class="fa-solid fa-house-circle-check me-2"></i><%= t("add_property") %>
+            <% end %>
+          </li>
+          <%= render 'shared/user_menu' %>
+        </ul>
+      </div>
+    </nav>
   </div>
-</nav>
+</div>
+<div class="clearfix"></div>
+<%= render 'shared/log_in_modal' %>
+<%= render 'shared/log_out_modal' %>
+<%# render 'shared/sign_up_modal' %>
+<!-- End Navigation -->
+<script>
+  $(document).ready(function(){
+  				$("#showbutton").click(function(){
+  				$("#showing").slideToggle("slow");
+  });
+  });
+</script>

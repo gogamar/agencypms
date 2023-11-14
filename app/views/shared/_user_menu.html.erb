@@ -1,0 +1,36 @@
+<% if user_signed_in? %>
+  <li>
+    <div class="btn-group account-drop">
+      <button type="button" class="btn btn-order-by-filt dropdown-toggle" id="showbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <% if current_user.photo.attached? %>
+          <%= cl_image_tag(current_user.photo.key, class: "avatar-img") %>
+        <% end %>
+        <%= current_user.email %>
+      </button>
+      <div class="dropdown-menu pull-right animated flipInX" id="showing">
+        <%= link_to dashboard_path do %>
+          <i class="fa-solid fa-chart-line me-1"></i><%= t("dashboard") %>
+        <% end %>
+        <%= link_to edit_user_registration_path do %>
+          <i class="fa-solid fa-address-card me-1"></i><%= t("edit_profile") %>
+        <% end %>
+        <% if current_user.admin? %>
+          <%= link_to users_path do %>
+            <i class="fa-solid fa-user me-1"></i><%= t('authorize_users') %>
+          <% end %>
+        <% end %>
+        <!--<a href="#"><i class="fa-solid fa-bookmark"></i>Bookmarked Listings</a>
+                  <a href="#"><i class="fa-solid fa-unlock"></i>Change Password</a>-->
+        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#logout">
+          <i class="fa-solid fa-arrow-right-from-bracket me-1"></i><%= t("sign_out") %>
+        </a>
+      </div>
+    </div>
+  </li>
+<% else %>
+  <li>
+    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#login">
+      <i class="fa-solid fa-arrow-right-from-bracket me-2"></i><%= t("sign_in") %>
+    </a>
+  </li>
+<% end %>

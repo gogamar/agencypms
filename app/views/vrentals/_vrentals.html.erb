@@ -1,29 +1,28 @@
-<div class="d-md-flex justify-content-between align-items-center">
-  <h4><%= t("vacation_rental_properties") %></h4>
-  <%= form_with url: list_vrentals_path, method: :get, data: { controller: "search-vrentals", search_vrentals_target: "form", "search-vrentals-url-value": vrentals_path, turbo_frame: "vrentals" }, class: "row mb-2" do |form| %>
-    <div class="form-group col">
-      <div class="input-with-icon">
-        <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->search-vrentals#search", search_vrentals_target: "filterName" } %>
-        <i class="fas fa-home"></i>
-      </div>
-    </div>
-    <% if @statuses.count > 1 %>
+<div class="card d-md-flex flex-column align-items-center">
+  <h4 class="card-header border-0"><%= t("vacation_rental_properties") %></h4>
+  <div class="card-body d-md-flex align-items-center">
+    <%= form_with url: list_vrentals_path, method: :get, data: { controller: "search-vrentals", search_vrentals_target: "form", "search-vrentals-url-value": vrentals_path, turbo_frame: "vrentals" }, class: "row mb-2" do |form| %>
       <div class="form-group col">
-        <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterStatus" } %>
+        <div class="input-with-icon">
+          <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->search-vrentals#search", search_vrentals_target: "filterName" } %>
+          <i class="fas fa-home"></i>
+        </div>
       </div>
+      <% if @statuses.count > 1 %>
+        <div class="form-group col">
+          <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterStatus" } %>
+        </div>
+      <% end %>
+      <% if @towns.count > 1 %>
+        <div class="form-group col">
+          <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterTown" } %>
+        </div>
+      <% end %>
     <% end %>
-    <% if @towns.count > 1 %>
-      <div class="form-group col">
-        <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterTown" } %>
-      </div>
-    <% end %>
-  <% end %>
+  </div>
 </div>
 <%= turbo_frame_tag "vrentals" do %>
-  <div class="d-md-flex justify-content-between mb-4" id="sort-buttons-js">
-    <%= link_to submit_property_path, class: "text-success my-2" do %>
-      <%= image_tag("submit.svg", class: "mr-2", width: "20", alt: "") %> <%= t("add_property") %>
-    <% end %>
+  <div class="d-md-flex justify-content-center mb-4" id="sort-buttons-js">
     <% if @vrentals && @vrentals.length > 1 %>
       <div class="d-md-flex justify-content-end">
         <div class="filter-t" relative>

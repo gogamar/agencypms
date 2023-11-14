@@ -1,7 +1,7 @@
 <div class="container-fluid mb-5">
   <div class="d-flex justify-content-between mt-4">
     <div>
-      <%= link_to 'Modificar', edit_vrentaltemplate_path(@vrentaltemplate), class: "btn btn-secondary" %> <%= link_to 'Esborrar', @vrentaltemplate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrentaltemplate.title}?"} %>
+      <%= link_to t('edit'), edit_vrentaltemplate_path(@vrentaltemplate), class: "btn btn-secondary" %> <%= link_to t('delete'), @vrentaltemplate, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@vrentaltemplate.title}?"} %>
     </div>
   </div>
   <hr>

@@ -1,79 +1,15 @@
-<nav class="navbar navbar-expand-lg topbar-md-up">
-  <div class="container-fluid d-flex justify-content-between">
-    <div>
-      <%= link_to root_path, class: "w-40 self-center" do %>
-        <% if current_user.photo.attached? %>
-          <%= cl_image_tag user.photo.key, height: 40, crop: :fill %>
-        <% else %>
-          <%= image_tag "https://res.cloudinary.com/dlzusxobf/image/upload/v1665045942/FINQUES_SISTACH__Finques_nxoogg.png", class: "navbar-brand", style: "height: 40px;" %>
-        <% end %>
+<nav class="navbar py-0 dark-top navbar-expand-lg py-md-0">
+  <div class="container d-flex justify-content-end gap-5">
+    <% if user_signed_in? && content_for?('application') %>
+      <%= link_to root_path, class: "text-light", target: "_blank" do %>
+        <i class="fa-solid fa-globe me-1"></i> <%= t('website') %>
       <% end %>
-    </div>
+    <% end %>
+    <!--
     <div>
-      <ul class="navbar-nav">
-        <li><%= link_to "Pàgina web", root_path, class: "btn btn-sm btn-success me-2", target: "_blank" %> </li>
-        <li class="nav-item dropdown">
-          <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-            <span class="me-2 d-inline text-gray-600 small">
-              <%= current_user.email %>
-            </span>
-          <% end %>
-          <ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-            <%= link_to edit_user_registration_path, class: "dropdown-item" do %>
-              <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-              Editar el compte
-            <% end %>
-            <div class="dropdown-divider"></div>
-            <% if current_user.admin? %>
-              <%= link_to users_path, class: "dropdown-item" do %>
-                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                Autoritzar usuaris
-              <% end %>
-              <div class="dropdown-divider"></div>
-            <% end %>
-            <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "dropdown-item" %>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <%= link_to "#", class: "nav-link dropdown-toggle", id: "userDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false do %>
-            <span class="me-2 d-inline text-gray-600 small">
-              <%= current_user.owned_company.present? ? current_user.owned_company.name : "Afegir empresa" %>
-            </span>
-          <% end %>
-          <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-            <% if current_user.admin? %>
-              <% if current_user.owned_company.present? %>
-                <%= link_to edit_company_path(current_user.owned_company), class: "dropdown-item" do %>
-                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                  Editar empresa <%= current_user.owned_company.name %>
-                <% end %>
-                <div class="dropdown-divider"></div>
-                <% if current_user.owned_company.offices.present? %>
-                  <%= link_to company_offices_path(current_user.owned_company), class: "dropdown-item" do %>
-                    <i class="fas fa-laptop-house fa-sm fa-fw me-2 text-gray-400"></i>
-                    Oficines
-                  <% end %>
-                <% else %>
-                  <%= link_to new_company_office_path(current_user.owned_company), class: "dropdown-item" do %>
-                    <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                    Afegir oficina
-                  <% end %>
-                <% end %>
-                <%= link_to rate_plans_path, class: "dropdown-item" do %>
-                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                  Plans de tarifa
-                <% end %>
-              <% else %>
-                <%= link_to new_company_path, class: "dropdown-item" do %>
-                  <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
-                  Afegir empresa
-                <% end %>
-              <% end %>
-            <% end %>
-          </ul>
-        </li>
-        <%= language_dropdown(I18n.locale || params[:locale]) %>
-      </ul>
+      <a class="text-light text-sm me-2" href="tel:0034679654028">Tel: +34 679 654 028</a>
     </div>
+    -->
+    <%= language_dropdown(I18n.locale || params[:locale]) %>
   </div>
 </nav>

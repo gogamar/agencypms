@@ -1,51 +1,40 @@
 <% if @vrental %>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Data firma</th>
-        <th scope="col">Des de</th>
-        <th scope="col">Fins a</th>
-        <th scope="col">Estat</th>
-        <th scope="col">Comissió</th>
-        <th scope="col">Propietari</th>
-        <th scope="col">Idioma</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @vrental.vragreements.each do |vragreement| %>
-        <tr>
-          <th scope="row">
-            <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-info text-decoration-none" do %>
-              <%= vragreement.signdate %>
-            <% end %>
-          </th>
-          <td><%= I18n.l(vragreement.start_date) if vragreement.start_date %></td>
-          <td><%= I18n.l(vragreement.end_date) if vragreement.end_date %></td>
-          <td><%= t(vragreement.status) %></td>
-          <td><%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></td>
-          <td><%= @vrental.owner&.fullname %></td>
-          <td><%= @vrental.owner&.language %></td>
-          <td><%= vragreement.year %></td>
-          <td class="">
-            <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
-              <i class="fas fa-edit"></i>
-            <% end %>
-            <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
-              <i class="fas fa-trash-can"></i>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <div class="my-3">
-    <% if @vrental && @years_possible_contract %>
+  <div class="row p-2">
+    <div class="col-lg-2 nowrap fw-bold"><%= t('status') %></div>
+    <div class="col-lg-4 nowrap fw-bold"><%= t('contract') %></div>
+    <div class="col-lg-4 nowrap fw-bold"><%= t('owner') %></div>
+    <div class="col-lg-2 nowrap fw-bold"></div>
+  </div>
+  <% @vrental.vragreements.each do |vragreement| %>
+    <div class="row p-2">
+      <div class="col-lg-2 nowrap border-end"><%= t(vragreement.status) %></div>
+      <div class="col-lg-4 nowrap border-end">
+        <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "link" do %>
+          <i class="fa-solid fa-arrow-right me-2"></i><%= t('contract') %> <%= I18n.l(vragreement.start_date) if vragreement.start_date %> - <%= I18n.l(vragreement.end_date) if vragreement.end_date %>
+        <% end %>
+      </div>
+      <div class="col-lg-4 nowrap border-end"><%= @vrental.owner&.fullname %></div>
+      <div class="col-lg-2 nowrap text-end d-flex justify-content-between">
+        <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+        <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
+          <i class="fas fa-trash-can"></i>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="my-5">
+    <% if @vrental.has_future_rates? %>
       <% @years_possible_contract.each do |year| %>
         <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
           <i class="fas fa-plus fa-sm"></i>
-          <span class="text">Nou contracte per <%= @vrental.name %> per l'any <%= year %></span>
+          <span class="text"><%= t('new_contract_for', prop_name: @vrental.name, year: year) %></span>
         <% end %> <br>
+      <% end %>
+    <% else %>
+      <%= link_to vrental_rates_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+        <i class="fa-regular fa-calendar-plus me-2"></i><%= t('add_rates_to_add_contract') %>
       <% end %>
     <% end %>
   </div>
