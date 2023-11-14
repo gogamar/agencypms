@@ -16,10 +16,10 @@
 #   puts "#{vrental.name} min_price: #{min_price}"
 # end
 
-# Vrental.all.each do |vrental|
-#   vrental.features.clear
-#   vrental.get_content_from_beds
-# end
+Vrental.all.each do |vrental|
+  vrental.features.clear
+  vrental.get_content_from_beds
+end
 
 # estartit_office = Office.find_by("name ILIKE '%estartit%'")
 

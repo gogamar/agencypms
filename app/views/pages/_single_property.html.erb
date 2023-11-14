@@ -34,19 +34,19 @@
           <% if vrental.max_guests %>
             <div class="listing-card-info-icon">
               <div class="inc-fleat-icon"><%= image_tag("user.svg", width: "13", alt: "") %></div>
-              <%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %>
+              <%= vrental.max_guests %> <%= t("guest", count: vrental.max_guests) %>
             </div>
           <% end %>
           <% if vrental.real_bedrooms.present? %>
             <div class="listing-card-info-icon">
               <div class="inc-fleat-icon"><%= image_tag("bed.svg", width: "13", alt: "") %></div>
-              <%= vrental.real_bedrooms.count %> <%= t("bedrooms", count: vrental.real_bedrooms.count) %>
+              <%= vrental.real_bedrooms.count %> <%= t("bedroom", count: vrental.real_bedrooms.count) %>
             </div>
           <% end %>
           <% if vrental.bathrooms.present? %>
             <div class="listing-card-info-icon">
               <div class="inc-fleat-icon"><%= image_tag("bathtub.svg", width: "13", alt: "") %></div>
-              <%= vrental.bathrooms.count %> <%= t("bathrooms", count: vrental.bathrooms.count) %>
+              <%= vrental.bathrooms.count %> <%= t("bathroom", count: vrental.bathrooms.count) %>
             </div>
           <% end %>
         </div>

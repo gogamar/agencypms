@@ -58,19 +58,19 @@
           <% if vrental.max_guests %>
             <div class="listing-card d-flex align-items-center">
               <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-users fs-xs"></i></div>
-              <%= vrental.max_guests %> <%= t("guests", count: vrental.max_guests) %>
+              <%= vrental.max_guests %> <%= t("guest", count: vrental.max_guests) %>
             </div>
           <% end %>
           <% if vrental.real_bedrooms.present? %>
             <div class="listing-card d-flex align-items-center">
               <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bed fs-xs"></i></div>
-              <%= vrental.real_bedrooms.count %> <%= t("bedrooms", count: vrental.real_bedrooms.count) %>
+              <%= vrental.real_bedrooms.count %> <%= t("bedroom", count: vrental.real_bedrooms.count) %>
             </div>
           <% end %>
           <% if vrental.bathrooms.present? %>
             <div class="listing-card d-flex align-items-center">
               <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bath fs-xs"></i></div>
-              <%= vrental.bathrooms.count %> <%= t("bathrooms", count: vrental.bathrooms.count) %>
+              <%= vrental.bathrooms.count %> <%= t("bathroom", count: vrental.bathrooms.count) %>
             </div>
           <% end %>
         </div>
