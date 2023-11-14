@@ -131,7 +131,7 @@
           </div>
         <% end %>
         <!-- Single Block Wrap -->
-        <% if @vrental.image_urls.present? %>
+        <% if @property_images.present? %>
           <div class="property_block_wrap style-2 d-none d-lg-block d-md-block">
             <div class="property_block_wrap_header">
               <a data-bs-toggle="collapse" data-bs-target="#clFive" aria-controls="clFive" href="javascript:void(0);" aria-expanded="true">
@@ -141,7 +141,7 @@
             <div id="clFive" class="panel-collapse collapse show">
               <div class="block-body">
                 <ul class="list-gallery-inline">
-                  <% @vrental.image_urls.each do |image| %>
+                  <% @property_images.each do |image| %>
                     <li>
                       <%= link_to image.url, class: "mfp-gallery" do %>
                         <%= image_tag image.url, class: "img-fluid mx-auto", alt:"Lloguer vacances #{@vrental.town&.name}", quality: "auto" %>
