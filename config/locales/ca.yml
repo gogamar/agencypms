@@ -39,7 +39,7 @@ ca:
         company: Empresa
         country: País
         local_realtor_number: Número d'API província
-        name: Nom
+        name: Nom Empresa
         post_code: Codi postal
         realtor_number: Número d'API
         region: Província
@@ -68,7 +68,7 @@ ca:
         email: Email
         manager: Encarregat
         mobile: Mòbil
-        name: Nom
+        name: Nom Oficina
         opening_hours: Horari
         phone: Telèfon
         post_code: Codi postal
@@ -81,7 +81,7 @@ ca:
         address: Adreça
         document: DNI
         email: Email
-        fullname: Nom i cognoms
+        fullname: Nom i cognoms Propietari
         language: Idioma
         owner: Propietari
         phone: Telèfon
@@ -100,7 +100,7 @@ ca:
         end: Fins a
         gen_arrival: Dia entrada general
         gen_min: Estada mínima general
-        name: Nom
+        name: Nom Plà Tarifes
         start: Des de
       statement:
         amount: Import
@@ -143,7 +143,7 @@ ca:
         latitude: Latitud
         licence: Número HUT
         longitude: Longitud
-        name: Nom
+        name: Nom de l'immoble
         office: Oficina
         owner: Propietari
         photos: Fotos
@@ -174,7 +174,7 @@ ca:
         office: Oficina
         photos: Fotos comunes del grup
   add_group: Afegir nou grup
-  add_owner: Afegir propietari
+  add_owner: Afegir propietari nou
   add_photos: Afegir fotos
   add_property: Afegir immoble
   agency: Agència
@@ -372,6 +372,7 @@ ca:
       back: Tornar
       continue: Continuar
       submit: Desar
+      close: Desar i tancar
   good_choice: Bona elecció!
   grill: Barbacoa
   guest:
@@ -415,7 +416,7 @@ ca:
   min: Min.
   monthly: Mensual
   monument_view: Vista a la Sagrada Familia
-  new_vrental_step_1: Pas 1. Detalls sobre l'immoble
+  new_vrental_step_1: "Pas 1: Propietari i condicions generals"
   news: Notícies
   next_getaway: la teva propera escapada
   night_5: Nit (5-6)
@@ -636,3 +637,15 @@ ca:
   manager: Encarregat
   sure_delete: Estàs segur?
   no_users: No hi ha usuaris.
+  no_group: Sense grup
+  owner_and_general_conditions: "Pas 1: Propietari i condicions generals"
+  booking_conditions: "Pas 2: Condicions de reserva"
+  booking_descriptions: "Pas 3: Descripcions de reserva"
+  property_features: "Pas 4: Caracteristiques de l'immoble"
+  connection_beds24: "Pas 5: Conexió Beds24"
+  edit_booking_conditions: Condicions de reserva
+  edit_descriptions: Descripcions
+  edit_features: Característiques
+  edit_beds24: Connexió Beds24
+  edit_owner_general: Propietari i condicions
+  select_owner: Selecciona propietari

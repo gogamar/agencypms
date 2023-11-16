@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_10_104430) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_15_085945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -495,6 +495,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_104430) do
     t.string "title_fr"
     t.string "title_en"
     t.boolean "name_on_web", default: false
+    t.boolean "master_rate", default: false
+    t.integer "master_vrental_id"
+    t.decimal "rate_offset"
+    t.string "rate_offset_type"
+    t.string "price_per"
+    t.decimal "weekly_discount"
+    t.boolean "weekly_discount_included", default: false
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"

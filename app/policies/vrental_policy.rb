@@ -81,6 +81,18 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
+  def add_booking_conditions?
+    return create?
+  end
+
+  def add_beds24?
+    return create?
+  end
+
+  def add_descriptions?
+    return create?
+  end
+
   def create?
     return true
   end

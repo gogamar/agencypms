@@ -98,7 +98,6 @@ const initSelect2 = () => {
   $("#select_owner-select2").select2({
     placeholder: "Seleccionar propietari",
     allowClear: true,
-    theme: "bootstrap-5",
   });
 
   function updateOwner(selectedOwnerId) {
@@ -132,9 +131,8 @@ const initSelect2 = () => {
 
   $("#edit_owner-select2")
     .select2({
-      placeholder: "Seleccionar propietari",
+      placeholder: $("#edit_owner-select2").data("placeholder"),
       allowClear: true,
-      theme: "bootstrap-5",
     })
     .on("select2:select", function (e) {
       const editOwnerBox = document.querySelector(".edit_owner-js");

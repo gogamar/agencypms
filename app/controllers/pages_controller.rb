@@ -131,7 +131,7 @@ class PagesController < ApplicationController
     checkin = params[:checkIn]
     checkout = params[:checkOut]
     guests = params[:numAdult]
-    response = @vrental.get_availability_from_beds(checkin, checkout, guests)
+    response = VrentalApiService.new(@vrental).get_availability_from_beds(checkin, checkout, guests)
     render json: response
   end
 
@@ -146,7 +146,7 @@ class PagesController < ApplicationController
     @discount = params[:discount]
 
     unless params[:price].present?
-      response = @vrental.get_availability_from_beds(@checkin, @checkout, @guests)
+      response = VrentalApiService.new(@vrental).get_availability_from_beds(@checkin, @checkout, @guests)
       @price = response["updatedPrice"]
       @rate_price = response["updatedPrice"]
       @not_available = response["notAvailable"]

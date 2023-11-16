@@ -59,7 +59,7 @@ class Office < ApplicationRecord
               commission: bedsrental["template8"].present? ? bedsrental["template8"] : ''
             )
           end
-          # vrental.get_content_from_beds
+          # VrentalApiService.new(vrental).get_content_from_beds
           sleep 2
         end
       end

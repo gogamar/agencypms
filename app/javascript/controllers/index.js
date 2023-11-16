@@ -28,6 +28,9 @@ application.register("map", MapController)
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
 
+import PricingController from "./pricing_controller"
+application.register("pricing", PricingController)
+
 import SearchController from "./search_controller"
 application.register("search", SearchController)
 
