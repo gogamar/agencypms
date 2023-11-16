@@ -42,7 +42,8 @@ class Vrental < ApplicationRecord
   FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
   RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
 
-  validates_presence_of :name, :status, :address, :office_id, :min_price
+  validates_presence_of :name, :status, :address, :office_id
+  # validates_presence_of :min_price
   validates :name, uniqueness: true
   validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
   validates :commission, presence: true, if: -> { contract_type == 'commission' }

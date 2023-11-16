@@ -1,0 +1,22 @@
+<h6 class="text-center"><%= t('property_general_details') %></h6>
+<%= simple_form_for @vrental do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.hidden_field :request_context, value: 'general_details' %>
+  <%= f.association :office %>
+  <%= f.association :vrgroup, include_blank: 'Sense grup' %>
+  <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
+  <%= f.input :name %>
+  <%= f.input :name_on_web, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
+  <%= f.input :property_type, collection: Vrental::PROPERTY_TYPES.values.map { |key| [t(key), key] } %>
+  <%= f.input :address, input_html: {data: {address_autocomplete_target: "address"}}, wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}} %>
+  <%= f.input :latitude, id: "latitude-input" %>
+  <%= f.input :longitude, id: "longitude-input" %>
+  <%= f.input :cadastre %>
+  <%= f.input :habitability %>
+  <%= f.input :licence %>
+  <div class="form-actions text-end mb-5">
+    <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

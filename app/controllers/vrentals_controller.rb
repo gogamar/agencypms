@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos, :import_photos, :import_from_group]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -286,22 +286,24 @@ class VrentalsController < ApplicationController
     authorize @vrental
 
     if @vrental.save
-      redirect_to add_features_vrental_path(@vrental)
+      if params[:commit] == t('global.forms.save_and_close')
+        redirect_to @vrental, notice: "Immoble creat."
+      else
+        redirect_to add_owner_vrental_path(@vrental)
+      end
     else
+      puts "vrental errors on creation: #{@vrental.errors.full_messages}"
       render :new
     end
   end
 
-  def add_features
-    @vrental = Vrental.find(params[:id])
-    authorize @vrental
-  end
-
   def add_owner
-    @vrental = Vrental.find(params[:id])
-    authorize @vrental
     @owner = Owner.new
   end
+
+  def add_booking_conditions; end
+  def add_descriptions; end
+  def add_features; end
 
   def fetch_earnings
     authorize @vrental
@@ -362,13 +364,23 @@ class VrentalsController < ApplicationController
   end
 
   def redirect_after_update(request_context)
-    if request_context == 'add_features'
-      redirect_to add_owner_vrental_path(@vrental)
-    elsif request_context == 'add_photos'
-      create_new_image_urls(@vrental.photos)
-      redirect_to edit_photos_vrental_path(@vrental)
-    else
+    if params[:commit] == t('global.forms.save_and_close')
       redirect_to @vrental, notice: "Immoble modificat."
+    else
+      if request_context == 'general_details'
+        redirect_to add_owner_vrental_path(@vrental)
+      elsif request_context == 'add_owner'
+        redirect_to add_booking_conditions_vrental_path(@vrental)
+      elsif request_context == 'add_booking_conditions'
+        redirect_to add_descriptions_vrental_path(@vrental)
+      elsif request_context == 'add_descriptions'
+        redirect_to add_features_vrental_path(@vrental)
+      elsif request_context == 'add_photos'
+        create_new_image_urls(@vrental.photos)
+        redirect_to edit_photos_vrental_path(@vrental)
+      else
+        redirect_to @vrental, notice: "Immoble modificat."
+      end
     end
   end
 

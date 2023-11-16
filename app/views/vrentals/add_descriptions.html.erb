@@ -1,0 +1,19 @@
+<h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
+<h6 class="text-center"><%= t('property_descriptions') %></h6>
+<%= simple_form_for @vrental do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.hidden_field :request_context, value: 'add_descriptions' %>
+  <%= f.input :title_ca, maxlength: 32 %>
+  <%= f.input :description_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :title_es, maxlength: 32 %>
+  <%= f.input :description_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :title_en, maxlength: 32 %>
+  <%= f.input :description_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <%= f.input :title_fr, maxlength: 32 %>
+  <%= f.input :description_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+  <div class="form-actions text-end mb-5">
+    <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

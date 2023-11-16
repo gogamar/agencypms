@@ -52,7 +52,7 @@ class OwnersController < ApplicationController
       if request_context && request_context == 'add_owner'
         redirect_to vrentals_path, notice: 'Nou immoble i propietari creats.'
       elsif @vrental.present?
-        redirect_to edit_vrental_path(@vrental), notice: 'Propietari creat i associat amb immoble.'
+        redirect_to add_owner_vrental_path(@vrental), notice: 'Propietari creat i associat amb immoble.'
       else
         redirect_to owners_path, notice: 'Propietari creat.'
       end
