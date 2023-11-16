@@ -638,14 +638,10 @@ ca:
   sure_delete: Estàs segur?
   no_users: No hi ha usuaris.
   no_group: Sense grup
-  owner_and_general_conditions: "Pas 1: Propietari i condicions generals"
-  booking_conditions: "Pas 2: Condicions de reserva"
-  booking_descriptions: "Pas 3: Descripcions de reserva"
-  property_features: "Pas 4: Caracteristiques de l'immoble"
-  connection_beds24: "Pas 5: Conexió Beds24"
-  edit_booking_conditions: Condicions de reserva
-  edit_descriptions: Descripcions
-  edit_features: Característiques
-  edit_beds24: Connexió Beds24
-  edit_owner_general: Propietari i condicions
-  select_owner: Selecciona propietari
+  view_property: Veure immoble
+  property_details: Detalls immoble
+  property_owner: Propietari immoble
+  property_booking_conditions: Condicions de reserva
+  property_descriptions: Descripcions immoble
+  property_features: Característiques immoble
+  new_property: Nou immoble

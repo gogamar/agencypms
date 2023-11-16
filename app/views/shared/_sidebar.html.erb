@@ -26,12 +26,12 @@
                   <% if @vrental && @vrental.persisted? %>
                     <li class="<%= 'active' if current_page?(@vrental) %>">
                       <%= link_to @vrental do %>
-                        <i class="fa-solid fa-house"></i><%= t("property_details") %>
+                        <i class="fa-solid fa-house"></i><%= t("view_property") %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(edit_vrental_path(@vrental)) %>">
                       <%= link_to edit_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-square-pen"></i><%= t("general_details") %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("property_details") %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(add_owner_vrental_path(@vrental)) %>">
