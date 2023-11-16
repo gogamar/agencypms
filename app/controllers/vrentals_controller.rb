@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :edit_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :add_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -159,7 +159,7 @@ class VrentalsController < ApplicationController
     @features = Feature.all
   end
 
-  def edit_photos
+  def add_photos
     @vrgroup = @vrental.vrgroup
     if @vrgroup
       @vrentals_with_images = @vrgroup.vrentals.joins(:image_urls).distinct
@@ -173,7 +173,7 @@ class VrentalsController < ApplicationController
   def import_from_group
     @vrgroup = @vrental.vrgroup
     create_new_image_urls(@vrgroup.photos)
-    redirect_to edit_photos_vrental_path(@vrental), notice: "Importació del grup acabada."
+    redirect_to add_photos_vrental_path(@vrental), notice: "Importació del grup acabada."
   end
 
   def copy
@@ -206,7 +206,7 @@ class VrentalsController < ApplicationController
       duplicated_image = source_image.dup
       @vrental.image_urls << duplicated_image
     end
-    redirect_to edit_photos_vrental_path(@vrental), notice: 'Fotos importades!'
+    redirect_to add_photos_vrental_path(@vrental), notice: 'Fotos importades!'
   end
 
   def delete_rates
@@ -375,9 +375,15 @@ class VrentalsController < ApplicationController
         redirect_to add_descriptions_vrental_path(@vrental)
       elsif request_context == 'add_descriptions'
         redirect_to add_features_vrental_path(@vrental)
+      elsif request_context == 'add_features'
+        redirect_to vrental_rates_path(@vrental)
+      elsif request_context == 'add_rates'
+        redirect_to add_photos_vrental_path(@vrental)
       elsif request_context == 'add_photos'
         create_new_image_urls(@vrental.photos)
-        redirect_to edit_photos_vrental_path(@vrental)
+        redirect_to add_photos_vrental_path(@vrental)
+      elsif request_context == 'after_adding_photos'
+        redirect_to book_property_path(vrental_id: @vrental.id)
       else
         redirect_to @vrental, notice: "Immoble modificat."
       end

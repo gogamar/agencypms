@@ -1,5 +1,7 @@
-<h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
-<h6 class="text-center"><%= t('property_booking_conditions') %></h6>
+<div class="mb-5">
+  <h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
+  <h6 class="text-center"><%= t('property_booking_conditions') %></h6>
+</div>
 <%= simple_form_for @vrental do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -15,7 +17,7 @@
   <%= f.input :beds_room_id %>
   <%= f.input :prop_key %>
   <div class="form-actions text-end mb-5">
-        <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+    <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
     <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
   </div>
 <% end %>

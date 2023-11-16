@@ -1,24 +1,43 @@
-<div class="container d-flex justify-content-center gap-3">
-  <% if !@vrental.rates.any? %>
-    <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row gap-3") do |form| %>
-      <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { id: "select-rate-plan" } %>
-      <%= form.submit 'Carregar dates', class: 'btn btn-primary' %>
-    <% end %>
-  <% end %>
-  <%= link_to get_rates_vrental_path(@vrental), class: "text-muted-2" do %>
-    <i class="fa-solid fa-file-import me-1"></i>Importar tarifes des de Beds
-  <% end %>
-  <% if @rates.where("lastnight >= ?", Date.today).present? %>
-    <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-success" do %>
-      <i class="fas fa-paper-plane fa-sm"></i> Enviar tarifes a Beds24
-    <% end %>
-    <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-danger" do %>
-      <i class="fas fa-exclamation-triangle"></i> Esborra les futures tarifes en Beds24
-    <% end %>
+<div class="mb-5 text-center">
+  <h4 class="font-weight-bold text-primary mb-2"><%= @vrental.name %></h4>
+  <h6><%= t('property_rates') %></h6>
+  <% if @vrental.future_rates.exists? && @vrental.future_rates.any? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
+    <div class="alert position-relative alert-warning" role="alert">
+      <%= t('add_prices_to_rates') %>
+    </div>
+  <% elsif !@vrental.future_rates.exists? %>
+    <div class="alert position-relative alert-warning" role="alert">
+      <%= t('add_future_rates') %>
+    </div>
   <% end %>
 </div>
+<div class="container d-flex justify-content-between gap-3 mb-3">
+  <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
+    <div>
+      <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+        <i class="fa-solid fa-file-import me-1"></i>Importar tarifes des de Beds
+      <% end %>
+    </div>
+  <% end %>
+  <div>
+    <% if !@vrental.future_rates.exists? %>
+      <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row align-items-center gap-3") do |form| %>
+        <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { class: "form-control", id: "select-rate-plan" } %>
+        <%= form.submit 'Carregar dates', class: 'btn btn-sm btn-primary' %>
+      <% end %>
+    <% end %>
+    <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
+      <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success" do %>
+        <i class="fas fa-paper-plane fa-sm me-1"></i> Enviar tarifes a Beds24
+      <% end %>
+      <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger" do %>
+        <i class="fas fa-exclamation-triangle me-1"></i> Esborra les futures tarifes en Beds24
+      <% end %>
+    <% end %>
+  </div>
+</div>
 <hr>
-<div class="container">
+<div class="container mb-5">
   <h5 class="text-center text-info mb-5">Afegir tarifa nova</h5>
   <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental), target: "_top" %>
   <% @years.each do |year| %>
@@ -26,7 +45,9 @@
       <hr>
       <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
       <div class="text-end">
-        <%= link_to "Esborra les tarifes #{year}", delete_year_rates_vrental_path(@vrental, year: year), class: "text-danger" %>
+        <%= link_to delete_year_rates_vrental_path(@vrental, year: year), class: "text-danger" do %>
+          <i class="fas fa-solid fa-trash-can me-1"></i>Esborra les tarifes <%= year %>
+        <% end %>
         <% if year <= Date.today.year %>
           <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-secondary" %>
         <% end %>
@@ -47,3 +68,12 @@
     <% end %>
   <% end %>
 </div>
+<%= simple_form_for @vrental do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.hidden_field :request_context, value: 'add_rates' %>
+  <div class="form-actions text-end mb-5">
+    <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

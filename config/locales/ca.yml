@@ -616,7 +616,7 @@ ca:
   import_changes_from_beds24: Importar canvis de Beds24
   import_owner_from_beds24: Importar propietari de Beds24
   contracts: Contractes
-  contract_templates: Plantilles de contracte
+  contract_templates: Models de contracte
   reports: Informes
   invoices: Factures
   rates: Tarifes
@@ -645,3 +645,16 @@ ca:
   property_descriptions: Descripcions immoble
   property_features: Característiques immoble
   new_property: Nou immoble
+  property_rates: Tarifes immoble
+  property_photos: Fotos immoble
+  add_prices_to_rates: Falta afegir preus a les tarifes
+  add_future_rates: Falta afegir tarifes
+  show_all_statuses: Tots els estats
+  show_all_towns: Tots els municipis
+  show_all_languages: Tots els idiomes
+  show_all_owners: Tots els propietaris
+  properties: Immobles
+  active_properties: Immobles actius
+  show_all_contracts: Tots els contractes
+  add_new_contract_template: Afegir nou model de contracte
+  management: Gestió

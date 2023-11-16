@@ -1,5 +1,7 @@
-<h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
-<h6 class="text-center"><%= t('property_owner') %></h6>
+<div class="mb-5">
+  <h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
+  <h6 class="text-center"><%= t('property_owner') %></h6>
+</div>
 <%= simple_form_for @vrental, html: { "data-controller": "update-field" } do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>

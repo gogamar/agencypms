@@ -605,3 +605,54 @@ fr:
   close_filter: Fermer le filtre
   price_with_coupon: Prix avec code promo
   min_stay: "Min. %{min_stay} nuits"
+  website: Site web
+  authorize_users: Autoriser les utilisateurs
+  export_changes_to_beds24: Exporter les modifications vers Beds24
+  create: Créer
+  on_beds24: sur Beds24
+  import_photos_from_beds24: Importer des photos depuis Beds24
+  send_photos_to_beds24: Envoyer des photos vers Beds24
+  import_changes_from_beds24: Importer des modifications depuis Beds24
+  import_owner_from_beds24: Importer le propriétaire depuis Beds24
+  contracts: Contrats
+  contract_templates: Modèles de contrat
+  reports: Rapports
+  invoices: Factures
+  rates: Tarifs
+  statements: Relevés
+  edit_property: Modifier la propriété
+  property_details: Détails de la propriété
+  view_on_website: Voir sur le site web
+  pdf_contract: Contrat PDF
+  edit: Modifier
+  delete: Supprimer
+  add_rates_to_add_contract: Ajouter des tarifs pour
+  new_contract_for: "Nouveau contrat pour %{prop_name} année %{year}"
+  approved: Approuvé
+  update: Mettre à jour
+  registered: Enregistré
+  tourist: Touriste
+  admin: Administrateur
+  manager: Gestionnaire
+  sure_delete: Es-tu sûr ?
+  no_users: Aucun utilisateur.
+  no_group: Aucun groupe
+  view_property: Voir la propriété
+  property_owner: Propriétaire de la propriété
+  property_booking_conditions: Conditions de réservation de la propriété
+  property_descriptions: Descriptions de la propriété
+  property_features: Caractéristiques de la propriété
+  new_property: Nouvelle propriété
+  property_rates: Tarifs de la propriété
+  property_photos: Photos de la propriété
+  add_prices_to_rates: Les prix sont manquants dans les tarifs
+  add_future_rates: Les tarifs futurs sont manquants
+  show_all_statuses: Afficher tous les statuts
+  show_all_towns: Afficher toutes les villes
+  show_all_languages: Afficher toutes les langues
+  show_all_owners: Afficher tous les propriétaires
+  properties: Propriétés
+  active_properties: Propriétés actives
+  show_all_contracts: Afficher tous les contrats
+  add_new_contract_template: Ajouter un nouveau modèle de contrat
+  management: Gestion

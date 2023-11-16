@@ -92,8 +92,8 @@ class Vrental < ApplicationRecord
     bedrooms.where(bedroom_type: "BEDROOM_LIVING_SLEEPING_COMBO")
   end
 
-  def has_future_rates?
-    rates.where('lastnight > ?', Date.today).exists?
+  def future_rates
+    rates.where('lastnight > ?', Date.today)
   end
 
   def dates_with_rates(fnight = nil, lnight = nil)

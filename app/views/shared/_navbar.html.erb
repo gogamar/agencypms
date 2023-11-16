@@ -12,15 +12,9 @@
         <div class="mobile_nav">
           <ul>
             <li>
-              <a href="submit-property.html" class="text-primary">
-                <span class="svg-icon svg-icon-2hx">
-                  <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"/>
-                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"/>
-                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"/>
-                  </svg>
-                </span>
-              </a>
+              <%= link_to new_vrental_path, class: "text-success", data: { toggle: "tooltip", placement: "top" }, title: t('add_property') do %>
+                <i class="fa-solid fa-house-circle-check"></i>
+              <% end %>
             </li>
             <%= render 'shared/user_menu' %>
           </ul>
@@ -41,7 +35,7 @@
               </div>
             </li>
           <% end %>
-          <li><a href="JavaScript:void(0);"><%= t('vrentals') %><span class="submenu-indicator"></span></a>
+          <li><a href="JavaScript:void(0);"><%= t('management') %><span class="submenu-indicator"></span></a>
             <ul class="nav-dropdown nav-submenu">
               <li><%= link_to vrentals_path do %>
                   <i class="fa-solid fa-house-circle-check me-1"></i><%= t("vrentals") %>
@@ -76,25 +70,27 @@
                 <li><%= link_to update_on_beds_vrental_path(@vrental) do %>
                     <i class="fa-solid fa-upload me-1"></i><%= @vrental.beds_prop_id.present? ? "#{@vrental.name}: #{t('export_changes_to_beds24')}" : "#{t('create')} #{@vrental.name} #{t('on_beds24')}" %>
                   <% end %></li>
-                <li><%= link_to send_photos_vrental_path(@vrental) do %>
-                    <i class="fa-solid fa-upload me-1"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
-                  <% end %></li>
-                <li><%= link_to update_from_beds_vrental_path(@vrental) do %>
-                    <i class="fa-solid fa-download me-1"></i> <%= "#{@vrental.name}: #{t('import_changes_from_beds24')}" %>
-                  <% end %></li>
-                <li><%= link_to import_photos_vrental_path(@vrental) do %>
-                    <i class="fa-solid fa-download me-1"></i><%= "#{@vrental.name}: #{t('import_photos_from_beds24')}" %>
-                  <% end %></li>
-                <li><%= link_to update_owner_from_beds_vrental_path(@vrental) do %>
-                    <i class="fa-solid fa-user-plus me-1"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
-                  <% end %></li>
+                <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
+                  <li><%= link_to send_photos_vrental_path(@vrental) do %>
+                      <i class="fa-solid fa-upload me-1"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
+                    <% end %></li>
+                  <li><%= link_to update_from_beds_vrental_path(@vrental) do %>
+                      <i class="fa-solid fa-download me-1"></i> <%= "#{@vrental.name}: #{t('import_changes_from_beds24')}" %>
+                    <% end %></li>
+                  <li><%= link_to import_photos_vrental_path(@vrental) do %>
+                      <i class="fa-solid fa-download me-1"></i><%= "#{@vrental.name}: #{t('import_photos_from_beds24')}" %>
+                    <% end %></li>
+                  <li><%= link_to update_owner_from_beds_vrental_path(@vrental) do %>
+                      <i class="fa-solid fa-user-plus me-1"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
+                    <% end %></li>
+                <% end %>
               </ul>
             </li>
           <% end %>
         </ul>
         <ul class="nav-menu nav-menu-social align-to-right d-flex align-items-center gap-3">
           <li>
-            <%= link_to submit_property_path, class: "text-success" do %>
+            <%= link_to new_vrental_path, class: "text-success" do %>
               <i class="fa-solid fa-house-circle-check me-2"></i><%= t("add_property") %>
             <% end %>
           </li>

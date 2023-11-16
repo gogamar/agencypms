@@ -1,5 +1,7 @@
 <div class="my-3 text-end">
-  <%= link_to 'Afegir un model de contracte', new_vrentaltemplate_path, class: "link fw-medium" %>
+  <%= link_to new_vrentaltemplate_path, class: "btn btn-sm btn-success" do %>
+    <i class="fa-solid fa-plus me-1"></i> <%= t('add_new_contract_template') %>
+  <% end %>
 </div>
 <div class="row border border-top border-bottom fw-bold bg-light">
   <div class="col-lg-8 py-2 border-start border-end nowrap" id="owner-fullname" relative>

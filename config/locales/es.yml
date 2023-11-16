@@ -605,3 +605,54 @@ es:
   close_filter: Cerrar filtros
   price_with_coupon: Precio con cupón
   min_stay: "Min. %{min_stay} noches"
+  website: Página web
+  authorize_users: Autorizar usuarios
+  export_changes_to_beds24: Exportar cambios a Beds24
+  create: Crear
+  on_beds24: en Beds24
+  import_photos_from_beds24: Importar fotos de Beds24
+  send_photos_to_beds24: Enviar fotos a Beds24
+  import_changes_from_beds24: Importar cambios de Beds24
+  import_owner_from_beds24: Importar propietario de Beds24
+  contracts: Contratos
+  contract_templates: Plantillas de contrato
+  reports: Informes
+  invoices: Facturas
+  rates: Tarifas
+  statements: Estados de cuenta
+  edit_property: Editar propiedad
+  property_details: Detalles de la propiedad
+  view_on_website: Ver en el sitio web
+  pdf_contract: Contrato en PDF
+  edit: Editar
+  delete: Eliminar
+  add_rates_to_add_contract: Agregar tarifas para poder crear contrato
+  new_contract_for: "Nuevo contrato para %{prop_name} año %{year}"
+  approved: Aprobado
+  update: Actualizar
+  registered: Registrado
+  tourist: Turista
+  admin: Administrador
+  manager: Gerente
+  sure_delete: ¿Estás seguro?
+  no_users: No hay usuarios.
+  no_group: Sin grupo
+  view_property: Ver propiedad
+  property_owner: Propietario de la propiedad
+  property_booking_conditions: Condiciones de reserva de la propiedad
+  property_descriptions: Descripciones de la propiedad
+  property_features: Características de la propiedad
+  new_property: Nueva propiedad
+  property_rates: Tarifas de la propiedad
+  property_photos: Fotos de la propiedad
+  add_prices_to_rates: Falta agregar precios a las tarifas
+  add_future_rates: Falta agregar tarifas
+  show_all_statuses: Todos los estados
+  show_all_towns: Todos los municipios
+  show_all_languages: Todos los idiomas
+  show_all_owners: Todos los propietarios
+  properties: Propiedades
+  active_properties: Propiedades activas
+  show_all_contracts: Todos los contratos
+  add_new_contract_template: Agregar nueva plantilla de contrato
+  management: Gestión

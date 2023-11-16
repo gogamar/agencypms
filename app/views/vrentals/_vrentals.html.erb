@@ -1,6 +1,6 @@
-<div class="card d-md-flex flex-column align-items-center">
-  <h4 class="card-header border-0"><%= t("vacation_rental_properties") %></h4>
-  <div class="card-body d-md-flex align-items-center">
+<div class="d-md-flex flex-column align-items-center">
+  <h4 class="mb-5"><%= t("vacation_rental_properties") %></h4>
+  <div class="d-md-flex align-items-center">
     <%= form_with url: list_vrentals_path, method: :get, data: { controller: "search-vrentals", search_vrentals_target: "form", "search-vrentals-url-value": vrentals_path, turbo_frame: "vrentals" }, class: "row mb-2" do |form| %>
       <div class="form-group col">
         <div class="input-with-icon">
@@ -10,12 +10,12 @@
       </div>
       <% if @statuses.count > 1 %>
         <div class="form-group col">
-          <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterStatus" } %>
+          <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all_statuses") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterStatus" } %>
         </div>
       <% end %>
       <% if @towns.count > 1 %>
         <div class="form-group col">
-          <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterTown" } %>
+          <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all_towns") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterTown" } %>
         </div>
       <% end %>
     <% end %>

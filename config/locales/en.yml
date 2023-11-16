@@ -605,3 +605,54 @@ en:
   close_filter: Close Filter
   price_with_coupon: Price with Coupon
   min_stay: "Min. %{min_stay} nights"
+  website: Website
+  authorize_users: Authorize Users
+  export_changes_to_beds24: Export Changes to Beds24
+  create: Create
+  on_beds24: on Beds24
+  import_photos_from_beds24: Import Photos from Beds24
+  send_photos_to_beds24: Send Photos to Beds24
+  import_changes_from_beds24: Import Changes from Beds24
+  import_owner_from_beds24: Import Owner from Beds24
+  contracts: Contracts
+  contract_templates: Contract Templates
+  reports: Reports
+  invoices: Invoices
+  rates: Rates
+  statements: Statements
+  edit_property: Edit Property
+  property_details: Property Details
+  view_on_website: View on Website
+  pdf_contract: PDF Contract
+  edit: Edit
+  delete: Delete
+  add_rates_to_add_contract: Add rates to create a contract
+  new_contract_for: "New contract for %{prop_name} year %{year}"
+  approved: Approved
+  update: Update
+  registered: Registered
+  tourist: Tourist
+  admin: Administrator
+  manager: Manager
+  sure_delete: Are you sure?
+  no_users: No users.
+  no_group: No group
+  view_property: View Property
+  property_owner: Property Owner
+  property_booking_conditions: Property Booking Conditions
+  property_descriptions: Property Descriptions
+  property_features: Property Features
+  new_property: New Property
+  property_rates: Property Rates
+  property_photos: Property Photos
+  add_prices_to_rates: Prices are missing in rates
+  add_future_rates: Future rates are missing
+  show_all_statuses: Show All Statuses
+  show_all_towns: Show All Towns
+  show_all_languages: Show All Languages
+  show_all_owners: Show All Owners
+  properties: Properties
+  active_properties: Active Properties
+  show_all_contracts: Show All Contracts
+  add_new_contract_template: Add New Contract Template
+  management: Management

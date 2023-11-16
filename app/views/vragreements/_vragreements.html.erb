@@ -1,33 +1,27 @@
-<%= form_with url: list_vragreements_path, method: :get, data: { turbo_frame: "vragreements" }, class: "row g-3" do |form| %>
-  <div class="col-auto">
-    <%= form.select :status,
+<h4 class="text-center mb-5"><%= t("owners") %></h4>
+<div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
+  <div class="d-flex flex-column flex-md-row gap-3 justify-content-start">
+    <%= form_with url: list_vragreements_path, method: :get, data: { turbo_frame: "vragreements" }, class: "d-flex flex-row gap-3" do |form| %>
+      <%= form.select :status,
               options_for_select([[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']]),
               { include_blank: 'Tots els immobles' },
               class: "form-select"
             %>
-  </div>
-  <div class="col-auto">
-    <%= form.select :year,
+      <%= form.select :year,
               options_for_select(
               [[Date.today.last_year.year],[Date.today.year],[Date.today.next_year.year]],
              ),
               { include_blank: 'Tots els anys' },
               class: "form-select"
             %>
-  </div>
-  <div class="col-auto">
-    <%= form.text_field :vrental, placeholder: "Buscar per nom", class: "form-control bg-white border-0 small",
+      <%= form.text_field :vrental, placeholder: t('search_by_name'), class: "form-control bg-white border-0 small",
           autocomplete: "off" %>
-  </div>
-  <div class="col-auto">
-    <%= form.button class: "btn btn-primary me-3" do %>
-      <i class="fas fa-search fa-sm"></i>
+      <%= form.button class: "btn btn-sm btn-primary me-3" do %>
+        <i class="fas fa-search fa-sm"></i>
+      <% end %>
     <% end %>
+    <%= link_to t('show_all_contracts'), vragreements_path, class: "btn btn-sm btn-secondary" %>
   </div>
-<% end %>
-<div class="col-auto">
-  <%= link_to "Tots els contractes", vragreements_path, class: "btn btn-secondary" %>
-</div>
 </div>
 <%= turbo_frame_tag "vragreements", class: "card-body" do %>
   <div class="container-fluid my-3">

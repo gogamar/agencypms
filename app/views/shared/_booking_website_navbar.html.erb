@@ -13,7 +13,7 @@
           <ul>
             <!--
             <li>
-              <a href="submit-property.html" class="text-primary">
+              <%= link_to new_vrental_path, class: "text-success" do %>
                 <span class="svg-icon svg-icon-2hx">
                   <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"/>
@@ -21,7 +21,7 @@
                     <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"/>
                   </svg>
                 </span>
-              </a>
+              <% end %>
             </li>
             -->
             <%= render 'shared/user_menu' %>
@@ -76,7 +76,7 @@
               <li><a href="https://www.sistachfinques.com" target="_blank"><%= t("realtor") %></a></li>
               <!--
               <li>
-                <%# link_to submit_property_path, class: "text-success" do %>
+                <%# link_to new_vrental_path, class: "text-success" do %>
                   <%# image_tag("submit.svg", class: "mr-2", width: "20", alt: "") %> <%# t("add_property") %>
                 <%# end %>
               </li>

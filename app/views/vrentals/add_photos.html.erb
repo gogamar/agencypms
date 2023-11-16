@@ -1,3 +1,7 @@
+<div class="mb-5">
+  <h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
+  <h6 class="text-center"><%= t('property_photos') %></h6>
+</div>
 <div class="select-photos d-flex justify-content-around align-items-end mb-3">
   <%= simple_form_for @vrental, html: { class: 'col-lg-5 d-flex align-items-end me-3' } do |f| %>
     <%= f.error_notification %>
@@ -25,7 +29,7 @@
     <% end %>
   <% end %>
 </div>
-<div class="row row-cols-1 row-cols-md-3 g-4" data-controller="sortable" data-sortable-url="/image_urls/:id/move">
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5" data-controller="sortable" data-sortable-url="/image_urls/:id/move">
   <% @image_urls.each do |image| %>
     <div class="col" data-id="<%= image.id %>">
       <div class="card border-around" >
@@ -43,3 +47,12 @@
     </div>
   <% end %>
 </div>
+<%= simple_form_for @vrental do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.hidden_field :request_context, value: 'after_adding_photos' %>
+  <div class="form-actions text-end mb-5">
+    <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

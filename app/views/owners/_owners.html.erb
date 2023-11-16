@@ -1,40 +1,26 @@
-<h4 class="font-weight-bold text-primary text-center mb-2"><%= t("owners") %></h4>
-<hr>
-<div class="container d-flex justify-content-center mt-5">
-  <%= form_with url: filter_owners_path, method: :get, data: { turbo_frame: "owners"}, class: "row g-3" do |form| %>
-    <div class="col-auto">
+<h4 class="text-center mb-5"><%= t("owners") %></h4>
+<div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
+  <div class="d-flex flex-column flex-md-row gap-3 justify-content-start">
+    <%= form_with url: filter_owners_path, method: :get, data: { turbo_frame: "owners"}, class: "d-flex flex-row gap-3" do |form| %>
       <%= form.select :language,
             options_for_select(
             [[t("ca"),'ca'],[t("en"),'en'],[t("es"),'es'],[t("fr"),'fr']],
             ),
-            { include_blank: 'tots els idiomes' },
+            { include_blank: t("show_all_languages") },
             class: "form-select"
           %>
-    </div>
-    <div class="col-auto">
       <%= form.text_field :fullname,
-          placeholder: "Buscar per nom",
+          placeholder: t('search_by_name'),
           class: "form-control bg-white border-0 small",
           autocomplete: "off" %>
-    </div>
-    <div class="col-auto">
-      <%= form.button class: "btn btn-primary me-3" do %>
+      <%= form.button class: "btn btn-sm btn-primary me-3" do %>
         <i class="fas fa-search fa-sm"></i>
       <% end %>
-    </div>
-    <div class="col-auto">
-      <%= link_to "Veure tots els propietaris", owners_path, class: "btn btn-secondary" %>
-    </div>
-    <div class="col-auto">
-      <%= link_to new_owner_path, class: "btn btn-light btn-icon-split" do %>
-        <span class="icon text-white-600">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span class="text">
-          Afegir propietari nou
-        </span>
-      <% end %>
-    </div>
+    <% end %>
+    <%= link_to t('show_all_owners'), owners_path, class: "btn btn-sm btn-secondary" %>
+  </div>
+  <%= link_to new_owner_path, class: "btn btn-sm btn-success" do %>
+    <i class="fa fa-solid fa-plus me-1"></i><%= t('add_owner') %>
   <% end %>
 </div>
 <%= turbo_frame_tag "owners", class: "card-body" do %>

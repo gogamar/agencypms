@@ -60,7 +60,7 @@ Rails.application.routes.draw do
           get :fetch_earnings
           post :upload_dates
           post :copy_images
-          get :edit_photos
+          get :add_photos
           get :copy
           get :copy_rates
           get :send_rates
@@ -159,7 +159,6 @@ Rails.application.routes.draw do
       get 'dashboard', to: 'pages#dashboard'
       get 'terms', to: 'pages#terms'
       get 'get_availability', to: 'pages#get_availability'
-      get 'submit_property', to: 'pages#submit_property'
       get '*path' => 'application#redirect_to_homepage'
     end
   get '/ca', to: redirect('/'), as: :redirect_default_locale

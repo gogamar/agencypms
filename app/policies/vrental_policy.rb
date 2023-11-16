@@ -105,7 +105,7 @@ class VrentalPolicy < ApplicationPolicy
     record.user == user
   end
 
-  def edit_photos?
+  def add_photos?
     return update?
   end
 

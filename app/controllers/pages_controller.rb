@@ -8,6 +8,8 @@ class PagesController < ApplicationController
   include ActionView::Helpers::NumberHelper
 
   def dashboard
+    @vrentals = policy_scope(Vrental)
+    @active_vrentals = @vrentals.where(status: 'active')
     @vragreements = policy_scope(Vragreement)
     @owners = policy_scope(Owner)
     @task = Task.new
@@ -162,11 +164,11 @@ class PagesController < ApplicationController
     @markers << generate_marker(@vrental)
 
     @property_name = @vrental.name
-    @property_type = t(@vrental.property_type)
-    @rental_term = t(@vrental.rental_term)
-    @property_location = @vrental.town.name
+    @property_type = t(@vrental.property_type) if @vrental.property_type.present?
+    @rental_term = t(@vrental.rental_term) if @vrental.rental_term.present?
+    @property_location = @vrental.town&.name
     @property_features = @vrental.features.where(highlight: true).map { |feature| t(feature.name) }.to_sentence
-    @meta_title = t('meta_titles.property', property_type: @property_type&.capitalize, rental_term: @rental_term.downcase, property_location: @property_location, property_name: @property_name)
+    @meta_title = t('meta_titles.property', property_type: @property_type&.capitalize, rental_term: @rental_term&.downcase, property_location: @property_location, property_name: @property_name)
     @meta_description = t('meta_descriptions.property', property_name: @property_name, property_type: @property_type&.capitalize, property_features: @property_features)
   end
 
@@ -176,9 +178,6 @@ class PagesController < ApplicationController
     @checkout = params[:check_out].to_date
     @nights = @checkout - @checkin
     @guests = params[:num_adults]
-  end
-
-  def submit_property
   end
 
   def contact

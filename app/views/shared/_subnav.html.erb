@@ -14,8 +14,8 @@
   <h4 class="mt-4 mb-3 text-primary text-center"><%= link_to @vrental.name, @vrental %></h4>
   <nav class="navbar navbar-dark d-flex justify-content-center gap-3">
     <%= link_to "Modificar l'immoble", edit_vrental_path(@vrental), class: "btn btn-light #{'active' if current_page?(edit_vrental_path(@vrental))}" %>
-    <%= link_to "Fotos", edit_photos_vrental_path(@vrental), class: "btn btn-light #{'active' if current_page?(edit_photos_vrental_path(@vrental))}" %>
-    <%= link_to "Pàgina web", book_property_path(vrental_id: @vrental.id), class: "btn btn-light #{'active' if current_page?(edit_photos_vrental_path(@vrental))}" %>
+    <%= link_to "Fotos", add_photos_vrental_path(@vrental), class: "btn btn-light #{'active' if current_page?(add_photos_vrental_path(@vrental))}" %>
+    <%= link_to "Pàgina web", book_property_path(vrental_id: @vrental.id), class: "btn btn-light #{'active' if current_page?(add_photos_vrental_path(@vrental))}" %>
     <%= link_to "Contractes", vrental_vragreements_path(@vrental), class: "btn btn-light #{'active' if current_page?(vrental_vragreements_path(@vrental))}" %>
     <%= link_to "Tarifes", vrental_rates_path(@vrental), class: "btn btn-light #{'active' if current_page?(vrental_rates_path(@vrental))}" %>
     <%= link_to "Ingressos", vrental_earnings_path(@vrental), class: "btn btn-light #{'active' if current_page?(vrental_earnings_path(@vrental))}" %>

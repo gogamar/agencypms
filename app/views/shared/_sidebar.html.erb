@@ -23,6 +23,11 @@
               <% end %>
               <div class="d-navigation">
                 <ul>
+                  <li class="<%= 'active' if current_page?(dashboard_path) %>">
+                    <%= link_to dashboard_path do %>
+                      <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
+                    <% end %>
+                  </li>
                   <% if @vrental && @vrental.persisted? %>
                     <li class="<%= 'active' if current_page?(@vrental) %>">
                       <%= link_to @vrental do %>
@@ -54,14 +59,14 @@
                         <i class="fa-solid fa-square-pen"></i><%= t("property_features") %>
                       <% end %>
                     </li>
-                    <li class="<%= 'active' if current_page?(edit_photos_vrental_path(@vrental)) %>">
-                      <%= link_to edit_photos_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-image"></i><%= t('photos') %>
-                      <% end %>
-                    </li>
                     <li class="<%= 'active' if current_page?(vrental_rates_path(@vrental)) %>">
                       <%= link_to vrental_rates_path(@vrental) do %>
                         <i class="fa-solid fa-money-check-dollar"></i><%= t('rates') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(add_photos_vrental_path(@vrental)) %>">
+                      <%= link_to add_photos_vrental_path(@vrental) do %>
+                        <i class="fa-solid fa-image"></i><%= t('photos') %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(vrental_vragreements_path(@vrental)) %>">
@@ -89,12 +94,28 @@
                         <i class="fa-solid fa-eye"></i><%= t('view_on_website') %>
                       <% end %>
                     </li>
+                  <% else %>
+                    <li class="<%= 'active' if current_page?(vrentals_path) %>">
+                      <%= link_to vrentals_path do %>
+                        <i class="fa-solid fa-house-circle-check"></i><%= t("vrentals") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(owners_path) %>">
+                      <%= link_to owners_path do %>
+                        <i class="fa-solid fa-house-user"></i><%= t("owners") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vragreements_path) %>">
+                      <%= link_to vragreements_path do %>
+                        <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrentaltemplates_path) %>">
+                      <%= link_to vrentaltemplates_path do %>
+                        <i class="fa-solid fa-file"></i><%= t("contract_templates") %>
+                      <% end %>
+                    </li>
                   <% end %>
-                  <li class="<%= 'active' if current_page?(dashboard_path) %>">
-                    <%= link_to dashboard_path do %>
-                      <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
-                    <% end %>
-                  </li>
                   <li class="<%= 'active' if current_page?(new_vrgroup_path) %>">
                     <%= link_to new_vrgroup_path do %>
                       <i class="fa-solid fa-link"></i><%= t("add_group") %>

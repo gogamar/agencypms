@@ -35,17 +35,12 @@
               <% yield %>
             <% end %>
           </div>
+          <%= render 'shared/booking_website_footer' %>
+          <%= render 'shared/log_in_modal' %>
+          <%= render 'shared/sign_up_modal' %>
+          <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="bi bi-arrow-up"></i></a>
         </div>
       </div>
     </div>
-    <% if user_signed_in? %>
-      <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
-        <div class="container">
-          <div class="copyright text-center my-auto">
-            <span>&copy; <%= current_user.company&.offices&.first.name %> <%= Date.today.year %></span>
-          </div>
-        </div>
-      </footer>
-    <% end %>
   </body>
 </html>

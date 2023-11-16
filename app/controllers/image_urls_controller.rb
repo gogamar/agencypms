@@ -20,7 +20,7 @@ class ImageUrlsController < ApplicationController
       photo.purge
     end
     @image_url.destroy
-    redirect_to edit_photos_vrental_path(@vrental), notice: "S'ha esborrat la foto."
+    redirect_to add_photos_vrental_path(@vrental), notice: "S'ha esborrat la foto."
   end
 
   def move
