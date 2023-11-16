@@ -38,29 +38,29 @@
           <li><a href="JavaScript:void(0);"><%= t('management') %><span class="submenu-indicator"></span></a>
             <ul class="nav-dropdown nav-submenu">
               <li><%= link_to vrentals_path do %>
-                  <i class="fa-solid fa-house-circle-check me-1"></i><%= t("vrentals") %>
+                  <i class="fa-solid fa-house-circle-check me-2"></i><%= t("vrentals") %>
                 <% end %></li>
               <li><%= link_to owners_path do %>
-                  <i class="fa-solid fa-house-user me-1"></i><%= t("owners") %>
+                  <i class="fa-solid fa-house-user me-2"></i><%= t("owners") %>
                 <% end %></li>
               <li><%= link_to vragreements_path do %>
-                  <i class="fa-solid fa-file-signature me-1"></i><%= t("contracts") %>
+                  <i class="fa-solid fa-file-signature me-2"></i><%= t("contracts") %>
                 <% end %></li>
               <li><%= link_to vrentaltemplates_path do %>
-                  <i class="fa-solid fa-file me-1"></i><%= t("contract_templates") %>
+                  <i class="fa-solid fa-file me-2"></i><%= t("contract_templates") %>
                 <% end %></li>
             </ul>
           </li>
           <li><a href="JavaScript:void(0);"><%= t('reports') %><span class="submenu-indicator"></span></a>
             <ul class="nav-dropdown nav-submenu">
               <li><%= link_to total_earnings_vrentals_path do %>
-                  <i class="fa-solid fa-arrow-trend-up me-1"></i><%= t('earnings') %>
+                  <i class="fa-solid fa-arrow-trend-up me-2"></i><%= t('earnings') %>
                 <% end %></li>
               <li><%= link_to expenses_path do %>
-                  <i class="fa-solid fa-arrow-trend-down me-1"></i><%= t('expenses') %>
+                  <i class="fa-solid fa-arrow-trend-down me-2"></i><%= t('expenses') %>
                 <% end %></li>
               <li><%= link_to invoices_path do %>
-                  <i class="fa-solid fa-file-invoice-dollar me-1"></i><%= t('invoices') %>
+                  <i class="fa-solid fa-file-invoice-dollar me-2"></i><%= t('invoices') %>
                 <% end %></li>
             </ul>
           </li>
@@ -68,20 +68,20 @@
             <li><a href="JavaScript:void(0);">Beds24<span class="submenu-indicator"></span></a>
               <ul class="nav-dropdown nav-submenu">
                 <li><%= link_to update_on_beds_vrental_path(@vrental) do %>
-                    <i class="fa-solid fa-upload me-1"></i><%= @vrental.beds_prop_id.present? ? "#{@vrental.name}: #{t('export_changes_to_beds24')}" : "#{t('create')} #{@vrental.name} #{t('on_beds24')}" %>
+                    <i class="fa-solid fa-upload me-2"></i><%= @vrental.beds_prop_id.present? ? "#{@vrental.name}: #{t('export_changes_to_beds24')}" : "#{t('create')} #{@vrental.name} #{t('on_beds24')}" %>
                   <% end %></li>
                 <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
                   <li><%= link_to send_photos_vrental_path(@vrental) do %>
-                      <i class="fa-solid fa-upload me-1"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
+                      <i class="fa-solid fa-upload me-2"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
                     <% end %></li>
                   <li><%= link_to update_from_beds_vrental_path(@vrental) do %>
-                      <i class="fa-solid fa-download me-1"></i> <%= "#{@vrental.name}: #{t('import_changes_from_beds24')}" %>
+                      <i class="fa-solid fa-download me-2"></i> <%= "#{@vrental.name}: #{t('import_changes_from_beds24')}" %>
                     <% end %></li>
                   <li><%= link_to import_photos_vrental_path(@vrental) do %>
-                      <i class="fa-solid fa-download me-1"></i><%= "#{@vrental.name}: #{t('import_photos_from_beds24')}" %>
+                      <i class="fa-solid fa-download me-2"></i><%= "#{@vrental.name}: #{t('import_photos_from_beds24')}" %>
                     <% end %></li>
                   <li><%= link_to update_owner_from_beds_vrental_path(@vrental) do %>
-                      <i class="fa-solid fa-user-plus me-1"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
+                      <i class="fa-solid fa-user-plus me-2"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
                     <% end %></li>
                 <% end %>
               </ul>

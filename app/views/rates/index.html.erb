@@ -15,7 +15,7 @@
   <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
     <div>
       <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
-        <i class="fa-solid fa-file-import me-1"></i>Importar tarifes des de Beds
+        <i class="fa-solid fa-file-import me-2"></i>Importar tarifes des de Beds
       <% end %>
     </div>
   <% end %>
@@ -28,10 +28,10 @@
     <% end %>
     <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
       <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success" do %>
-        <i class="fas fa-paper-plane fa-sm me-1"></i> Enviar tarifes a Beds24
+        <i class="fas fa-paper-plane fa-sm me-2"></i> Enviar tarifes a Beds24
       <% end %>
       <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger" do %>
-        <i class="fas fa-exclamation-triangle me-1"></i> Esborra les futures tarifes en Beds24
+        <i class="fas fa-exclamation-triangle me-2"></i> Esborra les futures tarifes en Beds24
       <% end %>
     <% end %>
   </div>
@@ -46,7 +46,7 @@
       <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
       <div class="text-end">
         <%= link_to delete_year_rates_vrental_path(@vrental, year: year), class: "text-danger" do %>
-          <i class="fas fa-solid fa-trash-can me-1"></i>Esborra les tarifes <%= year %>
+          <i class="fas fa-solid fa-trash-can me-2"></i>Esborra les tarifes <%= year %>
         <% end %>
         <% if year <= Date.today.year %>
           <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-secondary" %>

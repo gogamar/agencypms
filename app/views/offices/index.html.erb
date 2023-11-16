@@ -1,6 +1,6 @@
-<div class="d-flex justify-content-between">
+<div class="d-md-flex justify-content-between">
   <% current_user.owned_company.offices.each do |office| %>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column p-3 border m-3">
       <h6><%= office.name %></h6>
       <span class="label bg-light-success text-success prt-type mb-3"><%= office.vrentals.count %> <%= t("vrental", count: office.vrentals.count) %></span>
       <%= link_to edit_company_office_path(current_user.owned_company, office), class: "btn btn-sm btn-secondary" do %>
@@ -11,14 +11,16 @@
         <p>Importar immobles de la oficina</p>
         <%= form_tag import_properties_office_path(office), method: :get, class: "d-inline-block" do %>
           <div class="form-group mt-2">
-            <%= label_tag :import_name, "Importar nom de l'immoble o de la propietat?" %>
-            <%= select_tag :import_name, options_for_select(['property','room']) %>
+            <%= label_tag :import_name, "Importar nom de la 'property' o 'room'?" %>
+            <%= select_tag :import_name, options_for_select(['property', 'room']) %>
           </div>
           <div class="form-group mt-2">
             <%= label_tag :no_import, "No importar immobles amb aquestes paraules en el nom de l'immoble o habitació (separar amb comma)" %>
             <%= text_field_tag :no_import, params[:no_import], class: "form-control" %>
           </div>
-          <%= submit_tag "Importar", class: "btn btn-sm btn-primary mt-3" %>
+          <div class="form-actions text-end">
+            <%= submit_tag "Importar", class: "btn btn-sm btn-secondary" %>
+          </div>
         <% end %>
         <%# link_to "Eliminar tots els immobles de l'oficina", destroy_all_properties_office_path(office), class: "link text-underscore text-danger mt-3" %>
       <% end %>

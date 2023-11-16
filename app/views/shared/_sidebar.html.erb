@@ -28,6 +28,18 @@
                       <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
                     <% end %>
                   </li>
+                  <li class="<%= 'active' if current_page?(edit_company_path(@company)) %>">
+                    <%= link_to edit_company_path(@company) do %>
+                      <i class="fa-solid fa-house-laptop"></i><%= t("company") %>
+                    <% end %>
+                  </li>
+                  <% if @company.offices %>
+                    <li class="<%= 'active' if current_page?(company_offices_path(@company)) %>">
+                      <%= link_to company_offices_path(@company) do %>
+                        <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
+                      <% end %>
+                    </li>
+                  <% end %>
                   <% if @vrental && @vrental.persisted? %>
                     <li class="<%= 'active' if current_page?(@vrental) %>">
                       <%= link_to @vrental do %>

@@ -20,7 +20,7 @@
     <%= link_to t('show_all_owners'), owners_path, class: "btn btn-sm btn-secondary" %>
   </div>
   <%= link_to new_owner_path, class: "btn btn-sm btn-success" do %>
-    <i class="fa fa-solid fa-plus me-1"></i><%= t('add_owner') %>
+    <i class="fa fa-solid fa-plus me-2"></i><%= t('add_owner') %>
   <% end %>
 </div>
 <%= turbo_frame_tag "owners", class: "card-body" do %>

@@ -5,7 +5,7 @@
       <% if vrental.coupons.present? %>
         <div class="position-absolute top-0 left-0 ms-3 mt-3 z-1">
           <div class="label bg-success text-light d-inline-flex align-items-center justify-content-center">
-            <i class="fa-solid fa-tags me-1"></i>-<%= number_to_percentage(vrental.coupons.first.amount, precision: 0, format: "%n%") %> <%= vrental.coupons.first.name %>
+            <i class="fa-solid fa-tags me-2"></i>-<%= number_to_percentage(vrental.coupons.first.amount, precision: 0, format: "%n%") %> <%= vrental.coupons.first.name %>
           </div>
         </div>
       <% end %>
@@ -57,19 +57,19 @@
         <div class="list-fx-features d-flex align-items-center justify-content-between mt-3 mb-1">
           <% if vrental.max_guests %>
             <div class="listing-card d-flex align-items-center">
-              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-users fs-xs"></i></div>
+              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-users fs-xs"></i></div>
               <%= vrental.max_guests %> <%= t("guest", count: vrental.max_guests) %>
             </div>
           <% end %>
           <% if vrental.real_bedrooms.present? %>
             <div class="listing-card d-flex align-items-center">
-              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bed fs-xs"></i></div>
+              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-bed fs-xs"></i></div>
               <%= vrental.real_bedrooms.count %> <%= t("bedroom", count: vrental.real_bedrooms.count) %>
             </div>
           <% end %>
           <% if vrental.bathrooms.present? %>
             <div class="listing-card d-flex align-items-center">
-              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bath fs-xs"></i></div>
+              <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-bath fs-xs"></i></div>
               <%= vrental.bathrooms.count %> <%= t("bathroom", count: vrental.bathrooms.count) %>
             </div>
           <% end %>
@@ -77,7 +77,7 @@
       </div>
       <div class="listing-footer-wrapper">
         <div class="listing-locate">
-          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-1"></i><%= vrental.town&.name %></span>
+          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-2"></i><%= vrental.town&.name %></span>
         </div>
         <div class="listing-detail-btn">
           <% if @available_vrentals_with_price.present? %>

@@ -1,23 +1,23 @@
 <div class="container">
   <div class="d-flex justify-content-end mb-3 gap-2">
     <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#statement<%= @statement.id %>">
-      <i class="fa-solid fa-edit me-1"></i> Modificar la liquidació
+      <i class="fa-solid fa-edit me-2"></i> Modificar la liquidació
     </button>
     <%= render "statement_modal", vrental: @vrental, statement: @statement %>
     <% if @statement.invoice %>
       <%= link_to vrental_invoice_path(@vrental, @statement.invoice), class: "btn btn-sm btn-primary" do %>
-        <i class="fa-solid fa-file-invoice-dollar me-1"></i>
+        <i class="fa-solid fa-file-invoice-dollar me-2"></i>
         Factura
       <% end %>
     <% else %>
       <%= link_to new_vrental_invoice_path(@vrental), class: "btn btn-sm btn-success" do %>
-        <i class="fa-solid fa-plus me-1"></i>
+        <i class="fa-solid fa-plus me-2"></i>
         Afegir factura
       <% end %>
     <% end %>
     <% if !@statement.invoice || (@statement.invoice && Date.current == @statement.invoice.created_at.to_date) %>
       <%= link_to vrental_statement_path(@vrental, @statement), class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la liquidació de #{@vrental.name}?"} do %>
-        <i class="fa-solid fa-trash-can me-1"></i>
+        <i class="fa-solid fa-trash-can me-2"></i>
         Esborrar
       <% end %>
     <% end %>

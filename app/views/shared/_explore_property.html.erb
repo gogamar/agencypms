@@ -17,7 +17,7 @@
                 <% if vrental.coupons.present? %>
                   <div class="position-absolute top-0 left-0 ms-3 mt-3 z-index-9">
                     <div class="label bg-success text-light d-inline-flex align-items-center justify-content-center">
-                      <i class="fa-solid fa-tags me-1"></i>-<%= number_to_percentage(vrental.coupons.first.amount, precision: 0, format: "%n%") %> <%= vrental.coupons.first.name %>
+                      <i class="fa-solid fa-tags me-2"></i>-<%= number_to_percentage(vrental.coupons.first.amount, precision: 0, format: "%n%") %> <%= vrental.coupons.first.name %>
                     </div>
                   </div>
                 <% end %>
@@ -66,15 +66,15 @@
               <div class="price-features-wrapper">
                 <div class="list-fx-features d-flex align-items-center justify-content-between">
                   <div class="listing-card d-flex align-items-center">
-                    <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-building-shield fs-xs"></i></div>
+                    <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-building-shield fs-xs"></i></div>
                     <span class="text-muted-2 fs-sm"><%= vrental.max_guests %> <%= t("guest", count: vrental.max_guests) %></span>
                   </div>
                   <div class="listing-card d-flex align-items-center">
-                    <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bed fs-xs"></i></div>
+                    <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-bed fs-xs"></i></div>
                     <span class="text-muted-2 fs-sm"><%= vrental.real_bedrooms&.count %> <%= t("bedroom", count: vrental.real_bedrooms&.count) %></span>
                   </div>
                   <div class="listing-card d-flex align-items-center">
-                    <div class="square--25 text-muted-2 fs-sm circle gray-simple me-1"><i class="fa-solid fa-bath fs-xs"></i></div>
+                    <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-bath fs-xs"></i></div>
                     <span class="text-muted-2 fs-sm"><%= vrental.bathrooms&.count %> <%= t("bathroom", count: vrental.bathrooms&.count) %></span>
                   </div>
                 </div>

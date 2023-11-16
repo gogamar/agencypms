@@ -8,7 +8,7 @@
   <div class="d-flex align-items-center">
     <% expense_link = @vrental ? new_vrental_expense_path(@vrental) : new_expense_path %>
     <%= link_to expense_link, class: "text-muted-2" do %>
-      <i class="fa-solid fa-plus me-1"></i>
+      <i class="fa-solid fa-plus me-2"></i>
       Nova despesa <%= @vrental.name if @vrental %>
     <% end %>
   </div>
