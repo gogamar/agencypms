@@ -31,27 +31,27 @@
                     </li>
                     <li class="<%= 'active' if current_page?(edit_vrental_path(@vrental)) %>">
                       <%= link_to edit_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-square-pen"></i><%= t("edit_owner_general") %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("general_details") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(add_owner_vrental_path(@vrental)) %>">
+                      <%= link_to add_owner_vrental_path(@vrental) do %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("property_owner") %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(add_booking_conditions_vrental_path(@vrental)) %>">
                       <%= link_to add_booking_conditions_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-square-pen"></i><%= t("edit_booking_conditions") %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("property_booking_conditions") %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(add_descriptions_vrental_path(@vrental)) %>">
                       <%= link_to add_descriptions_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-square-pen"></i><%= t("edit_descriptions") %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("property_descriptions") %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(add_features_vrental_path(@vrental)) %>">
                       <%= link_to add_features_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-square-pen"></i><%= t("edit_features") %>
-                      <% end %>
-                    </li>
-                    <li class="<%= 'active' if current_page?(add_beds24_vrental_path(@vrental)) %>">
-                      <%= link_to add_beds24_vrental_path(@vrental) do %>
-                        <i class="fa-solid fa-square-pen"></i><%= t("edit_beds24") %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("property_features") %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(edit_photos_vrental_path(@vrental)) %>">

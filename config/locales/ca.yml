@@ -372,7 +372,7 @@ ca:
       back: Tornar
       continue: Continuar
       submit: Desar
-      close: Desar i tancar
+      save_and_close: Desar i tancar
   good_choice: Bona elecció!
   grill: Barbacoa
   guest:

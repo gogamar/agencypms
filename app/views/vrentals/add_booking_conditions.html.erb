@@ -1,0 +1,21 @@
+<h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
+<h6 class="text-center"><%= t('property_booking_conditions') %></h6>
+<%= simple_form_for @vrental do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.hidden_field :request_context, value: 'add_booking_conditions' %>
+  <%= f.input :max_guests %>
+  <%= f.input :min_price %>
+  <%= f.input :rental_term, collection: Vrental::RENTAL_TERMS.map { |term| [t(term), term] } %>
+  <%= f.input :res_fee %>
+  <%= f.input :min_stay %>
+  <%= f.input :free_cancel %>
+  <%= t("dont-fill") %>
+  <%= f.input :beds_prop_id %>
+  <%= f.input :beds_room_id %>
+  <%= f.input :prop_key %>
+  <div class="form-actions text-end mb-5">
+        <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+  </div>
+<% end %>

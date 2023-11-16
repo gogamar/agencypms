@@ -85,10 +85,6 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
-  def add_beds24?
-    return create?
-  end
-
   def add_descriptions?
     return create?
   end

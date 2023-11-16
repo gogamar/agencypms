@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
         member do
           get :add_owner
+          get :add_booking_conditions
+          get :add_descriptions
           get :add_features
           get :annual_statement
           get :fetch_earnings
