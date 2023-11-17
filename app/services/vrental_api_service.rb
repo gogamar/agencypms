@@ -530,14 +530,12 @@ class VrentalApiService
         if beds24rates.empty?
           return
         end
-        rates_by_firstnight = beds24rates.group_by { |rate| rate["firstNight"] }
         selected_rates = []
-        rates_by_firstnight.each do |_firstnight, rates|
-          if @vrental.price_per == "week"
-            selected_rates.concat(rates.select { |rate| rate["pricesPer"] == "7" && rate["restrictionStrategy"] == "0"  })
-          elsif @vrental.price_per == "night"
-            selected_rates.concat(rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" })
-          end
+
+        if @vrental.price_per == "week"
+          selected_rates.concat(beds24rates.select { |rate| rate["pricesPer"] == "7" && rate["restrictionStrategy"] == "0"  })
+        elsif @vrental.price_per == "night"
+          selected_rates.concat(beds24rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" })
         end
 
         selected_rates.each do |rate|
@@ -623,7 +621,7 @@ class VrentalApiService
 
     vrental_rates = []
 
-    vr_rates = @vrental.rates.where("lastnight > ?", Date.today)
+    vr_rates = @vrental.future_rates
 
     vr_rates.each do |rate|
       rate_exists_on_beds_id = beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
@@ -675,12 +673,9 @@ class VrentalApiService
         beds24_rate_links = client.get_rate_links(@vrental.prop_key, rateId: rate.beds_rate_id)
 
         @vrental.vrgroup.vrentals.where(master_vrental_id: @vrental.id).each do |linked_vrental|
-
-          link_exists_on_beds_id = beds24_rate_links.any? { |beds_link| beds_link["rateId"] == rate.beds_rate_id && beds_link["roomId"] == linked_vrental.beds_room_id }
-          # response.select { |hash| hash["rateId"] != false }.each do |rate|
+          this_link_exists = beds24_rate_links.any? { |link| link["rateId"] == rate.beds_rate_id && link["roomId"] == linked_vrental.beds_room_id }
           rate_link = {
-            "action": link_exists_on_beds_id ? "modify" : "new",
-            # "rateId": rate["rateId"],
+            "action": this_link_exists ? "modify" : "new",
             "rateId": rate.beds_rate_id,
             "roomId": linked_vrental.beds_room_id,
             "offerId": "1",
@@ -688,7 +683,6 @@ class VrentalApiService
             "offset": linked_vrental.rate_offset.to_s
           }
           rate_links << rate_link
-          # end
         end
       end
     end
