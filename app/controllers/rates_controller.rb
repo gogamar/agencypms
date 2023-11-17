@@ -29,6 +29,7 @@ class RatesController < ApplicationController
   def create
     @rate = Rate.new(rate_params)
     @rate.vrental = @vrental
+    @rate.beds_room_id = @vrental.beds_room_id
     authorize @rate
     if @rate.save
       redirect_to vrental_rates_path(@vrental), notice: "Has creat una tarifa nova per #{@rate.vrental.name}."

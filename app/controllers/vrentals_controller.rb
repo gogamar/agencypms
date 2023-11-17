@@ -227,20 +227,20 @@ class VrentalsController < ApplicationController
   end
 
   def send_rates
-    @vrental.send_rates_to_beds
+    VrentalApiService.new(@vrental).send_rates_to_beds
     authorize @vrental
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn enviades."
   end
 
   def get_rates
-    @vrental.get_rates_from_beds
+    VrentalApiService.new(@vrental).get_rates_from_beds
     authorize @vrental
-    redirect_back(fallback_location: vrental_rates_path(@vrental) + "#tarifes", notice: "Ja s'han importat les tarifes.")
+    redirect_to vrental_rates_path(@vrental), notice: "Ja s'han importat les tarifes."
   end
 
   def get_bookings
     from_date = params[:from_date] if params[:from_date].present?
-    @vrental.get_bookings_from_beds(from_date)
+    VrentalApiService.new(@vrental).get_bookings_from_beds(from_date)
     authorize @vrental
     if params[:request_context] == 'statements'
       redirect_to vrental_statements_path(@vrental), notice: "S'han importat les reserves."
@@ -251,27 +251,27 @@ class VrentalsController < ApplicationController
   end
 
   def update_on_beds
-    @vrental.update_vrental_on_beds
+    VrentalApiService.new(@vrental).update_vrental_on_beds
     redirect_to @vrental, notice: "S'han exportat canvis a Beds."
   end
 
   def import_photos
-    @vrental.import_photos_from_beds
+    VrentalApiService.new(@vrental).import_photos_from_beds
     redirect_to @vrental, notice: "S'han importat les fotos des de Beds."
   end
 
   def send_photos
-    @vrental.send_photos_to_beds
+    VrentalApiService.new(@vrental).send_photos_to_beds
     redirect_to @vrental, notice: "S'han enviat les fotos a Beds."
   end
 
   def update_from_beds
-    @vrental.update_vrental_from_beds
+    VrentalApiService.new(@vrental).update_vrental_from_beds
     redirect_to @vrental, notice: "S'han importat canvis des de Beds."
   end
 
   def update_owner_from_beds
-    @vrental.update_owner_from_beds
+    VrentalApiService.new(@vrental).update_owner_from_beds
     redirect_to @vrental, notice: "S'ha actualitzat el propietari des de Beds."
   end
 
@@ -420,7 +420,7 @@ class VrentalsController < ApplicationController
   def vrental_params
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :min_price, feature_ids: [], photos: []
+      :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :master_rate, :master_vrental_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :weekly_discount_included, :min_price, feature_ids: [], photos: []
     )
   end
 end

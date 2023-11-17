@@ -20,7 +20,11 @@
       <%= f.input :min_stay %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :priceweek %>
+      <% if vrental.price_per == "week" %>
+        <%= f.input :priceweek %>
+      <% elsif vrental.price_per == "night" %>
+        <%= f.input :pricenight %>
+      <% end %>
     </div>
     <div class="p-1 text-center">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-primary mt-3' %>

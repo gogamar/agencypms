@@ -166,6 +166,13 @@ ca:
         rental_term: Tipus de lloguer
         res_fee: Percentatge per confirmar reserva
         free_cancel: Dies per cancel·lar sense càrrec
+        price_per: Preu de la tarifa serà per nit o per setmana?
+        weekly_discount: Descompte per setmana (opcional)
+        weekly_discount_included: Descompte per setmana estarà inclòs al preu setmanal de la tarifa?
+        master_rate: La tarifa d'aquest immoble s'utilitzarà com a mestre pels altres immobles del grup?
+        master_vrental_id: Immoble amb tarifa mestre
+        rate_offset: Descompte (ex. -10) o recàrrec (ex. 10) a la tarifa mestre. Per copiar la tarifa sense variarla, deixar aquest camp en blanc.
+        rate_offset_type: Tipus de descompte o recàrrec (percentatge o import fixe)
       vrentaltemplate:
         language: Idioma
         title: Títol
@@ -342,7 +349,7 @@ ca:
   discount: Descompte
   discover_our_offers: Descobreix les nostres suggerències
   dishwasher: Rentaplats
-  dont-fill: "No omplir si no saps que és:"
+  dont-fill: "Atenció! A continuació son credencials de la conexió amb Beds24:"
   earnings: Ingressos
   edit_profile: Editar perfil
   edit_vrental: Modificar l'immoble
@@ -660,3 +667,14 @@ ca:
   management: Gestió
   company: Empresa
   offices: Oficines
+  night: Nit
+  weekly_discount: Descompte per setmana (opcional)
+  master_vrental: Si vols aplicar la tarifa d'un altre immoble, selecciona'l
+  percentage_offset: percentatge
+  per_booking_offset: per reserva
+  per_day_offset: per dia
+  per_person_per_day_offset: per persona per dia
+  no_offset: igual com la tarifa mestre
+  per_period_offset: per període
+  price_week: Preu setmana
+  price_night: Preu nit

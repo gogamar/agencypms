@@ -523,7 +523,6 @@ class VrentalApiService
       if parsed_response.is_a?(Hash) && parsed_response.key?("error")
         found_error = true
         error_message = parsed_response["error"]
-        error_code = parsed_response["errorCode"]
         return error_message
       end
 
@@ -534,39 +533,45 @@ class VrentalApiService
         rates_by_firstnight = beds24rates.group_by { |rate| rate["firstNight"] }
         selected_rates = []
         rates_by_firstnight.each do |_firstnight, rates|
-          rates_with_prices_per_7 = rates.select { |rate| rate["pricesPer"] == "7" }
-          if rates_with_prices_per_7.any?
-            selected_rates.concat(rates_with_prices_per_7)
-          else
-            selected_rates << rates.find { |rate| rate["pricesPer"] == "1" }
+          if @vrental.price_per == "week"
+            selected_rates.concat(rates.select { |rate| rate["pricesPer"] == "7" && rate["restrictionStrategy"] == "0"  })
+          elsif @vrental.price_per == "night"
+            selected_rates.concat(rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" })
           end
         end
+
         selected_rates.each do |rate|
-            if rate["firstNight"].delete("-").to_i > 20230101
-
-              existing_rate = @vrental.rates.find_by(firstnight: rate["firstNight"].to_date)
-
-              if existing_rate
-                existing_rate.update!(
-                  beds_rate_id: rate["rateId"],
-                  lastnight: rate["lastNight"],
-                  priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : (rate["roomPrice"].to_f * 6.295),
-                  beds_room_id: rate["roomId"],
-                )
-              else
-                Rate.create!(
-                  beds_rate_id: rate["rateId"],
-                  firstnight: rate["firstNight"],
-                  lastnight: rate["lastNight"],
-                  priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : (rate["roomPrice"].to_f * 6.295),
-                  beds_room_id: rate["roomId"],
-                  vrental_id: @vrental.id,
-                  min_stay: 5,
-                  arrival_day: 'everyday'
-                )
-              end
+          if Date.parse(rate["lastNight"]) > Date.today.beginning_of_year
+            existing_rate = @vrental.rates.find_by(beds_rate_id: rate["rateId"])
+            if existing_rate
+              existing_rate.update!(
+                firstnight: rate["firstNight"],
+                lastnight: rate["lastNight"],
+                pricenight: @vrental.price_per == "night" ? rate["roomPrice"].to_f : nil,
+                priceweek: @vrental.price_per == "week" ? rate["roomPrice"].to_f : nil,
+                beds_room_id: rate["roomId"],
+                min_stay: rate["minNights"].to_i,
+                arrival_day: 'everyday'
+              )
+            else
+              Rate.create!(
+                beds_rate_id: rate["rateId"],
+                vrental_id: @vrental.id,
+                firstnight: rate["firstNight"],
+                lastnight: rate["lastNight"],
+                pricenight: @vrental.price_per == "night" ? rate["roomPrice"].to_f : nil,
+                priceweek: @vrental.price_per == "week" ? rate["roomPrice"].to_f : nil,
+                beds_room_id: rate["roomId"],
+                min_stay: rate["minNights"].to_i,
+                arrival_day: 'everyday'
+              )
             end
           end
+        end
+
+        selected_beds_rate_ids = selected_rates.map { |rate| rate["rateId"] }
+        rates_to_delete = @vrental.rates.where.not(beds_rate_id: selected_beds_rate_ids)
+        rates_to_delete.destroy_all
       else
         return
       end
@@ -574,17 +579,22 @@ class VrentalApiService
 
     rate_years = @vrental.rates.map(&:firstnight).map(&:year).uniq
 
-    rate_years.each do |year|
-      first_july = Date.new(year, 7, 1)
-      first_august = Date.new(year, 8, 1)
+    # fixme temporary fix for estartit
+    if @vrental.office.name.downcase.include?('estartit')
+      rate_years.each do |year|
+        first_july = Date.new(year, 7, 1)
+        first_august = Date.new(year, 8, 1)
 
-      second_sat_july = first_july + (6 - first_july.wday) + 7
-      last_friday_august = first_august + (5 - first_august.wday) + 21
+        second_sat_july = first_july + (6 - first_july.wday) + 7
+        last_friday_august = first_august + (5 - first_august.wday) + 21
 
-      @vrental.rates.each do |rate|
-        if rate.firstnight >= second_sat_july && rate.lastnight <= last_friday_august
-          rate.min_stay = 7
-          rate.arrival_day = "saturdays"
+        @vrental.rates.each do |rate|
+          if rate.firstnight >= second_sat_july && rate.lastnight <= last_friday_august
+            rate.min_stay = 7
+            rate.arrival_day = "saturdays"
+          else
+            rate.min_stay = 5
+          end
           rate.save!
         end
       end
@@ -597,8 +607,9 @@ class VrentalApiService
     beds24rates = client.get_rates(@vrental.prop_key)
     # Then we select the rates older than 2 years for deletion
     rates_to_delete = []
+
     beds24rates.each do |rate|
-      if rate["firstNight"].to_date.year < (Date.today.year - 2)
+      if rate["firstNight"].to_date.year < (Date.today.year - 2) || !@vrental.future_rates.pluck(:beds_rate_id).include?(rate['rateId'])
         rate_to_delete = {
           action: "delete",
           rateId: "#{rate["rateId"]}",
@@ -608,7 +619,7 @@ class VrentalApiService
       end
     end
 
-    client.set_rates(prop_key, setRates: rates_to_delete)
+    client.set_rates(@vrental.prop_key, setRates: rates_to_delete)
 
     vrental_rates = []
 
@@ -617,101 +628,73 @@ class VrentalApiService
     vr_rates.each do |rate|
       rate_exists_on_beds_id = beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
 
-      general_rate_exists_on_beds_dates = beds24rates.any? { |beds_rate| beds_rate["firstNight"].to_date == rate.firstnight && beds_rate["lastNight"].to_date == rate.lastnight && beds_rate["pricesPer"] == "1" }
+      # fixme temporary fix for estartit and barcelona
+      if @vrental.office.name.downcase.include?('estartit')
+        min_advance = "2"
+      else
+        min_advance = "0"
+      end
 
-      weekly_rate_exists_on_beds_dates = beds24rates.any? { |beds_rate| beds_rate["firstNight"].to_date == rate.firstnight && beds_rate["lastNight"].to_date == rate.lastnight && beds_rate["pricesPer"] == "7" }
-
-      # original_weekly_price = weekly_discount_applied? ? rate.priceweek / (1 - rate.weekly_discount) : rate.priceweek
-
-      # nightly_price = original_weekly_price / 7
-
-      general_rate =
+      vrental_rate =
         {
-        action: (rate_exists_on_beds_id || general_rate_exists_on_beds_dates) ? "modify" : "new",
+        action: rate_exists_on_beds_id ? "modify" : "new",
         roomId: "#{@vrental.beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",
-        name: "Tarifa #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} amb 10% desc. setmanal",
-        minNights: "0",
-        minAdvance: "2",
+        name: "Tarifa #{rate.pricenight.present? ? 'per nit' : 'setmanal'} #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@vrental.weekly_discount.present? ? @vrental.weekly_discount.to_s + '% descompte setmanal només web propia' : ''}",
+        minNights: rate.pricenight.present? ? rate.min_stay : "7",
+        minAdvance: min_advance,
         allowEnquiry: "1",
-        pricesPer: "1",
+        pricesPer: rate.pricenight.present? ? "1" : "7",
         color: "#{SecureRandom.hex(3)}",
-        roomPrice: "#{rate.priceweek/6.295}",
+        roomPrice: rate.pricenight.present? ? rate.pricenight : rate.priceweek,
         roomPriceEnable: "1",
         roomPriceGuests: "0",
-        disc1Nights: "2",
-        disc2Nights: "3",
-        disc3Nights: "4",
-        disc4Nights: "5",
-        disc5Nights: "6",
         disc6Nights: "7",
-        disc7Nights: "8",
-        disc8Nights: "9",
-        disc6Percent: "10.00"
+        disc6Percent: @vrental.weekly_discount.present? ? @vrental.weekly_discount.to_s : "0"
         }
-      weekly_rate =
-        {
-        action: (rate_exists_on_beds_id || weekly_rate_exists_on_beds_dates) ? "modify" : "new",
-        roomId: "#{@vrental.beds_room_id}",
-        firstNight: "#{rate.firstnight}",
-        lastNight: "#{rate.lastnight}",
-        name: "Tarifa setmanal només sistachrentals.com #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)}",
-        minAdvance: "2",
-        allowEnquiry: "1",
-        pricesPer: "7",
-        color: "#{SecureRandom.hex(3)}",
-        roomPrice: "#{rate.priceweek}",
-        roomPriceEnable: "1",
-        roomPriceGuests: "0",
-        channel000: "1",
-        channel999: "1",
-        channel017: "0",
-        channel046: "0",
-        channel032: "0",
-        channel027: "0",
-        channel031: "0",
-        channel052: "0",
-        channel019: "0",
-        channel002: "0",
-        channel053: "0",
-        channel059: "0",
-        channel066: "0",
-        channel014: "0",
-        channel033: "0",
-        channel012: "0",
-        channel073: "0",
-        channel013: "0",
-        channel078: "0",
-        channel044: "0",
-        channel064: "0",
-        channel024: "0",
-        channel036: "0",
-        channel057: "0",
-        channel072: "0",
-        channel035: "0",
-        channel087: "0",
-        channel051: "0",
-        channel042: "0",
-        channel023: "0",
-        channel086: "0",
-        channel050: "0",
-        channel083: "0",
-        channel056: "0",
-        channel076: "0",
-        channel055: "0",
-        channel063: "0",
-        channel030: "0",
-        channel034: "0"
-        }
-        vrental_rates << general_rate
-        vrental_rates << weekly_rate
+      vrental_rates << vrental_rate
     end
 
-    # And finally we send the rates to Beds24
     response = client.set_rates(@vrental.prop_key, setRates: vrental_rates)
-
     return unless response.code == 200
+
+    response.each_with_index do |rate, index|
+      first_night = vrental_rates[index][:firstNight]
+      last_night = vrental_rates[index][:lastNight]
+      min_nights = vrental_rates[index][:minNights]
+      found_rate = @vrental.rates.where(beds_rate_id: nil).find_by(firstnight: first_night.to_date, lastnight: last_night.to_date, min_stay: min_nights.to_i)
+      if found_rate.present? && rate["rateId"] != false
+        found_rate.update!(beds_rate_id: rate["rateId"])
+      end
+    end
+
+    if @vrental.master_rate == true
+      rate_links = []
+      @vrental.future_rates.each do |rate|
+        beds24_rate_links = client.get_rate_links(@vrental.prop_key, rateId: rate.beds_rate_id)
+
+        @vrental.vrgroup.vrentals.where(master_vrental_id: @vrental.id).each do |linked_vrental|
+
+          link_exists_on_beds_id = beds24_rate_links.any? { |beds_link| beds_link["rateId"] == rate.beds_rate_id && beds_link["roomId"] == linked_vrental.beds_room_id }
+          # response.select { |hash| hash["rateId"] != false }.each do |rate|
+          rate_link = {
+            "action": link_exists_on_beds_id ? "modify" : "new",
+            # "rateId": rate["rateId"],
+            "rateId": rate.beds_rate_id,
+            "roomId": linked_vrental.beds_room_id,
+            "offerId": "1",
+            "linkType": linked_vrental.rate_offset_type,
+            "offset": linked_vrental.rate_offset.to_s
+          }
+          rate_links << rate_link
+          # end
+        end
+      end
+    end
+
+    client.set_rate_links(@vrental.prop_key, setRateLinks: rate_links)
+    # fixme: need to rescue errors here
 
     vr_rates.each do |rate|
       rate.sent_to_beds = true
