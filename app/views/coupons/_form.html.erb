@@ -1,4 +1,4 @@
-<%= simple_form_for [@company, @office, @coupon] do |f| %>
+<%= simple_form_for [@company, @office, @coupon], class: "d-md-flex justify-content-between" do |f| %>
   <%= f.input :name %>
   <%= f.input :amount %>
   <%= f.input :discount_type, collection: Coupon::DISCOUNT_TYPES.map { |discount_type| [t(discount_type), discount_type] } %>

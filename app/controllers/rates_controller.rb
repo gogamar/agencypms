@@ -9,8 +9,8 @@ class RatesController < ApplicationController
     @rate = Rate.new
     @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
     @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
-    @years = [Date.today.next_year.year, Date.today.year, Date.today.last_year.year]
     @rate_plans = RatePlan.where(company_id: @vrental.user.company.id)
+    @master_vrental = Vrental.find_by(id: @vrental.master_vrental_id) if @vrental.master_vrental_id
   end
 
   def new
@@ -32,7 +32,7 @@ class RatesController < ApplicationController
     @rate.beds_room_id = @vrental.beds_room_id
     authorize @rate
     if @rate.save
-      redirect_to vrental_rates_path(@vrental), notice: "Has creat una tarifa nova per #{@rate.vrental.name}."
+      render(partial: 'rate', locals: { rate: @rate })
     else
       render :new, status: :unprocessable_entity
     end

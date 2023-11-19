@@ -13,10 +13,10 @@ class Rate < ApplicationRecord
   after_create :create_nightly_rate, if: ->(rate) { rate.vrental.price_per == 'week' }
 
   def nightly_price_based_on_week
-    decimal_discount = weekly_discount / 100 if weekly_discount.present?
-    discount_rate = weekly_discount_included ? (1 - decimal_discount) : decimal_discount
-    weekly_room_price = weekly_discount.present? ? rate.priceweek / discount_rate : rate.priceweek
-    weekly_discount_included ? weekly_room_price / 7 : rate.priceweek / 7
+    decimal_discount = vrental.weekly_discount / 100 if vrental.weekly_discount.present?
+    discount_rate = vrental.weekly_discount_included ? (1 - decimal_discount) : decimal_discount
+    weekly_room_price = vrental.weekly_discount.present? ? priceweek / discount_rate : priceweek
+    vrental.weekly_discount_included ? weekly_room_price / 7 : priceweek / 7
   end
 
   private

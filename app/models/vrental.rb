@@ -104,6 +104,12 @@ class Vrental < ApplicationRecord
     rates.where('lastnight > ?', Date.today)
   end
 
+  def years_with_rates
+    years_with_rates = rates.map { |rate| rate.firstnight.year }
+    unique_years_with_rates = years_with_rates.uniq
+    unique_years_with_rates.sort.reverse
+  end
+
   def dates_with_rates(fnight = nil, lnight = nil)
     rates.pluck(:firstnight, :lastnight).map do |range|
       from = range[0]

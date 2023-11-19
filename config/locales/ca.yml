@@ -678,3 +678,4 @@ ca:
   per_period_offset: per període
   price_week: Preu setmana
   price_night: Preu nit
+  master_rate_warning: "Aquesta tarifa utilitza les tarifes d'un altre immoble. Si vols modificar-la, has de modificar la tarifa mestre:"
