@@ -6,9 +6,11 @@
   data-unavailable="<%= @vrental.dates_with_rates(f.object.firstnight, f.object.lastnight).to_json %>"
   >
     <div class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center rate-dates">
-      <div class="p-1 text-center">
-        <%= f.input :restriction, as: :select, collection: Rate::RESTRICTION.map { |restriction| [t(restriction), restriction]}, include_blank: false, input_html: { "data-unavailable-dates-target" => "restriction", "data-action" => "change->unavailable-dates#showGapFillFields" }  %>
-      </div>
+      <% if vrental.rental_term == "short_term" %>
+        <div class="p-1 text-center">
+          <%= f.input :restriction, as: :select, collection: Rate::RESTRICTION.map { |restriction| [t(restriction), restriction]}, include_blank: false, input_html: { "data-unavailable-dates-target" => "restriction", "data-action" => "change->unavailable-dates#showGapFillFields" }  %>
+        </div>
+      <% end %>
       <div class="p-1 text-center">
         <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" } %>
       </div>
