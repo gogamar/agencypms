@@ -18,12 +18,12 @@
     <span class="input-group-text" id="basic-addon2">%</span>
   </div>
   <%# ask only if the price is per week %>
-  <%= f.input :weekly_discount_included, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
+  <%= f.input :weekly_discount_included, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: true %>
   <% if @vrental.vrgroup.present? %>
     <%= f.input :master_rate, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
     <%# if this vrental is not a master_rate, then ask for its master vrental %>
     <% if @vrental.vrgroup.vrentals.where(master_rate: true).present? %>
-      <%= f.input :master_vrental_id, as: :select, collection: @vrental.vrgroup.vrentals.where(master_rate: true).map { |vrental| [vrental.name, vrental.id] }, hint: t('master_vrental'), include_blank: true %>
+      <%= f.input :master_vrental_id, as: :select, collection: @vrental.vrgroup.vrentals.where(master_rate: true).map { |vrental| [vrental.name, vrental.id] }, hint: t('master_vrental'), include_blank: t("no_master_rate") %>
       <%# if this vrental has master vrental, show the next two fields %>
       <%= f.input :rate_offset %>
       <%= f.input :rate_offset_type, as: :select, collection: Vrental::RATE_OFFSET_TYPE.map { |k, v| [t(v), k] } %>

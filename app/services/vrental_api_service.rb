@@ -626,11 +626,8 @@ class VrentalApiService
     vr_rates.each do |rate|
       rate_exists_on_beds_id = beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
 
-      # fixme temporary fix for estartit and barcelona
-      if @vrental.office.name.downcase.include?('estartit')
-        min_advance = "2"
-      else
-        min_advance = "0"
+      if rate.restriction.present?
+        rate_restriction = rate.restriction == "gap_fill" ? "2" : "0"
       end
 
       vrental_rate =
@@ -639,9 +636,11 @@ class VrentalApiService
         roomId: "#{@vrental.beds_room_id}",
         firstNight: "#{rate.firstnight}",
         lastNight: "#{rate.lastnight}",
-        name: "Tarifa #{rate.pricenight.present? ? 'per nit' : 'setmanal'} #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@vrental.weekly_discount.present? ? @vrental.weekly_discount.to_s + '% descompte setmanal només web propia' : ''}",
-        minNights: rate.pricenight.present? ? rate.min_stay : "7",
-        minAdvance: min_advance,
+        name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats' : ''} #{rate.pricenight.present? ? 'per nit' : 'setmanal'} #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@vrental.weekly_discount.present? ? @vrental.weekly_discount.to_s + '% descompte setmanal només web propia' : ''}",
+        minNights: rate.pricenight.present? ? rate.min_stay.to_s : "7",
+        maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
+        minAdvance: rate.min_advance.to_s,
+        restrictionStrategy: rate_restriction,
         allowEnquiry: "1",
         pricesPer: rate.pricenight.present? ? "1" : "7",
         color: "#{SecureRandom.hex(3)}",

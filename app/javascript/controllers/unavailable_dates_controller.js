@@ -2,7 +2,15 @@ import { Controller } from "@hotwired/stimulus";
 import { initFlatpickr } from "../plugins/flatpickr";
 
 export default class extends Controller {
-  static targets = ["start", "end"];
+  static targets = [
+    "start",
+    "end",
+    "restriction",
+    "hint",
+    "maxStay",
+    "priceWeek",
+    "priceNight",
+  ];
 
   connect() {
     const unavailableDates = JSON.parse(this.element.dataset.unavailable);
@@ -41,5 +49,48 @@ export default class extends Controller {
       newEndDate.setDate(newEndDate.getDate() + nights);
       this.endPicker.setDate(newEndDate, true, "d/m/Y");
     }
+  }
+
+  showGapFillFields() {
+    const restrictionValue = this.restrictionTarget.value;
+    if (restrictionValue === "gap_fill") {
+      this.enableDates();
+      this.hintTarget.classList.remove("d-none");
+      this.maxStayTarget.classList.remove("d-none");
+      if (this.priceWeekTarget) {
+        this.priceWeekTarget.classList.add("d-none");
+        this.priceWeekTarget.querySelector("input").removeAttribute("required");
+        this.priceNightTarget.classList.remove("d-none");
+        this.priceNightTarget
+          .querySelector("input")
+          .setAttribute("required", "required");
+      }
+    } else {
+      this.disableDates();
+      this.hintTarget.classList.add("d-none");
+      this.maxStayTarget.classList.add("d-none");
+      this.maxStayTarget.querySelector("input").value = 365;
+      if (this.priceWeekTarget) {
+        this.priceWeekTarget.classList.remove("d-none");
+        this.priceWeekTarget
+          .querySelector("input")
+          .setAttribute("required", "required");
+        this.priceNightTarget.classList.add("d-none");
+        this.priceNightTarget
+          .querySelector("input")
+          .removeAttribute("required");
+      }
+    }
+  }
+
+  enableDates() {
+    this.startPicker.set("disable", []);
+    this.endPicker.set("disable", []);
+  }
+
+  disableDates() {
+    const unavailableDates = JSON.parse(this.element.dataset.unavailable);
+    this.startPicker.set("disable", unavailableDates);
+    this.endPicker.set("disable", unavailableDates);
   }
 }

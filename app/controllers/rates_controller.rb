@@ -5,7 +5,11 @@ class RatesController < ApplicationController
 
   def index
     @rates = policy_scope(Rate)
-    @rates = Rate.where(vrental_id: @vrental).order(firstnight: :asc)
+    if @vrental.price_per == "night"
+      @rates = @vrental.rates.where.not(pricenight: nil).order(firstnight: :asc)
+    elsif @vrental.price_per == "week"
+      @rates = @vrental.rates.where.not(priceweek: nil).or(@vrental.rates.where(restriction: "gap_fill")).order(firstnight: :asc)
+    end
     @rate = Rate.new
     @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
     @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
@@ -30,10 +34,15 @@ class RatesController < ApplicationController
     @rate = Rate.new(rate_params)
     @rate.vrental = @vrental
     @rate.beds_room_id = @vrental.beds_room_id
+    @rate.max_stay = 365 if params[:rate][:max_stay].blank?
     authorize @rate
     if @rate.save
+      if @rate.vrental.price_per == "week" && @rate.priceweek.present?
+        @rate.create_nightly_rate
+      end
       render(partial: 'rate', locals: { rate: @rate })
     else
+      puts "rate creation errors: #{rate.errors.full_messages}"
       render :new, status: :unprocessable_entity
     end
   end
@@ -52,6 +61,9 @@ class RatesController < ApplicationController
   def destroy
     authorize @rate
     @vrental = @rate.vrental
+    if @rate.vrental.price_per == "week"
+      @rate.delete_nightly_rate
+    end
     @rate.destroy
     redirect_to vrental_rates_path(@vrental), notice: "Has esborrat la tarifa de #{@rate.firstnight}."
   end
@@ -67,6 +79,6 @@ class RatesController < ApplicationController
   end
 
   def rate_params
-    params.require(:rate).permit(:pricenight, :beds_room_id, :firstnight, :lastnight, :min_stay, :arrival_day, :priceweek, :vrental_id)
+    params.require(:rate).permit(:pricenight, :beds_room_id, :firstnight, :lastnight, :min_stay, :max_stay, :restriction, :arrival_day, :priceweek, :vrental_id, :sent_to_beds, :date_sent_to_beds, :nights, :beds_rate_id)
   end
 end

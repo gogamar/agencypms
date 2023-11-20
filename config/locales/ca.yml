@@ -90,12 +90,14 @@ ca:
         date: Data
         description: Mètode de pagament
       rate:
-        arrival_day: Dia entrada
+        arrival_day: Entrada
         firstnight: Des de
         lastnight: Fins a
         min_stay: Min.
         pricenight: Preu nit
         priceweek: Preu setmana
+        restriction: Tipus tarifa
+        max_stay: Max.
       rate_plan:
         end: Fins a
         gen_arrival: Dia entrada general
@@ -170,7 +172,7 @@ ca:
         weekly_discount: Descompte per setmana (opcional)
         weekly_discount_included: Descompte per setmana estarà inclòs al preu setmanal de la tarifa?
         master_rate: La tarifa d'aquest immoble s'utilitzarà com a mestre pels altres immobles del grup?
-        master_vrental_id: Immoble amb tarifa mestre
+        master_vrental_id: Utilitzar les tarifes d'un altre immmoble
         rate_offset: Descompte (ex. -10) o recàrrec (ex. 10) a la tarifa mestre. Per copiar la tarifa sense variarla, deixar aquest camp en blanc.
         rate_offset_type: Tipus de descompte o recàrrec (percentatge o import fixe)
       vrentaltemplate:
@@ -679,3 +681,12 @@ ca:
   price_week: Preu setmana
   price_night: Preu nit
   master_rate_warning: "Aquesta tarifa utilitza les tarifes d'un altre immoble. Si vols modificar-la, has de modificar la tarifa mestre:"
+  edit_conditions_warning: "Aquest immoble pertany a un grup d'immobles. Has de triar si aquest immoble utilitzarà les tarifes d'un altre immoble o no:"
+  no_master_rate: No, utilitzar tarifes pròpies
+  normal: Normal
+  gap_fill: Omplir forats
+  restriction: Tipus tarifa
+  min_stay_title: Min.
+  max_stay_title: Máx.
+  price: Preu
+  hint_gap_fill: "Per omplir forats de 3 nits d'un immoble que normalment té estada mínima de 5 nits, triar min. estada 3 nits o menys i máx. estada 3 nits."
