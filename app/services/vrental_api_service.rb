@@ -678,8 +678,8 @@ class VrentalApiService
             "rateId": rate.beds_rate_id,
             "roomId": linked_vrental.beds_room_id,
             "offerId": "1",
-            "linkType": linked_vrental.rate_offset_type,
-            "offset": linked_vrental.rate_offset.to_s
+            "linkType": linked_vrental.rate_offset.present? ? "1" : "5",
+            "offset": linked_vrental.rate_offset.present? ? linked_vrental.rate_offset.to_s : "",
           }
           rate_links << rate_link
         end

@@ -1,5 +1,5 @@
 class ContactFormMailer < ApplicationMailer
-  default to: 'gogamar@gmail.com'
+  default to: 'info@sistachrentals.com'
 
   def contact_email(contact_form, company_language)
     @contact_form = contact_form

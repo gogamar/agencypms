@@ -43,14 +43,6 @@ class Vrental < ApplicationRecord
   FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
   RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
   PRICE_PER = ['night', 'week'].freeze
-  RATE_OFFSET_TYPE = {
-    "1" => "percentage offset",
-    "2" => "per booking offset",
-    "3" => "per day offset",
-    "4" => "per person per day offset",
-    "5" => "no offset",
-    "6" => "per period offset"
-}.freeze
 
   validates_presence_of :name, :status, :address, :office_id
   # validates_presence_of :min_price
