@@ -71,6 +71,9 @@
                     <i class="fa-solid fa-upload me-2"></i><%= @vrental.beds_prop_id.present? ? "#{@vrental.name}: #{t('export_changes_to_beds24')}" : "#{t('create')} #{@vrental.name} #{t('on_beds24')}" %>
                   <% end %></li>
                 <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
+                  <li><%= link_to get_availability_rules_vrental_path(@vrental) do %>
+                      <i class="fa-solid fa-download me-2"></i><%= "#{@vrental.name}: #{t('get_availability_rules_from_beds24')}" %>
+                    <% end %></li>
                   <li><%= link_to send_photos_vrental_path(@vrental) do %>
                       <i class="fa-solid fa-upload me-2"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
                     <% end %></li>

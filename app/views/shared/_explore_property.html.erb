@@ -81,9 +81,12 @@
               </div>
               <div class="listing-detail-footer d-flex align-items-center justify-content-between py-4">
                 <div class="listing-short-detail-flex">
-                  <% lowest_price = vrental.rates.present? ? vrental.rates.minimum(:priceweek) : vrental.min_price * 7 %>
-                  <h6 class="listing-card-info-price m-0"><%= number_to_currency(lowest_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %></h6>
-                  <span class="label bg-light-success text-success prt-type"><%= t("week") %></span>
+                  <% lowest_price = vrental.lowest_future_price_night %>
+                  <span class="d-flex label bg-light-success text-success prt-type text-sm"><%= t("from") %>
+                    <h6 class="listing-card-info-price line-height-1 mx-2">
+                      <%= number_to_currency(lowest_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+                    </h6>
+                    <%= t("night") %></span>
                 </div>
                 <div class="footer-flex">
                   <%= link_to book_property_path(vrental_id: vrental.id), class: "prt-view" do %>

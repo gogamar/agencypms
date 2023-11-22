@@ -2035,18 +2035,6 @@ th.next.available,
   margin-top: 3px;
 }
 
-.filter-t {
-  height: 46px;
-  border-radius: 0.2rem;
-  border: 2px solid #d2d7e2;
-  color: #333c56;
-  padding: 10px 12px;
-  margin: 5px 0;
-  @media (min-width: 1024px) {
-    margin: 0 0 0 5px;
-  }
-}
-
 .sort-color {
   color: #d2d7e2;
 }
@@ -2131,4 +2119,15 @@ th.next.available,
 .rate-dates .form-control,
 .rate-dates .form-select {
   font-size: 14px;
+}
+
+.mbminus30 {
+  margin-bottom: 0px;
+  @media (min-width: 1240px) {
+    margin-bottom: -30px;
+  }
+}
+
+.line-height-1 {
+  line-height: 1;
 }

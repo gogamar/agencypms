@@ -1,5 +1,4 @@
 class RatesController < ApplicationController
-
   before_action :set_rate, only: [:show, :edit, :update, :destroy]
   before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show]
 
@@ -66,6 +65,22 @@ class RatesController < ApplicationController
     end
     @rate.destroy
     redirect_to vrental_rates_path(@vrental), notice: "Has esborrat la tarifa de #{@rate.firstnight}."
+  end
+
+  def get_rate_attributes
+    selected_date = Date.parse(params[:selected_date]) # Parse the selected date
+
+    # Find the rate that is valid for the selected date (adjust this logic based on your data model)
+    rate = Rate.find_by(firstnight: selected_date)
+
+    if rate
+      # Extract the min_stay and min_advance attributes
+      min_stay = rate.min_stay
+
+      render json: { min_stay: min_stay }
+    else
+      render json: { error: 'Rate not found' }, status: :not_found
+    end
   end
 
   private

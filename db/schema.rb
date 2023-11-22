@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_20_124749) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_22_102734) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -41,6 +41,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_124749) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "availability_rules", force: :cascade do |t|
+    t.date "on_date"
+    t.integer "inventory"
+    t.integer "multiplier"
+    t.integer "override"
+    t.bigint "vrental_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_availability_rules_on_vrental_id"
   end
 
   create_table "bathrooms", force: :cascade do |t|
@@ -505,6 +516,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_124749) do
     t.string "price_per"
     t.decimal "weekly_discount"
     t.boolean "weekly_discount_included", default: false
+    t.integer "min_advance", default: 0
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -534,6 +546,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_124749) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "availability_rules", "vrentals"
   add_foreign_key "bathrooms", "vrentals"
   add_foreign_key "bedrooms", "vrentals"
   add_foreign_key "beds", "bedrooms"

@@ -22,6 +22,9 @@ application.register("earning-calculator", EarningCalculatorController)
 import FetchEarningsController from "./fetch_earnings_controller"
 application.register("fetch-earnings", FetchEarningsController)
 
+import FilterController from "./filter_controller"
+application.register("filter", FilterController)
+
 import IframeController from "./iframe_controller"
 application.register("iframe", IframeController)
 
@@ -39,9 +42,6 @@ application.register("search", SearchController)
 
 import SearchPropertiesController from "./search_properties_controller"
 application.register("search-properties", SearchPropertiesController)
-
-import SearchVrentalsController from "./search_vrentals_controller"
-application.register("search-vrentals", SearchVrentalsController)
 
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)

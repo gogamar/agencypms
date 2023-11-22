@@ -35,6 +35,17 @@ module BedsHelper
       raise e
     end
 
+    def get_room_dates(prop_key, options={})
+      self.class.post(
+        '/getRoomDates',
+        body: payload(prop_key, options)
+      )
+    rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
     def get_rates(prop_key, options={})
       self.class.post(
         '/getRates',

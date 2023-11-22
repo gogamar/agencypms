@@ -1,23 +1,24 @@
 <h4 class="text-center mb-5"><%= t("owners") %></h4>
-<div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
-  <div class="d-flex flex-column flex-md-row gap-3 justify-content-start">
-    <%= form_with url: filter_owners_path, method: :get, data: { turbo_frame: "owners"}, class: "d-flex flex-row gap-3" do |form| %>
+<div class="d-flex flex-column flex-md-row justify-content-between">
+  <div class="d-flex flex-column flex-md-row justify-content-start align-items-center gap-2">
+    <%= form_with url: filter_owners_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "owners" }, class: "d-flex flex-row gap-2" do |form| %>
       <%= form.select :language,
             options_for_select(
             [[t("ca"),'ca'],[t("en"),'en'],[t("es"),'es'],[t("fr"),'fr']],
             ),
             { include_blank: t("show_all_languages") },
-            class: "form-select"
+            class: "form-select",
+            data: { action: "change->filter#search" }
           %>
-      <%= form.text_field :fullname,
-          placeholder: t('search_by_name'),
-          class: "form-control bg-white border-0 small",
-          autocomplete: "off" %>
-      <%= form.button class: "btn btn-sm btn-primary me-3" do %>
-        <i class="fas fa-search fa-sm"></i>
-      <% end %>
+      <%= form.text_field :property_or_owner_name,
+          placeholder: t('search_by_property_or_owner'),
+          autocomplete: "off",
+          class: "form-control w-auto",
+          data: { action: "input->filter#search" } %>
     <% end %>
-    <%= link_to t('show_all_owners'), owners_path, class: "btn btn-sm btn-secondary" %>
+    <%= link_to owners_path, class: "text-secondary" do %>
+      <i class="fa-solid fa-filter-circle-xmark me-2"></i>
+    <% end %>
   </div>
   <%= link_to new_owner_path, class: "btn btn-sm btn-success" do %>
     <i class="fa fa-solid fa-plus me-2"></i><%= t('add_owner') %>

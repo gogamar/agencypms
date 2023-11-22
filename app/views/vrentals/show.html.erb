@@ -1,5 +1,6 @@
 <div class="card">
   <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
+  availability rules for this vrental: <%= @vrental.availability_rules.inspect %>
   <div class="card-body row d-flex justify-content-center gap-5">
     <div class="col">
       <p class="card-text">

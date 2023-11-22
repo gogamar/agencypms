@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_vrental, except: %i[index]
+  before_action :set_vrental
   before_action :set_booking, only: %i[edit update destroy]
 
   def index

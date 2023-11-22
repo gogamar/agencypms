@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :add_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :get_availability_rules, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :add_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -236,6 +236,11 @@ class VrentalsController < ApplicationController
     VrentalApiService.new(@vrental).get_rates_from_beds
     authorize @vrental
     redirect_to vrental_rates_path(@vrental), notice: "Ja s'han importat les tarifes."
+  end
+
+  def get_availability_rules
+    VrentalApiService.new(@vrental).get_availability_rules_from_beds
+    redirect_to vrental_availability_rules_path(@vrental), notice: "Ja s'han importat les regles de disponibilitat."
   end
 
   def get_bookings

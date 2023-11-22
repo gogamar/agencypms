@@ -75,8 +75,9 @@ Rails.application.routes.draw do
           get :delete_year_rates
           get :get_bookings
           get :import_from_group
+          get :get_availability_rules
         end
-
+        resources :availability_rules, except: [:show]
         resources :statements
         resources :invoices
         resources :owners, only: [:new, :create, :edit, :update]
@@ -92,7 +93,6 @@ Rails.application.routes.draw do
           resources :payments
           resources :charges
         end
-
         resources :rates, only: [:new, :edit, :create, :update, :index, :show]
         resources :vragreements do
           member do
@@ -157,8 +157,10 @@ Rails.application.routes.draw do
       get 'confirm_booking', to: 'pages#confirm_booking'
       get 'home', to: 'pages#home'
       get 'dashboard', to: 'pages#dashboard'
+      get 'empty_vrentals', to: 'pages#empty_vrentals'
       get 'terms', to: 'pages#terms'
       get 'get_availability', to: 'pages#get_availability'
+      get 'get_rate_attributes', to: 'rates#get_rate_attributes'
       get '*path' => 'application#redirect_to_homepage'
     end
   get '/ca', to: redirect('/'), as: :redirect_default_locale

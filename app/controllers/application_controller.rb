@@ -56,14 +56,14 @@ class ApplicationController < ActionController::Base
   end
 
   # Uncomment when you *really understand* Pundit!
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  def user_not_authorized
-    flash[:alert] = "No estàs autoritzat per procedir amb aquesta acció."
-    redirect_back(fallback_location: root_path)
-  end
+  # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  # def user_not_authorized
+  #   flash[:alert] = "No estàs autoritzat per procedir amb aquesta acció."
+  #   redirect_back(fallback_location: root_path)
+  # end
 
   def skip_pundit?
-    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)|(^contact_forms$)/
+    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^contact_forms$)/
   end
 
   def layout_by_resource

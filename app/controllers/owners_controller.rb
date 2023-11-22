@@ -9,7 +9,9 @@ class OwnersController < ApplicationController
   def filter
     @owners = policy_scope(Owner)
     @languages = Owner.pluck("language").uniq
-    @owners = @owners.where('fullname ilike ?', "%#{params[:fullname]}%") if params[:fullname].present?
+    @owners = @owners.left_joins(:vrentals)
+    .where('owners.fullname ilike ? OR vrentals.name ilike ?', "%#{params[:property_or_owner_name]}%", "%#{params[:property_or_owner_name]}%")
+    .distinct if params[:property_or_owner_name].present?
     @owners = @owners.where(language: params[:language]) if params[:language].present?
     @pagy, @owners = pagy(@owners, page: params[:page], items: 9)
     render(partial: 'owners', locals: { owners: @owners })

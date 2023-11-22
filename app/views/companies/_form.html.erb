@@ -18,7 +18,9 @@
     <% if @company.logo.present? %>
       <div class="form-group">
         <%= cl_image_tag @company.logo.key, width: 170, class: "img-fluid" %>
-        <%= link_to "Esborrar aquesta foto", photo_path(@company.logo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest logo?"} %>
+        <%= link_to photo_path(@company.logo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest logo?"}, class: "ms-3 text-danger" do %>
+          <i class="fa-solid fa-trash-can"></i>
+        <% end %>
       </div>
     <% end %>
     <%= f.input :logo, as: :file %>

@@ -406,11 +406,49 @@ class VrentalApiService
     sleep 2
   end
 
+  def get_availability_rules_from_beds
+    client = BedsHelper::Beds.new(@vrental.office.beds_key)
+    options = {
+      "roomId": @vrental.beds_room_id,
+      "from": Date.today.to_s,
+      "to": (Date.today + 30.days).to_s,
+      "incMultiplier": 1,
+      "incOverride": 1,
+      "allowInventoryNegative": 1
+    }
+    begin
+      availability_data = client.get_room_dates(@vrental.prop_key, options)
+      puts "this is the availability data #{availability_data} for #{@vrental}"
+      availability_data.each do |date, attributes|
+        formatted_date = Date.parse(date.to_s)
+        existing_availability_rule = @vrental.availability_rules.find_by(on_date: formatted_date)
+        if existing_availability_rule
+          existing_availability_rule.update!(
+            inventory: attributes["i"],
+            multiplier: attributes["x"],
+            override: attributes["o"]
+          )
+        else
+          AvailabilityRule.create(
+            on_date: formatted_date,
+            inventory: attributes["i"].to_i,
+            multiplier: attributes["x"].to_i,
+            override: attributes["o"],
+            vrental_id: @vrental.id
+          )
+        end
+      end
+    rescue => e
+      puts "Error importing calendar data for #{@vrental.name}: #{e.message}"
+    end
+    sleep 2
+  end
+
   def get_bookings_from_beds(from_date)
     client = BedsHelper::Beds.new(@vrental.office.beds_key)
     options = {
       "arrivalFrom": from_date || Date.today.beginning_of_year.to_s,
-      "arrivalTo": Date.today.to_s,
+      # "arrivalTo": Date.today.to_s,
       "includeInvoice": true,
     }
     beds24bookings = client.get_bookings(@vrental.prop_key, options)

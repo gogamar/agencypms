@@ -18,11 +18,21 @@ class Vrental < ApplicationRecord
   has_many :earnings, dependent: :nullify
   has_many :statements, dependent: :nullify
   has_many :invoices, dependent: :nullify
+  has_many :availability_rules, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
-  scope :with_future_rates, -> { joins(:rates).where("rates.firstnight > ?", Date.today).distinct(:id) }
+  scope :with_future_rates, lambda {
+    where(
+      "master_vrental_id IS NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.id AND rates.firstnight > ?)" +
+      " OR " +
+      "master_vrental_id IS NOT NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.master_vrental_id AND rates.firstnight > ?)",
+      Date.today,
+      Date.today
+    )
+  }
+
   scope :with_past_year_rates, -> {
     joins(:rates)
       .where("rates.firstnight >= ?", 1.year.ago.beginning_of_year)
@@ -128,37 +138,35 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def future_available_dates(start_date, end_date)
-    # Calculate future dates with rates and future booked dates
+  def future_available_dates
     future_rates_ranges = future_dates_with_rates
     future_booked_ranges = future_booked_dates
-
-    # Convert start_date and end_date to Date objects
-    start_date = start_date.to_date
-    end_date = end_date.to_date
-
-    # Create a set of booked dates for faster lookup
-    booked_dates_set = future_booked_ranges.flat_map { |range| (range[:from]..range[:to]).to_a }.to_set
-
-    # Initialize an array to store available date ranges
     available_ranges = []
-
-    # Iterate through the date range from start_date to end_date
-    current_date = start_date
-    while current_date <= end_date
-      # Check if the current date is within any future date range with rates
-      if future_rates_ranges.any? { |range| (range[:from]..range[:to]).cover?(current_date) }
-        # Check if the current date is not booked
-        unless booked_dates_set.include?(current_date)
-          available_ranges << { from: current_date, to: current_date }
+    future_rates_ranges.each do |rate_range|
+      rate_range_available = true
+      future_booked_ranges.each do |booked_range|
+        intersection_start = [rate_range[:from], booked_range[:from]].max
+        intersection_end = [rate_range[:to], booked_range[:to]].min
+        if intersection_start <= intersection_end
+          rate_range_available = false
+          break
         end
       end
-
-      # Move to the next day
-      current_date += 1.day
+      available_ranges << rate_range if rate_range_available
     end
-
     return available_ranges
+  end
+
+  def initial_rate(checkin)
+    rates
+      .where("firstnight <= ? AND lastnight >= ?", checkin, checkin)
+      .order(min_stay: :asc)
+      .first
+  end
+
+  def lowest_future_price_night
+    lookup_vrental = master_vrental_id.present? ? vrgroup.vrentals.find_by(id: master_vrental_id) : self
+    lookup_vrental.future_rates.minimum(:pricenight) || lookup_vrental.future_rates.minimum(:priceweek) / 7
   end
 
   def other_statements_dates(statement=nil)
@@ -533,7 +541,7 @@ class Vrental < ApplicationRecord
   def beds_room_type
     details = beds_details.join(", ")
     {
-      "name": "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details}",
+      "name": "#{I18n.t(property_type, count: 1, locale: office.company.language)} #{name} #{details if details}",
       "qty": "1",
       "minPrice": min_price,
       "maxPeople": max_guests

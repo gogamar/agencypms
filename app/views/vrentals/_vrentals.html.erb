@@ -1,49 +1,35 @@
-<div class="d-md-flex flex-column align-items-center">
-  <h4 class="mb-5"><%= t("vacation_rental_properties") %></h4>
-  <div class="d-md-flex align-items-center">
-    <%= form_with url: list_vrentals_path, method: :get, data: { controller: "search-vrentals", search_vrentals_target: "form", "search-vrentals-url-value": vrentals_path, turbo_frame: "vrentals" }, class: "row mb-2" do |form| %>
-      <div class="form-group col">
-        <div class="input-with-icon">
-          <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->search-vrentals#search", search_vrentals_target: "filterName" } %>
-          <i class="fas fa-home"></i>
-        </div>
-      </div>
-      <% if @statuses.count > 1 %>
-        <div class="form-group col">
-          <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all_statuses") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterStatus" } %>
-        </div>
-      <% end %>
-      <% if @towns.count > 1 %>
-        <div class="form-group col">
-          <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all_towns") }, class: "form-control form-select", data: { action: "change->search-vrentals#search", search_vrentals_target: "filterTown" } %>
-        </div>
-      <% end %>
+<h4 class="text-center mb-5"><%= t("vacation_rental_properties")  %></h4>
+<div class="d-flex justify-content-md-between justify-content-lg-start align-items-center mbminus30 gap-2">
+  <%= form_with url: list_vrentals_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vrentals" }, class: "d-flex flex-row gap-2" do |form| %>
+    <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->filter#search" } %>
+    <% if @statuses.count > 1 %>
+      <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all_statuses") }, class: "form-select", data: { action: "change->filter#search" } %>
     <% end %>
-  </div>
+    <% if @towns.count > 1 %>
+      <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all_towns") }, class: "form-select", data: { action: "change->filter#search" } %>
+    <% end %>
+  <% end %>
+  <%= link_to vrentals_path, class: "text-secondary" do %>
+    <i class="fa-solid fa-filter-circle-xmark me-2"></i>
+  <% end %>
 </div>
 <%= turbo_frame_tag "vrentals" do %>
-  <div class="d-md-flex justify-content-center mb-4" id="sort-buttons-js">
-    <% if @vrentals && @vrentals.length > 1 %>
-      <div class="d-md-flex justify-content-end">
-        <div class="filter-t" relative>
-          <%= params[:column] == "status" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-          <%= sort_link(column: "status", label: "Estatus") %>
-        </div>
-        <div class="filter-t" relative>
-          <%= params[:column] == "name" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-          <%= sort_link(column: "name", label: "Nom") %>
-        </div>
-        <div class="filter-t" relative>
-          <%= params[:column] == "address" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-          <%= sort_link(column: "address", label: "Adreça") %>
-        </div>
-        <div class="filter-t" relative>
-          <%= params[:column] == "owners.fullname" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-          <%= sort_link(column: "owners.fullname", label: "Propietari") %>
-        </div>
+  <% if @vrentals && @vrentals.length > 1 %>
+    <div class="d-flex justify-content-end gap-1 mb-3 mt-lg-0 mt-md-5">
+      <div relative>
+        <%= params[:column] == "name" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
+        <%= sort_link(column: "name", label: "Nom") %>
       </div>
-    <% end %>
-  </div>
+      <div relative>
+        <%= params[:column] == "address" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
+        <%= sort_link(column: "address", label: "Adreça") %>
+      </div>
+      <div relative>
+        <%= params[:column] == "owners.fullname" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
+        <%= sort_link(column: "owners.fullname", label: "Propietari") %>
+      </div>
+    </div>
+  <% end %>
   <div class="row">
     <%= render @vrentals %>
     <div class="d-flex justify-content-center">

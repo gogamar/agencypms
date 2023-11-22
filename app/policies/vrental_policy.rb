@@ -25,6 +25,14 @@ class VrentalPolicy < ApplicationPolicy
     user.admin? || user.vrentals.include?(record)
   end
 
+  def dashboard?
+    user.admin?
+  end
+
+  def empty_vrentals?
+    user.admin?
+  end
+
   def show?
     record.user == user
   end
@@ -51,6 +59,10 @@ class VrentalPolicy < ApplicationPolicy
 
   def send_rates?
     return show?
+  end
+
+  def get_availability_rules?
+    user.admin? || record.user == user
   end
 
   def annual_statement?

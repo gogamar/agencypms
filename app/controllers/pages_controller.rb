@@ -1,14 +1,16 @@
 class PagesController < ApplicationController
   before_action :filter_params
-  before_action :load_vrentals, only: [:home, :list]
+  before_action :load_vrentals, only: [:home, :list, :empty_vrentals]
   before_action :load_filters, only: [:home, :list]
   before_action :load_search_params, only: [:list]
-  skip_before_action :authenticate_user!, except: [:dashboard]
+  skip_before_action :authenticate_user!, except: [:dashboard, :empty_vrentals]
+  before_action :skip_authorization, except: [:dashboard, :empty_vrentals]
   layout 'booking_website', except: [:dashboard]
   include ActionView::Helpers::NumberHelper
 
   def dashboard
     @vrentals = policy_scope(Vrental)
+    authorize @vrentals
     @active_vrentals = @vrentals.where(status: 'active')
     @vragreements = policy_scope(Vragreement)
     @owners = policy_scope(Owner)
@@ -16,38 +18,26 @@ class PagesController < ApplicationController
     @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_date: :asc)
   end
 
+  def empty_vrentals
+    # find all multipliers where inventory is > 0 for the next month
+    # @empty_vrentals = @vrentals.
+
+  end
+
   def home
     @meta_title = t('meta_titles.home')
     @meta_description = t('meta_descriptions.home')
-    # temporary solution for featured rentals
     # fixme: make these featured rentals set on the dashboard or a combination of featured and available
     @featured_vrentals = @vrentals
                           .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
                           .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
+    @featured_vrentals = @featured_vrentals.with_future_rates
 
-    # vrentals_with_future_rates = Vrental.with_future_rates
-    # vrentals_cl_good = vrentals_with_future_rates
-    #                       .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
-    #                       .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
-    #                       .select("vrentals.id")
-    #                       .distinct
-
-    # @featured_vrentals = Vrental.where(id: vrentals_cl_good)
-    #                             .select do |vrental|
-    #                               first_future_rate_date = vrental.rates.where("lastnight > ?", Date.today).minimum(:firstnight)
-    #                               if first_future_rate_date.present?
-    #                                 available_dates = vrental.future_available_dates(first_future_rate_date, first_future_rate_date + 30.days)
-    #                                 available_dates.any?
-    #                               else
-    #                                 false
-    #                               end
-    #                             end
     if @featured_vrentals.count >= 6
-      @featured_vrentals = @featured_vrentals.first(6)
+      @featured_vrentals = @featured_vrentals.shuffle.take(6)
     else
-      @featured_vrentals = @featured_vrentals.first(3)
+      @featured_vrentals = @featured_vrentals.shuffle.take(3)
     end
-
   end
 
   def list

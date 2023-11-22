@@ -20,18 +20,26 @@
         <%= form_with url: confirm_booking_path, data: { controller: 'search' }, method: :get, 'data-turbo-cache': false do |form| %>
           <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>
-          <div class="row">
+          <div class="row"
+          data-controller="available-dates"
+          data-available="<%= @vrental.future_available_dates.to_json %>"
+          data-minAdvance="<%= @vrental.initial_rate(@checkin)&.min_advance if @checkin.present? %>"
+          data-minStay="<%=@vrental.initial_rate(@checkin)&.min_stay if @checkin.present?%>">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
                 <label for="check_in">Check In</label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
                   <%= form.text_field :check_in,
-                                  as: :string,
-                                  data: { search_target: "checkin", action: "change->search#updatePrice" },
-                                  class: "form-control",
-                                  placeholder: "Check-in",
-                                  value: "#{@checkin.presence}"
+                                      as: :string,
+                                      data: {
+                                        search_target: "checkin",
+                                        action: "change->search#updatePrice change->available-dates#getRateAttributes",
+                                        available_dates_target: "start"
+                                      },
+                                      class: "form-control",
+                                      placeholder: "Check-in",
+                                      value: "#{@checkin.presence}"
                   %>
                 </div>
               </div>
@@ -43,7 +51,7 @@
                   <i class="fa-solid fa-calendar-week"></i>
                   <%= form.text_field :check_out,
                                   as: :string,
-                                  data: { search_target: "checkout", action: "change->search#updatePrice"  },
+                                  data: { search_target: "checkout", action: "change->search#updatePrice", available_dates_target: "end"  },
                                   class: "form-control",
                                   placeholder: "Check-out",
                                   value: "#{@checkout.presence}"

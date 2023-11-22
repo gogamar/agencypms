@@ -191,7 +191,9 @@ ca:
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionat
   amount: Import
-  apartment: Apartament
+  apartment:
+    one: apartament
+    other: apartments
   apartments: Apartaments
   arrival_day: Dia entrada
   ascending: Ordenar per (preu més baix)
@@ -661,7 +663,7 @@ ca:
   show_all_statuses: Tots els estats
   show_all_towns: Tots els municipis
   show_all_languages: Tots els idiomes
-  show_all_owners: Tots els propietaris
+  show_all_owners: Mostrar tots els propietaris
   properties: Immobles
   active_properties: Immobles actius
   show_all_contracts: Tots els contractes
@@ -690,6 +692,24 @@ ca:
   max_stay_title: Máx.
   price: Preu
   hint_gap_fill: "Per omplir forats de 3 nits d'un immoble que normalment té estada mínima de 5 nits, triar min. estada 3 nits o menys i máx. estada 3 nits."
+  search_by_property_or_owner: Immoble o propietari
+  clear_filter: Esborrar filtre
+  edit_company: Modificar l'empresa
+  client_details: Detalls client
+  dates: Dates
+  booking_price: Preu reserva
+  city_tax: Impost turístic
+  others: Altres
+  edit_booking: Modificar reserva
+  adults: Adults
+  children: Nens
+  empty_vrentals: Immobles buits
+  get_availability_rules_from_beds24: Importar regles de disponibilitat de Beds24
+  availability_rules: Regles de disponibilitat
+  availability: Disponibilitat
+  date_title: Data
+  new_availability_rule: Afegir descompte
+  availability_and_discounts: Disponibilitat i descomptes
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals
