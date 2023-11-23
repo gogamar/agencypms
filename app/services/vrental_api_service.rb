@@ -432,16 +432,16 @@ class VrentalApiService
         existing_availability = @vrental.availabilities.find_by(date: formatted_date)
         if existing_availability
           existing_availability.update!(
-            inventory: attributes["i"],
-            multiplier: attributes["x"],
-            override: attributes["o"]
+            inventory: attributes["i"].to_i,
+            multiplier: attributes["x"].to_i || 100,
+            override: attributes["o"].to_i || 0
           )
         else
           Availability.create(
             date: formatted_date,
             inventory: attributes["i"].to_i,
             multiplier: attributes["x"].to_i || 100,
-            override: attributes["o"] || 0,
+            override: attributes["o"].to_i || 0,
             vrental_id: @vrental.id
           )
         end
