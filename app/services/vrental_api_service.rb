@@ -445,6 +445,8 @@ class VrentalApiService
 
     dates = {}
 
+    # need to set override to 0 for anything before the date no_check_in_from
+
     (no_check_in_from..last_rate_lastnight).each do |date|
       availability = @vrental.availabilities.find_or_create_by(date: date)
       availability.update(override: 2)
