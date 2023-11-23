@@ -4,8 +4,10 @@ export default class extends Controller {
   static targets = [
     "pricePer",
     "discountIncluded",
-    "masterRate",
+    "rateMaster",
+    "availabilityMaster",
     "dependantRate",
+    "dependantAvailability",
     "masterVrental",
     "rateOffset",
   ];
@@ -21,12 +23,11 @@ export default class extends Controller {
     }
   }
 
-  toggleMasterVrental() {
-    if (this.masterRateTarget) {
-      const masterRate = this.masterRateTarget.value;
+  toggleRateMaster() {
+    if (this.rateMasterTarget) {
+      const rateMaster = this.rateMasterTarget.value;
       const dependantRate = this.dependantRateTarget;
-      console.log("masterRate", masterRate);
-      if (masterRate === "false") {
+      if (rateMaster === "false") {
         dependantRate.classList.remove("d-none");
       } else {
         dependantRate.classList.add("d-none");
@@ -42,11 +43,32 @@ export default class extends Controller {
     }
   }
 
+  toggleAvailabilityMaster() {
+    if (this.availabilityMasterTarget) {
+      const availabilityMaster = this.availabilityMasterTarget.value;
+      const dependantAvailability = this.dependantAvailabilityTarget;
+      if (availabilityMaster) {
+        dependantAvailability.classList.remove("d-none");
+      } else {
+        dependantAvailability.classList.add("d-none");
+        dependantAvailability
+          .querySelectorAll("input, select")
+          .forEach((field) => {
+            if (
+              field.type === "text" ||
+              field.tagName.toLowerCase() === "select"
+            ) {
+              field.value = ""; // Reset the value
+            }
+          });
+      }
+    }
+  }
+
   toggleRateOffset() {
     if (this.masterVrentalTarget) {
       const masterVrental = this.masterVrentalTarget.value;
       const rateOffset = this.rateOffsetTarget;
-      console.log("masterVrental", masterVrental);
       if (masterVrental) {
         rateOffset.classList.remove("d-none");
       } else {

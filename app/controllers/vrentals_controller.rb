@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :get_availability_rules, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :annual_statement, :fetch_earnings, :upload_dates, :add_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
+  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :get_availabilities_from_beds, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :prevent_gaps, :annual_statement, :fetch_earnings, :upload_dates, :add_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -22,6 +22,22 @@ class VrentalsController < ApplicationController
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
     render(partial: 'vrentals', locals: { vrentals: @vrentals })
+  end
+
+  def dashboard
+    @vrentals = policy_scope(Vrental)
+    authorize @vrentals
+    @active_vrentals = @vrentals.where(status: 'active')
+    @vragreements = policy_scope(Vragreement)
+    @owners = policy_scope(Owner)
+    @task = Task.new
+    @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_date: :asc)
+  end
+
+  def empty_vrentals
+    # find all multipliers where inventory is > 0 for the next month
+    # @empty_vrentals = @vrentals.
+
   end
 
   def total_earnings
@@ -238,9 +254,13 @@ class VrentalsController < ApplicationController
     redirect_to vrental_rates_path(@vrental), notice: "Ja s'han importat les tarifes."
   end
 
-  def get_availability_rules
-    VrentalApiService.new(@vrental).get_availability_rules_from_beds
-    redirect_to vrental_availability_rules_path(@vrental), notice: "Ja s'han importat les regles de disponibilitat."
+  def get_availabilities_from_beds
+    if @vrental.future_rates.exists? || @vrental.rate_master.future_rates.exists?
+      VrentalApiService.new(@vrental).get_availabilities_from_beds_24
+      redirect_to vrental_availabilities_path(@vrental), notice: "Ja s'han importat les dates disponibles."
+    else
+      redirect_to vrental_rates_path(@vrental), notice: "Aquest immoble no té tarifes en el futur."
+    end
   end
 
   def get_bookings
@@ -253,6 +273,12 @@ class VrentalsController < ApplicationController
     redirect_to vrental_earnings_path(@vrental), notice: "S'han importat les reserves."
     end
     # redirect_to vrental_earnings_path(@vrental), notice: (result == "property with this propKey not found in account" ? "Immoble amb aquesta clau secreta no existeix a Beds24." : "Ja s'han importat les reserves.")
+  end
+
+  def prevent_gaps
+    days_after_checkout = params[:days_after_checkout].to_i
+    VrentalApiService.new(@vrental).prevent_gaps_on_beds(days_after_checkout)
+    redirect_to vrental_bookings_path(@vrental), notice: "No check-in #{days_after_checkout} dies després de l'última reserva."
   end
 
   def update_on_beds
@@ -425,7 +451,7 @@ class VrentalsController < ApplicationController
   def vrental_params
     params.require(:vrental).permit(
       :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :master_rate, :master_vrental_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :weekly_discount_included, :min_price, feature_ids: [], photos: []
+      :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :weekly_discount_included, :min_price, feature_ids: [], photos: []
     )
   end
 end

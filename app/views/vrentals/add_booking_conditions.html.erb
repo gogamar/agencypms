@@ -6,6 +6,7 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_booking_conditions' %>
+  <%= f.input :unit_number, input_html: { value: f.object.unit_number || 1} %>
   <%= f.input :max_guests %>
   <%= f.input :min_price %>
   <%= f.input :rental_term, collection: Vrental::RENTAL_TERMS.map { |term| [t(term), term] } %>
@@ -23,14 +24,24 @@
       <%= f.input :weekly_discount_included, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: true %>
     </div>
     <% if @vrental.vrgroup.present? %>
-      <%= f.input :master_rate, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false, input_html: { "data-booking-conditions-target" => "masterRate", "data-action" => "change->booking-conditions#toggleMasterVrental"}  %>
-      <div class="<%= 'd-none' unless f.object.master_rate == false %>" data-booking-conditions-target="dependantRate">
-        <% if @vrental.vrgroup.vrentals.where(master_rate: true).present? %>
-          <%= f.input :master_vrental_id, as: :select, collection: @vrental.vrgroup.vrentals.where(master_rate: true).map { |vrental| [vrental.name, vrental.id] }, hint: t('master_vrental'), include_blank: t("no_master_rate"), input_html: { "data-booking-conditions-target" => "masterVrental", "data-action" => "change->booking-conditions#toggleRateOffset"} %>
-          <div class="<%= 'd-none' unless f.object.master_vrental_id.present? %>" data-booking-conditions-target="rateOffset">
-            <%= f.input :rate_offset %>
-          </div>
-        <% end %>
+      <label for="availability_master"><%= t('availability_master') %></label>
+      <select name="availability_master" id="availability_master" class="form-select" data-booking-conditions-target="availabilityMaster" data-action="change->booking-conditions#toggleAvailabilityMaster">
+        <option value="true"><%= t('true') %></option>
+        <option value="false"><%= t('false') %></option>
+      </select>
+      <div class="<%= 'd-none' unless f.object.availability_master_id.present? %>" data-booking-conditions-target="dependantAvailability">
+        <%= f.input :availability_master_id, as: :select, collection: @vrental.vrgroup.vrentals.where(availability_master_id: nil).map { |vrental| [vrental.name, vrental.id] }, hint: t('availability_master_vrental'), include_blank: t("no_availability_master") %>
+      </div>
+      <label for="rate_master"><%= t('rate_master') %></label>
+      <select name="rate_master" id="rate_master" class="form-select" data-booking-conditions-target="rateMaster" data-action="change->booking-conditions#toggleRateMaster">
+        <option value="true"><%= t('true') %></option>
+        <option value="false"><%= t('false') %></option>
+      </select>
+      <div class="<%= 'd-none' unless f.object.rate_master_id.present? %>" data-booking-conditions-target="dependantRate">
+        <%= f.input :rate_master_id, as: :select, collection: @vrental.vrgroup.vrentals.where(rate_master_id: nil).map { |vrental| [vrental.name, vrental.id] }, hint: t('rate_master_vrental'), include_blank: t("no_rate_master"), input_html: { "data-booking-conditions-target" => "masterVrental", "data-action" => "change->booking-conditions#toggleRateOffset"} %>
+        <div class="<%= 'd-none' unless f.object.rate_master_id.present? %>" data-booking-conditions-target="rateOffset">
+          <%= f.input :rate_offset %>
+        </div>
       </div>
     <% end %>
   </div>

@@ -8,7 +8,10 @@ class Vrental < ApplicationRecord
   belongs_to :rate_plan, optional: true
   belongs_to :town, optional: true
   belongs_to :vrgroup, optional: true
-  belongs_to :master_vrental, class_name: 'Vrental', optional: true
+  belongs_to :rate_master, class_name: 'Vrental', optional: true
+  belongs_to :availability_master, class_name: 'Vrental', optional: true
+  has_many :sub_rate_vrentals, class_name: 'Vrental', foreign_key: 'rate_master_id'
+  has_many :sub_availability_vrentals, class_name: 'Vrental', foreign_key: 'availability_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
   has_many :vragreements, dependent: :destroy
@@ -18,16 +21,16 @@ class Vrental < ApplicationRecord
   has_many :earnings, dependent: :nullify
   has_many :statements, dependent: :nullify
   has_many :invoices, dependent: :nullify
-  has_many :availability_rules, dependent: :destroy
+  has_many :availabilities, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
   scope :with_future_rates, lambda {
     where(
-      "master_vrental_id IS NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.id AND rates.firstnight > ?)" +
+      "rate_master_id IS NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.id AND rates.firstnight > ?)" +
       " OR " +
-      "master_vrental_id IS NOT NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.master_vrental_id AND rates.firstnight > ?)",
+      "rate_master_id IS NOT NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.rate_master_id AND rates.firstnight > ?)",
       Date.today,
       Date.today
     )
@@ -55,6 +58,7 @@ class Vrental < ApplicationRecord
   PRICE_PER = ['night', 'week'].freeze
 
   validates_presence_of :name, :status, :address, :office_id
+  validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
   validates :name, uniqueness: true
   validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
@@ -103,7 +107,24 @@ class Vrental < ApplicationRecord
   end
 
   def future_rates
-    rates.where('lastnight > ?', Date.today)
+    if rate_master.present?
+      rate_master.rates.where('lastnight > ?', Date.today)
+    else
+      rates.where('lastnight > ?', Date.today)
+    end
+  end
+
+  def find_price(date)
+    specific_date = date.is_a?(Date) ? date : Date.parse(date)
+
+    future_rates.each do |rate|
+      first_night = rate.firstnight
+      last_night = rate.lastnight
+
+      if (first_night..last_night).cover?(specific_date)
+        return rate.pricenight
+      end
+    end
   end
 
   def years_with_rates
@@ -126,6 +147,22 @@ class Vrental < ApplicationRecord
     end.compact # Remove any nil entries
   end
 
+  def add_availability(from, to)
+    vrental_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
+
+    from = from.is_a?(Date) ? from : Date.parse(from)
+    to = to.is_a?(Date) ? to : Date.parse(to)
+
+    vrental_instance.dates_with_rates(from, to).each do |range|
+      from = range[:from]
+      to = range[:to]
+
+      (from..to).each do |date|
+        availabilities.create(date: date, inventory: vrental_instance.number_of_units)
+      end
+    end
+  end
+
   def future_dates_with_rates
     rates.where("lastnight > ?", Date.today).pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }
@@ -138,23 +175,28 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def future_bookings
+    bookings.where("checkout > ?", Date.today)
+  end
+
   def future_available_dates
-    future_rates_ranges = future_dates_with_rates
-    future_booked_ranges = future_booked_dates
-    available_ranges = []
-    future_rates_ranges.each do |rate_range|
-      rate_range_available = true
-      future_booked_ranges.each do |booked_range|
-        intersection_start = [rate_range[:from], booked_range[:from]].max
-        intersection_end = [rate_range[:to], booked_range[:to]].min
-        if intersection_start <= intersection_end
-          rate_range_available = false
-          break
-        end
+    vrental_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
+    puts "vrental instance: #{vrental_instance.name}"
+    valid_availabilities = vrental_instance.availabilities.where("inventory > 0").order(date: :asc)
+    ranges = []
+    current_range = nil
+
+    valid_availabilities.each do |availability|
+      if current_range.nil?
+        current_range = { from: availability.date, to: availability.date }
+      elsif availability.date == current_range[:to] + 1.day
+        current_range[:to] = availability.date
+      else
+        ranges << current_range
+        current_range = { from: availability.date, to: availability.date }
       end
-      available_ranges << rate_range if rate_range_available
     end
-    return available_ranges
+    ranges << current_range if current_range
   end
 
   def initial_rate(checkin)
@@ -165,7 +207,7 @@ class Vrental < ApplicationRecord
   end
 
   def lowest_future_price_night
-    lookup_vrental = master_vrental_id.present? ? vrgroup.vrentals.find_by(id: master_vrental_id) : self
+    lookup_vrental = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
     lookup_vrental.future_rates.minimum(:pricenight) || lookup_vrental.future_rates.minimum(:priceweek) / 7
   end
 
@@ -541,7 +583,7 @@ class Vrental < ApplicationRecord
   def beds_room_type
     details = beds_details.join(", ")
     {
-      "name": "#{I18n.t(property_type, count: 1, locale: office.company.language)} #{name} #{details if details}",
+      "name": "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details}",
       "qty": "1",
       "minPrice": min_price,
       "maxPeople": max_guests
@@ -551,8 +593,8 @@ class Vrental < ApplicationRecord
   private
 
   def cannot_reference_self_as_master
-    if id == master_vrental_id
-      errors.add(:master_vrental_id, "cannot reference itself")
+    if id == rate_master_id
+      errors.add(:rate_master_id, "cannot reference itself")
     end
   end
 end

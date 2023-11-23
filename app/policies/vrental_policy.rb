@@ -61,7 +61,7 @@ class VrentalPolicy < ApplicationPolicy
     return show?
   end
 
-  def get_availability_rules?
+  def get_availabilities_from_beds?
     user.admin? || record.user == user
   end
 
@@ -70,11 +70,15 @@ class VrentalPolicy < ApplicationPolicy
   end
 
   def get_rates?
-    return show?
+    return update?
   end
 
   def get_bookings?
-    return show?
+    return update?
+  end
+
+  def prevent_gaps?
+    return update?
   end
 
   def upload_dates?

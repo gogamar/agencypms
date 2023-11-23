@@ -406,31 +406,104 @@ class VrentalApiService
     sleep 2
   end
 
-  def get_availability_rules_from_beds
-    client = BedsHelper::Beds.new(@vrental.office.beds_key)
+  def get_availabilities_from_beds_24
+    master_availability_vrental = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
+
+    master_future_rates = master_availability_vrental.rate_master.present? ? master_availability_vrental.rate_master.future_rates : master_availability_vrental.future_rates
+
+    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
     options = {
-      "roomId": @vrental.beds_room_id,
-      "from": Date.today.to_s,
-      "to": (Date.today + 30.days).to_s,
+      "roomId": master_availability_vrental.beds_room_id,
+      "from": Date.today.strftime("%Y%m%d").to_s,
+      "to": last_rate_lastnight.strftime("%Y%m%d").to_s,
       "incMultiplier": 1,
       "incOverride": 1,
       "allowInventoryNegative": 1
     }
+
+    client = BedsHelper::Beds.new(master_availability_vrental.office.beds_key)
+
     begin
-      availability_data = client.get_room_dates(@vrental.prop_key, options)
-      puts "this is the availability data #{availability_data} for #{@vrental}"
+      availability_data = client.get_room_dates(master_availability_vrental.prop_key, options)
       availability_data.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
-        existing_availability_rule = @vrental.availability_rules.find_by(on_date: formatted_date)
-        if existing_availability_rule
-          existing_availability_rule.update!(
+        select_or_create_availability(formatted_date, attributes)
+
+      end
+    rescue => e
+      puts "Error importing availability data for #{master_availability_vrental.name}: #{e.message}"
+    end
+    sleep 2
+  end
+
+  def prevent_gaps_on_beds(days_after_checkout)
+    return if @vrental.future_bookings.empty?
+    master_availability_vrental = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
+    master_future_rates = master_availability_vrental.rate_master.present? ? master_availability_vrental.rate_master.future_rates : master_availability_vrental.future_rates
+    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
+    no_check_in_from = @vrental.bookings.order(checkin: :desc).first.checkout + days_after_checkout.days
+
+    dates = {}
+
+    (no_check_in_from..last_rate_lastnight).each do |date|
+      availability = @vrental.availabilities.find_or_create_by(date: date)
+      availability.update(override: 2)
+      dates[availability.date.strftime("%Y%m%d")] = {
+        "o": availability.override.to_s
+      }
+    end
+
+    options = {
+      "roomId": @vrental.beds_room_id,
+      "dates": dates
+    }
+    client = BedsHelper::Beds.new(@vrental.office.beds_key)
+    begin
+      set_availability_data = client.set_room_dates(@vrental.prop_key, options)
+    rescue => e
+      puts "Error preventing gaps for #{@vrental.name}: #{e.message}"
+    end
+    sleep 2
+  end
+
+  def send_availabilities_to_beds_24
+    master_vrental = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
+    client = BedsHelper::Beds.new(master_vrental.office.beds_key)
+
+    master_future_rates = master_vrental.rate_master.present? ? master_vrental.rate_master.future_rates : master_vrental.future_rates
+
+    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
+
+    dates = {}
+
+    master_vrental.availabilities.each do |availability|
+      dates[availability.date.strftime("%Y%m%d")] = {
+        "x": availability.multiplier.to_s,
+        "o": availability.override.to_s
+      }
+    end
+
+    options = {
+      "roomId": master_vrental.beds_room_id,
+      "dates": dates
+    }
+
+    set_availability_data = client.set_room_dates(@vrental.prop_key, options)
+
+    begin
+      availability_data = client.get_room_dates(master_vrental.prop_key, options)
+      availability_data.each do |date, attributes|
+        formatted_date = Date.parse(date.to_s)
+        existing_availability = @vrental.availabilities.find_by(date: formatted_date)
+        if existing_availability
+          existing_availability.update!(
             inventory: attributes["i"],
             multiplier: attributes["x"],
             override: attributes["o"]
           )
         else
-          AvailabilityRule.create(
-            on_date: formatted_date,
+          Availability.create(
+            date: formatted_date,
             inventory: attributes["i"].to_i,
             multiplier: attributes["x"].to_i,
             override: attributes["o"],
@@ -439,15 +512,35 @@ class VrentalApiService
         end
       end
     rescue => e
-      puts "Error importing calendar data for #{@vrental.name}: #{e.message}"
+      puts "Error importing availability data for #{@vrental.name}: #{e.message}"
     end
     sleep 2
   end
 
-  def get_bookings_from_beds(from_date)
+  def select_or_create_availability(formatted_date, attributes)
+    existing_availability = @vrental.availabilities.find_by(date: formatted_date)
+    if existing_availability
+      existing_availability.update!(
+        inventory: attributes["i"],
+        multiplier: attributes["x"],
+        override: attributes["o"]
+      )
+    else
+      Availability.create(
+        date: formatted_date,
+        inventory: attributes["i"].to_i,
+        multiplier: attributes["x"].to_i,
+        override: attributes["o"],
+        vrental_id: @vrental.id
+      )
+    end
+  end
+
+  def get_bookings_from_beds(from_date = nil)
+    from_date = from_date || Date.today.beginning_of_year.to_s
     client = BedsHelper::Beds.new(@vrental.office.beds_key)
     options = {
-      "arrivalFrom": from_date || Date.today.beginning_of_year.to_s,
+      "arrivalFrom": from_date,
       # "arrivalTo": Date.today.to_s,
       "includeInvoice": true,
     }
@@ -704,12 +797,12 @@ class VrentalApiService
       end
     end
 
-    if @vrental.master_rate == true
+    if @vrental.vrgroup.present? && @vrental.rate_master_id.nil?
       rate_links = []
       @vrental.future_rates.each do |rate|
         beds24_rate_links = client.get_rate_links(@vrental.prop_key, rateId: rate.beds_rate_id)
 
-        @vrental.vrgroup.vrentals.where(master_vrental_id: @vrental.id).each do |linked_vrental|
+        @vrental.vrgroup.vrentals.where(rate_master_id: @vrental.id).each do |linked_vrental|
           this_link_exists = beds24_rate_links.any? { |link| link["rateId"] == rate.beds_rate_id && link["roomId"] == linked_vrental.beds_room_id }
           rate_link = {
             "action": this_link_exists ? "modify" : "new",

@@ -1,0 +1,20 @@
+<%= simple_form_for [vrental, availability], data: {turbo_frame: availability} do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="row bg-light d-flex align-items-center">
+    <% if f.object.persisted? %>
+      <div class="col-3 text-info"><%= l(f.object.date) %></div>
+      <div class="col-2 text-success"><%= "#{f.object.inventory} #{t('available', count: f.object.inventory )}" %></div>
+      <div class="col-2 text-primary"><%= number_to_currency(@vrental.find_price(f.object.date), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
+    <% end %>
+    <div class="col-2 text-danger">
+      <%= f.input :multiplier %>
+    </div>
+    <div class="col-2">
+      <%= f.input :override %>
+    </div>
+    <div class="col-1">
+      <%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %>
+    </div>
+  </div>
+<% end %>

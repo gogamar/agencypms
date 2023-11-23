@@ -2,58 +2,61 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "./application";
 
-import AddOwnerController from "./add_owner_controller"
-application.register("add-owner", AddOwnerController)
+import AddOwnerController from "./add_owner_controller";
+application.register("add-owner", AddOwnerController);
 
-import AddressAutocompleteController from "./address_autocomplete_controller"
-application.register("address-autocomplete", AddressAutocompleteController)
+import AddressAutocompleteController from "./address_autocomplete_controller";
+application.register("address-autocomplete", AddressAutocompleteController);
 
-import BookingConditionsController from "./booking_conditions_controller"
-application.register("booking-conditions", BookingConditionsController)
+import AvailableDatesController from "./available_dates_controller";
+application.register("available-dates", AvailableDatesController);
 
-import CheckboxController from "./checkbox_controller"
-application.register("checkbox", CheckboxController)
+import BookingConditionsController from "./booking_conditions_controller";
+application.register("booking-conditions", BookingConditionsController);
 
-import EarningCalculatorController from "./earning_calculator_controller"
-application.register("earning-calculator", EarningCalculatorController)
+import CheckboxController from "./checkbox_controller";
+application.register("checkbox", CheckboxController);
 
-import FetchEarningsController from "./fetch_earnings_controller"
-application.register("fetch-earnings", FetchEarningsController)
+import EarningCalculatorController from "./earning_calculator_controller";
+application.register("earning-calculator", EarningCalculatorController);
 
-import FilterController from "./filter_controller"
-application.register("filter", FilterController)
+import FetchEarningsController from "./fetch_earnings_controller";
+application.register("fetch-earnings", FetchEarningsController);
 
-import IframeController from "./iframe_controller"
-application.register("iframe", IframeController)
+import FilterController from "./filter_controller";
+application.register("filter", FilterController);
 
-import MapController from "./map_controller"
-application.register("map", MapController)
+import IframeController from "./iframe_controller";
+application.register("iframe", IframeController);
 
-import PasswordToggleController from "./password_toggle_controller"
-application.register("password-toggle", PasswordToggleController)
+import MapController from "./map_controller";
+application.register("map", MapController);
 
-import PricingController from "./pricing_controller"
-application.register("pricing", PricingController)
+import PasswordToggleController from "./password_toggle_controller";
+application.register("password-toggle", PasswordToggleController);
 
-import SearchController from "./search_controller"
-application.register("search", SearchController)
+import PricingController from "./pricing_controller";
+application.register("pricing", PricingController);
 
-import SearchPropertiesController from "./search_properties_controller"
-application.register("search-properties", SearchPropertiesController)
+import SearchController from "./search_controller";
+application.register("search", SearchController);
 
-import SortableController from "./sortable_controller"
-application.register("sortable", SortableController)
+import SearchPropertiesController from "./search_properties_controller";
+application.register("search-properties", SearchPropertiesController);
 
-import SpinnerController from "./spinner_controller"
-application.register("spinner", SpinnerController)
+import SortableController from "./sortable_controller";
+application.register("sortable", SortableController);
 
-import TypedJsController from "./typed_js_controller"
-application.register("typed-js", TypedJsController)
+import SpinnerController from "./spinner_controller";
+application.register("spinner", SpinnerController);
 
-import UnavailableDatesController from "./unavailable_dates_controller"
-application.register("unavailable-dates", UnavailableDatesController)
+import TypedJsController from "./typed_js_controller";
+application.register("typed-js", TypedJsController);
 
-import UpdateFieldController from "./update_field_controller"
-application.register("update-field", UpdateFieldController)
+import UnavailableDatesController from "./unavailable_dates_controller";
+application.register("unavailable-dates", UnavailableDatesController);
+
+import UpdateFieldController from "./update_field_controller";
+application.register("update-field", UpdateFieldController);

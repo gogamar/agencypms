@@ -1,6 +1,6 @@
-class AvailabilityRule < ApplicationRecord
+class Availability < ApplicationRecord
   belongs_to :vrental
-  validates :on_date, presence: true
+  validates :date, presence: true
   validates :inventory, presence: true
   validates :multiplier, numericality: { greater_than_or_equal_to: 0 }
 

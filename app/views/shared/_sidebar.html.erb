@@ -74,8 +74,8 @@
                         <i class="fa-solid fa-image"></i><%= t('photos') %>
                       <% end %>
                     </li>
-                    <li class="<%= 'active' if current_page?(vrental_availability_rules_path(@vrental)) %>">
-                      <%= link_to vrental_availability_rules_path(@vrental) do %>
+                    <li class="<%= 'active' if current_page?(vrental_availabilities_path(@vrental)) %>">
+                      <%= link_to vrental_availabilities_path(@vrental) do %>
                         <i class="fa-solid fa-calendar"></i><%= t('availability') %>
                       <% end %>
                     </li>

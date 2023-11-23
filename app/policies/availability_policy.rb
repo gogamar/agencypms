@@ -1,4 +1,4 @@
-class AvailabilityRulePolicy < ApplicationPolicy
+class AvailabilityPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.where(vrental_id: user.vrentals.pluck(:id))

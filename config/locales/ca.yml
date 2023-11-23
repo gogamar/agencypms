@@ -32,6 +32,11 @@ ca:
   active: Actiu
   activerecord:
     attributes:
+      availability:
+        end_date: Fins a
+        start_date: Des de
+        multiplier: Multiplicador
+        override: Bloqueig
       company:
         administrator: Administrador
         bank_account: Compte bancari
@@ -171,10 +176,11 @@ ca:
         price_per: Preu de la tarifa serà per nit o per setmana?
         weekly_discount: Descompte per setmana (opcional)
         weekly_discount_included: Descompte per setmana estarà inclòs al preu setmanal de la tarifa?
-        master_rate: Les tarifes d'aquest immoble es faràn servir pels altres immobles del grup?
-        master_vrental_id: Especifica si aquest immoble utilitzarà les seves pròpies tarifes o les tarifes d'un altre immoble (en aquest cas, selecciona de quin).
+        rate_master_id: Especifica si aquest immoble utilitzarà les seves pròpies tarifes o les tarifes d'un altre immoble (en aquest cas, selecciona de quin).
+        availability_master_id: Especifica si aquest immoble utilitzarà la seva pròpia disponibilitat o la disponibilitat d'un altre immoble (en aquest cas, selecciona de quin).
         rate_offset: El tan percent de variació respecte la tarifa mestre. Per exemple, entrar -10 pels preus 10% mes baixos, 10 pels preus 10% més alts. Per copiar la tarifa mestre sense variarla, deixar aquest camp en blanc.
         rate_offset_type: Tipus de descompte o recàrrec (percentatge o import fixe)
+        unit_number: Número d'unitats
       vrentaltemplate:
         language: Idioma
         title: Títol
@@ -191,9 +197,7 @@ ca:
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionat
   amount: Import
-  apartment:
-    one: apartament
-    other: apartments
+  apartment: Apartament
   apartments: Apartaments
   arrival_day: Dia entrada
   ascending: Ordenar per (preu més baix)
@@ -673,7 +677,8 @@ ca:
   offices: Oficines
   night: Nit
   weekly_discount: Descompte per setmana (opcional)
-  master_vrental: Si vols aplicar la tarifa d'un altre immoble, selecciona'l
+  rate_master_vrental: Si vols aplicar la tarifa d'un altre immoble, selecciona l'immoble
+  availability_master_vrental: Si vols aplicar la disponibilitat d'un altre immoble, selecciona l'immoble
   percentage_offset: percentatge
   per_booking_offset: per reserva
   per_day_offset: per dia
@@ -682,9 +687,11 @@ ca:
   per_period_offset: per període
   price_week: Preu setmana
   price_night: Preu nit
-  master_rate_warning: "Aquesta tarifa utilitza les tarifes d'un altre immoble. Si vols modificar-la, has de modificar la tarifa mestre:"
+  rate_master_warning: "Aquest immoble utilitza les tarifes d'un altre immoble. Per modificar-la, has de modificar la tarifa mestre:"
+  availability_master_warning: "Aquest immoble utilitza la disponibilitat d'un altre immoble. Per modificar-la, has de modificar la disponibilitat mestre:"
   edit_conditions_warning: "Aquest immoble pertany a un grup d'immobles. Has de triar si aquest immoble utilitzarà les tarifes d'un altre immoble o no:"
-  no_master_rate: No, utilitzar tarifes pròpies
+  no_rate_master: No, utilitzar tarifes pròpies
+  no_availability_master: No, utilitzar disponibilitat pròpia
   normal: Normal
   gap_fill: Omplir forats
   restriction: Tipus tarifa
@@ -704,12 +711,19 @@ ca:
   adults: Adults
   children: Nens
   empty_vrentals: Immobles buits
-  get_availability_rules_from_beds24: Importar regles de disponibilitat de Beds24
-  availability_rules: Regles de disponibilitat
+  get_availabilities_from_beds24: Importar disponibilitat de Beds24
+  availabilities: Regles de disponibilitat
   availability: Disponibilitat
   date_title: Data
-  new_availability_rule: Afegir descompte
+  new_availability: Afegir descompte
   availability_and_discounts: Disponibilitat i descomptes
+  override: Bloqueig
+  rate_master: Les tarifes d'aquest immoble es faràn servir pels altres immobles del grup?
+  availability_master: La disponibilitat d'aquest immoble es farà servir pels altres immobles del grup?
+  block: Bloquejar
+  send_to_beds: Enviar a Beds24
+  after_last_checkout: després de l'últim checkout, per prevenir forats
+  days: díes
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

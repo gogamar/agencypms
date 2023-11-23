@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_102734) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_100949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -43,15 +43,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_102734) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "availability_rules", force: :cascade do |t|
-    t.date "on_date"
+  create_table "availabilities", force: :cascade do |t|
+    t.date "date"
     t.integer "inventory"
     t.integer "multiplier"
     t.integer "override"
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["vrental_id"], name: "index_availability_rules_on_vrental_id"
+    t.index ["vrental_id"], name: "index_availabilities_on_vrental_id"
   end
 
   create_table "bathrooms", force: :cascade do |t|
@@ -509,14 +509,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_102734) do
     t.string "title_fr"
     t.string "title_en"
     t.boolean "name_on_web", default: false
-    t.boolean "master_rate", default: false
-    t.integer "master_vrental_id"
+    t.integer "rate_master_id"
     t.decimal "rate_offset"
     t.string "rate_offset_type"
     t.string "price_per"
     t.decimal "weekly_discount"
     t.boolean "weekly_discount_included", default: false
     t.integer "min_advance", default: 0
+    t.integer "unit_number"
+    t.integer "availability_master_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -546,7 +547,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_102734) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "availability_rules", "vrentals"
+  add_foreign_key "availabilities", "vrentals"
   add_foreign_key "bathrooms", "vrentals"
   add_foreign_key "bedrooms", "vrentals"
   add_foreign_key "beds", "bedrooms"
@@ -583,6 +584,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_102734) do
   add_foreign_key "vrentals", "rate_plans"
   add_foreign_key "vrentals", "towns"
   add_foreign_key "vrentals", "users"
+  add_foreign_key "vrentals", "vrentals", column: "availability_master_id"
+  add_foreign_key "vrentals", "vrentals", column: "rate_master_id"
   add_foreign_key "vrentals", "vrgroups"
   add_foreign_key "vrentaltemplates", "users"
   add_foreign_key "vrgroups", "offices"

@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["start", "end"];
 
   connect() {
-    console.log("available dates controller reconnected");
+    console.log("Available dates controller reconnected");
     const availableDates = JSON.parse(this.element.dataset.available);
     const minStart = this.element.dataset.minAdvance
       ? new Date(

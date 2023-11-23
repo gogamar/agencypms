@@ -74,10 +74,11 @@ Rails.application.routes.draw do
           get :delete_rates
           get :delete_year_rates
           get :get_bookings
+          get :prevent_gaps
           get :import_from_group
-          get :get_availability_rules
+          get :get_availabilities_from_beds
         end
-        resources :availability_rules, except: [:show]
+        resources :availabilities, except: [:show]
         resources :statements
         resources :invoices
         resources :owners, only: [:new, :create, :edit, :update]
@@ -156,11 +157,11 @@ Rails.application.routes.draw do
       get 'book_property', to: 'pages#book_property'
       get 'confirm_booking', to: 'pages#confirm_booking'
       get 'home', to: 'pages#home'
-      get 'dashboard', to: 'pages#dashboard'
-      get 'empty_vrentals', to: 'pages#empty_vrentals'
       get 'terms', to: 'pages#terms'
       get 'get_availability', to: 'pages#get_availability'
       get 'get_rate_attributes', to: 'rates#get_rate_attributes'
+      get 'dashboard', to: 'vrentals#dashboard'
+      get 'empty_vrentals', to: 'vrentals#empty_vrentals'
       get '*path' => 'application#redirect_to_homepage'
     end
   get '/ca', to: redirect('/'), as: :redirect_default_locale

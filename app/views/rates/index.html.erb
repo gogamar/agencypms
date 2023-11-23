@@ -2,7 +2,7 @@
   <h4 class="font-weight-bold text-primary mb-2"><%= @vrental.name %></h4>
   <h6><%= t('property_rates') %></h6>
 </div>
-<% if !@vrental.vrgroup.present? || @vrental.master_rate == true || !@vrental.master_vrental_id.present? %>
+<% if @vrental.rate_master_id.nil? %>
   <div class="mb-5 text-center">
     <% if @vrental.future_rates.exists? && @vrental.future_rates.any? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
       <div class="alert position-relative alert-warning" role="alert">
@@ -82,11 +82,11 @@
       <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
     </div>
   <% end %>
-<% elsif @vrental.vrgroup.present? && @vrental.master_rate == false && @vrental.master_vrental_id.present? %>
+<% elsif @vrental.vrgroup.present? && @vrental.rate_master_id.present? %>
   <div class="alert alert-warning position-relative" role="alert">
-    <%= t('master_rate_warning') %>
-    <%= link_to vrental_rates_path(@master_vrental) do %>
-      <%= @master_vrental.name %>
+    <%= t('rate_master_warning') %>
+    <%= link_to vrental_rates_path(@vrental.rate_master) do %>
+      <%= @vrental.rate_master&.name %>
     <% end %>
   </div>
 <% else %>

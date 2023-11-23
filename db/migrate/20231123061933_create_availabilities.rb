@@ -1,7 +1,7 @@
-class CreateAvailabilityRules < ActiveRecord::Migration[7.0]
+class CreateAvailabilities < ActiveRecord::Migration[7.0]
   def change
-    create_table :availability_rules do |t|
-      t.date :on_date
+    create_table :availabilities do |t|
+      t.date :date
       t.integer :inventory
       t.integer :multiplier
       t.integer :override

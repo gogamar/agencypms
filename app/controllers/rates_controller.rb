@@ -13,7 +13,6 @@ class RatesController < ApplicationController
     @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
     @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
     @rate_plans = RatePlan.where(company_id: @vrental.user.company.id)
-    @master_vrental = Vrental.find_by(id: @vrental.master_vrental_id) if @vrental.master_vrental_id
   end
 
   def new
@@ -38,6 +37,7 @@ class RatesController < ApplicationController
     if @rate.save
       if @rate.vrental.price_per == "week" && @rate.priceweek.present?
         @rate.create_nightly_rate
+        @vrental.add_availability(@rate.firstnight, @rate.lastnight)
       end
       render(partial: 'rate', locals: { rate: @rate })
     else
