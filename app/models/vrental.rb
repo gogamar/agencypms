@@ -58,7 +58,7 @@ class Vrental < ApplicationRecord
   PRICE_PER = ['night', 'week'].freeze
 
   validates_presence_of :name, :status, :address, :office_id
-  validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
+  # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
   validates :name, uniqueness: true
   validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
