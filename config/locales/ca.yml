@@ -724,6 +724,11 @@ ca:
   send_to_beds: Enviar a Beds24
   after_last_checkout: després de l'últim checkout, per prevenir forats
   days: díes
+  none: Cap
+  no_checkin: Entrada no permesa
+  no_checkout: Sortida no permesa
+  no_checkin_out: Entrada i sortida no permeses
+  blackout: Bloqueig
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

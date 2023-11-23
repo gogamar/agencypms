@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_100949) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_163336) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -46,8 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_100949) do
   create_table "availabilities", force: :cascade do |t|
     t.date "date"
     t.integer "inventory"
-    t.integer "multiplier"
-    t.integer "override"
+    t.integer "multiplier", default: 100
+    t.integer "override", default: 0
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
