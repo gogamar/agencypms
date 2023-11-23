@@ -411,6 +411,8 @@ class VrentalApiService
 
     master_future_rates = master_availability_vrental.rate_master.present? ? master_availability_vrental.rate_master.future_rates : master_availability_vrental.future_rates
 
+    return if master_future_rates.empty?
+
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
     options = {
       "roomId": master_availability_vrental.beds_room_id,

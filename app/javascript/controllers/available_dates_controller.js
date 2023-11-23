@@ -5,18 +5,29 @@ export default class extends Controller {
   static targets = ["start", "end"];
 
   connect() {
-    console.log("Available dates controller connected");
     const availableDates = JSON.parse(this.element.dataset.available);
-    console.log(availableDates);
-    const minStart = this.element.dataset.minAdvance
+    const todayPlusAdvance = this.element.dataset.minAdvance
       ? new Date(
           new Date().setDate(
             new Date().getDate() + parseInt(this.element.dataset.minAdvance)
           )
         )
       : new Date();
+    let minStart;
 
-    const minStay = parseInt(this.element.dataset.minStay);
+    if (availableDates.length > 0) {
+      minStart = availableDates[0]["from"];
+    } else {
+      minStart = todayPlusAdvance;
+    }
+
+    let minStay = 1;
+    if (this.element.dataset.minStay) {
+      const minStayValue = parseInt(this.element.dataset.minStay);
+      if (!isNaN(minStayValue)) {
+        minStay = minStayValue;
+      }
+    }
 
     const startOptions = {
       minDate: minStart,

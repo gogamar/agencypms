@@ -181,7 +181,6 @@ class Vrental < ApplicationRecord
 
   def future_available_dates
     vrental_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
-    puts "vrental instance: #{vrental_instance.name}"
     valid_availabilities = vrental_instance.availabilities.where("inventory > 0").order(date: :asc)
     ranges = []
     current_range = nil
@@ -197,6 +196,10 @@ class Vrental < ApplicationRecord
       end
     end
     ranges << current_range if current_range
+
+    return [] if ranges.empty?
+
+    ranges
   end
 
   def initial_rate(checkin)
