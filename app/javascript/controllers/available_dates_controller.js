@@ -33,13 +33,24 @@ export default class extends Controller {
       minDate: minStart,
       enable: availableDates,
       onChange: (selectedDates, dateStr, instance) => {
-        this.endPicker.set("minDate", selectedDates[0].fp_incr(minStay));
+        // this.endPicker.set("minDate", selectedDates[0].fp_incr(minStay));
+        const selectedDate = selectedDates[0];
+
+        if (selectedDate instanceof Date && !isNaN(minStay)) {
+          const newDate = new Date(selectedDate);
+          newDate.setDate(newDate.getDate() + minStay);
+
+          this.endPicker.set("minDate", newDate);
+        }
       },
     };
     this.startPicker = initFlatpickr(this.startTarget, startOptions);
 
+    const minStartDate = new Date(minStart);
+    minStartDate.setDate(minStartDate.getDate() + minStay);
+
     const endOptions = {
-      minDate: minStart.fp_incr(minStay),
+      minDate: minStartDate,
       enable: availableDates,
       onChange: (selectedDates, dateStr, instance) => {
         this.startPicker.set("maxDate", selectedDates[0]);
@@ -55,7 +66,6 @@ export default class extends Controller {
       .then((response) => response.json())
       .then((data) => {
         const minStay = data.min_stay;
-        console.log(`min_stay: ${minStay}`);
         const newEndDate = new Date(this.startPicker.selectedDates[0]);
         newEndDate.setDate(startDate.getDate() + parseInt(minStay));
         this.endPicker.setDate(newEndDate, true, "d/m/Y");
