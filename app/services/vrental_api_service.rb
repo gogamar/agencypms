@@ -429,8 +429,22 @@ class VrentalApiService
       availability_data = client.get_room_dates(master_availability_vrental.prop_key, options)
       availability_data.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
-        select_or_create_availability(formatted_date, attributes)
-
+        existing_availability = @vrental.availabilities.find_by(date: formatted_date)
+        if existing_availability
+          existing_availability.update!(
+            inventory: attributes["i"],
+            multiplier: attributes["x"],
+            override: attributes["o"]
+          )
+        else
+          Availability.create(
+            date: formatted_date,
+            inventory: attributes["i"].to_i,
+            multiplier: attributes["x"].to_i || 100,
+            override: attributes["o"] || 0,
+            vrental_id: @vrental.id
+          )
+        end
       end
     rescue => e
       puts "Error importing availability data for #{master_availability_vrental.name}: #{e.message}"
@@ -471,6 +485,7 @@ class VrentalApiService
   end
 
   def send_availabilities_to_beds_24
+    # this one needs fixing!
     master_vrental = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
     client = BedsHelper::Beds.new(master_vrental.office.beds_key)
 
@@ -519,25 +534,6 @@ class VrentalApiService
       puts "Error importing availability data for #{@vrental.name}: #{e.message}"
     end
     sleep 2
-  end
-
-  def select_or_create_availability(formatted_date, attributes)
-    existing_availability = @vrental.availabilities.find_by(date: formatted_date)
-    if existing_availability
-      existing_availability.update!(
-        inventory: attributes["i"],
-        multiplier: attributes["x"],
-        override: attributes["o"]
-      )
-    else
-      Availability.create(
-        date: formatted_date,
-        inventory: attributes["i"].to_i,
-        multiplier: attributes["x"].to_i,
-        override: attributes["o"],
-        vrental_id: @vrental.id
-      )
-    end
   end
 
   def get_bookings_from_beds(from_date = nil)
