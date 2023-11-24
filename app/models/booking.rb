@@ -6,6 +6,12 @@ class Booking < ApplicationRecord
   has_one :earning, dependent: :destroy
   accepts_nested_attributes_for :charges, allow_destroy: true
 
+  STATUS = {
+    "O" => "cancelled",
+    "1" => "confirmed",
+    "2" => "new"
+  }
+
   def price_with_portal
     charges.where(charge_type: "rent").sum(:price).round(2) || 0
   end

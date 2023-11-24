@@ -457,11 +457,19 @@ class VrentalApiService
     master_availability_vrental = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
     master_future_rates = master_availability_vrental.rate_master.present? ? master_availability_vrental.rate_master.future_rates : master_availability_vrental.future_rates
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
-    no_check_in_from = @vrental.bookings.order(checkin: :desc).first.checkout + days_after_checkout.days
+    checkout_date = @vrental.bookings.order(checkin: :desc).first.checkout
+    no_check_in_from = checkout_date + days_after_checkout.days
 
     dates = {}
 
-    # need to set override to 0 for anything before the date no_check_in_from
+    # reset the dates from checkout to no_check_in_from
+    (checkout_date...no_check_in_from).each do |date|
+      availability = @vrental.availabilities.find_or_create_by(date: date)
+      availability.update(override: 0)
+      dates[availability.date.strftime("%Y%m%d")] = {
+        "o": availability.override.to_s
+      }
+    end
 
     (no_check_in_from..last_rate_lastnight).each do |date|
       availability = @vrental.availabilities.find_or_create_by(date: date)
