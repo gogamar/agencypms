@@ -17,33 +17,37 @@
   <div class="col-lg-2">
     <small class="text-info">Import reserva</small><br>
     <span>
-      <%= number_to_currency(booking.price_no_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if booking %>
+      <% if booking && booking.charges.present? %>
+        <%= number_to_currency(booking.price_no_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+      <% else %>
+        <%= number_to_currency(booking.price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+      <% end %>
     </span>
     <br>
     <span>
-      <small>PVP: <%= number_to_currency(booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %></small>
+      <small>PVP: <%= number_to_currency(booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></small>
     </span>
     <br>
     <span>
-      <small class="text-info"> <%= booking.referrer %>: <%= number_to_currency(booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ')%> </small>
+      <small class="text-info"> <%= booking.referrer %>: <%= number_to_currency(booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%> </small>
     </span>
   </div>
   <div class="col-lg-2">
     <% if booking.city_tax_value > 0 %>
       <span>
-        <small>Taxa tur: <%= number_to_currency(booking.city_tax_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ')%></small>
+        <small>Taxa tur: <%= number_to_currency(booking.city_tax_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></small>
       </span>
       <br>
     <% end %>
     <% if booking.cleaning_value > 0 %>
       <span class="badge bg-secondary">
-        <small>Neteja: <%= number_to_currency(booking.cleaning_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ')%></small>
+        <small>Neteja: <%= number_to_currency(booking.cleaning_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></small>
       </span>
       <br>
     <% end %>
     <% if booking.other_charges != 0 %>
       <span class="badge bg-warning">
-        <small>Altres: <%= number_to_currency(booking.other_charges, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ')%></small>
+        <small>Altres: <%= number_to_currency(booking.other_charges, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></small>
       </span>
       <br>
     <% end %>
