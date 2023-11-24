@@ -1,5 +1,6 @@
 module Api
   class WebhooksController < ApplicationController
+    skip_before_action :authenticate_user!
     before_action :verify_authentication_token
     def handle_notification
       bookid = params[:bookid]
