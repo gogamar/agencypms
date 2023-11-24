@@ -21,9 +21,9 @@ module Api
       existing_booking = Booking.find_by(beds_booking_id: bookid)
 
       if existing_booking
-        existing_booking.update(status: booking_status, firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, commission: commission, vrental_id: vrental.id )
+        existing_booking.update(status: booking_status, firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, vrental_id: vrental.id )
       else
-        Booking.create(status: booking_status, firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, commission: commission, beds_booking_id: bookid, vrental_id: vrental.id )
+        Booking.create(status: booking_status, firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, beds_booking_id: bookid, vrental_id: vrental.id )
       end
 
       head :ok

@@ -6,7 +6,8 @@ class BookingsController < ApplicationController
     @bookings = policy_scope(Booking).order(checkin: :asc)
     @bookings = @vrental.bookings.order(checkin: :asc)
     @total_price = @vrental.bookings.pluck(:price)&.sum
-    @total_commission = @vrental.bookings.pluck(:commission)&.sum
+    commissions = @vrental.bookings.pluck(:commission)
+    @total_commission = commissions.compact.sum
     @total_cleaning = @vrental.bookings.map do |booking|
       booking.charges.where(charge_type: 'cleaning').sum(:price)
     end.sum
