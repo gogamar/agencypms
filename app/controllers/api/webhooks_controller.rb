@@ -4,26 +4,57 @@ module Api
     before_action :verify_authentication_token
 
     def handle_notification
+      puts "Webhook received. Params inspect: #{params.inspect}"
+
       bookid = params[:bookid]
-      property = params[:property]
-      booking_status = params[:booking_status]
-      firstname = params[:firstname]
-      lastname = params[:lastname]
-      checkin = params[:checkin]
-      checkout = params[:checkout]
-      nights = params[:nights]
-      adults = params[:adults]
-      children = params[:children]
-      referrer = params[:referrer]
-      price = params[:price]
+      notification_status = params[:status]
 
-      vrental = Vrental.find_by(beds_prop_id: property)
-      existing_booking = Booking.find_by(beds_booking_id: bookid)
+      w_property = params[:property]
+      w_firstname = params[:firstname]
+      w_lastname = params[:lastname]
+      w_checkin = params[:checkin]
+      w_checkout = params[:checkout]
+      w_nights = params[:nights]
+      w_adults = params[:adults]
+      w_children = params[:children]
+      w_referrer = params[:referrer]
+      w_price = params[:price]
 
-      if existing_booking
-        existing_booking.update(status: booking_status, firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, vrental_id: vrental.id )
-      else
-        Booking.create(status: booking_status, firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, beds_booking_id: bookid, vrental_id: vrental.id )
+      vrental = Vrental.find_by(beds_prop_id: w_property)
+
+      case notification_status
+      when "new"
+        Booking.create(
+          status: '1',
+          firstname: w_firstname,
+          lastname: w_lastname,
+          checkin: w_checkin,
+          checkout: w_checkout,
+          nights: w_nights,
+          adults: w_adults,
+          children: w_children,
+          referrer: w_referrer,
+          price: w_price,
+          beds_booking_id: bookid,
+          vrental_id: vrental.id
+        )
+      when "modify"
+        existing_booking = Booking.find_by(beds_booking_id: bookid)
+        existing_booking&.update(
+          firstname: w_firstname,
+          lastname: w_lastname,
+          checkin: w_checkin,
+          checkout: w_checkout,
+          nights: w_nights,
+          adults: w_adults,
+          children: w_children,
+          referrer: w_referrer,
+          price: w_price,
+          vrental_id: vrental.id
+        )
+      when "cancel"
+        existing_booking = Booking.find_by(beds_booking_id: bookid)
+        existing_booking&.update(status: '0')
       end
 
       head :ok
