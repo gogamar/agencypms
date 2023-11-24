@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
-    post 'webhooks', to: 'webhooks#handle_notification'
+    match 'webhooks', to: 'webhooks#handle_notification', via: [:get, :post]
   end
 
   resources :image_urls do

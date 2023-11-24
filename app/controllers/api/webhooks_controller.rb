@@ -14,9 +14,9 @@ module Api
       referrer = params[:referrer]
       price = params[:price]
       commission = params[:commission]
-      roomid = params[:roomid]
+      property = params[:property]
 
-      vrental = Vrental.find_by(beds_room_id: roomid)
+      vrental = Vrental.find_by(beds_prop_id: property)
 
       if status == 'new'
         Booking.create(status: "1", firstname: firstname, lastname: lastname, checkin: checkin, checkout: checkout, nights: nights, adults: adults, children: children, referrer: referrer, price: price, commission: commission, beds_booking_id: bookid, vrental_id: vrental.id )
