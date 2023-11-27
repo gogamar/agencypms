@@ -110,6 +110,24 @@ class PagesController < ApplicationController
     render json: response
   end
 
+  def get_rate_data
+    selected_date = params[:selected_date].to_date
+    vrental = Vrental.find(params[:vrental_id])
+    if vrental.rate_master
+      rate = vrental.rate_master.rates.find_by("firstnight <= ? AND lastnight >= ?", selected_date, selected_date)
+    else
+      rate = vrental.rates.find_by("firstnight <= ? AND lastnight >= ?", selected_date, selected_date)
+    end
+    rate_attributes = {}
+    if rate
+      rate_attributes[:min_stay] = rate.min_stay
+    else
+      rate_attributes[:error] = 'Rate not found'
+    end
+    puts "rate_attributes look like this: #{rate_attributes}"
+    render json: rate_attributes
+  end
+
   def book_property
     @vrental = Vrental.find(params[:vrental_id])
     @property_images = @vrental.image_urls.order(position: :asc)
@@ -147,9 +165,9 @@ class PagesController < ApplicationController
 
   def confirm_booking
     @vrental = Vrental.find(params[:vrental_id])
-    @checkin = params[:check_in].to_date
-    @checkout = params[:check_out].to_date
-    @nights = @checkout - @checkin
+    @checkin = params[:check_in].to_date if params[:check_in].present?
+    @checkout = params[:check_out].to_date if params[:check_out].present?
+    @nights = @checkout - @checkin if @checkin.present? && @checkout.present?
     @guests = params[:num_adults]
   end
 

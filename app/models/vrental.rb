@@ -193,30 +193,13 @@ class Vrental < ApplicationRecord
   end
 
   def future_available_dates
-    vrental_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
-    valid_availabilities = vrental_instance.availabilities.where("inventory > 0").order(date: :asc)
-    ranges = []
-    current_range = nil
-
-    valid_availabilities.each do |availability|
-      if current_range.nil?
-        current_range = { from: availability.date, to: availability.date }
-      elsif availability.date == current_range[:to] + 1.day
-        current_range[:to] = availability.date
-      else
-        ranges << current_range
-        current_range = { from: availability.date, to: availability.date }
-      end
-    end
-    ranges << current_range if current_range
-
-    return [] if ranges.empty?
-
-    ranges
+    vrental_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
+    vrental_instance.availabilities.where("inventory > 0").order(date: :asc).pluck(:date)
   end
 
   def initial_rate(checkin)
-    rates
+    vrental_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
+    vrental_instance.rates
       .where("firstnight <= ? AND lastnight >= ?", checkin, checkin)
       .order(min_stay: :asc)
       .first

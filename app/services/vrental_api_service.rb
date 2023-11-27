@@ -9,10 +9,17 @@ class VrentalApiService
     begin
       client = BedsHelper::Beds.new
 
+      if checkin
+        formatted_checkin = Date.parse(checkin).strftime("%Y%m%d")
+      end
+      if checkout
+        formatted_checkout = Date.parse(checkout).strftime("%Y%m%d")
+      end
+
       options = {
         "propId": @vrental.beds_prop_id,
-        "checkIn": checkin.delete("-"),
-        "checkOut": checkout.delete("-"),
+        "checkIn": formatted_checkin,
+        "checkOut": formatted_checkout,
         "numAdult": guests || 1
       }
 

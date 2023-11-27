@@ -23,8 +23,8 @@
           <div class="row"
           data-controller="available-dates"
           data-available="<%= @vrental.future_available_dates.to_json %>"
-          data-minAdvance="<%= @vrental.initial_rate(@checkin)&.min_advance if @checkin.present? %>"
-          data-minStay="<%=@vrental.initial_rate(@checkin)&.min_stay if @checkin.present?%>">
+          data-min-advance="<%= @vrental.min_advance %>"
+          data-min-stay="<%= @checkin.present? ? @vrental.initial_rate(@checkin)&.min_stay || 0 : 0 %>">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
                 <label for="check_in">Check In</label>
@@ -34,8 +34,9 @@
                                       as: :string,
                                       data: {
                                         search_target: "checkin",
-                                        action: "change->search#updatePrice change->available-dates#getRateAttributes",
-                                        available_dates_target: "start"
+                                        action: "change->search#updatePrice change->available-dates#updateRateData",
+                                        available_dates_target: "start",
+                                        vrental_id: @vrental.id
                                       },
                                       class: "form-control",
                                       placeholder: "Check-in",

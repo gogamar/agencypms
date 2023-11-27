@@ -101,13 +101,22 @@ class Office < ApplicationRecord
   def get_availability_from_beds(checkin, checkout, guests, prop_ids)
     client = BedsHelper::Beds.new
     begin
+      if checkin
+        formatted_checkin = Date.parse(checkin).strftime("%Y%m%d")
+      end
+      if checkout
+        formatted_checkout = Date.parse(checkout).strftime("%Y%m%d")
+      end
       options = {
         "ownerId": beds_owner_id,
-        "checkIn": checkin.delete("-"),
-        "checkOut": checkout.delete("-"),
+        "checkIn": formatted_checkin,
+        "checkOut": formatted_checkout,
         "numAdult": guests,
         "propIds": prop_ids
       }
+
+      parsed_date = Date.parse(checkout).strftime("%Y%m%d")
+formatted_date = parsed_date.strftime("%Y%m%d")
 
       response = client.get_availabilities(options)
 

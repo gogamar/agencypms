@@ -13,10 +13,10 @@ export default class extends Controller {
           )
         )
       : new Date();
-    let minStart;
 
+    let minStart;
     if (availableDates.length > 0) {
-      minStart = availableDates[0]["from"];
+      minStart = availableDates[0];
     } else {
       minStart = todayPlusAdvance;
     }
@@ -33,45 +33,49 @@ export default class extends Controller {
       minDate: minStart,
       enable: availableDates,
       onChange: (selectedDates, dateStr, instance) => {
-        // this.endPicker.set("minDate", selectedDates[0].fp_incr(minStay));
-        const selectedDate = selectedDates[0];
-
-        if (selectedDate instanceof Date && !isNaN(minStay)) {
-          const newDate = new Date(selectedDate);
-          newDate.setDate(newDate.getDate() + minStay);
-
-          this.endPicker.set("minDate", newDate);
-        }
+        const selectedDate = new Date(dateStr);
+        const checkoutDate = new Date(selectedDate);
+        checkoutDate.setDate(checkoutDate.getDate() + 1);
+        this.endPicker.set("minDate", checkoutDate);
+        this.endPicker.jumpToDate(checkoutDate);
       },
     };
     this.startPicker = initFlatpickr(this.startTarget, startOptions);
 
     const minStartDate = new Date(minStart);
+
     minStartDate.setDate(minStartDate.getDate() + minStay);
 
     const endOptions = {
       minDate: minStartDate,
       enable: availableDates,
-      onChange: (selectedDates, dateStr, instance) => {
-        this.startPicker.set("maxDate", selectedDates[0]);
-      },
     };
     this.endPicker = initFlatpickr(this.endTarget, endOptions);
   }
 
-  getRateAttributes(event) {
+  async updateRateData(event) {
     const selectedDate = event.target.value;
+    const vrentalId = event.target.dataset.vrentalId;
+    const path = `/get_rate_data?selected_date=${selectedDate}&vrental_id=${vrentalId}`;
 
-    fetch(`/get_rate_attributes?selected_date=${selectedDate}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const minStay = data.min_stay;
-        const newEndDate = new Date(this.startPicker.selectedDates[0]);
-        newEndDate.setDate(startDate.getDate() + parseInt(minStay));
-        this.endPicker.setDate(newEndDate, true, "d/m/Y");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const response = await fetch(path, {
+        headers: {
+          Accept: "application/json",
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      const minStay = responseData.min_stay;
+      const newMinEndDate = new Date(this.startPicker.selectedDates[0]);
+      newMinEndDate.setDate(newMinEndDate.getDate() + parseInt(minStay));
+      this.endPicker.set("minDate", newMinEndDate);
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
