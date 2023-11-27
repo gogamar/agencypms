@@ -767,9 +767,7 @@ class VrentalApiService
 
     vrental_rates = []
 
-    vr_rates = @vrental.future_rates
-
-    vr_rates.each do |rate|
+    @vrental.future_rates.each do |rate|
       rate_exists_on_beds_id = beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
 
       if rate.restriction.present?
@@ -802,16 +800,6 @@ class VrentalApiService
     response = client.set_rates(@vrental.prop_key, setRates: vrental_rates)
     return unless response.code == 200
 
-    response.each_with_index do |rate, index|
-      first_night = vrental_rates[index][:firstNight]
-      last_night = vrental_rates[index][:lastNight]
-      min_nights = vrental_rates[index][:minNights]
-      found_rate = @vrental.rates.where(beds_rate_id: nil).find_by(firstnight: first_night.to_date, lastnight: last_night.to_date, min_stay: min_nights.to_i)
-      if found_rate.present? && rate["rateId"] != false
-        found_rate.update!(beds_rate_id: rate["rateId"])
-      end
-    end
-
     if @vrental.vrgroup.present? && @vrental.rate_master_id.nil?
       rate_links = []
       @vrental.future_rates.each do |rate|
@@ -830,12 +818,12 @@ class VrentalApiService
           rate_links << rate_link
         end
       end
+      client.set_rate_links(@vrental.prop_key, setRateLinks: rate_links)
     end
 
-    client.set_rate_links(@vrental.prop_key, setRateLinks: rate_links)
     # fixme: need to rescue errors here
 
-    vr_rates.each do |rate|
+    @vrental.future_rates.each do |rate|
       rate.sent_to_beds = true
       rate.date_sent_to_beds = Time.zone.now
       rate.save!
