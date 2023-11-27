@@ -3,7 +3,7 @@ class Rate < ApplicationRecord
   validates :firstnight, :lastnight, :min_stay, :max_stay, :arrival_day, presence: true
   validates :lastnight, comparison: { greater_than: :firstnight }
   belongs_to :weekly_rate, class_name: 'Rate', optional: true
-  has_many :nightly_rates, class_name: 'Rate', foreign_key: 'weekly_rate_id'
+  has_many :nightly_rates, class_name: 'Rate', foreign_key: 'weekly_rate_id', dependent: :destroy
   # validate :check_uniqueness
 
   RESTRICTION = ['normal', 'gap_fill'].freeze

@@ -678,7 +678,8 @@ class VrentalApiService
         end
 
         selected_rates.each do |rate|
-          if Date.parse(rate["lastNight"]) > Date.today.beginning_of_year
+          if Date.parse(rate["lastNight"]) > Date.today.last_year
+
             existing_rate = @vrental.rates.find_by(beds_rate_id: rate["rateId"])
             if existing_rate
               existing_rate.update!(
@@ -690,18 +691,24 @@ class VrentalApiService
                 min_stay: rate["minNights"].to_i,
                 arrival_day: 'everyday'
               )
+              if rate["pricesPer"] == "7"
+                existing_rate.create_nightly_rate unless @vrental.rates.find_by(weekly_rate_id: existing_rate.id).present?
+              end
             else
-              Rate.create!(
+              new_rate = Rate.create!(
                 beds_rate_id: rate["rateId"],
                 vrental_id: @vrental.id,
                 firstnight: rate["firstNight"],
                 lastnight: rate["lastNight"],
-                pricenight: @vrental.price_per == "night" ? rate["roomPrice"].to_f : nil,
-                priceweek: @vrental.price_per == "week" ? rate["roomPrice"].to_f : nil,
+                pricenight: rate["pricesPer"] == "1" ? rate["roomPrice"].to_f : nil,
+                priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : nil,
                 beds_room_id: rate["roomId"],
                 min_stay: rate["minNights"].to_i,
                 arrival_day: 'everyday'
               )
+              if rate["pricesPer"] == "7"
+                new_rate.create_nightly_rate
+              end
             end
           end
         end
