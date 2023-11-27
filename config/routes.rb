@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'get_rate_data', to: 'pages#get_rate_data'
-  get 'get_availability', to: 'pages#get_availability'
-
   namespace :api do
     match 'webhooks', to: 'webhooks#handle_notification', via: [:get, :post]
   end
@@ -162,6 +159,8 @@ Rails.application.routes.draw do
     get 'terms_of_service', to: 'pages#terms_of_service'
     get 'book_property', to: 'pages#book_property'
     get 'confirm_booking', to: 'pages#confirm_booking'
+    get 'get_availability', to: 'pages#get_availability'
+    get 'get_rate_data', to: 'pages#get_rate_data'
     get 'home', to: 'pages#home'
     get 'terms', to: 'pages#terms'
     get 'dashboard', to: 'vrentals#dashboard'

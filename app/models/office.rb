@@ -115,9 +115,6 @@ class Office < ApplicationRecord
         "propIds": prop_ids
       }
 
-      parsed_date = Date.parse(checkout).strftime("%Y%m%d")
-formatted_date = parsed_date.strftime("%Y%m%d")
-
       response = client.get_availabilities(options)
 
       # Handle any errors that might occur during JSON parsing or API calls
