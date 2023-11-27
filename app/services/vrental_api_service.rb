@@ -34,14 +34,18 @@ class VrentalApiService
       result = {}
       if parsed_response[@vrental.beds_room_id]["roomsavail"] != "0"
         vrental_rate_price = @vrental.rate_price(checkin, checkout)
+        updated_price = parsed_response[@vrental.beds_room_id]["price"]
+        coupon_price = @vrental.price_with_coupon(updated_price)
         result["ratePrice"] = vrental_rate_price.round(2) if vrental_rate_price
-        result["updatedPrice"] = parsed_response[@vrental.beds_room_id]["price"]
+        result["updatedPrice"] = updated_price
+        result["couponPrice"] = coupon_price.round(2).to_f if coupon_price
         if (parsed_response[@vrental.beds_room_id]["price"]).nil?
           result["notAvailable"] = "No availability"
         end
       elsif parsed_response[@vrental.beds_room_id]["roomsavail"] == "0"
         result["notAvailable"] = "No availability"
       end
+      puts "this is the result: #{result}"
       return result
 
     rescue StandardError => e

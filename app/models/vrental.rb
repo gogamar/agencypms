@@ -127,6 +127,11 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def price_with_coupon(price)
+    coupon_discount = coupons.first.amount_discounted(price)
+    price.to_f - coupon_discount
+  end
+
   def years_with_rates
     years_with_rates = rates.map { |rate| rate.firstnight.year }
     unique_years_with_rates = years_with_rates.uniq
@@ -305,7 +310,9 @@ class Vrental < ApplicationRecord
     checkin = checkin.is_a?(Date) ? checkin : Date.parse(checkin)
     checkout = checkout.is_a?(Date) ? checkout : Date.parse(checkout)
 
-    overlapping_rates = rates.where(
+    vrental_instance = rate_master_id.present? ? rate_master : self
+
+    overlapping_rates = vrental_instance.rates.where(
       "(firstnight <= ? AND lastnight >= ?) OR (firstnight <= ? AND lastnight >= ?) OR (firstnight >= ? AND lastnight <= ?)",
       checkin, checkin, checkout, checkout, checkin, checkout
     )

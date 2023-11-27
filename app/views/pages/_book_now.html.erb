@@ -1,30 +1,26 @@
 <div class="property-sidebar side_stiky">
   <div class="sider_blocks_wrap">
     <div class="side-booking-header d-flex flex-column align-items-center">
-      <div class="d-flex justify-content-center">
-        <h3 class="prt-price-fix text-secondary text-decoration-line-through me-3 <%= 'd-none' unless @discount.to_i > 5 %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h3>
+      <div class="d-flex justify-content-center align-items-center">
+        <h6 class="text-secondary text-decoration-line-through me-3 <%= 'd-none' unless @discount.to_i > 5 %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
         <h3 class="prt-price-fix text-primary" id="<%= @vrental.id %>-price">
           <%= number_to_currency(@price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
         </h3>
       </div>
       <span id="<%= @vrental.id %>-not-available" class="<%= 'd-none' unless @not_available.present? %>"><%= t("not_available") %></span>
-      <% if @price && @price_with_coupon %>
+      <div class="text-center <%= 'd-none' unless @price && @price_with_coupon %>" id="<%= @vrental.id %>-coupon-price">
         <div class="text-secondary"><%= t('price_with_coupon') %> <span class="text-success"><%= @coupon_code %></span></div>
-        <h3 class="prt-price-fix text-success">
+        <h3 class="prt-price-fix text-success coupon-price-js">
           <%= number_to_currency(@price_with_coupon, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
         </h3>
-      <% end %>
+      </div>
     </div>
     <div class="sidetab-content mb-2">
       <div class="side-booking-body">
-        <%= form_with url: confirm_booking_path, data: { controller: 'search' }, method: :get, 'data-turbo-cache': false do |form| %>
+        <%= form_with url: confirm_booking_path, data: { controller: 'search', available: @vrental.future_available_dates.to_json, min_advance: @vrental.min_advance, min_stay: @checkin.present? ? @vrental.initial_rate(@checkin)&.min_stay || 0 : 0  }, method: :get, 'data-turbo-cache': false do |form| %>
           <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>
-          <div class="row"
-          data-controller="available-dates"
-          data-available="<%= @vrental.future_available_dates.to_json %>"
-          data-min-advance="<%= @vrental.min_advance %>"
-          data-min-stay="<%= @checkin.present? ? @vrental.initial_rate(@checkin)&.min_stay || 0 : 0 %>">
+          <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
                 <label for="check_in">Check In</label>
@@ -34,8 +30,7 @@
                                       as: :string,
                                       data: {
                                         search_target: "checkin",
-                                        action: "change->search#updatePrice change->available-dates#updateRateData",
-                                        available_dates_target: "start",
+                                        action: "change->search#updatePrice",
                                         vrental_id: @vrental.id
                                       },
                                       class: "form-control",
@@ -52,7 +47,7 @@
                   <i class="fa-solid fa-calendar-week"></i>
                   <%= form.text_field :check_out,
                                   as: :string,
-                                  data: { search_target: "checkout", action: "change->search#updatePrice", available_dates_target: "end"  },
+                                  data: { search_target: "checkout", action: "change->search#updatePrice"},
                                   class: "form-control",
                                   placeholder: "Check-out",
                                   value: "#{@checkout.presence}"

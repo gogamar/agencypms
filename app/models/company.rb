@@ -17,6 +17,14 @@ class Company < ApplicationRecord
     available_vrentals
   end
 
+  def future_available_dates
+    latest_rate = Rate.order(lastnight: :desc).first
+    from_date = Date.today
+    to_date = latest_rate ? latest_rate.lastnight + 1.day : Date.today.next_year
+
+    return [{ from: from_date, to: to_date }]
+  end
+
   private
 
   # def user_can_create_only_one_company

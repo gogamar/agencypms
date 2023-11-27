@@ -147,8 +147,7 @@ class PagesController < ApplicationController
     # fixme check for valid coupons only and for the right coupon
     if @vrental.coupons.present?
       @coupon_code = @vrental.coupons.first.name
-      @coupon_discount = @vrental.coupons.first.amount_discounted(@price)
-      @price_with_coupon = @price.to_f - @coupon_discount
+      @price_with_coupon = @vrental.price_with_coupon(@price)
     end
 
     @markers = []
