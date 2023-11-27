@@ -134,7 +134,7 @@ class Vrental < ApplicationRecord
   end
 
   def dates_with_rates(fnight = nil, lnight = nil)
-    rates.pluck(:firstnight, :lastnight).map do |range|
+    future_rates.pluck(:firstnight, :lastnight).map do |range|
       from = range[0]
       to = range[1]
 
@@ -145,6 +145,19 @@ class Vrental < ApplicationRecord
         { from: from, to: to }
       end
     end.compact # Remove any nil entries
+  end
+
+  def first_future_date_without_rate
+    future_rates = rates.where("lastnight > ?", Date.today).order(:firstnight)
+    date_without_rate = Date.today
+
+    future_rates.each do |rate|
+      if rate.firstnight > date_without_rate
+        return date_without_rate
+      end
+      date_without_rate = rate.lastnight + 1.day
+    end
+    return date_without_rate
   end
 
   def add_availability(from, to)
@@ -158,7 +171,7 @@ class Vrental < ApplicationRecord
       to = range[:to]
 
       (from..to).each do |date|
-        availabilities.create(date: date, inventory: vrental_instance.number_of_units)
+        availabilities.create(date: date, inventory: vrental_instance.unit_number)
       end
     end
   end
@@ -219,11 +232,6 @@ class Vrental < ApplicationRecord
     other_statements.pluck(:start_date, :end_date).map do |range|
       { from: range[0], to: range[1] }
     end
-  end
-
-  def default_checkin
-    last_rate = rates.find_by(lastnight: rates.maximum('lastnight'))
-    last_rate.present? ? last_rate.lastnight + 1.day : Date.today
   end
 
   def years_possible_contract
@@ -502,62 +510,67 @@ class Vrental < ApplicationRecord
 
       # if Easter Rate is 10 days and the rate doesn't already exist for the next year
       if easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
-        Rate.create!(
+        new_rate = Rate.create!(
           firstnight: easter_season_firstnight[next_year],
           lastnight: easter_season_firstnight[next_year] + 10,
-          pricenight: existingrate.pricenight,
-          priceweek: existingrate.priceweek,
+          pricenight: price_per == "night" ? existingrate.pricenight : nil,
+          priceweek: price_per == "week" ? existingrate.priceweek : nil,
           beds_room_id: existingrate.beds_room_id,
           vrental_id: existingrate.vrental_id,
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
+        new_rate.create_nightly_rate if price_per == "week"
       elsif easter_season_firstnight.value?(existingrate.firstnight - 10) && (existingrate.lastnight - existingrate.firstnight).to_i == 10 && !rates.where(firstnight: easter_season_firstnight[next_year] + 10).exists?
-        Rate.create!(
+        new_rate = Rate.create!(
           firstnight: easter_season_firstnight[next_year],
           lastnight: easter_season_firstnight[next_year] + 10,
-          pricenight: existingrate.pricenight,
-          priceweek: existingrate.priceweek,
+          pricenight: price_per == "night" ? existingrate.pricenight : nil,
+          priceweek: price_per == "week" ? existingrate.priceweek : nil,
           beds_room_id: existingrate.beds_room_id,
           vrental_id: existingrate.vrental_id,
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
+        new_rate.create_nightly_rate if price_per == "week"
       # if Easter rate is longer than 10 days and the rate doesn't already exist for the next year
       elsif easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i > 10 && !rates.where(firstnight: easter_season_firstnight[next_year]).exists?
-        Rate.create!(
+        new_rate = Rate.create!(
           firstnight: easter_season_firstnight[next_year],
           lastnight: existingrate.lastnight + 364,
-          pricenight: existingrate.pricenight,
-          priceweek: existingrate.priceweek,
+          pricenight: price_per == "night" ? existingrate.pricenight : nil,
+          priceweek: price_per == "week" ? existingrate.priceweek : nil,
           beds_room_id: existingrate.beds_room_id,
           vrental_id: existingrate.vrental_id,
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
+        new_rate.create_nightly_rate if price_per == "week"
       # if it's Before Easter rate and the rate doesn't already exist for the next year
       elsif easter_season_firstnight.value?(existingrate.lastnight + 1) && !rates.where(lastnight: easter_season_firstnight[next_year] - 1).exists?
-        Rate.create!(
+        new_rate = Rate.create!(
           firstnight: existingrate.firstnight + 364,
           lastnight: easter_season_firstnight[next_year] - 1,
-          pricenight: existingrate.pricenight,
-          priceweek: existingrate.priceweek,
+          pricenight: price_per == "night" ? existingrate.pricenight : nil,
+          priceweek: price_per == "week" ? existingrate.priceweek : nil,
           beds_room_id: existingrate.beds_room_id,
           vrental_id: existingrate.vrental_id,
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
+        new_rate.create_nightly_rate if price_per == "week"
       elsif !rates.where(firstnight: existingrate.firstnight + 364).present?
-        Rate.create!(
+        new_rate = Rate.create!(
           firstnight: existingrate.firstnight + 364,
           lastnight: existingrate.lastnight + 364,
-          pricenight: existingrate.pricenight,
-          priceweek: existingrate.priceweek,
+          pricenight: price_per == "night" ? existingrate.pricenight : nil,
+          priceweek: price_per == "week" ? existingrate.priceweek : nil,
           beds_room_id: existingrate.beds_room_id,
           vrental_id: existingrate.vrental_id,
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
+        new_rate.create_nightly_rate if price_per == "week"
       else
         return
       end

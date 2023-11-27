@@ -2,7 +2,7 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div data-controller="unavailable-dates"
-  data-defaultstart="<%= f.object.persisted? ? '' : @vrental.default_checkin.to_json %>"
+  data-defaultstart="<%= f.object.persisted? ? '' : @vrental.first_future_date_without_rate.to_json %>"
   data-unavailable="<%= @vrental.dates_with_rates(f.object.firstnight, f.object.lastnight).to_json %>"
   >
     <div class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center rate-dates">

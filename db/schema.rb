@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_163336) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -367,7 +367,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_163336) do
     t.integer "max_stay", default: 365
     t.integer "min_advance", default: 0
     t.string "restriction", default: "normal"
+    t.bigint "weekly_rate_id"
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
+    t.index ["weekly_rate_id"], name: "index_rates_on_weekly_rate_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -570,6 +572,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_163336) do
   add_foreign_key "payments", "bookings"
   add_foreign_key "rate_periods", "rate_plans"
   add_foreign_key "rate_plans", "companies"
+  add_foreign_key "rates", "rates", column: "weekly_rate_id"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"

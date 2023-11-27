@@ -2,6 +2,8 @@ class Rate < ApplicationRecord
   belongs_to :vrental
   validates :firstnight, :lastnight, :min_stay, :max_stay, :arrival_day, presence: true
   validates :lastnight, comparison: { greater_than: :firstnight }
+  belongs_to :weekly_rate, class_name: 'Rate', optional: true
+  has_many :nightly_rates, class_name: 'Rate', foreign_key: 'weekly_rate_id'
   # validate :check_uniqueness
 
   RESTRICTION = ['normal', 'gap_fill'].freeze
@@ -15,35 +17,31 @@ class Rate < ApplicationRecord
   end
 
   def create_nightly_rate
-    existing_nightly_rate = vrental.rates.find_by(
+    Rate.create(
+      vrental_id: self.vrental_id,
+      beds_room_id: self.beds_room_id,
       firstnight: self.firstnight,
+      lastnight: self.lastnight,
+      arrival_day: self.arrival_day,
+      min_stay: self.min_stay,
+      pricenight: self.nightly_price_based_on_week,
+      weekly_rate_id: self.id
+    )
+  end
+
+  def update_nightly_rate
+    nightly_rate = vrental.rates.find_by(weekly_rate_id: self.id)
+    nightly_rate&.update(
+      firstnight: self.firstnight,
+      lastnight: self.lastnight,
+      arrival_day: self.arrival_day,
+      min_stay: self.min_stay,
       pricenight: self.nightly_price_based_on_week
     )
-
-    if existing_nightly_rate
-      existing_nightly_rate.update_attributes(
-        arrival_day: self.arrival_day,
-        min_stay: self.min_stay,
-        pricenight: self.nightly_price_based_on_week
-      )
-    else
-      Rate.create(
-        vrental_id: self.vrental_id,
-        beds_room_id: self.beds_room_id,
-        firstnight: self.firstnight,
-        lastnight: self.lastnight,
-        arrival_day: self.arrival_day,
-        min_stay: self.min_stay,
-        pricenight: self.nightly_price_based_on_week
-      )
-    end
   end
 
   def delete_nightly_rate
-    nightly_rate = vrental.rates.find_by(
-      firstnight: self.firstnight,
-      pricenight: self.nightly_price_based_on_week
-    )
+    nightly_rate = vrental.rates.find_by(weekly_rate_id: self.id)
     nightly_rate&.destroy!
   end
 

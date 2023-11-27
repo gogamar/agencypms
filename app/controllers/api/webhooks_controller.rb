@@ -4,8 +4,6 @@ module Api
     before_action :verify_authentication_token
 
     def handle_notification
-      puts "Webhook received. Params inspect: #{params.inspect}"
-
       bookid = params[:bookid]
       notification_status = params[:status]
 

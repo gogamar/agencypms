@@ -27,13 +27,18 @@ export default class extends Controller {
       defaultDate: defaultStart,
       disable: unavailableDates,
       onChange: (selectedDates, dateStr, instance) => {
-        this.endPicker.set("minDate", selectedDates[0].fp_incr(1));
+        const selectedDate = new Date(dateStr);
+        const endDate = new Date(selectedDate);
+        endDate.setDate(endDate.getDate() + 1);
+        this.endPicker.set("minDate", endDate);
+        this.endPicker.jumpToDate(endDate);
       },
     };
     this.startPicker = initFlatpickr(this.startTarget, startOptions);
 
     const endOptions = {
       defaultDate: defaultEnd,
+      minDate: defaultStart.setDate(defaultStart.getDate() + 1),
       disable: unavailableDates,
       onChange: (selectedDates, dateStr, instance) => {
         this.startPicker.set("maxDate", selectedDates[0]);

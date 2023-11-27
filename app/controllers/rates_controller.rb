@@ -2,6 +2,7 @@ class RatesController < ApplicationController
   before_action :set_rate, only: [:show, :edit, :update, :destroy]
   before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show]
 
+
   def index
     @rates = policy_scope(Rate)
     if @vrental.price_per == "night"
@@ -37,7 +38,7 @@ class RatesController < ApplicationController
     if @rate.save
       if @rate.vrental.price_per == "week" && @rate.priceweek.present?
         @rate.create_nightly_rate
-        @vrental.add_availability(@rate.firstnight, @rate.lastnight)
+        # @vrental.add_availability(@rate.firstnight, @rate.lastnight)
       end
       render(partial: 'rate', locals: { rate: @rate })
     else
@@ -50,6 +51,9 @@ class RatesController < ApplicationController
     @vrental = @rate.vrental
     authorize @rate
     if @rate.update(rate_params)
+      if @rate.vrental.price_per == "week" && @rate.priceweek.present?
+        @rate.update_nightly_rate
+      end
       flash.now[:notice] = "Has actualitzat una tarifa de #{@rate.vrental.name}."
       redirect_to vrental_rates_path(@vrental)
     else
