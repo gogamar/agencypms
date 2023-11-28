@@ -3,7 +3,7 @@
     <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term)} #{vrental.town&.name}" if vrental.image_urls.present? %>
   <% else %>
     <%= link_to book_property_path(vrental_id: vrental.id) do %>
-      <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term)} #{vrental.town&.name}" if vrental.image_urls.present? %>
+      <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term) if vrental.rental_term} #{vrental.town&.name}" if vrental.image_urls.present? %>
     <% end %>
   <% end %>
   <div class="card-body">

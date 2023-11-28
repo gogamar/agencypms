@@ -35,7 +35,7 @@ class Vrental < ApplicationRecord
       Date.today
     )
   }
-  scope :with_image_urls, -> { joins(:image_urls).where.not(image_urls: { url: nil }) }
+  scope :with_image_urls, -> { joins(:image_urls).where.not(image_urls: { id: nil }).distinct }
 
   scope :with_past_year_rates, -> {
     joins(:rates)
@@ -117,14 +117,12 @@ class Vrental < ApplicationRecord
 
   def find_price(date)
     specific_date = date.is_a?(Date) ? date : Date.parse(date)
+    matching_rate = future_rates.find do |future_rate|
+      (future_rate.firstnight..future_rate.lastnight).cover?(specific_date)
+    end
 
-    future_rates.each do |rate|
-      first_night = rate.firstnight
-      last_night = rate.lastnight
-
-      if (first_night..last_night).cover?(specific_date)
-        return rate.pricenight
-      end
+    if matching_rate
+      return price_per == "night" ? matching_rate.pricenight : matching_rate.priceweek / 7
     end
   end
 
@@ -211,9 +209,27 @@ class Vrental < ApplicationRecord
       .first
   end
 
-  def lowest_future_price_night
-    lookup_vrental = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
-    lookup_vrental.future_rates.minimum(:pricenight) || lookup_vrental.future_rates.minimum(:priceweek) / 7
+  def lowest_future_price
+    vrental_rate_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
+    vrental_availability_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
+
+    future_discounts = vrental_availability_instance.availabilities.where("date > ?", Date.today).where.not(inventory: 0).where("multiplier < ? AND multiplier > ?", 100, 0)
+
+    if vrental_rate_instance.price_per == "night"
+      lowest_nightprice = vrental_rate_instance.future_rates.minimum(:pricenight) if vrental_rate_instance.future_rates.present?
+      lowest_rate_price = { "night" => lowest_nightprice } if lowest_nightprice.present?
+    else
+      lowest_weekprice = vrental_rate_instance.future_rates.minimum(:priceweek).to_f if vrental_rate_instance.future_rates.present?
+      lowest_rate_price = { "week" => lowest_weekprice } if lowest_weekprice.present?
+    end
+
+    if future_discounts.exists?
+      biggest_discount = future_discounts.order(multiplier: :asc).first
+      price_on_date = vrental_rate_instance.find_price(biggest_discount.date)
+      lowest_discount_price = { "night" => (price_on_date.to_f * (biggest_discount.multiplier.to_f / 100)) } if price_on_date.present?
+    end
+
+    lowest_discount_price.present? ? lowest_discount_price : lowest_rate_price
   end
 
   def other_statements_dates(statement=nil)

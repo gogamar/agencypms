@@ -37,7 +37,7 @@
                 <div class="listing-short-detail-wrap">
                   <div class="listing-short-detail">
                     <div class="d-flex align-items-center">
-                      <% if vrental.rental_term %>
+                      <% if vrental.rental_term.present? %>
                         <span class="label bg-light-success text-success prt-type me-2"><%= t(vrental.rental_term) %></span>
                       <% end %>
                       <% if vrental.property_type %>
@@ -67,7 +67,9 @@
                 <div class="list-fx-features d-flex align-items-center justify-content-between">
                   <div class="listing-card d-flex align-items-center">
                     <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-building-shield fs-xs"></i></div>
-                    <span class="text-muted-2 fs-sm"><%= vrental.max_guests %> <%= t("guest", count: vrental.max_guests) %></span>
+                    <% if vrental.max_guests.present? %>
+                      <span class="text-muted-2 fs-sm"><%= vrental.max_guests %> <%= t("guest", count: vrental.max_guests) %></span>
+                    <% end %>
                   </div>
                   <div class="listing-card d-flex align-items-center">
                     <div class="square--25 text-muted-2 fs-sm circle gray-simple me-2"><i class="fa-solid fa-bed fs-xs"></i></div>
@@ -81,12 +83,13 @@
               </div>
               <div class="listing-detail-footer d-flex align-items-center justify-content-between py-4">
                 <div class="listing-short-detail-flex">
-                  <% lowest_price = vrental.lowest_future_price_night %>
+                  <% lowest_price = vrental.lowest_future_price&.values.first %>
+                  <% price_period = vrental.lowest_future_price&.keys.first %>
                   <span class="d-flex label bg-light-success text-success prt-type text-sm"><%= t("from") %>
                     <h6 class="listing-card-info-price line-height-1 mx-2">
                       <%= number_to_currency(lowest_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
                     </h6>
-                    <%= t("night") %></span>
+                    <%= t(price_period) %></span>
                 </div>
                 <div class="footer-flex">
                   <%= link_to book_property_path(vrental_id: vrental.id), class: "prt-view" do %>

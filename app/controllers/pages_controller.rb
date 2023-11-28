@@ -14,7 +14,7 @@ class PagesController < ApplicationController
     # @featured_vrentals = @vrentals
     #                       .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
     #                       .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
-    @featured_vrentals = Vrental.with_future_rates.with_image_urls
+    @featured_vrentals = @vrentals.with_image_urls.with_future_rates
 
     if @featured_vrentals.count >= 6
       @featured_vrentals = @featured_vrentals.shuffle.take(6)
