@@ -36,6 +36,7 @@ module Api
           beds_booking_id: bookid,
           vrental_id: vrental.id
         )
+        # fixme - need to create a tourist also
 
         (checkin..checkout).each do |date|
           update_inventory(vrental, date, -1)
@@ -76,14 +77,15 @@ module Api
     private
 
     def update_inventory(vrental, date, change)
-      availability = vrental.availabilities.find_by(date: date.to_date)
+      vrental_instance = vrental.availability_master_id.present? ? vrental.vrgroup.vrentals.find_by(availability_master_id) : vrental
+      availability = vrental_instance.availabilities.find_by(date: date.to_date)
       if availability
         availability.inventory += change
         availability.save
       elsif change.negative?
-        vrental_inventory = vrental.unit_number.present? ? vrental.unit_number : 1
+        vrental_inventory = vrental_instance.unit_number.present? ? vrental_instance.unit_number : 1
         vrental_inventory += change
-        vrental.availabilities.create(date: date.to_date, inventory: vrental_inventory)
+        vrental_instance.availabilities.create(date: date.to_date, inventory: vrental_inventory)
         availability.save
       end
     end

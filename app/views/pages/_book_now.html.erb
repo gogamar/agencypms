@@ -17,6 +17,11 @@
     </div>
     <div class="sidetab-content mb-2">
       <div class="side-booking-body">
+        <% if @vrental.rental_term.present? && @vrental.rental_term == "medium_term" %>
+          <div class="d-flex justify-content-end">
+            <span class="badge bg-info"><%= t("min_stay", min_stay: @vrental.min_stay) %></span>
+          </div>
+        <% end %>
         <%= form_with url: confirm_booking_path, data: { controller: 'search', available: @vrental.future_available_dates.to_json, min_advance: @vrental.min_advance, min_stay: @checkin.present? ? @vrental.initial_rate(@checkin)&.min_stay || 0 : 0  }, method: :get, 'data-turbo-cache': false do |form| %>
           <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>

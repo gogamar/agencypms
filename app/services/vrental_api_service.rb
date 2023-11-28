@@ -6,6 +6,7 @@ class VrentalApiService
   # return error messages to controller so that an appropriate flash message can be displayed
 
   def get_availability_from_beds(checkin, checkout, guests)
+    vrental_instance = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
     begin
       client = BedsHelper::Beds.new
 
@@ -17,7 +18,7 @@ class VrentalApiService
       end
 
       options = {
-        "propId": @vrental.beds_prop_id,
+        "propId": vrental_instance.beds_prop_id,
         "checkIn": formatted_checkin,
         "checkOut": formatted_checkout,
         "numAdult": guests || 1
@@ -32,17 +33,17 @@ class VrentalApiService
       parsed_response = JSON.parse(response.body)
 
       result = {}
-      if parsed_response[@vrental.beds_room_id]["roomsavail"] != "0"
-        vrental_rate_price = @vrental.rate_price(checkin, checkout)
-        updated_price = parsed_response[@vrental.beds_room_id]["price"]
-        coupon_price = @vrental.price_with_coupon(updated_price)
+      if parsed_response[vrental_instance.beds_room_id]["roomsavail"] != "0"
+        vrental_rate_price = vrental_instance.rate_price(checkin, checkout)
+        updated_price = parsed_response[vrental_instance.beds_room_id]["price"]
+        coupon_price = vrental_instance.price_with_coupon(updated_price)
         result["ratePrice"] = vrental_rate_price.round(2) if vrental_rate_price
         result["updatedPrice"] = updated_price
         result["couponPrice"] = coupon_price.round(2).to_f if coupon_price
-        if (parsed_response[@vrental.beds_room_id]["price"]).nil?
+        if (parsed_response[vrental_instance.beds_room_id]["price"]).nil?
           result["notAvailable"] = "No availability"
         end
-      elsif parsed_response[@vrental.beds_room_id]["roomsavail"] == "0"
+      elsif parsed_response[vrental_instance.beds_room_id]["roomsavail"] == "0"
         result["notAvailable"] = "No availability"
       end
       puts "this is the result: #{result}"
