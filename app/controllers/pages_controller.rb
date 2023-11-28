@@ -11,10 +11,10 @@ class PagesController < ApplicationController
     @meta_title = t('meta_titles.home')
     @meta_description = t('meta_descriptions.home')
     # fixme: make these featured rentals set on the dashboard or a combination of featured and available
-    @featured_vrentals = @vrentals
-                          .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
-                          .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
-    @featured_vrentals = @featured_vrentals.with_future_rates
+    # @featured_vrentals = @vrentals
+    #                       .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
+    #                       .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
+    @featured_vrentals = Vrental.with_future_rates.with_image_urls
 
     if @featured_vrentals.count >= 6
       @featured_vrentals = @featured_vrentals.shuffle.take(6)

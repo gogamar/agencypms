@@ -35,6 +35,7 @@ class Vrental < ApplicationRecord
       Date.today
     )
   }
+  scope :with_image_urls, -> { joins(:image_urls).where.not(image_urls: { url: nil }) }
 
   scope :with_past_year_rates, -> {
     joins(:rates)
