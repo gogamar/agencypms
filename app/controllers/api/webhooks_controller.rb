@@ -36,6 +36,10 @@ module Api
           beds_booking_id: bookid,
           vrental_id: vrental.id
         )
+
+        (checkin..checkout).each do |date|
+          update_inventory(vrental, date, -1)
+        end
       when "modify"
         existing_booking = Booking.find_by(beds_booking_id: bookid)
         existing_booking&.update(
@@ -50,15 +54,39 @@ module Api
           price: w_price,
           vrental_id: vrental.id
         )
+        (existing_checkin..existing_checkout).each do |date|
+          update_inventory(vrental, date, 1)
+        end
+
+        (new_checkin..new_checkout).each do |date|
+          update_inventory(vrental, date, -1)
+        end
       when "cancel"
         existing_booking = Booking.find_by(beds_booking_id: bookid)
         existing_booking&.update(status: '0')
+
+        (checkin..checkout).each do |date|
+          update_inventory(vrental, date, 1)
+        end
       end
 
       head :ok
     end
 
     private
+
+    def update_inventory(vrental, date, change)
+      availability = vrental.availabilities.find_by(date: date.to_date)
+      if availability
+        availability.inventory += change
+        availability.save
+      elsif change.negative?
+        vrental_inventory = vrental.unit_number.present? ? vrental.unit_number : 1
+        vrental_inventory += change
+        vrental.availabilities.create(date: date.to_date, inventory: vrental_inventory)
+        availability.save
+      end
+    end
 
     def verify_authentication_token
       expected_token = ENV['WEBHOOK_TOKEN']
