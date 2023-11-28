@@ -122,7 +122,7 @@ class Vrental < ApplicationRecord
     end
 
     if matching_rate
-      return price_per == "night" ? matching_rate.pricenight : matching_rate.priceweek / 7
+      return matching_rate.priceweek.present? ? matching_rate.priceweek / 7 : matching_rate.pricenight
     end
   end
 
