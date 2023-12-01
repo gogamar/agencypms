@@ -1,6 +1,8 @@
 class TaskPolicy < ApplicationPolicy
   class Scope < Scope
-    scope.where(user: user)
+    def resolve
+      scope.where(user: user)
+    end
   end
 
   def show?
