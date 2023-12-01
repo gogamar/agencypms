@@ -60,6 +60,8 @@
                     <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
                   </span>
                 </div>
+                <%= f.label :confirmed_at %>
+                <%= f.text_field :confirmed_at %>
               </div>
               <div class="form-actions d-grid">
                 <%= f.button :submit, t(".update"), class: "btn btn-primary" %>

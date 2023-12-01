@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:update, :destroy]
 
   def purge_photo
     current_user.photo.purge
@@ -8,19 +7,10 @@ class UsersController < ApplicationController
   end
 
   def index
-    if current_user.admin?
-      @users = policy_scope(User).where.not(id: current_user.id)
-    else
-      redirect_back fallback_location: root_path, notice: "No estàs autoritzat a accedir a aquesta pàgina."
-    end
-  end
-
-  def edit
-    authorize @user
+    @users = policy_scope(User).where.not(id: current_user.id)
   end
 
   def update
-    authorize @user
     if @user.update(user_params)
       redirect_back fallback_location: users_path, notice: 'Has actualitzat l\'usuari.'
     else
@@ -29,7 +19,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize @user
     @user.destroy
     redirect_back fallback_location: users_path, notice: 'Has esborrat l\'usuari.'
   end
@@ -38,6 +27,7 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+    authorize @user
   end
 
   def user_params

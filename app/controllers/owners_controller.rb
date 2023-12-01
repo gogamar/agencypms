@@ -1,5 +1,5 @@
 class OwnersController < ApplicationController
-  before_action :set_owner, only: [:show, :edit, :update, :destroy]
+  before_action :set_owner, only: [:show, :edit, :update, :destroy, :grant_access]
 
   def index
     all_owners = policy_scope(Owner).order(created_at: :desc)
@@ -18,8 +18,6 @@ class OwnersController < ApplicationController
   end
 
   def show
-    authorize @owner
-
     respond_to do |format|
       format.html do
         render :show
@@ -64,12 +62,10 @@ class OwnersController < ApplicationController
   end
 
   def edit
-    authorize @owner
   end
 
   def update
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
-    authorize @owner
     if @owner.update(owner_params)
       if params[:vrental_id].present?
         redirect_back(fallback_location: edit_vrental_path(@vrental), notice: 'Has modificat el propietari.')
@@ -82,8 +78,6 @@ class OwnersController < ApplicationController
   end
 
   def destroy
-    authorize @owner
-
     vrentals = @owner.vrentals
     vrentals.update_all(owner_id: nil) # Dissociate vrentals from owner
 
@@ -94,10 +88,16 @@ class OwnersController < ApplicationController
     end
   end
 
+  def grant_access
+    @owner.grant_access(@company)
+    redirect_to owners_path, notice: "S'ha concedit l'accés al propietari."
+  end
+
   private
 
   def set_owner
     @owner = Owner.find(params[:id])
+    authorize @owner
   end
 
   def owner_params

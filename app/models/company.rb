@@ -2,6 +2,8 @@ class Company < ApplicationRecord
   belongs_to :admin, class_name: "User", foreign_key: "user_id"
   has_many :users
   has_many :offices
+  has_many :vrentaltemplates
+  has_many :features
   has_many :rate_plans
   has_one_attached :logo
   # validate :user_can_create_only_one_company, on: :create

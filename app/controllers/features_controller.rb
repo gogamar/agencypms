@@ -13,15 +13,14 @@ class FeaturesController < ApplicationController
   end
 
   def show
-    authorize @feature
   end
 
   def edit
-    authorize @feature
   end
 
   def create
     @feature = Feature.new(feature_params)
+    @feature.company = @company
     authorize @feature
     if @feature.save
       redirect_to features_path, notice: 'Has afegit una nova caracteristica.'
@@ -31,7 +30,6 @@ class FeaturesController < ApplicationController
   end
 
   def update
-    authorize @feature
     if @feature.update(feature_params)
       redirect_to features_path, notice: 'Has actualitzat la caracteristica.'
     else
@@ -40,7 +38,6 @@ class FeaturesController < ApplicationController
   end
 
   def destroy
-    authorize @feature
     @feature.destroy
     redirect_to vrental_path(@feature.vrental), notice: 'Has esborrat la caracteristica.'
   end
@@ -49,9 +46,10 @@ class FeaturesController < ApplicationController
 
   def set_feature
     @feature = Feature.find(params[:id])
+    authorize @feature
   end
 
   def feature_params
-    params.require(:feature).permit(:name, :highlight, :vrental_id)
+    params.require(:feature).permit(:name, :highlight, :vrental_id, :company_id)
   end
 end

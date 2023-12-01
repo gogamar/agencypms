@@ -313,7 +313,9 @@ class VrentalsController < ApplicationController
 
   def create
     @vrental = Vrental.new(vrental_params)
-    @vrental.user_id = current_user.id
+    unless current_user.admin?
+      @vrental.owner = current_user.owner
+    end
     authorize @vrental
 
     if @vrental.save

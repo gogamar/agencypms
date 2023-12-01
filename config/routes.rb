@@ -119,6 +119,9 @@ Rails.application.routes.draw do
       collection do
         get 'filter'
       end
+      member do
+        get 'grant_access'
+      end
     end
 
     resources :vrentaltemplates do

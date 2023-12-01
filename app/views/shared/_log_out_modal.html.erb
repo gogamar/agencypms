@@ -24,7 +24,7 @@
         >
           Cancel·lar
         </button>
-        <%= button_to "Sortir", destroy_user_session_path, method: :delete, form: {  data: { turbo: :false } }, class: "btn btn-primary" %>
+        <%= button_to "Sortir", destroy_user_session_path, method: :delete, data: {turbo_method: :delete}, class: "btn btn-primary" %>
       </div>
         </div>
       </div>

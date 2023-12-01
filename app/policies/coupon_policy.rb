@@ -1,12 +1,12 @@
 class CouponPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      user.admin? ? scope.all : scope.where(office_id: user.offices.pluck(:office_id))
+      scope.all if user.admin? || user.manager?
     end
   end
 
   def show?
-    user.admin? || user.offices.exists?(record.office_id)
+    user.admin? || user.manager?
   end
 
   def new?
@@ -22,14 +22,14 @@ class CouponPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || user.offices.exists?(record.office_id)
+    user.admin? || user.manager?
   end
 
   def apply_to_all?
-    user.admin? || user.offices.exists?(record.office_id)
+    user.admin? || user.manager?
   end
 
   def destroy?
-    user.admin? || user.offices.exists?(record.office_id)
+    user.admin? || user.manager?
   end
 end

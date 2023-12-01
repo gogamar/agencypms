@@ -1,12 +1,10 @@
 class Vrental < ApplicationRecord
   require 'net/http'
   include ActionView::Helpers::NumberHelper
-  belongs_to :user
   belongs_to :owner, optional: true
+  belongs_to :office, optional: true
   belongs_to :town, optional: true
-  belongs_to :office
   belongs_to :rate_plan, optional: true
-  belongs_to :town, optional: true
   belongs_to :vrgroup, optional: true
   belongs_to :rate_master, class_name: 'Vrental', optional: true
   belongs_to :availability_master, class_name: 'Vrental', optional: true
@@ -84,6 +82,14 @@ class Vrental < ApplicationRecord
     2027 => Date.new(2027,3,20),
     2028 => Date.new(2028,4,8)
   }
+
+  def vrental_company
+    if office.present?
+      office.company
+    elsif owner.present?
+      owner.user.company
+    end
+  end
 
   def all_group_photos_imported?
     return if vrgroup.nil?

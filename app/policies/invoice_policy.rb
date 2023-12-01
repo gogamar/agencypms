@@ -1,25 +1,28 @@
 class InvoicePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(vrental_id: user.vrentals.pluck(:id))
+      if user.admin? || user.manager?
+        scope.all
+      elsif user.owner.present?
+        scope.where(vrental_id: user.owner.vrentals.pluck(:id))
+      end
     end
   end
 
-  def download_all?
-    # FIXME: This is temporary
-    user.admin?
-  end
-
   def show?
-    user.vrentals.exists?(record.vrental_id)
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 
   def new?
     return create?
   end
 
+  def unlock?
+    return update?
+  end
+
   def create?
-    return true
+    user.admin? || user.manager?
   end
 
   def edit?
@@ -27,10 +30,10 @@ class InvoicePolicy < ApplicationPolicy
   end
 
   def update?
-    record.vrental.user == user
+    user.admin? || user.manager?
   end
 
   def destroy?
-    user.vrentals.exists?(record.vrental_id)
+    user.admin?
   end
 end

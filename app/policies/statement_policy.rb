@@ -1,16 +1,20 @@
 class StatementPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(vrental_id: user.vrentals.pluck(:id))
+      if user.admin? || user.manager?
+        scope.all
+      elsif user.owner.present?
+        scope.where(vrental_id: user.owner.vrentals.pluck(:id))
+      end
     end
   end
 
-  def show?
-    user.vrentals.exists?(record.vrental_id)
+  def annual_statement?
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 
-  def annual_statement?
-    user.admin? || record.user == user
+  def show?
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 
   def new?
@@ -18,7 +22,7 @@ class StatementPolicy < ApplicationPolicy
   end
 
   def create?
-    return true
+    user.admin? || user.manager?
   end
 
   def edit?
@@ -26,10 +30,10 @@ class StatementPolicy < ApplicationPolicy
   end
 
   def update?
-    record.vrental.user == user
+    user.admin? || user.manager?
   end
 
   def destroy?
-    user.vrentals.exists?(record.vrental_id)
+    user.admin?
   end
 end

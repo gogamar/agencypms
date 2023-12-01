@@ -1,12 +1,18 @@
 class BookingPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(vrental_id: user.vrentals.pluck(:id))
+      if user.admin? || user.manager?
+        scope.all
+      elsif user.owner.present?
+        scope.where(vrental_id: user.owner.vrentals.pluck(:id))
+      elsif user.tourist.present?
+        scope.where(tourist_id: user.tourist.id)
+      end
     end
   end
 
   def show?
-    user.vrentals.exists?(record.vrental_id)
+    user.admin? || user.vrental_manager(record) || user.vrental_owner(record)
   end
 
   def new?
@@ -22,10 +28,10 @@ class BookingPolicy < ApplicationPolicy
   end
 
   def update?
-    record.vrental.user == user
+    user.admin? || user.vrental_manager(record) || user.vrental_owner(record)
   end
 
   def destroy?
-    user.vrentals.exists?(record.vrental_id)
+    user.admin?
   end
 end

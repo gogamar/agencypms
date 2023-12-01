@@ -14,7 +14,7 @@ class RegionPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    user.admin? || user.manager?
   end
 
   def edit?
@@ -22,7 +22,7 @@ class RegionPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    user.admin? || user.manager?
   end
 
   def destroy?

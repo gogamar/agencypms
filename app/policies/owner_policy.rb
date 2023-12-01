@@ -1,15 +1,12 @@
 class OwnerPolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
-      # scope.all # If users can see all records
-      # show only the records that have the same user_id as current user (user_id: user.id)
-      scope.where(user: user) # If users can only see their records
-      # scope.where("name LIKE 't%'") # If users can only see records starting with `t`
+      user.admin? || user.manager? ? scope.all : scope.where(user: user)
     end
   end
+
   def show?
-    record.user == user
+    user.admin? || user.manager? || record.user == user
   end
 
   def copy?
@@ -29,10 +26,14 @@ class OwnerPolicy < ApplicationPolicy
   end
 
   def update?
-    record.user == user
+    user.admin? || user.manager? || record.user == user
+  end
+
+  def grant_access?
+    user.admin? || user.manager?
   end
 
   def destroy?
-    record.user == user
+    user.admin? || user.manager?
   end
 end

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "Sistach Rentals Web <sistachrentals.web@gmail.com>"
+  default from: "Sistach Rentals <info@sistachrentals.com>"
   layout "mailer"
 end

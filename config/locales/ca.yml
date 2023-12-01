@@ -729,6 +729,9 @@ ca:
   no_checkout: Sortida no permesa
   no_checkin_out: Entrada i sortida no permeses
   blackout: Bloqueig
+  grant_access: Concedir accés
+  withdraw_access: Retirar accés
+  are_you_sure: Segur que vols procedir amb aquesta acció?
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

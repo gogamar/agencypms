@@ -1,6 +1,6 @@
 class Vrentaltemplate < ApplicationRecord
   has_many :vragreements
-  belongs_to :user
+  belongs_to :company
   validates :title, presence: true
   validates :language, presence: true
 

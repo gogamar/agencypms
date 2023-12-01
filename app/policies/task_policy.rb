@@ -1,13 +1,8 @@
 class TaskPolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    def resolve
-      # scope.all # If users can see all records
-      # show only the records that have the same user_id as current user (user_id: user.id)
-      scope.where(user: user) # If users can only see their records
-      # scope.where("name LIKE 't%'") # If users can only see records starting with `t`
-    end
+    scope.where(user: user)
   end
+
   def show?
     record.user == user
   end

@@ -6,7 +6,6 @@ class VrentaltemplatesController < ApplicationController
   end
 
   def show
-    authorize @vrentaltemplate
   end
 
   def new
@@ -15,7 +14,6 @@ class VrentaltemplatesController < ApplicationController
   end
 
   def edit
-    authorize @vrentaltemplate
   end
 
   def copy
@@ -25,12 +23,11 @@ class VrentaltemplatesController < ApplicationController
     authorize @vrentaltemplate
     @vrentaltemplate.save!
     redirect_to vrentaltemplates_path, notice: "S'ha creat una còpia de l'model de contracte #{@vrentaltemplate.title}."
-    # render :new
   end
 
   def create
     @vrentaltemplate = Vrentaltemplate.new(vrentaltemplate_params)
-    @vrentaltemplate.user_id = current_user.id
+    @vrentaltemplate.company_id = @company.id
     authorize @vrentaltemplate
     if @vrentaltemplate.save
       redirect_to edit_vrentaltemplate_path(@vrentaltemplate), notice: 'Has creat un nou model de contracte de lloguer turístic.'
@@ -40,7 +37,6 @@ class VrentaltemplatesController < ApplicationController
   end
 
   def update
-    authorize @vrentaltemplate
     if params[:commit] == "Desar com model de contracte nou"
       @vrentaltemplate = Vrentaltemplate.new(vrentaltemplate_params)
       @vrentaltemplate.save!
@@ -53,26 +49,19 @@ class VrentaltemplatesController < ApplicationController
     end
   end
 
-  # DELETE /vrentaltemplates/1
   def destroy
-    authorize @vrentaltemplate
     @vrentaltemplate.destroy
     redirect_to vrentaltemplates_path, notice: 'El model de contracte s\'ha esborrat.'
-    # if @vrentaltemplate.agreement
-    #   redirect_to vrentaltemplates_path, notice: 'El model de contracte no s\'ha pogut esborrar perque s'utilitza per un contracte.'
-    # else
-    #   redirect_to vrentaltemplates_path, notice: 'El model de contracte s\'ha esborrat.'
-    # end
   end
 
   private
 
   def set_vrentaltemplate
     @vrentaltemplate = Vrentaltemplate.find(params[:id])
+    authorize @vrentaltemplate
   end
 
-  # Only allow a list of trusted parameters through.
   def vrentaltemplate_params
-    params.require(:vrentaltemplate).permit(:title, :text, :language, :public)
+    params.require(:vrentaltemplate).permit(:title, :text, :language, :public, :company_id)
   end
 end

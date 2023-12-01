@@ -1,4 +1,5 @@
 class ContactFormMailer < ApplicationMailer
+  default from: "Sistach Rentals <info@sistachrentals.com>"
   default to: 'info@sistachrentals.com'
 
   def contact_email(contact_form, company_language)

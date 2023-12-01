@@ -1,5 +1,5 @@
 class AdminMailer < ApplicationMailer
-  default from: 'info@sistachrentals.com'
+  default from: "Sistach Rentals <info@sistachrentals.com>"
   layout 'mailer'
 
   def new_user_waiting_for_approval(email)

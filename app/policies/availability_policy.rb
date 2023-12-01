@@ -1,7 +1,11 @@
 class AvailabilityPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(vrental_id: user.vrentals.pluck(:id))
+      if user.admin? || user.manager?
+        scope.all
+      else
+        scope.where(vrental_id: user.owner.present? && user.owner.vrentals.pluck(:id))
+      end
     end
   end
 
@@ -18,10 +22,10 @@ class AvailabilityPolicy < ApplicationPolicy
   end
 
   def update?
-    record.vrental.user == user
+    user.admin? || user.vrental_manager(record) || user.vrental_owner(record)
   end
 
   def destroy?
-    user.admin? || user.vrentals.exists?(record.vrental_id)
+    user.admin?
   end
 end

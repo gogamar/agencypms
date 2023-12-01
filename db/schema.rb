@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -76,29 +76,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bedroom_id"], name: "index_beds_on_bedroom_id"
-  end
-
-  create_table "blocks", force: :cascade do |t|
-    t.string "title_en"
-    t.string "title_ca"
-    t.string "title_es"
-    t.string "title_fr"
-    t.string "subtitle_en"
-    t.string "subtitle_ca"
-    t.string "subtitle_es"
-    t.string "subtitle_fr"
-    t.text "content_en"
-    t.text "content_ca"
-    t.text "content_es"
-    t.text "content_fr"
-    t.string "button_en"
-    t.string "button_ca"
-    t.string "button_es"
-    t.string "button_fr"
-    t.bigint "page_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_blocks_on_page_id"
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -223,9 +200,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "beds_room_id"
-    t.bigint "user_id"
     t.boolean "highlight", default: false
-    t.index ["user_id"], name: "index_features_on_user_id"
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_features_on_company_id"
   end
 
   create_table "features_vrentals", id: false, force: :cascade do |t|
@@ -297,20 +274,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.string "beds_room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
+    t.bigint "office_id"
+    t.index ["office_id"], name: "index_owners_on_office_id"
     t.index ["user_id"], name: "index_owners_on_user_id"
-  end
-
-  create_table "pages", force: :cascade do |t|
-    t.string "title_en"
-    t.string "title_ca"
-    t.string "title_es"
-    t.string "title_fr"
-    t.string "page_type"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_pages_on_user_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -420,6 +387,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_tourists_on_user_id"
   end
 
   create_table "towns", force: :cascade do |t|
@@ -444,12 +413,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.datetime "updated_at", null: false
     t.boolean "approved", default: false, null: false
     t.bigint "company_id"
-    t.integer "role", default: 0
-    t.bigint "office_id"
+    t.integer "role"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["office_id"], name: "index_users_on_office_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -488,7 +459,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.text "description_es"
     t.text "description_fr"
     t.text "description_en"
-    t.bigint "user_id", null: false
     t.decimal "commission", precision: 10, scale: 4
     t.bigint "office_id"
     t.bigint "rate_plan_id"
@@ -524,7 +494,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["town_id"], name: "index_vrentals_on_town_id"
-    t.index ["user_id"], name: "index_vrentals_on_user_id"
     t.index ["vrgroup_id"], name: "index_vrentals_on_vrgroup_id"
   end
 
@@ -534,9 +503,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.boolean "public", default: false
-    t.index ["user_id"], name: "index_vrentaltemplates_on_user_id"
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_vrentaltemplates_on_company_id"
   end
 
   create_table "vrgroups", force: :cascade do |t|
@@ -553,7 +522,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
   add_foreign_key "bathrooms", "vrentals"
   add_foreign_key "bedrooms", "vrentals"
   add_foreign_key "beds", "bedrooms"
-  add_foreign_key "blocks", "pages"
   add_foreign_key "bookings", "tourists"
   add_foreign_key "bookings", "vrentals"
   add_foreign_key "charges", "bookings"
@@ -562,13 +530,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
   add_foreign_key "earnings", "bookings"
   add_foreign_key "earnings", "vrentals"
   add_foreign_key "expenses", "vrentals"
-  add_foreign_key "features", "users"
+  add_foreign_key "features", "companies"
   add_foreign_key "image_urls", "vrentals"
   add_foreign_key "invoices", "vrentals"
   add_foreign_key "offices", "companies"
   add_foreign_key "owner_payments", "statements"
   add_foreign_key "owners", "users"
-  add_foreign_key "pages", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "rate_periods", "rate_plans"
   add_foreign_key "rate_plans", "companies"
@@ -577,19 +544,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_093700) do
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
+  add_foreign_key "tourists", "users"
   add_foreign_key "towns", "regions"
   add_foreign_key "users", "companies"
-  add_foreign_key "users", "offices"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"
   add_foreign_key "vrentals", "owners"
   add_foreign_key "vrentals", "rate_plans"
   add_foreign_key "vrentals", "towns"
-  add_foreign_key "vrentals", "users"
   add_foreign_key "vrentals", "vrentals", column: "availability_master_id"
   add_foreign_key "vrentals", "vrentals", column: "rate_master_id"
   add_foreign_key "vrentals", "vrgroups"
-  add_foreign_key "vrentaltemplates", "users"
+  add_foreign_key "vrentaltemplates", "companies"
   add_foreign_key "vrgroups", "offices"
 end

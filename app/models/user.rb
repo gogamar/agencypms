@@ -1,23 +1,28 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :confirmable
+  has_one :owner, dependent: :nullify
+  has_one :tourist, dependent: :nullify
   has_many :tasks, dependent: :destroy
-  has_many :vrentals, dependent: :destroy
-  has_many :owners, dependent: :destroy
-  has_many :vrentaltemplates, dependent: :destroy
-  has_many :features, dependent: :destroy
-  has_many :vragreements, through: :vrentals
-  has_many :rates, through: :vrentals, dependent: :destroy
+  has_one :owned_company, class_name: "Company", foreign_key: "user_id"
   belongs_to :company, optional: true
   belongs_to :office, optional: true
-  has_one :owned_company, class_name: "Company", foreign_key: "user_id"
   has_one_attached :photo, dependent: :destroy
-  # after_create :send_welcome_email
+
+  attr_accessor :created_by_admin
+
   after_create :send_admin_mail
-  attribute :approved, :boolean, default: false
-  enum role: { tourist: 0, owner: 1, admin: 2, manager: 3}
+  enum role: [ "admin", "manager" ]
+
+  def vrental_manager(this_record)
+    manager? && office.present? && office.vrentals.exists?(this_record.vrental_id)
+  end
+
+  def vrental_owner(this_record)
+    owner.present? && owner.vrentals.exists?(this_record.vrental_id)
+  end
 
   def self.send_reset_password_instructions(attributes = {})
     recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
@@ -29,6 +34,19 @@ class User < ApplicationRecord
       end
     end
     recoverable
+  end
+
+
+  def send_reset_password_instructions_with_locale(lang)
+    I18n.with_locale(lang) do
+      send_reset_password_instructions
+    end
+  end
+
+  def send_confirmation_instructions_with_locale(lang)
+    I18n.with_locale(lang) do
+      send_confirmation_instructions
+    end
   end
 
   def active_for_authentication?
@@ -43,9 +61,5 @@ class User < ApplicationRecord
 
   def send_admin_mail
     AdminMailer.new_user_waiting_for_approval(email).deliver
-  end
-
-  def send_welcome_email
-    UserMailer.with(user: self).welcome.deliver_now
   end
 end

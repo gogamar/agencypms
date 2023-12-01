@@ -1,12 +1,12 @@
 class RatePeriodPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(rate_plan_id: user.company.rate_plans.pluck(:id))
+      scope.all
     end
   end
 
   def show?
-    user.company.rate_plans.exists?(record.rate_plan_id)
+    return true
   end
 
   def new?
@@ -14,7 +14,7 @@ class RatePeriodPolicy < ApplicationPolicy
   end
 
   def create?
-    return true
+    user.admin? || user.manager?
   end
 
   def edit?
@@ -22,12 +22,10 @@ class RatePeriodPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? && user.company.rate_plans.exists?(record.rate_plan_id)
-
+    user.admin? || user.manager?
   end
 
   def destroy?
-    user.admin? && user.company.rate_plans.exists?(record.rate_plan_id)
+    user.admin? || user.manager?
   end
-
 end

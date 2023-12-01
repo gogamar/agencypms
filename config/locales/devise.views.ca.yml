@@ -65,6 +65,7 @@ ca:
         instruction: Algú ha sol·licitat un enllaç per a canviar la teva contrasenya, pots fer-ho amb el següent enllaç.
         instruction_2: Si tu no ho has sol·licitat, si us plau ignora aquest email.
         instruction_3: La teva contrasenya no serà canviada fins que accedeixis a l'enllaç i en creïs una nova.
+        instruction_4: "Pots establir la nova contrasenya del teu compte a través d'aquest enllaç:"
         subject: Instruccions de regeneració de contrasenya
       unlock_instructions:
         action: Desbloquejar el meu compte

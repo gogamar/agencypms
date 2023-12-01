@@ -1,7 +1,7 @@
 class CompanyPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      user.admin? ? scope.all : scope.where(user_id: user.id)
+      scope.all if user.admin?
     end
   end
 

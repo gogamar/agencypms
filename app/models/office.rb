@@ -37,7 +37,6 @@ class Office < ApplicationRecord
             #   phone: bedsrental["template3"],
             #   account: bedsrental["template6"],
             #   beds_room_id: bedsrental["roomTypes"][0]["roomId"],
-            #   user_id: vrental.user_id
             #   )
             vrental = Vrental.create!(
               name: vrental_name,

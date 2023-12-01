@@ -6,8 +6,8 @@ export default class extends Controller {
     "discountIncluded",
     "rateMaster",
     "availabilityMaster",
-    "dependantRate",
-    "dependantAvailability",
+    "dependentRate",
+    "dependentAvailability",
     "masterVrental",
     "rateOffset",
   ];
@@ -26,12 +26,12 @@ export default class extends Controller {
   toggleRateMaster() {
     if (this.rateMasterTarget) {
       const rateMaster = this.rateMasterTarget.value;
-      const dependantRate = this.dependantRateTarget;
+      const dependentRate = this.dependentRateTarget;
       if (rateMaster === "false") {
-        dependantRate.classList.remove("d-none");
+        dependentRate.classList.remove("d-none");
       } else {
-        dependantRate.classList.add("d-none");
-        dependantRate.querySelectorAll("input, select").forEach((field) => {
+        dependentRate.classList.add("d-none");
+        dependentRate.querySelectorAll("input, select").forEach((field) => {
           if (
             field.type === "text" ||
             field.tagName.toLowerCase() === "select"
@@ -46,12 +46,12 @@ export default class extends Controller {
   toggleAvailabilityMaster() {
     if (this.availabilityMasterTarget) {
       const availabilityMaster = this.availabilityMasterTarget.value;
-      const dependantAvailability = this.dependantAvailabilityTarget;
+      const dependentAvailability = this.dependentAvailabilityTarget;
       if (availabilityMaster) {
-        dependantAvailability.classList.remove("d-none");
+        dependentAvailability.classList.remove("d-none");
       } else {
-        dependantAvailability.classList.add("d-none");
-        dependantAvailability
+        dependentAvailability.classList.add("d-none");
+        dependentAvailability
           .querySelectorAll("input, select")
           .forEach((field) => {
             if (

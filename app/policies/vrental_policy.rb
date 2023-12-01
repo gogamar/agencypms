@@ -1,7 +1,11 @@
 class VrentalPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      user.admin? ? scope.all : scope.where(user: user)
+      if user.admin? || user.manager?
+        scope.all
+      elsif user.owner.present?
+        scope.where(id: user.owner.vrentals.pluck(:id))
+      end
     end
   end
 
@@ -22,7 +26,7 @@ class VrentalPolicy < ApplicationPolicy
   end
 
   def fetch_earnings?
-    user.admin? || user.vrentals.include?(record)
+    user.admin?
   end
 
   def dashboard?
@@ -34,7 +38,7 @@ class VrentalPolicy < ApplicationPolicy
   end
 
   def show?
-    record.user == user
+    user.admin? || user.manager? || record.owner == user.owner
   end
 
   def copy?
@@ -62,23 +66,23 @@ class VrentalPolicy < ApplicationPolicy
   end
 
   def get_availabilities_from_beds?
-    user.admin? || record.user == user
+    user.admin? || user.manager?
   end
 
   def annual_statement?
-    user.admin? || record.user == user
+    user.admin? || user.manager? || record.owner == user.owner
   end
 
   def get_rates?
-    return update?
+    user.admin? || user.manager?
   end
 
   def get_bookings?
-    return update?
+    user.admin? || user.manager?
   end
 
   def prevent_gaps?
-    return update?
+    user.admin? || user.manager?
   end
 
   def upload_dates?
@@ -114,11 +118,11 @@ class VrentalPolicy < ApplicationPolicy
   end
 
   def update?
-    record.user == user
+    user.admin? || user.manager? || record.owner == user.owner
   end
 
   def destroy?
-    record.user == user
+    user.admin? || user.manager? || record.owner == user.owner
   end
 
   def add_photos?
@@ -138,15 +142,14 @@ class VrentalPolicy < ApplicationPolicy
   end
 
   def update_from_beds?
-    return update?
+    user.admin?
   end
 
   def update_owner_from_beds?
-    return update?
+    user.admin?
   end
 
   def import_from_group?
     return update?
   end
-
 end

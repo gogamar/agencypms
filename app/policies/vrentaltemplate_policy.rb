@@ -1,13 +1,12 @@
 class VrentaltemplatePolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
-      # scope.where(user: user).or(scope.where(user_id: User.where(admin: true).first.id).where(public: true)) # If users can only see their rentals
-      user.admin? ? scope.all : scope.where(user_id: user.id)
+      scope.all
     end
   end
+
   def show?
-    record.user == user
+    return true
   end
 
   def copy?
@@ -19,7 +18,7 @@ class VrentaltemplatePolicy < ApplicationPolicy
   end
 
   def create?
-    return true
+    user.admin? || user.manager?
   end
 
   def edit?
@@ -27,10 +26,10 @@ class VrentaltemplatePolicy < ApplicationPolicy
   end
 
   def update?
-    record.user == user
+    user.admin? || user.manager?
   end
 
   def destroy?
-    record.user == user
+    user.admin?
   end
 end

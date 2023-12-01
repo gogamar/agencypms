@@ -1,12 +1,12 @@
 class RatePlanPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(company_id: user.company)
+      scope.all
     end
   end
 
   def show?
-    record.company == user.company
+    return true
   end
 
   def new?
@@ -18,7 +18,7 @@ class RatePlanPolicy < ApplicationPolicy
   end
 
   def create?
-    return true
+    user.admin? || user.manager?
   end
 
   def edit?
@@ -26,14 +26,14 @@ class RatePlanPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? && user.owned_company == record.company
+    user.admin? || user.manager?
   end
 
   def destroy?
-    user.admin? && user.owned_company == record.company
+    user.admin? || user.manager?
   end
 
   def delete_periods?
-    user.admin? && user.owned_company == record.company
+    user.admin? || user.manager?
   end
 end

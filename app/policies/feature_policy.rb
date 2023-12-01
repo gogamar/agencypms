@@ -1,16 +1,12 @@
 class FeaturePolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
-      # scope.all # If users can see all features
-      # show only the agreements where vrental_id is the same as vacation rentals id that belong to the current user
-      scope.where(user: user)
-      # scope.where(vrental_id: user.features.select(:vrental_id)) # If users can only see the features of their vacation rentals
-      # scope.where("name LIKE 't%'") # If users can only see features starting with `t`
+      scope.all
     end
   end
+
   def show?
-    record.user == user
+    return true
   end
 
   def copy?
@@ -18,11 +14,11 @@ class FeaturePolicy < ApplicationPolicy
   end
 
   def new?
-    return create?
+    user.admin?
   end
 
   def create?
-    return true
+    user.admin?
   end
 
   def edit?
@@ -30,10 +26,10 @@ class FeaturePolicy < ApplicationPolicy
   end
 
   def update?
-    record.user == user
+    user.admin?
   end
 
   def destroy?
-    record.user == user
+    user.admin?
   end
 end

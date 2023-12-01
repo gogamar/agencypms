@@ -10,7 +10,7 @@ class ImageUrlPolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin? || user.vrentals.include?(record.vrental)
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 
   def create?
@@ -22,14 +22,14 @@ class ImageUrlPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || user.vrentals.include?(record.vrental)
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 
   def destroy?
-    user.admin? || user.vrentals.include?(record.vrental)
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 
   def move?
-    user.admin? || user.vrentals.include?(record.vrental)
+    user.admin? || user.manager? || user.vrental_owner(record)
   end
 end

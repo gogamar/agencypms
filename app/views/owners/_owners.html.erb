@@ -34,10 +34,13 @@
         <div class="col-lg-1 py-3" id="owner-language" relative>
           Idioma
         </div>
-        <div class="col-lg-2 py-3" id="owner-phone" relative>
+        <div class="col-lg-2 py-3" id="owner-language" relative>
+          Accès a web
+        </div>
+        <div class="col-lg-1 py-3" id="owner-phone" relative>
           Telèfon
         </div>
-        <div class="col-lg-3 py-3" id="owner-email" relative>
+        <div class="col-lg-2 py-3" id="owner-email" relative>
           Email
         </div>
         <div class="col-lg-2 py-3" id="owner-vrentals" relative>
@@ -50,11 +53,29 @@
     <div class="tbody">
       <% @owners.each do |owner| %>
         <div class="row border">
-          <div class="col-lg-3 align-self-center nowrap"><%= link_to owner.fullname, owner %></div>
+          <div class="col-lg-3 align-self-center"><%= link_to owner.fullname, owner, class: "link" %></div>
           <div class="col-lg-1 align-self-center"><%= owner.language if owner.language %></div>
-          <div class="col-lg-2 align-self-center"><%= owner.phone %></div>
-          <div class="col-lg-3 align-self-center nowrap"><%= owner.email %></div>
-          <div class="col-lg-2 align-self-center"><%= owner.vrentals.map {|vrental| vrental.name}.to_sentence  %></div>
+          <div class="col-lg-2 align-self-center">
+            <% if owner.user.present? && !(owner.user.role == "admin" || owner.user.role == "manager") %>
+              <i class="fas fa-check-circle text-success me-2"></i>
+              <%= link_to t("withdraw_access"), owner.user,
+                data: {turbo_method: :delete, turbo_confirm: t("are_you_sure")}, class: "text-danger text-decoration-none" %>
+            <% end  %>
+            <% if owner.user.blank? %>
+              <span class="spinner-border spinner-border-sm d-none" id="grant-access-spinner" role="status" aria-hidden="true"></span>
+              <%= link_to t('grant_access'), grant_access_owner_path(owner), id: "grant-access-link", onclick: "showSpinner();" %>
+            <% end %>
+          </div>
+          <div class="col-lg-1 align-self-center"><%= owner.phone %></div>
+          <div class="col-lg-2 align-self-center"><%= owner.email %></div>
+          <div class="col-lg-2 align-self-center">
+            <% owner.vrentals.each do |vrental| %>
+              <%= link_to vrental.name, vrental, class: "link" %>
+              <% if vrental != owner.vrentals.last %>
+                <span class="text-secondary">,</span>
+              <% end %>
+            <% end %>
+          </div>
           <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
             <%= link_to edit_owner_path(owner), class: "text-info text-decoration-none" do %>
               <i class="fas fa-edit fa-sm"></i>
@@ -71,3 +92,10 @@
     <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
   </div>
 <% end %>
+<script>
+  function showSpinner() {
+    document.getElementById("grant-access-link").style.display = "none";
+    document.getElementById("grant-access-spinner").classList.remove("d-none");
+    document.getElementById("grant-access-link").disabled = true;
+  }
+</script>

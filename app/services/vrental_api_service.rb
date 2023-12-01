@@ -305,7 +305,6 @@ class VrentalApiService
           phone: property["template3"],
           account: property["template6"],
           beds_room_id: property["roomTypes"][0]["roomId"],
-          user: @vrental.user,
           vrental_id: @vrental.id
           )
       end

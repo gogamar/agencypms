@@ -61,7 +61,7 @@ class Vragreement < ApplicationRecord
 
   def generate_contract_body(contract_rates)
     body = vrentaltemplate.text.to_s
-    Vragreement.parse_template(body, generate_details(contract_rates), vrental.user.company&.language)
+    Vragreement.parse_template(body, generate_details(contract_rates), @company.language)
   end
 
   def self.parse_template(template, attrs = {}, locale = :ca)
