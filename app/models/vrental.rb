@@ -15,10 +15,10 @@ class Vrental < ApplicationRecord
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
-  has_many :expenses, dependent: :nullify
-  has_many :earnings, dependent: :nullify
-  has_many :statements, dependent: :nullify
-  has_many :invoices, dependent: :nullify
+  has_many :expenses
+  has_many :earnings
+  has_many :statements
+  has_many :invoices
   has_many :availabilities, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons

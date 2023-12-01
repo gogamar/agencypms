@@ -1,6 +1,6 @@
 class Invoice < ApplicationRecord
   belongs_to :vrental
-  has_many :statements, dependent: :nullify
+  has_many :statements
 
   before_create :generate_invoice_number
   before_create :set_invoice_date
@@ -48,11 +48,7 @@ class Invoice < ApplicationRecord
   end
 
   def agency_commission_total
-    total = 0
-    statements.each do |statement|
-      total += statement.agency_commission
-    end
-    total.round(2)
+    statements&.sum { |statement| statement.agency_commission }&.round(2) || 0.0
   end
 
   def agency_vat_total

@@ -3,9 +3,9 @@ class Statement < ApplicationRecord
   validate :no_overlapping_statements
   validates :start_date, :end_date, :date, :location, presence: true
   belongs_to :invoice, optional: true
-  has_many :expenses, dependent: :nullify
-  has_many :earnings, dependent: :nullify
-  has_many :owner_payments, dependent: :destroy
+  has_many :expenses
+  has_many :earnings
+  has_many :owner_payments
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :earnings, reject_if: :all_blank, allow_destroy: true
   validate :start_and_end_dates_within_same_year

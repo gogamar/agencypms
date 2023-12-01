@@ -36,4 +36,8 @@ class InvoicePolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def download_all?
+    user.admin?
+  end
 end
