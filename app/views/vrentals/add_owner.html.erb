@@ -2,8 +2,7 @@
   <h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
   <h6 class="text-center"><%= t('property_owner') %></h6>
 </div>
-<%= simple_form_for @vrental, html: { "data-controller": "update-field" } do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@vrental, html: { "data-controller": "update-field"}, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_owner' %>
   <div class="p-3 mt-3 border border-secondary rounded-4" id="owner-details">

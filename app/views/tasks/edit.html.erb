@@ -1,14 +1,11 @@
-
-<%= simple_form_for @task do |f| %>
-<%= f.error_notification %>
-<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-<div class="form-inputs">
-  <% frame_id = dom_id(@task, "name_turbo_frame") %>
-  <%= turbo_frame_tag frame_id do %>
-    <%= f.input_field :start_time, as: :time, required: true, class: "edit-hour mb-1" %>
-    <%= f.input_field :title, required: true, class: "form-control form-control-sm mb-1" %>
-    <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-secondary' %>
-  <% end %>
-</div>
+<%= simple_form_for(@task, data: { turbo: false }) do |f| %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <% frame_id = dom_id(@task, "name_turbo_frame") %>
+    <%= turbo_frame_tag frame_id do %>
+      <%= f.input_field :start_time, as: :time, required: true, class: "edit-hour mb-1" %>
+      <%= f.input_field :title, required: true, class: "form-control form-control-sm mb-1" %>
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-secondary' %>
+    <% end %>
+  </div>
 <% end %>

@@ -1,8 +1,10 @@
 <h4 class="font-weight-bold text-primary text-center py-2">Factures</h4>
 <% if @invoices.present? %>
-  <div class="container d-flex justify-content-end">
-    <%= link_to 'Baixar factures en excel', download_all_invoices_path, class: 'btn btn-primary' %>
-  </div>
+  <% unless @vrental.present? %>
+    <div class="container d-flex justify-content-end">
+      <%= link_to 'Baixar factures en excel', download_all_invoices_path, class: 'btn btn-primary' %>
+    </div>
+  <% end %>
   <div class="container">
     <hr>
     <table class="table table-hover table-striped">
@@ -21,7 +23,7 @@
           <tr>
             <th scope="row"><%= invoice.invoice_number_formatted %></th>
             <td><%= l(invoice.date) %></td>
-            <td><%= link_to invoice.vrental.name, vrental_invoices_path(invoice.vrental) %></td>
+            <td><%= link_to invoice.vrental.name, invoice.vrental %></td>
             <td>
               <% if invoice.statements %>
                 <div class="d-flex flex-column">
@@ -33,6 +35,9 @@
             </td>
             <td class="text-end"><%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></td>
             <td>
+              <%= link_to edit_vrental_invoice_path(invoice.vrental, invoice), class: "text-secondary text-decoration-none" do %>
+                <i class="fas fa-edit fa-sm"></i>
+              <% end %>
               <% if Date.current == invoice.created_at.to_date %>
                 <%= link_to invoice, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta factura?"}, class: "text-danger text-decoration-none" do %>
                   <i class="fas fa-trash-can fa-sm"></i>
@@ -44,4 +49,6 @@
       </tbody>
     </table>
   </div>
+<% else %>
+  <p class="text-center"><%= t('no_invoices') %></p>
 <% end %>

@@ -1,6 +1,5 @@
 <h6 class="text-center"><%= t('property_details') %></h6>
-<%= simple_form_for @vrental do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'general_details' %>
   <%= f.association :office %>

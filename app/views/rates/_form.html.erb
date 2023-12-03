@@ -1,5 +1,4 @@
 <%= simple_form_for [vrental, rate], data: {turbo_frame: rate}, class: "text-sm" do |f| %>
-  <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div data-controller="unavailable-dates"
   data-defaultstart="<%= f.object.persisted? ? '' : @vrental.first_future_date_without_rate.to_json %>"

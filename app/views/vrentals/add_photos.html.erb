@@ -3,8 +3,7 @@
   <h6 class="text-center"><%= t('property_photos') %></h6>
 </div>
 <div class="select-photos d-flex justify-content-around align-items-end mb-3">
-  <%= simple_form_for @vrental, html: { class: 'col-lg-5 d-flex align-items-end me-3' } do |f| %>
-    <%= f.error_notification %>
+  <%= simple_form_for(@vrental, html: { class: 'col-lg-5 d-flex align-items-end me-3'}, data: { turbo: false }) do |f| %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <%= f.hidden_field :request_context, value: 'add_photos' %>
     <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false, placeholder: t("add_photos"), wrapper_html: { style: "margin-bottom: 0px !important"} %>
@@ -47,8 +46,7 @@
     </div>
   <% end %>
 </div>
-<%= simple_form_for @vrental do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'after_adding_photos' %>
   <div class="form-actions text-end mb-5">

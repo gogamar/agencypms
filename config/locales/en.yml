@@ -656,3 +656,4 @@ en:
   show_all_contracts: Show All Contracts
   add_new_contract_template: Add New Contract Template
   management: Management
+  invoice_zero_amount_error: An invoice must have at least one statement with an earning having an amount greater than 0.

@@ -1,7 +1,6 @@
 <%# If I want to update earning instantly, turbo_frame should be used, but then the page is not reloaded and the result of owner's net income is not updated %>
 <%# simple_form_for [vrental, earning], data: {turbo: false} do |f| %>
   <%= simple_form_for [vrental, earning], data: {turbo_frame: earning} do |f| %>
-    <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <div class="row my-1 border-bottom" data-controller="earning-calculator">
       <div class="col-lg-2">

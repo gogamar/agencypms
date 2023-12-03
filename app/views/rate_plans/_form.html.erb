@@ -1,5 +1,4 @@
-<%= simple_form_for(@rate_plan) do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@rate_plan, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <%= f.hidden_field :company_id, value: current_user.company.id %>

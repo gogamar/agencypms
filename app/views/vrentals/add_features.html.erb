@@ -2,8 +2,7 @@
   <h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
   <h6 class="text-center"><%= t('property_features') %></h6>
 </div>
-<%= simple_form_for @vrental do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_features' %>
   <%= f.input :feature_ids, label: false, as: :check_boxes, collection: Feature.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :horizontal_collection %>

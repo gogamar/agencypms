@@ -8,8 +8,7 @@
     <p>Ref. Beds24: <%= @booking.beds_booking_id %></p>
   </div>
   <hr>
-  <%= simple_form_for([@vrental, @booking]) do |f| %>
-    <%= f.error_notification %>
+  <%= simple_form_for [@vrental, @booking], html: { data: { turbo: false }} do |f| %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <h4 class="mt-4">Càrregs</h4>
     <% @booking.charges.each do |charge| %>

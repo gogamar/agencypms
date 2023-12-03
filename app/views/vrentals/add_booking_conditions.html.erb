@@ -2,8 +2,7 @@
   <h4 class="font-weight-bold text-primary text-center mb-2"><%= @vrental.name %></h4>
   <h6 class="text-center"><%= t('property_booking_conditions') %></h6>
 </div>
-<%= simple_form_for @vrental do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_booking_conditions' %>
   <%= f.input :unit_number, input_html: { value: f.object.unit_number || 1} %>

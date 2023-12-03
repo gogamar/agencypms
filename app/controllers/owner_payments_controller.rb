@@ -11,7 +11,6 @@ class OwnerPaymentsController < ApplicationController
     if @owner_payment.save
       redirect_to vrental_statements_path(@statement.vrental), notice: 'Has marcat la liquidació com pagada.'
     else
-      puts "these are owner payment errors: #{@owner_payment.errors.full_messages}"
       flash[:alert] = 'No s\'ha pogut marcar la liquidació com pagada.'
     end
   end

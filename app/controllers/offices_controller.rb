@@ -33,7 +33,6 @@ class OfficesController < ApplicationController
     if @office.update(office_params)
       redirect_to root_path, notice: "Oficina actualitzada."
     else
-      puts "OFFICE ERRORS: #{@office.errors.full_messages}"
       render :edit, status: :unprocessable_entity
     end
   end

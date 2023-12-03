@@ -5,8 +5,13 @@ class InvoicesController < ApplicationController
 
   def index
     @invoices = policy_scope(Invoice)
-    @invoices = @invoices.order(number: :asc)
-    @total_agency_fees_invoiced = Invoice.all.map(&:agency_total).sum
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+    if @vrental.present?
+      @invoices = @invoices.where(vrental_id: @vrental.id).order(number: :asc)
+    else
+      @invoices = @invoices.order(number: :asc)
+      @total_agency_fees_invoiced = Invoice.all.map(&:agency_total).sum
+    end
   end
 
   def download_all
@@ -96,7 +101,6 @@ class InvoicesController < ApplicationController
     if @invoice.save
       redirect_to vrental_statements_path(@vrental), notice: 'Has creat la factura.'
     else
-      puts "the invoice errors: #{@invoice.errors.full_messages}"
       render :new, status: :unprocessable_entity
     end
   end
@@ -107,7 +111,7 @@ class InvoicesController < ApplicationController
     if @invoice.update(invoice_params)
       redirect_to vrental_statements_path(@vrental), notice: 'Has actualitzat la factura.'
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to edit_vrental_invoice_path(@vrental, @invoice), alert: @invoice.errors.full_messages.join(', ')
     end
   end
 

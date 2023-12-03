@@ -1,6 +1,5 @@
 <% form_objects = @vrental ? [@vrental, @expense] : @expense %>
-<%= simple_form_for form_objects do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for form_objects, html: { data: { turbo: false }} do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <% if @vrental %>

@@ -1,7 +1,5 @@
-<%= simple_form_for task do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for task, html: { data: { turbo: false }} do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
   <div class="form-inputs">
     <% frame_id = dom_id(task, "name_turbo_frame") %>
     <%= turbo_frame_tag frame_id do %>
