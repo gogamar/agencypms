@@ -37,6 +37,8 @@
                     <a class="show" data-password-toggle-target="show" data-action="click->password-toggle#password"><i class="fas fa-eye-slash fa-sm"></i></a>
                   </span>
                 </div>
+                <%= flash[:recaptcha_error] %>
+                <%= recaptcha_tags %>
               </div>
               <div class="form-actions d-grid">
                 <%= f.button :submit, t(".sign_up"), class: "btn btn-primary" %>

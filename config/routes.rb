@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   post 'cookie_consent', to: 'pages#cookie_consent', as: 'cookie_consent'
 
   localized do
-    devise_for :users
-    resources :users
+    devise_for :users, controllers: { registrations: 'users/registrations' }
+    resources :users, only: [:index, :update, :destroy]
     root to: "pages#home", as: :root
     resources :tasks
     resources :tourists

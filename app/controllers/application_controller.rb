@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
 
   def skip_pundit?
     devise_controller? ||
-      params[:controller] =~ /(^(rails_)?admin)|(^pages$)|(^contact_forms$)|(^api\/webhooks$)/
+      params[:controller] =~ /(^(rails_)?admin)|(^registrations$)|(^pages$)|(^contact_forms$)|(^api\/webhooks$)/
   end
 
   def layout_by_resource
