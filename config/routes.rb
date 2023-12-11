@@ -92,6 +92,7 @@ Rails.application.routes.draw do
         end
       end
       resources :expenses
+      resources :owner_bookings, only: [:new, :edit, :create, :update, :index]
 
       resources :bookings do
         resources :payments

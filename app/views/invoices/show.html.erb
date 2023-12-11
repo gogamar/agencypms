@@ -1,14 +1,16 @@
 <div class="container">
   <div class="d-flex justify-content-between mb-3">
-    <div class="d-flex justify-content-between">
-      <div class="me-2"><%= link_to t('edit'), edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-secondary rounded-3" %></div>
-      <% if Date.current == @invoice.created_at.to_date %>
-        <div class="me-2">
-          <%= link_to t('delete'), vrental_invoice_path(@vrental, @invoice), class: "btn btn-danger",
+    <% if current_user.admin? || current_user.manager? %>
+      <div class="d-flex justify-content-between">
+        <div class="me-2"><%= link_to t('edit'), edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-secondary rounded-3" %></div>
+        <% if Date.current == @invoice.created_at.to_date %>
+          <div class="me-2">
+            <%= link_to t('delete'), vrental_invoice_path(@vrental, @invoice), class: "btn btn-danger",
               data: { turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la factura de #{@vrental.name}?" } %>
-        </div>
-      <% end %>
-    </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
     <div data-controller="spinner" >
       <%= link_to 'Factura en PDF', vrental_invoice_path(@vrental, @invoice, format: :pdf), class: "btn btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
     </div>
@@ -30,10 +32,10 @@
     <div class="row mb-2">
       <div class="col-6 p-2">
         <ul class="list-unstyled p-0">
-          <li class="font-weight-bold fw-bold"><%= @vrental.office&.company&.name %></li>
-          <li class="font-weight-bold fw-bold">CIF Nº: <%= @vrental.office&.company&.vat_number %></li>
-          <li><%= @vrental.office&.company&.street %></li>
-          <li><%= @vrental.office&.company&.post_code %> <%= @vrental.office&.company&.city %> <%= @vrental.office&.company&.region %></li>
+          <li class="font-weight-bold fw-bold"><%= @invoice.company.name %></li>
+          <li class="font-weight-bold fw-bold">CIF Nº: <%= @invoice.company.vat_number %></li>
+          <li><%= @invoice.company.street %></li>
+          <li><%= @invoice.company.post_code %> <%= @invoice.company.city %> <%= @invoice.company.region %></li>
         </ul>
       </div>
       <div class="col-6 text-right text-end p-2">

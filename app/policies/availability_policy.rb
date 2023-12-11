@@ -1,11 +1,7 @@
 class AvailabilityPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.admin? || user.manager?
-        scope.all
-      else
-        scope.where(vrental_id: user.owner.present? && user.owner.vrentals.pluck(:id))
-      end
+      scope.all if user.admin? || user.manager?
     end
   end
 

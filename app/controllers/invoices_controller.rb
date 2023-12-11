@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
-  before_action :set_vrental, except: [:index, :download_all]
+  before_action :set_vrental, except: [:index, :download_all, :destroy]
   # after_action :cleanup_temp_file, only: [:download_all]
 
   def index
@@ -62,7 +62,8 @@ class InvoicesController < ApplicationController
                   font_size: 9,
                   spacing: 30,
                   content: render_to_string(
-                    'shared/pdf_header'
+                    'shared/pdf_header',
+                    locals: { resource: @invoice }
                   )
                  },
                 formats: [:html],
@@ -94,6 +95,8 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new(invoice_params)
     authorize @invoice
     @invoice.vrental = @vrental
+    @invoice.date = Date.current
+    @invoice.company = @vrental.office.company || @company
 
     statement_ids = params[:invoice][:statement_ids]
     Statement.where(id: statement_ids).update_all(invoice_id: @invoice.id)
@@ -101,7 +104,7 @@ class InvoicesController < ApplicationController
     if @invoice.save
       redirect_to vrental_statements_path(@vrental), notice: 'Has creat la factura.'
     else
-      render :new, status: :unprocessable_entity
+      redirect_to new_vrental_invoice_path(@vrental, @invoice), alert: @invoice.errors.full_messages.join(', ')
     end
   end
 
@@ -138,7 +141,7 @@ class InvoicesController < ApplicationController
   end
 
   def invoice_params
-    params.require(:invoice).permit(:date, :location, :number, :vrental_id, statement_ids: [])
+    params.require(:invoice).permit(:date, :location, :number, :vrental_id, :company_id, statement_ids: [])
   end
 
   def cleanup_temp_file

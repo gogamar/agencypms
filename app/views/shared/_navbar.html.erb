@@ -35,36 +35,38 @@
               </div>
             </li>
           <% end %>
-          <li><a href="JavaScript:void(0);"><%= t('management') %><span class="submenu-indicator"></span></a>
-            <ul class="nav-dropdown nav-submenu">
-              <li><%= link_to vrentals_path do %>
-                  <i class="fa-solid fa-house-circle-check me-2"></i><%= t("vrentals") %>
-                <% end %></li>
-              <li><%= link_to owners_path do %>
-                  <i class="fa-solid fa-house-user me-2"></i><%= t("owners") %>
-                <% end %></li>
-              <li><%= link_to vragreements_path do %>
-                  <i class="fa-solid fa-file-signature me-2"></i><%= t("contracts") %>
-                <% end %></li>
-              <li><%= link_to vrentaltemplates_path do %>
-                  <i class="fa-solid fa-file me-2"></i><%= t("contract_templates") %>
-                <% end %></li>
-            </ul>
-          </li>
-          <li><a href="JavaScript:void(0);"><%= t('reports') %><span class="submenu-indicator"></span></a>
-            <ul class="nav-dropdown nav-submenu">
-              <li><%= link_to total_earnings_vrentals_path do %>
-                  <i class="fa-solid fa-arrow-trend-up me-2"></i><%= t('earnings') %>
-                <% end %></li>
-              <li><%= link_to expenses_path do %>
-                  <i class="fa-solid fa-arrow-trend-down me-2"></i><%= t('expenses') %>
-                <% end %></li>
-              <li><%= link_to invoices_path do %>
-                  <i class="fa-solid fa-file-invoice-dollar me-2"></i><%= t('invoices') %>
-                <% end %></li>
-            </ul>
-          </li>
-          <% if @vrental&.persisted? %>
+          <% if current_user.admin? || current_user.manager? %>
+            <li><a href="JavaScript:void(0);"><%= t('management') %><span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu">
+                <li><%= link_to vrentals_path do %>
+                    <i class="fa-solid fa-house-circle-check me-2"></i><%= t("vrentals") %>
+                  <% end %></li>
+                <li><%= link_to owners_path do %>
+                    <i class="fa-solid fa-house-user me-2"></i><%= t("owners") %>
+                  <% end %></li>
+                <li><%= link_to vragreements_path do %>
+                    <i class="fa-solid fa-file-signature me-2"></i><%= t("contracts") %>
+                  <% end %></li>
+                <li><%= link_to vrentaltemplates_path do %>
+                    <i class="fa-solid fa-file me-2"></i><%= t("contract_templates") %>
+                  <% end %></li>
+              </ul>
+            </li>
+            <li><a href="JavaScript:void(0);"><%= t('reports') %><span class="submenu-indicator"></span></a>
+              <ul class="nav-dropdown nav-submenu">
+                <li><%= link_to total_earnings_vrentals_path do %>
+                    <i class="fa-solid fa-arrow-trend-up me-2"></i><%= t('earnings') %>
+                  <% end %></li>
+                <li><%= link_to expenses_path do %>
+                    <i class="fa-solid fa-arrow-trend-down me-2"></i><%= t('expenses') %>
+                  <% end %></li>
+                <li><%= link_to invoices_path do %>
+                    <i class="fa-solid fa-file-invoice-dollar me-2"></i><%= t('invoices') %>
+                  <% end %></li>
+              </ul>
+            </li>
+          <% end %>
+          <% if @vrental&.persisted? && current_user.admin? || current_user.manager? %>
             <li><a href="JavaScript:void(0);">Beds24<span class="submenu-indicator"></span></a>
               <ul class="nav-dropdown nav-submenu">
                 <li><%= link_to update_on_beds_vrental_path(@vrental) do %>

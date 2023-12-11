@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Contractes Sistach Finques</title>
+    <title><%= @company.name %></title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -10,6 +10,6 @@
     <%# wicked_pdf_stylesheet_link_tag "application" -%>
   </head>
   <body>
-      <%= yield %>
+    <%= yield %>
   </body>
 </html>

@@ -4,7 +4,7 @@ class VrentalsController < ApplicationController
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
     @statuses = @vrentals.pluck(:status).uniq
-    @towns = Town.all
+    @towns = policy_scope(Town).order(name: :asc)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
     @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
     @vrentals = @vrentals.where(town_id: params[:filter_town]) if params[:filter_town].present?
@@ -36,8 +36,6 @@ class VrentalsController < ApplicationController
 
   def empty_vrentals
     # find all multipliers where inventory is > 0 for the next month
-    # @empty_vrentals = @vrentals.
-
   end
 
   def total_earnings
@@ -148,7 +146,8 @@ class VrentalsController < ApplicationController
           font_size: 9,
           spacing: 30,
           content: render_to_string(
-            'shared/pdf_header'
+            'shared/pdf_header',
+            locals: { resource: @vrental.office }
           )
          },
          formats: [:html],
@@ -315,7 +314,9 @@ class VrentalsController < ApplicationController
     @vrental = Vrental.new(vrental_params)
     unless current_user.admin?
       @vrental.owner = current_user.owner
+      @vrental.status = 'new_web'
     end
+
     authorize @vrental
 
     if @vrental.save
@@ -325,7 +326,6 @@ class VrentalsController < ApplicationController
         redirect_to add_owner_vrental_path(@vrental)
       end
     else
-      puts "vrental errors on creation: #{@vrental.errors.full_messages}"
       render :new
     end
   end

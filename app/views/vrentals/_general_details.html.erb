@@ -2,11 +2,15 @@
 <%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'general_details' %>
-  <%= f.association :office %>
-  <%= f.association :vrgroup, include_blank: 'Sense grup' %>
-  <%= f.input :status, as: :radio_buttons, collection: [[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']] %>
+  <% if current_user.admin? || current_user.manager? %>
+    <%= f.association :office %>
+    <%= f.association :vrgroup, include_blank: 'Sense grup' %>
+    <%= f.input :status, as: :radio_buttons, collection: Vrental::PROPERTY_STATUS.map {|status| [t(status), status] } %>
+  <% end %>
   <%= f.input :name %>
-  <%= f.input :name_on_web, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
+  <% if current_user.admin? || current_user.manager? %>
+    <%= f.input :name_on_web, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
+  <% end %>
   <%= f.input :property_type, collection: Vrental::PROPERTY_TYPES.values.map { |key| [t(key), key] } %>
   <%= f.input :address, input_html: {data: {address_autocomplete_target: "address"}}, wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}} %>
   <%= f.input :latitude, id: "latitude-input" %>

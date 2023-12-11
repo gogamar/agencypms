@@ -13,12 +13,13 @@ class CompaniesController < ApplicationController
     authorize @company
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @company = Company.new(company_params)
-    @company = current_user.build_owned_company(company_params)
+    @company = current_user.owned_companies.build(company_params)
+    # find all existing offices and update their company_id to the new company
+    Office.all.update(company_id: @company.id)
     current_user.company = @company
     authorize @company
 
@@ -31,7 +32,7 @@ class CompaniesController < ApplicationController
 
   def update
     if @company.update(company_params)
-      redirect_to edit_company_path, notice: "Empresa actualitzada."
+      redirect_to companies_path, notice: "Empresa actualitzada."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -49,6 +50,6 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:name, :language, :street, :city, :vat_number, :user_id, :post_code, :region, :country, :bank_account, :administrator, :vat_tax, :vat_tax_payer, :realtor_number, :logo)
+      params.require(:company).permit(:name, :language, :street, :city, :vat_number, :user_id, :post_code, :region, :country, :bank_account, :administrator, :vat_tax, :vat_tax_payer, :realtor_number, :logo, :active)
     end
 end

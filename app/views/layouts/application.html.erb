@@ -35,7 +35,7 @@
               <% yield %>
             <% end %>
           </div>
-          <%= render 'shared/booking_website_footer' %>
+          <%= render 'shared/booking_website_footer' unless controller.controller_name == 'companies' %>
           <%= render 'shared/log_in_modal' %>
           <%= render 'shared/sign_up_modal' %>
           <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="bi bi-arrow-up"></i></a>

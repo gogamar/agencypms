@@ -1,5 +1,6 @@
 class Statement < ApplicationRecord
   belongs_to :vrental
+  belongs_to :company
   validate :no_overlapping_statements
   validates :start_date, :end_date, :date, :location, presence: true
   belongs_to :invoice, optional: true

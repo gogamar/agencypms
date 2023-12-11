@@ -15,6 +15,7 @@ class Vrental < ApplicationRecord
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
+  has_many :owner_bookings, dependent: :destroy
   has_many :expenses
   has_many :earnings
   has_many :statements
@@ -56,7 +57,7 @@ class Vrental < ApplicationRecord
   RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
   PRICE_PER = ['night', 'week'].freeze
 
-  validates_presence_of :name, :status, :address, :office_id
+  validates_presence_of :name, :address
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
   validates :name, uniqueness: true
@@ -72,6 +73,8 @@ class Vrental < ApplicationRecord
     "1": "apartment",
     "17": "house"
   }
+
+  PROPERTY_STATUS = ["proposal", "active", "inactive"].freeze
 
   EASTER_SEASON_FIRSTNIGHT = {
     2022 => Date.new(2022,4,2),

@@ -5,10 +5,14 @@
     <%= f.input :fullname %>
     <%= f.input :address %>
     <%= f.input :phone %>
-    <%= f.input :email %>
+    <% if current_user.admin? || current_user.manager? %>
+      <%= f.input :email %>
+    <% else %>
+      <%= f.input :email, input_html: { value: current_user.email } %>
+    <% end %>
     <%= f.input :document %>
     <%= f.input :account %>
-    <%= f.input :language, priority: [ t("ca"), "ca" ], collection: [ [t("ca"), "ca"], [t("es"), "es"], [t("fr"), "fr"], [t("en"), "en"] ], label_method: :first, value_method: :second %>
+    <%= f.input :language, collection: I18n.available_locales.map { |locale| [t(locale), locale.to_s] }, selected: I18n.locale %>
   </div>
   <div class="form-actions text-end mb-5">
     <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-secondary text-center' %>

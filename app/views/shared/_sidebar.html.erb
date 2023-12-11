@@ -23,16 +23,18 @@
               <% end %>
               <div class="d-navigation">
                 <ul>
-                  <li class="<%= 'active' if current_page?(dashboard_path) %>">
-                    <%= link_to dashboard_path do %>
-                      <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
-                    <% end %>
-                  </li>
-                  <li class="<%= 'active' if current_page?(empty_vrentals_path) %>">
-                    <%= link_to empty_vrentals_path do %>
-                      <i class="fa-solid fa-calendar-check"></i><%= t('empty_vrentals') %>
-                    <% end %>
-                  </li>
+                  <% if current_user.admin? || current_user.manager? %>
+                    <li class="<%= 'active' if current_page?(dashboard_path) %>">
+                      <%= link_to dashboard_path do %>
+                        <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(empty_vrentals_path) %>">
+                      <%= link_to empty_vrentals_path do %>
+                        <i class="fa-solid fa-calendar-check"></i><%= t('empty_vrentals') %>
+                      <% end %>
+                    </li>
+                  <% end %>
                   <% if @vrental && @vrental.persisted? %>
                     <li class="<%= 'active' if current_page?(@vrental) %>">
                       <%= link_to @vrental do %>
@@ -74,24 +76,33 @@
                         <i class="fa-solid fa-image"></i><%= t('photos') %>
                       <% end %>
                     </li>
-                    <li class="<%= 'active' if current_page?(vrental_availabilities_path(@vrental)) %>">
-                      <%= link_to vrental_availabilities_path(@vrental) do %>
-                        <i class="fa-solid fa-calendar"></i><%= t('availability') %>
-                      <% end %>
-                    </li>
+                    <% if current_user.admin? || current_user.manager? %>
+                      <li class="<%= 'active' if current_page?(vrental_availabilities_path(@vrental)) %>">
+                        <%= link_to vrental_availabilities_path(@vrental) do %>
+                          <i class="fa-solid fa-calendar"></i><%= t('availability') %>
+                        <% end %>
+                      </li>
+                      <li class="<%= 'active' if current_page?(vrental_bookings_path(@vrental)) %>">
+                        <%= link_to vrental_bookings_path(@vrental) do %>
+                          <i class="fa-solid fa-calendar-check"></i><%= t('bookings') %>
+                        <% end %>
+                      </li>
+                    <% end %>
                     <li class="<%= 'active' if current_page?(vrental_vragreements_path(@vrental)) %>">
                       <%= link_to vrental_vragreements_path(@vrental) do %>
                         <i class="fa-solid fa-file-signature"></i><%= t('contracts') %>
                       <% end %>
                     </li>
-                    <li class="<%= 'active' if current_page?(vrental_bookings_path(@vrental)) %>">
-                      <%= link_to vrental_bookings_path(@vrental) do %>
-                        <i class="fa-solid fa-calendar-check"></i><%= t('bookings') %>
-                      <% end %>
-                    </li>
+                    <% if current_user.owner.present? %>
+                      <li class="<%= 'active' if current_page?(vrental_owner_bookings_path(@vrental)) %>">
+                        <%= link_to vrental_owner_bookings_path(@vrental) do %>
+                          <i class="fa-solid fa-arrow-trend-up"></i><%= t('owner_bookings') %>
+                        <% end %>
+                      </li>
+                    <% end %>
                     <li class="<%= 'active' if current_page?(vrental_earnings_path(@vrental)) %>">
                       <%= link_to vrental_earnings_path(@vrental) do %>
-                        <i class="fa-solid fa-arrow-trend-up"></i><%= t('earnings') %>
+                        <i class="fa-solid fa-arrow-trend-up"></i><%= current_user.admin? || current_user.manager? ? t('earnings') : t('bookings') %>
                       <% end %>
                     </li>
                     <li class="<%= 'active' if current_page?(vrental_expenses_path(@vrental)) %>">
@@ -115,52 +126,80 @@
                       <% end %>
                     </li>
                   <% else %>
-                    <li class="<%= 'active' if current_page?(vrentals_path) %>">
-                      <%= link_to vrentals_path do %>
-                        <i class="fa-solid fa-house-circle-check"></i><%= t("vrentals") %>
-                      <% end %>
-                    </li>
-                    <li class="<%= 'active' if current_page?(owners_path) %>">
-                      <%= link_to owners_path do %>
-                        <i class="fa-solid fa-house-user"></i><%= t("owners") %>
-                      <% end %>
-                    </li>
-                    <li class="<%= 'active' if current_page?(vragreements_path) %>">
-                      <%= link_to vragreements_path do %>
-                        <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
-                      <% end %>
-                    </li>
-                    <li class="<%= 'active' if current_page?(vrentaltemplates_path) %>">
-                      <%= link_to vrentaltemplates_path do %>
-                        <i class="fa-solid fa-file"></i><%= t("contract_templates") %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                  <% unless @vrental %>
-                    <li class="<%= 'active' if current_page?(edit_company_path(@company)) %>">
-                      <%= link_to edit_company_path(@company) do %>
-                        <i class="fa-solid fa-house-laptop"></i><%= t("company") %>
-                      <% end %>
-                    </li>
-                    <% if @company.offices %>
-                      <li class="<%= 'active' if current_page?(company_offices_path(@company)) %>">
-                        <%= link_to company_offices_path(@company) do %>
-                          <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
+                    <% if current_user.admin? || current_user.manager? || current_user.owner.present? && current_user.owner.vrentals.any? %>
+                      <li class="<%= 'active' if current_page?(vrentals_path) %>">
+                        <%= link_to vrentals_path do %>
+                          <i class="fa-solid fa-house-circle-check"></i><%= t("vrentals") %>
+                        <% end %>
+                      </li>
+                    <% else %>
+                      <li class="<%= 'active' if current_page?(new_vrental_path) %>">
+                        <%= link_to new_vrental_path do %>
+                          <i class="fa-solid fa-house-circle-check"></i><%= t("add_property") %>
                         <% end %>
                       </li>
                     <% end %>
-                  <% end %>
-                  <li class="<%= 'active' if current_page?(new_vrgroup_path) %>">
-                    <%= link_to new_vrgroup_path do %>
-                      <i class="fa-solid fa-link"></i><%= t("add_group") %>
+                    <% if current_user.admin? || current_user.manager? %>
+                      <li class="<%= 'active' if current_page?(owners_path) %>">
+                        <%= link_to owners_path do %>
+                          <i class="fa-solid fa-house-user"></i><%= t("owners") %>
+                        <% end %>
+                      </li>
+                      <li class="<%= 'active' if current_page?(vrentaltemplates_path) %>">
+                        <%= link_to vrentaltemplates_path do %>
+                          <i class="fa-solid fa-file"></i><%= t("contract_templates") %>
+                        <% end %>
+                      </li>
+                    <% elsif current_user.owner.present? %>
+                      <li class="<%= 'active' if current_page?(owner_path(current_user.owner)) %>">
+                        <%= link_to owner_path(current_user.owner) do %>
+                          <i class="fa-solid fa-house-user"></i><%= t("owners") %>
+                        <% end %>
+                      </li>
+                    <% else %>
+                      <li class="<%= 'active' if current_page?(new_owner_path) %>">
+                        <%= link_to new_owner_path do %>
+                          <i class="fa-solid fa-house-user"></i><%= t("add_owner") %>
+                        <% end %>
+                      </li>
                     <% end %>
-                  </li>
-                  <% if @office %>
-                    <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %>">
-                      <%= link_to company_office_coupons_path(@company, @office) do %>
-                        <i class="fa-solid fa-tags"></i><%= t("coupons") %>
+                    <% if current_user.admin? || current_user.manager? || (current_user.owner.present? && current_user.owner.vrentals.any? && current_user.owner.vrentals.any? { |vrental| vrental.vragreements.any? }) %>
+                      <li class="<%= 'active' if current_page?(vragreements_path) %>">
+                        <%= link_to vragreements_path do %>
+                          <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                    <% if (current_user.admin? || current_user.manager?) %>
+                      <% unless @vrental %>
+                        <li class="<%= 'active' if current_page?(companies_path) %>">
+                          <%= link_to companies_path do %>
+                            <i class="fa-solid fa-house-laptop"></i><%= t("companies") %>
+                          <% end %>
+                        </li>
+                        <% unless controller.controller_name == 'companies' %>
+                          <% if @company.offices %>
+                            <li class="<%= 'active' if current_page?(company_offices_path(@company)) %>">
+                              <%= link_to company_offices_path(@company) do %>
+                                <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
+                              <% end %>
+                            </li>
+                          <% end %>
+                        <% end %>
                       <% end %>
-                    </li>
+                      <li class="<%= 'active' if current_page?(new_vrgroup_path) %>">
+                        <%= link_to new_vrgroup_path do %>
+                          <i class="fa-solid fa-link"></i><%= t("add_group") %>
+                        <% end %>
+                      </li>
+                      <% if @office %>
+                        <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %>">
+                          <%= link_to company_office_coupons_path(@company, @office) do %>
+                            <i class="fa-solid fa-tags"></i><%= t("coupons") %>
+                          <% end %>
+                        </li>
+                      <% end %>
+                    <% end %>
                   <% end %>
                 </ul>
               </div>

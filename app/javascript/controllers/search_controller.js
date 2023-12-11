@@ -5,8 +5,6 @@ export default class extends Controller {
   static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
 
   connect() {
-    console.log("Search controller again testing plus 1");
-
     const todayPlusAdvance = this.element.dataset.minAdvance
       ? new Date(
           new Date().setDate(

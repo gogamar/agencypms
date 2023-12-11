@@ -1,0 +1,6 @@
+<% @companies.each do |company| %>
+  <%= company.name %>
+  <%= company.active? ? t('company_active') : t('company_inactive') %>
+  <%= link_to t('edit'), edit_company_path(company), class: "btn btn-sm btn-info" %>
+<% end %>
+<%= link_to t('add_new_company'), new_company_path, class: "btn btn-sm btn-success" %>

@@ -8,12 +8,13 @@ class VragreementsController < ApplicationController
       @vrental = Vrental.find(params[:vrental_id])
       @years_possible_contract = @vrental.years_possible_contract
     end
-    active_vragreements = policy_scope(Vragreement).includes(:vrental).where.not('vrental.status' => "inactive")
-    active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
-    active_vragreements = active_vragreements.order(created_at: :desc)
-
-    @pagy, @vragreements = pagy(active_vragreements, page: params[:page], items: 10)
-
+    active_vragreements = policy_scope(Vragreement)
+    if active_vragreements.present?
+      active_vragreements = active_vragreements.includes(:vrental).where.not('vrental.status' => "inactive")
+      active_vragreements = active_vragreements.where(vrental_id: params[:immoble]) if params[:immoble].present?
+      active_vragreements = active_vragreements.order(created_at: :desc)
+      @pagy, @vragreements = pagy(active_vragreements, page: params[:page], items: 10)
+    end
   end
 
   def list
@@ -52,7 +53,8 @@ class VragreementsController < ApplicationController
                 font_size: 8,
                 spacing: 20,
                 content: render_to_string(
-                  'shared/pdf_header'
+                  'shared/pdf_header',
+                  locals: { resource: @vragreement }
                 )
                },
               formats: [:html],
@@ -145,6 +147,7 @@ class VragreementsController < ApplicationController
     @vragreement = Vragreement.new(vragreement_params)
     @vragreement.vrental = @vrental
     authorize @vragreement
+    @vragreement.company = @vrental.office.company || @company
     if @vragreement.save
       redirect_to vrental_vragreements_path(@vrental), notice: "Has creat el contracte per #{@vrental.name}."
     else
@@ -192,6 +195,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :owner_bookings, photos: [])
+    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
   end
 end

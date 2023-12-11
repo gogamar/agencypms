@@ -9,13 +9,24 @@ class Booking < ApplicationRecord
   validates :checkout, presence: true
   validate :checkout_is_later_than_checkin
   validates :beds_booking_id, uniqueness: true, allow_nil: true
-  validate :no_overlapping_bookings, if: -> { status != "0" }
 
   STATUS = {
     "O" => "cancelled",
     "1" => "confirmed",
     "2" => "new"
   }
+
+  def overlapping_bookings
+    if vrental_id && checkin && checkout
+
+      overlapping_bookings = vrental.bookings.where.not(id: id).where.not(status: "0").where(
+        "((checkin <= ? AND checkout > ?) OR
+          (checkin >= ? AND checkout <= ?) OR
+          (checkin < ? AND checkout > ?))",
+        checkin, checkin, checkin, checkout, checkout, checkout
+      )
+    end
+  end
 
   def price_with_portal
     charges.where(charge_type: "rent").sum(:price).round(2) || 0
@@ -54,22 +65,6 @@ class Booking < ApplicationRecord
   def checkout_is_later_than_checkin
     if checkin && checkout && checkin >= checkout
       errors.add(:checkout, "must be later than checkin")
-    end
-  end
-
-  def no_overlapping_bookings
-    if vrental_id && checkin && checkout
-
-      overlapping_bookings = vrental.bookings.where.not(id: id).where.not(status: "0").where(
-        "((checkin <= ? AND checkout > ?) OR
-          (checkin >= ? AND checkout <= ?) OR
-          (checkin < ? AND checkout > ?))",
-        checkin, checkin, checkin, checkout, checkout, checkout
-      )
-
-      if overlapping_bookings.exists?
-        errors.add(:base, "Booking dates overlap with existing bookings for this rental.")
-      end
     end
   end
 end

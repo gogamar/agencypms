@@ -1,21 +1,26 @@
-<div class="row my-1 border-bottom">
+<div class="row my-1 border-bottom text-sm">
   <div class="col-lg-2">
-    <small><%= booking.firstname %> <%= booking.lastname %></small><br>
-    <small><%= t('adults') %>: <%= booking.adults %></small><br>
-    <small><%= t('children') %>: <%= booking.children %></small><br>
-    <small><%= booking.nights %> <%= t('nights') %></small>
+    <% if booking.overlapping_bookings.present? %>
+      <% booking.overlapping_bookings.each do |overlap| %>
+        <span class="badge bg-danger"><%= t('overbooking') %></span>
+      <% end %>
+    <% end %>
+    <span><%= booking.firstname %> <%= booking.lastname %></span><br>
+    <span><%= t('adults') %>: <%= booking.adults %></span><br>
+    <span><%= t('children') %>: <%= booking.children %></span><br>
+    <span><%= booking.nights %> <%= t('nights') %></span>
     <% if booking.status == "0" %>
-      <span class="badge bg-danger">Reserva cancel.lada</span>
+      <span class="badge bg-danger"><%= t('cancelled_booking') %></span>
     <% end %>
   </div>
   <div class="col-lg-2">
-    <small><%= I18n.l(booking.checkin, format: :standard) %></small><br>
+    <span><%= I18n.l(booking.checkin, format: :standard) %></span><br>
   </div>
   <div class="col-lg-2">
-    <small><%= I18n.l(booking.checkout, format: :standard) %></small><br>
+    <span><%= I18n.l(booking.checkout, format: :standard) %></span><br>
   </div>
   <div class="col-lg-2">
-    <small class="text-info">Import reserva</small><br>
+    <span class="text-info">Import reserva</span><br>
     <span>
       <% if booking && booking.charges.present? %>
         <%= number_to_currency(booking.price_no_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
@@ -25,37 +30,37 @@
     </span>
     <br>
     <span>
-      <small>PVP: <%= number_to_currency(booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></small>
+      <span>PVP: <%= number_to_currency(booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></span>
     </span>
     <br>
     <span>
-      <small class="text-info"> <%= booking.referrer %>: <%= number_to_currency(booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%> </small>
+      <span class="text-info"> <%= booking.referrer %>: <%= number_to_currency(booking.commission, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%> </span>
     </span>
   </div>
   <div class="col-lg-2">
     <% if booking.city_tax_value > 0 %>
       <span>
-        <small>Taxa tur: <%= number_to_currency(booking.city_tax_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></small>
+        <span>Taxa tur: <%= number_to_currency(booking.city_tax_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></span>
       </span>
       <br>
     <% end %>
     <% if booking.cleaning_value > 0 %>
       <span class="badge bg-secondary">
-        <small>Neteja: <%= number_to_currency(booking.cleaning_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></small>
+        <span>Neteja: <%= number_to_currency(booking.cleaning_value, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></span>
       </span>
       <br>
     <% end %>
     <% if booking.other_charges != 0 %>
       <span class="badge bg-warning">
-        <small>Altres: <%= number_to_currency(booking.other_charges, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></small>
+        <span>Altres: <%= number_to_currency(booking.other_charges, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></span>
       </span>
       <br>
     <% end %>
   </div>
   <div class="col-lg-2">
-    <small><%= link_to edit_vrental_booking_path(booking.vrental, booking) do %>
+    <span><%= link_to edit_vrental_booking_path(booking.vrental, booking) do %>
         <i class="fa-solid fa-pen-to-square me-2"></i><%= t('edit_booking') %>
       <% end %>
-    </small>
+    </span>
   </div>
 </div>

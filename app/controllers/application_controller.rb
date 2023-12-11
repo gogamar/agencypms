@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   around_action :set_locale_from_url
   before_action :authenticate_user!
   before_action :set_vrentals, unless: :skip_pundit?
-  before_action :set_company
+  before_action :set_company, unless: :companies_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
   layout :layout_by_resource
 
@@ -27,15 +27,18 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:photo, :company_id])
   end
 
+  def set_company
+    @company = Company.find_by(active: true)
+  end
+
+  def companies_controller?
+    controller_name == 'companies'
+  end
+
   private
 
   def set_vrentals
     @all_vrentals = policy_scope(Vrental)
-  end
-
-  def set_company
-    # fixme: this is a hack to get the company
-    @company = Company.first
   end
 
   def default_url_options
@@ -52,7 +55,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(_resource)
-    vrentals_path
+    if current_user.admin? || current_user.manager? || current_user.owner.present?
+      vrentals_path
+    else
+      new_vrental_path
+    end
   end
 
   # Uncomment when you *really understand* Pundit!

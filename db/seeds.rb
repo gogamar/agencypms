@@ -107,6 +107,17 @@
 #   puts "Prevented gaps for #{vrental.name}"
 # end
 
+# Add company to statements, invoices and vragreements
 
+@company = Company.first
+Statement.all.each do |statement|
+  statement.update(company: @company)
+end
+Invoice.all.each do |invoice|
+  invoice.update(company: @company)
+end
+Vragreement.all.each do |vragreement|
+  vragreement.update(company: @company)
+end
 
 puts "Done!"

@@ -1,3 +1,4 @@
+<h4 class="text-center"><%= t('expenses') %></h4>
 <div class="container d-flex justify-content-between">
   <% if @expenses.present? %>
     <div class="flex-column">
@@ -5,13 +6,15 @@
       <h6>Total despeses agència: <%= number_to_currency(@total_expenses_agency, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
     </div>
   <% end %>
-  <div class="d-flex align-items-center">
-    <% expense_link = @vrental ? new_vrental_expense_path(@vrental) : new_expense_path %>
-    <%= link_to expense_link, class: "text-muted-2" do %>
-      <i class="fa-solid fa-plus me-2"></i>
-      Nova despesa <%= @vrental.name if @vrental %>
-    <% end %>
-  </div>
+  <% if current_user.admin? || current_user.manager? %>
+    <div class="d-flex align-items-center">
+      <% expense_link = @vrental ? new_vrental_expense_path(@vrental) : new_expense_path %>
+      <%= link_to expense_link, class: "text-muted-2" do %>
+        <i class="fa-solid fa-plus me-2"></i>
+        Nova despesa <%= @vrental.name if @vrental %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 <% if @expenses.present? %>
   <div class="container">

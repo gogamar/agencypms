@@ -4,11 +4,11 @@
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <div class="row my-1 border-bottom" data-controller="earning-calculator">
       <div class="col-lg-2">
-        <small class="text-info">Detalls</small><br>
+        <small class="text-info"><%= t('client_details') %></small><br>
         <small><%= earning.booking.firstname %> <%= earning.booking.lastname %></small><br>
-        <small>Entrada: <%= I18n.l(earning.booking.checkin, format: :standard) %></small><br>
-        <small>Sortida: <%= I18n.l(earning.booking.checkout, format: :standard) %></small><br>
-        <small>Nits: <%= earning.booking.nights %></small>
+        <small><%= t('check_in') %> <%= I18n.l(earning.booking.checkin, format: :standard) %></small><br>
+        <small><%= t('check_out') %> <%= I18n.l(earning.booking.checkout, format: :standard) %></small><br>
+        <small><%= t('nights').capitalize %> <%= earning.booking.nights %></small>
         <br>
         <% if earning.booking  %>
           <%= link_to edit_vrental_booking_path(earning.vrental, earning.booking), class: "btn btn-sm btn-info" do  %>
@@ -32,7 +32,7 @@
           <small>Altres: <%= number_to_currency(earning.booking.charges.where(charge_type: "other").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ')%></small>
         </div>
         <div class="col-lg-2">
-          <small class="text-info">Segons contracte</small><br>
+          <small class="text-info"><%= t('according_contract') %></small><br>
           <span data-earning-calculator-target="ratePrice">
             <% earning_rate_price = earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout) %>
             <%= number_to_currency(earning_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if earning_rate_price %>
@@ -40,7 +40,7 @@
         </div>
       <% end %>
       <div class="col-lg-2">
-        <small class="text-info">Descompte</small><br>
+        <small class="text-info"><%= t('discount') %></small><br>
         <div class="h-75 d-flex flex-column justify-content-between">
           <%= f.input :discount, label: false, input_html: { "data-earning-calculator-target" => "discount", "data-action": "input->earning-calculator#discountValueChanged" } %>
           <small class="text-info">Nota:</small><br>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="col-lg-2">
-        <small class="text-info">Import liquidació</small><br>
+        <small class="text-info"><%= t('statement_amount') %></small><br>
         <%= f.input :amount, label: false, input_html: { "data-earning-calculator-target" => "amount", "data-action": "input->earning-calculator#amountValueChanged"} %>
       </div>
       <div class="col-lg-2">

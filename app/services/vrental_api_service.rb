@@ -503,6 +503,29 @@ class VrentalApiService
     sleep 2
   end
 
+  def send_owner_booking(owner_booking)
+    booking_lastnight = owner_booking.checkout - 1.day
+    options = {
+      "bookId": owner_booking.beds_booking_id,
+      "roomId": @vrental.beds_room_id,
+      "status": owner_booking.status,
+      "firstNight": owner_booking.checkin.strftime("%Y-%m-%d"),
+      "lastNight": booking_lastnight.strftime("%Y-%m-%d"),
+      "guestFirstName": I18n.t('owner'),
+      "guestName": I18n.t('owner_booking'),
+      "notes": owner_booking.note
+    }
+    client = BedsHelper::Beds.new(@vrental.office.beds_key)
+    begin
+      response = client.set_booking(@vrental.prop_key, options)
+      if response["bookId"].present?
+        owner_booking.update(beds_booking_id: response["bookId"])
+      end
+    rescue => e
+      puts "Error preventing gaps for #{@vrental.name}: #{e.message}"
+    end
+  end
+
   def send_availabilities_to_beds_24
     # this one needs fixing!
     master_vrental = @vrental.availability_master.present? ? @vrental.availability_master : @vrental
@@ -1029,6 +1052,7 @@ class VrentalApiService
         booking_id: booking.id,
         vrental_id: booking.vrental_id
       )
+      puts "Earning created for booking #{booking.id}"
     end
   end
 

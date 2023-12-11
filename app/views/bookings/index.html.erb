@@ -1,15 +1,17 @@
-<%= render 'shared/get_bookings' %>
-<div class="d-flex justify-content-end">
-  <%= form_with url: prevent_gaps_vrental_path(@vrental), method: 'get', class: "d-flex justify-content-around gap-2" do |form| %>
-    <div class="input-group mb-3">
-      <span class="input-group-text"><%= t('block') %></span>
-      <%= form.text_field :days_after_checkout, value: 5, class: "form-control" %>
-      <span class="input-group-text"><%= t('days') %> <%= t('after_last_checkout') %></span>
-    </div>
-    <%= form.submit t('send_to_beds'), class: 'btn btn-sm btn-secondary' %>
-  <% end %>
-</div>
-<hr>
+<% if current_user.admin? || current_user.manager? %>
+  <%= render 'shared/get_bookings' %>
+  <div class="d-flex justify-content-end">
+    <%= form_with url: prevent_gaps_vrental_path(@vrental), method: 'get', class: "d-flex justify-content-around gap-2" do |form| %>
+      <div class="input-group mb-3">
+        <span class="input-group-text"><%= t('block') %></span>
+        <%= form.text_field :days_after_checkout, value: 5, class: "form-control" %>
+        <span class="input-group-text"><%= t('days') %> <%= t('after_last_checkout') %></span>
+      </div>
+      <%= form.submit t('send_to_beds'), class: 'btn btn-sm btn-secondary' %>
+    <% end %>
+  </div>
+  <hr>
+<% end %>
 <h4 class="text-center"><%= t('bookings') %></h4>
 <% if @bookings.present? %>
   <div id="earnings" class="container mt-5">

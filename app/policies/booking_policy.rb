@@ -3,8 +3,6 @@ class BookingPolicy < ApplicationPolicy
     def resolve
       if user.admin? || user.manager?
         scope.all
-      elsif user.owner.present?
-        scope.where(vrental_id: user.owner.vrentals.pluck(:id))
       elsif user.tourist.present?
         scope.where(tourist_id: user.tourist.id)
       end
@@ -12,7 +10,7 @@ class BookingPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || user.vrental_manager(record) || user.vrental_owner(record)
+    user.admin? || user.vrental_manager(record)
   end
 
   def new?
@@ -28,7 +26,7 @@ class BookingPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || user.vrental_manager(record) || user.vrental_owner(record)
+    user.admin? || user.vrental_manager(record)
   end
 
   def destroy?

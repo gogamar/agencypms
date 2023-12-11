@@ -1,7 +1,13 @@
 class TownPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      if user.admin? || user.manager?
+        scope.all
+      elsif user.owner.present? && user.owner.vrentals.any?
+        scope.where(id: user.owner.vrentals.pluck(:town_id))
+      else
+        scope.none
+      end
     end
   end
 

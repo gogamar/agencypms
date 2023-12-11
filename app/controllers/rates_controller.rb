@@ -13,7 +13,7 @@ class RatesController < ApplicationController
     @rate = Rate.new
     @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
     @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
-    @rate_plans = RatePlan.where(company_id: @vrental.vrental_company.id) if @vrental.vrental_company.present?
+    @rate_plans = policy_scope(RatePlan)
   end
 
   def new

@@ -1,5 +1,6 @@
 class Invoice < ApplicationRecord
   belongs_to :vrental
+  belongs_to :company
   has_many :statements
   validates :date, presence: true
   validates :number, uniqueness: true

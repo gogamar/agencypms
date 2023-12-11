@@ -20,11 +20,6 @@ class BookingsController < ApplicationController
     @total_net = @total_rent - @total_commission
   end
 
-  def new
-    @booking = Booking.new
-    authorize @booking
-  end
-
   def edit
     authorize @booking
   end

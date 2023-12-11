@@ -5,6 +5,8 @@ class VrentalPolicy < ApplicationPolicy
         scope.all
       elsif user.owner.present?
         scope.where(id: user.owner.vrentals.pluck(:id))
+      else
+        scope.none
       end
     end
   end

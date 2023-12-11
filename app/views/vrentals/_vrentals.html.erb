@@ -24,10 +24,12 @@
         <%= params[:column] == "address" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
         <%= sort_link(column: "address", label: "Adreça") %>
       </div>
-      <div relative>
-        <%= params[:column] == "owners.fullname" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-        <%= sort_link(column: "owners.fullname", label: "Propietari") %>
-      </div>
+      <% if current_user.admin? || current_user.manager? %>
+        <div relative>
+          <%= params[:column] == "owners.fullname" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
+          <%= sort_link(column: "owners.fullname", label: "Propietari") %>
+        </div>
+      <% end %>
     </div>
   <% end %>
   <div class="row">

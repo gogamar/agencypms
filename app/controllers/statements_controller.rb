@@ -35,7 +35,8 @@ class StatementsController < ApplicationController
                 font_size: 9,
                 spacing: 30,
                 content: render_to_string(
-                  'shared/pdf_header'
+                  'shared/pdf_header',
+                  locals: { resource: @statement }
                 )
                },
                formats: [:html],
@@ -69,6 +70,7 @@ class StatementsController < ApplicationController
     @statement = Statement.new(statement_params)
     authorize @statement
     @statement.vrental = @vrental
+    @statement.company = @vrental.office.company || @company
     statement_year = (Date.parse(params[:statement][:start_date])).year
     statements_same_year = @vrental.statements.where("EXTRACT(year FROM end_date) = ?", statement_year)
     @statement.ref_number = "#{statements_same_year.count + 1}_#{@vrental.name}_#{statement_year}"
@@ -118,6 +120,6 @@ class StatementsController < ApplicationController
   end
 
   def statement_params
-    params.require(:statement).permit(:start_date, :end_date, :date, :location, :ref_number, :vrental_id, :invoice_id, expense_ids: [])
+    params.require(:statement).permit(:start_date, :end_date, :date, :location, :ref_number, :vrental_id, :company_id, :invoice_id, expense_ids: [])
   end
 end

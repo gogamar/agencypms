@@ -2,14 +2,12 @@
   <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
   <div class="card-body row d-flex justify-content-center gap-5">
     <div class="col">
-      <p class="card-text">
-        <strong>Oficina:</strong>
-        <%= @vrental.office.name if @vrental.office %>
-      </p>
-      <p class="card-text">
-        <strong>Estat:</strong>
-        <%= @vrental.status %>
-      </p>
+      <% if @vrental.owner.present? %>
+        <p class="card-text">
+          <strong><%= t('owner') %></strong>
+          <%= link_to @vrental.owner.fullname, owner_path(@vrental.owner), class: "link" %>
+        </p>
+      <% end %>
       <p class="card-text">
         <strong>Número HUT:</strong>
         <%= @vrental.licence %>
@@ -27,21 +25,27 @@
         <%= @vrental.habitability %>
       </p>
       <p class="card-text">
-        <strong>Propietari:</strong>
-        <%= @vrental.owner.fullname if @vrental.owner %>
-      </p>
-      <p class="card-text">
         <strong>Màxim d'hostes:</strong>
         <%= @vrental.max_guests %>
       </p>
-      <p class="card-text">
-        <strong>Clau secreta Beds24:</strong>
-        <%= @vrental.prop_key %>
-      </p>
-      <p class="card-text">
-        <strong>Referencia Beds24:</strong>
-        <%= @vrental.beds_room_id %>
-      </p>
+      <% if current_user.admin? || current_user.manager? %>
+        <p class="card-text">
+          <strong>Oficina:</strong>
+          <%= @vrental.office.name if @vrental.office %>
+        </p>
+        <p class="card-text">
+          <strong>Estat:</strong>
+          <%= @vrental.status %>
+        </p>
+        <p class="card-text">
+          <strong>Clau secreta Beds24:</strong>
+          <%= @vrental.prop_key %>
+        </p>
+        <p class="card-text">
+          <strong>Referencia Beds24:</strong>
+          <%= @vrental.beds_room_id %>
+        </p>
+      <% end %>
       <p class="card-text">
         <% if @vrental.real_bedrooms.present? %>
           <strong><%= @vrental.real_bedrooms.count %> <%= t("bedroom", count: @vrental.bedrooms.count) %>:</strong>
@@ -104,7 +108,7 @@
       </p>
     </div>
   </div>
-  <% if @vrental.office.coupons.present? %>
+  <% if @vrental.office.present? && @vrental.office.coupons.present? %>
     <div class="d-flex justify_content-end align-items-end">
       <%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
         <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>

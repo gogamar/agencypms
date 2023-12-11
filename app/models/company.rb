@@ -2,11 +2,17 @@ class Company < ApplicationRecord
   belongs_to :admin, class_name: "User", foreign_key: "user_id"
   has_many :users
   has_many :offices
+  has_many :vrentals, through: :offices
   has_many :vrentaltemplates
+  has_many :vragreements
+  has_many :statements
+  has_many :invoices
   has_many :features
   has_many :rate_plans
   has_one_attached :logo
-  # validate :user_can_create_only_one_company, on: :create
+  validate :only_one_active_company
+  validates :name, presence: true, uniqueness: true
+  validates :language, presence: true
 
   def available_vrentals(checkin, checkout, guests, prop_ids)
     available_vrentals = []
@@ -29,9 +35,9 @@ class Company < ApplicationRecord
 
   private
 
-  # def user_can_create_only_one_company
-  #   if current_user&.admin? && current_user.owned_company.present?
-  #     errors.add(:base, "Només es pot crear una empresa per usuari.")
-  #   end
-  # end
+  def only_one_active_company
+    if active? && Company.where(active: true).where.not(id: id).exists?
+      errors.add(:active, "Només pot haver una empresa activa")
+    end
+  end
 end

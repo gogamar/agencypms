@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_11_094803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -140,6 +140,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
     t.boolean "vat_tax_payer"
     t.string "realtor_number"
     t.string "language"
+    t.boolean "active", default: false
+    t.index ["active"], name: "index_companies_on_active", unique: true, where: "(active = true)"
     t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
@@ -228,6 +230,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
     t.bigint "vrental_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_invoices_on_company_id"
     t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
   end
 
@@ -251,6 +255,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
     t.string "beds_owner_id"
     t.text "beds_key"
     t.index ["company_id"], name: "index_offices_on_company_id"
+  end
+
+  create_table "owner_bookings", force: :cascade do |t|
+    t.string "status"
+    t.date "checkin"
+    t.date "checkout"
+    t.text "note"
+    t.string "beds_booking_id"
+    t.bigint "vrental_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vrental_id"], name: "index_owner_bookings_on_vrental_id"
   end
 
   create_table "owner_payments", force: :cascade do |t|
@@ -362,6 +378,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
     t.bigint "invoice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_statements_on_company_id"
     t.index ["invoice_id"], name: "index_statements_on_invoice_id"
     t.index ["vrental_id"], name: "index_statements_on_vrental_id"
   end
@@ -437,6 +455,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
     t.text "clause"
     t.string "status"
     t.integer "year"
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_vragreements_on_company_id"
     t.index ["vrental_id"], name: "index_vragreements_on_vrental_id"
     t.index ["vrentaltemplate_id"], name: "index_vragreements_on_vrentaltemplate_id"
   end
@@ -532,8 +552,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "companies"
   add_foreign_key "image_urls", "vrentals"
+  add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "vrentals"
   add_foreign_key "offices", "companies"
+  add_foreign_key "owner_bookings", "vrentals"
   add_foreign_key "owner_payments", "statements"
   add_foreign_key "owners", "users"
   add_foreign_key "payments", "bookings"
@@ -541,12 +563,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_085202) do
   add_foreign_key "rate_plans", "companies"
   add_foreign_key "rates", "rates", column: "weekly_rate_id"
   add_foreign_key "rates", "vrentals"
+  add_foreign_key "statements", "companies"
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"
   add_foreign_key "tasks", "users"
   add_foreign_key "tourists", "users"
   add_foreign_key "towns", "regions"
   add_foreign_key "users", "companies"
+  add_foreign_key "vragreements", "companies"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
   add_foreign_key "vrentals", "offices"

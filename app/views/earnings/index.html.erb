@@ -1,30 +1,67 @@
+<% if current_user.admin? || current_user.manager? %>
   <%= render 'shared/get_bookings' %>
-<div class="container d-flex justify-content-between">
-  <% if @vrental && @vrental.bookings.present? %>
-    <div class="flex-column">
-      <p>Comissió: <%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></p>
-      <p>Ingressos segons contracte (menys les reserves propietari) <%= number_to_currency(@vrental.total_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @vrental.total_rate_price %></p>
-      <p>Ingressos segons reserves <%= number_to_currency(@vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @vrental.total_bookings %></p>
-      <p>Ingressos segons liquidacions <%= number_to_currency(@vrental.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></p>
-      <p>Diferencia imports reserves i liquidacions: <%= number_to_currency((@vrental.total_bookings - @vrental.total_earnings).abs, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @vrental.total_earnings %> <%= rental_balance_message(@vrental) %></p>
-      <%= link_to request.original_url, class: "text-muted" do %>
-        <i class="fa-solid fa-redo me-2"></i>Refrescar la pàgina
-      <% end %>
+  <div class="container d-flex justify-content-between">
+    <% if @vrental && @vrental.bookings.present? %>
+      <div class="flex-column">
+        <p>Comissió: <%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></p>
+        <p>Ingressos segons contracte (menys les reserves propietari) <%= number_to_currency(@vrental.total_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @vrental.total_rate_price %></p>
+        <p>Ingressos segons reserves <%= number_to_currency(@vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @vrental.total_bookings %></p>
+        <p>Ingressos segons liquidacions <%= number_to_currency(@vrental.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></p>
+        <p>Diferencia imports reserves i liquidacions: <%= number_to_currency((@vrental.total_bookings - @vrental.total_earnings).abs, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @vrental.total_earnings %> <%= rental_balance_message(@vrental) %></p>
+        <%= link_to request.original_url, class: "text-muted" do %>
+          <i class="fa-solid fa-redo me-2"></i>Refrescar la pàgina
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <h4 class="text-center"><%= t('earnings') %></h4>
+  <% if @earnings.present? %>
+    <div id="earnings" class="container mt-5">
+      <%= render @earnings %>
     </div>
   <% end %>
-</div>
-<% if @earnings.present? %>
-  <div id="earnings" class="container mt-5">
-    <hr>
-    <div class="row">
-      <div class="col-lg-2 fw-bold nowrap">Descripció</div>
-      <div class="col-lg-2 fw-bold nowrap">Reserva</div>
-      <div class="col-lg-2 fw-bold nowrap">Segons contracte</div>
-      <div class="col-lg-2 fw-bold nowrap">Descompte</div>
-      <div class="col-lg-2 fw-bold nowrap">Liquidació</div>
-      <div class="col-lg-2 fw-bold nowrap"></div>
+<% elsif current_user.owner.present? %>
+  <h4 class="text-center"><%= t('bookings') %></h4>
+  <% if @earnings.present? %>
+    <div class="container mt-5">
     </div>
-    <hr>
-    <%= render @earnings %>
-  </div>
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+            <%= t('future_reservations') %>
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+          <div class="accordion-body">
+            <%= render @earnings %>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+            Here
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+          <div class="accordion-body">
+            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+            Accordion Item #3
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+          <div class="accordion-body">
+            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 <% end %>

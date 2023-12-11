@@ -1,9 +1,9 @@
 <div class="d-md-flex justify-content-between">
-  <% current_user.owned_company.offices.each do |office| %>
+  <% @company.offices.each do |office| %>
     <div class="d-flex flex-column p-3 border m-3">
       <h6><%= office.name %></h6>
       <span class="label bg-light-success text-success prt-type mb-3"><%= office.vrentals.count %> <%= t("vrental", count: office.vrentals.count) %></span>
-      <%= link_to edit_company_office_path(current_user.owned_company, office), class: "btn btn-sm btn-secondary" do %>
+      <%= link_to edit_company_office_path(@company, office), class: "btn btn-sm btn-secondary" do %>
         <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
         Modificar oficina <%= office.name %>
       <% end %>
