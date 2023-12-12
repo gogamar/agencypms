@@ -19,13 +19,21 @@
     </div>
   <% end %>
 </div>
-<%= calendar @availabilities do |date, availabilities| %>
-  <div class="calendar-day">
-    <%= date %>
-    <% availabilities.each do |availability| %>
-      <div class="availability">
-        <%= "Inventory: #{availability.inventory}" %>
+<div id="calendar" data-owner-bookings-path="<%= vrental_owner_bookings_path(@vrental) %>"></div>
+<div class="modal fade" id="ownerBooking" tabindex="-1" aria-labelledby="ownerBookingLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ownerBookingLabel"><%= t('owner_booking') %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
       </div>
-    <% end %>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t('close') %></button>
+        <button type="button" class="btn btn-primary"><%= t('save_changes') %></button>
+      </div>
+    </div>
   </div>
-<% end %>
+</div>

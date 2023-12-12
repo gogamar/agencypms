@@ -4,8 +4,8 @@
     <% if @vrental && @vrental.bookings.present? %>
       <div class="flex-column">
         <p>Comissió: <%= number_to_percentage(@vrental.commission.to_f*100, precision: 2) %></p>
-        <p>Ingressos segons contracte (menys les reserves propietari) <%= number_to_currency(@vrental.total_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @vrental.total_rate_price %></p>
-        <p>Ingressos segons reserves <%= number_to_currency(@vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if @vrental.total_bookings %></p>
+        <p>Ingressos segons contracte (menys les reserves propietari) <%= number_to_currency(@vrental.total_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")if @vrental.total_rate_price %></p>
+        <p>Ingressos segons reserves <%= number_to_currency(@vrental.total_bookings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")if @vrental.total_bookings %></p>
         <p>Ingressos segons liquidacions <%= number_to_currency(@vrental.total_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></p>
         <p>Diferencia imports reserves i liquidacions: <%= number_to_currency((@vrental.total_bookings - @vrental.total_earnings).abs, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @vrental.total_earnings %> <%= rental_balance_message(@vrental) %></p>
         <%= link_to request.original_url, class: "text-muted" do %>

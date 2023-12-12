@@ -2131,3 +2131,14 @@ th.next.available,
 .line-height-1 {
   line-height: 1;
 }
+
+.small-calendar {
+  font-size: 10px; /* Adjust the font size as needed */
+  padding: 5px; /* Adjust the padding as needed */
+  /* Add other custom styles to make the calendar smaller */
+}
+
+.spanning-line {
+  position: absolute;
+  /* Other styling for the line, like width, color, etc. */
+}

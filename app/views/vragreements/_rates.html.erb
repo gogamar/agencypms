@@ -19,8 +19,8 @@
           <td class="pricetable nowrap"><%= t("#{rate.arrival_day}") %></td>
           <td class="pricetable nowrap"><%= rate.min_stay %> <%= t("nights") %>
           </td>
-          <td class="pricetable nowrap text-right text-end"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %></td>
-          <td class="pricetable nowrap text-right text-end"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></td>
+          <td class="pricetable nowrap text-right text-end"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
+          <td class="pricetable nowrap text-right text-end"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
           <td class="pricetable nowrap text-right text-end">
             <% if rate.min_stay == 5 %>
               <%= number_to_currency((rate.priceweek / 6.295), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>

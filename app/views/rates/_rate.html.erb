@@ -10,9 +10,9 @@
     <div class="col-lg-1 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= rate.max_stay == 365 ? '' : rate.max_stay %></div>
     <div class="col-lg-2 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>"">
       <% if rate.vrental.price_per == "week" && rate.priceweek %>
-        <%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>/<%= t('week').downcase %>
+        <%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('week').downcase %>
       <% elsif rate.vrental.price_per == "night" && rate.pricenight || rate.restriction == "gap_fill" %>
-        <%= number_to_currency(rate.pricenight, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>/<%= t('night').downcase %>
+        <%= number_to_currency(rate.pricenight, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('night').downcase %>
       <% end %>
     </div>
     <% unless params[:controller] == 'vragreements' %>

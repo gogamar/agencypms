@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, only: [:show, :edit, :update, :destroy, :copy_rates, :copy_images, :send_rates, :delete_rates, :delete_year_rates, :get_rates, :get_availabilities_from_beds, :update_on_beds, :update_from_beds, :update_owner_from_beds, :get_bookings, :prevent_gaps, :annual_statement, :fetch_earnings, :upload_dates, :add_photos, :send_photos, :import_photos, :import_from_group, :add_owner, :add_booking_conditions, :add_descriptions, :add_features]
+  before_action :set_vrental, except: [:index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -131,6 +131,7 @@ class VrentalsController < ApplicationController
     @annual_agency_commission = (@annual_earnings.sum(:amount) * (@vrental.commission || 0)).round(2)
     @annual_agency_commission_vat = @annual_agency_commission * 0.21
     @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses_owner.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
+    @corresponding_statement = @annual_statements.last
 
     respond_to do |format|
       format.html
@@ -147,7 +148,7 @@ class VrentalsController < ApplicationController
           spacing: 30,
           content: render_to_string(
             'shared/pdf_header',
-            locals: { resource: @vrental.office }
+            locals: { resource: @corresponding_statement }
           )
          },
          formats: [:html],

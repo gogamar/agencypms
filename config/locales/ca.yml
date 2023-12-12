@@ -758,6 +758,8 @@ ca:
   company_active: Empresa activa
   company_inactive: Empresa inactiva
   add_new_company: Afegir nova empresa
+  open_menu: Abrir menú
+  close_menu: Tancar menú
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

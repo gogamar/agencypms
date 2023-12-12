@@ -21,11 +21,11 @@
       <div class="col-lg-2">
         <span class="text-info">Import reserva</span><br>
         <span>
-          <%= number_to_currency(earning.booking.price_no_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if earning.booking %>
+          <%= number_to_currency(earning.booking.price_no_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")if earning.booking %>
         </span>
         <br>
         <span>
-          <span>PVP: <%= number_to_currency(earning.booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %></span>
+          <span>PVP: <%= number_to_currency(earning.booking.price_with_portal, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></span>
         </span>
         <br>
         <span>
@@ -55,7 +55,7 @@
         <span class="text-info"><%= t('according_contract') %></span><br>
         <% contract_price = earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout) %>
         <% if contract_price.present? %>
-          <%= number_to_currency(contract_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>
+          <%= number_to_currency(contract_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>
         <% end %>
       </div>
       <div class="col-lg-2">
@@ -70,7 +70,7 @@
     <% end %>
     <div class="col-lg-2 nowrap">
       <span class="text-info"><%= t('statement_amount') %></span><br>
-      <%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if earning.amount %>
+      <%= number_to_currency(earning.amount, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")if earning.amount %>
     </div>
     <div class="col-lg-2 d-flex flex-column justify-content-start">
       <%= link_to edit_vrental_earning_path(earning.vrental, earning), class: "text-info text-decoration-none" do %>

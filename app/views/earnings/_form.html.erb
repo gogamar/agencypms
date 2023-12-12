@@ -19,7 +19,7 @@
       <% if earning.booking && earning.booking.charges.where(description: "rent") %>
         <div class="col-lg-2">
           <small class="text-info">Import reserva</small><br>
-          <%= number_to_currency((earning.booking.charges.where(charge_type: "rent").sum(:price) - earning.booking.commission), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') %>
+          <%= number_to_currency((earning.booking.charges.where(charge_type: "rent").sum(:price) - earning.booking.commission), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>
           <br>
           <small>PVP: <%= number_to_currency(earning.booking.charges.where(charge_type: "rent").sum(:price), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ')%></small>
           <br>
@@ -35,7 +35,7 @@
           <small class="text-info"><%= t('according_contract') %></small><br>
           <span data-earning-calculator-target="ratePrice">
             <% earning_rate_price = earning.vrental.rate_price(earning.booking.checkin, earning.booking.checkout) %>
-            <%= number_to_currency(earning_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u").delete(' ') if earning_rate_price %>
+            <%= number_to_currency(earning_rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")if earning_rate_price %>
           </span>
         </div>
       <% end %>

@@ -4,8 +4,21 @@ class OwnerBookingsController < ApplicationController
 
   def index
     @owner_bookings = policy_scope(OwnerBooking).includes(:vrental).where(vrental_id: @vrental.id).order(checkin: :asc)
+    @owner_bookings_calendar = @owner_bookings.map do |booking|
+      {
+        id: booking.id,
+        title: booking.note,
+        start: booking.checkin,
+        end: booking.checkout
+      }
+    end
     @availabilities = @vrental.availabilities.to_a.group_by(&:date)
     @pagy, @owner_bookings = pagy(@owner_bookings, page: params[:page], items: 10)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @owner_bookings_calendar }
+    end
   end
 
   def new
@@ -41,16 +54,17 @@ class OwnerBookingsController < ApplicationController
   end
 
   private
-    def set_owner_booking
-      @owner_booking = OwnerBooking.find(params[:id])
-      authorize @owner_booking
-    end
 
-    def set_vrental
-      @vrental = Vrental.find(params[:vrental_id])
-    end
+  def set_owner_booking
+    @owner_booking = OwnerBooking.find(params[:id])
+    authorize @owner_booking
+  end
 
-    def owner_booking_params
-      params.require(:owner_booking).permit(:checkin, :checkout, :note, :vrental_id, :status)
-    end
+  def set_vrental
+    @vrental = Vrental.find(params[:vrental_id])
+  end
+
+  def owner_booking_params
+    params.require(:owner_booking).permit(:checkin, :checkout, :note, :vrental_id, :status)
+  end
 end
