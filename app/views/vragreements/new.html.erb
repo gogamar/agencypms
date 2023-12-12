@@ -2,7 +2,7 @@
 <p class="text-center text-info">Propietari: <%= @vrental.owner&.fullname %></p>
 <p class="text-center text-info">Idioma: <%= t("#{@vrental.owner.language}") if @vrental.owner %></p>
 <div class="text-center text-warning">
-  <% if @vrental.vragreements.exists? %>
+  <% if @vrental.vragreements.exists? && @years_vragreement_exists %>
     <small><%= link_to "El contracte ja existeix per #{@years_vragreement_exists.to_sentence}", vragreements_path(immoble: @vrental), target: "_blank", class: "text-info" %></small>
   <% end %>
 </div>
