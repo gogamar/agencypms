@@ -703,6 +703,22 @@ class VrentalApiService
         if beds24rates.empty?
           return
         end
+
+        # Then we select the rates older than 2 years for deletion
+        old_rates = []
+
+        beds24rates.each do |rate|
+          if rate["firstNight"].to_date.year < (Date.today.year - 2) || !@vrental.future_rates.pluck(:beds_rate_id).include?(rate['rateId'])
+            old_rate = {
+              action: "delete",
+              rateId: "#{rate["rateId"]}",
+              roomId: "#{rate["roomId"]}"
+          }
+            old_rates << old_rate
+          end
+        end
+        client.set_rates(@vrental.prop_key, setRates: old_rates)
+
         selected_rates = []
 
         if @vrental.price_per == "week"
@@ -783,21 +799,6 @@ class VrentalApiService
     client = BedsHelper::Beds.new(@vrental.office.beds_key)
 
     beds24rates = client.get_rates(@vrental.prop_key)
-    # Then we select the rates older than 2 years for deletion
-    rates_to_delete = []
-
-    beds24rates.each do |rate|
-      if rate["firstNight"].to_date.year < (Date.today.year - 2) || !@vrental.future_rates.pluck(:beds_rate_id).include?(rate['rateId'])
-        rate_to_delete = {
-          action: "delete",
-          rateId: "#{rate["rateId"]}",
-          roomId: "#{rate["roomId"]}"
-      }
-        rates_to_delete << rate_to_delete
-      end
-    end
-
-    client.set_rates(@vrental.prop_key, setRates: rates_to_delete)
 
     vrental_rates = []
 

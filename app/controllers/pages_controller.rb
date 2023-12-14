@@ -96,7 +96,7 @@ class PagesController < ApplicationController
       end
     end
 
-    @found_vrentals_number = @vrentals.count
+    @found_vrentals_number = @vrentals.length
 
     paginate_vrentals
   end

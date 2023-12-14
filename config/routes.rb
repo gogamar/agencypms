@@ -80,6 +80,7 @@ Rails.application.routes.draw do
         get :prevent_gaps
         get :import_from_group
         get :get_availabilities_from_beds
+        get :bookings_on_calendar
       end
       resources :availabilities, except: [:show]
       resources :statements
@@ -92,11 +93,18 @@ Rails.application.routes.draw do
         end
       end
       resources :expenses
-      resources :owner_bookings, only: [:new, :edit, :create, :update, :index]
+      resources :owner_bookings, only: [:new, :edit, :create, :update, :index] do
+        member do
+          get 'show_form'
+        end
+      end
 
       resources :bookings do
         resources :payments
         resources :charges
+        member do
+          get 'show_booking'
+        end
       end
       resources :rates, only: [:new, :edit, :create, :update, :index, :show]
       resources :vragreements do

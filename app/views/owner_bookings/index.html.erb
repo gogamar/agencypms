@@ -1,38 +1,13 @@
-<%= link_to "New Owner Booking", new_vrental_owner_booking_path(@vrental), class: "btn btn-primary mb-3" %>
-<div class="row">
-  <% @owner_bookings.each do |owner_booking| %>
-    <div class="col-md-4">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Booking Details</h5>
-          <p class="card-text"><strong>Status:</strong> <%= owner_booking.status %></p>
-          <p class="card-text"><strong>Check-In:</strong> <%= owner_booking.checkin.strftime('%Y-%m-%d') %></p>
-          <p class="card-text"><strong>Check-Out:</strong> <%= owner_booking.checkout.strftime('%Y-%m-%d') %></p>
-          <p class="card-text"><strong>Notes:</strong> <%= owner_booking.note %></p>
-          <%= link_to "Edit", edit_vrental_owner_booking_path(@vrental, owner_booking) %>
-          <%= form_for owner_booking, url: vrental_owner_booking_path(@vrental, owner_booking), method: :patch, remote: true do |f| %>
-            <%= f.hidden_field :status, value: "0" %>
-            <%= f.submit "Cancel", class: "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" } %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
-<div id="calendar" data-owner-bookings-path="<%= vrental_owner_bookings_path(@vrental) %>"></div>
+<%= link_to t('new_owner_booking'), new_vrental_owner_booking_path(@vrental), class: "btn btn-primary mb-3" %>
+<div id="calendar" data-bookings-on-calendar-path="<%= bookings_on_calendar_vrental_path(@vrental) %>"></div>
 <div class="modal fade" id="ownerBooking" tabindex="-1" aria-labelledby="ownerBookingLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ownerBookingLabel"><%= t('owner_booking') %></h5>
+        <h5 class="modal-title"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
       </div>
       <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t('close') %></button>
-        <button type="button" class="btn btn-primary"><%= t('save_changes') %></button>
       </div>
     </div>
   </div>

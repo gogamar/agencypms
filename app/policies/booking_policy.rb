@@ -13,6 +13,10 @@ class BookingPolicy < ApplicationPolicy
     user.admin? || user.vrental_manager(record)
   end
 
+  def show_booking?
+    return show?
+  end
+
   def new?
     return create?
   end

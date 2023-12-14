@@ -1,24 +1,11 @@
 class OwnerBookingsController < ApplicationController
   before_action :set_vrental
-  before_action :set_owner_booking, only: %i[edit update]
+  before_action :set_owner_booking, only: %i[edit update show_form]
 
   def index
     @owner_bookings = policy_scope(OwnerBooking).includes(:vrental).where(vrental_id: @vrental.id).order(checkin: :asc)
-    @owner_bookings_calendar = @owner_bookings.map do |booking|
-      {
-        id: booking.id,
-        title: booking.note,
-        start: booking.checkin,
-        end: booking.checkout
-      }
-    end
     @availabilities = @vrental.availabilities.to_a.group_by(&:date)
     @pagy, @owner_bookings = pagy(@owner_bookings, page: params[:page], items: 10)
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @owner_bookings_calendar }
-    end
   end
 
   def new
@@ -28,6 +15,10 @@ class OwnerBookingsController < ApplicationController
 
   def edit; end
 
+  def show_form
+    render partial: 'calendar_modal'
+  end
+
   def create
     @owner_booking = OwnerBooking.new(owner_booking_params)
     authorize @owner_booking
@@ -35,21 +26,17 @@ class OwnerBookingsController < ApplicationController
     @owner_booking.status = "1"
 
     if @owner_booking.valid? && @owner_booking.save
-      VrentalApiService.new(@vrental).send_owner_booking(@owner_booking)
-      VrentalApiService.new(@vrental).get_bookings_from_beds(Date.today)
-      redirect_to vrental_owner_bookings_path, notice: t('owner_booking_created')
+      redirect_to vrental_owner_bookings_path(@vrental), notice: t('owner_booking_created')
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
   def update
     if @owner_booking.update(owner_booking_params)
-      VrentalApiService.new(@vrental).send_owner_booking(@owner_booking)
-      VrentalApiService.new(@vrental).get_bookings_from_beds(Date.today)
-      redirect_to vrental_earnings_path, notice: t('owner_booking_edited')
+      redirect_to vrental_owner_bookings_path(@vrental), notice: t('owner_booking_edited')
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
 

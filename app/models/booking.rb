@@ -16,6 +16,14 @@ class Booking < ApplicationRecord
     "2" => "new"
   }
 
+  def has_overbooking?
+    return false if overlapping_bookings.empty?
+
+    overlapping_bookings.any? do |overlapping_booking|
+      overlapping_booking.checkout > checkin
+    end
+  end
+
   def overlapping_bookings
     if vrental_id && checkin && checkout
 

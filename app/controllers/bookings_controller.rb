@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
   before_action :set_vrental
-  before_action :set_booking, only: %i[edit update destroy]
+  before_action :set_booking, only: %i[edit update destroy show_booking]
 
   def index
     @bookings = policy_scope(Booking).order(checkin: :asc)
@@ -18,6 +18,10 @@ class BookingsController < ApplicationController
       booking.charges.where(charge_type: 'rent').sum(:price)
     end.sum
     @total_net = @total_rent - @total_commission
+  end
+
+  def show_booking
+    render partial: 'booking_on_calendar'
   end
 
   def edit
@@ -56,6 +60,7 @@ class BookingsController < ApplicationController
   private
     def set_booking
       @booking = Booking.find(params[:id])
+      authorize @booking
     end
 
     def set_vrental

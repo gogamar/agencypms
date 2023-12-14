@@ -1,0 +1,5 @@
+<%= form_for @owner_booking, url: vrental_owner_booking_path(@vrental, @owner_booking), method: :patch, remote: true do |f| %>
+  <%= f.hidden_field :status, value: "0" %>
+  <%= f.submit t('cancel'), class: "btn btn-danger btn-sm", data: { confirm: t('are_you_sure') } %>
+<% end %>
+<%= render "form" %>

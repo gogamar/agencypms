@@ -43,6 +43,10 @@ class VrentalPolicy < ApplicationPolicy
     user.admin? || user.manager? || record.owner == user.owner
   end
 
+  def bookings_on_calendar?
+    user.admin? || user.manager? || record.owner == user.owner
+  end
+
   def copy?
     return create?
   end

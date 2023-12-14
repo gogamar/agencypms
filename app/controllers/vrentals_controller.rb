@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, except: [:index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
+  before_action :set_vrental, except: [:new, :create, :index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -36,6 +36,39 @@ class VrentalsController < ApplicationController
 
   def empty_vrentals
     # find all multipliers where inventory is > 0 for the next month
+  end
+
+  def bookings_on_calendar
+    @owner_bookings = @vrental.owner_bookings.where(status: "1").order(checkin: :asc)
+
+    @owner_calendar = @owner_bookings.map do |booking|
+      {
+        id: booking.id,
+        title: t('owner_booking'),
+        start: booking.checkin.to_datetime.change(hour: 15, min: 0, sec: 0),
+        end: booking.checkout.to_datetime.change(hour: 10, min: 0, sec: 0),
+        color: "#ee6e1e",
+        extendedProps: { form_path: show_form_vrental_owner_booking_path(@vrental, booking), top_position: "top-position-0" }
+      }
+    end
+
+    @confirmed_bookings = @vrental.bookings.where.not(status: "0").order(checkin: :asc)
+
+    @confirmed_calendar = @confirmed_bookings.map do |booking|
+      top_class = booking.has_overbooking? ? "" : "top-position-0"
+      {
+        id: booking.id,
+        title: t('confirmed_booking'),
+        start: booking.checkin.to_datetime.change(hour: 15, min: 0, sec: 0),
+        end: booking.checkout.to_datetime.change(hour: 10, min: 0, sec: 0),
+        color: "#4caf50",
+        extendedProps: { form_path: show_booking_vrental_booking_path(@vrental, booking), top_position: top_class }
+      }
+    end
+
+    @bookings_calendar = @owner_calendar + @confirmed_calendar
+
+    render json: @bookings_calendar
   end
 
   def total_earnings

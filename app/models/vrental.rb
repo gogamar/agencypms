@@ -597,6 +597,17 @@ class Vrental < ApplicationRecord
     }
   end
 
+  def overbookings
+    confirmed_bookings = self.bookings.where.not(status: "0").order(checkin: :asc)
+    overbookings = []
+
+    confirmed_bookings.each do |booking|
+      this_booking_overbookings = booking.overlapping_bookings
+      overbookings.concat(this_booking_overbookings) if this_booking_overbookings.present?
+    end
+    overbookings
+  end
+
   private
 
   def cannot_reference_self_as_master

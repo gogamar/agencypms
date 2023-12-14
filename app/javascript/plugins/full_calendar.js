@@ -1,7 +1,6 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import multiMonthPlugin from "@fullcalendar/multimonth";
 import esLocale from "@fullcalendar/core/locales/es";
 import frLocale from "@fullcalendar/core/locales/fr";
 import enLocale from "@fullcalendar/core/locales/en-gb";
@@ -11,27 +10,28 @@ export function initFullCalendar() {
   const calendarEl = document.getElementById("calendar");
   const currentLocale = document.body.getAttribute("data-locale");
   if (calendarEl) {
-    console.log("connected");
-    const ownerBookingsPath = calendarEl.dataset.ownerBookingsPath;
+    const bookingsOnCalendarPath = calendarEl.dataset.bookingsOnCalendarPath;
     const calendar = new Calendar(calendarEl, {
-      plugins: [dayGridPlugin, interactionPlugin, multiMonthPlugin],
+      plugins: [dayGridPlugin, interactionPlugin],
       locales: [esLocale, frLocale, enLocale, caLocale],
-      initialView: "multiMonthFourMonth",
+      initialView: "dayGridMonth",
       locale: currentLocale,
-      views: {
-        multiMonthFourMonth: {
-          type: "multiMonth",
-          duration: { months: 4 },
-        },
-      },
       displayEventTime: false,
-      events: ownerBookingsPath + ".json",
+      events: bookingsOnCalendarPath + ".json",
       contentHeight: 800,
       eventClick: function (info) {
-        var eventId = info.event.id;
-        var eventTitle = info.event.title;
-
-        openEventDetails(eventId, eventTitle);
+        const eventId = info.event.id;
+        const eventTitle = info.event.title;
+        const eventFormPath = info.event.extendedProps.form_path;
+        openEventDetails(eventId, eventTitle, eventFormPath);
+      },
+      eventDidMount: function (info) {
+        const eventElement = info.el;
+        const eventTopPosition = info.event.extendedProps.top_position;
+        const eventHarnessElement = eventElement.parentElement;
+        if (eventHarnessElement && eventTopPosition) {
+          eventHarnessElement.classList.add(eventTopPosition);
+        }
       },
     });
 
@@ -39,32 +39,42 @@ export function initFullCalendar() {
   }
 }
 
-const openEventDetails = (eventId, eventTitle) => {
+const openEventDetails = (eventId, eventTitle, eventFormPath) => {
   const editOwnerBooking = new bootstrap.Modal(
     document.getElementById("ownerBooking")
   );
   editOwnerBooking.show();
-  document
-    .getElementById("saveEventChanges")
-    .addEventListener("click", function () {
-      // Retrieve and update event data from modal fields
-      var newTitle = document.getElementById("eventTitle").value;
-      // Update other event properties as needed
 
-      // Update the event in FullCalendar
-      // You might need to pass more information like the event object, start date, end date, etc.
-      // For example: updateEvent(eventId, newTitle, startDate, endDate);
-      // Implement the updateEvent function accordingly
-
-      // Close the modal
-      editEventModal.style.display = "none";
+  const modalTitle = document.querySelector("#ownerBooking .modal-title");
+  modalTitle.innerHTML = eventTitle;
+  const modalBody = document.querySelector("#ownerBooking .modal-body");
+  modalBody.innerHTML = "";
+  fetch(eventFormPath)
+    .then((response) => response.text())
+    .then((data) => {
+      modalBody.innerHTML = data;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
     });
 
-  // Handle the modal close button click
-  document
-    .getElementById("closeEventModal")
-    .addEventListener("click", function () {
-      // Close the modal without saving changes
-      editEventModal.style.display = "none";
-    });
+  const modalClose = document.querySelector("#ownerBooking .btn-close");
+  modalClose.addEventListener("click", function () {
+    editOwnerBooking.hide();
+  });
 };
+
+// const setTopPosition = (eventElement, eventTopPosition) => {
+//   const dayEvent = document.querySelector(".fc-daygrid-event-harness");
+//   console.log(dayEvent);
+//   // const dayEvents = document.querySelectorAll(".fc-daygrid-day-events");
+
+//   // dayEvents.forEach((dayEvent) => {
+//   //   const eventHarnesses = dayEvent.querySelectorAll(
+//   //     ".fc-daygrid-event-harness"
+//   //   );
+//   //   for (let i = 0; i < Math.min(eventHarnesses.length, 2); i++) {
+//   //     eventHarnesses[i].style.top = "0px";
+//   //   }
+//   // });
+// };

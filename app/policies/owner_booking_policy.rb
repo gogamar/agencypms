@@ -33,6 +33,10 @@ class OwnerBookingPolicy < ApplicationPolicy
     user.admin? || user.manager? || user.vrental_owner(record)
   end
 
+  def show_form?
+    user.admin? || user.manager? || user.vrental_owner(record)
+  end
+
   def grant_access?
     user.admin? || user.manager?
   end
