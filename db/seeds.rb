@@ -109,15 +109,25 @@
 
 # Add company to statements, invoices and vragreements
 
-@company = Company.first
-Statement.all.each do |statement|
-  statement.update(company: @company)
+# @company = Company.first
+# Statement.all.each do |statement|
+#   statement.update(company: @company)
+# end
+# Invoice.all.each do |invoice|
+#   invoice.update(company: @company)
+# end
+# Vragreement.all.each do |vragreement|
+#   vragreement.update(company: @company)
+# end
+
+# city tax
+
+towns = Town.all
+
+towns.each do |town|
+  town.update(city_tax: 0.99)
 end
-Invoice.all.each do |invoice|
-  invoice.update(company: @company)
-end
-Vragreement.all.each do |vragreement|
-  vragreement.update(company: @company)
-end
+
+Town.find_by(name: "Barcelona").update(city_tax: 5.50)
 
 puts "Done!"

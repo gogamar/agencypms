@@ -52,11 +52,6 @@ class Vrental < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-  CONTRACT_TYPES = ['commission', 'fixed_price'].freeze
-  FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
-  RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
-  PRICE_PER = ['night', 'week'].freeze
-
   validates_presence_of :name, :address
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
@@ -68,6 +63,11 @@ class Vrental < ApplicationRecord
   # validate :cannot_reference_self_as_master
   # validates :fixed_price_amount, presence: true, if: -> { contract_type == 'fixed_price' }
   # validates :fixed_price_frequency, presence: true, inclusion: { in: FIXED_PRICE_FREQUENCIES }, if: -> { contract_type == 'fixed_price' }
+
+  CONTRACT_TYPES = ['commission', 'fixed_price'].freeze
+  FIXED_PRICE_FREQUENCIES = ['monthly', 'yearly'].freeze
+  RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
+  PRICE_PER = ['night', 'week'].freeze
 
   PROPERTY_TYPES = {
     "1": "apartment",
@@ -565,6 +565,104 @@ class Vrental < ApplicationRecord
           arrival_day: existingrate.arrival_day
         )
       end
+    end
+  end
+
+  def feature_codes_bedroom_bathrooms
+    feature_codes = []
+    features.each do |feature|
+      feature_codes << [feature.name.upcase]
+    end
+    bedroom_codes = []
+    bedrooms.each do |bedroom|
+      bedroom_code = [bedroom.bedroom_type.upcase]
+      bedroom.beds.each do |bed|
+        bedroom_code << [bed.bed_type.upcase]
+      end
+      bedroom_codes << bedroom_code.flatten
+    end
+    bathroom_codes = []
+    bathrooms.each do |bathroom|
+      bathroom_codes << ["BATHROOM", bathroom.bathroom_type.upcase]
+    end
+    feature_codes + bedroom_codes + bathroom_codes
+  end
+
+  def pets_json
+    if features.include?("pets_considered")
+      {
+        "type": "1",
+        "price": "7.0000",
+        "unit": "0",
+        "period": "0",
+        "vat": "0.00",
+        "image": "0",
+        "description": {
+          "EN": "Pet fee",
+          "CA": "Mascota",
+          "ES": "Mascota",
+          "FR": "Animal de compagnie"
+        }
+      }
+    end
+  end
+
+  def city_tax_daily_json
+    daily_city_tax = number_to_currency(town.city_tax, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")
+    if town
+      {
+        "type": "1",
+        "price": daily_city_tax,
+        "unit": "2",
+        "period": "1",
+        "vat": "10.00",
+        "image": "0",
+        "description": {
+          "EN": "Tourist tax #{city_tax_amount} per adult / per night",
+          "CA": "Taxa turística #{city_tax_amount} per adult / per nit",
+          "ES": "Tasa turística #{city_tax_amount} por adulto / por noche",
+          "FR": "Taxe de séjour #{city_tax_amount} par adulte / par nuit"
+        }
+      }
+    end
+  end
+
+  def city_tax_weekly_json
+    if town && town.city_tax
+      weekly_city_tax = number_to_currency((town.city_tax * 7), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")
+      {
+        "type": "1",
+        "price": weekly_city_tax,
+        "unit": "2",
+        "period": "1",
+        "vat": "10.00",
+        "image": "0",
+        "description": {
+          "EN": "Tourist tax #{weekly_city_tax} per adult / per night (for the first 7 nights)",
+          "CA": "Taxa turística #{weekly_city_tax} per adult / per nit (les 7 primeres nits)",
+          "ES": "Tasa turística #{weekly_city_tax} por adulto / por noche (las 7 primeras noches)",
+          "FR": "Taxe de séjour #{weekly_city_tax} par adulte / par nuit (les 7 premières nuits)"
+        }
+      }
+    end
+  end
+
+  def portable_wifi_json
+    unless features && features.include?("wifi")
+      {
+        "type": "1",
+        "price": "35.0000",
+        "unit": "4",
+        "period": "0",
+        "vat": "21.00",
+        "image": "0",
+        "description": {
+        "EN": "Portable Wifi",
+        "CA": "Wifi portàtil",
+        "ES": "Wifi portátil",
+        "FR": "Wifi portable"
+        }
+      }
     end
   end
 

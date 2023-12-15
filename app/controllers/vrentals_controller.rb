@@ -351,6 +351,10 @@ class VrentalsController < ApplicationController
       @vrental.status = 'new_web'
     end
 
+    # fixme add town_id from address
+
+    # town_id: Town.where("name ILIKE ?", "%#{property["city"]}%").first&.id || Town.create(name: property["city"]).id
+
     authorize @vrental
 
     if @vrental.save

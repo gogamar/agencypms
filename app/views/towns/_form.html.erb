@@ -2,6 +2,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.input :city_tax, hint: t('city_tax_with_vat') %>
     <%= f.input :description_ca %>
     <%= f.input :description_es %>
     <%= f.input :description_en %>

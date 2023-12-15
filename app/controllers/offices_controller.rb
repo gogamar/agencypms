@@ -43,15 +43,15 @@ class OfficesController < ApplicationController
     redirect_to offices_url, notice: "Oficina esborrada."
   end
 
+  def destroy_all_properties
+    @office.vrentals.destroy_all
+  end
+
   def import_properties
     no_import = params[:no_import] if params[:no_import].present?
     import_name = params[:import_name] if params[:import_name].present?
-    @office.import_properties_from_beds(no_import, import_name)
+    VrentalApiService.new(@office).import_properties_from_beds(no_import, import_name)
     redirect_to vrentals_path, notice: "Immobles importats de Beds24."
-  end
-
-  def destroy_all_properties
-    @office.vrentals.destroy_all
   end
 
   private

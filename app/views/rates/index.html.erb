@@ -31,7 +31,7 @@
       <% end %>
       <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
         <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success" do %>
-          <i class="fas fa-paper-plane fa-sm me-2"></i> Enviar tarifes a Beds24
+          <i class="fas fa-paper-plane fa-sm me-2"></i> <%= t('send_rates_to_beds') %>
         <% end %>
         <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger" do %>
           <i class="fas fa-exclamation-triangle me-2"></i> Esborra les futures tarifes en Beds24

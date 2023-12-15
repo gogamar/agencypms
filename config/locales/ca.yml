@@ -764,6 +764,8 @@ ca:
   last_name: Cognoms
   cancel: Cancel·lar
   new_owner_booking: Afegir reserva propietari
+  send_rates_to_beds: Enviar tarifes a Beds24
+  city_tax_with_vat: Impost turístic amb IVA inclòs
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

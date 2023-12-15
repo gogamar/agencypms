@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_11_094803) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -418,6 +418,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_11_094803) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "region_id"
+    t.decimal "city_tax", precision: 10, scale: 2
     t.index ["region_id"], name: "index_towns_on_region_id"
   end
 

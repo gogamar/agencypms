@@ -13,11 +13,14 @@ class Office < ApplicationRecord
 
     begin
       beds24rentals = client.get_properties
-      puts beds24rentals
-      beds24rentals.each do |bedsrental|
+      # select only the ones that are not already imported
+      new_beds24rentals = beds24rentals.select { |bedsrental| !Vrental.find_by(beds_prop_id: bedsrental["propId"]).present? }
+      puts "these are the new beds24rentals: #{new_beds24rentals}"
+      new_beds24rentals.each do |bedsrental|
         # secure_prop_key = SecureRandom.alphanumeric(16)
-        secure_prop_key = bedsrental["propId"] + "2t0h2i3s1i0s2s4ecure"
+        # secure_prop_key = bedsrental["propId"] + "2t0h2i3s1i0s2s4ecure"
         bedsrental["roomTypes"].each do |room|
+
           if no_import.present?
             words_array = no_import.split(', ').map(&:downcase)
             match_found = words_array.any? do |word|
@@ -25,6 +28,7 @@ class Office < ApplicationRecord
             end
           end
           next if no_import.present? && match_found
+
           vrental_name = import_name == "property" ? bedsrental["name"] : room["name"]
           vrental = Vrental.find_by(beds_room_id: room["roomId"])
           unless vrental.present?
@@ -38,15 +42,14 @@ class Office < ApplicationRecord
             #   account: bedsrental["template6"],
             #   beds_room_id: bedsrental["roomTypes"][0]["roomId"],
             #   )
-            vrental = Vrental.create!(
+            new_vrental = Vrental.create(
               name: vrental_name,
               property_type: Vrental::PROPERTY_TYPES[bedsrental["propTypeId"]],
               address: bedsrental["address"] + ', ' + bedsrental["postcode"] + ' ' + bedsrental["city"],
               beds_prop_id: bedsrental["propId"],
               beds_room_id: room["roomId"],
               max_guests: room["maxPeople"].to_i,
-              user_id: company.admin.id,
-              prop_key: secure_prop_key,
+              # prop_key: secure_prop_key,
               status: "active",
               office_id: id,
               town_id: Town.where("name ILIKE ?", "%#{bedsrental["city"]}%").first&.id || Town.create(name: bedsrental["city"]).id,
@@ -58,7 +61,7 @@ class Office < ApplicationRecord
               commission: bedsrental["template8"].present? ? bedsrental["template8"] : ''
             )
           end
-          # VrentalApiService.new(vrental).get_content_from_beds
+          # VrentalApiService.new(new_vrental).get_content_from_beds
           sleep 2
         end
       end
