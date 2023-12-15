@@ -10,6 +10,9 @@ application.register("add-owner", AddOwnerController)
 import AddressAutocompleteController from "./address_autocomplete_controller"
 application.register("address-autocomplete", AddressAutocompleteController)
 
+import BedCopyController from "./bed_copy_controller"
+application.register("bed-copy", BedCopyController)
+
 import BookingConditionsController from "./booking_conditions_controller"
 application.register("booking-conditions", BookingConditionsController)
 

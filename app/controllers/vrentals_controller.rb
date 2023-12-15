@@ -1,5 +1,5 @@
 class VrentalsController < ApplicationController
-  before_action :set_vrental, except: [:new, :create, :index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
+  before_action :set_vrental, except: [:new, :create, :copy, :index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
 
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
@@ -227,19 +227,26 @@ class VrentalsController < ApplicationController
 
   def copy
     @source = Vrental.find(params[:id])
-    @vrental = @source.dup
-    @vrental.name = "#{@vrental.name} CÒPIA"
-    @vrental.beds_prop_id = nil
-    @vrental.beds_room_id = nil
-    @vrental.prop_key = nil
-    @vrental.rates = []
-    @source.rates.each { |rate| @vrental.rates << rate.dup }
-    @vrental.features = []
-    # instead of duplicating features, the same features need to be assigned to the new record
-    @source.features.each { |feature| @vrental.features << feature }
-    authorize @vrental
-    @vrental.save!
-    redirect_to @vrental, notice: "S'ha creat una còpia de l'immoble: #{@vrental.name}."
+    authorize @source
+    @new_vrental = @source.dup
+    authorize @new_vrental
+    @new_vrental.name = "#{@new_vrental.name} CÒPIA"
+    @new_vrental.beds_prop_id = nil
+    @new_vrental.beds_room_id = nil
+    @new_vrental.prop_key = nil
+    @new_vrental.rates = []
+    @source.rates.each { |rate| @new_vrental.rates << rate.dup }
+    @source.bedrooms.each { |bedroom| @new_vrental.bedrooms << bedroom.dup } if @source.bedrooms.present?
+    @source.bedrooms.beds.each { |bed| @new_vrental.bedrooms.beds << bed.dup } if @source.bedrooms.present?
+    @source.bathrooms.each { |bathroom| @new_vrental.bathrooms << bathroom.dup } if @source.bathrooms.present?
+
+    if @new_vrental.save
+      @source.features.each { |feature| @new_vrental.features << feature }
+      @new_vrental.save
+      redirect_to @new_vrental, notice: "S'ha creat una còpia de l'immoble: #{@new_vrental.name}."
+    else
+      redirect_back(fallback_location: vrentals_path, alert: @new_vrental.errors.full_messages.to_sentence)
+    end
   end
 
   def copy_rates
@@ -375,6 +382,7 @@ class VrentalsController < ApplicationController
   def add_booking_conditions; end
   def add_descriptions; end
   def add_features; end
+  def add_bedrooms_bathrooms; end
 
   def fetch_earnings
     authorize @vrental
@@ -447,6 +455,8 @@ class VrentalsController < ApplicationController
       elsif request_context == 'add_descriptions'
         redirect_to add_features_vrental_path(@vrental)
       elsif request_context == 'add_features'
+        redirect_to add_bedrooms_bathrooms_vrental_path(@vrental)
+      elsif request_context == 'add_bedrooms_bathrooms'
         redirect_to vrental_rates_path(@vrental)
       elsif request_context == 'add_rates'
         redirect_to add_photos_vrental_path(@vrental)
@@ -479,6 +489,7 @@ class VrentalsController < ApplicationController
 
   def render_update_failure
     error_messages = @vrental.errors.full_messages.join(", ")
+    puts "ERRORS: #{error_messages}"
     flash.now[:alert] = "No s'ha pogut modificar l'immoble. #{error_messages}"
     render :edit, status: :unprocessable_entity
   end
@@ -490,8 +501,8 @@ class VrentalsController < ApplicationController
 
   def vrental_params
     params.require(:vrental).permit(
-      :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en,
-      :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :weekly_discount_included, :min_price, feature_ids: [], photos: []
+      :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en, :cleaning_fee, :cut_off_hour, :checkin_start_hour, :checkin_end_hour, :checkout_end_hour, :short_description_ca, :short_description_es, :short_description_fr, :short_description_en, :access_text_ca, :access_text_es, :access_text_fr, :access_text_en, :house_rules_ca, :house_rules_es, :house_rules_fr, :house_rules_en, :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :min_price, :bedroom_count, :bathroom_count, feature_ids: [], photos: [], bedrooms_attributes: [:id, :bedroom_type, :bed_count, :_destroy, beds_attributes: [:id, :bed_type, :_destroy]],
+      bathrooms_attributes: [:id, :bathroom_type, :_destroy]
     )
   end
 end

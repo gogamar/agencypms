@@ -89,7 +89,7 @@ class VrentalApiService
     # also set status to inactive if no rates or no bookings this year, whatever's easier
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
-      bedsrental = client.get_property_content(@target.prop_key, roomIds: true, texts: true, includeAirbnb: true)[0]
+      bedsrental = client.get_property_content(@target.prop_key, bookingData: true, roomIds: true, texts: true, includeAirbnb: true)[0]
       room = bedsrental["roomIds"][@target.beds_room_id]
 
       @target.update!(
@@ -340,37 +340,73 @@ class VrentalApiService
 
   def update_vrental_on_beds
     client = BedsHelper::Beds.new(@target.office.beds_key)
-    beds24rentals_prop_names = Set.new(client.get_properties.map { |bedsrental| bedsrental["name"] })
 
-    if beds24rentals_prop_names.include?(@target.name)
-      bedsrental = [
-          {
-            "action": "modify",
-            "roomTypes": [
-              {
-                "action": "modify",
-                "roomId": @target.beds_room_id
-              }.merge(@target.beds_room_type)
-            ]
-          }
-      ]
-      client.set_property(@target.prop_key, setProperty: bedsrental)
-    else
-      new_bedrentals = []
-      new_bedrental = {
-        name: @target.name,
-        prop_key: @target.prop_key,
-        roomTypes: [
-          @target.beds_room_type
+    begin
+      beds24rentals_prop_ids = Set.new(client.get_properties.map { |bedsrental| bedsrental["propId"] })
+      puts "these are beds24rentals_prop_ids: #{beds24rentals_prop_ids}"
+      puts "and this is @target.beds_prop_id: #{@target.beds_prop_id}"
+      if @target.beds_prop_id && beds24rentals_prop_ids.include?(@target.beds_prop_id)
+        bedsrental = [
+            {
+              action: "modify",
+              name: @target.name,
+              propTypeId: Vrental::PROPERTY_TYPES.key(@target.property_type),
+              address: @target.address,
+              city: @target.town&.name,
+              latitude: @target.latitude,
+              longitude: @target.longitude,
+              cutOffHour: @target.cut_off_hour,
+              currency: "EUR",
+              roomTypes: [
+                {
+                  action: "modify",
+                  roomId: @target.beds_room_id,
+                }.merge(@target.beds_room_type)
+              ]
+            }
         ]
-      }
-      new_bedrentals << new_bedrental
-      response = client.create_properties(createProperties: new_bedrentals)
+        set_property_response = client.set_property(@target.prop_key, setProperty: bedsrental)
+        puts "this is the set_property_response: #{set_property_response}"
+      else
+        new_bedrentals = []
 
-      @target.beds_prop_id = response[0]["propId"]
-      @target.beds_room_id = response[0]["roomTypes"][0]["roomId"]
-      @target.save!
+        if @target.prop_key.present?
+          assigned_prop_key = @target.prop_key
+        else
+          assigned_prop_key = SecureRandom.hex(16)
+          @target.prop_key = assigned_prop_key
+          @target.save!
+        end
+
+        new_bedrental = {
+          name: @target.name,
+          propKey: assigned_prop_key,
+          notifyUrl: "https://sistachrentals.com/api/webhooks?property=[PROPERTYID]&checkin=[FIRSTNIGHTYYYY-MM-DD]&checkout=[LEAVINGDAYYYYY-MM-DD]&nights=[NUMNIGHT]&firstname=[GUESTFIRSTNAME]&lastname=[GUESTNAME]&adults=[NUMADULT]&children=[NUMCHILD]&referrer=[REFERRER]&price=[PRICE]",
+          notifyHeader: "X-Webhook-Token: 6sgwlain2t0h2i3s1i0s2",
+          propTypeId: Vrental::PROPERTY_TYPES.key(@target.property_type),
+          address: @target.address,
+          city: @target.town&.name,
+          latitude: @target.latitude,
+          longitude: @target.longitude,
+          cutOffHour: @target.cut_off_hour,
+          currency: "EUR",
+          roomTypes: [
+            @target.beds_room_type
+          ]
+        }
+        new_bedrentals << new_bedrental
+        create_property_response = client.create_properties(createProperties: new_bedrentals)
+        puts "this is the create property response: #{create_property_response}"
+
+        @target.beds_prop_id = create_property_response[0]["propId"]
+        @target.beds_room_id = create_property_response[0]["roomTypes"][0]["roomId"]
+        @target.save!
+      end
+      VrentalApiService.new(@target).set_content_on_beds
+    rescue => e
+      puts "Error exporting property #{@target.name}: #{e.message}"
     end
+    sleep 2
   end
 
   def set_content_on_beds
@@ -378,7 +414,6 @@ class VrentalApiService
     begin
       content_array = [
                         { "action": "modify",
-                          "bookingCutOffHour": "0",
                           "bookingType": "3",
                           "bookingNearTypeDays": "-1",
                           "bookingNearType": "0",
@@ -415,9 +450,9 @@ class VrentalApiService
                           "cardAcceptUnionpay": "1",
                           "cardAcceptVisa": "1",
                           "cardAcceptVoyager": "0",
-                          "checkInStartHour": "15",
-                          "checkInEndHour": "19",
-                          "checkOutEndHour": "10",
+                          "checkInStartHour": @target.checkin_start_hour || "15",
+                          "checkInEndHour": @target.checkin_end_hour || "20",
+                          "checkOutEndHour": @target.checkout_end_hour || "10",
                           "name": @target.name,
                           "permit": @target.licence,
                           "roomChargeDisplay": "0",
@@ -435,10 +470,10 @@ class VrentalApiService
                           },
                           "texts": {
                             "propertyDescription1": {
-                              "EN": "#{@target.description_en}",
-                              "CA": "#{@target.description_ca}",
-                              "ES": "#{@target.description_es}",
-                              "FR": "#{@target.description_fr}"
+                              "EN": "#{@target.full_description_en}",
+                              "CA": "#{@target.full_description_ca}",
+                              "ES": "#{@target.full_description_es}",
+                              "FR": "#{@target.full_description_fr}"
                             }
                           },
                           "bookingData": {
@@ -493,15 +528,14 @@ class VrentalApiService
                           "roomIds": {
                             "#{@target.beds_room_id}": {
                               "roomId": @target.beds_room_id,
-                              "name": "#{I18n.t(@target.property_type)} #{@target.name} (#{@target.beds_details.join(" ")})",
                               "featureCodes": @target.feature_codes_bedroom_bathrooms,
-                              # "rackRate": "200.00",
-                              # "cleaningFee": "0.00",
-                              # "securityDeposit": "0.00",
-                              # "taxPercent": "0.00",
-                              # "taxPerson": "0.99",
-                              # "roomType": "6",
-                              # "sellPriority": "5",
+                              "rackRate": "200.00",
+                              "cleaningFee": "0.00",
+                              "securityDeposit": "0.00",
+                              "taxPercent": "0.00",
+                              "taxPerson": "0.99",
+                              "roomType": "6",
+                              "sellPriority": "5",
                               "texts": {
                                 "contentHeadlineText": {
                                   "EN": "#{@target.title_en}",
@@ -510,10 +544,10 @@ class VrentalApiService
                                   "FR": "#{@target.title_fr}"
                                 },
                                 "contentDescriptionText": {
-                                  "EN": "#{@target.description_en}",
-                                  "CA": "#{@target.description_ca}",
-                                  "ES": "#{@target.description_es}",
-                                  "FR": "#{@target.description_fr}"
+                                  "EN": "#{@target.full_description_en}",
+                                  "CA": "#{@target.full_description_ca}",
+                                  "ES": "#{@target.full_description_es}",
+                                  "FR": "#{@target.full_description_fr}"
                                 },
                                 "accommodationType": {
                                   "EN": I18n.t(@target.property_type, locale: :en),
@@ -531,10 +565,10 @@ class VrentalApiService
                                     "FR": ""
                                     },
                                     "description1": {
-                                    "EN": "At the check-in, the obligatory tourist tax will be charged: 0.99€ per adult per night. It is paid only for the first 7 nights. ",
-                                    "CA": "Al check-in se li cobrarà l’impost turístic: 0,99€ per adult per nit. Es paga només per les 7 primeres nits.",
-                                    "ES": "En el check-in se le cobrará el impuesto turístico: 0,99€ por adulto por noche. Se paga sólo por las 7 primeras noches.",
-                                    "FR": "Lors de l'enregistrement, vous devrez payer la taxe de séjour: 0,99€ par adulte et par nuit. Vous ne payez que pour les 7 premières nuits."
+                                    "EN": "At the check-in, the obligatory tourist tax will be charged: #{@target.town&.city_tax}€ per adult per night. It is paid only for the first 7 nights. ",
+                                    "CA": "Al check-in se li cobrarà l’impost turístic: #{@target.town&.city_tax}€ per adult per nit. Es paga només per les 7 primeres nits.",
+                                    "ES": "En el check-in se le cobrará el impuesto turístico: #{@target.town&.city_tax}€ por adulto por noche. Se paga sólo por las 7 primeras noches.",
+                                    "FR": "Lors de l'enregistrement, vous devrez payer la taxe de séjour: #{@target.town&.city_tax}€ par adulte et par nuit. Vous ne payez que pour les 7 premières nuits."
                                     },
                                   },
                                 }
@@ -547,10 +581,10 @@ class VrentalApiService
                                       "FR": "#{@target.title_fr}"
                                   },
                                   "summaryText": {
-                                    "EN": "#{@target.description_en}",
-                                    "CA": "#{@target.description_ca}",
-                                    "ES": "#{@target.description_es}",
-                                    "FR": "#{@target.description_fr}"
+                                    "EN": "#{@target.short_description_en}",
+                                    "CA": "#{@target.short_description_ca}",
+                                    "ES": "#{@target.short_description_es}",
+                                    "FR": "#{@target.short_description_fr}"
                                   }
                               }
                             }
@@ -561,7 +595,7 @@ class VrentalApiService
 
       puts "this is the response: #{response}"
     rescue => e
-      puts "Error importing content for #{@target.name}: #{e.message}"
+      puts "Error setting content for #{@target.name}: #{e.message}"
     end
     sleep 2
   end
@@ -708,9 +742,6 @@ class VrentalApiService
                 min_stay: rate["minNights"].to_i,
                 arrival_day: 'everyday'
               )
-              if rate["pricesPer"] == "7"
-                existing_rate.create_nightly_rate unless @target.rates.find_by(weekly_rate_id: existing_rate.id).present?
-              end
             else
               new_rate = Rate.create!(
                 beds_rate_id: rate["rateId"],
@@ -723,9 +754,6 @@ class VrentalApiService
                 min_stay: rate["minNights"].to_i,
                 arrival_day: 'everyday'
               )
-              if rate["pricesPer"] == "7"
-                new_rate.create_nightly_rate
-              end
             end
           end
         end
@@ -763,6 +791,7 @@ class VrentalApiService
   end
 
   def send_rates_to_beds
+    # fixme: check that nightprice exists for every rate before sending
     client = BedsHelper::Beds.new(@target.office.beds_key)
 
     beds24rates = client.get_rates(@target.prop_key)

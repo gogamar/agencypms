@@ -4,7 +4,7 @@
 </div>
 <% if @vrental.rate_master_id.nil? %>
   <div class="mb-5 text-center">
-    <% if @vrental.future_rates.exists? && @vrental.future_rates.any? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
+    <% if @vrental.future_rates.exists? && @vrental.future_rates.any? { |rate| rate.pricenight.nil? }  %>
       <div class="alert position-relative alert-warning" role="alert">
         <%= t('add_prices_to_rates') %>
       </div>
@@ -23,13 +23,13 @@
       </div>
     <% end %>
     <div>
-      <% if !@vrental.future_rates.exists? %>
-        <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row align-items-center gap-3") do |form| %>
-          <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { class: "form-control", id: "select-rate-plan" } %>
-          <%= form.submit 'Carregar dates', class: 'btn btn-sm btn-primary' %>
-        <% end %>
+      <%# if !@vrental.future_rates.exists? %>
+      <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row align-items-center gap-3") do |form| %>
+        <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { class: "form-control", id: "select-rate-plan" } %>
+        <%= form.submit 'Carregar dates', class: 'btn btn-sm btn-primary' %>
       <% end %>
-      <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.priceweek.nil? && rate.pricenight.nil? }  %>
+      <%# end %>
+      <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.pricenight.nil? }  %>
         <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success" do %>
           <i class="fas fa-paper-plane fa-sm me-2"></i> <%= t('send_rates_to_beds') %>
         <% end %>

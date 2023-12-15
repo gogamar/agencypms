@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_15_203017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -67,6 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "bed_count"
     t.index ["vrental_id"], name: "index_bedrooms_on_vrental_id"
   end
 
@@ -201,7 +202,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "beds_room_id"
     t.boolean "highlight", default: false
     t.bigint "company_id"
     t.index ["company_id"], name: "index_features_on_company_id"
@@ -350,9 +350,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
     t.integer "max_stay", default: 365
     t.integer "min_advance", default: 0
     t.string "restriction", default: "normal"
-    t.bigint "weekly_rate_id"
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
-    t.index ["weekly_rate_id"], name: "index_rates_on_weekly_rate_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -419,6 +417,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
     t.datetime "updated_at", null: false
     t.bigint "region_id"
     t.decimal "city_tax", precision: 10, scale: 2
+    t.text "access_text_en"
+    t.text "access_text_ca"
+    t.text "access_text_es"
+    t.text "access_text_fr"
+    t.text "house_rules_en"
+    t.text "house_rules_ca"
+    t.text "house_rules_es"
+    t.text "house_rules_fr"
     t.index ["region_id"], name: "index_towns_on_region_id"
   end
 
@@ -507,10 +513,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
     t.string "rate_offset_type"
     t.string "price_per"
     t.decimal "weekly_discount"
-    t.boolean "weekly_discount_included", default: false
     t.integer "min_advance", default: 0
     t.integer "unit_number"
     t.integer "availability_master_id"
+    t.decimal "cleaning_fee"
+    t.integer "cut_off_hour"
+    t.time "checkin_start_hour"
+    t.time "checkin_end_hour"
+    t.time "checkout_end_hour"
+    t.text "short_description_en"
+    t.text "short_description_ca"
+    t.text "short_description_es"
+    t.text "short_description_fr"
+    t.text "access_text_en"
+    t.text "access_text_ca"
+    t.text "access_text_es"
+    t.text "access_text_fr"
+    t.text "house_rules_en"
+    t.text "house_rules_ca"
+    t.text "house_rules_es"
+    t.text "house_rules_fr"
+    t.integer "bedroom_count"
+    t.integer "bathroom_count"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -562,7 +586,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_201954) do
   add_foreign_key "payments", "bookings"
   add_foreign_key "rate_periods", "rate_plans"
   add_foreign_key "rate_plans", "companies"
-  add_foreign_key "rates", "rates", column: "weekly_rate_id"
   add_foreign_key "rates", "vrentals"
   add_foreign_key "statements", "companies"
   add_foreign_key "statements", "invoices"

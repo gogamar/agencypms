@@ -6,7 +6,7 @@ class RatePlansController < ApplicationController
   end
 
   def show
-    @rate_periods = @rate_plan.rate_periods
+    @rate_periods = @rate_plan.rate_periods.order(:firstnight)
     @year = @rate_plan.start.year
     @vrentals_with_rates = Vrental.joins(:rates)
                                   .where("EXTRACT(YEAR FROM rates.firstnight) = ?", @year)

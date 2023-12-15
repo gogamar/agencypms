@@ -2,47 +2,17 @@ class Rate < ApplicationRecord
   belongs_to :vrental
   validates :firstnight, :lastnight, :min_stay, :max_stay, :arrival_day, presence: true
   validates :lastnight, comparison: { greater_than: :firstnight }
-  belongs_to :weekly_rate, class_name: 'Rate', optional: true
-  has_many :nightly_rates, class_name: 'Rate', foreign_key: 'weekly_rate_id', dependent: :destroy
   # validate :check_uniqueness
+  before_save :calculate_pricenight, if: -> { priceweek.present? }
 
   RESTRICTION = ['normal', 'gap_fill'].freeze
 
-  def nightly_price_based_on_week
+  def calculate_pricenight
     decimal_discount = vrental.weekly_discount / 100 if vrental.weekly_discount.present?
-    discount_rate = vrental.weekly_discount_included ? (1 - decimal_discount) : decimal_discount
+    discount_rate = 1 - decimal_discount if decimal_discount.present?
     weekly_room_price = vrental.weekly_discount.present? ? priceweek / discount_rate : priceweek
-    nightly_price = vrental.weekly_discount_included ? weekly_room_price / 7 : priceweek / 7
-    nightly_price.round(2)
-  end
-
-  def create_nightly_rate
-    Rate.create(
-      vrental_id: self.vrental_id,
-      beds_room_id: self.beds_room_id,
-      firstnight: self.firstnight,
-      lastnight: self.lastnight,
-      arrival_day: self.arrival_day,
-      min_stay: self.min_stay,
-      pricenight: self.nightly_price_based_on_week,
-      weekly_rate_id: self.id
-    )
-  end
-
-  def update_nightly_rate
-    nightly_rate = vrental.rates.find_by(weekly_rate_id: self.id)
-    nightly_rate&.update(
-      firstnight: self.firstnight,
-      lastnight: self.lastnight,
-      arrival_day: self.arrival_day,
-      min_stay: self.min_stay,
-      pricenight: self.nightly_price_based_on_week
-    )
-  end
-
-  def delete_nightly_rate
-    nightly_rate = vrental.rates.find_by(weekly_rate_id: self.id)
-    nightly_rate&.destroy!
+    nightly_price = weekly_room_price / 7
+    self.pricenight = nightly_price.round(2)
   end
 
   private

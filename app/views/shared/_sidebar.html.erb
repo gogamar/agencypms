@@ -66,6 +66,11 @@
                         <i class="fa-solid fa-square-pen"></i><%= t("property_features") %>
                       <% end %>
                     </li>
+                    <li class="<%= 'active' if current_page?(add_bedrooms_bathrooms_vrental_path(@vrental)) %>">
+                      <%= link_to add_bedrooms_bathrooms_vrental_path(@vrental) do %>
+                        <i class="fa-solid fa-square-pen"></i><%= t("bedrooms_bathrooms") %>
+                      <% end %>
+                    </li>
                     <li class="<%= 'active' if current_page?(vrental_rates_path(@vrental)) %>">
                       <%= link_to vrental_rates_path(@vrental) do %>
                         <i class="fa-solid fa-money-check-dollar"></i><%= t('rates') %>
@@ -74,6 +79,11 @@
                     <li class="<%= 'active' if current_page?(add_photos_vrental_path(@vrental)) %>">
                       <%= link_to add_photos_vrental_path(@vrental) do %>
                         <i class="fa-solid fa-image"></i><%= t('photos') %>
+                      <% end %>
+                    </li>
+                    <li class="<%= 'active' if current_page?(vrental_vragreements_path(@vrental)) %>">
+                      <%= link_to vrental_vragreements_path(@vrental) do %>
+                        <i class="fa-solid fa-file-signature"></i><%= t('contracts') %>
                       <% end %>
                     </li>
                     <% if current_user.admin? || current_user.manager? %>
@@ -88,15 +98,10 @@
                         <% end %>
                       </li>
                     <% end %>
-                    <li class="<%= 'active' if current_page?(vrental_vragreements_path(@vrental)) %>">
-                      <%= link_to vrental_vragreements_path(@vrental) do %>
-                        <i class="fa-solid fa-file-signature"></i><%= t('contracts') %>
-                      <% end %>
-                    </li>
                     <% if current_user.owner.present? %>
                       <li class="<%= 'active' if current_page?(vrental_owner_bookings_path(@vrental)) %>">
                         <%= link_to vrental_owner_bookings_path(@vrental) do %>
-                          <i class="fa-solid fa-arrow-trend-up"></i><%= t('owner_bookings') %>
+                          <i class="fa-solid fa-calendar"></i><%= t('owner_bookings') %>
                         <% end %>
                       </li>
                     <% end %>
@@ -186,6 +191,11 @@
                             </li>
                           <% end %>
                         <% end %>
+                        <li class="<%= 'active' if current_page?(rate_plans_path) %>">
+                          <%= link_to rate_plans_path do %>
+                            <i class="fa-solid fa-tags"></i><%= t("rate_plans") %>
+                          <% end %>
+                        </li>
                       <% end %>
                       <li class="<%= 'active' if current_page?(new_vrgroup_path) %>">
                         <%= link_to new_vrgroup_path do %>

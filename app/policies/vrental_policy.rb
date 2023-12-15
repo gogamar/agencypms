@@ -107,6 +107,10 @@ class VrentalPolicy < ApplicationPolicy
     return create?
   end
 
+  def add_bedrooms_bathrooms?
+    return create?
+  end
+
   def add_booking_conditions?
     return create?
   end

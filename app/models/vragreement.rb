@@ -10,13 +10,13 @@ class Vragreement < ApplicationRecord
   def vrental_description
     case vrentaltemplate.language
     when "ca"
-      vrental.description_ca
+      vrental.short_description_ca + " " + vrental.description_ca
     when "es"
-      vrental.description_es
+      vrental.short_description_es + " " + vrental.description_es
     when "fr"
-      vrental.description_fr
+      vrental.short_description_fr + " " +vrental.description_fr
     when "en"
-      vrental.description_en
+      vrental.short_description_en + " " + vrental.description_en
     else
       ""
     end

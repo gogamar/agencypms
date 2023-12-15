@@ -2,14 +2,9 @@ class RatesController < ApplicationController
   before_action :set_rate, only: [:show, :edit, :update, :destroy]
   before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show]
 
-
   def index
     @rates = policy_scope(Rate)
-    if @vrental.price_per == "night"
-      @rates = @vrental.rates.where.not(pricenight: nil).order(firstnight: :asc)
-    elsif @vrental.price_per == "week"
-      @rates = @vrental.rates.where.not(priceweek: nil).or(@vrental.rates.where(restriction: "gap_fill")).order(firstnight: :asc)
-    end
+    @rates = @vrental.rates.order(firstnight: :asc)
     @rate = Rate.new
     @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
     @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
@@ -36,13 +31,8 @@ class RatesController < ApplicationController
     @rate.max_stay = 365 if params[:rate][:max_stay].blank?
     authorize @rate
     if @rate.save
-      if @rate.vrental.price_per == "week" && @rate.priceweek.present?
-        @rate.create_nightly_rate
-        # @vrental.add_availability(@rate.firstnight, @rate.lastnight)
-      end
       render(partial: 'rate', locals: { rate: @rate })
     else
-      puts "rate creation errors: #{rate.errors.full_messages}"
       render :new, status: :unprocessable_entity
     end
   end
@@ -51,9 +41,6 @@ class RatesController < ApplicationController
     @vrental = @rate.vrental
     authorize @rate
     if @rate.update(rate_params)
-      if @rate.vrental.price_per == "week" && @rate.priceweek.present?
-        @rate.update_nightly_rate
-      end
       flash.now[:notice] = "Has actualitzat una tarifa de #{@rate.vrental.name}."
       redirect_to vrental_rates_path(@vrental)
     else
@@ -64,9 +51,6 @@ class RatesController < ApplicationController
   def destroy
     authorize @rate
     @vrental = @rate.vrental
-    if @rate.vrental.price_per == "week"
-      @rate.delete_nightly_rate
-    end
     @rate.destroy
     redirect_to vrental_rates_path(@vrental), notice: "Has esborrat la tarifa de #{@rate.firstnight}."
   end

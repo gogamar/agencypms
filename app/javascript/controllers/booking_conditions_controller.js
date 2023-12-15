@@ -19,7 +19,6 @@ export default class extends Controller {
       discountIncluded.classList.remove("d-none");
     } else {
       discountIncluded.classList.add("d-none");
-      discountIncluded.querySelector("select").value = ""; // Reset the value
     }
   }
 

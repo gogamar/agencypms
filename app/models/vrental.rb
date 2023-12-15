@@ -12,6 +12,8 @@ class Vrental < ApplicationRecord
   has_many :sub_availability_vrentals, class_name: 'Vrental', foreign_key: 'availability_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
+  accepts_nested_attributes_for :bedrooms, allow_destroy: true
+  accepts_nested_attributes_for :bathrooms, allow_destroy: true
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy
@@ -53,13 +55,13 @@ class Vrental < ApplicationRecord
   after_validation :geocode
 
   validates_presence_of :name, :address
+  # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
   validates :name, uniqueness: true
-  validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
+  # validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
   validates :commission, presence: true, if: -> { contract_type == 'commission' }
   # validates :price_per, presence: true, inclusion: { in: PRICE_PER }
-  validates :weekly_discount_included, presence: true, if: -> { price_per == 'week' && weekly_discount.present? }
   # validate :cannot_reference_self_as_master
   # validates :fixed_price_amount, presence: true, if: -> { contract_type == 'fixed_price' }
   # validates :fixed_price_frequency, presence: true, inclusion: { in: FIXED_PRICE_FREQUENCIES }, if: -> { contract_type == 'fixed_price' }
@@ -69,6 +71,7 @@ class Vrental < ApplicationRecord
   RENTAL_TERMS = ['short_term', 'medium_term', 'long_term'].freeze
   PRICE_PER = ['night', 'week'].freeze
 
+  # fixme: there is inconsistency with airbnb settings for property in beds24 api so it's better to just use the word here and send it to beds24 according to their api
   PROPERTY_TYPES = {
     "1": "apartment",
     "17": "house"
@@ -551,7 +554,6 @@ class Vrental < ApplicationRecord
           min_stay: existingrate.min_stay,
           arrival_day: existingrate.arrival_day
         )
-        new_rate.create_nightly_rate
       end
 
       unless rates.where(firstnight: rate_firstnight).where.not(pricenight: nil).exists?
@@ -688,11 +690,29 @@ class Vrental < ApplicationRecord
   def beds_room_type
     details = beds_details.join(", ")
     {
-      "name": "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details}",
-      "qty": "1",
-      "minPrice": min_price,
-      "maxPeople": max_guests
+      name: "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details}",
+      qty: "1",
+      minStay: min_stay,
+      maxPeople: max_guests,
+      minPrice: min_price,
+      cleaningFee: cleaning_fee
     }
+  end
+
+  def full_description_ca
+    short_description_ca + " " + description_ca
+  end
+
+  def full_description_es
+    short_description_es + " " + description_es
+  end
+
+  def full_description_fr
+    short_description_fr + " " + description_fr
+  end
+
+  def full_description_en
+    short_description_en + " " + description_en
   end
 
   def overbookings

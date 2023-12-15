@@ -90,35 +90,32 @@
       </p>
     </div>
     <div class="col text-start">
-      <p class="card-text">
-        <strong>Descripció:</strong>
-        <%= @vrental.description_ca %>
-      </p>
-      <p class="card-text">
-        <strong>Descripció (Espanyol):</strong>
-        <%= @vrental.description_es %>
-      </p>
-      <p class="card-text">
-        <strong>Descripció (Francès):</strong>
-        <%= @vrental.description_fr %>
-      </p>
-      <p class="card-text">
-        <strong>Descripció (Anglès):</strong>
-        <%= @vrental.description_en %>
-      </p>
-    </div>
-  </div>
-  <% if @vrental.office.present? && @vrental.office.coupons.present? %>
-    <div class="d-flex justify_content-end align-items-end">
-      <%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
-        <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-        <div class="d-flex flex-column align-items-start">
-          <%= f.input :coupon_ids, label: "Selecciona els codis que vols afegir a #{@vrental.name}:", as: :check_boxes, collection: @vrental.office.coupons.map {|coupon| [coupon.name, coupon.id]}, wrapper: :vertical_collection, class: "d-flex justify-content-end" %>
-        </div>
-        <div class="form-actions text-end mb-5">
-          <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-secondary text-center' %>
-        </div>
+      <% I18n.available_locales.each do |locale| %>
+        <% if @vrental.send("short_description_#{locale}").present? %>
+          <p class="card-text">
+            <strong><%= t("activerecord.attributes.vrental.short_description_#{locale}") %></strong>
+            <%= @vrental.send("short_description_#{locale}") %>
+          </p>
+        <% end %>
+        <% if @vrental.send("description_#{locale}").present? %>
+          <p class="card-text">
+            <strong><%= t("activerecord.attributes.vrental.description_#{locale}") %></strong>
+            <%= @vrental.send("description_#{locale}") %>
+          </p>
+        <% end %>
       <% end %>
     </div>
-  <% end %>
-</div>
+    <% if @vrental.office.present? && @vrental.office.coupons.present? %>
+      <div class="d-flex justify_content-end align-items-end">
+        <%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
+          <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+          <div class="d-flex flex-column align-items-start">
+            <%= f.input :coupon_ids, label: "Selecciona els codis que vols afegir a #{@vrental.name}:", as: :check_boxes, collection: @vrental.office.coupons.map {|coupon| [coupon.name, coupon.id]}, wrapper: :vertical_collection, class: "d-flex justify-content-end" %>
+          </div>
+          <div class="form-actions text-end mb-5">
+            <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-secondary text-center' %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>

@@ -1,12 +1,8 @@
 <div class="container d-flex justify-content-end">
   <div class="d-flex align-items-center">
-    <%= link_to new_rate_plan_path, class: "btn btn-light btn-icon-split" do %>
-      <span class="icon text-white-600">
-        <i class="fas fa-plus"></i>
-      </span>
-      <span class="text">
-        Nou plà de tarifa <%= current_user.company.name %>
-      </span>
+    <%= link_to new_rate_plan_path, class: "btn btn-sm btn-primary" do %>
+      <i class="fas fa-plus"></i>
+      Nou plà de tarifa <%= current_user.company.name %>
     <% end %>
   </div>
 </div>

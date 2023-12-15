@@ -7,6 +7,15 @@
     <%= f.input :description_es %>
     <%= f.input :description_en %>
     <%= f.input :description_fr %>
+    <%= t('default_texts_town') %>
+    <%= f.input :access_text_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :access_text_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :access_text_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :access_text_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :house_rules_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :house_rules_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :house_rules_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
+    <%= f.input :house_rules_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
     <%= f.association :region, label_method: "name_#{I18n.locale.to_s}" %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
   </div>

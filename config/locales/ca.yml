@@ -32,6 +32,13 @@ ca:
   active: Actiu
   activerecord:
     attributes:
+      bedroom:
+        bedroom_type: Tipus d'habitació
+        bed_count: Nombre de llits
+      bed:
+        bed_type: Tipus de llit
+      bathroom:
+        bathroom_type: Tipus de bany
       availability:
         end_date: Fins a
         start_date: Des de
@@ -135,7 +142,35 @@ ca:
         status: Estat
         vrental: Casa o apartament
         year: Any contracte
+      town:
+        access_text_en: Explicació com es fa el check-in anglès
+        access_text_ca: Explicació com es fa el check-in català
+        access_text_es: Explicació com es fa el check-in castellà
+        access_text_fr: Explicació com es fa el check-in francès
+        house_rules_en: Normes de la casa anglès
+        house_rules_ca: Normes de la casa català
+        house_rules_es: Normes de la casa castellà
+        house_rules_fr: Normes de la casa francès
       vrental:
+        cleaning_fee: Cost neteja
+        cut_off_hour: Hora límit per reservar el mateix dia d'entrada
+        checkin_start_hour: Hora de checkin des de
+        checkin_end_hour: Hora de checkin fins a
+        checkout_end_hour: Hora de checkout
+        short_description_en: Descripció 1a part anglès
+        short_description_ca: Descripció 1a part català
+        short_description_es: Descripció 1a part castellà
+        short_description_fr: Descripció 1a part francès
+        access_text_en: Explicació com es fa el check-in anglès
+        access_text_ca: Explicació com es fa el check-in català
+        access_text_es: Explicació com es fa el check-in castellà
+        access_text_fr: Explicació com es fa el check-in francès
+        house_rules_en: Normes de la casa anglès
+        house_rules_ca: Normes de la casa català
+        house_rules_es: Normes de la casa castellà
+        house_rules_fr: Normes de la casa francès
+        bedroom_count: Nombre d'habitacions
+        bathroom_count: Nombre de banys
         address: Adreça
         beds_prop_id: ID propietat a Beds24
         beds_room_id: ID immoble a Beds24
@@ -163,10 +198,10 @@ ca:
         title_es: Títol pàgina web castellà
         title_fr: Títol pàgina web francès
         title_en: Títol pàgina web anglès
-        description_ca: Descripció pàgina web català
-        description_es: Descripció pàgina web castellà
-        description_fr: Descripció pàgina web francès
-        description_en: Descripció pàgina web anglès
+        description_ca: Descripció 2a part català
+        description_es: Descripció 2a part castellà
+        description_fr: Descripció 2a part francès
+        description_en: Descripció 2a part anglès
         vrgroup: Grup d'immobles
         max_guests: Nombre màxim de persones
         min_stay: Estada mínima
@@ -176,7 +211,6 @@ ca:
         free_cancel: Dies per cancel·lar sense càrrec
         price_per: Preu de la tarifa serà per nit o per setmana?
         weekly_discount: Descompte per setmana (opcional)
-        weekly_discount_included: Descompte per setmana estarà inclòs al preu setmanal de la tarifa?
         rate_master_id: Especifica si aquest immoble utilitzarà les seves pròpies tarifes o les tarifes d'un altre immoble (en aquest cas, selecciona de quin).
         availability_master_id: Especifica si aquest immoble utilitzarà la seva pròpia disponibilitat o la disponibilitat d'un altre immoble (en aquest cas, selecciona de quin).
         rate_offset: El tan percent de variació respecte la tarifa mestre. Per exemple, entrar -10 pels preus 10% mes baixos, 10 pels preus 10% més alts. Per copiar la tarifa mestre sense variarla, deixar aquest camp en blanc.
@@ -766,6 +800,15 @@ ca:
   new_owner_booking: Afegir reserva propietari
   send_rates_to_beds: Enviar tarifes a Beds24
   city_tax_with_vat: Impost turístic amb IVA inclòs
+  weekly_discount_included: Aquest descompte ja estarà inclòs al preu setmanal de la tarifa. Vol dir que el preu per nit tindrà l'increment corresponent.
+  default_texts_town: Aquesta informació s'utilitzarà per defecte pels immobles d'aquest lloc. Si vols modificar-la per un immoble en concret, pots fer-ho a la secció de detalls de l'immoble.
+  rate_plans: Plans de tarifes
+  dryer: Assecadora
+  heating: Calefacció
+  bedrooms_bathrooms: Habitacions i banys
+  add_bedroom: Afegir habitació
+  add_bathroom: Afegir bany
+  add_bed: Afegir llit
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

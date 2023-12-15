@@ -8,13 +8,6 @@ Rails.application.routes.draw do
       patch :move
     end
   end
-  resources :rate_plans do
-    member do
-      post :upload_rate_dates
-      get :delete_periods
-    end
-    resources :rate_periods
-  end
 
   post 'cookie_consent', to: 'pages#cookie_consent', as: 'cookie_consent'
 
@@ -26,9 +19,13 @@ Rails.application.routes.draw do
     resources :tourists
     resources :regions
     resources :towns
-    resources :bathrooms
-    resources :beds
-    resources :bedrooms
+    resources :rate_plans do
+      member do
+        post :upload_rate_dates
+        get :delete_periods
+      end
+      resources :rate_periods
+    end
     resources :companies do
       resources :offices, except: [:destroy] do
         resources :coupons, only: [:new, :create, :index, :edit, :update] do
@@ -59,6 +56,7 @@ Rails.application.routes.draw do
         get :add_booking_conditions
         get :add_descriptions
         get :add_features
+        get :add_bedrooms_bathrooms
         get :annual_statement
         get :fetch_earnings
         post :upload_dates
@@ -82,6 +80,7 @@ Rails.application.routes.draw do
         get :get_availabilities_from_beds
         get :bookings_on_calendar
       end
+
       resources :availabilities, except: [:show]
       resources :statements
       resources :invoices
@@ -97,6 +96,11 @@ Rails.application.routes.draw do
         member do
           get 'show_form'
         end
+      end
+
+      resources :bathrooms
+      resources :bedrooms do
+        resources :beds
       end
 
       resources :bookings do

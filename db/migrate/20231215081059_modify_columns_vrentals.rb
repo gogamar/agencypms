@@ -1,4 +1,4 @@
-class AddAttributesToVrentals < ActiveRecord::Migration[7.0]
+class ModifyColumnsVrentals < ActiveRecord::Migration[7.0]
   def change
     add_column :vrentals, :cleaning_fee, :decimal
     add_column :vrentals, :cut_off_hour, :integer
@@ -17,5 +17,7 @@ class AddAttributesToVrentals < ActiveRecord::Migration[7.0]
     add_column :vrentals, :house_rules_ca, :text
     add_column :vrentals, :house_rules_es, :text
     add_column :vrentals, :house_rules_fr, :text
+    remove_column :vrentals, :weekly_discount_included
+    remove_column :rates, :weekly_rate_id
   end
 end

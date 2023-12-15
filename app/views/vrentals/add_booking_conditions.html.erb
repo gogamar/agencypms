@@ -5,10 +5,14 @@
 <%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_booking_conditions' %>
-  <%= f.input :max_guests %>
-  <%= f.input :rental_term, collection: Vrental::RENTAL_TERMS.map { |term| [t(term), term] } %>
-  <%= f.input :min_stay %>
+  <% type_min_stay = f.object.rental_term == "medium_term" ? 32 : 5 %>
+  <%= f.input :min_stay, value: f.object.rental_term.present? ? f.object.rental_term : type_min_stay %>
   <%= f.input :min_price %>
+  <%= f.input :cleaning_fee %>
+  <%= f.input :cut_off_hour %>
+  <%= f.input :checkin_start_hour %>
+  <%= f.input :checkin_end_hour %>
+  <%= f.input :checkout_end_hour %>
   <% if current_user.admin? || current_user.manager? %>
     <%= f.input :unit_number, input_html: { value: f.object.unit_number || 1} %>
     <%= f.input :res_fee %>
@@ -16,12 +20,10 @@
     <div data-controller="booking-conditions">
       <%= f.input :price_per, collection: Vrental::PRICE_PER.map { |interval| [t(interval), interval] }, input_html: { "data-booking-conditions-target" => "pricePer", "data-action" => "change->booking-conditions#toggleDiscountIncluded"} %>
       <%= f.label :weekly_discount %>
+      <p class="text-sm" data-booking-conditions-target="discountIncluded" ><i class="fa-solid fa-circle-info me-2"></i><%= t('weekly_discount_included') %></p>
       <div class="input-group mb-3">
         <%= f.input_field :weekly_discount, class: 'form-control', placeholder: "Per exemple, 10 o 15", 'aria-describedby' => 'basic-addon2' %>
         <span class="input-group-text" id="basic-addon2">%</span>
-      </div>
-      <div class="<%= 'd-none' unless f.object.price_per == "week" %>" data-booking-conditions-target="discountIncluded">
-        <%= f.input :weekly_discount_included, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: true %>
       </div>
       <% if @vrental.vrgroup.present? %>
         <label for="availability_master"><%= t('availability_master') %></label>

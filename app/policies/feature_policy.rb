@@ -14,11 +14,11 @@ class FeaturePolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin?
+    return create?
   end
 
   def create?
-    user.admin?
+    return true
   end
 
   def edit?
@@ -26,7 +26,7 @@ class FeaturePolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    return true
   end
 
   def destroy?
