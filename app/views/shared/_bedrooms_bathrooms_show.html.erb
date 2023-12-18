@@ -1,0 +1,31 @@
+<div class="block-body">
+  <ul class="deatil_features">
+    <% if @vrental.real_bedrooms.present? %>
+      <% @vrental.real_bedrooms.each_with_index do |bedroom, index| %>
+        <li>
+          <strong><%= t("bedroom_types.#{bedroom.bedroom_type}") %>  <%= index + 1 %>:</strong>
+          <% bedroom.beds.group(:bed_type).count.each do |bed_type, count| %>
+            <br>
+            <%= count %> <%= t("bed_types_count.#{bed_type}", count: count) %>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+    <% if @vrental.living_room_bedrooms.present? %>
+      <% @vrental.living_room_bedrooms.each do |bedroom| %>
+        <li>
+          <strong><%= t("bedroom_types.#{bedroom.bedroom_type}") %></strong>
+          <% bedroom.beds.group(:bed_type).count.each do |bed_type, count| %>
+            <br>
+            <%= count %> <%= t("bed_types_count.#{bed_type}", count: count) %>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+    <% @vrental.bathrooms.group(:bathroom_type).count.each do |bathroom_type, count| %>
+      <li>
+        <strong><%= count %> <%= t("bathroom_types_count.#{bathroom_type}", count: count) %></strong>
+      </li>
+    <% end %>
+  </ul>
+</div>

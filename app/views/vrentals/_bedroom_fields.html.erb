@@ -1,0 +1,24 @@
+<div class="nested-fields">
+  <div class="border rounded p-4 mb-4">
+    <div class="d-flex flex-row align-items-center mb-3">
+      <div class="col-md-9">
+        <%= f.select :bedroom_type, options_for_select(Bedroom::BEDROOM_TYPES.map { |type| [t("bedroom_types.#{type}"), type] }, selected: f.object.bedroom_type), { prompt: t("select_bedroom_type") }, class: "form-select" %>
+      </div>
+      <div class="col-md-3 d-flex justify-content-end align-items-center">
+        <i class="fa-solid fa-trash-can text-danger me-2"></i>
+        <%= link_to_remove_association t('delete_bedroom'), f, class: "text-sm text-danger" %>
+      </div>
+    </div>
+    <div class="p-4 border rounded">
+      <div class="d-flex flex-row justify-content-between p-2">
+        <h6><%= t('beds').capitalize %></h6>
+        <%= link_to_add_association t('add_bed'), f, :beds, data: {association_insertion_node: '.beds', association_insertion_method: :append}, class: "btn btn-sm btn-info" %>
+      </div>
+      <div class="beds d-flex flex-wrap">
+        <%= f.fields_for :beds do |bed| %>
+          <%= render 'bed_fields', f: bed %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="nested-fields">
+  <div class="card shadow p-4 bg-light border rounded d-flex flex-row">
+    <div class="d-flex flex-row align-items-center">
+      <div class="col-md-8">
+        <%= f.select :bed_type, options_for_select(Bed::BED_TYPES.keys.map { |type| [t("bed_types.#{type}"), type] }, selected: f.object.bed_type), { prompt: t("select_bed_type") }, class: "form-select" %>
+      </div>
+      <div class="col-md-4 d-flex justify-content-end">
+        <i class="fa-solid fa-trash-can text-danger me-2"></i>
+        <%= link_to_remove_association t('delete_bed'), f, class: "text-sm text-danger" %>
+      </div>
+    </div>
+  </div>
+</div>

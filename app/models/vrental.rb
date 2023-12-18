@@ -12,8 +12,12 @@ class Vrental < ApplicationRecord
   has_many :sub_availability_vrentals, class_name: 'Vrental', foreign_key: 'availability_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
-  accepts_nested_attributes_for :bedrooms, allow_destroy: true
-  accepts_nested_attributes_for :bathrooms, allow_destroy: true
+  accepts_nested_attributes_for :bedrooms,
+                                allow_destroy: true,
+                                reject_if: proc { |att| att['bedroom_type'].blank? }
+  accepts_nested_attributes_for :bathrooms,
+                                allow_destroy: true,
+                                reject_if: proc { |att| att['bathroom_type'].blank? }
   has_many :vragreements, dependent: :destroy
   has_many :rates, dependent: :destroy
   has_many :bookings, dependent: :destroy

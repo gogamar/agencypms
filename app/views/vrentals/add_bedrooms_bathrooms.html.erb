@@ -1,28 +1,43 @@
-<%= simple_form_for @vrental do |f| %>
-  <%= f.error_notification %>
-  <% @vrental.bedroom_count.times do |i| %>
-    <%= f.simple_fields_for :bedrooms, @vrental.bedrooms[i] do |b| %>
-      <%= b.input :bedroom_type, as: :select, collection: Bedroom::BEDROOM_TYPES.map { |bedroom_type| [t(bedroom_type), bedroom_type]}, include_blank: false %>
-      <div data-controller="bed-copy">
-        <%= b.input :bed_count, input_html: { data: { bed_copy_target: "bedCountField", action: "change->bed-copy#updateBedFields" }} %>
-        <% if @vrental.bedrooms[i].persisted? && @vrental.bedrooms[i].bed_count.present? %>
-          <% @vrental.bedrooms[i].bed_count.times do |j| %>
-            <%= b.simple_fields_for :beds, @vrental.bedrooms[i].beds[j] do |p| %>
-              <%= p.input :bed_type, as: :select, collection: Bed::BED_TYPES.keys.map { |bed_type| [t(bed_type), bed_type]}, include_blank: false %>
-            <% end %>
-          <% end %>
-        <% else %>
-          <div data-bed-copy-target="bedField">
-            <%= b.simple_fields_for :bed do |p| %>
-              <%= p.input :bed_type, as: :select, collection: Bed::BED_TYPES.keys.map { |bed_type| [t(bed_type), bed_type]}, include_blank: false %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+<div class="set-center flex-column">
+  <div class="class d-flex flex-column align-items-center">
+    <h2 class="text-center"><%= t('bedrooms_bathrooms') %></h2>
+    <%= render 'shared/bedrooms_bathrooms_show' %>
+  </div>
+  <% if flash[:errors] %>
+    <% flash[:errors].each do |error| %>
+      <p class="text-danger"><%= error %></p>
     <% end %>
   <% end %>
-  <%= f.simple_fields_for :bathrooms do |t| %>
-    <%= t.input :bathroom_type, as: :select, collection: Bathroom::BATHROOM_TYPES.map { |bathroom_type| [t(bathroom_type), bathroom_type]}, include_blank: false %>
+  <%= form_with model: @vrental do |f| %>
+    <%= f.hidden_field :request_context, value: "add_bedrooms_bathrooms" %>
+    <div class="d-flex flex-column my-5 gap-5">
+      <div class="card shadow bg-light border rounded p-4">
+        <div class="d-flex flex-row justify-content-between p-2">
+          <h6><%= t('bedrooms').capitalize %></h6>
+          <%= link_to_add_association t('add_bedroom'), f, :bedrooms, data: {association_insertion_node: '.bedrooms', association_insertion_method: :append}, class: "btn btn-sm btn-info" %>
+        </div>
+        <div class="bedrooms">
+          <%= f.fields_for :bedrooms do |bedroom| %>
+            <%= render 'bedroom_fields', f: bedroom %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card shadow bg-light border rounded p-4">
+        <div class="d-flex flex-row justify-content-between p-2">
+          <h6><%= t('bathrooms').capitalize %></h6>
+          <%= link_to_add_association t('add_bathroom'), f, :bathrooms, data: {association_insertion_node: '.bathrooms', association_insertion_method: :append}, class: "btn btn-sm btn-info" %>
+        </div>
+        <div class="bathrooms">
+          <%= f.fields_for :bathrooms do |bathroom| %>
+            <%= render 'bathroom_fields', f: bathroom %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions text-end my-5">
+      <%= f.submit t('global.forms.refresh'), class: 'btn btn-success text-center' %>
+      <%= f.submit t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+      <%= f.submit t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+    </div>
   <% end %>
-  <%= f.button :submit, class: "btn btn-primary" %>
-<% end%>
+</div>

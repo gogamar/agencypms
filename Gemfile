@@ -109,6 +109,7 @@ gem "acts_as_list", "~> 1.1"
 gem 'lightbox2'
 gem 'route_translator'
 gem 'recaptcha'
+gem 'cocoon'
 
 # for heroku stack heroku-22
 group :production do

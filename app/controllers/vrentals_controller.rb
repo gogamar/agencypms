@@ -445,6 +445,8 @@ class VrentalsController < ApplicationController
   def redirect_after_update(request_context)
     if params[:commit] == t('global.forms.save_and_close')
       redirect_to @vrental, notice: "Immoble modificat."
+    elsif params[:commit] == t('global.forms.refresh')
+      redirect_back(fallback_location: @vrental, notice: "Immoble actualitzat.")
     else
       if request_context == 'general_details'
         redirect_to add_owner_vrental_path(@vrental)
@@ -501,8 +503,7 @@ class VrentalsController < ApplicationController
 
   def vrental_params
     params.require(:vrental).permit(
-      :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en, :cleaning_fee, :cut_off_hour, :checkin_start_hour, :checkin_end_hour, :checkout_end_hour, :short_description_ca, :short_description_es, :short_description_fr, :short_description_en, :access_text_ca, :access_text_es, :access_text_fr, :access_text_en, :house_rules_ca, :house_rules_es, :house_rules_fr, :house_rules_en, :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :min_price, :bedroom_count, :bathroom_count, feature_ids: [], photos: [], bedrooms_attributes: [:id, :bedroom_type, :bed_count, :_destroy, beds_attributes: [:id, :bed_type, :_destroy]],
-      bathrooms_attributes: [:id, :bathroom_type, :_destroy]
+      :name, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en, :cleaning_fee, :cut_off_hour, :checkin_start_hour, :checkin_end_hour, :checkout_end_hour, :short_description_ca, :short_description_es, :short_description_fr, :short_description_en, :access_text_ca, :access_text_es, :access_text_fr, :access_text_en, :house_rules_ca, :house_rules_es, :house_rules_fr, :house_rules_en, :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :min_price, feature_ids: [], photos: [], bedrooms_attributes: [:id, :bedroom_type, :_destroy, beds_attributes: [:id, :bed_type, :_destroy]], bathrooms_attributes: [:id, :bathroom_type, :_destroy]
     )
   end
 end

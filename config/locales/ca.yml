@@ -1,30 +1,37 @@
 ca:
-  BATH_SHOWER:
-    one: Bany amb dutxa
-    other: Banys amb dutxa
-  BATH_TUB:
-    one: Bany amb banyera
-    other: Banys amb banyera
-  BEDROOM: Habitació
-  BEDROOM_LIVING_SLEEPING_COMBO: Sala d'estar
-  BED_BUNK:
-    one: Llitera
-    other: Lliteres
-  BED_DOUBLE:
-    one: Llit doble
-    other: Llits dobles
-  BED_MURPHY:
-    one: Llit niu
-    other: Llits niu
-  BED_SINGLE:
-    one: Llit individual
-    other: Llits individuals
-  BED_CRIB:
-    one: Llit niu
-    other: Llits niu
-  BED_SOFA:
-    one: Sofà llit
-    other: Sofàs llit
+  bathroom_types_count:
+    BATH_SHOWER:
+      one: Bany amb dutxa
+      other: Banys amb dutxa
+    BATH_TUB:
+      one: Bany amb banyera
+      other: Banys amb banyera
+  bedroom_types_count:
+    BEDROOM:
+      one: Dormitori
+      other: Dormitoris
+    BEDROOM_LIVING_SLEEPING_COMBO:
+      one: Sala d'estar
+      other: Sales d'estar
+  bed_types_count:
+    BED_BUNK:
+      one: Llitera
+      other: Lliteres
+    BED_DOUBLE:
+      one: Llit doble
+      other: Llits dobles
+    BED_MURPHY:
+      one: Llit niu
+      other: Llits niu
+    BED_SINGLE:
+      one: Llit individual
+      other: Llits individuals
+    BED_CRIB:
+      one: Llit niu
+      other: Llits niu
+    BED_SOFA:
+      one: Sofà llit
+      other: Sofàs llit
   DBL: D
   DSF: DS
   SGL: IN
@@ -34,7 +41,6 @@ ca:
     attributes:
       bedroom:
         bedroom_type: Tipus d'habitació
-        bed_count: Nombre de llits
       bed:
         bed_type: Tipus de llit
       bathroom:
@@ -169,8 +175,6 @@ ca:
         house_rules_ca: Normes de la casa català
         house_rules_es: Normes de la casa castellà
         house_rules_fr: Normes de la casa francès
-        bedroom_count: Nombre d'habitacions
-        bathroom_count: Nombre de banys
         address: Adreça
         beds_prop_id: ID propietat a Beds24
         beds_room_id: ID immoble a Beds24
@@ -423,6 +427,7 @@ ca:
       continue: Continuar
       submit: Desar
       save_and_close: Desar i tancar
+      refresh: Actualitzar
   good_choice: Bona elecció!
   grill: Barbacoa
   guest:
@@ -809,6 +814,31 @@ ca:
   add_bedroom: Afegir habitació
   add_bathroom: Afegir bany
   add_bed: Afegir llit
+  beds: Llits
+  select_bed_type: Selecciona tipus de llit
+  select_bedroom_type: Selecciona tipus d'habitació
+  select_bathroom_type: Selecciona tipus de bany
+  bathroom_types:
+    BATH_TUB: Bany amb banyera
+    BATH_SHOWER: Bany amb dutxa
+  bed_types:
+    BED_BUNK: Llitera
+    BED_CHILD: Llit infantil
+    BED_CRIB: Bressol
+    BED_DOUBLE: Llit doble
+    BED_KING: Llit doble extra gran (180 - 200)
+    BED_MURPHY: Llit niu
+    BED_QUEEN: Llit doble gran (160 -180)
+    BED_SOFA: Sofà llit doble
+    BED_SINGLE: Llit individual
+    BED_COUCH: Sofà llit individual
+  bedroom_types:
+    BEDROOM: Dormitori
+    BEDROOM_LIVING_SLEEPING_COMBO: Sala d'estar
+  delete_bedroom: Eliminar habitació
+  delete_bathroom: Eliminar bany
+  delete_bed: Eliminar llit
+  refresh_to_see_summary: Actualitza la pàgina per veure el resum
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

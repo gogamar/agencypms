@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_15_203017) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_15_143442) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -67,7 +67,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_203017) do
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "bed_count"
     t.index ["vrental_id"], name: "index_bedrooms_on_vrental_id"
   end
 
@@ -533,8 +532,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_203017) do
     t.text "house_rules_ca"
     t.text "house_rules_es"
     t.text "house_rules_fr"
-    t.integer "bedroom_count"
-    t.integer "bathroom_count"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"

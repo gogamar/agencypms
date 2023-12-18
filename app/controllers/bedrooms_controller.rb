@@ -53,6 +53,6 @@ class BedroomsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bedroom_params
-      params.require(:bedroom).permit(:bedroom_type, :vrental_id)
+      params.require(:bedroom).permit(:bedroom_type, :vrental_id, beds_attributes: [:id, :bed_type, :_destroy])
     end
 end

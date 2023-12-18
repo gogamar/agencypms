@@ -1,0 +1,11 @@
+<div class="nested-fields">
+  <div class="d-flex flex-row align-items-center mb-3 border rounded p-4 mb-4">
+    <div class="col-md-9">
+      <%= f.select :bathroom_type, options_for_select(Bathroom::BATHROOM_TYPES.map { |type| [t("bathroom_types.#{type}"), type] }, selected: f.object.bathroom_type), { prompt: t("select_bathroom_type") }, class: "form-select" %>
+    </div>
+    <div class="col-md-3 d-flex justify-content-end align-items-center">
+      <i class="fa-solid fa-trash-can text-danger me-2"></i>
+      <%= link_to_remove_association t('delete_bathroom'), f, class: "text-sm text-danger" %>
+    </div>
+  </div>
+</div>

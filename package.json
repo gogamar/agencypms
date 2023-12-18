@@ -9,6 +9,7 @@
     "@hotwired/stimulus-webpack-helpers": "^1.0.1",
     "@hotwired/turbo-rails": "^7.2.4",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@nathanvda/cocoon": "^1.2.14",
     "@popperjs/core": "^2.11.8",
     "@rails/ujs": "^7.0.8",
     "bootstrap": "^5.2.2",
