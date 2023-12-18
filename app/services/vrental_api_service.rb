@@ -345,16 +345,16 @@ class VrentalApiService
 
     begin
       beds24rentals_prop_ids = Set.new(client.get_properties.map { |bedsrental| bedsrental["propId"] })
-      puts "these are beds24rentals_prop_ids: #{beds24rentals_prop_ids}"
-      puts "and this is @target.beds_prop_id: #{@target.beds_prop_id}"
+
       if @target.beds_prop_id && beds24rentals_prop_ids.include?(@target.beds_prop_id)
+        puts "now we are updating the property"
         bedsrental = [
             {
               action: "modify",
-              name: @target.name,
+              # name: @target.name,
               propTypeId: Vrental::PROPERTY_TYPES.key(@target.property_type),
               address: @target.address,
-              city: @target.town&.name,
+              city: @target.town.present? ? @target.town.name : "",
               latitude: @target.latitude,
               longitude: @target.longitude,
               cutOffHour: @target.cut_off_hour,
@@ -367,8 +367,10 @@ class VrentalApiService
               ]
             }
         ]
-        set_property_response = client.set_property(@target.prop_key, setProperty: bedsrental)
-        puts "this is the set_property_response: #{set_property_response}"
+        response = client.set_property(@target.prop_key, setProperty: bedsrental)
+        puts "this is the response of set property: #{response}"
+
+
       else
         new_bedrentals = []
 
@@ -387,7 +389,7 @@ class VrentalApiService
           notifyHeader: "X-Webhook-Token: 6sgwlain2t0h2i3s1i0s2",
           propTypeId: Vrental::PROPERTY_TYPES.key(@target.property_type),
           address: @target.address,
-          city: @target.town&.name,
+          city: @target.town.present? ? @target.town.name : "",
           latitude: @target.latitude,
           longitude: @target.longitude,
           cutOffHour: @target.cut_off_hour,
@@ -398,7 +400,8 @@ class VrentalApiService
         }
         new_bedrentals << new_bedrental
         create_property_response = client.create_properties(createProperties: new_bedrentals)
-        puts "this is the create property response: #{create_property_response}"
+
+        puts "created new property: #{create_property_response}"
 
         @target.beds_prop_id = create_property_response[0]["propId"]
         @target.beds_room_id = create_property_response[0]["roomTypes"][0]["roomId"]
@@ -415,7 +418,7 @@ class VrentalApiService
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       content_array = [
-                        { "action": "modify",
+                        { action: "modify",
                           "bookingType": "3",
                           "bookingNearTypeDays": "-1",
                           "bookingNearType": "0",
@@ -424,7 +427,7 @@ class VrentalApiService
                           "bookingExceptTypeEnd": Date.tomorrow.strftime("%Y-%m-%d"),
                           "bookingRequestStatus": "0",
                           "depositNonPayment": "1",
-                          "depositPercent1": @target.res_fee * 100.to_s || "30",
+                          "depositPercent1": (@target.res_fee * 100).to_s || "30",
                           "depositPercent2": "100",
                           "depositFixed1": "0.00",
                           "depositFixed2": "0.00",
@@ -452,9 +455,9 @@ class VrentalApiService
                           "cardAcceptUnionpay": "1",
                           "cardAcceptVisa": "1",
                           "cardAcceptVoyager": "0",
-                          "checkInStartHour": @target.checkin_start_hour || "15",
-                          "checkInEndHour": @target.checkin_end_hour || "20",
-                          "checkOutEndHour": @target.checkout_end_hour || "10",
+                          "checkInStartHour": @target.checkin_start_hour.to_s || "15",
+                          "checkInEndHour": @target.checkin_end_hour.to_s || "20",
+                          "checkOutEndHour": @target.checkout_end_hour.to_s || "10",
                           "name": @target.name,
                           "permit": @target.licence,
                           "roomChargeDisplay": "0",
@@ -472,10 +475,10 @@ class VrentalApiService
                           },
                           "texts": {
                             "propertyDescription1": {
-                              "EN": "#{@target.full_description_en}",
-                              "CA": "#{@target.full_description_ca}",
-                              "ES": "#{@target.full_description_es}",
-                              "FR": "#{@target.full_description_fr}"
+                              "EN": "#{@target.full_description("en")}",
+                              "CA": "#{@target.full_description("ca")}",
+                              "ES": "#{@target.full_description("es")}",
+                              "FR": "#{@target.full_description("fr")}"
                             }
                           },
                           "bookingData": {
@@ -545,10 +548,10 @@ class VrentalApiService
                                   "FR": "#{@target.title_fr}"
                                 },
                                 "contentDescriptionText": {
-                                  "EN": "#{@target.full_description_en}",
-                                  "CA": "#{@target.full_description_ca}",
-                                  "ES": "#{@target.full_description_es}",
-                                  "FR": "#{@target.full_description_fr}"
+                                  "EN": "#{@target.full_description("en")}",
+                                  "CA": "#{@target.full_description("ca")}",
+                                  "ES": "#{@target.full_description("es")}",
+                                  "FR": "#{@target.full_description("fr")}"
                                 },
                                 "accommodationType": {
                                   "EN": I18n.t(@target.property_type, locale: :en),
@@ -556,7 +559,6 @@ class VrentalApiService
                                   "ES": I18n.t(@target.property_type, locale: :es),
                                   "FR": I18n.t(@target.property_type, locale: :fr),
                                   },
-                                  # fixme
                                 "offers": {
                                   "1": {
                                     "name": {
@@ -592,9 +594,8 @@ class VrentalApiService
                           }
                         }
                       ]
-      response = client.set_property_content(@target.prop_key, setPropertyContent: content_array)
 
-      puts "this is the response: #{response}"
+      client.set_property_content(@target.prop_key, setPropertyContent: content_array)
     rescue => e
       puts "Error setting content for #{@target.name}: #{e.message}"
     end

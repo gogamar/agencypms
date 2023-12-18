@@ -614,8 +614,8 @@ class Vrental < ApplicationRecord
   end
 
   def city_tax_daily_json
-    daily_city_tax = number_to_currency(town.city_tax, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")
-    if town
+    if town && town.city_tax
+      daily_city_tax = number_to_currency(town.city_tax, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")
       {
         "type": "1",
         "price": daily_city_tax,
@@ -624,10 +624,10 @@ class Vrental < ApplicationRecord
         "vat": "10.00",
         "image": "0",
         "description": {
-          "EN": "Tourist tax #{city_tax_amount} per adult / per night",
-          "CA": "Taxa turística #{city_tax_amount} per adult / per nit",
-          "ES": "Tasa turística #{city_tax_amount} por adulto / por noche",
-          "FR": "Taxe de séjour #{city_tax_amount} par adulte / par nuit"
+          "EN": "Tourist tax #{town.city_tax} per adult / per night",
+          "CA": "Taxa turística #{town.city_tax} per adult / per nit",
+          "ES": "Tasa turística #{town.city_tax} por adulto / por noche",
+          "FR": "Taxe de séjour #{town.city_tax} par adulte / par nuit"
         }
       }
     end
@@ -644,10 +644,10 @@ class Vrental < ApplicationRecord
         "vat": "10.00",
         "image": "0",
         "description": {
-          "EN": "Tourist tax #{weekly_city_tax} per adult / per night (for the first 7 nights)",
-          "CA": "Taxa turística #{weekly_city_tax} per adult / per nit (les 7 primeres nits)",
-          "ES": "Tasa turística #{weekly_city_tax} por adulto / por noche (las 7 primeras noches)",
-          "FR": "Taxe de séjour #{weekly_city_tax} par adulte / par nuit (les 7 premières nuits)"
+          "EN": "Tourist tax #{town.city_tax} per adult / per night (for the first 7 nights)",
+          "CA": "Taxa turística #{town.city_tax} per adult / per nit (les 7 primeres nits)",
+          "ES": "Tasa turística #{town.city_tax} por adulto / por noche (las 7 primeras noches)",
+          "FR": "Taxe de séjour #{town.city_tax} par adulte / par nuit (les 7 premières nuits)"
         }
       }
     end
@@ -694,8 +694,8 @@ class Vrental < ApplicationRecord
   def beds_room_type
     details = beds_details.join(", ")
     {
-      name: "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details}",
-      qty: "1",
+      name: "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details.present?}".strip,
+      qty: 1,
       minStay: min_stay,
       maxPeople: max_guests,
       minPrice: min_price,
@@ -703,8 +703,9 @@ class Vrental < ApplicationRecord
     }
   end
 
-  def full_description
-    send("short_description_#{I18n.locale.to_s}") + " " + send("description_#{I18n.locale.to_s}")
+  def full_description(locale=nil)
+    locale = locale || I18n.locale.to_s
+    send("short_description_#{locale}") + " " + send("description_#{locale}")
   end
 
   def overbookings
