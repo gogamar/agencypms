@@ -577,6 +577,16 @@ class VrentalApiService
                                 }
                               },
                               "airbnb": {
+                                "publish": "yes",
+                                # fixme
+                                "propertyTypeGroup": "apartments",
+                                "listingType": "entire_home",
+                                "checkInType": "host_checkin",
+                                "cancellationPolicy": "moderate",
+                                "bathroomShared": "private",
+                                "commonSpacesShared": "private",
+                                "picturesFrom": "rop",
+                                "instantBookingAllowed": "everyone",
                                   "name": {
                                       "EN": "#{@target.title_en}",
                                       "CA": "#{@target.title_ca}",
@@ -588,6 +598,30 @@ class VrentalApiService
                                     "CA": "#{@target.short_description_ca}",
                                     "ES": "#{@target.short_description_es}",
                                     "FR": "#{@target.short_description_fr}"
+                                  },
+                                  "accessText": {
+                                    "EN": "#{@target.access_text_en}",
+                                    "CA": "#{@target.access_text_ca}",
+                                    "ES": "#{@target.access_text_es}",
+                                    "FR": "#{@target.access_text_fr}"
+                                  },
+                                  "houseRulesText": {
+                                      "EN": "#{@target.house_rules_en}",
+                                      "CA": "#{@target.house_rules_ca}",
+                                      "ES": "#{@target.house_rules_es}",
+                                      "FR": "#{@target.house_rules_fr}"
+                                  },
+                                  "neighborhoodText": {
+                                    "EN": "#{@target.town&.description_en}",
+                                    "CA": "#{@target.town&.description_ca}",
+                                    "ES": "#{@target.town&.description_es}",
+                                    "FR": "#{@target.town&.description_fr}"
+                                  },
+                                  "spaceText": {
+                                    "EN": "#{@target.description_en}",
+                                    "CA": "#{@target.description_ca}",
+                                    "ES": "#{@target.description_es}",
+                                    "FR": "#{@target.description_fr}"
                                   }
                               }
                             }

@@ -58,7 +58,7 @@ class Vrental < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-  validates_presence_of :name, :address
+  validates_presence_of :name, :address, :property_type
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
