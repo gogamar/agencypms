@@ -9,6 +9,15 @@
         </p>
       <% end %>
       <p class="card-text">
+        <% if @vrental.status == "active" %>
+          <span class="bg-success text-white p-2 rounded"><%= t(@vrental.status) %></span>
+        <% elsif @vrental.status == "inactive" %>
+          <span class="bg-danger text-white p-2 rounded"><%= t(@vrental.status) %></span>
+        <% else %>
+          <span class="bg-warning text-white p-2 rounded"><%= t(@vrental.status) %></span>
+        <% end %>
+      </p>
+      <p class="card-text">
         <strong>Número HUT:</strong>
         <%= @vrental.licence %>
       </p>
@@ -32,10 +41,6 @@
         <p class="card-text">
           <strong>Oficina:</strong>
           <%= @vrental.office.name if @vrental.office %>
-        </p>
-        <p class="card-text">
-          <strong>Estat:</strong>
-          <%= @vrental.status %>
         </p>
         <p class="card-text">
           <strong>Clau secreta Beds24:</strong>

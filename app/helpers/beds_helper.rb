@@ -68,6 +68,17 @@ module BedsHelper
       e.response
     end
 
+    def set_rate(prop_key, options={})
+      self.class.post(
+        '/setRate',
+        body: payload(prop_key, options)
+      )
+    rescue Oj::ParseError
+      raise Error, 'Got encoding different from JSON. Please check passed options'
+    rescue APIError => e
+      e.response
+    end
+
     def get_rates(prop_key, options={})
       self.class.post(
         '/getRates',

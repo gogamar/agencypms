@@ -266,7 +266,7 @@ class VrentalsController < ApplicationController
   end
 
   def delete_rates
-    @vrental.delete_this_year_rates_on_beds
+    VrentalApiService.new(@vrental).delete_rates_on_beds
     authorize @vrental
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn esborrades. Ara les pots tornar a enviar"
   end

@@ -6,8 +6,6 @@ class RatesController < ApplicationController
     @rates = policy_scope(Rate)
     @rates = @vrental.rates.order(firstnight: :asc)
     @rate = Rate.new
-    @rates_sent_to_beds = @rates.where.not(sent_to_beds: nil)
-    @modified_rates = @rates_sent_to_beds.where("updated_at > date_sent_to_beds")
     @rate_plans = policy_scope(RatePlan)
   end
 
@@ -66,6 +64,6 @@ class RatesController < ApplicationController
   end
 
   def rate_params
-    params.require(:rate).permit(:pricenight, :beds_room_id, :firstnight, :lastnight, :min_stay, :max_stay, :restriction, :arrival_day, :priceweek, :vrental_id, :sent_to_beds, :date_sent_to_beds, :nights, :beds_rate_id)
+    params.require(:rate).permit(:pricenight, :beds_room_id, :firstnight, :lastnight, :min_stay, :max_stay, :restriction, :arrival_day, :priceweek, :vrental_id, :nights, :beds_rate_id)
   end
 end
