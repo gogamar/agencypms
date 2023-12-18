@@ -703,20 +703,8 @@ class Vrental < ApplicationRecord
     }
   end
 
-  def full_description_ca
-    short_description_ca + " " + description_ca
-  end
-
-  def full_description_es
-    short_description_es + " " + description_es
-  end
-
-  def full_description_fr
-    short_description_fr + " " + description_fr
-  end
-
-  def full_description_en
-    short_description_en + " " + description_en
+  def full_description
+    send("short_description_#{I18n.locale.to_s}") + " " + send("description_#{I18n.locale.to_s}")
   end
 
   def overbookings

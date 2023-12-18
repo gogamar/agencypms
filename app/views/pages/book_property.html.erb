@@ -53,8 +53,7 @@
           </div>
         </div>
         <!-- Single Block Wrap -->
-        <% description_column_name = "description_#{params[:locale]}" %>
-        <% if @vrental[description_column_name] %>
+        <% if @vrental.full_description %>
           <div class="property_block_wrap style-2">
             <div class="property_block_wrap_header">
               <a data-bs-toggle="collapse" data-bs-target="#clOne" aria-controls="clOne" href="javascript:void(0);" aria-expanded="true">
@@ -63,7 +62,7 @@
             </div>
             <div id="clOne" class="panel-collapse collapse show">
               <div class="block-body">
-                <p><%= @vrental[description_column_name] %></p>
+                <p><%= @vrental.full_description %></p>
               </div>
             </div>
           </div>
