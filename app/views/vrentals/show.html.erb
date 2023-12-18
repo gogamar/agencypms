@@ -53,14 +53,6 @@
       <% end %>
       <%= render 'shared/bedrooms_bathrooms_show' %>
       <p class="card-text">
-        <strong><%= @vrental.bathrooms.count %> <%= t("bathroom", count: @vrental.bathrooms.count) %>:</strong>
-        <% @vrental.bathrooms&.order(:bathroom_type).each do |bathroom| %>
-          <li>
-            <%= t(bathroom.bathroom_type, count: 1) %>
-          </li>
-        <% end %>
-      </p>
-      <p class="card-text">
         <strong>Caracteristiques:</strong>
         <% translated_features = @vrental.features.map { |feature| t(feature.name) }.sort_by { |translation| translation } %>
         <% translated_features.each do |feature_name| %>
