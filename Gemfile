@@ -72,7 +72,6 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
   gem 'letter_opener'
-
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -83,8 +82,7 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
-  gem "webdrivers"
+  # gem "webdrivers"
 end
 
 # don't know if I need cssbundling
@@ -110,6 +108,9 @@ gem 'lightbox2'
 gem 'route_translator'
 gem 'recaptcha'
 gem 'cocoon'
+gem "selenium-webdriver"
+gem 'nokogiri'
+
 
 # for heroku stack heroku-22
 group :production do

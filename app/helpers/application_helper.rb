@@ -40,6 +40,33 @@ module ApplicationHelper
     end
   end
 
+  def stars_for_rating(rating)
+    html = ''
+    rating = rating.to_f  # Ensure rating is a float
+
+    # Calculate the number of filled stars
+    filled_stars = rating.floor
+
+    # Calculate whether to add a half star
+    half_star = rating - filled_stars >= 0.5
+
+    # Create HTML for filled stars
+    filled_stars.times do
+      html << '<i class="fas fa-star fs-xs mx-1"></i>'
+    end
+
+    # Add a half star if needed
+    if half_star
+      html << '<i class="fas fa-star-half-alt fs-xs mx-1"></i>'
+    end
+
+    # Create HTML for empty stars (up to a total of 5 stars)
+    (5 - filled_stars - (half_star ? 1 : 0)).times do
+      html << '<i class="far fa-star fs-xs mx-1"></i>'
+    end
+
+    html.html_safe
+  end
 
   def set_flag(locale)
     if locale == :en

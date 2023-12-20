@@ -9,10 +9,10 @@
   <%= f.input :min_stay, value: f.object.rental_term.present? ? f.object.rental_term : type_min_stay %>
   <%= f.input :min_price %>
   <%= f.input :cleaning_fee %>
-  <%= f.input :cut_off_hour %>
-  <%= f.input :checkin_start_hour %>
-  <%= f.input :checkin_end_hour %>
-  <%= f.input :checkout_end_hour %>
+  <%= f.input :cut_off_hour, selected: @vrental.cut_off_hour.present? ? @vrental.cut_off_hour : "10", collection: cut_off_time_options  %>
+  <%= f.input :checkin_start_hour, selected: @vrental.checkin_start_hour.present? ? @vrental.checkin_start_hour : "15.0", collection: check_in_out_time_options %>
+  <%= f.input :checkin_end_hour, selected: @vrental.checkin_end_hour.present? ? @vrental.checkin_end_hour : "23.0", collection: check_in_out_time_options %>
+  <%= f.input :checkout_end_hour, selected: @vrental.checkout_end_hour.present? ? @vrental.checkout_end_hour :  "10.0", collection: check_in_out_time_options %>
   <% if current_user.admin? || current_user.manager? %>
     <%= f.input :unit_number, input_html: { value: f.object.unit_number || 1} %>
     <%= f.input :res_fee %>

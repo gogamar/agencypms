@@ -839,6 +839,7 @@ ca:
   delete_bathroom: Eliminar bany
   delete_bed: Eliminar llit
   refresh_to_see_summary: Actualitza la pàgina per veure el resum
+  import_reviews_from_airbnb: Importar comentaris d'Airbnb
   user_mailer:
     welcome:
       subject: Benvingut a Sistach Rentals

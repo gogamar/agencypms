@@ -64,4 +64,25 @@ module VrentalsHelper
     end
   end
 
+  def cut_off_time_options
+    options = []
+    (0..23).each do |hour|
+        time = hour.to_s
+        formatted_time = "#{hour.to_s.rjust(2, '0')}:00h"
+        options << [formatted_time, time]
+    end
+    options
+  end
+
+  def check_in_out_time_options
+    options = []
+    (0..23).each do |hour|
+      (0..45).step(15).each do |minute|
+        decimal_time = (hour + (minute.to_f / 60)).round(2).to_s
+        formatted_time = "#{hour.to_s.rjust(2, '0')}:#{minute.to_s.rjust(2, '0')}h"
+        options << [formatted_time, decimal_time]
+      end
+    end
+    options
+  end
 end

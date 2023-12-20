@@ -62,6 +62,9 @@ class VrentalApiService
       bedsrental = client.get_property(@target.prop_key, includeRooms: true)[0]
       room = bedsrental["roomTypes"].find { |room| room["roomId"] == @target.beds_room_id }
 
+      puts "this is the room: #{room}"
+      puts "this is the room's airbnb listing id: #{room["airbnbRoomCode"]}"
+
       @target.update(
         name: bedsrental["name"],
         property_type: Vrental::PROPERTY_TYPES[bedsrental["propTypeId"]],
@@ -74,7 +77,8 @@ class VrentalApiService
         latitude: bedsrental["latitude"],
         longitude: bedsrental["longitude"],
         cut_off_hour: bedsrental["cutOffHour"],
-        cleaning_fee: room["cleaningFee"]
+        cleaning_fee: room["cleaningFee"],
+        airbnb_listing_id: room["airbnbRoomCode"]
       )
       sleep 2
       VrentalApiService.new(@target).get_content_from_beds
@@ -359,10 +363,18 @@ class VrentalApiService
               longitude: @target.longitude,
               cutOffHour: @target.cut_off_hour,
               currency: "EUR",
+              "airbnbPropertyCode": "*1.178",
+              "airbnbCurrency": "EUR",
+              "airbnbRequests": "0",
+              "airbnbMessaging": "1",
+              "airbnbMultiplier": "*1.178",
               roomTypes: [
                 {
                   action: "modify",
                   roomId: @target.beds_room_id,
+                  "airbnbEnable": 1,
+                  "airbnbComEnableInventory": 0,
+                  "airbnbComEnableBooking": 0,
                 }.merge(@target.beds_room_type)
               ]
             }
@@ -394,8 +406,17 @@ class VrentalApiService
           longitude: @target.longitude,
           cutOffHour: @target.cut_off_hour,
           currency: "EUR",
+          "airbnbPropertyCode": "*1.178",
+          "airbnbCurrency": "EUR",
+          "airbnbRequests": "0",
+          "airbnbMessaging": "1",
+          "airbnbMultiplier": "*1.178",
           roomTypes: [
-            @target.beds_room_type
+            {
+              "airbnbEnable": 1,
+              "airbnbComEnableInventory": 0,
+              "airbnbComEnableBooking": 0,
+            }.merge(@target.beds_room_type)
           ]
         }
         new_bedrentals << new_bedrental
@@ -418,7 +439,7 @@ class VrentalApiService
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       content_array = [
-                        { action: "modify",
+                        { "action": "modify",
                           "bookingType": "3",
                           "bookingNearTypeDays": "-1",
                           "bookingNearType": "0",
@@ -455,9 +476,9 @@ class VrentalApiService
                           "cardAcceptUnionpay": "1",
                           "cardAcceptVisa": "1",
                           "cardAcceptVoyager": "0",
-                          "checkInStartHour": @target.checkin_start_hour.to_s || "15",
-                          "checkInEndHour": @target.checkin_end_hour.to_s || "20",
-                          "checkOutEndHour": @target.checkout_end_hour.to_s || "10",
+                          "checkInStartHour": @target.checkin_start_hour|| "15",
+                          "checkInEndHour": @target.checkin_end_hour|| "20",
+                          "checkOutEndHour": @target.checkout_end_hour|| "10",
                           "name": @target.name,
                           "permit": @target.licence,
                           "roomChargeDisplay": "0",
@@ -586,50 +607,51 @@ class VrentalApiService
                                 "bathroomShared": "private",
                                 "commonSpacesShared": "private",
                                 "picturesFrom": "rop",
-                                "instantBookingAllowed": "everyone",
-                                  "name": {
-                                      "EN": "#{@target.title_en}",
-                                      "CA": "#{@target.title_ca}",
-                                      "ES": "#{@target.title_es}",
-                                      "FR": "#{@target.title_fr}"
-                                  },
-                                  "summaryText": {
-                                    "EN": "#{@target.short_description_en}",
-                                    "CA": "#{@target.short_description_ca}",
-                                    "ES": "#{@target.short_description_es}",
-                                    "FR": "#{@target.short_description_fr}"
-                                  },
-                                  "accessText": {
-                                    "EN": "#{@target.access_text_en}",
-                                    "CA": "#{@target.access_text_ca}",
-                                    "ES": "#{@target.access_text_es}",
-                                    "FR": "#{@target.access_text_fr}"
-                                  },
-                                  "houseRulesText": {
-                                      "EN": "#{@target.house_rules_en}",
-                                      "CA": "#{@target.house_rules_ca}",
-                                      "ES": "#{@target.house_rules_es}",
-                                      "FR": "#{@target.house_rules_fr}"
-                                  },
-                                  "neighborhoodText": {
-                                    "EN": "#{@target.town&.description_en}",
-                                    "CA": "#{@target.town&.description_ca}",
-                                    "ES": "#{@target.town&.description_es}",
-                                    "FR": "#{@target.town&.description_fr}"
-                                  },
-                                  "spaceText": {
-                                    "EN": "#{@target.description_en}",
-                                    "CA": "#{@target.description_ca}",
-                                    "ES": "#{@target.description_es}",
-                                    "FR": "#{@target.description_fr}"
-                                  }
+                                "instantBookingAllowed": "well_reviewed_guests",
+                                "name": {
+                                  "EN": "#{@target.title_en}",
+                                  "CA": "#{@target.title_ca}",
+                                  "ES": "#{@target.title_es}",
+                                  "FR": "#{@target.title_fr}"
+                                },
+                                "summaryText": {
+                                  "EN": "#{@target.short_description_en}",
+                                  "CA": "#{@target.short_description_ca}",
+                                  "ES": "#{@target.short_description_es}",
+                                  "FR": "#{@target.short_description_fr}"
+                                },
+                                "accessText": {
+                                  "EN": "#{@target.access_text_en}",
+                                  "CA": "#{@target.access_text_ca}",
+                                  "ES": "#{@target.access_text_es}",
+                                  "FR": "#{@target.access_text_fr}"
+                                },
+                                "houseRulesText": {
+                                    "EN": "#{@target.house_rules_en}",
+                                    "CA": "#{@target.house_rules_ca}",
+                                    "ES": "#{@target.house_rules_es}",
+                                    "FR": "#{@target.house_rules_fr}"
+                                },
+                                "neighborhoodText": {
+                                  "EN": "#{@target.town&.description_en}",
+                                  "CA": "#{@target.town&.description_ca}",
+                                  "ES": "#{@target.town&.description_es}",
+                                  "FR": "#{@target.town&.description_fr}"
+                                },
+                                "spaceText": {
+                                  "EN": "#{@target.description_en}",
+                                  "CA": "#{@target.description_ca}",
+                                  "ES": "#{@target.description_es}",
+                                  "FR": "#{@target.description_fr}"
+                                }
                               }
                             }
                           }
                         }
                       ]
 
-      client.set_property_content(@target.prop_key, setPropertyContent: content_array)
+      response = client.set_property_content(@target.prop_key, setPropertyContent: content_array)
+      puts "this is the response of set property content: #{response}"
     rescue => e
       puts "Error setting content for #{@target.name}: #{e.message}"
     end

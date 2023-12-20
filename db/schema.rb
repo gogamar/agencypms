@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_18_113605) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_20_173719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -363,6 +363,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_113605) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.string "review_id"
+    t.string "client_name"
+    t.string "client_photo_url"
+    t.string "client_location"
+    t.string "review_time"
+    t.text "comment"
+    t.bigint "vrental_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "rating"
+    t.index ["vrental_id"], name: "index_reviews_on_vrental_id"
+  end
+
   create_table "statements", force: :cascade do |t|
     t.date "start_date"
     t.date "end_date"
@@ -515,9 +529,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_113605) do
     t.integer "availability_master_id"
     t.decimal "cleaning_fee"
     t.integer "cut_off_hour"
-    t.time "checkin_start_hour"
-    t.time "checkin_end_hour"
-    t.time "checkout_end_hour"
+    t.string "checkin_start_hour"
+    t.string "checkin_end_hour"
+    t.string "checkout_end_hour"
     t.text "short_description_en"
     t.text "short_description_ca"
     t.text "short_description_es"
@@ -530,6 +544,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_113605) do
     t.text "house_rules_ca"
     t.text "house_rules_es"
     t.text "house_rules_fr"
+    t.string "airbnb_listing_id"
+    t.string "bookingcom_hotel_id"
+    t.string "bookingcom_room_id"
+    t.string "bookingcom_rate_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -582,6 +600,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_113605) do
   add_foreign_key "rate_periods", "rate_plans"
   add_foreign_key "rate_plans", "companies"
   add_foreign_key "rates", "vrentals"
+  add_foreign_key "reviews", "vrentals"
   add_foreign_key "statements", "companies"
   add_foreign_key "statements", "invoices"
   add_foreign_key "statements", "vrentals"

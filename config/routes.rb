@@ -79,6 +79,7 @@ Rails.application.routes.draw do
         get :import_from_group
         get :get_availabilities_from_beds
         get :bookings_on_calendar
+        get :get_reviews
       end
 
       resources :availabilities, except: [:show]

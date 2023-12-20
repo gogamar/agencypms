@@ -35,6 +35,10 @@ class VrentalPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def get_reviews?
+    user.admin?
+  end
+
   def empty_vrentals?
     user.admin?
   end

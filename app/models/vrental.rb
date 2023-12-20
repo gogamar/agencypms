@@ -27,6 +27,7 @@ class Vrental < ApplicationRecord
   has_many :statements
   has_many :invoices
   has_many :availabilities, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons
   has_many :image_urls, dependent: :destroy
@@ -58,7 +59,8 @@ class Vrental < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-  validates_presence_of :name, :address, :property_type
+  validates_presence_of :name, :address
+  # :property_type
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
@@ -701,6 +703,20 @@ class Vrental < ApplicationRecord
       minPrice: min_price,
       cleaningFee: cleaning_fee
     }
+  end
+
+  def reviews_median
+    reviews = self.reviews.where.not(rating: nil)
+    return if reviews.empty?
+    rating_array = reviews.pluck(:rating)
+    median(rating_array)
+  end
+
+  def median(array)
+    return nil if array.empty?
+    sorted = array.sort
+    len = sorted.length
+    (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
   end
 
   def full_description(locale=nil)
