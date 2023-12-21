@@ -1,6 +1,8 @@
 class ReviewPolicy < ApplicationPolicy
   class Scope < Scope
-    scope.all
+    def resolve
+      scope.all
+    end
   end
 
   def create?
