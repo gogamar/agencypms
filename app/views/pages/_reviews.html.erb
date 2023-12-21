@@ -1,54 +1,42 @@
 <div class="rating-overview">
   <div class="rating-overview-box">
+    <h6 class="property_block_title"><%= @vrental.reviews.count %> <%= t('reviews') %> </h6>
     <span class="rating-overview-box-total"><%= @vrental.reviews_median %></span>
-    <span class="rating-overview-box-percent">out of 5.0</span>
+    <span class="rating-overview-box-percent"><%= t('out_of_five') %></span>
     <div class="star-rating" data-rating="<%= @vrental.reviews_median %>">
       <%= stars_for_rating(@vrental.reviews_median) %>
     </div>
   </div>
-  <div class="rating-bars">
-    <div class="rating-bars-item">
-      <span class="rating-bars-name">Service</span>
-      <span class="rating-bars-inner">
-        <span class="rating-bars-rating high" data-rating="4.7">
-          <span class="rating-bars-rating-inner" style="width: 85%;"></span>
-        </span>
-        <strong>4.7</strong>
-      </span>
-    </div>
-    <div class="rating-bars-item">
-      <span class="rating-bars-name">Value for Money</span>
-      <span class="rating-bars-inner">
-        <span class="rating-bars-rating good" data-rating="3.9">
-          <span class="rating-bars-rating-inner" style="width: 75%;"></span>
-        </span>
-        <strong>3.9</strong>
-      </span>
-    </div>
-    <div class="rating-bars-item">
-      <span class="rating-bars-name">Location</span>
-      <span class="rating-bars-inner">
-        <span class="rating-bars-rating mid" data-rating="3.2">
-          <span class="rating-bars-rating-inner" style="width: 52.2%;"></span>
-        </span>
-        <strong>3.2</strong>
-      </span>
-    </div>
-    <div class="rating-bars-item">
-      <span class="rating-bars-name">Cleanliness</span>
-      <span class="rating-bars-inner">
-        <span class="rating-bars-rating poor" data-rating="2.0">
-          <span class="rating-bars-rating-inner" style="width:20%;"></span>
-        </span>
-        <strong>2.0</strong>
-      </span>
+  <div class="author-review">
+    <div class="comment-list">
+      <ul>
+        <li class="article_comments_wrap">
+          <article>
+            <div class="article_comments_thumb" style="background-image: url('<%= @featured_review.client_photo_url %>')"></div>
+            <div class="comment-details">
+              <div class="comment-meta">
+                <div class="comment-left-meta">
+                  <h4 class="author-name"><%= @featured_review.client_name %></h4>
+                  <div class="comment-date"><%= @featured_review.client_location %></div>
+                  <div class="star-rating" data-rating="<%= @vrental.reviews_median %>">
+                    <%= stars_for_rating(@vrental.reviews_median) %>
+                  </div>
+                </div>
+              </div>
+              <div class="comment-text">
+                <p><%= @featured_review.comment %></p>
+              </div>
+            </div>
+          </article>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
 <div class="property_block_wrap style-2">
   <div class="property_block_wrap_header">
     <a data-bs-toggle="collapse" data-bs-target="#clSix" aria-controls="clSix" href="javascript:void(0);" aria-expanded="true">
-      <h4 class="property_block_title"><%= @reviews.count %> Reviews</h4>
+      <h4 class="property_block_title"><%= t('view_more_reviews') %> </h4>
     </a>
   </div>
   <div id="clSix" class="panel-collapse collapse">
@@ -59,9 +47,7 @@
             <% @reviews.each do |review| %>
               <li class="article_comments_wrap">
                 <article>
-                  <div class="article_comments_thumb">
-                    <img src=<%= review.client_photo_url %> alt="<%= review.client_name %>">
-                  </div>
+                  <div class="article_comments_thumb" style="background-image: url('<%= review.client_photo_url %>')"></div>
                   <div class="comment-details">
                     <div class="comment-meta">
                       <div class="comment-left-meta">
@@ -82,7 +68,6 @@
           </ul>
         </div>
       </div>
-      <a href="#" class="reviews-checked text-primary"><i class="fas fa-arrow-alt-circle-down mr-2"></i>See More Reviews</a>
     </div>
   </div>
 </div>

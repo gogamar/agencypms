@@ -1,6 +1,7 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: %i[ show edit update destroy import_properties destroy_all_properties ]
-  before_action :set_company, except: %i[ destroy import_properties destroy_all_properties]
+  include SeleniumHelper
+  before_action :set_office, only: %i[ show edit update destroy import_properties destroy_all_properties get_reviews_from_airbnb]
+  before_action :set_company, except: %i[ destroy import_properties destroy_all_properties get_reviews_from_airbnb]
 
   def index
     @offices = policy_scope(Office)
@@ -52,6 +53,18 @@ class OfficesController < ApplicationController
     import_name = params[:import_name] if params[:import_name].present?
     VrentalApiService.new(@office).import_properties_from_beds(no_import, import_name)
     redirect_to vrentals_path, notice: "Immobles importats de Beds24."
+  end
+
+  def get_reviews_from_airbnb
+    driver = setup_selenium_driver
+    @office.vrentals.each do |vrental|
+      if vrental.prop_key.present? && vrental.airbnb_listing_id.present?
+        vrental.get_reviews_from_airbnb(driver)
+        puts "Updated reviews for #{vrental.id} - #{vrental.name}"
+      end
+      sleep 5
+    end
+    redirect_to vrentals_path, notice: "Comentaris importats de Airbnb."
   end
 
   private

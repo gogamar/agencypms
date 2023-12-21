@@ -777,11 +777,11 @@ li.article_comments_wrap:last-child {
 .author-review article .article_comments_thumb {
   float: left;
   width: 80px;
-}
-
-.author-review article .article_comments_thumb img {
-  max-width: 80px;
-  border-radius: 50%;
+  height: 80px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 50%; /* Make the container circular */
 }
 
 .author-review article .comment-details {
@@ -2100,6 +2100,10 @@ ul.list-gallery-inline li a {
 }
 
 .rating-overview-box .star-rating i {
+  color: #ff9500;
+}
+
+.rating-single-on-list .star-rating i {
   color: #ff9500;
 }
 

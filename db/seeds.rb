@@ -120,48 +120,56 @@ all_vrentals = Vrental.all
 
 # city tax
 
-towns = Town.all
+# towns = Town.all
 
-towns.each do |town|
-  town.update(city_tax: 0.99)
-end
+# towns.each do |town|
+#   town.update(city_tax: 0.99)
+# end
 
-Town.find_by(name: "Barcelona").update(city_tax: 5.50)
+# Town.find_by(name: "Barcelona").update(city_tax: 5.50)
 
-puts "Updated towns with city tax!"
+# puts "Updated towns with city tax!"
 
 
-vrentals_with_weekly_rates = Vrental.where(price_per: "week")
-vrentals_with_weekly_rates.each do |vrental|
-  vrental.rates.where.not(pricenight: nil).where(priceweek: nil).destroy_all
-  vrental.rates.where.not(priceweek: nil).where(pricenight: nil).each do |rate|
-    rate.update(pricenight: rate.calculate_pricenight)
-  end
-end
+# vrentals_with_weekly_rates = Vrental.where(price_per: "week")
+# vrentals_with_weekly_rates.each do |vrental|
+#   vrental.rates.where.not(pricenight: nil).where(priceweek: nil).destroy_all
+#   vrental.rates.where.not(priceweek: nil).where(pricenight: nil).each do |rate|
+#     rate.update(pricenight: rate.calculate_pricenight)
+#   end
+# end
 
-puts "Destroyed all rates for vrentals that have price_per 'week' and have a rate with pricenight set and priceweek nil"
+# puts "Destroyed all rates for vrentals that have price_per 'week' and have a rate with pricenight set and priceweek nil"
+
+# all_vrentals.each do |vrental|
+#   ["ca", "en", "es", "fr"].each do |locale|
+#     description_locale = vrental.send("description_#{locale}")
+#     short_description_locale = vrental.send("short_description_#{locale}")
+#     if description_locale.present? && short_description_locale.blank?
+#       description_locale.gsub!(/HUT[\w-]+\s*/, '')
+#       first_500_characters = description_locale[0, 500]
+#       last_punctuation_index = first_500_characters.rindex(/[.!?]/)
+
+#       if last_punctuation_index
+#         text_before_last_punctuation = description_locale[0..last_punctuation_index].strip
+#         text_after_last_punctuation = description_locale[(last_punctuation_index + 1)..-1]
+#         vrental.update("short_description_#{locale}" => text_before_last_punctuation)
+#         vrental.update("description_#{locale}" => text_after_last_punctuation)
+#       end
+#       puts "Updated short_description_#{locale} and description_#{locale} for #{vrental.name}"
+#     end
+#   end
+# end
+
+# Feature.find_or_create_by(name: "dryer", highlight: false, company_id: Company.where(active: true).first.id)
+# Feature.find_or_create_by(name: "heating", highlight: false, company_id: Company.where(active: true).first.id)
+
+# puts "Created dryer and heating features"
 
 all_vrentals.each do |vrental|
-  ["ca", "en", "es", "fr"].each do |locale|
-    description_locale = vrental.send("description_#{locale}")
-    short_description_locale = vrental.send("short_description_#{locale}")
-    if description_locale.present? && short_description_locale.blank?
-      description_locale.gsub!(/HUT[\w-]+\s*/, '')
-      first_500_characters = description_locale[0, 500]
-      last_punctuation_index = first_500_characters.rindex(/[.!?]/)
-
-      if last_punctuation_index
-        text_before_last_punctuation = description_locale[0..last_punctuation_index].strip
-        text_after_last_punctuation = description_locale[(last_punctuation_index + 1)..-1]
-        vrental.update("short_description_#{locale}" => text_before_last_punctuation)
-        vrental.update("description_#{locale}" => text_after_last_punctuation)
-      end
-      puts "Updated short_description_#{locale} and description_#{locale} for #{vrental.name}"
-    end
+  if vrental.office.present? && vrental.prop_key.present?
+    VrentalApiService.new(vrental).update_vrental_from_beds
+    puts "Updated #{vrental.name}"
   end
 end
-
-Feature.find_or_create_by(name: "dryer", highlight: false, company_id: Company.where(active: true).first.id)
-Feature.find_or_create_by(name: "heating", highlight: false, company_id: Company.where(active: true).first.id)
-
-puts "Created dryer and heating features"
+puts "Updated all vrentals from beds!"

@@ -20,10 +20,6 @@ module Contractes
 
     config.i18n.default_locale = :ca
 
-    # allowing html tags and attributes so that sanitize doesn't strip it all
-    # config.action_view.sanitized_allowed_tags = ['strong', 'em', 'a', 'tr', 'td', 'th', 'table', 'thead', 'tbody', 'hr', 'span']
-    # config.action_view.sanitized_allowed_attributes = ['href', 'title', 'colspan', 'style', 'class']
-
     config.action_view.sanitized_allowed_attributes = Rails::Html::SafeListSanitizer.allowed_attributes = ['href', 'title', 'colspan', 'style', 'class', 'src']
     config.action_view.sanitized_allowed_tags = Rails::Html::SafeListSanitizer.allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'img', 'strong', 'em', 'a', 'tr', 'td', 'th', 'table', 'thead', 'tbody', 'hr', 'span']
 

@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       member do
         get "import_properties"
         get "destroy_all_properties"
+        get "get_reviews_from_airbnb"
       end
     end
 
@@ -79,7 +80,7 @@ Rails.application.routes.draw do
         get :import_from_group
         get :get_availabilities_from_beds
         get :bookings_on_calendar
-        get :get_reviews
+        get :get_reviews_from_airbnb
       end
 
       resources :availabilities, except: [:show]

@@ -735,6 +735,52 @@ class Vrental < ApplicationRecord
     overbookings
   end
 
+  def get_reviews_from_airbnb(driver)
+    url = "https://www.airbnb.cat/rooms/#{airbnb_listing_id}/reviews"
+    driver.get(url)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10)
+    modal_with_reviews = wait.until { driver.find_element(css: "._1ymlq18") }
+
+    translations = modal_with_reviews.find_elements(css: '[data-testid="pdp-reviews-translation-disclaimer"]')
+    translations.each do |translation|
+      translation.click
+    end
+    reviews = driver.find_elements(css: '[data-review-id]')
+    reviews_array = []
+
+    reviews.each do |review|
+      review_data = {}
+      review_image = wait.until { review.find_element(css: 'img.i9if2t0') }
+      image_source = review_image.attribute('src')
+      review_data[:client_photo_url] = image_source
+      review_data[:review_id] = review.attribute('data-review-id')
+      review_data[:client_name] = review.find_element(css: '.atm_7l_1kw7nm4').text.strip
+      review_data[:client_location] = review.find_element(css: '.s9v16xq').text.strip
+      review_data[:review_time] = review.find_element(css: ".dq3izqp").text.strip
+      review_data[:rating] = review.find_element(css: '.c5dn5hn').text.strip
+      review_data[:comment] = review.find_element(css: '.r1bctolv').text.strip
+      reviews_array << review_data
+    end
+    reviews_array.each do |airbnb_review|
+      rate_match = airbnb_review[:rating].match(/\d+/)
+      rate_integer = rate_match ? rate_match[0].to_i : nil
+
+      if rate_integer.present? && rate_integer >= 3
+        review = Review.find_or_create_by(review_id: airbnb_review[:review_id])
+        review.update(
+          client_name: airbnb_review[:client_name],
+          client_photo_url: airbnb_review[:client_photo_url],
+          client_location: airbnb_review[:client_location],
+          review_time: airbnb_review[:review_time],
+          rating: rate_integer,
+          comment: airbnb_review[:comment],
+          vrental_id: self.id
+        )
+      end
+    end
+    puts "Got reviews for #{name} with id #{id}"
+  end
+
   private
 
   def cannot_reference_self_as_master

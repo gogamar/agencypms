@@ -135,7 +135,9 @@
             </div>
           </div>
         <% end %>
-        <%= render 'reviews' %>
+        <% if @vrental.reviews.present? %>
+          <%= render 'reviews' %>
+        <% end %>
       </div>
       <!-- property Sidebar -->
       <div class="col-lg-4 col-md-12 col-sm-12">

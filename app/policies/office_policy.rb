@@ -41,6 +41,10 @@ class OfficePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def get_reviews_from_airbnb?
+    user.admin? || user.manager?
+  end
+
   def destroy_all_properties?
     user.admin?
   end

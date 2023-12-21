@@ -208,6 +208,11 @@
                             <i class="fa-solid fa-tags"></i><%= t("coupons") %>
                           <% end %>
                         </li>
+                        <li class="<%= 'active' if current_page?(get_reviews_from_airbnb_office_path(@office)) %>">
+                          <%= link_to get_reviews_from_airbnb_office_path(@office) do %>
+                            <i class="fa-solid fa-tags"></i><%= t("get_reviews_from_airbnb") %>
+                          <% end %>
+                        </li>
                       <% end %>
                     <% end %>
                   <% end %>

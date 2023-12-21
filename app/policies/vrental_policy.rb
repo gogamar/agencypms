@@ -35,8 +35,8 @@ class VrentalPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def get_reviews?
-    user.admin?
+  def get_reviews_from_airbnb?
+    user.admin? || user.manager?
   end
 
   def empty_vrentals?

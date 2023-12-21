@@ -1,6 +1,5 @@
 class VrentalsController < ApplicationController
-  require "nokogiri"
-  require "selenium-webdriver"
+  include SeleniumHelper
   before_action :set_vrental, except: [:new, :create, :copy, :index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
 
   def index
@@ -210,67 +209,15 @@ class VrentalsController < ApplicationController
     @features = Feature.all
   end
 
-  def get_reviews
-    driver_path = '/usr/local/bin/chromedriver'
-    service = Selenium::WebDriver::Chrome::Service.new(path: driver_path)
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
-    driver = Selenium::WebDriver.for :chrome, options: options, service: service
-    if @vrental.airbnb_listing_id.present?
-      url = "https://www.airbnb.cat/rooms/#{@vrental.airbnb_listing_id}/reviews"
-      driver.get(url)
-      wait = Selenium::WebDriver::Wait.new(timeout: 10)
-      modal_with_reviews = wait.until { driver.find_element(css: "._1ymlq18") }
-
-      translations = modal_with_reviews.find_elements(css: '[data-testid="pdp-reviews-translation-disclaimer"]')
-      translations.each do |translation|
-        translation.click
-      end
-
-      reviews = driver.find_elements(css: '[data-review-id]')
-
-      reviews_array = []
-
-      reviews.each do |review|
-        review_data = {}
-        # begin
-          review_image = wait.until { review.find_element(css: 'img.i9if2t0') }
-          image_source = review_image.attribute('src')
-          review_data[:client_photo_url] = image_source
-          review_data[:review_id] = review.attribute('data-review-id')
-          review_data[:client_name] = review.find_element(css: '.atm_7l_1kw7nm4').text.strip
-          review_data[:client_location] = review.find_element(css: '.s9v16xq').text.strip
-          review_data[:review_time] = review.find_element(css: ".dq3izqp").text.strip
-          review_data[:rating] = review.find_element(css: '.c5dn5hn').text.strip
-          review_data[:comment] = review.find_element(css: '.r1bctolv').text.strip
-        # rescue Selenium::WebDriver::Error::TimeOutError
-        #   puts "Image with class 'i9if2t0' not found within the review"
-        # end
-        reviews_array << review_data
-      end
-
-      puts "this is reviews_array: #{reviews_array}"
-
-      reviews_array.each do |airbnb_review|
-        review = Review.find_or_create_by(review_id: airbnb_review[:review_id])
-
-        rate_match = airbnb_review[:rating].match(/\d+/)
-        rate_integer = rate_match ? rate_match[0].to_i : nil
-
-        review.update(
-          client_name: airbnb_review[:client_name],
-          client_photo_url: airbnb_review[:client_photo_url],
-          client_location: airbnb_review[:client_location],
-          review_time: airbnb_review[:review_time],
-          rating: rate_integer,
-          comment: airbnb_review[:comment],
-          vrental_id: @vrental.id
-        )
-      end
-
+  def get_reviews_from_airbnb
+    if @vrental.prop_key.present? && @vrental.airbnb_listing_id.present?
+      driver = setup_selenium_driver
+      @vrental.get_reviews_from_airbnb(driver)
       driver.quit
+      redirect_to @vrental, notice: "S'han importat els comentaris dels clients."
+    else
+      redirect_to add_booking_conditions_vrental_path, notice: "Aquest immoble no té airbnb listing id o prop key."
     end
-    redirect_to @vrental, notice: "S'han importat els comentaris dels clients."
   end
 
   def add_photos

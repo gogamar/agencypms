@@ -88,8 +88,8 @@
                   <li><%= link_to update_owner_from_beds_vrental_path(@vrental) do %>
                       <i class="fa-solid fa-user-plus me-2"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
                     <% end %></li>
-                  <li><%= link_to get_reviews_vrental_path(@vrental) do %>
-                      <i class="fa-brands fa-airbnb me-2"></i> <%= "#{@vrental.name}: #{t('import_reviews_from_airbnb')}" %>
+                  <li><%= link_to get_reviews_from_airbnb_vrental_path(@vrental) do %>
+                      <i class="fa-brands fa-airbnb me-2"></i> <%= "#{@vrental.name}: #{t('get_reviews_from_airbnb')}" %>
                     <% end %></li>
                 <% end %>
               </ul>

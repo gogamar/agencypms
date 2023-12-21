@@ -62,9 +62,6 @@ class VrentalApiService
       bedsrental = client.get_property(@target.prop_key, includeRooms: true)[0]
       room = bedsrental["roomTypes"].find { |room| room["roomId"] == @target.beds_room_id }
 
-      puts "this is the room: #{room}"
-      puts "this is the room's airbnb listing id: #{room["airbnbRoomCode"]}"
-
       @target.update(
         name: bedsrental["name"],
         property_type: Vrental::PROPERTY_TYPES[bedsrental["propTypeId"]],
@@ -95,8 +92,6 @@ class VrentalApiService
     begin
       bedsrental = client.get_property_content(@target.prop_key, bookingData: true, roomIds: true, texts: true, includeAirbnb: true)[0]
       room = bedsrental["roomIds"][@target.beds_room_id]
-
-      puts "these are the features for this property: #{room["featureCodes"]}"
 
       @target.update!(
         licence: bedsrental["permit"],

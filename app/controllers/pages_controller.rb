@@ -137,7 +137,8 @@ class PagesController < ApplicationController
     @price = params[:price]
     @rate_price = params[:rate_price]
     @discount = params[:discount]
-    @reviews = @vrental.reviews.order(rating: :desc)
+    @featured_review = @vrental.reviews.order(rating: :desc, created_at: :desc).first
+    @reviews = @vrental.reviews.where.not(id: @featured_review&.id).order(rating: :desc)
 
     unless params[:price].present?
       response = VrentalApiService.new(@vrental).get_availability_from_beds(@checkin, @checkout, @guests)

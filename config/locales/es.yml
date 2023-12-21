@@ -1,48 +1,36 @@
 es:
-  BATH_SHOWER:
-    one: Baño con ducha
-    other: Baños con ducha
-  BATH_TUB:
-    one: Baño con bañera
-    other: Baños con bañera
-  BEDROOM: Habitación
-  BEDROOM_LIVING_SLEEPING_COMBO: Sala de estar
-  BED_BUNK:
-    one: Litera
-    other: Literas
-  BED_DOUBLE:
-    one: Cama doble
-    other: Camas dobles
-  BED_MURPHY:
-    one: Cama nido
-    other: Camas nido
-  BED_SINGLE:
-    one: Cama individual
-    other: Camas individuales
-  BED_SOFA:
-    one: Sofá-cama
-    other: Sofá-camas
-  BED_CRIB:
-    one: Cama nido
-    other: Camas nido
   DBL: D
   DSF: DS
   SGL: IN
   TOILET: Lavabo
+  according_contract: Según contrato
   active: Activo
+  active_properties: Propiedades activas
   activerecord:
     attributes:
+      availability:
+        end_date: Hasta
+        multiplier: Multiplicador
+        override: Anular
+        start_date: Desde
+      bathroom:
+        bathroom_type: Tipo de baño
+      bed:
+        bed_type: Tipo de cama
+      bedroom:
+        bedroom_type: Tipo de habitación
       company:
+        active: Activa
         administrator: Administrador
         bank_account: Cuenta bancaria
         city: Ciudad
         company: Empresa
         country: País
-        local_realtor_number: Número de API local
-        name: Nombre
+        local_realtor_number: Número de API de la provincia
+        name: Nombre de la Empresa
         post_code: Código postal
         realtor_number: Número de API
-        region: Región
+        region: Provincia
         street: Calle y número
         user: Usuario
         vat_number: CIF
@@ -57,7 +45,7 @@ es:
         amount: Importe
         description: Descripción
         expense_company: Industrial
-        expense_number: Número de gasto
+        expense_number: Número de gastos
         expense_type: Tipo de gasto
       feature:
         highlight: Destacada
@@ -68,11 +56,11 @@ es:
         email: Correo electrónico
         manager: Gerente
         mobile: Móvil
-        name: Nombre
+        name: Nombre de la Oficina
         opening_hours: Horario
         phone: Teléfono
         post_code: Código postal
-        region: Región
+        region: Provincia
         street: Calle y número
         vat_number: CIF
         website: Sitio web
@@ -81,7 +69,7 @@ es:
         address: Dirección
         document: DNI
         email: Correo electrónico
-        fullname: Nombre completo
+        fullname: Nombre y apellidos del Propietario
         language: Idioma
         owner: Propietario
         phone: Teléfono
@@ -93,14 +81,16 @@ es:
         arrival_day: Día de llegada
         firstnight: Desde
         lastnight: Hasta
-        min_stay: Mín.
+        max_stay: Máximo
+        min_stay: Mínimo
         pricenight: Precio por noche
         priceweek: Precio por semana
+        restriction: Tipo de tarifa
       rate_plan:
         end: Hasta
         gen_arrival: Día de llegada general
         gen_min: Estancia mínima general
-        name: Nombre
+        name: Nombre del Plan de Tarifas
         start: Desde
       statement:
         amount: Importe
@@ -115,57 +105,91 @@ es:
         start_date: Fecha de inicio
         start_time: Hora de inicio
         title: Tema
+      town:
+        access_text_ca: Explicación sobre el check-in en catalán
+        access_text_en: Explicación sobre el check-in en inglés
+        access_text_es: Explicación sobre el check-in en castellano
+        access_text_fr: Explicación sobre el check-in en francés
+        house_rules_ca: Normas de la casa en catalán
+        house_rules_en: Normas de la casa en inglés
+        house_rules_es: Normas de la casa en castellano
+        house_rules_fr: Normas de la casa en francés
       vragreement:
         account: Cuenta bancaria
         email: Correo electrónico
-        end_date: Fin de contrato
+        end_date: Fin del contrato
         owner: Propietario
-        owner_bookings: Reservas para el propietario
+        owner_bookings: Reservas por el propietario
         phone: Teléfono
-        signdate: Fecha de la firma
-        start_date: Inicio de contrato
+        signdate: Fecha de firma
+        start_date: Inicio del contrato
         status: Estado
         vrental: Casa o apartamento
         year: Año de contrato
       vrental:
+        access_text_ca: Explicación sobre el check-in en catalán
+        access_text_en: Explicación sobre el check-in en inglés
+        access_text_es: Explicación sobre el check-in en castellano
+        access_text_fr: Explicación sobre el check-in en francés
         address: Dirección
+        airbnb_listing_id: ID de Airbnb
+        availability_master_id: ¿Especificar si esta propiedad utilizará su propia disponibilidad o la disponibilidad de otra propiedad? (en este caso, seleccione cuál).
         beds_prop_id: ID de propiedad en Beds24
-        beds_room_id: ID de habitación en Beds24
-        cadastre: Cadastro
+        beds_room_id: ID de la propiedad en Beds24
+        cadastre: Catastro
+        checkin_end_hour: Hora de checkin hasta
+        checkin_start_hour: Hora de checkin desde
+        checkout_end_hour: Hora de checkout
+        cleaning_fee: Coste de limpieza
         commission: Comisión
         contract_type: Tipo de contrato
+        cut_off_hour: Hora límite para reservar el mismo día de llegada
         description: Descripción
+        description_ca: Descripción en catalán (parte 2)
+        description_en: Descripción en inglés (parte 2)
+        description_es: Descripción en castellano (parte 2)
+        description_fr: Descripción en francés (parte 2)
         feature_ids: Características
         fixed_price: Precio fijo
         fixed_price_amount: Importe de precio fijo
         fixed_price_frequency: Frecuencia de pago
+        free_cancel: Días para cancelar sin cargo
         habitability: Cédula de habitabilidad
+        house_rules_ca: Normas de la casa en catalán
+        house_rules_en: Normas de la casa en inglés
+        house_rules_es: Normas de la casa en castellano
+        house_rules_fr: Normas de la casa en francés
         latitude: Latitud
         licence: Número HUT
         longitude: Longitud
-        name: Nombre
+        max_guests: Número máximo de personas
+        min_price: Precio mínimo por día
+        min_stay: Estancia mínima
+        name: Nombre de la propiedad
+        name_on_web: Mostrar nombre en la web
         office: Oficina
         owner: Propietario
         photos: Fotos
-        prop_key: Clave secreta de propiedad en Beds24
-        property_type: Tipo de inmueble
-        status: Estado
-        name_on_web: Mostrar nombre en la web
-        title_ca: Título de la página web en catalán
-        title_es: Título de la página web en español
-        title_fr: Título de la página web en francés
-        title_en: Título de la página web en inglés
-        description_ca: Descripción de la página web en catalán
-        description_es: Descripción de la página web en español
-        description_fr: Descripción de la página web en francés
-        description_en: Descripción de la página web en inglés
-        vrgroup: Grup de propiedades
-        max_guests: Número máximo de personas
-        min_stay: Estadía mínima
-        min_price: Precio mínimo
+        price_per: El precio de la tarifa será por noche o por semana.
+        prop_key: Clave secreta de propiedad de Bed24
+        property_type: Tipo de propiedad
+        rate_master_id: ¿Especificar si esta propiedad utilizará sus propias tarifas o las tarifas de otra propiedad? (en este caso, seleccione cuál).
+        rate_offset: El tanto por ciento de variación respecto a la tarifa maestra. Por ejemplo, introducir -10 para precios un 10% más bajos, 10 para precios un 10% más altos. Para copiar la tarifa maestra sin variarla, dejar este campo en blanco.
+        rate_offset_type: Tipo de descuento o recargo (porcentaje o importe fijo)
         rental_term: Tipo de alquiler
         res_fee: Porcentaje para confirmar reserva
-        free_cancel: Días para cancelar sin cargo
+        short_description_ca: Descripción en catalán (parte 1)
+        short_description_en: Descripción en inglés (parte 1)
+        short_description_es: Descripción en castellano (parte 1)
+        short_description_fr: Descripción en francés (parte 1)
+        status: Estado
+        title_ca: Título de la página web en catalán
+        title_en: Título de la página web en inglés
+        title_es: Título de la página web en castellano
+        title_fr: Título de la página web en francés
+        unit_number: Número de unidades
+        vrgroup: Grupo de propiedades
+        weekly_discount: Descuento semanal (opcional)
       vrentaltemplate:
         language: Idioma
         title: Título
@@ -173,19 +197,43 @@ es:
         name: Nombre del grupo
         office: Oficina
         photos: Fotos comunes del grupo
+  add_bathroom: Añadir baño
+  add_bed: Añadir cama
+  add_bedroom: Añadir habitación
+  add_coupon: Añadir nuevo código de descuento
+  add_future_rates: Faltan añadir tarifas
   add_group: Añadir nuevo grupo
+  add_new_company: Añadir nueva empresa
+  add_new_contract_template: Añadir nuevo modelo de contrato
   add_owner: Añadir propietario
+  add_owner_booking: Añadir reserva de propietario
   add_photos: Añadir fotos
-  add_property: Añadir inmueble
+  add_prices_to_rates: Faltan añadir precios a las tarifas
+  add_property: Añadir propiedad
+  add_rates_to_add_contract: Añadir tarifas para poder crear contrato
+  admin: Administrador
+  adults: Adultos
+  after_last_checkout: después del último checkout, para prevenir huecos
   agency: Agencia
-  agency_fees: Honorarios de agencia
+  agency_fees: Honorarios
+  agency_plus_vat: Honorarios + IVA
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionado
   amount: Importe
   apartment: Apartamento
   apartments: Apartamentos
+  approved: Aprobado
+  are_you_sure: ¿Estás seguro de que deseas continuar con esta acción?
   arrival_day: Día de llegada
   ascending: Ordenar por (precio más bajo)
+  attention: Atención!
+  authorize_users: Autorizar usuarios
+  availabilities: Reglas de disponibilidad
+  availability: Disponibilidad
+  availability_and_discounts: Disponibilidad y descuentos
+  availability_master: ¿La disponibilidad de esta propiedad se utilizará para otras propiedades del grupo?
+  availability_master_vrental: Si deseas aplicar la disponibilidad de otra propiedad, selecciona la propiedad
+  availability_master_warning: "Esta propiedad utiliza la disponibilidad de otra propiedad. Para modificarla, debes modificar la disponibilidad maestra:"
   available:
     one: disponible
     other: disponibles
@@ -193,17 +241,73 @@ es:
   bathroom:
     one: baño
     other: baños
+  bathroom_types:
+    BATH_SHOWER: Baño con ducha
+    BATH_TUB: Baño con bañera
+  bathroom_types_count:
+    BATH_SHOWER:
+      one: Baño con ducha
+      other: Baños con ducha
+    BATH_TUB:
+      one: Baño con bañera
+      other: Baños con bañera
   bathrooms: baños
   beach_front: Primera línea de playa
   beach_view: Vista a la playa
+  bed_types:
+    BED_BUNK: Litera
+    BED_CHILD: Cama infantil
+    BED_COUCH: Sofá cama individual
+    BED_CRIB: Cuna
+    BED_DOUBLE: Cama doble
+    BED_KING: Cama extra grande (180 - 200)
+    BED_MURPHY: Cama Murphy
+    BED_QUEEN: Cama grande (160 - 180)
+    BED_SINGLE: Cama individual
+    BED_SOFA: Sofá cama doble
+  bed_types_count:
+    BED_BUNK:
+      one: Litera
+      other: Literas
+    BED_CRIB:
+      one: Cuna
+      other: Cunas
+    BED_DOUBLE:
+      one: Cama doble
+      other: Camas dobles
+    BED_MURPHY:
+      one: Cama Murphy
+      other: Camas Murphy
+    BED_SINGLE:
+      one: Cama individual
+      other: Camas individuales
+    BED_SOFA:
+      one: Sofá cama
+      other: Sofás cama
   bedroom:
     one: habitación
     other: habitaciones
+  bedroom_types:
+    BEDROOM: Dormitorio
+    BEDROOM_LIVING_SLEEPING_COMBO: Sala de estar
+  bedroom_types_count:
+    BEDROOM:
+      one: Dormitorio
+      other: Dormitorios
+    BEDROOM_LIVING_SLEEPING_COMBO:
+      one: Sala de estar
+      other: Salas de estar
   bedrooms: habitaciones
+  bedrooms_bathrooms: Habitaciones y baños
+  beds: Camas
+  blackout: Bloqueo de luz
+  block: Bloquear
   book: Reservar
   book_now: Reservar ahora
-  book_online: Reserva online
+  book_online: Reservar en línea
   booking: Reserva
+  booking_dates_overlap: Las fechas de reserva se superponen con reservas existentes.
+  booking_price: Precio de la reserva
   bookings: Reservas
   browse_more_locations: Ver más ubicaciones
   ca: Catalán
@@ -211,7 +315,8 @@ es:
   call_to_action_title: ¿Planificando tus próximas vacaciones?
   call_to_action_typed_1: encontrar la casa o apartamento perfecto.
   call_to_action_typed_2: encontrar la mejor oferta.
-  cancellation_details: "Cobramos un %{res_fee} de prepago para garantizar la reserva. Si se proporciona la notificación adecuada hasta %{free_cancel} días antes de la llegada, le devolveremos su pago inicial. Si cancela %{free_cancel_minus_one} o menos días antes de la llegada, el %{res_fee} de prepago no será reembolsado."
+  cancel: Cancelar
+  cancellation_details: Cobramos un %{res_fee} de prepago para garantizar la reserva. Si la notificación adecuada se proporciona hasta %{free_cancel} días antes de la llegada, le devolveremos su pago inicial. Si cancela %{free_cancel_minus_one} o menos días antes de la llegada, el %{res_fee} de prepago no será reembolsado.
   cancellation_policy: Política de cancelación
   cancelled_booking: Reserva cancelada
   cash: Efectivo
@@ -222,42 +327,61 @@ es:
     other: Otros
     rent: Alquiler
   check: Cheque
+  check_in: Entrada
+  check_out: Salida
+  children: Niños
+  city_tax: Impuesto turístico
+  city_tax_with_vat: Impuesto turístico con IVA incluido
+  clear_filter: Borrar filtro
+  client_details: Detalles del cliente
+  close: Cerrar
+  close_filter: Cerrar filtros
+  close_menu: Cerrar menú
   coffee_maker: Cafetera
   commission: Comisión
+  companies: Empresas
+  company: Empresa
+  company_active: Empresa activa
+  company_inactive: Empresa inactiva
   confirm_password: Confirmar contraseña
+  confirmed_booking: Reserva confirmada
   consult: Hacer una pregunta
   contact: Contacto
   contact_form: Formulario de contacto
+  contact_form_subject: Nuevo formulario de contacto web
   contact_form_success: Tu mensaje ha sido enviado. Nos pondremos en contacto contigo lo antes posible.
-  contact_us: Contáctanos
+  contact_us: Contacta con nosotros
+  contract_templates: Plantillas de contrato
   contracts: Contratos
   cookie_consent: Este sitio web utiliza cookies para mejorar tu experiencia. Si continúas navegando, consideramos que aceptas nuestra
   cookies_policy: política de cookies
-  copy_vrental: Copiar inmueble
+  copy_vrental: Copiar la propiedad
+  coupons: Códigos de descuento
+  create: Crear
   dashboard: Panel de control
   date:
     abbr_day_names:
-      - Dg
-      - Dl
-      - Dm
-      - Dc
-      - Dj
-      - Dv
-      - Ds
+      - Dom
+      - Lun
+      - Mar
+      - Mié
+      - Jue
+      - Vie
+      - Sáb
     abbr_month_names:
       - null
-      - Gen
+      - Ene
       - Feb
       - Mar
       - Abr
-      - Mai
+      - May
       - Jun
       - Jul
       - Ago
-      - Set
+      - Sep
       - Oct
       - Nov
-      - Des
+      - Dic
     day_names:
       - Domingo
       - Lunes
@@ -289,6 +413,8 @@ es:
       - ":day"
       - ":month"
       - ":year"
+  date_title: Fecha
+  dates: Fechas
   datetime:
     distance_in_words:
       about_x_hours:
@@ -335,44 +461,69 @@ es:
       month: mes
       second: segundo
       year: año
+  days: días
   deck_patio_uncovered: Terraza
-  delete_vrental: Eliminar el inmueble
+  default_commission_info: La comisión es del 25% más IVA.
+  default_texts_town: Esta información se utilizará por defecto para las propiedades de este sitio. Si quieres modificarla para una propiedad en particular, puedes hacerlo en la sección de detalles de la propiedad.
+  delete: Eliminar
+  delete_bathroom: Eliminar baño
+  delete_bed: Eliminar cama
+  delete_bedroom: Eliminar habitación
+  delete_vrental: Eliminar la propiedad
   descending: Ordenar por (precio más alto)
   description: Descripción
   discount: Descuento
-  discover_our_offers: Descubre nuestras sugerencias
+  discover_our_offers: Descubre nuestras ofertas
   dishwasher: Lavavajillas
-  dont-fill: "No llenar si no sabes qué es:"
+  dont-fill: "¡Atención! A continuación son credenciales de la conexión con Beds24:"
+  dryer: Secadora
   earnings: Ingresos
+  edit: Modificar
+  edit_booking: Modificar reserva
+  edit_company: Modificar la empresa
+  edit_conditions_warning: "Esta propiedad pertenece a un grupo de propiedades. Debes elegir si esta propiedad utilizará las tarifas de otra propiedad o no:"
   edit_profile: Editar perfil
-  edit_vrental: Modificar el inmueble
+  edit_property: Editar propiedad
+  edit_statement: Modificar la liquidación
+  edit_vrental: Modificar la propiedad
   elevator: Ascensor
+  email: Email
+  empty_vrentals: Propiedades vacías
   en: Inglés
   energy_addendum: Certificado Energético
   equipment_addendum: Equipamiento
   es: Español
   everyday: Cualquier día
   expenses: Gastos
+  export_changes_to_beds24: Exportar cambios a Beds24
   "false": "No"
   featured_locations: Lugares destacados
-  featured_text: A continuación, presentamos una selección de nuestros inmuebles destacados. Si no encuentras lo que buscas, no dudes en contactarnos.
+  featured_text: A continuación te presentamos una selección de nuestras propiedades destacadas. Si no encuentras lo que buscas, no dudes en ponerte en contacto con nosotros.
   featured_title: Casas y apartamentos destacados
   features: Características
-  find_by_vrental_name: Buscar por nombre de inmueble...
-  find_your: Encuentra
+  find_by_vrental_name: Buscar por nombre de propiedad...
+  find_your: Encuentra tu
   fireplace: Chimenea
+  first_name: Nombre
   fixed_price: Precio fijo
   fr: Francés
   freezer: Congelador
   from: Desde
+  future_reservations: Reservas futuras
+  gap_fill: Omplir forats
   garden: Jardín comunitario
   general_conditions: Condiciones generales
+  get_availabilities_from_beds24: Importar disponibilidad de Beds24
+  get_reviews_from_airbnb: Importar comentarios de Airbnb
   global:
     forms:
       back: Volver
       continue: Continuar
+      refresh: Actualizar
+      save_and_close: Guardar y cerrar
       submit: Guardar
   good_choice: ¡Buena elección!
+  grant_access: Conceder acceso
   grill: Barbacoa
   guest:
     one: persona
@@ -380,61 +531,111 @@ es:
   guests: personas
   habitability_addendum: Copia de la cédula de habitabilidad
   hair_dryer: Secador de cabello
+  heating: Calefacción
   hello: Hola
+  hint_gap_fill: Para rellenar huecos de 3 noches en una propiedad que normalmente tiene una estancia mínima de 5 noches, elija una estancia mínima de 3 noches o menos y una estancia máxima de 3 noches.
   home: Inicio
   house: Casa
   houses: Casas
-  how_to_contact_us: Si deseas ponerte en contacto con nosotros, puedes hacerlo directamente por correo electrónico o teléfono, o también puedes completar el formulario y nuestro equipo te responderá lo más rápido posible.
+  how_to_contact_us: Si deseas ponerte en contacto con nosotros, puedes hacerlo directamente por correo electrónico o teléfono, o también puedes completar el formulario y nuestro equipo te responderá lo más pronto posible.
+  import_changes_from_beds24: Importar cambios de Beds24
+  import_owner_from_beds24: Importar propietario de Beds24
   import_photos: Importar fotos
+  import_photos_from_beds24: Importar fotos de Beds24
   in_centre: En el centro
   inactive: Inactivo
+  invoice: Factura
   invoice_agency_fees: Honorarios gestión alquiler turístico
   invoice_description_1: "Período de gestión: del %{from} al %{to}"
-  invoice_description_2: "%{commission} sobre los ingresos de %{total}"
+  invoice_description_2: "%{commission} sobre las rentas de %{total}"
   invoice_title: Factura
+  invoice_zero_amount_error: La factura debe tener al menos un liquidación con un importe superior a 0.
+  invoices: Facturas
   iron_board: Tabla de planchar
   kettle: Hervidor de agua
+  last_name: Apellidos
   legal_notice: Aviso legal
   location: ubicación
   long_term: Alquiler anual
+  management: Gestión
+  manager: Encargado
   map: Mapa
+  max_stay_title: Máx.
   medium_term: Alquiler de temporada
+  message: Mensaje
   meta_descriptions:
-    bookings: ¡Reserva ahora tus vacaciones perfectas! Comprueba la disponibilidad, las tarifas y asegura tu estancia en Barcelona o la Costa Brava hoy mismo. ¡No te pierdas nuestras ofertas exclusivas! Ahorra en tu escapada a Barcelona o la Costa Brava.
-    contact: Formulario de contacto para cualquier duda o consulta. También puedes contactarnos por teléfono o correo electrónico.
-    home: "Agencia Inmobiliaria con más de 12 años de experiencia, con oficinas en Barcelona y Estartit, especializada en la gestión de propiedades en la Costa Brava y Barcelona. Descubre apartamentos ideales para estancias cortas y largas."
-    map: Mapa interactivo con todos nuestros inmuebles de alquiler turístico en Barcelona y la Costa Brava. Descubre la ubicación de nuestros apartamentos y casas.
-    property: "Reserva ahora para una escapada ideal. %{property_type} con %{property_features}."
+    bookings: ¡Reserva ahora tus vacaciones perfectas! Comprueba la disponibilidad, las tarifas y asegura tu estancia en Barcelona o la Costa Brava hoy mismo. ¡No te pierdas las ofertas exclusivas! Ahorra en tu escapada a Barcelona o la Costa Brava.
+    contact: Formulario de contacto para cualquier pregunta o consulta. También puedes contactarnos por teléfono o correo electrónico.
+    home: "Agencia Inmobiliaria con más de 12 años de experiencia con oficinas en Barcelona y en l'Estartit, especializada en gestión de propiedades en la Costa Brava y Barcelona. Descubre apartamentos ideales para estancias cortas y largas."
+    map: Mapa interactivo con todas nuestras propiedades de alquiler turístico en Barcelona y la Costa Brava. Descubre la ubicación de nuestros apartamentos y casas.
+    property: Reserva ahora para una escapada ideal. %{property_type} con %{property_features}.
   meta_titles:
     bookings: Reservas | Sistach Rentals
     contact: Contacto | Sistach Rentals
-    home: "Alquiler de apartamentos y casas | Barcelona y Costa Brava |\_Sistach Rentals"
+    home: "Alquiler de apartamentos y casas | Barcelona & Costa Brava |\_Sistach Rentals"
     map: Mapa | Sistach Rentals
     property: "%{property_type} %{rental_term} en %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microondas
-  min: Mín.
+  min: Min.
+  min_stay: Min. %{min_stay} noches
+  min_stay_title: Min.
   monthly: Mensual
   monument_view: Vista a la Sagrada Familia
-  new_vrental_step_1: Paso 1. Detalles sobre el inmueble
+  name: Nombre
+  net_owner: Neto propietario
+  new_availability: Añadir disponibilidad
+  new_contact_form_submitted: Se ha enviado un nuevo formulario de contacto web.
+  new_contract_for: Nuevo contrato para %{prop_name} año %{year}
+  new_owner_booking: Añadir reserva propietario
+  new_property: Nueva propiedad
+  new_vrental_step_1: "Paso 1: Propietario y condiciones generales"
+  new_web: Añadido a la web
   news: Noticias
   next_getaway: tu próxima escapada
+  night: Noche
   night_5: Noche (5-6)
   night_7: Noche (7)
   nights: noches
   "no": "No"
+  no_availability_for_dates: No tenemos disponibilidad para estas fechas. Selecciona otras fechas para ver la disponibilidad y los precios.
+  no_availability_for_selection: No tenemos disponibilidad para esta selección.
+  no_availability_master: No, utilizar disponibilidad propia
+  no_checkin: Entrada no permitida
+  no_checkin_out: Entrada y salida no permitidas
+  no_checkout: Salida no permitida
+  no_dates_selected: No has seleccionado ninguna fecha. Selecciona fechas para ver la disponibilidad y los precios.
+  no_group: Sin grupo
+  no_guests_selected: No has seleccionado ningún número de personas. Selecciona el número de personas para ver la disponibilidad y los precios.
+  no_invoices: No hay facturas
+  no_offset: igual que la tarifa máster
+  no_rate_master: No, utilizar tarifas propias
+  no_users: No hay usuarios.
+  none: Ninguno
+  normal: Normal
   not sent: No enviado
   not_available: No disponible
-  sea_view: Vista al mar
+  number_title: Número
   of: de
   office: Oficina
+  offices: Oficinas
+  on_beds24: en Beds24
   on_budget: Económicos
+  open_filter: Abrir filtros
+  open_menu: Abrir menú
   or_more: o más
   order_by: Ordenar por
+  others: Otros
   out_of: de
+  out_of_five: sobre 5.0
   oven: Horno
+  override: Bloqueo
   owner: Propietario
-  owner_bookings_default: "El propietario aún no ha bloqueado ninguna fecha para su propio uso. Si desea bloquear algunas fechas, por favor contáctenos en %{email}."
-  owner_speaks: "El propietario %{name} habla %{language}"
+  owner_booking: Reserva propietario
+  owner_booking_created: Reserva propietario creada
+  owner_booking_edited: Reserva propietario modificada
+  owner_bookings: Reservas propietario
+  owner_bookings_default: El propietario aún no ha bloqueado ninguna fecha para su uso. Si desea bloquear algunas fechas, por favor contáctenos a %{email}.
+  owner_speaks: El propietario %{name} habla %{language}
   owners: Propietarios
   page: Página
   pagy:
@@ -443,18 +644,29 @@ es:
       prev: "<<"
   paid_by_agency: Pagado por la agencia
   paid_to_owner: Pagado al propietario
-  parking_included: Parking incluido
+  parking_included: Aparcamiento incluido
   parking_possible: Posibilidad de aparcamiento en la calle
   password: Contraseña
+  pdf_contract: Contrato en PDF
   pending: Pendiente
+  per_booking_offset: por reserva
+  per_day_offset: por día
+  per_period_offset: por período
+  per_person_per_day_offset: por persona por día
+  percentage_offset: porcentaje
   perfect_holiday: tus vacaciones perfectas
   pets_considered: Se aceptan mascotas
-  pets_not_allowed: No se admiten mascotas
+  pets_not_allowed: No se permiten mascotas
   photos: Fotos
   pool: Piscina comunitaria
   pool_private: Piscina privada
+  price: Precio
+  price_night: Precio por noche
+  price_week: Precio por semana
+  price_with_coupon: Precio con código de descuento
   privacy_policy: Política de privacidad
   private_yard: Jardín privado
+  properties: Inmuebles
   property:
     one: inmueble
     other: inmuebles
@@ -462,30 +674,61 @@ es:
     one: inmueble disponible
     other: inmuebles disponibles
   property_bedrooms: Número de habitaciones
-  property_features: Características
+  property_booking_conditions: Condiciones de reserva
+  property_descriptions: Descripciones inmueble
+  property_details: Detalles inmueble
+  property_features: Características inmueble
+  property_owner: Propietario inmueble
+  property_photos: Fotos inmueble
+  property_rates: Tarifas inmueble
+  property_title: Inmueble
   property_type: Tipo de inmueble
   proposal: Propuesta enviada
+  rate_master: ¿Las tarifas de este inmueble se aplicarán a los demás inmuebles del grupo?
+  rate_master_vrental: Si desea aplicar la tarifa de otro inmueble, seleccione el inmueble
+  rate_master_warning: "Este inmueble utiliza las tarifas de otro inmueble. Para modificarlas, debe modificar la tarifa maestra:"
+  rate_plans: Planes de tarifas
+  rates: Tarifas
   real estate: Inmobiliaria
   realtor: Inmobiliaria
+  refresh_to_see_summary: Actualice la página para ver el resumen
   refrigerator: Nevera
-  registry_addendum: Nota Simple Informativa de la vivienda objeto del presente contrato
+  registered: Registrado
+  registry_addendum: Nota Simple Informativa del inmueble objeto del presente contrato
+  reports: Informes
+  restriction: Tipo de tarifa
+  reviews: comentarios
   roof_terrace: Terraza comunitaria
   routes:
     owners: propietarios
     users: usuarios
-    vrentals: inmuebles-lloguer-turistic
-  saturdays: Sb.-Sb.
+    vrentals: inmuebles-alquiler-turístico
+  saturdays: Sáb.-Sáb.
+  sea_view: Vista al mar
   search: Buscar
-  search_by_name: Nombre de l'inmueble
-  search_locations_text: Selecciona la ubicación para ver los inmuebles.
+  search_by_name: Nombre del inmueble
+  search_by_property_or_owner: Inmueble o propietario
+  search_locations_text: Seleccione la ubicación para ver los inmuebles.
   search_locations_title: Buscar por ubicación
-  select_dates: Selecciona fechas
-  select_or_add: Selecciona o añade nuevo propietario
+  select_bathroom_type: Seleccione tipo de baño
+  select_bed_type: Seleccione tipo de cama
+  select_bedroom_type: Seleccione tipo de habitación
+  select_dates: Seleccione fechas
+  select_or_add: Seleccione o añada nuevo propietario
+  select_other_dates: Seleccione otras fechas
   select_vrental: Seleccionar inmueble
   send: Enviar
+  send_photos_to_beds24: Enviar fotos a Beds24
+  send_rates_to_beds: Enviar tarifas a Beds24
+  send_to_beds: Enviar a Beds24
   services: Servicios
   short_term: Alquiler turístico
   show_all: Mostrar todos
+  show_all_contracts: Todos los contratos
+  show_all_languages: Todos los idiomas
+  show_all_owners: Mostrar todos los propietarios
+  show_all_statuses: Todos los estados
+  show_all_towns: Todos los municipios
   sign_in: Iniciar sesión
   sign_out: Cerrar sesión
   sign_up: Registrarse
@@ -498,20 +741,30 @@ es:
     week: semana
     year: año
   smoke_detector: Detector de humo
+  statement: Liquidación
+  statement_amount: Importe liquidación
   statement_period: Período de liquidación
   statement_title: Liquidación alquileres
+  statements: Liquidaciones
+  subject: Asunto
+  sure_delete: ¿Está seguro?
   terms_of_service: Términos y condiciones
   to: Hasta
-  to_confirm_booking: "Para confirmar la reserva, es necesario completar el formulario y pagar el %{res_fee} del precio de la reserva en la próxima página."
+  to_confirm_booking: Para confirmar la reserva, es necesario completar el formulario y pagar el %{res_fee} del precio de la reserva en la próxima página.
   toaster: Tostadora
   total: Total
   total_revenue: Total rendimiento propietario
+  tourist: Viajero
   transfer: Transferencia
   "true": Sí
   tv: TV
   type: tipo de inmueble
   unique: Singulares
   unselect_all: Desmarcar todos
+  update: Actualizar
+  user_mailer:
+    welcome:
+      subject: Bienvenido a Sistach Rentals
   vacation rentals: Alquiler turístico
   vacation_rental: Inmueble de alquiler turístico
   vacation_rental_properties: Inmuebles de alquiler turístico
@@ -519,7 +772,10 @@ es:
   verified: Verificado
   view: Ver
   view_more_properties: Ver más inmuebles
+  view_more_reviews: Ver más comentarios
+  view_on_website: Inmueble Web
   view_photos: Ver fotos
+  view_property: Ver inmueble
   view_vrental: Ver el inmueble
   vragreement_keys:
     clause: CLÁUSULA_INMUEBLE
@@ -548,7 +804,7 @@ es:
     office_street: CALLE_NUMERO_OFICINA
     office_website: WEB_OFICINA
     owner_account: CUENTA_BANCARIA_PROPIETARIO
-    owner_address: DIRECCIÓN_PROPIETARIO
+    owner_address: DIR_PROPIETARIO
     owner_bookings: RESERVAS_PROPIETARIO
     owner_document: DNI_PROPIETARIO
     owner_email: EMAIL_PROPIETARIO
@@ -557,8 +813,8 @@ es:
     place: LUGAR_FIRMA
     signdate: FECHA_FIRMA
     start_date: FECHA_INICIO
-    vrental_address: DIRECCIÓN_INMUEBLE
-    vrental_cadastre: CADASTRO_INMUEBLE
+    vrental_address: DIR_INMUEBLE
+    vrental_cadastre: CATASTRO_INMUEBLE
     vrental_commission: COMISIÓN_INMUEBLE
     vrental_description: DESCRIPCIÓN_INMUEBLE
     vrental_features: CARACTERÍSTICAS_INMUEBLE
@@ -570,7 +826,10 @@ es:
     other: inmuebles de alquiler turístico
   vrentals: Inmuebles
   washer: Lavadora
+  website: Página web
   week: Semana
+  weekly_discount: Descuento por semana (opcional)
+  weekly_discount_included: Este descuento ya estará incluido en el precio semanal de la tarifa. Significa que el precio por noche tendrá el aumento correspondiente.
   where_to: ¿Dónde buscas?
   where_to_next: ¿Dónde vamos de vacaciones?
   wifi: Wifi
@@ -581,78 +840,7 @@ es:
   with_private_pool: Con piscina privada
   with_sea_view: Con vista al mar
   with_view: Con vista
+  withdraw_access: Retirar acceso
   without_view: Interiores
   yearly: Anual
   "yes": Sí
-  no_dates_selected: No has seleccionado ninguna fecha. Selecciona fechas para ver la disponibilidad y los precios.
-  no_guests_selected: No has seleccionado la cantidad de huéspedes. Selecciona la cantidad de huéspedes para ver la disponibilidad y los precios.
-  no_availability_for_selection: No tenemos disponibilidad para esta selección.
-  no_availability_for_dates: No tenemos disponibilidad para estas fechas. Selecciona otras fechas para ver la disponibilidad y los precios.
-  attention: ¡Atención!
-  close: Cerrar
-  contact_form_subject: Nuevo envío de formulario de contacto desde la web
-  new_contact_form_submitted: Nuevo envío de formulario de contacto desde la web
-  name: Nombre
-  email: Correo electrónico
-  subject: Asunto
-  message: Mensaje
-  add_coupon: Añadir cupón
-  coupons: Cupones
-  select_other_dates: Selecciona otras fechas
-  check_in: Entrada
-  check_out: Salida
-  open_filter: Abrir filtros
-  close_filter: Cerrar filtros
-  price_with_coupon: Precio con cupón
-  min_stay: "Min. %{min_stay} noches"
-  website: Página web
-  authorize_users: Autorizar usuarios
-  export_changes_to_beds24: Exportar cambios a Beds24
-  create: Crear
-  on_beds24: en Beds24
-  import_photos_from_beds24: Importar fotos de Beds24
-  send_photos_to_beds24: Enviar fotos a Beds24
-  import_changes_from_beds24: Importar cambios de Beds24
-  import_owner_from_beds24: Importar propietario de Beds24
-  contracts: Contratos
-  contract_templates: Plantillas de contrato
-  reports: Informes
-  invoices: Facturas
-  rates: Tarifas
-  statements: Estados de cuenta
-  edit_property: Editar propiedad
-  property_details: Detalles de la propiedad
-  view_on_website: Ver en el sitio web
-  pdf_contract: Contrato en PDF
-  edit: Editar
-  delete: Eliminar
-  add_rates_to_add_contract: Agregar tarifas para poder crear contrato
-  new_contract_for: "Nuevo contrato para %{prop_name} año %{year}"
-  approved: Aprobado
-  update: Actualizar
-  registered: Registrado
-  tourist: Turista
-  admin: Administrador
-  manager: Gerente
-  sure_delete: ¿Estás seguro?
-  no_users: No hay usuarios.
-  no_group: Sin grupo
-  view_property: Ver propiedad
-  property_owner: Propietario de la propiedad
-  property_booking_conditions: Condiciones de reserva de la propiedad
-  property_descriptions: Descripciones de la propiedad
-  property_features: Características de la propiedad
-  new_property: Nueva propiedad
-  property_rates: Tarifas de la propiedad
-  property_photos: Fotos de la propiedad
-  add_prices_to_rates: Falta agregar precios a las tarifas
-  add_future_rates: Falta agregar tarifas
-  show_all_statuses: Todos los estados
-  show_all_towns: Todos los municipios
-  show_all_languages: Todos los idiomas
-  show_all_owners: Todos los propietarios
-  properties: Propiedades
-  active_properties: Propiedades activas
-  show_all_contracts: Todos los contratos
-  add_new_contract_template: Agregar nueva plantilla de contrato
-  management: Gestión

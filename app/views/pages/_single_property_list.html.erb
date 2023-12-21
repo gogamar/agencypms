@@ -32,16 +32,14 @@
                 <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) %>
               <% end %>
             </h4>
-            <!--
-            <div class="fr-can-rating">
-              <i class="fas fa-star fs-xs filled"></i>
-              <i class="fas fa-star fs-xs filled"></i>
-              <i class="fas fa-star fs-xs filled"></i>
-              <i class="fas fa-star fs-xs filled"></i>
-              <i class="fas fa-star fs-xs"></i>
-              <span class="reviews_text fs-sm text-muted ms-2">(34 Reviews)</span>
-            </div>
-            -->
+            <% if vrental.reviews.present? %>
+              <div class="rating-single-on-list">
+                <div class="star-rating" data-rating="<%= vrental.reviews_median %>">
+                  <%= stars_for_rating(vrental.reviews_median) %>
+                  <span class="reviews_text fs-sm text-muted ms-2">(<%= vrental.reviews.count %> <%= t('reviews') %>)</span>
+                </div>
+              </div>
+            <% end %>
           </div>
           <div class="list-price d-flex flex-row align-items-center">
             <% if price.present? %>
