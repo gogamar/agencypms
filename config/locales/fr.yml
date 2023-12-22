@@ -11,7 +11,7 @@ fr:
       availability:
         end_date: Jusqu'à
         multiplier: Multiplicateur
-        override: Remplacer
+        override: Blocage
         start_date: À partir de
       bathroom:
         bathroom_type: Type de salle de bains

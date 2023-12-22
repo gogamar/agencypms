@@ -68,7 +68,8 @@ class Vrental < ApplicationRecord
   # validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
   validates :commission, presence: true, if: -> { contract_type == 'commission' }
   # validates :price_per, presence: true, inclusion: { in: PRICE_PER }
-  # validate :cannot_reference_self_as_master
+  validate :cannot_reference_self_as_availability_master
+  validate :cannot_reference_self_as_rate_master
   # validates :fixed_price_amount, presence: true, if: -> { contract_type == 'fixed_price' }
   # validates :fixed_price_frequency, presence: true, inclusion: { in: FIXED_PRICE_FREQUENCIES }, if: -> { contract_type == 'fixed_price' }
 
@@ -135,13 +136,12 @@ class Vrental < ApplicationRecord
 
   def find_price(date)
     specific_date = date.is_a?(Date) ? date : Date.parse(date)
+
     matching_rate = future_rates.find do |future_rate|
       (future_rate.firstnight..future_rate.lastnight).cover?(specific_date)
     end
 
-    if matching_rate
-      return matching_rate.priceweek.present? ? matching_rate.priceweek / 7 : matching_rate.pricenight
-    end
+    matching_rate.pricenight if matching_rate
   end
 
   def price_with_coupon(price)
@@ -231,23 +231,26 @@ class Vrental < ApplicationRecord
     vrental_rate_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
     vrental_availability_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
 
-    future_discounts = vrental_availability_instance.availabilities.where("date > ?", Date.today).where.not(inventory: 0).where("multiplier < ? AND multiplier > ?", 100, 0)
-
-    if vrental_rate_instance.price_per == "night"
-      lowest_nightprice = vrental_rate_instance.future_rates.minimum(:pricenight) if vrental_rate_instance.future_rates.present?
-      lowest_rate_price = { "night" => lowest_nightprice } if lowest_nightprice.present?
-    else
-      lowest_weekprice = vrental_rate_instance.future_rates.minimum(:priceweek).to_f if vrental_rate_instance.future_rates.present?
-      lowest_rate_price = { "week" => lowest_weekprice } if lowest_weekprice.present?
+    if vrental_rate_instance.future_rates.present?
+      lowest_rate_price = vrental_rate_instance.future_rates.minimum(:pricenight)
     end
+
+    future_discounts = vrental_availability_instance.availabilities.where("date > ?", Date.today).where("multiplier < ? AND multiplier > ?", 100, 0)
 
     if future_discounts.exists?
       biggest_discount = future_discounts.order(multiplier: :asc).first
+      puts "biggest_discount: #{biggest_discount.date}"
       price_on_date = vrental_rate_instance.find_price(biggest_discount.date)
-      lowest_discount_price = { "night" => (price_on_date.to_f * (biggest_discount.multiplier.to_f / 100)) } if price_on_date.present?
+      lowest_discount_price = price_on_date * (biggest_discount.multiplier / 100) if price_on_date.present?
     end
 
-    lowest_discount_price.present? ? lowest_discount_price : lowest_rate_price
+    best_price = [lowest_rate_price, lowest_discount_price].compact.min
+
+    if vrental_availability_instance.rate_offset.present?
+      best_price = best_price + (best_price * (vrental_availability_instance.rate_offset / 100))
+    end
+
+    best_price
   end
 
   def other_statements_dates(statement=nil)
@@ -783,8 +786,14 @@ class Vrental < ApplicationRecord
 
   private
 
-  def cannot_reference_self_as_master
+  def cannot_reference_self_as_rate_master
     if id == rate_master_id
+      errors.add(:rate_master_id, "cannot reference itself")
+    end
+  end
+
+  def cannot_reference_self_as_availability_master
+    if id == availability_master_id
       errors.add(:rate_master_id, "cannot reference itself")
     end
   end

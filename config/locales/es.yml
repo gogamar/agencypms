@@ -11,7 +11,7 @@ es:
       availability:
         end_date: Hasta
         multiplier: Multiplicador
-        override: Anular
+        override: Bloqueig
         start_date: Desde
       bathroom:
         bathroom_type: Tipo de baño

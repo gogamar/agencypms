@@ -823,7 +823,7 @@ class VrentalApiService
         end
       end
     rescue => e
-      puts "Error importing rates for #{master_availability_vrental.name}: #{e.message}"
+      puts "Error importing rates for #{avail_master_vrental.name}: #{e.message}"
     end
     sleep 2
   end
@@ -985,15 +985,15 @@ class VrentalApiService
   end
 
   def get_availabilities_from_beds_24
-    master_availability_vrental = @target.availability_master.present? ? @target.availability_master : @target
+    avail_master_vrental = @target.availability_master.present? ? @target.availability_master : @target
 
-    master_future_rates = master_availability_vrental.rate_master.present? ? master_availability_vrental.rate_master.future_rates : master_availability_vrental.future_rates
+    master_future_rates = avail_master_vrental.rate_master.present? ? avail_master_vrental.rate_master.future_rates : avail_master_vrental.future_rates
 
     return if master_future_rates.empty?
 
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
     options = {
-      "roomId": master_availability_vrental.beds_room_id,
+      "roomId": avail_master_vrental.beds_room_id,
       "from": Date.today.strftime("%Y%m%d").to_s,
       "to": last_rate_lastnight.strftime("%Y%m%d").to_s,
       "incMultiplier": 1,
@@ -1001,13 +1001,13 @@ class VrentalApiService
       "allowInventoryNegative": 1
     }
 
-    client = BedsHelper::Beds.new(master_availability_vrental.office.beds_key)
+    client = BedsHelper::Beds.new(avail_master_vrental.office.beds_key)
 
     begin
-      availability_data = client.get_room_dates(master_availability_vrental.prop_key, options)
+      availability_data = client.get_room_dates(avail_master_vrental.prop_key, options)
       availability_data.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
-        existing_availability = @target.availabilities.find_by(date: formatted_date)
+        existing_availability = avail_master_vrental.availabilities.find_by(date: formatted_date)
         if existing_availability
           existing_availability.update!(
             inventory: attributes["i"].to_i,
@@ -1020,12 +1020,12 @@ class VrentalApiService
             inventory: attributes["i"].to_i,
             multiplier: attributes["x"].to_i || 100,
             override: attributes["o"].to_i || 0,
-            vrental_id: @target.id
+            vrental_id: avail_master_vrental.id
           )
         end
       end
     rescue => e
-      puts "Error importing availability data for #{master_availability_vrental.name}: #{e.message}"
+      puts "Error importing availability data for #{avail_master_vrental.name}: #{e.message}"
     end
     sleep 2
   end
@@ -1134,8 +1134,8 @@ class VrentalApiService
 
   def prevent_gaps_on_beds(days_after_checkout)
     return if @target.future_bookings.empty?
-    master_availability_vrental = @target.availability_master.present? ? @target.availability_master : @target
-    master_future_rates = master_availability_vrental.rate_master.present? ? master_availability_vrental.rate_master.future_rates : master_availability_vrental.future_rates
+    avail_master_vrental = @target.availability_master.present? ? @target.availability_master : @target
+    master_future_rates = avail_master_vrental.rate_master.present? ? avail_master_vrental.rate_master.future_rates : avail_master_vrental.future_rates
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
     checkout_date = @target.bookings.order(checkin: :desc).first.checkout
     no_check_in_from = checkout_date + days_after_checkout.days

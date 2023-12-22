@@ -9,7 +9,7 @@
       <%= f.input :multiplier %>
     </div>
     <div class="col-2">
-      <%= f.input :override %>
+      <%= f.input :override, as: :select, collection: Availability::OVERRIDE.map { |key, value| [t(value), key] } %>
     </div>
     <div class="col-1">
       <%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %>
