@@ -237,11 +237,10 @@ class Vrental < ApplicationRecord
 
     future_discounts = vrental_availability_instance.availabilities.where("date > ?", Date.today).where("multiplier < ? AND multiplier > ?", 100, 0)
 
-    if future_discounts.exists?
+    if future_discounts
       biggest_discount = future_discounts.order(multiplier: :asc).first
-      puts "biggest_discount: #{biggest_discount.date}"
-      price_on_date = vrental_rate_instance.find_price(biggest_discount.date)
-      lowest_discount_price = price_on_date * (biggest_discount.multiplier / 100) if price_on_date.present?
+      price_on_date = vrental_rate_instance.find_price(biggest_discount.date) if biggest_discount.present?
+      lowest_discount_price = price_on_date * (biggest_discount.multiplier.to_f / 100.0) if price_on_date.present?
     end
 
     best_price = [lowest_rate_price, lowest_discount_price].compact.min
