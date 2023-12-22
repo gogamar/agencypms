@@ -1005,7 +1005,10 @@ class VrentalApiService
 
     begin
       availability_data = client.get_room_dates(avail_master_vrental.prop_key, options)
-      availability_data.each do |date, attributes|
+
+      selected_availabilities = availability_data.select { |date, attributes| Date.parse(date.to_s) >= Date.today && (attributes["x"].present? || attributes["o"].present?) }
+
+      selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
         existing_availability = avail_master_vrental.availabilities.find_by(date: formatted_date)
         if existing_availability
@@ -1024,6 +1027,8 @@ class VrentalApiService
           )
         end
       end
+      selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
+      avail_master_vrental.availabilities.where.not(date: selected_dates).destroy_all
     rescue => e
       puts "Error importing availability data for #{avail_master_vrental.name}: #{e.message}"
     end

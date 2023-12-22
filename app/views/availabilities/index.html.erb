@@ -14,17 +14,18 @@
         <%# fixme: add from to dates to create a new availability from here %>
         <%# turbo_frame_tag "new_availability", src: new_vrental_availability_path(@vrental)%>
       </div>
-      <div class="row">
-        <div class="col-3"><%= t('date_title') %></div>
-        <div class="col-2"><%= t('availability') %></div>
-        <div class="col-2"><%= t('price') %></div>
-        <div class="col-2"><%= t('.multiplier') %></div>
-        <div class="col-2"><%= t('override') %></div>
-        <div class="col-1"></div>
-      </div>
       <div class="alert position-relative alert-warning" role="alert">
         Si el preu es 100€ i el multiplicador es 35 el preu final es 35€
       </div>
+      <div class="row fw-b">
+        <div class="col-3"><%= t('date_title') %></div>
+        <div class="col-2"><%= t('availability') %></div>
+        <div class="col-2"><%= t('price') %></div>
+        <div class="col-2"><%= t('multiplier') %></div>
+        <div class="col-2"><%= t('override') %></div>
+        <div class="col-1"></div>
+      </div>
+      <hr>
       <%= render @availabilities %>
     </div>
   <% else %>
