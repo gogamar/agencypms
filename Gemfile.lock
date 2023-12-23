@@ -317,9 +317,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
-    vessel (0.2.0)
-      ferrum (>= 0.8)
-      thor (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -359,6 +356,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
+  ferrum
   flag-icons-rails
   font-awesome-sass (~> 6.1)
   geocoder
@@ -387,7 +385,6 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
-  vessel
   web-console
   wicked_pdf
   wkhtmltopdf-binary
