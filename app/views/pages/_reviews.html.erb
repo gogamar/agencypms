@@ -12,19 +12,18 @@
       <ul>
         <li class="article_comments_wrap">
           <article>
-            <div class="article_comments_thumb" style="background-image: url('<%= @featured_review.client_photo_url %>')"></div>
             <div class="comment-details">
               <div class="comment-meta">
                 <div class="comment-left-meta">
                   <h4 class="author-name"><%= @featured_review.client_name %></h4>
-                  <div class="comment-date"><%= @featured_review.client_location %></div>
-                  <div class="star-rating" data-rating="<%= @vrental.reviews_median %>">
-                    <%= stars_for_rating(@vrental.reviews_median) %>
+                  <div class="comment-date"><%= @featured_review.send("client_location_#{locale}") %></div>
+                  <div class="star-rating" data-rating="<%= @featured_review.rating %>">
+                    <%= stars_for_rating(@featured_review.rating) %>
                   </div>
                 </div>
               </div>
               <div class="comment-text">
-                <p><%= @featured_review.comment %></p>
+                <p><%= @featured_review.send("comment_#{locale}") %></p>
               </div>
             </div>
           </article>
@@ -47,19 +46,18 @@
             <% @reviews.each do |review| %>
               <li class="article_comments_wrap">
                 <article>
-                  <div class="article_comments_thumb" style="background-image: url('<%= review.client_photo_url %>')"></div>
                   <div class="comment-details">
                     <div class="comment-meta">
                       <div class="comment-left-meta">
                         <h4 class="author-name"><%= review.client_name %></h4>
-                        <div class="comment-date"><%= review.client_location %></div>
-                        <div class="star-rating" data-rating="<%= @vrental.reviews_median %>">
-                          <%= stars_for_rating(@vrental.reviews_median) %>
+                        <div class="comment-date"><%= review.send("client_location_#{locale}") %></div>
+                        <div class="star-rating" data-rating="<%= review.rating %>">
+                          <%= stars_for_rating(review.rating) %>
                         </div>
                       </div>
                     </div>
                     <div class="comment-text">
-                      <p><%= review.comment %></p>
+                      <p><%= review.send("comment_#{locale}") %></p>
                     </div>
                   </div>
                 </article>

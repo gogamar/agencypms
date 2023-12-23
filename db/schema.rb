@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_20_173719) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_23_095951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -366,14 +366,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_20_173719) do
   create_table "reviews", force: :cascade do |t|
     t.string "review_id"
     t.string "client_name"
-    t.string "client_photo_url"
-    t.string "client_location"
-    t.string "review_time"
-    t.text "comment"
+    t.string "client_location_ca"
+    t.text "comment_ca"
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rating"
+    t.text "comment_en"
+    t.text "comment_es"
+    t.text "comment_fr"
+    t.string "client_location_en"
+    t.string "client_location_es"
+    t.string "client_location_fr"
     t.index ["vrental_id"], name: "index_reviews_on_vrental_id"
   end
 

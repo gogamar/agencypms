@@ -740,79 +740,85 @@ class Vrental < ApplicationRecord
   end
 
   def get_reviews_from_airbnb
-    browser = Ferrum::Browser.new
-    url = "https://www.airbnb.com/rooms/#{airbnb_listing_id}/reviews"
-    browser.go_to(url)
+    ["ca", "es", "en", "fr"].each do |site|
 
-    sleep 60
-
-    # reviews_avatars = browser.css('.i9if2t0')
-
-    browser.mouse.scroll_to(0, 400)
-    reviews_avatars = browser.xpath("//img[contains(@class, 'i9if2t0')]")
-
-    puts "these are reviews_avatars with xpath: #{reviews_avatars}"
-    # browser.network.wait_for_idle
-    # if reviews_avatars
-    #   reviews_modal = browser.at_css('div._1ymlq18')
-    #   modal_html = reviews_modal.property('outerHTML')
-    # else
-    #   puts "Original reviews not found"
-    # end
-
-    # reviews_modal = browser.at_css('div._1ymlq18')
-    reviews_modal = browser.at_xpath("//div[contains(@class, '_1ymlq18')]")
-    if reviews_modal
-      modal_html = reviews_modal.property('outerHTML')
-    else
-      puts "Original reviews not found"
-    end
-
-    nokogiri_doc = Nokogiri::HTML(modal_html)
-
-    review_elements = nokogiri_doc.css('[data-review-id]')
-
-    reviews_array = []
-
-    review_elements.each do |review_element|
-      review_data = {}
-      review_image = review_element.at_css('.i9if2t0')
-      puts "this is review_image with scroll: #{review_image}"
-      image_source = review_image['src'] if review_image
-      review_data[:client_photo_url] = image_source
-      review_data[:review_id] = review_element['data-review-id']
-      review_data[:client_name] = review_element.at_css('.atm_7l_1kw7nm4').text.strip if review_element.at_css('.atm_7l_1kw7nm4')
-      review_data[:client_location] = review_element.at_css('.s9v16xq').text.strip if review_element.at_css('.s9v16xq')
-      review_data[:review_time] = review_element.at_css('.dq3izqp').text.strip if review_element.at_css('.dq3izqp')
-      review_data[:rating] = review_element.at_css('.c5dn5hn').text.strip if review_element.at_css('.c5dn5hn')
-      review_data[:comment] = review_element.at_css('.r1bctolv').text.strip if review_element.at_css('.r1bctolv')
-
-      reviews_array << review_data
-    end
-
-    puts "this is reviews_array: #{reviews_array}"
-
-    browser.quit
-
-    reviews_array.each do |airbnb_review|
-      rate_match = airbnb_review[:rating].match(/\d+/)
-      rate_integer = rate_match ? rate_match[0].to_i : nil
-
-      if rate_integer.present? && rate_integer >= 3
-        review = Review.find_or_create_by(review_id: airbnb_review[:review_id])
-        review.update(
-          client_name: airbnb_review[:client_name],
-          client_photo_url: airbnb_review[:client_photo_url],
-          client_location: airbnb_review[:client_location],
-          review_time: airbnb_review[:review_time],
-          rating: rate_integer,
-          comment: airbnb_review[:comment],
-          vrental_id: self.id
-        )
+      browser = Ferrum::Browser.new
+      if site == "en"
+        url = "https://www.airbnb.com/rooms/#{airbnb_listing_id}/reviews"
+      elsif site == "ca"
+        url = "https://www.airbnb.cat/rooms/#{airbnb_listing_id}/reviews"
+      else
+        url = "https://www.airbnb.#{site}/rooms/#{airbnb_listing_id}/reviews"
       end
-    end
+      browser.go_to(url)
+      sleep 30
+      # browser.network.wait_for_idle(timeout: 30)
 
-    puts "Got reviews for #{name} with id #{id}"
+      # reviews_modal = browser.at_css('div._1ymlq18')
+      reviews_modal = browser.at_xpath("//div[contains(@class, '_1ymlq18')]")
+      if reviews_modal
+        modal_html = reviews_modal.property('outerHTML')
+      else
+        puts "Review modal not found"
+      end
+      browser.quit
+
+      nokogiri_doc = Nokogiri::HTML(modal_html)
+
+      review_elements = nokogiri_doc.css('[data-review-id]')
+
+      reviews_array = []
+
+      review_location = "client_location_#{site}".to_sym
+      review_comment = "comment_#{site}".to_sym
+
+      if site == "ca"
+        review_elements.each do |review_element|
+          review_data = {}
+          review_data[:review_id] = review_element['data-review-id']
+          review_data[:client_name] = review_element.at_css('.atm_7l_1kw7nm4').text.strip if review_element.at_css('.atm_7l_1kw7nm4')
+          review_data[review_location] = review_element.at_css('.s9v16xq').text.strip if review_element.at_css('.s9v16xq')
+          review_data[:rating] = review_element.at_css('.c5dn5hn').text.strip if review_element.at_css('.c5dn5hn')
+          review_data[review_comment] = review_element.at_css('.r1bctolv').text.strip if review_element.at_css('.r1bctolv')
+
+          reviews_array << review_data
+        end
+      else
+        review_elements.each do |review_element|
+          review_data = {}
+          review_data[:review_id] = review_element['data-review-id']
+          review_data[review_location] = review_element.at_css('.s9v16xq').text.strip if review_element.at_css('.s9v16xq')
+          review_data[review_comment] = review_element.at_css('.r1bctolv').text.strip if review_element.at_css('.r1bctolv')
+
+          reviews_array << review_data
+        end
+      end
+
+      reviews_array.each do |airbnb_review|
+        if site == "ca"
+          rate_match = airbnb_review[:rating].match(/\d+/)
+          rate_integer = rate_match ? rate_match[0].to_i : nil
+
+          if rate_integer.present? && rate_integer >= 3
+            review = Review.find_or_create_by(review_id: airbnb_review[:review_id])
+            review.update(
+              client_name: airbnb_review[:client_name],
+              "client_location_#{site}": airbnb_review[review_location],
+              rating: rate_integer,
+              "comment_#{site}": airbnb_review[review_comment],
+              vrental_id: self.id
+            )
+          end
+        else
+          review = Review.find_or_create_by(review_id: airbnb_review[:review_id])
+          review.update(
+            "client_location_#{site}": airbnb_review[review_location],
+            "comment_#{site}": airbnb_review[review_comment],
+          )
+        end
+      end
+      puts "Got reviews from #{url} for #{name} with id #{id}"
+    end
   end
 
   private
