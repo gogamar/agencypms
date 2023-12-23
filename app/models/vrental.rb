@@ -752,7 +752,7 @@ class Vrental < ApplicationRecord
       end
       browser.go_to(url)
       sleep 30
-      # browser.network.wait_for_idle(timeout: 30)
+      browser.network.wait_for_idle(timeout: 30)
 
       # reviews_modal = browser.at_css('div._1ymlq18')
       reviews_modal = browser.at_xpath("//div[contains(@class, '_1ymlq18')]")

@@ -1,4 +1,4 @@
-all_vrentals = Vrental.all
+# all_vrentals = Vrental.all
 # barcelona_vrentals = Office.where("name ILIKE ?", "%barcelona%").first.vrentals
 # estartit_vrentals = Office.where("name ILIKE ?", "%estartit%").first.vrentals
 
@@ -166,10 +166,19 @@ all_vrentals = Vrental.all
 
 # puts "Created dryer and heating features"
 
-all_vrentals.each do |vrental|
-  if vrental.office.present? && vrental.prop_key.present?
-    VrentalApiService.new(vrental).update_vrental_from_beds
-    puts "Updated #{vrental.name}"
+# all_vrentals.each do |vrental|
+#   if vrental.office.present? && vrental.prop_key.present?
+#     VrentalApiService.new(vrental).update_vrental_from_beds
+#     puts "Updated #{vrental.name}"
+#   end
+# end
+# puts "Updated all vrentals from beds!"
+
+estartit = Office.find(1)
+estartit_no_reviews = estartit.vrentals.left_outer_joins(:reviews).where(reviews: { id: nil })
+estartit_no_reviews.each do |vrental|
+  if vrental.prop_key.present? && vrental.airbnb_listing_id.present?
+    vrental.get_reviews_from_airbnb
   end
+  sleep 5
 end
-puts "Updated all vrentals from beds!"
