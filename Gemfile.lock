@@ -115,7 +115,6 @@ GEM
     caxlsx_rails (0.6.3)
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
-    childprocess (4.1.0)
     ckeditor (5.1.1)
       orm_adapter (~> 0.5.0)
     cloudinary (1.23.0)
@@ -144,6 +143,11 @@ GEM
       railties (>= 3.2)
     erubi (1.11.0)
     execjs (2.8.1)
+    ferrum (0.14)
+      addressable (~> 2.5)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (>= 0.6, < 0.8)
     ffi (1.15.5)
     flag-icons-rails (3.4.6.1)
       sass-rails
@@ -276,7 +280,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.2.5)
     route_translator (14.1.0)
       actionpack (>= 6.1, < 7.2)
       activesupport (>= 6.1, < 7.2)
@@ -291,11 +294,6 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.5.0)
-      childprocess (>= 0.5, < 5.0)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     simple_calendar (2.4.3)
       rails (>= 3.0)
     sprockets (4.1.1)
@@ -319,6 +317,9 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
+    vessel (0.2.0)
+      ferrum (>= 0.8)
+      thor (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -326,7 +327,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    websocket (1.2.9)
+    webrick (1.8.1)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -380,13 +381,13 @@ DEPENDENCIES
   redis (~> 4.0)
   route_translator
   sassc-rails
-  selenium-webdriver
   simple_calendar (~> 2.4)
   simple_form!
   sprockets-rails
   stimulus-rails
   turbo-rails
   tzinfo-data
+  vessel
   web-console
   wicked_pdf
   wkhtmltopdf-binary

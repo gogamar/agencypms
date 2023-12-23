@@ -1,5 +1,4 @@
 class OfficesController < ApplicationController
-  include SeleniumHelper
   before_action :set_office, only: %i[ show edit update destroy import_properties destroy_all_properties get_reviews_from_airbnb]
   before_action :set_company, except: %i[ destroy import_properties destroy_all_properties get_reviews_from_airbnb]
 
@@ -56,10 +55,9 @@ class OfficesController < ApplicationController
   end
 
   def get_reviews_from_airbnb
-    driver = setup_selenium_driver
     @office.vrentals.each do |vrental|
       if vrental.prop_key.present? && vrental.airbnb_listing_id.present?
-        vrental.get_reviews_from_airbnb(driver)
+        vrental.get_reviews_from_airbnb
         puts "Updated reviews for #{vrental.id} - #{vrental.name}"
       end
       sleep 5

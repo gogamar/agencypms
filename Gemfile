@@ -108,7 +108,7 @@ gem 'lightbox2'
 gem 'route_translator'
 gem 'recaptcha'
 gem 'cocoon'
-gem "selenium-webdriver"
+gem 'ferrum'
 gem 'nokogiri'
 
 

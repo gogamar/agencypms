@@ -1,5 +1,7 @@
 class Vrental < ApplicationRecord
   require 'net/http'
+  # require "vessel"
+  # require 'nokogiri'
   include ActionView::Helpers::NumberHelper
   belongs_to :owner, optional: true
   belongs_to :office, optional: true
@@ -737,32 +739,61 @@ class Vrental < ApplicationRecord
     overbookings
   end
 
-  def get_reviews_from_airbnb(driver)
-    url = "https://www.airbnb.cat/rooms/#{airbnb_listing_id}/reviews"
-    driver.get(url)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10)
-    modal_with_reviews = wait.until { driver.find_element(css: "._1ymlq18") }
+  def get_reviews_from_airbnb
+    browser = Ferrum::Browser.new
+    url = "https://www.airbnb.com/rooms/#{airbnb_listing_id}/reviews"
+    browser.go_to(url)
 
-    translations = modal_with_reviews.find_elements(css: '[data-testid="pdp-reviews-translation-disclaimer"]')
-    translations.each do |translation|
-      translation.click
+    sleep 60
+
+    # reviews_avatars = browser.css('.i9if2t0')
+
+    browser.mouse.scroll_to(0, 400)
+    reviews_avatars = browser.xpath("//img[contains(@class, 'i9if2t0')]")
+
+    puts "these are reviews_avatars with xpath: #{reviews_avatars}"
+    # browser.network.wait_for_idle
+    # if reviews_avatars
+    #   reviews_modal = browser.at_css('div._1ymlq18')
+    #   modal_html = reviews_modal.property('outerHTML')
+    # else
+    #   puts "Original reviews not found"
+    # end
+
+    # reviews_modal = browser.at_css('div._1ymlq18')
+    reviews_modal = browser.at_xpath("//div[contains(@class, '_1ymlq18')]")
+    if reviews_modal
+      modal_html = reviews_modal.property('outerHTML')
+    else
+      puts "Original reviews not found"
     end
-    reviews = driver.find_elements(css: '[data-review-id]')
+
+    nokogiri_doc = Nokogiri::HTML(modal_html)
+
+    review_elements = nokogiri_doc.css('[data-review-id]')
+
     reviews_array = []
 
-    reviews.each do |review|
+    review_elements.each do |review_element|
       review_data = {}
-      review_image = wait.until { review.find_element(css: 'img.i9if2t0') }
-      image_source = review_image.attribute('src')
+      review_image = review_element.at_css('.i9if2t0')
+      puts "this is review_image with scroll: #{review_image}"
+      image_source = review_image['src'] if review_image
       review_data[:client_photo_url] = image_source
-      review_data[:review_id] = review.attribute('data-review-id')
-      review_data[:client_name] = review.find_element(css: '.atm_7l_1kw7nm4').text.strip
-      review_data[:client_location] = review.find_element(css: '.s9v16xq').text.strip
-      review_data[:review_time] = review.find_element(css: ".dq3izqp").text.strip
-      review_data[:rating] = review.find_element(css: '.c5dn5hn').text.strip
-      review_data[:comment] = review.find_element(css: '.r1bctolv').text.strip
+      review_data[:review_id] = review_element['data-review-id']
+      review_data[:client_name] = review_element.at_css('.atm_7l_1kw7nm4').text.strip if review_element.at_css('.atm_7l_1kw7nm4')
+      review_data[:client_location] = review_element.at_css('.s9v16xq').text.strip if review_element.at_css('.s9v16xq')
+      review_data[:review_time] = review_element.at_css('.dq3izqp').text.strip if review_element.at_css('.dq3izqp')
+      review_data[:rating] = review_element.at_css('.c5dn5hn').text.strip if review_element.at_css('.c5dn5hn')
+      review_data[:comment] = review_element.at_css('.r1bctolv').text.strip if review_element.at_css('.r1bctolv')
+
       reviews_array << review_data
     end
+
+    puts "this is reviews_array: #{reviews_array}"
+
+    browser.quit
+
     reviews_array.each do |airbnb_review|
       rate_match = airbnb_review[:rating].match(/\d+/)
       rate_integer = rate_match ? rate_match[0].to_i : nil
@@ -780,6 +811,7 @@ class Vrental < ApplicationRecord
         )
       end
     end
+
     puts "Got reviews for #{name} with id #{id}"
   end
 

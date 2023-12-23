@@ -1,5 +1,4 @@
 class VrentalsController < ApplicationController
-  include SeleniumHelper
   before_action :set_vrental, except: [:new, :create, :copy, :index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
 
   def index
@@ -211,9 +210,7 @@ class VrentalsController < ApplicationController
 
   def get_reviews_from_airbnb
     if @vrental.prop_key.present? && @vrental.airbnb_listing_id.present?
-      driver = setup_selenium_driver
-      @vrental.get_reviews_from_airbnb(driver)
-      driver.quit
+      @vrental.get_reviews_from_airbnb
       redirect_to @vrental, notice: "S'han importat els comentaris dels clients."
     else
       redirect_to add_booking_conditions_vrental_path, notice: "Aquest immoble no té airbnb listing id o prop key."

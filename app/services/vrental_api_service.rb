@@ -107,10 +107,10 @@ class VrentalApiService
         short_description_es: room["airbnb"]["summaryText"]["ES"],
         short_description_fr: room["airbnb"]["summaryText"]["FR"],
         short_description_en: room["airbnb"]["summaryText"]["EN"],
-        description_ca: room["airbnb"]["spaceText"]["CA"].present? ? room["airbnb"]["spaceText"]["CA"] : room["texts"]["contentDescriptionText"]["CA"],
-        description_es: room["airbnb"]["spaceText"]["ES"].present? ? room["airbnb"]["spaceText"]["ES"] : room["texts"]["contentDescriptionText"]["ES"],
-        description_fr: room["airbnb"]["spaceText"]["FR"].present? ? room["airbnb"]["spaceText"]["FR"] : room["texts"]["contentDescriptionText"]["FR"],
-        description_en: room["airbnb"]["spaceText"]["EN"].present? ? room["airbnb"]["spaceText"]["EN"] : room["texts"]["contentDescriptionText"]["EN"]
+        description_ca: room["texts"]["contentDescriptionText"]["CA"],
+        description_es: room["texts"]["contentDescriptionText"]["ES"],
+        description_fr: room["texts"]["contentDescriptionText"]["FR"],
+        description_en: room["texts"]["contentDescriptionText"]["EN"]
       )
 
       if room["featureCodes"].present?
