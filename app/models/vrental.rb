@@ -803,6 +803,7 @@ class Vrental < ApplicationRecord
             review = Review.find_or_create_by(review_id: airbnb_review[:review_id])
             review.update(
               client_name: airbnb_review[:client_name],
+              source: "airbnb",
               "client_location_#{site}": airbnb_review[review_location],
               rating: rate_integer,
               "comment_#{site}": airbnb_review[review_comment],
@@ -818,6 +819,7 @@ class Vrental < ApplicationRecord
         end
       end
       puts "Got reviews from #{url} for #{name} with id #{id}"
+      sleep 3
     end
   end
 

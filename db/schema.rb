@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_23_095951) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_23_144728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -378,6 +378,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_23_095951) do
     t.string "client_location_en"
     t.string "client_location_es"
     t.string "client_location_fr"
+    t.string "source"
     t.index ["vrental_id"], name: "index_reviews_on_vrental_id"
   end
 

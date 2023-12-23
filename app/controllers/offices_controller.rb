@@ -66,16 +66,17 @@ class OfficesController < ApplicationController
   end
 
   private
-    def set_office
-      @office = Office.find(params[:id])
-      authorize @office
-    end
 
-    def set_company
-      @company = Company.find(params[:company_id])
-    end
+  def set_office
+    @office = Office.find(params[:id])
+    authorize @office
+  end
 
-    def office_params
-      params.require(:office).permit(:name, :street, :city, :post_code, :region, :country, :phone, :mobile, :email, :website, :opening_hours, :manager, :company_id, :local_realtor_number, :beds_owner_id, :beds_key, office_photos: [])
-    end
+  def set_company
+    @company = Company.find(params[:company_id])
+  end
+
+  def office_params
+    params.require(:office).permit(:name, :street, :city, :post_code, :region, :country, :phone, :mobile, :email, :website, :opening_hours, :manager, :company_id, :local_realtor_number, :beds_owner_id, :beds_key, office_photos: [])
+  end
 end

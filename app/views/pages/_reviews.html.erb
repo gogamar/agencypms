@@ -32,40 +32,42 @@
     </div>
   </div>
 </div>
-<div class="property_block_wrap style-2">
-  <div class="property_block_wrap_header">
-    <a data-bs-toggle="collapse" data-bs-target="#clSix" aria-controls="clSix" href="javascript:void(0);" aria-expanded="true">
-      <h4 class="property_block_title"><%= t('view_more_reviews') %> </h4>
-    </a>
-  </div>
-  <div id="clSix" class="panel-collapse collapse">
-    <div class="block-body">
-      <div class="author-review">
-        <div class="comment-list">
-          <ul>
-            <% @reviews.each do |review| %>
-              <li class="article_comments_wrap">
-                <article>
-                  <div class="comment-details">
-                    <div class="comment-meta">
-                      <div class="comment-left-meta">
-                        <h4 class="author-name"><%= review.client_name %></h4>
-                        <div class="comment-date"><%= review.send("client_location_#{locale}") %></div>
-                        <div class="star-rating" data-rating="<%= review.rating %>">
-                          <%= stars_for_rating(review.rating) %>
+<% if @vrental.reviews.count > 1 %>
+  <div class="property_block_wrap style-2">
+    <div class="property_block_wrap_header">
+      <a data-bs-toggle="collapse" data-bs-target="#clSix" aria-controls="clSix" href="javascript:void(0);" aria-expanded="true">
+        <h4 class="property_block_title"><%= t('view_more_reviews') %> </h4>
+      </a>
+    </div>
+    <div id="clSix" class="panel-collapse collapse">
+      <div class="block-body">
+        <div class="author-review">
+          <div class="comment-list">
+            <ul>
+              <% @reviews.each do |review| %>
+                <li class="article_comments_wrap">
+                  <article>
+                    <div class="comment-details">
+                      <div class="comment-meta">
+                        <div class="comment-left-meta">
+                          <h4 class="author-name"><%= review.client_name %></h4>
+                          <div class="comment-date"><%= review.send("client_location_#{locale}") %></div>
+                          <div class="star-rating" data-rating="<%= review.rating %>">
+                            <%= stars_for_rating(review.rating) %>
+                          </div>
                         </div>
                       </div>
+                      <div class="comment-text">
+                        <p><%= review.send("comment_#{locale}") %></p>
+                      </div>
                     </div>
-                    <div class="comment-text">
-                      <p><%= review.send("comment_#{locale}") %></p>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            <% end %>
-          </ul>
+                  </article>
+                </li>
+              <% end %>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

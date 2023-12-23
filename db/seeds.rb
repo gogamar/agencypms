@@ -141,44 +141,69 @@
 
 # puts "Destroyed all rates for vrentals that have price_per 'week' and have a rate with pricenight set and priceweek nil"
 
-# all_vrentals.each do |vrental|
-#   ["ca", "en", "es", "fr"].each do |locale|
-#     description_locale = vrental.send("description_#{locale}")
-#     short_description_locale = vrental.send("short_description_#{locale}")
-#     if description_locale.present? && short_description_locale.blank?
-#       description_locale.gsub!(/HUT[\w-]+\s*/, '')
-#       first_500_characters = description_locale[0, 500]
-#       last_punctuation_index = first_500_characters.rindex(/[.!?]/)
+all_vrentals.each do |vrental|
+  if vrental.office.present? && vrental.prop_key.present?
+    VrentalApiService.new(vrental).update_vrental_from_beds
+    puts "Updated #{vrental.name} from beds"
+    puts "The property type is #{vrental.property_type}"
+  end
+end
+puts "Updated all vrentals from beds!"
 
-#       if last_punctuation_index
-#         text_before_last_punctuation = description_locale[0..last_punctuation_index].strip
-#         text_after_last_punctuation = description_locale[(last_punctuation_index + 1)..-1]
-#         vrental.update("short_description_#{locale}" => text_before_last_punctuation)
-#         vrental.update("description_#{locale}" => text_after_last_punctuation)
-#       end
-#       puts "Updated short_description_#{locale} and description_#{locale} for #{vrental.name}"
-#     end
-#   end
-# end
+all_vrentals.each do |vrental|
+  ["ca", "en", "es", "fr"].each do |locale|
+    description_locale = vrental.send("description_#{locale}")
+    short_description_locale = vrental.send("short_description_#{locale}")
+    if description_locale.present?
+      # && short_description_locale.blank?
+      description_locale.gsub!(/HUT[\w-]+\s*/, '')
+      first_500_characters = description_locale[0, 500]
+      last_punctuation_index = first_500_characters.rindex(/[.!?]/)
+
+      if last_punctuation_index
+        text_before_last_punctuation = description_locale[0..last_punctuation_index].strip
+        text_after_last_punctuation = description_locale[(last_punctuation_index + 1)..-1]
+        vrental.update("short_description_#{locale}" => text_before_last_punctuation)
+        vrental.update("description_#{locale}" => text_after_last_punctuation)
+      end
+      puts "Updated short_description_#{locale} and description_#{locale} for #{vrental.name}"
+    end
+  end
+end
+
+all_vrentals.each do |vrental|
+  if vrental.office.present? && vrental.prop_key.present?
+    VrentalApiService.new(vrental).update_vrental_on_beds
+    puts "Updated #{vrental.name} on beds"
+  end
+end
+puts "Updated all vrentals on beds!"
 
 # Feature.find_or_create_by(name: "dryer", highlight: false, company_id: Company.where(active: true).first.id)
 # Feature.find_or_create_by(name: "heating", highlight: false, company_id: Company.where(active: true).first.id)
 
 # puts "Created dryer and heating features"
 
-# all_vrentals.each do |vrental|
-#   if vrental.office.present? && vrental.prop_key.present?
-#     VrentalApiService.new(vrental).update_vrental_from_beds
-#     puts "Updated #{vrental.name}"
-#   end
-# end
-# puts "Updated all vrentals from beds!"
+Review.all.each do |review|
+  review.update(source: "airbnb")
+end
 
 estartit = Office.find(1)
-estartit_no_reviews = estartit.vrentals.left_outer_joins(:reviews).where(reviews: { id: nil })
+estartit_active_vrentals = estartit.vrentals.where(status: "active")
+estartit_no_reviews = estartit_active_vrentals.left_outer_joins(:reviews).where(reviews: { id: nil })
 estartit_no_reviews.each do |vrental|
   if vrental.prop_key.present? && vrental.airbnb_listing_id.present?
     vrental.get_reviews_from_airbnb
   end
-  sleep 5
+  sleep 3
+end
+
+barcelona = Office.find(2)
+barcelona_active_vrentals = barcelona.vrentals.where(status: "active")
+barcelona_no_reviews = barcelona_active_vrentals.left_outer_joins(:reviews).where(reviews: { id: nil })
+barcelona_no_reviews.each do |vrental|
+  if vrental.prop_key.present? && vrental.airbnb_listing_id.present?
+    vrental.get_reviews_from_airbnb
+  end
+  sleep 3
 end
