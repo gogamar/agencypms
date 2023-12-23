@@ -1,4 +1,4 @@
-# all_vrentals = Vrental.all
+all_vrentals = Vrental.all
 # barcelona_vrentals = Office.where("name ILIKE ?", "%barcelona%").first.vrentals
 # estartit_vrentals = Office.where("name ILIKE ?", "%estartit%").first.vrentals
 

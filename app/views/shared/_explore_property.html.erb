@@ -45,12 +45,13 @@
                       <% end %>
                     </div>
                     <h4 class="listing-name fw-semibold fs-5 mb-1">
-                      <% if user_signed_in? && current_user.admin? %>
-                        <%= link_to vrental.name, edit_vrental_path(vrental) %>
-                      <% else %>
-                        <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id) %>
-                      <% end %>
+                      <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id) %>
                     </h4>
+                    <% if user_signed_in? && current_user.admin? %>
+                      <%= link_to edit_vrental_path(vrental), class: "link text-sm my-2" do %>
+                        <i class="fa-solid fa-house me-2"></i> <%= t('edit_property') %>
+                      <% end %>
+                    <% end %>
                     <div class="prt-location text-muted-2">
                       <span class="svg-icon svg-icon-2hx">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

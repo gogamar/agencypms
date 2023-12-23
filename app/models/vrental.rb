@@ -82,8 +82,8 @@ class Vrental < ApplicationRecord
 
   # fixme: there is inconsistency with airbnb settings for property in beds24 api so it's better to just use the word here and send it to beds24 according to their api
   PROPERTY_TYPES = {
-    "1": "apartment",
-    "17": "house"
+    "1" => "apartment",
+    "17" => "house"
   }
 
   PROPERTY_STATUS = ["proposal", "active", "inactive"].freeze
