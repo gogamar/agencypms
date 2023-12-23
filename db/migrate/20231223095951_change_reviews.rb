@@ -6,7 +6,7 @@ class ChangeReviews < ActiveRecord::Migration[7.0]
     add_column :reviews, :comment_en, :text
     add_column :reviews, :comment_es, :text
     add_column :reviews, :comment_fr, :text
-    rename_column :reviews, :client_location
+    rename_column :reviews, :client_location, :client_location_ca
     add_column :reviews, :client_location_en, :string
     add_column :reviews, :client_location_es, :string
     add_column :reviews, :client_location_fr, :string
