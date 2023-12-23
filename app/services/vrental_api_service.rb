@@ -346,7 +346,7 @@ class VrentalApiService
       beds24rentals_prop_ids = Set.new(client.get_properties.map { |bedsrental| bedsrental["propId"] })
 
       if @target.beds_prop_id && beds24rentals_prop_ids.include?(@target.beds_prop_id)
-        puts "now we are updating the property"
+
         bedsrental = [
             {
               action: "modify",
@@ -374,10 +374,7 @@ class VrentalApiService
               ]
             }
         ]
-        response = client.set_property(@target.prop_key, setProperty: bedsrental)
-        puts "this is the response of set property: #{response}"
-
-
+        client.set_property(@target.prop_key, setProperty: bedsrental)
       else
         new_bedrentals = []
 
@@ -416,9 +413,6 @@ class VrentalApiService
         }
         new_bedrentals << new_bedrental
         create_property_response = client.create_properties(createProperties: new_bedrentals)
-
-        puts "created new property: #{create_property_response}"
-
         @target.beds_prop_id = create_property_response[0]["propId"]
         @target.beds_room_id = create_property_response[0]["roomTypes"][0]["roomId"]
         @target.save!
@@ -639,8 +633,7 @@ class VrentalApiService
                         }
                       ]
 
-      response = client.set_property_content(@target.prop_key, setPropertyContent: content_array)
-      puts "this is the response of set property content: #{response}"
+      client.set_property_content(@target.prop_key, setPropertyContent: content_array)
     rescue => e
       puts "Error setting content for #{@target.name}: #{e.message}"
     end
@@ -1070,7 +1063,6 @@ class VrentalApiService
       elsif parsed_response[vrental_instance.beds_room_id]["roomsavail"] == "0"
         result["notAvailable"] = "No availability"
       end
-      puts "this is the result: #{result}"
       return result
 
     rescue StandardError => e

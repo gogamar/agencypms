@@ -725,7 +725,15 @@ class Vrental < ApplicationRecord
 
   def full_description(locale=nil)
     locale = locale || I18n.locale.to_s
-    send("short_description_#{locale}") + " " + send("description_#{locale}")
+    short_desc = send("short_description_#{locale}")
+    long_desc = send("description_#{locale}")
+    if short_desc.present? && long_desc.present?
+      send("short_description_#{locale}") + " " + send("description_#{locale}")
+    elsif short_desc.present?
+      send("short_description_#{locale}")
+    elsif long_desc.present?
+      send("description_#{locale}")
+    end
   end
 
   def overbookings
