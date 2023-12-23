@@ -47,6 +47,14 @@
                     <h4 class="listing-name fw-semibold fs-5 mb-1">
                       <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id) %>
                     </h4>
+                    <% if vrental.reviews.present? %>
+                      <div class="rating-single-on-list">
+                        <div class="star-rating" data-rating="<%= vrental.reviews_median %>">
+                          <%= stars_for_rating(vrental.reviews_median) %>
+                          <span class="reviews_text fs-sm text-muted ms-2">(<%= vrental.reviews.count %> <%= t('reviews') %>)</span>
+                        </div>
+                      </div>
+                    <% end %>
                     <% if user_signed_in? && current_user.admin? %>
                       <%= link_to edit_vrental_path(vrental), class: "link text-sm my-2" do %>
                         <i class="fa-solid fa-house me-2"></i> <%= t('edit_property') %>
