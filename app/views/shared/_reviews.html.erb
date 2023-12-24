@@ -19,14 +19,24 @@
                   <div class="st-author-box">
                     <div class="st-author-info">
                       <h4 class="st-author-title">
-                        <%= link_to review.vrental.display_name, vrental_path(review.vrental), class: "link" %>
+                        <%= link_to review.vrental.display_name, book_property_path(vrental_id: review.vrental.id), class: "link" %>
                       </h4>
                     </div>
                   </div>
                 </div>
-                <div class="smart-tes-content">
-                  <p><%= review.send("comment_#{locale}") %></p>
-                </div>
+                <% if review.send("comment_#{locale}").present? %>
+                  <div class="smart-tes-content">
+                    <p>
+                      <%= truncate(review.send("comment_#{locale}"), length: 300, separator: ' ') %>
+                      <br>
+                      <% if review.send("comment_#{locale}").length > 300 %>
+                        <%= link_to book_property_path(vrental_id: review.vrental.id), class: "text-success" do %>
+                          <i class="fa-solid fa-arrow-right me-2"></i> <%= t('read_more') %>
+                        <% end %>
+                      <% end %>
+                    </p>
+                  </div>
+                <% end %>
                 <div class="st-author-info">
                   <% if review.source == "airbnb" %>
                     <div class="article_comments_thumb">
