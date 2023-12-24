@@ -709,6 +709,12 @@ class Vrental < ApplicationRecord
     }
   end
 
+  def top_review
+    if reviews.present?
+      reviews.order(rating: :desc, created_at: :desc).first
+    end
+  end
+
   def reviews_median
     reviews = self.reviews.where.not(rating: nil)
     return if reviews.empty?

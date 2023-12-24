@@ -12,6 +12,11 @@
       <ul>
         <li class="article_comments_wrap">
           <article>
+            <% if @featured_review.source == "airbnb" %>
+              <div class="article_comments_thumb">
+                <i class="fa-brands fa-airbnb" style="color: #ff385d; font-size: 36px;"></i>
+              </div>
+            <% end %>
             <div class="comment-details">
               <div class="comment-meta">
                 <div class="comment-left-meta">
@@ -47,6 +52,11 @@
               <% @reviews.each do |review| %>
                 <li class="article_comments_wrap">
                   <article>
+                    <% if review.source == "airbnb" %>
+                      <div class="article_comments_thumb">
+                        <i class="fa-brands fa-airbnb" style="color: #ff385d; font-size: 36px;"></i>
+                      </div>
+                    <% end %>
                     <div class="comment-details">
                       <div class="comment-meta">
                         <div class="comment-left-meta">

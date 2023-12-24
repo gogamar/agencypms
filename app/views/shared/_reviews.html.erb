@@ -4,8 +4,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-7 col-md-10 text-center">
         <div class="sec-heading center">
-          <h2>Els nostres clients opinen...</h2>
-          <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores</p>
+          <h2><%= t('clients_opinions') %></h2>
         </div>
       </div>
     </div>
@@ -13,105 +12,33 @@
       <div class="col-lg-12 col-md-12">
         <div class="smart-textimonials smart-center" id="smart-textimonials">
           <!-- Single Item -->
-          <div class="item">
-            <div class="item-box">
-              <div class="smart-tes-author">
-                <div class="st-author-box">
-                  <div class="st-author-thumb">
-                    <div class="quotes bg-primary"><i class="fa-solid fa-quote-left"></i></div>
-                    <img src="https://via.placeholder.com/800x800" class="img-fluid" alt="" />
+          <% @featured_reviews.each do |review| %>
+            <div class="item">
+              <div class="item-box">
+                <div class="smart-tes-author">
+                  <div class="st-author-box">
+                    <div class="st-author-info">
+                      <h4 class="st-author-title">
+                        <%= link_to review.vrental.name, vrental_path(review.vrental), class: "link" %>
+                      </h4>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="smart-tes-content">
-                <p>Cicero famously orated against his political opponent Lucius Sergius Catilina. Occasionally the first Oration against Catiline is taken specimens.</p>
-              </div>
-              <div class="st-author-info">
-                <h4 class="st-author-title">Adam Williams</h4>
-                <span class="st-author-subtitle">CEO Of Microwoft</span>
-              </div>
-            </div>
-          </div>
-          <!-- Single Item -->
-          <div class="item">
-            <div class="item-box">
-              <div class="smart-tes-author">
-                <div class="st-author-box">
-                  <div class="st-author-thumb">
-                    <div class="quotes bg-success"><i class="fa-solid fa-quote-left"></i></div>
-                    <img src="https://via.placeholder.com/800x800" class="img-fluid" alt="" />
-                  </div>
+                <div class="smart-tes-content">
+                  <p><%= review.send("comment_#{locale}") %></p>
+                </div>
+                <div class="st-author-info">
+                  <% if review.source == "airbnb" %>
+                    <div class="article_comments_thumb">
+                      <i class="fa-brands fa-airbnb" style="color: #ff385d; font-size: 36px;"></i>
+                    </div>
+                  <% end %>
+                  <h4 class="st-author-title"><%= review.client_name %></h4>
+                  <span class="st-author-subtitle"><%= review.send("client_location_#{locale}") %></span>
                 </div>
               </div>
-              <div class="smart-tes-content">
-                <p>Cicero famously orated against his political opponent Lucius Sergius Catilina. Occasionally the first Oration against Catiline is taken specimens.</p>
-              </div>
-              <div class="st-author-info">
-                <h4 class="st-author-title">Retha Deowalim</h4>
-                <span class="st-author-subtitle">CEO Of Apple</span>
-              </div>
             </div>
-          </div>
-          <!-- Single Item -->
-          <div class="item">
-            <div class="item-box">
-              <div class="smart-tes-author">
-                <div class="st-author-box">
-                  <div class="st-author-thumb">
-                    <div class="quotes bg-purple"><i class="fa-solid fa-quote-left"></i></div>
-                    <img src="https://via.placeholder.com/800x800" class="img-fluid" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div class="smart-tes-content">
-                <p>Cicero famously orated against his political opponent Lucius Sergius Catilina. Occasionally the first Oration against Catiline is taken specimens.</p>
-              </div>
-              <div class="st-author-info">
-                <h4 class="st-author-title">Sam J. Wasim</h4>
-                <span class="st-author-subtitle">Pio Founder</span>
-              </div>
-            </div>
-          </div>
-          <!-- Single Item -->
-          <div class="item">
-            <div class="item-box">
-              <div class="smart-tes-author">
-                <div class="st-author-box">
-                  <div class="st-author-thumb">
-                    <div class="quotes bg-seegreen"><i class="fa-solid fa-quote-left"></i></div>
-                    <img src="https://via.placeholder.com/800x800" class="img-fluid" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div class="smart-tes-content">
-                <p>Cicero famously orated against his political opponent Lucius Sergius Catilina. Occasionally the first Oration against Catiline is taken specimens.</p>
-              </div>
-              <div class="st-author-info">
-                <h4 class="st-author-title">Usan Gulwarm</h4>
-                <span class="st-author-subtitle">CEO Of Facewarm</span>
-              </div>
-            </div>
-          </div>
-          <!-- Single Item -->
-          <div class="item">
-            <div class="item-box">
-              <div class="smart-tes-author">
-                <div class="st-author-box">
-                  <div class="st-author-thumb">
-                    <div class="quotes bg-danger"><i class="fa-solid fa-quote-left"></i></div>
-                    <img src="https://via.placeholder.com/800x800" class="img-fluid" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div class="smart-tes-content">
-                <p>Cicero famously orated against his political opponent Lucius Sergius Catilina. Occasionally the first Oration against Catiline is taken specimens.</p>
-              </div>
-              <div class="st-author-info">
-                <h4 class="st-author-title">Shilpa Shethy</h4>
-                <span class="st-author-subtitle">CEO Of Zapple</span>
-              </div>
-            </div>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>
