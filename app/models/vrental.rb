@@ -554,22 +554,11 @@ class Vrental < ApplicationRecord
         rate_lastnight = easter_season_firstnight[next_year] - 1
       end
 
-      unless rates.where(firstnight: rate_firstnight).where.not(priceweek: nil).exists?
-        new_rate = Rate.create!(
-          firstnight: rate_firstnight,
-          lastnight: rate_lastnight,
-          priceweek: existingrate.priceweek,
-          beds_room_id: existingrate.beds_room_id,
-          vrental_id: existingrate.vrental_id,
-          min_stay: existingrate.min_stay,
-          arrival_day: existingrate.arrival_day
-        )
-      end
-
-      unless rates.where(firstnight: rate_firstnight).where.not(pricenight: nil).exists?
+      unless rates.where(firstnight: rate_firstnight).exists?
         Rate.create!(
           firstnight: rate_firstnight,
           lastnight: rate_lastnight,
+          priceweek: existingrate.priceweek,
           pricenight: existingrate.pricenight,
           beds_room_id: existingrate.beds_room_id,
           vrental_id: existingrate.vrental_id,

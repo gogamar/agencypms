@@ -728,8 +728,6 @@ class VrentalApiService
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       beds24rates = client.get_rates(@target.prop_key)
-
-      puts "these are the rates: #{beds24rates}"
       return if beds24rates.empty?
 
       # delete rates older than 2 years
@@ -746,13 +744,7 @@ class VrentalApiService
       end
       client.set_rates(@target.prop_key, setRates: old_rates)
 
-      selected_rates = []
-
-      if @target.price_per == "week"
-        selected_rates.concat(beds24rates.select { |rate| rate["pricesPer"] == "7" && rate["restrictionStrategy"] == "0"  })
-      elsif @target.price_per == "night"
-        selected_rates.concat(beds24rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" })
-      end
+      selected_rates = beds24rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" }
 
       selected_rates.each do |rate|
         if Date.parse(rate["lastNight"]) > Date.today.last_year
@@ -762,7 +754,6 @@ class VrentalApiService
               firstnight: rate["firstNight"],
               lastnight: rate["lastNight"],
               pricenight: @target.price_per == "night" ? rate["roomPrice"].to_f : nil,
-              priceweek: @target.price_per == "week" ? rate["roomPrice"].to_f : nil,
               beds_room_id: rate["roomId"],
               min_stay: rate["minNights"].to_i,
               arrival_day: 'everyday'
@@ -773,8 +764,7 @@ class VrentalApiService
               vrental_id: @target.id,
               firstnight: rate["firstNight"],
               lastnight: rate["lastNight"],
-              pricenight: rate["pricesPer"] == "1" ? rate["roomPrice"].to_f : nil,
-              priceweek: rate["pricesPer"] == "7" ? rate["roomPrice"].to_f : nil,
+              pricenight: rate["pricesPer"] == "1" ? rate["roomPrice"].to_f : rate["roomPrice"].to_f / 7,
               beds_room_id: rate["roomId"],
               min_stay: rate["minNights"].to_i,
               arrival_day: 'everyday'
@@ -783,9 +773,26 @@ class VrentalApiService
         end
       end
 
-      selected_beds_rate_ids = selected_rates.map { |rate| rate["rateId"] }
-      rates_to_delete = @target.rates.where.not(beds_rate_id: selected_beds_rate_ids)
-      rates_to_delete.destroy_all
+      if @target.price_per == "week"
+        weekly_rates = beds24rates.select { |rate| rate["pricesPer"] == "7" && rate["restrictionStrategy"] == "0" }
+        weekly_rates.each do |rate|
+          if Date.parse(rate["lastNight"]) > Date.today.last_year
+            existing_rate = @target.rates.find_by(week_beds_rate_id: rate["rateId"]) || @target.rates.find_by(firstnight: rate["firstNight"].to_date, lastnight: rate["lastNight"].to_date)
+            if existing_rate
+              existing_rate.update!(
+                week_beds_rate_id: rate["rateId"],
+                priceweek: rate["roomPrice"].to_f,
+              )
+            end
+          end
+        end
+      end
+
+      # commented out the code for deleting rates locally if they don't exist on beds24. Local has priority, so we don't want to delete rates that have been created manually
+
+      # selected_beds_rate_ids = selected_rates.map { |rate| rate["rateId"] }
+      # rates_to_delete = @target.rates.where.not(beds_rate_id: selected_beds_rate_ids)
+      # rates_to_delete.destroy_all
 
       rate_years = @target.rates.map(&:firstnight).map(&:year).uniq
 
@@ -810,7 +817,7 @@ class VrentalApiService
         end
       end
     rescue => e
-      puts "Error importing rates for #{avail_master_vrental.name}: #{e.message}"
+      puts "Error importing rates for #{@target.name}: #{e.message}"
     end
     sleep 2
   end
@@ -820,9 +827,10 @@ class VrentalApiService
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       beds24rates = client.get_rates(@target.prop_key)
+      future_beds24rates = beds24rates.select { |rate| rate["lastNight"].to_date > Date.today }
 
       @target.future_rates.each do |rate|
-        rate_exists_on_beds_id = beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
+        rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
 
         if rate.restriction.present?
           rate_restriction = rate.restriction == "gap_fill" ? "2" : "0"
@@ -830,34 +838,90 @@ class VrentalApiService
 
         vrental_rate =
           {
-          action: rate_exists_on_beds_id ? "modify" : "new",
           roomId: "#{@target.beds_room_id}",
-          rateId: rate_exists_on_beds_id ? rate.beds_rate_id : nil,
-          firstNight: "#{rate.firstnight}",
-          lastNight: "#{rate.lastnight}",
-          name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats' : ''} #{rate.pricenight.present? ? 'per nit' : 'setmanal'} #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@target.weekly_discount.present? ? @target.weekly_discount.to_s + '% descompte setmanal només web propia' : ''}",
-          minNights: rate.pricenight.present? ? rate.min_stay.to_s : "7",
+          firstNight: rate.firstnight.strftime("%Y-%m-%d"),
+          lastNight: rate.lastnight.strftime("%Y-%m-%d"),
           maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
           minAdvance: rate.min_advance.to_s,
           restrictionStrategy: rate_restriction,
           allowEnquiry: "1",
-          pricesPer: rate.pricenight.present? ? "1" : "7",
           color: "#{SecureRandom.hex(3)}",
-          roomPrice: rate.pricenight.present? ? rate.pricenight : rate.priceweek,
           roomPriceEnable: "1",
           roomPriceGuests: "0",
           disc6Nights: "7",
           disc6Percent: @target.weekly_discount.present? ? @target.weekly_discount.to_s : "0"
           }
 
-        response = client.set_rate(@target.prop_key, vrental_rate)
+        nightly_rate = {
+            action: rate_exists_on_beds ? "modify" : "new",
+            pricesPer: "1",
+            minNights: rate.min_stay.to_s,
+            roomPrice: rate.pricenight,
+            name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)}",
+          }
 
-        if response["rateId"].present?
-          rate.beds_rate_id = response["rateId"]
+        merged_nightly_rate = vrental_rate.merge!(nightly_rate)
+
+        if rate_exists_on_beds
+          merged_nightly_rate.merge!(rateId: rate.beds_rate_id)
+        end
+
+        response = client.set_rate(@target.prop_key, merged_nightly_rate)
+
+        if response.parsed_response.is_a?(Hash) && response.parsed_response.key?("rateId")
+          rate.beds_rate_id = response.parsed_response["rateId"]
           rate.save!
         end
-        sleep 1
+        sleep 2
+
+        if @target.price_per == "week"
+          if rate.week_beds_rate_id
+            week_rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.week_beds_rate_id }
+          end
+
+          weekly_rate = {
+            action: week_rate_exists_on_beds ? "modify" : "new",
+            pricesPer: "7",
+            minNights: "7",
+            roomPrice: rate.priceweek,
+            name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}setmanal #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@target.weekly_discount.present? ? @target.weekly_discount.to_s + '% descompte setmanal només web propia' : ''}",
+          }
+
+          merged_weekly_rate = vrental_rate.merge!(weekly_rate)
+
+          if week_rate_exists_on_beds
+            merged_weekly_rate.merge!(rateId: rate.week_beds_rate_id)
+          end
+
+          response = client.set_rate(@target.prop_key, merged_weekly_rate)
+
+          if response.parsed_response.is_a?(Hash) && response.parsed_response.key?("rateId")
+            rate.week_beds_rate_id = response.parsed_response["rateId"]
+            rate.save!
+          end
+          sleep 2
+        end
+        sleep 2
       end
+
+      # find rates that have been deleted locally and delete them on beds24
+      beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
+      vrental_rate_ids = @target.future_rates.map(&:beds_rate_id)
+      vrental_week_rate_ids = @target.future_rates.map(&:week_beds_rate_id)
+      rates_to_delete_on_beds = beds24_rate_ids - vrental_rate_ids - vrental_week_rate_ids
+
+      rates_to_delete = []
+
+      rates_to_delete_on_beds.each do |rate_id|
+        rate_to_delete = {
+          action: "delete",
+          rateId: rate_id,
+          roomId: @target.beds_room_id
+        }
+        rates_to_delete << rate_to_delete
+      end
+
+      client.set_rates(@target.prop_key, setRates: rates_to_delete)
 
       if @target.vrgroup.present? && @target.rate_master_id.nil?
         rate_links = []
