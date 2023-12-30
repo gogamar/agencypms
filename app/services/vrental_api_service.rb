@@ -923,6 +923,8 @@ class VrentalApiService
 
       client.set_rates(@target.prop_key, setRates: rates_to_delete)
 
+      # fixme: perhaps should create links for weekly rates too (for example if an apartment in Estartit has dependent apartments, to link the rates)
+
       if @target.vrgroup.present? && @target.rate_master_id.nil?
         rate_links = []
         @target.future_rates.each do |rate|

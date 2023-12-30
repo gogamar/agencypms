@@ -4,7 +4,6 @@ export default class extends Controller {
   static targets = ["master", "masterRate", "offsetInputs", "wDiscountInc"];
 
   connect() {
-    console.log("Hello from pricing controller");
     this.toggleMasterField();
     this.toggleOffsetInputs();
     this.toggleWDiscountInc();

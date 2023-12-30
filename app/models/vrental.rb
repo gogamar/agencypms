@@ -364,9 +364,7 @@ class Vrental < ApplicationRecord
       days_overlap = (rate_end - rate_start + 1).to_i
 
       if rate.pricenight.present?
-        price = checkout - checkin < 7 ? rate.pricenight * 1.11 : rate.pricenight
-      elsif rate.priceweek.present?
-        price = checkout - checkin < 7 ? rate.priceweek / 6.295 : rate.priceweek / 7
+        price = rate_offset.present? ? rate.pricenight + (rate.pricenight * (self.rate_offset / 100)) : rate.pricenight
       end
 
       total_price += price * days_overlap
