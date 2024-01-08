@@ -748,7 +748,8 @@ class VrentalApiService
 
       night_rates.each do |night_rate|
         if Date.parse(night_rate["lastNight"]) > Date.today.last_year
-          existing_rate = @target.rates.find_by(beds_rate_id: night_rate["rateId"])
+          existing_rate = @target.rates.find_by("beds_rate_id = :rate_id OR (firstnight = :first_night AND lastnight = :last_night)", rate_id: night_rate["rateId"], first_night: night_rate["firstNight"].to_date, last_night: night_rate["lastNight"].to_date)
+
           if existing_rate
             existing_rate.update!(
               firstnight: night_rate["firstNight"],
@@ -777,7 +778,8 @@ class VrentalApiService
         weekly_rates = beds24rates.select { |rate| rate["pricesPer"] == "7" && rate["restrictionStrategy"] == "0" }
         week_rates.each do |week_rate|
           if Date.parse(week_rate["lastNight"]) > Date.today.last_year
-            existing_rate = @target.rates.find_by(week_beds_rate_id: week_rate["rateId"]) || @target.rates.find_by(firstnight: rate["firstNight"].to_date, lastnight: week_rate["lastNight"].to_date)
+            existing_rate = @target.rates.find_by("week_beds_rate_id = :week_rate_id OR (firstnight = :first_night AND lastnight = :last_night)", week_rate_id: week_rate["rateId"], first_night: week_rate["firstNight"].to_date, last_night: week_rate["lastNight"].to_date)
+
             if existing_rate
               existing_rate.update!(
                 week_beds_rate_id: week_rate["rateId"],
