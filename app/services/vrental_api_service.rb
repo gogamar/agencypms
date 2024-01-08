@@ -708,12 +708,12 @@ class VrentalApiService
     begin
     beds24rates = client.get_rates(@target.prop_key)
     rates_to_delete = []
-    beds24rates.each do |rate|
-      if rate["lastNight"].to_date > Date.today
+    beds24rates.each do |beds_rate|
+      if beds_rate["lastNight"].to_date > Date.today
         rate_to_delete = {
           action: "delete",
-          rateId: "#{rate["rateId"]}",
-          roomId: "#{rate["roomId"]}"
+          rateId: "#{beds_rate["rateId"]}",
+          roomId: "#{beds_rate["roomId"]}"
       }
         rates_to_delete << rate_to_delete
       end

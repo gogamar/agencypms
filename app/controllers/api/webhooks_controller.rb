@@ -38,11 +38,13 @@ module Api
         )
         # fixme - need to create a tourist also
 
-        (checkin..checkout).each do |date|
+        (w_checkin..w_checkout).each do |date|
           update_inventory(vrental, date, -1)
         end
       when "modify"
         existing_booking = Booking.find_by(beds_booking_id: bookid)
+        existing_checkin = existing_booking.checkin
+        existing_checkout = existing_booking.checkout
         existing_booking&.update(
           firstname: w_firstname,
           lastname: w_lastname,
@@ -59,14 +61,14 @@ module Api
           update_inventory(vrental, date, 1)
         end
 
-        (new_checkin..new_checkout).each do |date|
+        (w_checkin..w_checkout).each do |date|
           update_inventory(vrental, date, -1)
         end
       when "cancel"
         existing_booking = Booking.find_by(beds_booking_id: bookid)
         existing_booking&.update(status: '0')
 
-        (checkin..checkout).each do |date|
+        (w_checkin..w_checkout).each do |date|
           update_inventory(vrental, date, 1)
         end
       end
