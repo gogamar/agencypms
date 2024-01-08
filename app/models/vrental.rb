@@ -201,15 +201,16 @@ class Vrental < ApplicationRecord
   end
 
   def future_dates_with_rates
-    rates.where("lastnight > ?", Date.today).pluck(:firstnight, :lastnight).map do |range|
+    rates.where("lastnight >= ?", Date.today).pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }
     end
   end
 
   def future_booked_dates
-    bookings.where("checkin > ?", Date.today).pluck(:checkin, :checkout).map do |range|
-      { from: range[0], to: range[1] }
-    end
+    bookings_dates = future_booked_dates_for_table(:bookings)
+    owner_bookings_dates = future_booked_dates_for_table(:owner_bookings)
+
+    bookings_dates.concat(owner_bookings_dates)
   end
 
   def future_bookings
@@ -218,7 +219,12 @@ class Vrental < ApplicationRecord
 
   def future_available_dates
     vrental_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
-    vrental_instance.availabilities.where("inventory > 0").order(date: :asc).pluck(:date)
+
+    unavailable_dates = vrental_instance.availabilities.where("inventory < 1").pluck(:date)
+    available_ranges = vrental_instance.future_dates_with_rates
+    available_dates = available_ranges.flat_map { |range| (range[:from]..range[:to]).to_a }
+
+    (available_dates - unavailable_dates).uniq.sort
   end
 
   def initial_rate(checkin)

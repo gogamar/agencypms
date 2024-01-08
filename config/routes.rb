@@ -12,6 +12,12 @@ Rails.application.routes.draw do
   post 'cookie_consent', to: 'pages#cookie_consent', as: 'cookie_consent'
 
   localized do
+    # Sidekiq Web UI, only for admins.
+    # require "sidekiq/web"
+    # require 'sidekiq/cron/web'
+    # authenticate :user, ->(user) { user.admin? } do
+    #   mount Sidekiq::Web => '/sidekiq'
+    # end
     devise_for :users, controllers: { registrations: 'users/registrations' }
     resources :users, only: [:index, :update, :destroy]
     root to: "pages#home", as: :root

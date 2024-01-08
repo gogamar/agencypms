@@ -26,6 +26,8 @@ class OwnerBookingsController < ApplicationController
     @owner_booking.status = "1"
 
     if @owner_booking.valid? && @owner_booking.save
+      SendOwnerBookingJob.perform_later(@owner_booking.id)
+
       redirect_to vrental_owner_bookings_path(@vrental), notice: t('owner_booking_created')
     else
       render :new
@@ -33,7 +35,10 @@ class OwnerBookingsController < ApplicationController
   end
 
   def update
+    # fixme check if owner bookings are being correctly cancelled
     if @owner_booking.update(owner_booking_params)
+      SendOwnerBookingJob.perform_later(@owner_booking.id)
+
       redirect_to vrental_owner_bookings_path(@vrental), notice: t('owner_booking_edited')
     else
       render :edit

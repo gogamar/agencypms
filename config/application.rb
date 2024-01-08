@@ -19,6 +19,7 @@ module Contractes
     config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
 
     config.i18n.default_locale = :ca
+    config.active_job.queue_adapter = :sidekiq
 
     config.action_view.sanitized_allowed_attributes = Rails::Html::SafeListSanitizer.allowed_attributes = ['href', 'title', 'colspan', 'style', 'class', 'src']
     config.action_view.sanitized_allowed_tags = Rails::Html::SafeListSanitizer.allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'img', 'strong', 'em', 'a', 'tr', 'td', 'th', 'table', 'thead', 'tbody', 'hr', 'span']

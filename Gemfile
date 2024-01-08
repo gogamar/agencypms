@@ -110,6 +110,7 @@ gem 'recaptcha'
 gem 'cocoon'
 gem 'ferrum'
 gem 'nokogiri'
+gem 'sidekiq'
 
 
 # for heroku stack heroku-22

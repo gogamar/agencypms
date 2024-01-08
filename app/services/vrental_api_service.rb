@@ -1059,7 +1059,7 @@ class VrentalApiService
     begin
       availability_data = client.get_room_dates(avail_master_vrental.prop_key, options)
 
-      selected_availabilities = availability_data.select { |date, attributes| Date.parse(date.to_s) >= Date.today && (attributes["x"].present? || attributes["o"].present?) }
+      selected_availabilities = availability_data.select { |date, attributes| Date.parse(date.to_s) >= Date.today && (attributes["x"].present? || attributes["o"].present? || attributes["i"].to_i < 1) }
 
       selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
@@ -1231,6 +1231,7 @@ class VrentalApiService
 
   def send_owner_booking(owner_booking)
     booking_lastnight = owner_booking.checkout - 1.day
+    # If bookId is specified and exists the booking will be modified. If bookId is not set the booking will be added as a new booking.
     options = {
       "bookId": owner_booking.beds_booking_id,
       "roomId": @target.beds_room_id,
