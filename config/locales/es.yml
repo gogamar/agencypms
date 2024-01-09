@@ -77,6 +77,10 @@ es:
         amount: Importe
         date: Fecha
         description: Método de pago
+      owner_booking:
+        checkin: Entrada
+        checkout: Salida
+        note: Comentarios
       rate:
         arrival_day: Día de llegada
         firstnight: Desde
@@ -316,6 +320,7 @@ es:
   call_to_action_typed_1: encontrar la casa o apartamento perfecto.
   call_to_action_typed_2: encontrar la mejor oferta.
   cancel: Cancelar
+  cancel_owner_booking: Cancelar esta reserva propietario
   cancellation_details: Cobramos un %{res_fee} de prepago para garantizar la reserva. Si la notificación adecuada se proporciona hasta %{free_cancel} días antes de la llegada, le devolveremos su pago inicial. Si cancela %{free_cancel_minus_one} o menos días antes de la llegada, el %{res_fee} de prepago no será reembolsado.
   cancellation_policy: Política de cancelación
   cancelled_booking: Reserva cancelada
@@ -588,6 +593,7 @@ es:
   new_contact_form_submitted: Se ha enviado un nuevo formulario de contacto web.
   new_contract_for: Nuevo contrato para %{prop_name} año %{year}
   new_owner_booking: Añadir reserva propietario
+  edit_owner_booking: Modificar reserva propietario
   new_property: Nueva propiedad
   new_vrental_step_1: "Paso 1: Propietario y condiciones generales"
   new_web: Añadido a la web

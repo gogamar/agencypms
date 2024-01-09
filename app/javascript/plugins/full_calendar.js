@@ -54,38 +54,29 @@ const createOwnerBooking = (startDate, endDate) => {
     document.getElementById("newOwnerBooking")
   );
   newOwnerBooking.show();
+
   const checkinDate = new Date(startDate);
   const checkoutDate = new Date(endDate);
+
   const modalNew = document.getElementById("newOwnerBooking");
-
-  const obpickers = modalNew.querySelectorAll(".obpicker");
-  obpickers.forEach((obpicker) => {
-    initFlatpickr(obpicker);
-    const checkinField = modalNew.getElementById("owner_booking_checkin");
-    const checkoutField = modalNew.getElementById("owner_booking_checkout");
-
-    checkinField._flatpickr.setDate(checkinDate);
-    checkoutField._flatpickr.setDate(checkoutDate);
-  });
+  const checkinField = modalNew.querySelector("#owner_booking_checkin");
+  const checkoutField = modalNew.querySelector("#owner_booking_checkout");
 
   const checkinOptions = {
-    defaultDate: new Date(dateStr),
-    enable: availableDates,
-    onChange: (selectedDates, dateStr, instance) => {
-      const selectedDate = new Date(dateStr);
-      const checkoutDate = new Date(selectedDate);
-      checkoutDate.setDate(checkoutDate.getDate() + 1);
-      this.checkoutPicker.set("minDate", checkoutDate);
-      this.checkoutPicker.jumpToDate(checkoutDate);
-    },
+    defaultDate: new Date(startDate),
   };
-  this.checkinPicker = initFlatpickr(this.checkinTarget, checkinOptions);
+  const checkinPicker = initFlatpickr(checkinField, checkinOptions);
+
+  const checkoutOptions = {
+    defaultDate: new Date(endDate),
+  };
+  const checkoutPicker = initFlatpickr(checkoutField, checkoutOptions);
 
   const modalClose = modalNew.querySelector(".btn-close");
   modalClose.addEventListener("click", function () {
     newOwnerBooking.hide();
-    checkinField._flatpickr.clear();
-    checkoutField._flatpickr.clear();
+    // checkinField._flatpickr.clear();
+    // checkoutField._flatpickr.clear();
   });
 };
 

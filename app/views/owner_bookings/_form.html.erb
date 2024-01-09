@@ -1,3 +1,4 @@
+<h3><%= owner_booking.persisted? ? t('edit_owner_booking') : t('new_owner_booking') %></h3>
 <%= simple_form_for [@vrental, owner_booking], html: { data: { turbo: false }} do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">

@@ -3,17 +3,10 @@ class OwnerBookingsController < ApplicationController
   before_action :set_owner_booking, only: %i[edit update show_form]
 
   def index
-    @owner_bookings = policy_scope(OwnerBooking).includes(:vrental).where(vrental_id: @vrental.id).order(checkin: :asc)
+    @owner_bookings = policy_scope(OwnerBooking).where.not(status: "0").where(vrental_id: @vrental.id).order(checkin: :asc)
     @availabilities = @vrental.availabilities.to_a.group_by(&:date)
     @pagy, @owner_bookings = pagy(@owner_bookings, page: params[:page], items: 10)
   end
-
-  def new
-    @owner_booking = OwnerBooking.new
-    authorize @owner_booking
-  end
-
-  def edit; end
 
   def show_form
     render partial: 'calendar_modal'
@@ -30,18 +23,17 @@ class OwnerBookingsController < ApplicationController
 
       redirect_to vrental_owner_bookings_path(@vrental), notice: t('owner_booking_created')
     else
-      render :new
+      redirect_to vrental_owner_bookings_path(@vrental), notice: @owner_booking.errors.full_messages.join(', ')
     end
   end
 
   def update
-    # fixme check if owner bookings are being correctly cancelled
     if @owner_booking.update(owner_booking_params)
       SendOwnerBookingJob.perform_later(@owner_booking.id)
 
       redirect_to vrental_owner_bookings_path(@vrental), notice: t('owner_booking_edited')
     else
-      render :edit
+      redirect_to vrental_owner_bookings_path(@vrental), notice: @owner_booking.errors.full_messages.join(', ')
     end
   end
 

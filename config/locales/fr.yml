@@ -77,6 +77,10 @@ fr:
         amount: Montant
         date: Date
         description: Mode de paiement
+      owner_booking:
+        checkin: Enregistrement
+        checkout: Départ
+        note: Note
       rate:
         arrival_day: Jour d'arrivée
         firstnight: À partir de
@@ -316,6 +320,7 @@ fr:
   call_to_action_typed_1: trouver la maison ou l'appartement parfait.
   call_to_action_typed_2: trouver la meilleure offre.
   cancel: Annuler
+  cancel_owner_booking: Annuler la réservation du propriétaire
   cancellation_details: Nous facturons un prépaiement de %{res_fee} pour garantir la réservation. Si un préavis approprié est fourni jusqu'à %{free_cancel} jours avant l'arrivée, nous vous rembourserons votre paiement initial. En cas d'annulation %{free_cancel_minus_one} jours ou moins avant l'arrivée, le prépaiement de %{res_fee} ne sera pas remboursé.
   cancellation_policy: Politique d'annulation
   cancelled_booking: Réservation annulée
@@ -588,6 +593,7 @@ fr:
   new_contact_form_submitted: Un nouveau formulaire de contact web a été soumis.
   new_contract_for: Nouveau contrat pour %{prop_name} année %{year}
   new_owner_booking: Ajouter la réservation du propriétaire
+  edit_owner_booking: Modifier la réservation du propriétaire
   new_property: Nouvelle propriété
   new_vrental_step_1: "Étape 1 : Propriétaire et conditions générales"
   new_web: Ajouté sur le site web

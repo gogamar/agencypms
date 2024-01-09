@@ -18,7 +18,6 @@ class ReviewsController < ApplicationController
     if @review.update(review_params)
       redirect_to @vrental, notice: "El comentari s'ha modificat correctament."
     else
-      puts "this is the problem with review update: #{@review.errors.full_messages}"
       render :edit, status: :unprocessable_entity
     end
   end

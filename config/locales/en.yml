@@ -77,6 +77,10 @@ en:
         amount: Amount
         date: Date
         description: Payment Method
+      owner_booking:
+        checkin: Check-in
+        checkout: Check-out
+        note: Comments
       rate:
         arrival_day: Arrival Day
         firstnight: From
@@ -316,6 +320,7 @@ en:
   call_to_action_typed_1: find the perfect house or apartment.
   call_to_action_typed_2: find the best offer.
   cancel: Cancel
+  cancel_owner_booking: Cancel this Owner Booking
   cancellation_details: We charge a %{res_fee} prepayment to secure the booking. If proper notice is provided up to %{free_cancel} days before arrival, we will refund your initial payment. If canceled %{free_cancel_minus_one} or fewer days before arrival, the %{res_fee} prepayment will not be refunded.
   cancellation_policy: Cancellation Policy
   cancelled_booking: Canceled Booking
@@ -588,6 +593,7 @@ en:
   new_contact_form_submitted: A new web contact form has been submitted.
   new_contract_for: New contract for %{prop_name} year %{year}
   new_owner_booking: Add Owner Booking
+  edit_owner_booking: Edit Owner Booking
   new_property: New Property
   new_vrental_step_1: "Step 1: Owner and General Conditions"
   new_web: Added to the website

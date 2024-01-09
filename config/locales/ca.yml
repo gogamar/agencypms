@@ -77,6 +77,10 @@ ca:
         amount: Import
         date: Data
         description: Mètode de pagament
+      owner_booking:
+        checkin: Entrada
+        checkout: Sortida
+        note: Comentaris
       rate:
         arrival_day: Entrada
         firstnight: Des de
@@ -316,6 +320,7 @@ ca:
   call_to_action_typed_1: trobar la casa o apartament perfecte.
   call_to_action_typed_2: trobar la millor oferta.
   cancel: Cancel·lar
+  cancel_owner_booking: Cancel·lar aquesta reserva propietari
   cancellation_details: Cobrem un %{res_fee} de prepagament per garantir la reserva. Si la notificació adequada es proporciona fins a %{free_cancel} dies abans de l'arribada, li retornarem el seu pagament inicial. Si cancel·la %{free_cancel_minus_one} o menys dies abans de l'arribada, el %{res_fee} de prepagament no serà reemborsat.
   cancellation_policy: Política de cancel·lació
   cancelled_booking: Reserva cancel·lada
@@ -588,6 +593,7 @@ ca:
   new_contact_form_submitted: S'ha enviat un nou formulari de contacte web.
   new_contract_for: Nou contracte per %{prop_name} any %{year}
   new_owner_booking: Afegir reserva propietari
+  edit_owner_booking: Modificar reserva propietari
   new_property: Nou immoble
   new_vrental_step_1: "Pas 1: Propietari i condicions generals"
   new_web: Afegit a la web

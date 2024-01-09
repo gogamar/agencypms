@@ -1,4 +1,20 @@
-<div class="alert position-relative alert-warning" role="alert">
+<div class="container my-4">
+  <h4><%= t('owner_bookings') %></h4>
+  <ul class="list-group mt-3">
+    <% @owner_bookings.each do |owner_booking| %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= l(owner_booking.checkin, format: :standard) %> - <%= l(owner_booking.checkout, format: :standard) %>
+        <%= form_for owner_booking, url: vrental_owner_booking_path(@vrental, owner_booking), method: :patch, remote: true do |f| %>
+          <%= f.hidden_field :status, value: "0" %>
+          <%= f.button :submit, class: "btn btn-danger btn-sm" do %>
+            <i class="fas fa-trash-can fa-sm"></i>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<div class="alert position-relative alert-info" role="alert">
   Per afegir una reserva, fes clic sobre el dia que vulguis començar la reserva i arrastra el ratolí fins al dia que vulguis acabar la reserva.
 </div>
 <div id="calendar" data-bookings-on-calendar-path="<%= bookings_on_calendar_vrental_path(@vrental) %>"></div>
@@ -10,7 +26,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
       </div>
       <div class="modal-body">
-        <%# render 'form' %>
       </div>
     </div>
   </div>
