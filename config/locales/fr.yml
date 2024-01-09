@@ -593,10 +593,11 @@ fr:
   new_web: Ajouté sur le site web
   news: Actualités
   next_getaway: votre prochaine escapade
-  night: Nuit
+  night:
+    one: nuit
+    other: nuits
   night_5: Nuit (5-6)
   night_7: Nuit (7)
-  nights: nuits
   "no": Non
   no_availability_for_dates: Nous n'avons pas de disponibilité pour ces dates. Sélectionnez d'autres dates pour voir la disponibilité et les prix.
   no_availability_for_selection: Nous n'avons pas de disponibilité pour cette sélection.

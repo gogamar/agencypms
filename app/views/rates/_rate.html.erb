@@ -12,7 +12,7 @@
       <% if rate.vrental.price_per == "week" && rate.priceweek %>
         <%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('week').downcase %>
       <% elsif rate.vrental.price_per == "night" && rate.pricenight || rate.restriction == "gap_fill" %>
-        <%= number_to_currency(rate.pricenight, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('night').downcase %>
+        <%= number_to_currency(rate.pricenight, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('night', count: 1).downcase %>
       <% end %>
     </div>
     <% unless params[:controller] == 'vragreements' %>

@@ -13,7 +13,7 @@
       <% end %>
       <span><%= t('check_in') %> <%= I18n.l(earning.booking.checkin, format: :standard) %></span><br>
       <span><%= t('check_out') %> <%= I18n.l(earning.booking.checkout, format: :standard) %></span><br>
-      <span><%= t('nights').capitalize %> <%= earning.booking.nights %></span>
+      <span><%= t('night', count: earning.booking.nights).capitalize %> <%= earning.booking.nights %></span>
       <br>
       <span><%= link_to "Modificar la reserva", edit_vrental_booking_path(earning.vrental, earning.booking) if earning.booking %></span>
     </div>

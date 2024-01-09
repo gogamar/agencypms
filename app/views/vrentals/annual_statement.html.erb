@@ -44,7 +44,7 @@
   <% @annual_earnings.each do |earning| %>
     <div class="row border-bottom align-items-center">
       <div class="col-10 border-right">
-        <%= t("booking") %> <%= earning.booking.firstname.titleize %> <%= earning.booking.lastname.titleize %> (<%= I18n.l(earning.booking.checkin, format: :standard) %> - <%= I18n.l(earning.booking.checkout, format: :standard) %>)
+        <%= t("booking") %> <%= earning.booking.firstname.titleize %> <%= earning.booking.lastname.titleize %> <%= earning.booking.nights %> <%= t('night', count: earning.booking.nights) %> (<%= I18n.l(earning.booking.checkin, format: :standard) %> - <%= I18n.l(earning.booking.checkout, format: :standard) %>)
         <br>
         <% if earning.discount && earning.discount != 0 && earning.discount < 1 %>
           <small class="fst-italic"><%= t("discount") %>: <%= number_to_percentage(earning.discount * 100, precision: 2, separator: ',') %>
@@ -57,7 +57,7 @@
     </div>
   <% end %>
   <div class="row">
-    <div class="col-10 font-weight-bold fw-bold border-right"><%= t("total") %></div>
+    <div class="col-10 font-weight-bold fw-bold border-right"><%= t("total") %><span class="font-weight-normal fw-normal"> (<%= @total_nights_year %> <%= t('night', count: @total_nights_year) %>)</span></div>
     <div class="col-2 text-right text-end font-weight-bold fw-bold"><%= number_to_currency(@total_annual_earnings, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
   </div>
 </div>

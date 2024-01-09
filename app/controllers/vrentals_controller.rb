@@ -165,6 +165,8 @@ class VrentalsController < ApplicationController
     @annual_agency_commission_vat = @annual_agency_commission * 0.21
     @annual_net_income_owner = @annual_earnings.sum(:amount) - @annual_expenses_owner.sum(:amount) - @annual_agency_commission - @annual_agency_commission_vat
     @corresponding_statement = @annual_statements.last
+    @total_nights_year = @annual_earnings.joins(:booking).sum(:nights)
+
 
     respond_to do |format|
       format.html
