@@ -1,6 +1,8 @@
-<%= link_to t('new_owner_booking'), new_vrental_owner_booking_path(@vrental), class: "btn btn-primary mb-3" %>
+<div class="alert position-relative alert-warning" role="alert">
+  Per afegir una reserva, fes clic sobre el dia que vulguis començar la reserva i arrastra el ratolí fins al dia que vulguis acabar la reserva.
+</div>
 <div id="calendar" data-bookings-on-calendar-path="<%= bookings_on_calendar_vrental_path(@vrental) %>"></div>
-<div class="modal fade" id="ownerBooking" tabindex="-1" aria-labelledby="ownerBookingLabel" aria-hidden="true">
+<div class="modal fade" id="editOwnerBooking" tabindex="-1" aria-labelledby="editOwnerBookingLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,6 +10,20 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
       </div>
       <div class="modal-body">
+        <%# render 'form' %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="newOwnerBooking" tabindex="-1" aria-labelledby="newOwnerBookingLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
+      </div>
+      <div class="modal-body">
+        <%= render 'form', owner_booking: OwnerBooking.new %>
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
-<%= simple_form_for [@vrental, @owner_booking], html: { data: { turbo: false, controller: 'search', available: @vrental.future_available_dates.to_json }} do |f| %>
+<%= simple_form_for [@vrental, owner_booking], html: { data: { turbo: false }} do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
-    <%= f.input :checkin, as: :string, input_html: { data: { search_target: "checkin" }, class: "form-control" } %>
-    <%= f.input :checkout, as: :string, input_html: { data: { search_target: "checkout" }, class: "form-control" } %>
+    <%= f.input :checkin, as: :string, input_html: { class: "obpicker" }%>
+    <%= f.input :checkout, as: :string, input_html: { class: "obpicker" } %>
     <%= f.input :note %>
   </div>
   <div class="form-actions text-end mb-5">

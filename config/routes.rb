@@ -189,8 +189,8 @@ Rails.application.routes.draw do
     get 'terms', to: 'pages#terms'
     get 'dashboard', to: 'vrentals#dashboard'
     get 'empty_vrentals', to: 'vrentals#empty_vrentals'
-    get '*path' => 'application#redirect_to_homepage'
+    # get '*path' => 'application#redirect_to_homepage'
   end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
-  get '*path' => 'application#redirect_to_homepage'
+  # get '*path' => 'application#redirect_to_homepage'
 end

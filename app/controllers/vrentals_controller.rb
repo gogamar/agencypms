@@ -247,8 +247,13 @@ class VrentalsController < ApplicationController
     @new_vrental.prop_key = nil
     @new_vrental.rates = []
     @source.rates.each { |rate| @new_vrental.rates << rate.dup }
-    @source.bedrooms.each { |bedroom| @new_vrental.bedrooms << bedroom.dup } if @source.bedrooms.present?
-    @source.bedrooms.beds.each { |bed| @new_vrental.bedrooms.beds << bed.dup } if @source.bedrooms.present?
+    if @source.bedrooms.present?
+      @source.bedrooms.each do |bedroom|
+        new_bedroom = bedroom.dup
+        new_bedroom.beds = bedroom.beds.map(&:dup)
+        @new_vrental.bedrooms << new_bedroom
+      end
+    end
     @source.bathrooms.each { |bathroom| @new_vrental.bathrooms << bathroom.dup } if @source.bathrooms.present?
 
     if @new_vrental.save
@@ -256,6 +261,7 @@ class VrentalsController < ApplicationController
       @new_vrental.save
       redirect_to @new_vrental, notice: "S'ha creat una còpia de l'immoble: #{@new_vrental.name}."
     else
+      puts "this is why it failed: #{@new_vrental.errors.full_messages}"
       redirect_back(fallback_location: vrentals_path, alert: @new_vrental.errors.full_messages.to_sentence)
     end
   end
