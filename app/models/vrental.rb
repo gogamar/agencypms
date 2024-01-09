@@ -361,7 +361,7 @@ class Vrental < ApplicationRecord
       "(firstnight <= ? AND lastnight >= ?) OR (firstnight <= ? AND lastnight >= ?) OR (firstnight >= ? AND lastnight <= ?)",
       checkin, checkin, checkout, checkout, checkin, checkout
     )
-    puts "these are the overlapping rates: #{overlapping_rates}"
+
     return if overlapping_rates.empty?
     total_price = 0.0
     overlapping_rates.each do |rate|
@@ -369,10 +369,6 @@ class Vrental < ApplicationRecord
       rate_end = [checkout - 1, rate.lastnight].min  # Adjusted checkout to consider last affecting night
 
       days_overlap = (rate_end - rate_start + 1).to_i
-
-      puts "days overlap: #{days_overlap}"
-
-      puts "rate pricenight: #{rate.pricenight}"
 
       if rate.pricenight.present?
         price = rate_offset.present? ? rate.pricenight + (rate.pricenight * (self.rate_offset / 100)) : rate.pricenight

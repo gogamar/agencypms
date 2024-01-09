@@ -5,6 +5,7 @@ export default class extends Controller {
   static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
 
   connect() {
+    console.log("Hello again from StimulusJS");
     const todayPlusAdvance = this.element.dataset.minAdvance
       ? new Date(
           new Date().setDate(
@@ -55,7 +56,7 @@ export default class extends Controller {
     this.checkoutPicker = initFlatpickr(this.checkoutTarget, checkoutOptions);
   }
 
-  async updatePrice() {
+  async updatePrice(event) {
     const checkIn = this.checkinTarget.value;
     const checkOut = this.checkoutTarget.value;
     const numAdult = this.numAdultTarget.value;
@@ -157,7 +158,7 @@ export default class extends Controller {
           }
         }
       }
-      this.updateRateData();
+      this.updateRateData(event);
     } catch (error) {
       console.error(error);
     }
@@ -180,6 +181,7 @@ export default class extends Controller {
       }
 
       const responseData = await response.json();
+      console.log("this is response data", responseData);
       const updatedMinStay = responseData.min_stay;
       const newMinEndDate = new Date(this.checkinPicker.selectedDates[0]);
       newMinEndDate.setDate(newMinEndDate.getDate() + parseInt(updatedMinStay));

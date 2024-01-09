@@ -148,7 +148,7 @@ class PagesController < ApplicationController
       @not_available = response["notAvailable"]
     end
     # fixme check for valid coupons only and for the right coupon
-    if @vrental.coupons.present?
+    if @vrental.coupons.present? && @price.present?
       @coupon_code = @vrental.coupons.first.name
       @price_with_coupon = @vrental.price_with_coupon(@price)
     end

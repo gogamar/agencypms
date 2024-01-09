@@ -1111,6 +1111,8 @@ class VrentalApiService
 
       response = client.get_availabilities(options)
 
+      puts "this is the response: #{response}"
+
       if response.code != 200
         raise StandardError, "Error: HTTP request failed with status code #{response.code}"
       end
@@ -1121,10 +1123,13 @@ class VrentalApiService
       if parsed_response[vrental_instance.beds_room_id]["roomsavail"] != "0"
         vrental_rate_price = vrental_instance.rate_price(checkin, checkout)
         updated_price = parsed_response[vrental_instance.beds_room_id]["price"]
-        coupon_price = vrental_instance.price_with_coupon(updated_price)
+
         result["ratePrice"] = vrental_rate_price.round(2) if vrental_rate_price
         result["updatedPrice"] = updated_price
-        result["couponPrice"] = coupon_price.round(2).to_f if coupon_price
+        if vrental_instance.coupons.any?
+          coupon_price = vrental_instance.price_with_coupon(updated_price)
+          result["couponPrice"] = coupon_price.round(2).to_f if coupon_price
+        end
         if (parsed_response[vrental_instance.beds_room_id]["price"]).nil?
           result["notAvailable"] = "No availability"
         end
