@@ -81,7 +81,7 @@
       <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
     </div>
   <% end %>
-<% elsif @vrental.vrgroup.present? && @vrental.rate_master_id.present? %>
+<% elsif @vrental.rate_master_id.present? %>
   <div class="alert alert-warning position-relative" role="alert">
     <%= t('rate_master_warning') %>
     <%= link_to vrental_rates_path(@vrental.rate_master) do %>

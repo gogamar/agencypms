@@ -137,7 +137,6 @@ en:
         access_text_fr: Check-in Instructions in French
         address: Address
         airbnb_listing_id: Airbnb ID
-        availability_master_id: Specify if this property will use its own availability or the availability of another property (in this case, select from which).
         beds_prop_id: Beds24 Property ID
         beds_room_id: Beds24 Property Room ID
         cadastre: Cadastre
@@ -236,9 +235,6 @@ en:
   availabilities: Availability Rules
   availability: Availability
   availability_and_discounts: Availability and Discounts
-  availability_master: Will the availability of this property be used for other properties in the group?
-  availability_master_vrental: If you want to apply the availability of another property, select the property
-  availability_master_warning: "This property uses the availability of another property. To modify it, you need to edit the master availability:"
   available:
     one: available
     other: available
@@ -608,7 +604,6 @@ en:
   "no": "No"
   no_availability_for_dates: We have no availability for these dates. Select other dates to view availability and prices.
   no_availability_for_selection: We have no availability for this selection.
-  no_availability_master: No, use own availability
   no_checkin: Check-in not allowed
   no_checkin_out: Check-in and check-out not allowed
   no_checkout: Check-out not allowed

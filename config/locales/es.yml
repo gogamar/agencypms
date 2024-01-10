@@ -137,7 +137,6 @@ es:
         access_text_fr: Explicación sobre el check-in en francés
         address: Dirección
         airbnb_listing_id: ID de Airbnb
-        availability_master_id: ¿Especificar si esta propiedad utilizará su propia disponibilidad o la disponibilidad de otra propiedad? (en este caso, seleccione cuál).
         beds_prop_id: ID de propiedad en Beds24
         beds_room_id: ID de la propiedad en Beds24
         cadastre: Catastro
@@ -236,9 +235,6 @@ es:
   availabilities: Reglas de disponibilidad
   availability: Disponibilidad
   availability_and_discounts: Disponibilidad y descuentos
-  availability_master: ¿La disponibilidad de esta propiedad se utilizará para otras propiedades del grupo?
-  availability_master_vrental: Si deseas aplicar la disponibilidad de otra propiedad, selecciona la propiedad
-  availability_master_warning: "Esta propiedad utiliza la disponibilidad de otra propiedad. Para modificarla, debes modificar la disponibilidad maestra:"
   available:
     one: disponible
     other: disponibles
@@ -608,7 +604,6 @@ es:
   "no": "No"
   no_availability_for_dates: No tenemos disponibilidad para estas fechas. Selecciona otras fechas para ver la disponibilidad y los precios.
   no_availability_for_selection: No tenemos disponibilidad para esta selección.
-  no_availability_master: No, utilizar disponibilidad propia
   no_checkin: Entrada no permitida
   no_checkin_out: Entrada y salida no permitidas
   no_checkout: Salida no permitida

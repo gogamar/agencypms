@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_10_120454) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_10_150236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -531,7 +531,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_10_120454) do
     t.decimal "weekly_discount"
     t.integer "min_advance", default: 0
     t.integer "unit_number"
-    t.integer "availability_master_id"
     t.decimal "cleaning_fee"
     t.integer "cut_off_hour"
     t.string "checkin_start_hour"
@@ -625,7 +624,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_10_120454) do
   add_foreign_key "vrentals", "owners"
   add_foreign_key "vrentals", "rate_plans"
   add_foreign_key "vrentals", "towns"
-  add_foreign_key "vrentals", "vrentals", column: "availability_master_id"
   add_foreign_key "vrentals", "vrentals", column: "rate_master_id"
   add_foreign_key "vrentaltemplates", "companies"
   add_foreign_key "vrgroups", "offices"

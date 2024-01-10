@@ -1,39 +1,30 @@
 <div class="container">
-  <% if @vrental.availability_master_id.nil? %>
-    <div class="d-flex justify-content-end">
-      <%= link_to get_availabilities_from_beds_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
-        <i class="fa-solid fa-download me-2"></i><%= t('get_availabilities_from_beds24') %>
-      <% end %>
+  <div class="d-flex justify-content-end">
+    <%= link_to get_availabilities_from_beds_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+      <i class="fa-solid fa-download me-2"></i><%= t('get_availabilities_from_beds24') %>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h4 class="text-center text-info"><%= @vrental.name %></h4>
+      <h5 class="text-center text-info mb-5"><%= t('availability_and_discounts') %></h5>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <h4 class="text-center text-info"><%= @vrental.name %></h4>
-        <h5 class="text-center text-info mb-5"><%= t('availability_and_discounts') %></h5>
-      </div>
-      <div class="mb-4">
-        <%# fixme: add from to dates to create a new availability from here %>
-        <%# turbo_frame_tag "new_availability", src: new_vrental_availability_path(@vrental)%>
-      </div>
-      <div class="alert position-relative alert-warning" role="alert">
-        Si el preu es 100€ i el multiplicador es 35 el preu final es 35€
-      </div>
-      <div class="row fw-b">
-        <div class="col-3"><%= t('date_title') %></div>
-        <div class="col-2"><%= t('availability') %></div>
-        <div class="col-2"><%= t('price') %></div>
-        <div class="col-2"><%= t('multiplier') %></div>
-        <div class="col-2"><%= t('override') %></div>
-        <div class="col-1"></div>
-      </div>
-      <hr>
-      <%= render @availabilities %>
+    <div class="mb-4">
+      <%# fixme: add from to dates to create a new availability from here %>
+      <%# turbo_frame_tag "new_availability", src: new_vrental_availability_path(@vrental)%>
     </div>
-  <% else %>
     <div class="alert position-relative alert-warning" role="alert">
-      <%= t('availability_master_warning') %>
-      <%= link_to vrental_availabilities_path(@vrental.availability_master) do %>
-        <%= @vrental.availability_master&.name %>
-      <% end %>
+      Si el preu es 100€ i el multiplicador es 35 el preu final es 35€
     </div>
-  <% end %>
+    <div class="row fw-b">
+      <div class="col-3"><%= t('date_title') %></div>
+      <div class="col-2"><%= t('availability') %></div>
+      <div class="col-2"><%= t('price') %></div>
+      <div class="col-2"><%= t('multiplier') %></div>
+      <div class="col-2"><%= t('override') %></div>
+      <div class="col-1"></div>
+    </div>
+    <hr>
+    <%= render @availabilities %>
+  </div>
 </div>

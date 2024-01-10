@@ -14,7 +14,7 @@
       <%= form_with(model: @vrental, url: copy_images_vrental_path(@vrental), method: :post, local: false, class: 'col-lg-4 d-flex align-items-end') do |form| %>
         <select name="source_vrental_id" id="select_vrental" data-placeholder="<%= t('select_vrental').capitalize %>">
           <option value="">&nbsp;</option>
-          <% @vrental.vrentals_from_same_vrgroups.each do |vrental| %>
+          <% @vrental.vrentals_same_vrgroups_images.each do |vrental| %>
             <option value="<%= vrental.id %>"><%= vrental.name %></option>
           <% end %>
         </select>

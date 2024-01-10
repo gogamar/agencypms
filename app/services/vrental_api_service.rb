@@ -1040,15 +1040,13 @@ class VrentalApiService
   end
 
   def get_availabilities_from_beds_24
-    avail_master_vrental = @target.availability_master.present? ? @target.availability_master : @target
-
-    master_future_rates = avail_master_vrental.rate_master.present? ? avail_master_vrental.rate_master.future_rates : avail_master_vrental.future_rates
+    master_future_rates = @target.rate_master.present? ? @target.rate_master.future_rates : @target.future_rates
 
     return if master_future_rates.empty?
 
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
     options = {
-      "roomId": avail_master_vrental.beds_room_id,
+      "roomId": @target.beds_room_id,
       "from": Date.today.strftime("%Y%m%d").to_s,
       "to": last_rate_lastnight.strftime("%Y%m%d").to_s,
       "incMultiplier": 1,
@@ -1056,16 +1054,16 @@ class VrentalApiService
       "allowInventoryNegative": 1
     }
 
-    client = BedsHelper::Beds.new(avail_master_vrental.office.beds_key)
+    client = BedsHelper::Beds.new(@target.office.beds_key)
 
     begin
-      availability_data = client.get_room_dates(avail_master_vrental.prop_key, options)
+      availability_data = client.get_room_dates(@target.prop_key, options)
 
       selected_availabilities = availability_data.select { |date, attributes| Date.parse(date.to_s) >= Date.today && (attributes["x"].present? || attributes["o"].present? || attributes["i"].to_i < 1) }
 
       selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
-        existing_availability = avail_master_vrental.availabilities.find_by(date: formatted_date)
+        existing_availability = @target.availabilities.find_by(date: formatted_date)
         if existing_availability
           existing_availability.update!(
             inventory: attributes["i"].to_i,
@@ -1078,20 +1076,19 @@ class VrentalApiService
             inventory: attributes["i"].to_i,
             multiplier: attributes["x"].to_i || 100,
             override: attributes["o"].to_i || 0,
-            vrental_id: avail_master_vrental.id
+            vrental_id: @target.id
           )
         end
       end
       selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
-      avail_master_vrental.availabilities.where.not(date: selected_dates).destroy_all
+      @target.availabilities.where.not(date: selected_dates).destroy_all
     rescue => e
-      puts "Error importing availability data for #{avail_master_vrental.name}: #{e.message}"
+      puts "Error importing availability data for #{@target.name}: #{e.message}"
     end
     sleep 2
   end
 
   def get_availability_from_beds(checkin, checkout, guests)
-    vrental_instance = @target.availability_master.present? ? @target.availability_master : @target
     begin
       client = BedsHelper::Beds.new
 
@@ -1103,7 +1100,7 @@ class VrentalApiService
       end
 
       options = {
-        "propId": vrental_instance.beds_prop_id,
+        "propId": @target.beds_prop_id,
         "checkIn": formatted_checkin,
         "checkOut": formatted_checkout,
         "numAdult": guests || 1
@@ -1120,20 +1117,20 @@ class VrentalApiService
       parsed_response = JSON.parse(response.body)
 
       result = {}
-      if parsed_response[vrental_instance.beds_room_id]["roomsavail"] != "0"
-        vrental_rate_price = vrental_instance.rate_price(checkin, checkout)
-        updated_price = parsed_response[vrental_instance.beds_room_id]["price"]
+      if parsed_response[@target.beds_room_id]["roomsavail"] != "0"
+        vrental_rate_price = @target.rate_price(checkin, checkout)
+        updated_price = parsed_response[@target.beds_room_id]["price"]
 
         result["ratePrice"] = vrental_rate_price.round(2) if vrental_rate_price
         result["updatedPrice"] = updated_price
-        if vrental_instance.coupons.any?
-          coupon_price = vrental_instance.price_with_coupon(updated_price)
+        if @target.coupons.any?
+          coupon_price = @target.price_with_coupon(updated_price)
           result["couponPrice"] = coupon_price.round(2).to_f if coupon_price
         end
-        if (parsed_response[vrental_instance.beds_room_id]["price"]).nil?
+        if (parsed_response[@target.beds_room_id]["price"]).nil?
           result["notAvailable"] = "No availability"
         end
-      elsif parsed_response[vrental_instance.beds_room_id]["roomsavail"] == "0"
+      elsif parsed_response[@target.beds_room_id]["roomsavail"] == "0"
         result["notAvailable"] = "No availability"
       end
       return result
@@ -1146,16 +1143,15 @@ class VrentalApiService
 
   def send_availabilities_to_beds_24
     # this one needs fixing!
-    master_vrental = @target.availability_master.present? ? @target.availability_master : @target
-    client = BedsHelper::Beds.new(master_vrental.office.beds_key)
+    client = BedsHelper::Beds.new(@target.office.beds_key)
 
-    master_future_rates = master_vrental.rate_master.present? ? master_vrental.rate_master.future_rates : master_vrental.future_rates
+    master_future_rates = @target.rate_master.present? ? @target.rate_master.future_rates : @target.future_rates
 
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
 
     dates = {}
 
-    master_vrental.availabilities.each do |availability|
+    @target.availabilities.each do |availability|
       dates[availability.date.strftime("%Y%m%d")] = {
         "x": availability.multiplier.to_s,
         "o": availability.override.to_s
@@ -1163,14 +1159,14 @@ class VrentalApiService
     end
 
     options = {
-      "roomId": master_vrental.beds_room_id,
+      "roomId": @target.beds_room_id,
       "dates": dates
     }
 
     set_availability_data = client.set_room_dates(@target.prop_key, options)
 
     begin
-      availability_data = client.get_room_dates(master_vrental.prop_key, options)
+      availability_data = client.get_room_dates(@target.prop_key, options)
       availability_data.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
         existing_availability = @target.availabilities.find_by(date: formatted_date)
@@ -1198,8 +1194,7 @@ class VrentalApiService
 
   def prevent_gaps_on_beds(days_after_checkout)
     return if @target.future_bookings.empty?
-    avail_master_vrental = @target.availability_master.present? ? @target.availability_master : @target
-    master_future_rates = avail_master_vrental.rate_master.present? ? avail_master_vrental.rate_master.future_rates : avail_master_vrental.future_rates
+    master_future_rates = @target.rate_master.present? ? @target.rate_master.future_rates : @target.future_rates
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
 
     VrentalApiService.new(@target).get_availabilities_from_beds_24

@@ -137,7 +137,6 @@ ca:
         access_text_fr: Explicació com es fa el check-in francès
         address: Adreça
         airbnb_listing_id: Airbnb ID
-        availability_master_id: Especifica si aquest immoble utilitzarà la seva pròpia disponibilitat o la disponibilitat d'un altre immoble (en aquest cas, selecciona de quin).
         beds_prop_id: ID propietat a Beds24
         beds_room_id: ID immoble a Beds24
         cadastre: Cadastre
@@ -237,9 +236,6 @@ ca:
   availabilities: Regles de disponibilitat
   availability: Disponibilitat
   availability_and_discounts: Disponibilitat i descomptes
-  availability_master: La disponibilitat d'aquest immoble es farà servir pels altres immobles del grup?
-  availability_master_vrental: Si vols aplicar la disponibilitat d'un altre immoble, selecciona l'immoble
-  availability_master_warning: "Aquest immoble utilitza la disponibilitat d'un altre immoble. Per modificar-la, has de modificar la disponibilitat mestre:"
   available:
     one: disponible
     other: disponibles
@@ -609,7 +605,6 @@ ca:
   "no": "No"
   no_availability_for_dates: No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus.
   no_availability_for_selection: No tenim disponibilitat per aquesta selecció.
-  no_availability_master: No, utilitzar disponibilitat pròpia
   no_checkin: Entrada no permesa
   no_checkin_out: Entrada i sortida no permeses
   no_checkout: Sortida no permesa

@@ -8,9 +8,7 @@ class Vrental < ApplicationRecord
   belongs_to :town, optional: true
   belongs_to :rate_plan, optional: true
   belongs_to :rate_master, class_name: 'Vrental', optional: true
-  belongs_to :availability_master, class_name: 'Vrental', optional: true
   has_many :sub_rate_vrentals, class_name: 'Vrental', foreign_key: 'rate_master_id'
-  has_many :sub_availability_vrentals, class_name: 'Vrental', foreign_key: 'availability_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
   accepts_nested_attributes_for :bedrooms,
@@ -72,7 +70,6 @@ class Vrental < ApplicationRecord
   # validates :price_per, presence: true, inclusion: { in: PRICE_PER }
 
   # fixme - on copying this kept giving error, perhaps because it's nil and nil == nil
-  # validate :cannot_reference_self_as_availability_master
   # validate :cannot_reference_self_as_rate_master
 
   # validates :fixed_price_amount, presence: true, if: -> { contract_type == 'fixed_price' }
@@ -187,17 +184,15 @@ class Vrental < ApplicationRecord
   end
 
   def add_availability(from, to)
-    vrental_instance = availability_master_id.present? ? Vrental.find_by(id: availability_master_id) : self
-
     from = from.is_a?(Date) ? from : Date.parse(from)
     to = to.is_a?(Date) ? to : Date.parse(to)
 
-    vrental_instance.dates_with_rates(from, to).each do |range|
+    dates_with_rates(from, to).each do |range|
       from = range[:from]
       to = range[:to]
 
       (from..to).each do |date|
-        availabilities.create(date: date, inventory: vrental_instance.unit_number)
+        availabilities.create(date: date, inventory: unit_number)
       end
     end
   end
@@ -220,18 +215,15 @@ class Vrental < ApplicationRecord
   end
 
   def future_available_dates
-    vrental_instance = availability_master_id.present? ? Vrental.find_by(id: availability_master_id) : self
-
-    unavailable_dates = vrental_instance.availabilities.where("inventory < 1").pluck(:date)
-    available_ranges = vrental_instance.future_dates_with_rates
+    unavailable_dates = availabilities.where("inventory < 1").pluck(:date)
+    available_ranges = future_dates_with_rates
     available_dates = available_ranges.flat_map { |range| (range[:from]..range[:to]).to_a }
 
     (available_dates - unavailable_dates).uniq.sort
   end
 
   def initial_rate(checkin)
-    vrental_instance = rate_master_id.present? ? Vrental.find_by(id: rate_master_id) : self
-    vrental_instance.rates
+    self.rates
       .where("firstnight <= ? AND lastnight >= ?", checkin, checkin)
       .order(min_stay: :asc)
       .first
@@ -239,13 +231,12 @@ class Vrental < ApplicationRecord
 
   def lowest_future_price
     vrental_rate_instance = rate_master_id.present? ? Vrental.find_by(id: rate_master_id) : self
-    vrental_availability_instance = availability_master_id.present? ? Vrental.find_by(id: availability_master_id) : self
 
     if vrental_rate_instance.future_rates.present?
       lowest_rate_price = vrental_rate_instance.future_rates.minimum(:pricenight)
     end
 
-    future_discounts = vrental_availability_instance.availabilities.where("date > ?", Date.today).where("multiplier < ? AND multiplier > ?", 100, 0)
+    future_discounts = availabilities.where("date > ?", Date.today).where("multiplier < ? AND multiplier > ?", 100, 0)
 
     if future_discounts
       biggest_discount = future_discounts.order(multiplier: :asc).first
@@ -255,8 +246,8 @@ class Vrental < ApplicationRecord
 
     best_price = [lowest_rate_price, lowest_discount_price].compact.min
 
-    if vrental_availability_instance.rate_offset.present?
-      best_price = best_price + (best_price * (vrental_availability_instance.rate_offset / 100))
+    if rate_offset.present?
+      best_price = best_price + (best_price * (rate_offset / 100))
     end
 
     best_price
@@ -833,8 +824,15 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def vrentals_from_same_vrgroups
-    vrentals_same_vrgroups = vrgroups.flat_map(&:vrentals).uniq
+  def vrentals_same_vrgroups
+    vrgroups.flat_map(&:vrentals).uniq
+  end
+
+  def same_vrgroup_masters
+    vrentals_same_vrgroups.select { |vrental| vrental.rate_master_id.nil? }
+  end
+
+  def vrentals_same_vrgroups_images
     Vrental.joins(:image_urls).where(id: vrentals_same_vrgroups.pluck(:id)).distinct
   end
 
@@ -842,12 +840,6 @@ class Vrental < ApplicationRecord
 
   def cannot_reference_self_as_rate_master
     if id == rate_master_id
-      errors.add(:rate_master_id, "cannot reference itself")
-    end
-  end
-
-  def cannot_reference_self_as_availability_master
-    if id == availability_master_id
       errors.add(:rate_master_id, "cannot reference itself")
     end
   end

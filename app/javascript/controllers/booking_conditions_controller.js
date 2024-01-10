@@ -42,28 +42,6 @@ export default class extends Controller {
     }
   }
 
-  toggleAvailabilityMaster() {
-    if (this.availabilityMasterTarget) {
-      const availabilityMaster = this.availabilityMasterTarget.value;
-      const dependentAvailability = this.dependentAvailabilityTarget;
-      if (availabilityMaster) {
-        dependentAvailability.classList.remove("d-none");
-      } else {
-        dependentAvailability.classList.add("d-none");
-        dependentAvailability
-          .querySelectorAll("input, select")
-          .forEach((field) => {
-            if (
-              field.type === "text" ||
-              field.tagName.toLowerCase() === "select"
-            ) {
-              field.value = ""; // Reset the value
-            }
-          });
-      }
-    }
-  }
-
   toggleRateOffset() {
     if (this.masterVrentalTarget) {
       const masterVrental = this.masterVrentalTarget.value;

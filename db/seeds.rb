@@ -27,16 +27,6 @@ barcelona_monthly_apts = barcelona_vrentals.where(rental_term: "medium_term")
 #   vrental.save!
 # end
 
-# barcelona_tourist_exteriors.where.not(beds_prop_id: "22730").each do |vrental|
-#   vrental.availability_master_id = tourist_exterior_avail_master.id
-#   vrental.save!
-# end
-
-# barcelona_tourist_interiors.where.not(beds_prop_id: "31422").each do |vrental|
-#   vrental.availability_master_id = tourist_interior_avail_master.id
-#   vrental.save!
-# end
-
 # barcelona_tourist_interiors.each do |vrental|
 #   vrental.rate_offset = -7.00
 #   vrental.rate_offset_type = "1"
@@ -55,16 +45,6 @@ barcelona_monthly_apts = barcelona_vrentals.where(rental_term: "medium_term")
 
 # barcelona_gaudi_monthly_apts.where.not(beds_prop_id: "23801").each do |vrental|
 #   vrental.rate_master_id = monthly_rate_master.id
-#   vrental.save!
-# end
-
-# barcelona_gaudi_monthly_exteriors.where.not(beds_prop_id: "23801").each do |vrental|
-#   vrental.availability_master_id = monthly_exterior_avail_master.id
-#   vrental.save!
-# end
-
-# barcelona_gaudi_monthly_interiors.where.not(beds_prop_id: "31425").each do |vrental|
-#   vrental.availability_master_id = monthly_interiors_avail_master.id
 #   vrental.save!
 # end
 

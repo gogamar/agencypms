@@ -25,22 +25,14 @@
         <%= f.input_field :weekly_discount, class: 'form-control', placeholder: "Per exemple, 10 o 15", 'aria-describedby' => 'basic-addon2' %>
         <span class="input-group-text" id="basic-addon2">%</span>
       </div>
-      <% if @vrental.vrgroup.present? %>
-        <label for="availability_master"><%= t('availability_master') %></label>
-        <select name="availability_master" id="availability_master" class="form-select" data-booking-conditions-target="availabilityMaster" data-action="change->booking-conditions#toggleAvailabilityMaster">
-          <option value="true"><%= t('true') %></option>
-          <option value="false"><%= t('false') %></option>
-        </select>
-        <div class="<%= 'd-none' unless f.object.availability_master_id.present? %>" data-booking-conditions-target="dependentAvailability">
-          <%= f.input :availability_master_id, as: :select, collection: @vrental.vrgroup.vrentals.where(availability_master_id: nil).map { |vrental| [vrental.name, vrental.id] }, hint: t('availability_master_vrental'), include_blank: t("no_availability_master") %>
-        </div>
+      <% if @vrental.vrgroups.present? %>
         <label for="rate_master"><%= t('rate_master') %></label>
         <select name="rate_master" id="rate_master" class="form-select" data-booking-conditions-target="rateMaster" data-action="change->booking-conditions#toggleRateMaster">
           <option value="true"><%= t('true') %></option>
           <option value="false"><%= t('false') %></option>
         </select>
         <div class="<%= 'd-none' unless f.object.rate_master_id.present? %>" data-booking-conditions-target="dependentRate">
-          <%= f.input :rate_master_id, as: :select, collection: @vrental.vrgroup.vrentals.where(rate_master_id: nil).map { |vrental| [vrental.name, vrental.id] }, hint: t('rate_master_vrental'), include_blank: t("no_rate_master"), input_html: { "data-booking-conditions-target" => "masterVrental", "data-action" => "change->booking-conditions#toggleRateOffset"} %>
+          <%= f.input :rate_master_id, as: :select, collection: @vrental.same_vrgroup_masters.map { |vrental| [vrental.name, vrental.id] }, hint: t('rate_master_vrental'), include_blank: t("no_rate_master"), input_html: { "data-booking-conditions-target" => "masterVrental", "data-action" => "change->booking-conditions#toggleRateOffset"} %>
           <div class="<%= 'd-none' unless f.object.rate_master_id.present? %>" data-booking-conditions-target="rateOffset">
             <%= f.input :rate_offset %>
           </div>

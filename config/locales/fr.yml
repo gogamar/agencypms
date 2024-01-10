@@ -137,7 +137,6 @@ fr:
         access_text_fr: Instructions d'enregistrement en français
         address: Adresse
         airbnb_listing_id: Identifiant Airbnb
-        availability_master_id: Spécifiez si cette propriété utilisera sa propre disponibilité ou la disponibilité d'une autre propriété (dans ce cas, sélectionnez à partir de laquelle).
         beds_prop_id: ID de propriété Beds24
         beds_room_id: ID de chambre de propriété Beds24
         cadastre: Cadastre
@@ -236,9 +235,6 @@ fr:
   availabilities: Règles de disponibilité
   availability: Disponibilité
   availability_and_discounts: Disponibilité et réductions
-  availability_master: La disponibilité de cette propriété sera-t-elle utilisée pour d'autres propriétés du groupe ?
-  availability_master_vrental: Si vous souhaitez appliquer la disponibilité d'une autre propriété, sélectionnez la propriété
-  availability_master_warning: "Cette propriété utilise la disponibilité d'une autre propriété. Pour la modifier, vous devez modifier la disponibilité principale :"
   available:
     one: disponible
     other: disponibles
@@ -608,7 +604,6 @@ fr:
   "no": Non
   no_availability_for_dates: Nous n'avons pas de disponibilité pour ces dates. Sélectionnez d'autres dates pour voir la disponibilité et les prix.
   no_availability_for_selection: Nous n'avons pas de disponibilité pour cette sélection.
-  no_availability_master: Non, utiliser la disponibilité propre
   no_checkin: Enregistrement non autorisé
   no_checkin_out: Enregistrement et départ non autorisés
   no_checkout: Départ non autorisé
