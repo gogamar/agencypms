@@ -4,7 +4,7 @@
   <%= f.hidden_field :request_context, value: 'general_details' %>
   <% if current_user.admin? || current_user.manager? %>
     <%= f.association :office %>
-    <%= f.association :vrgroup, include_blank: 'Sense grup' %>
+    <%= f.input :vrgroup_ids, as: :check_boxes, collection: Vrgroup.all.uniq.map {|f| [t("#{f.name}"), f.id]}.sort_by{|translation| translation}, wrapper: :vertical_collection %>
     <%= f.input :status, as: :radio_buttons, collection: Vrental::PROPERTY_STATUS.map {|status| [t(status), status] } %>
   <% end %>
   <%= f.input :name %>

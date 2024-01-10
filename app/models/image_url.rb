@@ -3,9 +3,10 @@ class ImageUrl < ApplicationRecord
   acts_as_list
 
   def is_group_photo?
-    vrgroup = vrental.vrgroup
-    return if vrgroup.nil?
-    group_photos_ids = vrgroup.photos.pluck(:id)
-    group_photos_ids.include?(photo_id)
+    vrgroup_photo_ids = []
+    vrgroups.each do |vrgroup|
+      vrgroup_photo_ids.merge(vrgroup.photo_ids)
+    end
+    vrgroup_photo_ids.include?(photo_id)
   end
 end

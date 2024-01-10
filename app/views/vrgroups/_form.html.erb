@@ -2,6 +2,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.input :gap_days %>
     <%= f.association :office %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
   </div>

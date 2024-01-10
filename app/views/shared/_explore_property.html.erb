@@ -96,7 +96,7 @@
                     <h6 class="listing-card-info-price line-height-1 mx-2">
                       <%= number_to_currency(vrental.lowest_future_price, unit: "€", separator: ",", delimiter: ".", precision: 0, format: "%n%u") %>
                     </h6>
-                    <%= t("night") %></span>
+                    <%= t("night_title") %></span>
                 </div>
                 <div class="footer-flex">
                   <%= link_to book_property_path(vrental_id: vrental.id), class: "prt-view" do %>

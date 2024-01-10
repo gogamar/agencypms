@@ -1201,8 +1201,16 @@ class VrentalApiService
     avail_master_vrental = @target.availability_master.present? ? @target.availability_master : @target
     master_future_rates = avail_master_vrental.rate_master.present? ? avail_master_vrental.rate_master.future_rates : avail_master_vrental.future_rates
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
+
+    VrentalApiService.new(@target).get_availabilities_from_beds_24
+
     checkout_date = @target.bookings.order(checkin: :desc).first.checkout
+
     no_check_in_from = checkout_date + days_after_checkout.days
+
+    # find the last availability with inventory 0
+    # add checkout date + 1 day to that date
+
 
     dates = {}
 

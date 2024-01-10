@@ -1,11 +1,14 @@
 <p style="color: green"><%= notice %></p>
-<h1>Vrgroups</h1>
-<div id="vrgroups">
-  <% vrgroups.each do |vrgroup| %>
-    <%= render vrgroup %>
-    <p>
-      <%= link_to "Show this vrgroup", vrgroup %>
-    </p>
-  <% end %>
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h4><%= t('rental_groups') %></h4>
+    <%= link_to t('add_new_group'), new_vrgroup_path, class: "btn btn-sm btn-info" %>
+  </div>
+  <div id="vrgroups">
+    <% @vrgroups.each do |vrgroup| %>
+      <li>
+        <%= link_to vrgroup.name, vrgroup, class: "link" %>
+      </li>
+    <% end %>
+  </div>
 </div>
-<%= link_to "New vrgroup", new_vrgroup_path %>

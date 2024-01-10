@@ -1,10 +1,7 @@
 <p style="color: green"><%= notice %></p>
-
-<%= render @vrgroup %>
-
-<div>
-  <%= link_to "Edit this vrgroup", edit_vrgroup_path(@vrgroup) %> |
-  <%= link_to "Back to vrgroups", vrgroups_path %>
-
-  <%= button_to "Destroy this vrgroup", @vrgroup, method: :delete %>
+<div class="container d-flex justify-content-start gap-4 mb-4">
+  <%= link_to t('global.forms.back'), vrgroups_path, class: "btn btn-sm btn-secondary"  %> |
+  <%= link_to t('edit_group'), edit_vrgroup_path(@vrgroup), class: "btn btn-sm btn-warning"  %> |
+  <%= button_to t('delete'), @vrgroup, method: :delete, class: "btn btn-sm btn-danger" %>
 </div>
+<%= render @vrgroup %>

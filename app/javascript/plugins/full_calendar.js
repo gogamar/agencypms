@@ -24,8 +24,6 @@ export function initFullCalendar() {
       contentHeight: 800,
       eventClick: function (info) {
         console.log(info.event);
-        // const startDate = info.event.start;
-        // const endDate = info.event.end;
         const eventTitle = info.event.title;
         const eventFormPath = info.event.extendedProps.form_path;
         updateOwnerBooking(eventTitle, eventFormPath);
@@ -75,8 +73,6 @@ const createOwnerBooking = (startDate, endDate) => {
   const modalClose = modalNew.querySelector(".btn-close");
   modalClose.addEventListener("click", function () {
     newOwnerBooking.hide();
-    // checkinField._flatpickr.clear();
-    // checkoutField._flatpickr.clear();
   });
 };
 
@@ -112,18 +108,3 @@ const updateOwnerBooking = (eventTitle, eventFormPath) => {
     editOwnerBooking.hide();
   });
 };
-
-// const setTopPosition = (eventElement, eventTopPosition) => {
-//   const dayEvent = document.querySelector(".fc-daygrid-event-harness");
-//   console.log(dayEvent);
-//   // const dayEvents = document.querySelectorAll(".fc-daygrid-day-events");
-
-//   // dayEvents.forEach((dayEvent) => {
-//   //   const eventHarnesses = dayEvent.querySelectorAll(
-//   //     ".fc-daygrid-event-harness"
-//   //   );
-//   //   for (let i = 0; i < Math.min(eventHarnesses.length, 2); i++) {
-//   //     eventHarnesses[i].style.top = "0px";
-//   //   }
-//   // });
-// };

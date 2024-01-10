@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_26_115011) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_10_120454) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -515,7 +515,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_26_115011) do
     t.string "contract_type", default: "fixed_price"
     t.decimal "fixed_price_amount", precision: 10, scale: 2
     t.string "fixed_price_frequency"
-    t.bigint "vrgroup_id"
     t.string "rental_term"
     t.integer "min_stay"
     t.decimal "res_fee", precision: 10, scale: 2
@@ -558,7 +557,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_26_115011) do
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
     t.index ["town_id"], name: "index_vrentals_on_town_id"
-    t.index ["vrgroup_id"], name: "index_vrentals_on_vrgroup_id"
+  end
+
+  create_table "vrentals_vrgroups", id: false, force: :cascade do |t|
+    t.bigint "vrental_id", null: false
+    t.bigint "vrgroup_id", null: false
   end
 
   create_table "vrentaltemplates", force: :cascade do |t|
@@ -577,6 +580,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_26_115011) do
     t.bigint "office_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "gap_days"
     t.index ["office_id"], name: "index_vrgroups_on_office_id"
   end
 
@@ -623,7 +627,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_26_115011) do
   add_foreign_key "vrentals", "towns"
   add_foreign_key "vrentals", "vrentals", column: "availability_master_id"
   add_foreign_key "vrentals", "vrentals", column: "rate_master_id"
-  add_foreign_key "vrentals", "vrgroups"
   add_foreign_key "vrentaltemplates", "companies"
   add_foreign_key "vrgroups", "offices"
 end

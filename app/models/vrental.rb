@@ -7,7 +7,6 @@ class Vrental < ApplicationRecord
   belongs_to :office, optional: true
   belongs_to :town, optional: true
   belongs_to :rate_plan, optional: true
-  belongs_to :vrgroup, optional: true
   belongs_to :rate_master, class_name: 'Vrental', optional: true
   belongs_to :availability_master, class_name: 'Vrental', optional: true
   has_many :sub_rate_vrentals, class_name: 'Vrental', foreign_key: 'rate_master_id'
@@ -32,6 +31,7 @@ class Vrental < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons
+  has_and_belongs_to_many :vrgroups
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
   scope :with_future_rates, lambda {
@@ -109,8 +109,7 @@ class Vrental < ApplicationRecord
     end
   end
 
-  def all_group_photos_imported?
-    return if vrgroup.nil?
+  def all_group_photos_imported(vrgroup)
     group_photos = vrgroup.photos.pluck(:id)
     group_photos.all? { |id| image_urls.pluck(:photo_id).include?(id) }
   end
@@ -188,7 +187,7 @@ class Vrental < ApplicationRecord
   end
 
   def add_availability(from, to)
-    vrental_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
+    vrental_instance = availability_master_id.present? ? Vrental.find_by(id: availability_master_id) : self
 
     from = from.is_a?(Date) ? from : Date.parse(from)
     to = to.is_a?(Date) ? to : Date.parse(to)
@@ -221,7 +220,7 @@ class Vrental < ApplicationRecord
   end
 
   def future_available_dates
-    vrental_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
+    vrental_instance = availability_master_id.present? ? Vrental.find_by(id: availability_master_id) : self
 
     unavailable_dates = vrental_instance.availabilities.where("inventory < 1").pluck(:date)
     available_ranges = vrental_instance.future_dates_with_rates
@@ -231,7 +230,7 @@ class Vrental < ApplicationRecord
   end
 
   def initial_rate(checkin)
-    vrental_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
+    vrental_instance = rate_master_id.present? ? Vrental.find_by(id: rate_master_id) : self
     vrental_instance.rates
       .where("firstnight <= ? AND lastnight >= ?", checkin, checkin)
       .order(min_stay: :asc)
@@ -239,8 +238,8 @@ class Vrental < ApplicationRecord
   end
 
   def lowest_future_price
-    vrental_rate_instance = rate_master_id.present? ? vrgroup.vrentals.find_by(id: rate_master_id) : self
-    vrental_availability_instance = availability_master_id.present? ? vrgroup.vrentals.find_by(id: availability_master_id) : self
+    vrental_rate_instance = rate_master_id.present? ? Vrental.find_by(id: rate_master_id) : self
+    vrental_availability_instance = availability_master_id.present? ? Vrental.find_by(id: availability_master_id) : self
 
     if vrental_rate_instance.future_rates.present?
       lowest_rate_price = vrental_rate_instance.future_rates.minimum(:pricenight)
@@ -832,6 +831,11 @@ class Vrental < ApplicationRecord
       puts "Got reviews from #{url} for #{name} with id #{id}"
       sleep 3
     end
+  end
+
+  def vrentals_from_same_vrgroups
+    vrentals_same_vrgroups = vrgroups.flat_map(&:vrentals).uniq
+    Vrental.joins(:image_urls).where(id: vrentals_same_vrgroups.pluck(:id)).distinct
   end
 
   private

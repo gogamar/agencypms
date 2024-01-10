@@ -32,6 +32,7 @@ class VrentalsController < ApplicationController
     @owners = policy_scope(Owner)
     @task = Task.new
     @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_date: :asc)
+    @vrgroups_prevent_gaps = policy_scope(Vrgroup).where.not(gap_days: nil)
   end
 
   def empty_vrentals
@@ -220,19 +221,12 @@ class VrentalsController < ApplicationController
   end
 
   def add_photos
-    @vrgroup = @vrental.vrgroup
-    if @vrgroup
-      @vrentals_with_images = @vrgroup.vrentals.joins(:image_urls).distinct
-      @vrgroup_photos_ids = @vrgroup.photos.pluck(:id).compact if @vrgroup and @vrgroup.photos.present?
-      # @vrgroup_photos = @vrental.image_urls.where(photo_id: @vrgroup_photos_ids)
-    end
     @image_urls = @vrental.image_urls.order(position: :asc)
-    @all_group_photos_imported = @vrental.all_group_photos_imported?
   end
 
   def import_from_group
-    @vrgroup = @vrental.vrgroup
-    create_new_image_urls(@vrgroup.photos)
+    vrgroup = Vrgroup.find(params[:vrgroup_id])
+    create_new_image_urls(vrgroup.photos)
     redirect_to add_photos_vrental_path(@vrental), notice: "Importació del grup acabada."
   end
 
@@ -520,7 +514,7 @@ class VrentalsController < ApplicationController
 
   def vrental_params
     params.require(:vrental).permit(
-      :name, :property_type, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en, :cleaning_fee, :cut_off_hour, :checkin_start_hour, :checkin_end_hour, :checkout_end_hour, :short_description_ca, :short_description_es, :short_description_fr, :short_description_en, :access_text_ca, :access_text_es, :access_text_fr, :access_text_en, :house_rules_ca, :house_rules_es, :house_rules_fr, :house_rules_en, :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :vrgroup_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :min_price, :airbnb_listing_id, :bookingcom_hotel_id, :bookingcom_room_id, :bookingcom_rate_id, feature_ids: [], photos: [], bedrooms_attributes: [:id, :bedroom_type, :_destroy, beds_attributes: [:id, :bed_type, :_destroy]], bathrooms_attributes: [:id, :bathroom_type, :_destroy]
+      :name, :property_type, :address, :licence, :cadastre, :habitability, :contract_type, :commission, :fixed_price_amount, :fixed_price_frequency, :beds_prop_id, :beds_room_id, :prop_key, :owner_id, :max_guests, :title_ca, :title_es, :title_fr, :title_en, :cleaning_fee, :cut_off_hour, :checkin_start_hour, :checkin_end_hour, :checkout_end_hour, :short_description_ca, :short_description_es, :short_description_fr, :short_description_en, :access_text_ca, :access_text_es, :access_text_fr, :access_text_en, :house_rules_ca, :house_rules_es, :house_rules_fr, :house_rules_en, :description_ca, :description_es, :description_fr, :description_en, :status, :rental_term, :min_stay, :free_cancel, :res_fee, :office_id, :rate_plan_id, :latitude, :longitude, :town_id, :unit_number, :availability_master_id, :rate_master_id, :rate_offset, :rate_offset_type, :price_per, :weekly_discount, :min_price, :airbnb_listing_id, :bookingcom_hotel_id, :bookingcom_room_id, :bookingcom_rate_id, feature_ids: [], vrgroup_ids: [], photos: [], bedrooms_attributes: [:id, :bedroom_type, :_destroy, beds_attributes: [:id, :bed_type, :_destroy]], bathrooms_attributes: [:id, :bathroom_type, :_destroy]
     )
   end
 end

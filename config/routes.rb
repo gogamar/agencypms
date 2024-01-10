@@ -163,7 +163,11 @@ Rails.application.routes.draw do
       resources :owner_payments
     end
 
-    resources :vrgroups
+    resources :vrgroups do
+      member do
+        get :prevent_gaps
+      end
+    end
 
     resources :features
     resources :features_vrentals

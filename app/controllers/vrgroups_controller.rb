@@ -1,5 +1,5 @@
 class VrgroupsController < ApplicationController
-  before_action :set_vrgroup, only: %i[ show edit update destroy ]
+  before_action :set_vrgroup, only: %i[ show edit update destroy prevent_gaps ]
 
   def index
     @vrgroups = policy_scope(Vrgroup)
@@ -14,6 +14,14 @@ class VrgroupsController < ApplicationController
   end
 
   def edit
+  end
+
+  def prevent_gaps
+    days_after_checkout = @vrgroup.gap_days
+    @vrgroup.vrentals.each do |vrental|
+      VrentalApiService.new(vrental).prevent_gaps_on_beds(days_after_checkout)
+    end
+    redirect_to dashboard_path, notice: "Immobles bloquejats després de la sortida."
   end
 
   def create
@@ -47,6 +55,6 @@ class VrgroupsController < ApplicationController
     end
 
     def vrgroup_params
-      params.require(:vrgroup).permit(:name, :office_id, photos: [])
+      params.require(:vrgroup).permit(:name, :office_id, :gap_days, photos: [])
     end
 end

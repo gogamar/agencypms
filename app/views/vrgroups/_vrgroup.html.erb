@@ -1,13 +1,16 @@
-<div id="<%= dom_id vrgroup %>">
-  <p>
-    <strong>Name:</strong>
-    <%= vrgroup.name %>
-  </p>
-  <p>
-    <strong>Office:</strong>
-    <%= vrgroup.office_id %>
-  </p>
-  <% @vrgroup.photos.each do |photo| %>
-    <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
-  <% end %>
+<div id="<%= dom_id vrgroup %>" class="card mb-4">
+  <div class="d-flex justify-content-between">
+    <h5 ><%= vrgroup.name %> <span class="font-weight-normal fw-normal">(<%= t('office') %>: <%= vrgroup.office_id %>)</span> </h5>
+  </div>
+  <div class="card-img-top">
+    <% if vrgroup.photos %>
+      <div class="row">
+        <% vrgroup.photos.each do |photo| %>
+          <div class="col-md-6 mb-3">
+            <%= cl_image_tag photo.key, class: "img-fluid", alt: "VRGroup Photo", height: 200,crop: :fill %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -215,6 +215,7 @@ fr:
   add_prices_to_rates: Tarifs manquants pour les tarifs
   add_property: Ajouter une propriété
   add_rates_to_add_contract: Ajouter des tarifs pour créer un contrat
+  add_owner_booking_explanation: Pour ajouter une réservation, cliquez sur le jour de début souhaité, puis faites glisser la souris jusqu'au jour de fin désiré.
   admin: Administrateur
   adults: Adultes
   after_last_checkout: après le dernier départ, pour éviter les trous
@@ -854,3 +855,10 @@ fr:
   "yes": Oui
   clients_opinions: Avis des nos clients
   read_more: Lire la suite
+  rental_groups: Groupes de location
+  add_new_group: Ajouter un nouveau groupe
+  edit_group: Modifier le groupe
+  prevent_gaps: Autoriser les réservations uniquement %{gap} jours après le départ
+  import_photos_from_this_property: Importer des photos de cette propriété
+  import_photos_from_group: Importer des photos du groupe
+  night_title: nuit

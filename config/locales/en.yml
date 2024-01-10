@@ -215,6 +215,7 @@ en:
   add_prices_to_rates: Missing Prices for Rates
   add_property: Add Property
   add_rates_to_add_contract: Add Rates to Create Contract
+  add_owner_booking_explanation: To add an owner booking, click on the starting day you want and drag the mouse to the ending day.
   admin: Administrator
   adults: Adults
   after_last_checkout: after the last checkout, to prevent gaps
@@ -854,3 +855,10 @@ en:
   "yes": "Yes"
   clients_opinions: Our Clients' Opinions
   read_more: Read more
+  rental_groups: Rental Groups
+  add_new_group: Add New Group
+  edit_group: Edit Group
+  prevent_gaps: Allow reservations only %{gap} days after check-out
+  import_photos_from_this_property: Import Photos from this Property
+  import_photos_from_group: Import Photos from Group
+  night_title: night

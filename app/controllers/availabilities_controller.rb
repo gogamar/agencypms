@@ -4,7 +4,7 @@ class AvailabilitiesController < ApplicationController
 
   def index
     @vrental = Vrental.find(params[:vrental_id])
-    @availabilities = policy_scope(@vrental.availabilities)
+    @availabilities = policy_scope(@vrental.availabilities).order(date: :asc)
     @available_dates = @availabilities.where('inventory > ?', 0)
     @availability = Availability.new
   end
