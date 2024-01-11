@@ -19,6 +19,7 @@ class VrgroupsController < ApplicationController
   def prevent_gaps
     days_after_checkout = @vrgroup.gap_days
     @vrgroup.vrentals.each do |vrental|
+      puts "Preventing gaps on #{vrental.name}"
       VrentalApiService.new(vrental).prevent_gaps_on_beds(days_after_checkout)
     end
     redirect_to dashboard_path, notice: "Immobles bloquejats després de la sortida."

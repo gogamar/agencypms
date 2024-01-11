@@ -198,7 +198,8 @@ class Vrental < ApplicationRecord
   end
 
   def future_dates_with_rates
-    rates.where("lastnight >= ?", Date.today).pluck(:firstnight, :lastnight).map do |range|
+    vrental_instance = rate_master_id.present? ? rate_master : self
+    vrental_instance.rates.where("lastnight >= ?", Date.today).pluck(:firstnight, :lastnight).map do |range|
       { from: range[0], to: range[1] }
     end
   end
@@ -216,8 +217,7 @@ class Vrental < ApplicationRecord
 
   def future_available_dates
     unavailable_dates = availabilities.where("inventory < 1").pluck(:date)
-    available_ranges = future_dates_with_rates
-    available_dates = available_ranges.flat_map { |range| (range[:from]..range[:to]).to_a }
+    available_dates = future_dates_with_rates.flat_map { |range| (range[:from]..range[:to]).to_a }
 
     (available_dates - unavailable_dates).uniq.sort
   end

@@ -189,7 +189,7 @@ barcelona_monthly_apts = barcelona_vrentals.where(rental_term: "medium_term")
 #   sleep 3
 # end
 
-gaudi_group = Vrgroup.where("name ILIKE ?", "%gaud%").first
+# gaudi_group = Vrgroup.where("name ILIKE ?", "%gaud%").first
 monthly_group = Vrgroup.find_or_create_by(name: "Pisos mensuals", office_id: barcelona_office.id)
 
 barcelona_monthly_apts.each do |vrental|
@@ -197,9 +197,9 @@ barcelona_monthly_apts.each do |vrental|
   puts "Added #{vrental.name} to monthly group"
 end
 
-barcelona_gaudi_apartments = barcelona_vrentals.where.not("name ILIKE ?", "%tarradellas%")
+# barcelona_gaudi_apartments = barcelona_vrentals.where.not("name ILIKE ?", "%tarradellas%")
 
-barcelona_gaudi_apartments.each do |vrental|
-  gaudi_group.vrentals << vrental
-  puts "Added #{vrental.name} to gaudi group"
-end
+# barcelona_gaudi_apartments.each do |vrental|
+#   gaudi_group.vrentals << vrental
+#   puts "Added #{vrental.name} to gaudi group"
+# end

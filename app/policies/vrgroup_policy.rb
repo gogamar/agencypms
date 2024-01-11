@@ -25,6 +25,10 @@ class VrgroupPolicy < ApplicationPolicy
     return update?
   end
 
+  def prevent_gaps?
+    return update?
+  end
+
   def update?
     user.admin? || user.manager?
   end

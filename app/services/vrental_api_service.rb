@@ -1193,19 +1193,17 @@ class VrentalApiService
   end
 
   def prevent_gaps_on_beds(days_after_checkout)
-    return if @target.future_bookings.empty?
     master_future_rates = @target.rate_master.present? ? @target.rate_master.future_rates : @target.future_rates
-    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
+
+    return if master_future_rates.empty?
 
     VrentalApiService.new(@target).get_availabilities_from_beds_24
+    # fixme should move this to once a day sidekiq job
 
-    checkout_date = @target.bookings.order(checkin: :desc).first.checkout
+    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
 
+    checkout_date = @target.availabilities.where("inventory < 1").order(date: :desc).first.date + 1.day
     no_check_in_from = checkout_date + days_after_checkout.days
-
-    # find the last availability with inventory 0
-    # add checkout date + 1 day to that date
-
 
     dates = {}
 
