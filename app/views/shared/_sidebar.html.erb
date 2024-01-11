@@ -24,6 +24,11 @@
               <div class="d-navigation">
                 <ul>
                   <% if current_user.admin? || current_user.manager? %>
+                    <li class="<%= 'active' if current_page?(sidekiq_web_path) %>">
+                      <%= link_to sidekiq_web_path, target: "_blank" do %>
+                        <i class="fas fa-network-wired"></i> Sidekiq
+                      <% end %>
+                    </li>
                     <li class="<%= 'active' if current_page?(dashboard_path) %>">
                       <%= link_to dashboard_path do %>
                         <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>

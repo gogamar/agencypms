@@ -4,7 +4,22 @@ module Api
     before_action :verify_authentication_token
 
     def handle_notification
-      HandleNotificationJob.perform_later(params)
+      notification_data = {
+        bookid: params["bookid"],
+        notification_status: params["status"],
+        w_property: params["property"],
+        w_firstname: params["firstname"],
+        w_lastname: params["lastname"],
+        w_checkin: params["checkin"].to_date,
+        w_checkout: params["checkout"].to_date,
+        w_nights: params["nights"],
+        w_adults: params["adults"],
+        w_children: params["children"],
+        w_referrer: params["referrer"],
+        w_price: params["price"]
+      }
+
+      HandleNotificationJob.perform_later(notification_data)
       head :ok
     end
 

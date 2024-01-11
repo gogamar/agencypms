@@ -111,6 +111,7 @@ gem 'cocoon'
 gem 'ferrum'
 gem 'nokogiri'
 gem 'sidekiq'
+gem "sidekiq-cron"
 
 
 # for heroku stack heroku-22

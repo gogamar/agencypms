@@ -1,3 +1,6 @@
+require "sidekiq/web"
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
   namespace :api do
     match 'webhooks', to: 'webhooks#handle_notification', via: [:get, :post]
@@ -13,11 +16,9 @@ Rails.application.routes.draw do
 
   localized do
     # Sidekiq Web UI, only for admins.
-    # require "sidekiq/web"
-    # require 'sidekiq/cron/web'
-    # authenticate :user, ->(user) { user.admin? } do
-    #   mount Sidekiq::Web => '/sidekiq'
-    # end
+    authenticate :user, ->(user) { user.admin? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
     devise_for :users, controllers: { registrations: 'users/registrations' }
     resources :users, only: [:index, :update, :destroy]
     root to: "pages#home", as: :root
@@ -193,8 +194,8 @@ Rails.application.routes.draw do
     get 'terms', to: 'pages#terms'
     get 'dashboard', to: 'vrentals#dashboard'
     get 'empty_vrentals', to: 'vrentals#empty_vrentals'
-    # get '*path' => 'application#redirect_to_homepage'
+    get '*path' => 'application#redirect_to_homepage'
   end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
-  # get '*path' => 'application#redirect_to_homepage'
+  get '*path' => 'application#redirect_to_homepage'
 end

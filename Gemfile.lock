@@ -143,6 +143,8 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     erubi (1.11.0)
+    et-orbi (1.2.7)
+      tzinfo
     execjs (2.8.1)
     ferrum (0.14)
       addressable (~> 2.5)
@@ -154,6 +156,9 @@ GEM
       sass-rails
     font-awesome-sass (6.2.0)
       sassc (~> 2.0)
+    fugit (1.9.0)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     geocoder (1.8.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -234,6 +239,7 @@ GEM
       nio4r (~> 2.0)
     pundit (2.2.0)
       activesupport (>= 3.0.0)
+    raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.4)
     rack-test (2.0.2)
@@ -302,6 +308,9 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.14.0)
+    sidekiq-cron (1.9.1)
+      fugit (~> 1.8)
+      sidekiq (>= 4.2.1)
     simple_calendar (2.4.3)
       rails (>= 3.0)
     sprockets (4.1.1)
@@ -388,6 +397,7 @@ DEPENDENCIES
   route_translator
   sassc-rails
   sidekiq
+  sidekiq-cron
   simple_calendar (~> 2.4)
   simple_form!
   sprockets-rails
