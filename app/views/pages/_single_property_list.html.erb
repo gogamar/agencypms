@@ -28,6 +28,7 @@
             <h4 class="listing-name mb-0">
               <% if user_signed_in? && current_user.admin? %>
                 <%= link_to vrental.name, edit_vrental_path(vrental) %>
+                Available to check in from
               <% else %>
                 <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) %>
               <% end %>

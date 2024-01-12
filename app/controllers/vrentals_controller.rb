@@ -255,7 +255,6 @@ class VrentalsController < ApplicationController
       @new_vrental.save
       redirect_to @new_vrental, notice: "S'ha creat una còpia de l'immoble: #{@new_vrental.name}."
     else
-      puts "this is why it failed: #{@new_vrental.errors.full_messages}"
       redirect_back(fallback_location: vrentals_path, alert: @new_vrental.errors.full_messages.to_sentence)
     end
   end
@@ -294,8 +293,8 @@ class VrentalsController < ApplicationController
   end
 
   def send_rates
-    VrentalApiService.new(@vrental).send_rates_to_beds
-    authorize @vrental
+    vrental_id = @vrental.id
+    SendRatesToBedsJob.perform_later(vrental_id)
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn enviades."
   end
 
@@ -333,7 +332,8 @@ class VrentalsController < ApplicationController
   end
 
   def update_on_beds
-    VrentalApiService.new(@vrental).update_vrental_on_beds
+    vrental_id = @vrental.id
+    UpdateVrentalOnBedsJob.perform_later(vrental_id)
     redirect_to @vrental, notice: "S'han exportat canvis a Beds."
   end
 
@@ -343,7 +343,8 @@ class VrentalsController < ApplicationController
   end
 
   def send_photos
-    VrentalApiService.new(@vrental).send_photos_to_beds
+    vrental_id = @vrental.id
+    SendPhotosToBedsJob.perform_later(vrental_id)
     redirect_to @vrental, notice: "S'han enviat les fotos a Beds."
   end
 

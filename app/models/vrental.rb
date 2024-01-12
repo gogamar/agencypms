@@ -59,8 +59,7 @@ class Vrental < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-  validates_presence_of :name, :address
-  # :property_type
+  validates_presence_of :name, :address, :property_type
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
@@ -687,7 +686,7 @@ class Vrental < ApplicationRecord
   def beds_room_type
     details = beds_details.join(", ")
     {
-      name: "#{I18n.t(property_type, locale: office.company.language)} #{name} #{details if details.present?}".strip,
+      name: "#{I18n.t(property_type, locale: office&.company&.language || 'ca')} #{name} #{details if details.present?}".strip,
       qty: 1,
       minStay: min_stay,
       maxPeople: max_guests,

@@ -1,0 +1,5 @@
+update_availability:
+  cron: "0 6 * * *"
+  class: "UpdateAvailabilityJob"
+  active_job: true
+  description: "Update availability from beds24 every morning at 6 am"

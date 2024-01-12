@@ -346,11 +346,10 @@ class VrentalApiService
       beds24rentals_prop_ids = Set.new(client.get_properties.map { |bedsrental| bedsrental["propId"] })
 
       if @target.beds_prop_id && beds24rentals_prop_ids.include?(@target.beds_prop_id)
-
         bedsrental = [
             {
               action: "modify",
-              # name: @target.name,
+              name: @target.name,
               propTypeId: Vrental::PROPERTY_TYPES.key(@target.property_type),
               address: @target.address,
               city: @target.town.present? ? @target.town.name : "",
@@ -417,6 +416,7 @@ class VrentalApiService
         @target.beds_room_id = create_property_response[0]["roomTypes"][0]["roomId"]
         @target.save!
       end
+      sleep 3
       VrentalApiService.new(@target).set_content_on_beds
     rescue => e
       puts "Error exporting property #{@target.name}: #{e.message}"
@@ -437,7 +437,7 @@ class VrentalApiService
                           "bookingExceptTypeEnd": Date.tomorrow.strftime("%Y-%m-%d"),
                           "bookingRequestStatus": "0",
                           "depositNonPayment": "1",
-                          "depositPercent1": (@target.res_fee * 100).to_s || "30",
+                          "depositPercent1": @target.res_fee.present? ? (@target.res_fee * 100).to_s : "30",
                           "depositPercent2": "100",
                           "depositFixed1": "0.00",
                           "depositFixed2": "0.00",
@@ -895,8 +895,6 @@ class VrentalApiService
 
           response = client.set_rate(@target.prop_key, merged_weekly_rate)
 
-          puts "Rate #{rate.firstnight} - this is the response: #{response}"
-
           if response.parsed_response.is_a?(Hash) && response.parsed_response['success'] == 'new rate created'
             rate.week_beds_rate_id = response.parsed_response["rateId"]
             rate.save!
@@ -1107,8 +1105,6 @@ class VrentalApiService
       }
 
       response = client.get_availabilities(options)
-
-      puts "this is the response: #{response}"
 
       if response.code != 200
         raise StandardError, "Error: HTTP request failed with status code #{response.code}"
@@ -1449,7 +1445,6 @@ class VrentalApiService
         booking_id: booking.id,
         vrental_id: booking.vrental_id
       )
-      puts "Earning created for booking #{booking.id}"
     end
   end
 

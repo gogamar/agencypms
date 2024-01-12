@@ -41,7 +41,12 @@
   </div>
   <hr>
   <div class="container mb-5">
-    <h5 class="text-center text-info mb-5">Afegir tarifa nova</h5>
+    <div class="d-flex flex-column align-items-center mb-4">
+      <h5 class="text-center text-info"><%= t('add_new_rate') %></h5>
+      <%= link_to request.original_url, class: 'text-secondary' do %>
+        <i class="fas fa-solid fa-sync me-2"></i> <%= t('refresh_page') %>
+      <% end %>
+    </div>
     <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental)%>
     <% @vrental.years_with_rates.each do |year| %>
       <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>

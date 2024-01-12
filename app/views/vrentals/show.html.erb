@@ -1,5 +1,10 @@
 <div class="card">
-  <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
+  <div class="d-flex justify-content-between">
+    <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
+    <%= link_to copy_vrental_path(@vrental) do %>
+      <i class="fa-solid fa-copy me-2"></i><%= t("copy_vrental") %>
+    <% end %>
+  </div>
   <div class="card-body row d-flex justify-content-center gap-5">
     <div class="col">
       <% if @vrental.owner.present? %>
