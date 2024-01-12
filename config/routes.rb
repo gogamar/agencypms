@@ -88,6 +88,7 @@ Rails.application.routes.draw do
         get :get_availabilities_from_beds
         get :bookings_on_calendar
         get :get_reviews_from_airbnb
+        get :toggle_featured
       end
 
       resources :availabilities, except: [:show]

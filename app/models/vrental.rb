@@ -43,6 +43,12 @@ class Vrental < ApplicationRecord
   }
   scope :with_image_urls, -> { joins(:image_urls).where.not(image_urls: { id: nil }).distinct }
 
+  scope :with_availabilities, -> {
+    joins(:availabilities)
+      .where("availabilities.date >= ?", Date.today)
+      .distinct
+  }
+
   scope :with_past_year_rates, -> {
     joins(:rates)
       .where("rates.firstnight >= ?", 1.year.ago.beginning_of_year)
@@ -830,6 +836,28 @@ class Vrental < ApplicationRecord
 
   def vrentals_same_vrgroups_images
     Vrental.joins(:image_urls).where(id: vrentals_same_vrgroups.pluck(:id)).distinct
+  end
+
+  def available_from
+    if availabilities.present?
+      first_available_date = availabilities.where("date > ?", Date.today).order(:date).first.date
+      current_date = first_available_date
+      min_stay_end = current_date + min_stay.days
+
+      while current_date <= min_stay_end
+        its_available = availabilities.find_by(date: current_date)
+
+        if its_available.present?
+          current_date += 1.day
+        else
+          first_available_date = availabilities.where("date > ?", current_date).order(:date).first.date
+          current_date = availabilities.where("date > ?", current_date).order(:date).first.date
+          min_stay_end = current_date + min_stay.days
+        end
+      end
+
+      return first_available_date
+    end
   end
 
   private

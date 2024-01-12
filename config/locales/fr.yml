@@ -838,14 +838,14 @@ fr:
   where_to_next: Où allons-nous en vacances ?
   wifi: Wifi
   with_garden: Avec jardin commun
-  with_monument_view: Avec vue sur la Sagrada Familia
+  with_monument_view: Appartements Sagrada Familia avec vue
   with_pool: Avec piscine commune
   with_private_garden: Avec jardin privé
   with_private_pool: Avec piscine privée
   with_sea_view: Avec vue sur la mer
   with_view: Avec vue
   withdraw_access: Retirer l'accès
-  without_view: Intérieurs
+  without_view: Appartements Sagrada Familia sans vue
   yearly: Annuel
   "yes": Oui
   clients_opinions: Avis des nos clients
@@ -857,3 +857,9 @@ fr:
   import_photos_from_this_property: Importer des photos de cette propriété
   import_photos_from_group: Importer des photos du groupe
   night_title: nuit
+  add_new_rate: Ajouter un nouveau tarif
+  refresh_page: Actualiser la page
+  set_featured: Définir comme en vedette
+  remove_featured: Supprimer des propriétés en vedette
+  featured: En vedette
+  available_from: Disponible à partir du %{date}

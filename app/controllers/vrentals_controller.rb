@@ -230,6 +230,11 @@ class VrentalsController < ApplicationController
     redirect_to add_photos_vrental_path(@vrental), notice: "Importació del grup acabada."
   end
 
+  def toggle_featured
+    @vrental.toggle!(:featured)
+    redirect_to vrentals_path, notice: "Immobles destacats actualitzats."
+  end
+
   def copy
     @source = Vrental.find(params[:id])
     authorize @source

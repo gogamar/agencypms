@@ -575,7 +575,7 @@ ca:
   meta_titles:
     bookings: Reserves | Sistach Rentals
     contact: Contacte | Sistach Rentals
-    home: "Lloguer d'apartaments i cases | Barcelona & Costa Brava |\_Sistach Rentals"
+    home: "Lloguer d'apartaments i cases | Barcelona & Costa Brava | Sistach Rentals"
     map: Mapa | Sistach Rentals
     property: "%{property_type} %{rental_term} a %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microones
@@ -839,14 +839,14 @@ ca:
   where_to_next: On anem de vacances?
   wifi: Wifi
   with_garden: Amb jardí comunitari
-  with_monument_view: Amb vista a la Sagrada Familia
+  with_monument_view: Apartaments Sagrada Familia amb vista
   with_pool: Amb piscina comunitària
   with_private_garden: Amb jardí privat
   with_private_pool: Amb piscina privada
   with_sea_view: Amb vista al mar
   with_view: Amb vista
   withdraw_access: Retirar accés
-  without_view: Interiors
+  without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
   "yes": Sí
   clients_opinions: Opinions dels nostres clients
@@ -860,3 +860,7 @@ ca:
   night_title: nit
   add_new_rate: Afegir tarifa nova
   refresh_page: Refrescar la pàgina
+  set_featured: Destacar
+  remove_featured: Treure destacat
+  featured: Destacat
+  available_from: Disponible des de %{date}

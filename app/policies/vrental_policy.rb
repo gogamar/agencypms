@@ -75,6 +75,10 @@ class VrentalPolicy < ApplicationPolicy
     return show?
   end
 
+  def toggle_featured?
+    return update?
+  end
+
   def get_availabilities_from_beds?
     user.admin? || user.manager?
   end

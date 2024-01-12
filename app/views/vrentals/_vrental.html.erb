@@ -8,12 +8,15 @@
           <img src="https://via.placeholder.com/1200x850" class="img-fluid" alt="" />
         <% end %>
         <% if vrental.status %>
-          <span class="label-status"><%= t("#{vrental.status}") %></span>
+          <span class="label-status label-<%= vrental.status %>"><%= t("#{vrental.status}") %></span>
+        <% end %>
+        <% if vrental.featured %>
+          <span class="label-status label-featured"><%= t("featured") %></span>
         <% end %>
       </div>
     </div>
     <div class="sd-list-right">
-      <h4 class="listing_dashboard_title"><%= link_to truncate(vrental.name, length: 50), vrental, class: "text-primary" %></h4>
+      <h4 class="listing_dashboard_title"><%= link_to truncate(vrental.name, length: 50), vrental, class: "text-primary" %> </h4>
       <div class="user_dashboard_listed">
         <%= link_to truncate(vrental.address, length: 50), vrental %>
       </div>
@@ -40,7 +43,11 @@
         <%= link_to vrental, class: "text-danger text-decoration-none",  data: { bs_toggle: "tooltip", bs_placement: "top", turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"}, title: t("delete_vrental")  do %>
           <i class="fas fa-trash-can"></i>
         <% end %>
-        <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Make Featured" class="delete"><i class="fa-solid fa-star"></i></a>
+        <% if vrental.status == "active" %>
+          <%= link_to toggle_featured_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: vrental.featured ? t('remove_featured') : t('set_featured') do %>
+            <i class="fa-solid fa-star <%= "text-warning" if vrental.featured %>"></i>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>

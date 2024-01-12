@@ -25,6 +25,9 @@
             <% if vrental.rental_term.present? && vrental.rental_term == "medium_term" && vrental.min_stay.present? %>
               <span class="label bg-light-info text-info d-inline-flex mb-1"><%= t("min_stay", min_stay: vrental.min_stay) %></span>
             <% end %>
+            <% if vrental.rental_term.present? && vrental.rental_term == "medium_term" && vrental.available_from.present? %>
+              <span class="label bg-light-seegreen text-seegreen d-inline-flex mb-1"><%= t("available_from", date: l(vrental.available_from)) %></span>
+            <% end %>
             <h4 class="listing-name mb-0">
               <% if user_signed_in? && current_user.admin? %>
                 <%= link_to vrental.name, edit_vrental_path(vrental) %>
