@@ -36,9 +36,18 @@
             <ul class="nav-dropdown nav-submenu">
               <li><a href="JavaScript:void(0);"><%= t("apartments") %><span class="submenu-indicator"></span></a>
                 <ul class="nav-dropdown nav-submenu">
-                  <li><%= link_to t("with_pool"), list_path(location: "Costa Brava", pt: ["apartment"], pf: ["pool"]) %></li>
-                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: ["apartment"], pf: ["sea_view"]) %></li>
-                  <li><%= link_to t("on_budget"), list_path(location: "Costa Brava", pt: ["apartment"], budget: true) %></li>
+                  <li><%= link_to list_path(location: "Costa Brava", pt: ["apartment"], pf: ["pool"]) do %>
+                      <i class="fa-solid fa-person-swimming me-2"></i><%= t("with_pool") %>
+                    <% end %>
+                  </li>
+                  <li><%= link_to list_path(location: "Costa Brava", pt: ["apartment"], pf: ["sea_view"]) do %>
+                      <i class="fa-solid fa-water me-2"></i><%= t("with_sea_view") %>
+                    <% end %>
+                  </li>
+                  <li><%= link_to list_path(location: "Costa Brava", pt: ["apartment"], budget: true) do %>
+                      <i class="fa-solid fa-money-bill me-2"></i><%= t("on_budget") %>
+                    <% end %>
+                  </li>
                 </ul>
               </li>
               <li><a href="javascript:void(0);"><%= t("houses") %><span class="submenu-indicator"></span></a>

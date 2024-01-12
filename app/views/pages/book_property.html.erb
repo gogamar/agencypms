@@ -22,14 +22,22 @@
         <%# Property Details Start %>
         <div class="property_block_wrap style-2 p-4">
           <div class="prt-detail-title-desc">
-            <% if @vrental.property_type.present?  %>
-              <span class="label text-light bg-success me-3"><%= t(@vrental.property_type) %></span>
-            <% end %>
+            <div class="py-3">
+              <% if @vrental.property_type.present? %>
+                <span class="label bg-light-danger text-danger d-inline-flex mb-1"><%= t(@vrental.property_type) %></span>
+              <% end %>
+              <% if @vrental.rental_term.present? && @vrental.rental_term == "medium_term" && @vrental.min_stay.present? %>
+                <span class="label bg-light-info text-info d-inline-flex mb-1"><%= t("min_stay", min_stay: @vrental.min_stay) %></span>
+              <% end %>
+              <% if @vrental.rental_term.present? && @vrental.rental_term == "medium_term" && @vrental.available_from.present? %>
+                <span class="label bg-light-seegreen text-seegreen d-inline-flex mb-1"><%= t("available_from", date: l(@vrental.available_from)) %></span>
+              <% end %>
+            </div>
             <% if @vrental.name_on_web == true %>
               <h3 class="mb-1"><%= @vrental.name %></h3>
             <% end %>
             <h3 class="mb-1"><%= @vrental.send("title_#{I18n.locale.to_s}") %></h3>
-            <span><i class="lni-map-marker"></i> <%= @vrental.town&.name %></span>
+            <span><i class="fa-solid fa-map-location-dot me-2"></i><%= @vrental.town&.name %></span>
             <div class="list-fx-features">
               <% if @vrental.max_guests %>
                 <div class="listing-card-info-icon">
