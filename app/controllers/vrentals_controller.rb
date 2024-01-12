@@ -305,12 +305,9 @@ class VrentalsController < ApplicationController
   end
 
   def get_availabilities_from_beds
-    if @vrental.future_rates.exists? || @vrental.rate_master.future_rates.exists?
-      VrentalApiService.new(@vrental).get_availabilities_from_beds_24
-      redirect_to vrental_availabilities_path(@vrental), notice: "Ja s'han importat les dates disponibles."
-    else
-      redirect_to vrental_rates_path(@vrental), notice: "Aquest immoble no té tarifes en el futur."
-    end
+    vrental_id = @vrental.id
+    GetAvailabilitesJob.perform_later(vrental_id)
+    redirect_to vrental_availabilities_path(@vrental), notice: "Ja s'han importat les dates disponibles."
   end
 
   def get_bookings

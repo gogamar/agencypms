@@ -26,9 +26,9 @@ class Company < ApplicationRecord
   end
 
   def future_available_dates
-    latest_rate = Rate.order(lastnight: :desc).first
+    latest_availability = Availability.order(date: :desc).first
     from_date = Date.today
-    to_date = latest_rate ? latest_rate.lastnight + 1.day : Date.today.next_year
+    to_date = latest_availability ? latest_availability.date : Date.today.next_year
 
     return [{ from: from_date, to: to_date }]
   end

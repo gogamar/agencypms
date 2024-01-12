@@ -215,10 +215,7 @@ class Vrental < ApplicationRecord
   end
 
   def future_available_dates
-    unavailable_dates = availabilities.where("inventory < 1").pluck(:date)
-    available_dates = future_dates_with_rates.flat_map { |range| (range[:from]..range[:to]).to_a }
-
-    (available_dates - unavailable_dates).uniq.sort
+    availabilities.where("inventory > 0").pluck(:date)
   end
 
   def initial_rate(checkin)

@@ -1038,15 +1038,11 @@ class VrentalApiService
   end
 
   def get_availabilities_from_beds_24
-    master_future_rates = @target.rate_master.present? ? @target.rate_master.future_rates : @target.future_rates
 
-    return if master_future_rates.empty?
-
-    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
     options = {
       "roomId": @target.beds_room_id,
       "from": Date.today.strftime("%Y%m%d").to_s,
-      "to": last_rate_lastnight.strftime("%Y%m%d").to_s,
+      "to": Date.today.next_year.strftime("%Y%m%d").to_s,
       "incMultiplier": 1,
       "incOverride": 1,
       "allowInventoryNegative": 1
@@ -1057,7 +1053,7 @@ class VrentalApiService
     begin
       availability_data = client.get_room_dates(@target.prop_key, options)
 
-      selected_availabilities = availability_data.select { |date, attributes| Date.parse(date.to_s) >= Date.today && (attributes["x"].present? || attributes["o"].present? || attributes["i"].to_i < 1) }
+      selected_availabilities = availability_data.select { |date, attributes| attributes["i"].to_i > 0 }
 
       selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
@@ -1079,6 +1075,7 @@ class VrentalApiService
         end
       end
       selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
+      puts "these are the availabilities that are not available on beds: #{@target.availabilities.where.not(date: selected_dates).pluck(:date)}"
       @target.availabilities.where.not(date: selected_dates).destroy_all
     rescue => e
       puts "Error importing availability data for #{@target.name}: #{e.message}"
