@@ -22,6 +22,9 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
   <body class="darkblue-skin" data-locale="<%= locale %>">
+    <div id="preloader">
+      <div class="preloader"><span></span><span></span></div>
+    </div>
     <div id="main-wrapper">
       <%= render 'shared/topbar' %>
       <%= render 'shared/booking_website_navbar' %>
