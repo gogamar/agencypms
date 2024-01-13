@@ -128,7 +128,6 @@ class Office < ApplicationRecord
 
       metadata = parsed_response.slice("checkIn", "lastNight", "checkOut", "ownerId", "numAdult")
       beds24_availabilities = parsed_response.reject { |key, _| metadata.key?(key) }
-      puts "these are the beds24_availabilities for #{name}: #{beds24_availabilities}"
 
       result = []
 

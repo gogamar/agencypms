@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
 
   connect() {
-    console.log("Hello again from StimulusJS");
+    console.log("Hello from Search Controller");
     const todayPlusAdvance = this.element.dataset.minAdvance
       ? new Date(
           new Date().setDate(
@@ -15,14 +15,19 @@ export default class extends Controller {
       : new Date();
 
     let minStart = new Date();
-    let availableDates = [];
-    if (this.element.dataset.available) {
-      availableDates = JSON.parse(this.element.dataset.available);
-      if (availableDates.length > 0) {
-        minStart = new Date(availableDates[0]);
+    let availableCheckin = [];
+    if (this.element.dataset.availableCheckin) {
+      availableCheckin = JSON.parse(this.element.dataset.availableCheckin);
+      if (availableCheckin.length > 0) {
+        minStart = new Date(availableCheckin[0]);
       } else {
         minStart = todayPlusAdvance;
       }
+    }
+
+    let noCheckout = [];
+    if (this.element.dataset.noCheckout) {
+      noCheckout = JSON.parse(this.element.dataset.noCheckout);
     }
 
     let minStay = 1;
@@ -35,25 +40,37 @@ export default class extends Controller {
 
     const checkinOptions = {
       minDate: minStart,
-      enable: availableDates,
+      enable: availableCheckin,
       onChange: (selectedDates, dateStr, instance) => {
         const selectedDate = new Date(dateStr);
         const checkoutDate = new Date(selectedDate);
-        checkoutDate.setDate(checkoutDate.getDate() + 1);
+        checkoutDate.setDate(checkoutDate.getDate() + minStay);
         this.checkoutPicker.set("minDate", checkoutDate);
         this.checkoutPicker.jumpToDate(checkoutDate);
       },
     };
     this.checkinPicker = initFlatpickr(this.checkinTarget, checkinOptions);
 
-    const minStartDate = new Date(minStart);
-    minStartDate.setDate(minStartDate.getDate() + minStay);
+    const checkIn = this.checkinTarget.value;
+    let checkOutDate;
+
+    if (checkIn) {
+      const checkInDate = new Date(checkIn);
+      checkOutDate = new Date(checkInDate);
+      checkOutDate.setDate(checkOutDate.getDate() + minStay);
+    } else {
+      checkOutDate = new Date(minStart);
+      checkOutDate.setDate(checkOutDate.getDate() + minStay);
+    }
 
     const checkoutOptions = {
-      minDate: minStartDate,
-      enable: availableDates,
+      disable: noCheckout,
+      minDate: checkOutDate,
     };
     this.checkoutPicker = initFlatpickr(this.checkoutTarget, checkoutOptions);
+    if (checkIn && this.checkoutPicker) {
+      this.checkoutPicker.jumpToDate(checkOutDate);
+    }
   }
 
   async updatePrice(event) {

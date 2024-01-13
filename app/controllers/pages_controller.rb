@@ -125,7 +125,6 @@ class PagesController < ApplicationController
     else
       rate_attributes[:error] = 'Rate not found'
     end
-    puts "rate_attributes look like this: #{rate_attributes}"
     render json: rate_attributes
   end
 

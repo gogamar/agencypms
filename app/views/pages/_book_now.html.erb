@@ -22,7 +22,7 @@
             <span class="badge bg-info"><%= t("min_stay", min_stay: @vrental.min_stay) %></span>
           </div>
         <% end %>
-        <%= form_with url: confirm_booking_path, data: { controller: 'search', available: @vrental.future_available_dates.to_json, min_advance: @vrental.min_advance, min_stay: @checkin.present? ? @vrental.initial_rate(@checkin)&.min_stay || 0 : 0  }, method: :get, 'data-turbo-cache': false do |form| %>
+        <%= form_with url: confirm_booking_path, data: { controller: 'search', available_checkin: @vrental.available_for_checkin.to_json, no_checkout: @vrental.no_checkout.to_json, min_advance: @vrental.min_advance, min_stay: @vrental.initial_rate_min_stay(@checkin) }, method: :get, 'data-turbo-cache': false do |form| %>
           <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>
           <div class="row">

@@ -220,16 +220,26 @@ class Vrental < ApplicationRecord
     bookings.where("checkout > ?", Date.today)
   end
 
-  def future_available_dates
-    availabilities.where("inventory > 0").pluck(:date)
+  def available_for_checkin
+    availabilities.where("inventory > 0").where.not(override: [2, 4]).pluck(:date)
   end
 
-  def initial_rate(checkin)
-    self.rates
-      .where("firstnight <= ? AND lastnight >= ?", checkin, checkin)
-      .order(min_stay: :asc)
-      .first
+  def no_checkout
+    availabilities.where(override: [3, 4]).pluck(:date)
   end
+
+  def initial_rate_min_stay(checkin)
+    return self.min_stay unless checkin.present?
+
+    checkin_rate = rates.find_by("firstnight <= ? AND lastnight >= ?", checkin, checkin)
+
+    if checkin_rate.present? && checkin_rate.min_stay != 0
+      return checkin_rate.min_stay
+    end
+
+    self.min_stay
+  end
+
 
   def lowest_future_price
     vrental_rate_instance = rate_master_id.present? ? Vrental.find_by(id: rate_master_id) : self
@@ -840,7 +850,7 @@ class Vrental < ApplicationRecord
 
   def available_from
     if availabilities.present?
-      first_available_date = availabilities.where("date > ?", Date.today).order(:date).first.date
+      first_available_date = availabilities.where("inventory > 0").where("date > ?", Date.today).order(:date).first.date
       current_date = first_available_date
       min_stay_end = current_date + min_stay.days
 

@@ -40,6 +40,9 @@ application.register("password-toggle", PasswordToggleController)
 import PricingController from "./pricing_controller"
 application.register("pricing", PricingController)
 
+import SearchBarController from "./search_bar_controller"
+application.register("search-bar", SearchBarController)
+
 import SearchController from "./search_controller"
 application.register("search", SearchController)
 
