@@ -38,6 +38,10 @@ export default class extends Controller {
       }
     }
 
+    const checkIn = this.checkinTarget.value;
+    const checkOut = this.checkoutTarget.value;
+    let checkOutDate;
+
     const checkinOptions = {
       minDate: minStart,
       enable: availableCheckin,
@@ -51,10 +55,10 @@ export default class extends Controller {
     };
     this.checkinPicker = initFlatpickr(this.checkinTarget, checkinOptions);
 
-    const checkIn = this.checkinTarget.value;
-    let checkOutDate;
-
-    if (checkIn) {
+    if (checkOut) {
+      checkOutDate = new Date(checkOut);
+      checkOutDate.setDate(checkOutDate);
+    } else if (checkIn && !checkOut) {
       const checkInDate = new Date(checkIn);
       checkOutDate = new Date(checkInDate);
       checkOutDate.setDate(checkOutDate.getDate() + minStay);

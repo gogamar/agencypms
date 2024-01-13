@@ -31,17 +31,7 @@
                 <label for="check_in">Check In</label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
-                  <%= form.text_field :check_in,
-                                      as: :string,
-                                      data: {
-                                        search_target: "checkin",
-                                        action: "change->search#updatePrice",
-                                        vrental_id: @vrental.id
-                                      },
-                                      class: "form-control",
-                                      placeholder: "Check-in",
-                                      value: "#{@checkin.presence}"
-                  %>
+                  <%= form.text_field :check_in, as: :string, data: { search_target: "checkin", action: "change->search#updatePrice", vrental_id: @vrental.id }, class: "form-control", placeholder: "Check-in", value: "#{@checkin.presence}" %>
                 </div>
               </div>
             </div>
@@ -50,17 +40,7 @@
                 <label for="check_out">Check Out</label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
-                  <%= form.text_field :check_out,
-                                  as: :string,
-                                  data: {
-                                    search_target: "checkout",
-                                    action: "change->search#updatePrice",
-                                    vrental_id: @vrental.id
-                                  },
-                                  class: "form-control",
-                                  placeholder: "Check-out",
-                                  value: "#{@checkout.presence}"
-                  %>
+                  <%= form.text_field :check_out, as: :string, data: { search_target: "checkout", action: "change->search#updatePrice", vrental_id: @vrental.id }, class: "form-control", placeholder: "Check-out", value: "#{@checkout.presence}"%>
                 </div>
               </div>
             </div>

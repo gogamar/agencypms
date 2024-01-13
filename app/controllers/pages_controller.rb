@@ -131,8 +131,8 @@ class PagesController < ApplicationController
   def book_property
     @vrental = Vrental.find(params[:vrental_id])
     @property_images = @vrental.image_urls.order(position: :asc)
-    @checkin = params[:check_in] || (Date.today + 14.days).strftime("%Y-%m-%d")
-    @checkout = params[:check_out] || (Date.today + 21.days).strftime("%Y-%m-%d")
+    @checkin = params[:check_in] || @vrental.default_checkin.strftime("%Y-%m-%d")
+    @checkout = params[:check_out] || @vrental.default_checkout.strftime("%Y-%m-%d")
     @guests = params[:guests] || 1
     @price = params[:price]
     @rate_price = params[:rate_price]
