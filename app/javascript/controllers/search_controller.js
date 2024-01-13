@@ -72,7 +72,8 @@ export default class extends Controller {
       minDate: checkOutDate,
     };
     this.checkoutPicker = initFlatpickr(this.checkoutTarget, checkoutOptions);
-    if (checkIn && this.checkoutPicker) {
+    if (this.checkoutPicker) {
+      this.checkoutPicker.set("minDate", checkOutDate);
       this.checkoutPicker.jumpToDate(checkOutDate);
     }
   }
