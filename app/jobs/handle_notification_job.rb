@@ -3,7 +3,7 @@ class HandleNotificationJob < ApplicationJob
 
   def perform(notification_data)
     bookid = notification_data[:bookid]
-    notification_status = notification_data[:notification_status]
+    w_status = notification_data[:w_status]
     w_property = notification_data[:w_property]
     w_firstname = notification_data[:w_firstname]
     w_lastname = notification_data[:w_lastname]
@@ -17,9 +17,11 @@ class HandleNotificationJob < ApplicationJob
 
     vrental = Vrental.find_by(beds_prop_id: w_property)
 
-    case notification_status
-    when "new"
-      new_booking = Booking.create(
+    case w_status
+    when "1", "2"
+      existing_booking = vrental.bookings.find_or_create_by(beds_booking_id: bookid)
+
+      existing_booking.update(
         status: '1',
         firstname: w_firstname,
         lastname: w_lastname,
@@ -30,25 +32,10 @@ class HandleNotificationJob < ApplicationJob
         children: w_children,
         referrer: w_referrer,
         price: w_price,
-        beds_booking_id: bookid,
         vrental_id: vrental.id
       )
       # fixme - need to create a tourist also
-    when "modify"
-      existing_booking = vrental.bookings.find_by(beds_booking_id: bookid)
-      existing_booking&.update(
-        firstname: w_firstname,
-        lastname: w_lastname,
-        checkin: w_checkin,
-        checkout: w_checkout,
-        nights: w_nights,
-        adults: w_adults,
-        children: w_children,
-        referrer: w_referrer,
-        price: w_price,
-        vrental_id: vrental.id
-      )
-    when "cancel"
+    when "0"
       existing_booking = vrental.bookings.find_by(beds_booking_id: bookid)
       existing_booking&.destroy
     end

@@ -221,7 +221,12 @@ class Vrental < ApplicationRecord
   end
 
   def future_availabilities
-    @future_availabilities ||= availabilities.where("date >= ?", Date.today).where("inventory > 0").order(:date)
+    if min_advance.present?
+      limit_date = Date.today + min_advance.hours
+    else
+      limit_date = Date.today
+    end
+    @future_availabilities ||= availabilities.where("date >= ?", limit_date).where("inventory > 0").order(:date)
   end
 
   def available_dates
@@ -921,7 +926,12 @@ class Vrental < ApplicationRecord
   end
 
   def default_checkout
-    self.default_checkin + rate_min_stay(default_checkin).days
+    rate_min = rate_min_stay(default_checkin)
+    if rate_min
+      self.default_checkin + rate_min.days
+    else
+      self.default_checkin + 1.day
+    end
   end
 
   private

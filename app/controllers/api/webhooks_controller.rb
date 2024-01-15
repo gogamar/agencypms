@@ -6,7 +6,7 @@ module Api
     def handle_notification
       notification_data = {
         bookid: params["bookid"],
-        notification_status: params["status"],
+        w_status: params["booking_status"],
         w_property: params["property"],
         w_firstname: params["firstname"],
         w_lastname: params["lastname"],
