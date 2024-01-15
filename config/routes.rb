@@ -190,7 +190,7 @@ Rails.application.routes.draw do
     get 'book_property', to: 'pages#book_property'
     get 'confirm_booking', to: 'pages#confirm_booking'
     get 'get_availability', to: 'pages#get_availability'
-    get 'get_rate_data', to: 'pages#get_rate_data'
+    get 'get_checkout_dates', to: 'pages#get_checkout_dates'
     get 'home', to: 'pages#home'
     get 'terms', to: 'pages#terms'
     get 'dashboard', to: 'vrentals#dashboard'

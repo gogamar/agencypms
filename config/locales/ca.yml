@@ -147,6 +147,7 @@ ca:
         commission: Comissió
         contract_type: Tipus de contracte
         cut_off_hour: Hora límit per reservar el mateix dia d'entrada
+        min_advance: Antelació mínima de reserva (en hores)
         description: Descripció
         description_ca: Descripció 2a part català
         description_en: Descripció 2a part anglès
@@ -864,3 +865,6 @@ ca:
   remove_featured: Treure destacat
   featured: Destacat
   available_from: Disponible des de %{date}
+  checkin: Entrada
+  checkout: Sortida
+  select_date: Selecciona data

@@ -2,87 +2,100 @@ import { Controller } from "@hotwired/stimulus";
 import { initFlatpickr } from "../plugins/flatpickr";
 
 export default class extends Controller {
-  static targets = ["checkin", "checkout", "numAdult", "vrentalId"];
+  static targets = [
+    "checkin",
+    "checkout",
+    "numAdult",
+    "vrentalId",
+    "price",
+    "ratePrice",
+    "notAvailable",
+    "bookNow",
+    "couponPrice",
+  ];
 
   connect() {
-    console.log("Hello from Search Controller");
-    const todayPlusAdvance = this.element.dataset.minAdvance
-      ? new Date(
-          new Date().setDate(
-            new Date().getDate() + parseInt(this.element.dataset.minAdvance)
-          )
-        )
-      : new Date();
+    const currentDate = new Date();
+    const oneYearFromNow = new Date();
+    oneYearFromNow.setFullYear(currentDate.getFullYear() + 1);
 
-    let minStart = new Date();
-    let availableCheckin = [];
+    const defaultEnableDates = [
+      {
+        from: currentDate,
+        to: oneYearFromNow,
+      },
+    ];
+
+    let availableCheckin = defaultEnableDates;
+
     if (this.element.dataset.availableCheckin) {
       availableCheckin = JSON.parse(this.element.dataset.availableCheckin);
-      if (availableCheckin.length > 0) {
-        minStart = new Date(availableCheckin[0]);
-      } else {
-        minStart = todayPlusAdvance;
-      }
     }
 
-    let noCheckout = [];
-    if (this.element.dataset.noCheckout) {
-      noCheckout = JSON.parse(this.element.dataset.noCheckout);
+    let availableCheckout = defaultEnableDates;
+    if (this.element.dataset.availableCheckout) {
+      availableCheckout = JSON.parse(this.element.dataset.availableCheckout);
     }
-
-    let minStay = 1;
-    if (this.element.dataset.minStay) {
-      const minStayValue = parseInt(this.element.dataset.minStay);
-      if (!isNaN(minStayValue)) {
-        minStay = minStayValue;
-      }
-    }
-
-    const checkIn = this.checkinTarget.value;
-    const checkOut = this.checkoutTarget.value;
-    let checkOutDate;
 
     const checkinOptions = {
-      minDate: minStart,
+      minDate: "today",
       enable: availableCheckin,
-      onChange: (selectedDates, dateStr, instance) => {
-        const selectedDate = new Date(dateStr);
-        const checkoutDate = new Date(selectedDate);
-        checkoutDate.setDate(checkoutDate.getDate() + minStay);
-        this.checkoutPicker.set("minDate", checkoutDate);
-        this.checkoutPicker.jumpToDate(checkoutDate);
-      },
     };
     this.checkinPicker = initFlatpickr(this.checkinTarget, checkinOptions);
 
-    if (checkOut) {
-      checkOutDate = new Date(checkOut);
-      checkOutDate.setDate(checkOutDate);
-    } else if (checkIn && !checkOut) {
-      const checkInDate = new Date(checkIn);
-      checkOutDate = new Date(checkInDate);
-      checkOutDate.setDate(checkOutDate.getDate() + minStay);
-    } else {
-      checkOutDate = new Date(minStart);
-      checkOutDate.setDate(checkOutDate.getDate() + minStay);
-    }
-
     const checkoutOptions = {
-      disable: noCheckout,
-      minDate: checkOutDate,
+      minDate: "today",
+      enable: availableCheckout,
     };
     this.checkoutPicker = initFlatpickr(this.checkoutTarget, checkoutOptions);
-    if (this.checkoutPicker) {
-      this.checkoutPicker.set("minDate", checkOutDate);
-      this.checkoutPicker.jumpToDate(checkOutDate);
-    }
   }
 
-  async updatePrice(event) {
+  async updateCheckout() {
+    const checkIn = this.checkinTarget.value;
+    const checkOut = this.checkoutTarget.value;
+    const vrentalId = this.vrentalIdTarget.value;
+
+    const params = new URLSearchParams({
+      checkIn,
+      vrentalId,
+    });
+
+    const url = `/get_checkout_dates?${params.toString()}`;
+
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const checkoutDates = await response.json();
+
+      console.log("responseData checkoutDates", checkoutDates);
+      if (checkoutDates) {
+        this.checkoutPicker.set("enable", checkoutDates);
+
+        if (!checkoutDates.includes(checkOut)) {
+          this.checkoutPicker.setDate(checkoutDates[0]);
+          this.checkoutPicker.jumpToDate(checkoutDates[0]);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    this.updatePrice();
+  }
+
+  async updatePrice() {
     const checkIn = this.checkinTarget.value;
     const checkOut = this.checkoutTarget.value;
     const numAdult = this.numAdultTarget.value;
     const vrentalId = this.vrentalIdTarget.value;
+    const priceElement = this.priceTarget;
+    const ratePriceElement = this.ratePriceTarget;
+    const notAvailableElement = this.notAvailableTarget;
+    const bookNowElement = this.bookNowTarget;
+    const couponPriceDiv = this.couponPriceTarget;
 
     const params = new URLSearchParams({
       checkIn,
@@ -101,18 +114,6 @@ export default class extends Controller {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
-      const priceElement = document.getElementById(`${vrentalId}-price`);
-      const ratePriceElement = document.getElementById(
-        `${vrentalId}-rate-price`
-      );
-      const notAvailableElement = document.getElementById(
-        `${vrentalId}-not-available`
-      );
-      const bookNowElement = document.getElementById(`${vrentalId}-book-now`);
-      const couponPriceDiv = document.getElementById(
-        `${vrentalId}-coupon-price`
-      );
 
       if (priceElement) {
         if (
@@ -151,6 +152,7 @@ export default class extends Controller {
           priceElement.classList.add("d-none");
           notAvailableElement.classList.remove("d-none");
           bookNowElement.classList.add("d-none");
+          couponPriceDiv.classList.add("d-none");
         }
       }
 
@@ -180,34 +182,6 @@ export default class extends Controller {
           }
         }
       }
-      this.updateRateData(event);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async updateRateData(event) {
-    const selectedDate = event.target.value;
-    const vrentalId = event.target.dataset.vrentalId;
-    const path = `/get_rate_data?selected_date=${selectedDate}&vrental_id=${vrentalId}`;
-
-    try {
-      const response = await fetch(path, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const responseData = await response.json();
-      console.log("this is response data", responseData);
-      const updatedMinStay = responseData.min_stay;
-      const newMinEndDate = new Date(this.checkinPicker.selectedDates[0]);
-      newMinEndDate.setDate(newMinEndDate.getDate() + parseInt(updatedMinStay));
-      this.checkoutPicker.set("minDate", newMinEndDate);
     } catch (error) {
       console.error(error);
     }

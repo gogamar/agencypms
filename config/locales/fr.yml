@@ -863,3 +863,7 @@ fr:
   remove_featured: Supprimer des propriétés en vedette
   featured: En vedette
   available_from: Disponible à partir du %{date}
+  checkin: Enregistrement
+  checkout: Départ
+  select_date: Sélectionnez une date
+  min_advance: Délai minimum de réservation (en heures)

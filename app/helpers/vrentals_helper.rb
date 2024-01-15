@@ -64,6 +64,15 @@ module VrentalsHelper
     end
   end
 
+  def min_advance_options
+    options = []
+    (0..72).each do |hour|
+      formatted_hour = "#{hour} h"
+      options << [formatted_hour, hour]
+    end
+    options
+  end
+
   def cut_off_time_options
     options = []
     (0..23).each do |hour|

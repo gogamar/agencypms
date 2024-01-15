@@ -1,14 +1,16 @@
-<div class="property-sidebar side_stiky">
+<div class="property-sidebar side_stiky" data-controller="search"
+  data-available-checkin="<%= @vrental.available_for_checkin.to_json %>"
+  data-available-checkout="<%= @vrental.available_for_checkout(@vrental.default_checkin).to_json %>">
   <div class="sider_blocks_wrap">
     <div class="side-booking-header d-flex flex-column align-items-center">
       <div class="d-flex justify-content-center align-items-center">
-        <h6 class="text-secondary text-decoration-line-through me-3 <%= 'd-none' unless @discount.to_i > 5 %>" id="<%= @vrental.id %>-rate-price"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
-        <h3 class="prt-price-fix text-primary" id="<%= @vrental.id %>-price">
+        <h6 class="text-secondary text-decoration-line-through me-3 <%= 'd-none' unless @discount.to_i > 5 %>" data-search-target="ratePrice"><%= number_to_currency(@rate_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
+        <h3 class="prt-price-fix text-primary" data-search-target="price">
           <%= number_to_currency(@price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
         </h3>
       </div>
-      <span id="<%= @vrental.id %>-not-available" class="<%= 'd-none' unless @not_available.present? %>"><%= t("not_available") %></span>
-      <div class="text-center <%= 'd-none' unless @price && @price_with_coupon %>" id="<%= @vrental.id %>-coupon-price">
+      <span data-search-target="notAvailable" class="<%= 'd-none' unless @not_available.present? %>"><%= t("not_available") %></span>
+      <div class="text-center <%= 'd-none' unless @price && @price_with_coupon %>" data-search-target="couponPrice">
         <div class="text-secondary"><%= t('price_with_coupon') %> <span class="text-success"><%= @coupon_code %></span></div>
         <h3 class="prt-price-fix text-success coupon-price-js">
           <%= number_to_currency(@price_with_coupon, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if @price_with_coupon %>
@@ -22,30 +24,30 @@
             <span class="badge bg-info"><%= t("min_stay", min_stay: @vrental.min_stay) %></span>
           </div>
         <% end %>
-        <%= form_with url: confirm_booking_path, data: { controller: 'search', available_checkin: @vrental.available_for_checkin.to_json, no_checkout: @vrental.no_checkout.to_json, min_advance: @vrental.min_advance, min_stay: @vrental.initial_rate_min_stay(@checkin) }, method: :get, 'data-turbo-cache': false do |form| %>
+        <%= form_with url: confirm_booking_path, method: :get, 'data-turbo-cache': false do |form| %>
           <%= form.hidden_field :num_adults, value: @guests, data: { search_target: "numAdult" } %>
           <%= form.hidden_field :vrental_id, value: @vrental.id, data: { search_target: "vrentalId" } %>
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
-                <label for="check_in">Check In</label>
+                <label for="check_in"><%= t('checkin') %></label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
-                  <%= form.text_field :check_in, as: :string, data: { search_target: "checkin", action: "change->search#updatePrice", vrental_id: @vrental.id }, class: "form-control", placeholder: "Check-in", value: "#{@checkin.presence}" %>
+                  <%= form.text_field :check_in, as: :string, data: { search_target: "checkin", action: "change->search#updateCheckout", vrental_id: @vrental.id }, class: "form-control", placeholder: t('select_date'), value: "#{@checkin.presence}" %>
                 </div>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
               <div class="form-group">
-                <label for="check_out">Check Out</label>
+                <label for="check_out"><%= t('checkout') %></label>
                 <div class="cld-box">
                   <i class="fa-solid fa-calendar-week"></i>
-                  <%= form.text_field :check_out, as: :string, data: { search_target: "checkout", action: "change->search#updatePrice", vrental_id: @vrental.id }, class: "form-control", placeholder: "Check-out", value: "#{@checkout.presence}"%>
+                  <%= form.text_field :check_out, as: :string, data: { search_target: "checkout", action: "change->search#updatePrice", vrental_id: @vrental.id }, class: "form-control", placeholder: t('select_date'), value: "#{@checkout.presence}"%>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-12 col-md-12 col-sm-12 <%= 'd-none' if @not_available %>" id="<%= @vrental.id %>-book-now">
+          <div class="col-lg-12 col-md-12 col-sm-12 <%= 'd-none' if @not_available %>" data-search-target="bookNow">
             <div class="stbooking-footer mt-1">
               <div class="form-group mb-0 pb-0">
                 <%= button_tag t("book_now"), class: "btn btn-primary fw-medium full-width", data: { turbo: false } %>

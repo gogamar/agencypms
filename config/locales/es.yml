@@ -863,3 +863,7 @@ es:
   remove_featured: Quitar destacado
   featured: Destacado
   available_from: Disponible desde %{date}
+  checkin: Entrada
+  checkout: Salida
+  select_date: Seleccionar fecha
+  min_advance: Antelación mínima para reservar (en horas)

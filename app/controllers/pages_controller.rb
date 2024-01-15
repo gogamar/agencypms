@@ -111,21 +111,11 @@ class PagesController < ApplicationController
     render json: response
   end
 
-  def get_rate_data
-    selected_date = params[:selected_date].to_date
-    vrental = Vrental.find(params[:vrental_id])
-    if vrental.rate_master
-      rate = vrental.rate_master.rates.find_by("firstnight <= ? AND lastnight >= ?", selected_date, selected_date)
-    else
-      rate = vrental.rates.find_by("firstnight <= ? AND lastnight >= ?", selected_date, selected_date)
-    end
-    rate_attributes = {}
-    if rate
-      rate_attributes[:min_stay] = rate.min_stay
-    else
-      rate_attributes[:error] = 'Rate not found'
-    end
-    render json: rate_attributes
+  def get_checkout_dates
+    @vrental = Vrental.find(params[:vrentalId])
+    checkin = params[:checkIn]
+    response = @vrental.available_for_checkout(checkin)
+    render json: response
   end
 
   def book_property

@@ -1113,7 +1113,6 @@ class VrentalApiService
       if parsed_response[@target.beds_room_id]["roomsavail"] != "0"
         vrental_rate_price = @target.rate_price(checkin, checkout)
         updated_price = parsed_response[@target.beds_room_id]["price"]
-
         result["ratePrice"] = vrental_rate_price.round(2) if vrental_rate_price
         result["updatedPrice"] = updated_price
         if @target.coupons.any?

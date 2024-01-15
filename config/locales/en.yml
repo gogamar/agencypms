@@ -863,3 +863,7 @@ en:
   remove_featured: Remove from featured
   featured: Featured
   available_from: Available from %{date}
+  checkin: Check-in
+  checkout: Check-out
+  select_date: Select date
+  min_advance: Minimum advance to book (in hours)
