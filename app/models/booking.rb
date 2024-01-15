@@ -8,7 +8,6 @@ class Booking < ApplicationRecord
   validates :checkin, presence: true
   validates :checkout, presence: true
   validate :checkout_is_later_than_checkin
-  validates :beds_booking_id, uniqueness: true, allow_nil: true
 
   STATUS = {
     "O" => "cancelled",
