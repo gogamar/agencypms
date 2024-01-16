@@ -391,6 +391,7 @@ class VrentalsController < ApplicationController
 
   def add_owner
     @owner = Owner.new
+    @owners = policy_scope(Owner).sort_by(&:fullname)
   end
 
   def add_booking_conditions; end

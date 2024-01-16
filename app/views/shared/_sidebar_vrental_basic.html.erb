@@ -1,0 +1,25 @@
+<li class="<%= 'active' if current_page?(vrental_owner_bookings_path(@vrental)) %>">
+  <%= link_to vrental_owner_bookings_path(@vrental) do %>
+    <i class="fa-solid fa-calendar"></i><%= t('owner_bookings') %>
+  <% end %>
+</li>
+<li class="<%= 'active' if current_page?(vrental_vragreements_path(@vrental)) %>">
+  <%= link_to vrental_vragreements_path(@vrental) do %>
+    <i class="fa-solid fa-file-signature"></i><%= t('contracts') %>
+  <% end %>
+</li>
+<li class="<%= 'active' if current_page?(vrental_statements_path(@vrental)) %>">
+  <%= link_to vrental_statements_path(@vrental) do %>
+    <i class="fa-solid fa-file-invoice-dollar"></i><%= t('statements') %>
+  <% end %>
+</li>
+<li class="<%= 'active' if current_page?(vrental_invoices_path(@vrental)) %>">
+  <%= link_to vrental_invoices_path(@vrental) do %>
+    <i class="fa-solid fa-file-invoice-dollar"></i><%= t('invoices') %>
+  <% end %>
+</li>
+<li>
+  <%= link_to book_property_path(vrental_id: @vrental.id), target: '_blank' do %>
+    <i class="fa-solid fa-eye"></i><%= t('view_on_website') %>
+  <% end %>
+</li>

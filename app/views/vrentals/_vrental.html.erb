@@ -16,37 +16,33 @@
       </div>
     </div>
     <div class="sd-list-right">
-      <h4 class="listing_dashboard_title"><%= link_to truncate(vrental.name, length: 50), vrental, class: "text-primary" %> </h4>
+      <h4 class="listing_dashboard_title">
+        <% link_to_vrental = current_user.admin? || current_user.manager? || (current_user.owner.present? && current_user.owner.access_type != 'basic') ? vrental_path(vrental) : vrental_owner_bookings_path(vrental) %>
+        <%= link_to truncate(vrental.name, length: 50), link_to_vrental, class: "text-primary" %>
+      </h4>
       <div class="user_dashboard_listed">
-        <%= link_to truncate(vrental.address, length: 50), vrental %>
+        <%= t('activerecord.attributes.vrental.address') %>: <%= link_to truncate(vrental.address, length: 50), vrental %>
       </div>
       <div class="user_dashboard_listed">
         <% if vrental.owner %>
-          <%= link_to truncate(vrental.owner.fullname, length: 50), edit_vrental_owner_path(vrental, vrental.owner), target: "_blank", class: "text-primary"  %>
-        <% else %>
+          <%= t('owner') %>: <%= link_to truncate(vrental.owner.fullname, length: 50), edit_vrental_owner_path(vrental, vrental.owner), target: "_blank", class: "text-primary"  %>
+        <% elsif current_user.admin? || current_user.manager? %>
           <%= link_to t("add_owner"), edit_vrental_path(vrental, anchor: "owner-details"), target: "_blank" %>
         <% end %>
       </div>
-      <div class="user_dashboard_listed">
-        <%= add_vragreement_links(vrental) %>
-      </div>
+      <% if current_user.admin? || current_user.manager? %>
+        <div class="user_dashboard_listed">
+          <%= add_vragreement_links(vrental) %>
+        </div>
+      <% end %>
       <div class="action">
-        <%= link_to book_property_path(vrental_id: vrental.id), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
+        <% if current_user.admin? || current_user.manager? %>
+          <%= render 'admin_links', vrental: vrental %>
+        <% elsif current_user.owner? %>
+          <%= render 'owner_links', vrental: vrental %>
+        <% end %>
+        <%= link_to book_property_path(vrental_id: vrental.id), target: "_blank", data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
           <i class="fa-solid fa-eye"></i>
-        <% end %>
-        <%= link_to edit_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("edit_vrental") do %>
-          <i class="fa-solid fa-pen-to-square"></i>
-        <% end %>
-        <%= link_to copy_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("copy_vrental") do %>
-          <i class="fa-solid fa-copy"></i>
-        <% end %>
-        <%= link_to vrental, class: "text-danger text-decoration-none",  data: { bs_toggle: "tooltip", bs_placement: "top", turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"}, title: t("delete_vrental")  do %>
-          <i class="fas fa-trash-can"></i>
-        <% end %>
-        <% if vrental.status == "active" %>
-          <%= link_to toggle_featured_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: vrental.featured ? t('remove_featured') : t('set_featured') do %>
-            <i class="fa-solid fa-star <%= "text-warning" if vrental.featured %>"></i>
-          <% end %>
         <% end %>
       </div>
     </div>

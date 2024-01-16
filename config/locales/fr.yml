@@ -867,3 +867,12 @@ fr:
   checkout: Départ
   select_date: Sélectionnez une date
   min_advance: Délai minimum de réservation (en heures)
+  booking_amount: Montant de la réservation
+  retail_price: Prix de vente
+  select_owner: Sélectionnez le propriétaire
+  there_are_no_contracts: Il n'y a pas de contrats pour cette propriété.
+  there_are_no_invoices: Il n'y a pas de factures pour cette propriété.
+  there_are_no_statements: Il n'y a pas d'états des lieux pour cette propriété.
+  contract: Contrat
+  invoice_date: Date de la facture
+  invoice_amount: Montant de la facture

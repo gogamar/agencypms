@@ -867,3 +867,12 @@ en:
   checkout: Check-out
   select_date: Select date
   min_advance: Minimum advance to book (in hours)
+  booking_amount: Booking amount
+  retail_price: Retail price
+  select_owner: Select owner
+  there_are_no_contracts: There are no contracts for this property.
+  there_are_no_invoices: There are no invoices for this property.
+  there_are_no_statements: There are no statements for this property.
+  contract: Contract
+  invoice_date: Invoice date
+  invoice_amount: Invoice amount

@@ -17,6 +17,7 @@
 <div class="alert position-relative alert-info" role="alert">
   <%= t('add_owner_booking_explanation') %>
 </div>
+<div id="latest-date-js" data-latest-booking-date="<%= @latest_owner_booking.checkin if @latest_owner_booking %>"></div>
 <div id="calendar" data-bookings-on-calendar-path="<%= bookings_on_calendar_vrental_path(@vrental) %>"></div>
 <div class="modal fade" id="editOwnerBooking" tabindex="-1" aria-labelledby="editOwnerBookingLabel" aria-hidden="true">
   <div class="modal-dialog">

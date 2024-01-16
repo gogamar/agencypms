@@ -57,6 +57,10 @@ class User < ApplicationRecord
     approved? ? super : :not_approved
   end
 
+  def owner?
+    owner.present?
+  end
+
   private
 
   def send_admin_mail

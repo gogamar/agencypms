@@ -1,0 +1,5 @@
+<li class="<%= 'active' if current_page?(new_owner_path) %>">
+  <%= link_to new_owner_path do %>
+    <i class="fa-solid fa-house-user"></i><%= t("add_owner") %>
+  <% end %>
+</li>

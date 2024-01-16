@@ -1,0 +1,20 @@
+<li class="<%= 'active' if current_page?(vrental_availabilities_path(@vrental)) %>">
+  <%= link_to vrental_availabilities_path(@vrental) do %>
+    <i class="fa-solid fa-calendar"></i><%= t('availability') %>
+  <% end %>
+</li>
+<li class="<%= 'active' if current_page?(vrental_bookings_path(@vrental)) %>">
+  <%= link_to vrental_bookings_path(@vrental) do %>
+    <i class="fa-solid fa-calendar-check"></i><%= t('bookings') %>
+  <% end %>
+</li>
+<li class="<%= 'active' if current_page?(vrental_earnings_path(@vrental)) %>">
+  <%= link_to vrental_earnings_path(@vrental) do %>
+    <i class="fa-solid fa-arrow-trend-up"></i><%= current_user.admin? || current_user.manager? ? t('earnings') : t('bookings') %>
+  <% end %>
+</li>
+<li class="<%= 'active' if current_page?(vrental_expenses_path(@vrental)) %>">
+  <%= link_to vrental_expenses_path(@vrental) do %>
+    <i class="fa-solid fa-arrow-trend-down"></i><%= t('expenses') %>
+  <% end %>
+</li>

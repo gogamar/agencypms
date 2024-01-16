@@ -1,0 +1,28 @@
+<% if current_user.owner.present? %>
+  <li class="<%= 'active' if current_page?(owner_path(current_user.owner)) %>">
+    <%= link_to owner_path(current_user.owner) do %>
+      <i class="fa-solid fa-house-user"></i><%= t("owner") %>
+    <% end %>
+  </li>
+  <% if current_user.owner.vrentals.any?  %>
+    <li class="<%= 'active' if current_page?(vrentals_path) %>">
+      <%= link_to vrentals_path do %>
+        <i class="fa-solid fa-house-circle-check"></i><%= t("vrentals") %>
+      <% end %>
+    </li>
+    <% if current_user.owner.vrentals.any? { |vrental| vrental.vragreements.any? } %>
+      <li class="<%= 'active' if current_page?(vragreements_path) %>">
+        <%= link_to vragreements_path do %>
+          <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
+        <% end %>
+      </li>
+    <% end %>
+  <% end %>
+  <% if current_user.owner.access_type && current_user.owner.access_type != "basic" %>
+    <li class="<%= 'active' if current_page?(new_vrental_path) %>">
+      <%= link_to new_vrental_path do %>
+        <i class="fa-solid fa-house-circle-check"></i><%= t("add_property") %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>

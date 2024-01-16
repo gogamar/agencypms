@@ -867,3 +867,12 @@ es:
   checkout: Salida
   select_date: Seleccionar fecha
   min_advance: Antelación mínima para reservar (en horas)
+  booking_amount: Importe de la reserva
+  retail_price: Precio de venta
+  select_owner: Seleccionar propietario
+  there_are_no_contracts: Esta propiedad todavía no tiene ningún contrato.
+  there_are_no_invoices: Esta propiedad todavía no tiene ninguna factura.
+  there_are_no_statements: Esta propiedad todavía no tiene ninguna liquidación.
+  contract: Contrato
+  invoice_date: Fecha de la factura
+  invoice_amount: Importe de la factura

@@ -868,3 +868,12 @@ ca:
   checkin: Entrada
   checkout: Sortida
   select_date: Selecciona data
+  booking_amount: Import reserva
+  retail_price: Preu de venda
+  select_owner: Selecciona propietari
+  there_are_no_contracts: Aquesta propietat encara no té cap contracte.
+  there_are_no_invoices: Aquesta propietat encara no té cap factura.
+  there_are_no_statements: Aquesta propietat encara no té cap liquidació.
+  contract: Contracte
+  invoice_date: Data factura
+  invoice_amount: Import factura

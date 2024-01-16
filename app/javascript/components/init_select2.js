@@ -95,17 +95,8 @@ const initSelect2 = () => {
       }
     });
 
-  $("#select_owner-select2").select2({
-    placeholder: "Seleccionar propietari",
-    allowClear: true,
-  });
-
   function updateOwner(selectedOwnerId) {
-    const pathSegments = window.location.pathname;
-    const lastSlashIndex = pathSegments.lastIndexOf("/");
-    const path = pathSegments.slice(0, lastSlashIndex);
-
-    // Make an AJAX call to update the vrental's owner_id
+    const path = document.getElementById("owners").dataset.path;
     fetch(path, {
       method: "PATCH",
       headers: {
@@ -123,27 +114,47 @@ const initSelect2 = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        if (data.owner_id === null) {
+          showAddButton();
+        }
       })
       .catch((error) => {
         console.error("There was an error updating the vrental:", error);
       });
   }
 
-  $("#edit_owner-select2")
+  function hideButtons() {
+    const editOwnerButton = document.querySelector(".edit_owner-js");
+    const addOwnerButton = document.querySelector(".add_owner-js");
+    if (!addOwnerButton.classList.contains("d-none")) {
+      addOwnerButton.classList.add("d-none");
+    }
+    if (!editOwnerButton.classList.contains("d-none")) {
+      editOwnerButton.classList.add("d-none");
+    }
+  }
+
+  function showAddButton() {
+    const addOwnerButton = document.querySelector(".add_owner-js");
+    if (addOwnerButton.classList.contains("d-none")) {
+      addOwnerButton.classList.remove("d-none");
+    }
+  }
+
+  $("#owners")
     .select2({
-      placeholder: $("#edit_owner-select2").data("placeholder"),
+      placeholder: $("#owners").data("placeholder"),
       allowClear: true,
+      debug: true,
     })
     .on("select2:select", function (e) {
-      const editOwnerBox = document.querySelector(".edit_owner-js");
-
-      editOwnerBox.classList.add("d-none");
+      hideButtons();
       const selectedOwnerId = e.params.data.id;
       updateOwner(selectedOwnerId);
     })
     .on("select2:unselect", function (e) {
-      // This function will be triggered when an item is unselected.
-      document.querySelector(".edit_owner-js").classList.add("d-none");
+      hideButtons();
+      $("#owners").val(null).trigger("change");
       updateOwner(null);
     });
 };

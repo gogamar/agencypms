@@ -1,0 +1,12 @@
+<%= link_to vrental_owner_bookings_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("owner_bookings") do %>
+  <i class="fa-solid fa-calendar"></i>
+<% end %>
+<%= link_to vrental_vragreements_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("contracts") do %>
+  <i class="fa-solid fa-file-signature"></i>
+<% end %>
+<%= link_to vrental_statements_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("statements") do %>
+  <i class="fa-solid fa-file-pdf"></i>
+<% end %>
+<%= link_to vrental_invoices_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("invoices") do %>
+  <i class="fa-solid fa-file-invoice"></i>
+<% end %>

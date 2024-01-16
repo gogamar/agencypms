@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_12_103303) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -291,6 +291,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_12_103303) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "office_id"
+    t.string "access_type", default: "basic"
     t.index ["office_id"], name: "index_owners_on_office_id"
     t.index ["user_id"], name: "index_owners_on_user_id"
   end

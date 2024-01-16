@@ -1,4 +1,4 @@
-<% if current_user.admin? || current_user.manager? %>
+<% if current_user.admin? %>
   <%= render 'shared/get_bookings' %>
   <div class="d-flex justify-content-end">
     <%= form_with url: prevent_gaps_vrental_path(@vrental), method: 'get', class: "d-flex justify-content-around gap-2" do |form| %>
@@ -14,17 +14,7 @@
 <% end %>
 <h4 class="text-center"><%= t('bookings') %></h4>
 <% if @bookings.present? %>
-  <div id="earnings" class="container mt-5">
-    <hr>
-    <div class="row">
-      <div class="col-lg-2 fw-bold nowrap"><%= t('client_details') %></div>
-      <div class="col-lg-2 fw-bold nowrap"><%= t('check_in') %></div>
-      <div class="col-lg-2 fw-bold nowrap"><%= t('check_out') %></div>
-      <div class="col-lg-2 fw-bold nowrap"><%= t('booking_price') %></div>
-      <div class="col-lg-2 fw-bold nowrap"><%= t('others') %></div>
-      <div class="col-lg-2 fw-bold nowrap"></div>
-    </div>
-    <hr>
+  <div id="bookings" class="container mt-5">
     <%= render @bookings %>
   </div>
 <% end %>

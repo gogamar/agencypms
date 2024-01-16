@@ -1,0 +1,8 @@
+<% if current_user.admin? || current_user.manager? %>
+  <%= render 'shared/sidebar_vrental_basic' %>
+  <%= render 'shared/sidebar_vrental_intermediate' %>
+  <%= render 'shared/sidebar_vrental_advanced' %>
+  <%= render 'shared/sidebar_vrental_admin' %>
+<% elsif current_user.owner&.access_type %>
+  <%= render "shared/sidebar_vrental_#{current_user.owner.access_type}" %>
+<% end %>

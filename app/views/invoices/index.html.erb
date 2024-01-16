@@ -1,29 +1,33 @@
-<h4 class="font-weight-bold text-primary text-center py-2">Factures</h4>
-<% if @invoices.present? %>
-  <% if current_user.admin? %>
-    <%= t('total') %>: <%= number_to_currency(@total_agency_fees_invoiced, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
-    <% unless @vrental.present? %>
-      <div class="container d-flex justify-content-end">
-        <%= link_to 'Baixar factures en excel', download_all_invoices_path, class: 'btn btn-primary' %>
-      </div>
+<div class="container">
+  <h4 class="font-weight-bold text-primary text-start py-2"><%= t('invoices') %></h4>
+  <hr>
+  <% if @invoices.present? %>
+    <% if current_user.admin? %>
+      <%= t('total') %>: <%= number_to_currency(@total_agency_fees_invoiced, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+      <% unless @vrental.present? %>
+        <div class="container d-flex justify-content-end">
+          <%= link_to 'Baixar factures en excel', download_all_invoices_path, class: 'btn btn-primary' %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
-  <div class="container">
     <% @invoices.each do |invoice| %>
-      <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-        <div><%= invoice.invoice_number_formatted %></div>
-        <div><%= l(invoice.date) %></div>
-        <div><%= link_to invoice.vrental.name, invoice.vrental %></div>
+      <div class="d-flex flex-column flex-md-row justify-content-between mb-3 align-items-end">
+        <div>
+          <span class="text-sm"><%= t('invoice_date') %>: <%= l(invoice.date) %></span>
+        </div>
+        <div class="text-sm"><%= t('invoice_amount') %>: <%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
+        <div>
+          <%= link_to "#{t('invoice')}: #{invoice.invoice_number_formatted}", vrental_invoice_path(invoice, invoice.vrental), class: "btn btn-sm btn-light-info" %>
+        </div>
         <div>
           <% if invoice.statements %>
             <div class="d-flex flex-column">
               <% invoice.statements.each do |statement| %>
-                <small><%= link_to "Liquidació #{l(statement.start_date)} - #{l(statement.end_date)}", vrental_statement_path(invoice.vrental, statement) %></small>
+                <%= link_to "#{t('statement')}: #{l(statement.start_date)} - #{l(statement.end_date)}", vrental_statement_path(invoice.vrental, statement), class: "btn btn-sm btn-light-info" %>
               <% end %>
             </div>
           <% end %>
         </div>
-        <div class="text-md-end"><%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
         <% if current_user.admin? || current_user.manager? %>
           <div>
             <%= link_to edit_vrental_invoice_path(invoice.vrental, invoice), class: "text-secondary text-decoration-none" do %>
@@ -39,5 +43,6 @@
       </div>
     <% end %>
   <% else %>
-    <p class="text-center"><%= t('no_invoices') %></p>
+    <%= t('there_are_no_invoices') %>
   <% end %>
+</div>

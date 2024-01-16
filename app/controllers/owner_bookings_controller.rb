@@ -3,8 +3,10 @@ class OwnerBookingsController < ApplicationController
   before_action :set_owner_booking, only: %i[edit update show_form]
 
   def index
-    @owner_bookings = policy_scope(OwnerBooking).where.not(status: "0").where(vrental_id: @vrental.id).order(checkin: :asc)
+    owner_bookings = policy_scope(OwnerBooking).where.not(status: "0").where(vrental_id: @vrental.id)
+    @owner_bookings = owner_bookings.order(checkin: :asc)
     @availabilities = @vrental.availabilities.to_a.group_by(&:date)
+    @latest_owner_booking = owner_bookings.order(updated_at: :desc).first if owner_bookings.any?
     @pagy, @owner_bookings = pagy(@owner_bookings, page: params[:page], items: 10)
   end
 

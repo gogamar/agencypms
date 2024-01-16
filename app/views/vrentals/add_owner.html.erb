@@ -6,42 +6,46 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_owner' %>
   <div class="p-3 mt-3 border border-secondary rounded-4" id="owner-details">
-    <h6><%= current_user.admin? || current_user.manager? ? t("select_or_add") : t("owner") %></h6>
     <div class="row g-3">
       <% if current_user.admin? || current_user.manager? %>
         <div class="col">
-          <%= f.association :owner, label_method: :fullname, label: false, class: "form-control", input_html: { id: "edit_owner-select2" } %>
-        </div>
-      <% end %>
-      <div class="col">
-        <button type="button" class="edit_owner-js mb-2 btn btn-secondary w-100 <%= 'd-none' unless @vrental.owner %>" data-bs-toggle="modal" data-bs-target="#editModalOwner">
-          <small><%= t('edit') %> <%= @vrental.owner.fullname if @vrental.owner %></small>
-        </button>
-        <% if current_user.admin? || current_user.manager? %>
-          <button type="button" class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#newModalOwner">
-            <small><%= t('add_owner') %></small>
-          </button>
+          <select name="owners" id="owners" data-placeholder="<%= t('select_owner').capitalize %>" data-path="<%= vrental_path(@vrental) %>" required>
+            <option value="">&nbsp;</option>
+            <% @owners.each do |owner| %>
+              <option value="<%= owner.id %>" <%= 'selected' if owner.id == @vrental.owner_id %>><%= owner.fullname %></option>
+              <% end %>
+            </select>
+          </div>
         <% end %>
+        <div class="col">
+          <button type="button" class="edit_owner-js mb-2 btn btn-secondary w-100 <%= 'd-none' unless @vrental.owner %>" data-bs-toggle="modal" data-bs-target="#editModalOwner">
+            <small><%= t('edit') %> <%= @vrental.owner.fullname if @vrental.owner %></small>
+          </button>
+          <% if (current_user.admin? || current_user.manager?) %>
+            <button type="button" class="add_owner-js btn btn-secondary w-100 <%= 'd-none' if @vrental.owner %>" data-bs-toggle="modal" data-bs-target="#newModalOwner">
+              <small><%= t('add_owner') %></small>
+            </button>
+          <% end %>
+        </div>
       </div>
     </div>
-  </div>
-  <%= f.input :contract_type, collection: Vrental::CONTRACT_TYPES.map { |contract_type| [t(contract_type), contract_type] }, input_html: { "data-update-field-target" => "contractType", "data-action": "change->update-field#toggleFields", value: f.object.contract_type } %>
-  <div <%= 'class=d-none' if f.object.contract_type != "commission" %> data-update-field-target="commissionField">
-    <% if current_user.admin? || current_user.manager? %>
-      <%= f.input :commission, as: :string %>
-    <% else %>
-      <%= f.hidden_field :commission, value: 0.25 %>
-      <%= t("default_commission_info") %>
-    <% end %>
-  </div>
-  <div <%= 'class=d-none' if f.object.contract_type != "fixed_price" %>  data-update-field-target="fixedPriceFields">
-    <%= f.input :fixed_price_amount, as: :string  %>
-    <%= f.input :fixed_price_frequency, collection: Vrental::FIXED_PRICE_FREQUENCIES.map { |frequency| [t(frequency), frequency] } %>
-  </div>
-  <div class="form-actions text-end mb-5">
-    <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
-    <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
-  </div>
-<% end %>
-<%= render "new_owner_modal" %>
-<%= render "edit_owner_modal" if @vrental.owner %>
+    <%= f.input :contract_type, collection: Vrental::CONTRACT_TYPES.map { |contract_type| [t(contract_type), contract_type] }, input_html: { "data-update-field-target" => "contractType", "data-action": "change->update-field#toggleFields", value: f.object.contract_type } %>
+    <div <%= 'class=d-none' if f.object.contract_type != "commission" %> data-update-field-target="commissionField">
+      <% if current_user.admin? || current_user.manager? %>
+        <%= f.input :commission, as: :string %>
+      <% else %>
+        <%= f.hidden_field :commission, value: 0.25 %>
+        <%= t("default_commission_info") %>
+      <% end %>
+    </div>
+    <div <%= 'class=d-none' if f.object.contract_type != "fixed_price" %>  data-update-field-target="fixedPriceFields">
+      <%= f.input :fixed_price_amount, as: :string  %>
+      <%= f.input :fixed_price_frequency, collection: Vrental::FIXED_PRICE_FREQUENCIES.map { |frequency| [t(frequency), frequency] } %>
+    </div>
+    <div class="form-actions text-end mb-5">
+      <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
+      <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
+    </div>
+  <% end %>
+  <%= render "new_owner_modal" %>
+  <%= render "edit_owner_modal" if @vrental.owner %>

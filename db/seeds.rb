@@ -1,6 +1,6 @@
-all_vrentals = Vrental.all
-barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
-barcelona_vrentals = barcelona_office.vrentals
+# all_vrentals = Vrental.all
+# barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
+# barcelona_vrentals = barcelona_office.vrentals
 # estartit_vrentals = Office.where("name ILIKE ?", "%estartit%").first.vrentals
 
 # barcelona_tourist_apts = barcelona_vrentals.where(rental_term: "short_term")
@@ -205,7 +205,7 @@ barcelona_vrentals = barcelona_office.vrentals
 # end
 
 # all_vrentals.update_all(featured: false)
-barcelona_vrentals.each do |vrental|
-  VrentalApiService.new(vrental).get_bookings_from_beds(Date.today)
-  puts "Got bookings for #{vrental.name}"
-end
+# barcelona_vrentals.each do |vrental|
+#   VrentalApiService.new(vrental).get_bookings_from_beds(Date.today)
+#   puts "Got bookings for #{vrental.name}"
+# end

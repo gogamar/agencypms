@@ -2,8 +2,10 @@
   <div class="d-flex justify-content-between gap-3">
     <div>
       <%= link_to t('edit'), edit_owner_path(@owner), class: "btn btn-sm btn-secondary" %>
-      <%= link_to t('grant_access'), grant_access_owner_path(@owner), class: "btn btn-sm btn-success" %>
-      <%= link_to t('delete'), @owner, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@owner.fullname}?"} %>
+      <% if current_user.admin? || current_user.manager? %>
+        <%= link_to t('grant_access'), grant_access_owner_path(@owner), class: "btn btn-sm btn-success" %>
+        <%= link_to t('delete'), @owner, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@owner.fullname}?"} %>
+      <% end %>
     </div>
   </div>
   <div>
