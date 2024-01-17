@@ -1,7 +1,7 @@
 module Api
   class WebhooksController < ApplicationController
     skip_before_action :authenticate_user!
-    before_action :verify_authentication_token
+    # before_action :verify_authentication_token
 
     def handle_notification
       notification_data = {
@@ -11,7 +11,9 @@ module Api
         w_checkout: params["checkout"].to_date,
         w_firstname: params["firstname"],
         w_lastname: params["lastname"],
-        w_guests: params["guests"],
+        w_adults: params["adults"],
+        w_children: params["children"],
+        w_referrer: params["referrer"],
         w_price: params["price"],
         w_status: params["booking_status"]
       }

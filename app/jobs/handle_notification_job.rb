@@ -9,14 +9,19 @@ class HandleNotificationJob < ApplicationJob
     w_lastname = notification_data[:w_lastname]
     w_checkin = notification_data[:w_checkin]
     w_checkout = notification_data[:w_checkout]
-    w_guests = notification_data[:w_guests]
+    w_adults = notification_data[:w_adults]
+    w_children = notification_data[:w_children]
+    w_referrer = notification_data[:w_referrer]
     w_price = notification_data[:w_price]
 
     vrental = Vrental.find_by(beds_prop_id: w_property)
 
-    case w_status
-    when "1", "2"
+    if w_status == "Cancelled" || w_status == "Cancelado"
+      existing_booking = vrental.bookings.find_by(beds_booking_id: bookid)
+      existing_booking&.destroy
+    else
       existing_booking = vrental.bookings.find_or_create_by(beds_booking_id: bookid)
+      num_nights = (w_checkout - w_checkin).to_i
 
       existing_booking.update(
         status: '1',
@@ -24,15 +29,14 @@ class HandleNotificationJob < ApplicationJob
         lastname: w_lastname,
         checkin: w_checkin,
         checkout: w_checkout,
-        nights: w_nights,
-        adults: w_guests,
+        nights: num_nights,
+        adults: w_adults,
+        children: w_children,
+        referrer: w_referrer,
         price: w_price,
         vrental_id: vrental.id
       )
       # fixme - need to create a tourist also
-    when "0"
-      existing_booking = vrental.bookings.find_by(beds_booking_id: bookid)
-      existing_booking&.destroy
     end
 
     if vrental.vrgroups.present?
