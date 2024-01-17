@@ -1194,8 +1194,11 @@ class VrentalApiService
 
     last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
 
-    checkout_date = @target.availabilities.where("inventory < 1").order(date: :desc).first.date + 1.day
+    checkout_date = @target.available_from
+    return if checkout_date.nil?
     no_check_in_from = checkout_date + days_after_checkout.days
+
+    puts "no check in from #{no_check_in_from}"
 
     dates = {}
 
