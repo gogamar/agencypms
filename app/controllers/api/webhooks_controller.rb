@@ -6,17 +6,14 @@ module Api
     def handle_notification
       notification_data = {
         bookid: params["bookid"],
-        w_status: params["booking_status"],
         w_property: params["property"],
-        w_firstname: params["firstname"],
-        w_lastname: params["lastname"],
         w_checkin: params["checkin"].to_date,
         w_checkout: params["checkout"].to_date,
-        w_nights: params["nights"],
-        w_adults: params["adults"],
-        w_children: params["children"],
-        w_referrer: params["referrer"],
-        w_price: params["price"]
+        w_firstname: params["firstname"],
+        w_lastname: params["lastname"],
+        w_guests: params["guests"],
+        w_price: params["price"],
+        w_status: params["booking_status"]
       }
 
       HandleNotificationJob.perform_later(notification_data)

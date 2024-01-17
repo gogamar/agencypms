@@ -9,10 +9,7 @@ class HandleNotificationJob < ApplicationJob
     w_lastname = notification_data[:w_lastname]
     w_checkin = notification_data[:w_checkin]
     w_checkout = notification_data[:w_checkout]
-    w_nights = notification_data[:w_nights]
-    w_adults = notification_data[:w_adults]
-    w_children = notification_data[:w_children]
-    w_referrer = notification_data[:w_referrer]
+    w_guests = notification_data[:w_guests]
     w_price = notification_data[:w_price]
 
     vrental = Vrental.find_by(beds_prop_id: w_property)
@@ -28,9 +25,7 @@ class HandleNotificationJob < ApplicationJob
         checkin: w_checkin,
         checkout: w_checkout,
         nights: w_nights,
-        adults: w_adults,
-        children: w_children,
-        referrer: w_referrer,
+        adults: w_guests,
         price: w_price,
         vrental_id: vrental.id
       )
