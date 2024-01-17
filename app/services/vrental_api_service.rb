@@ -1038,7 +1038,6 @@ class VrentalApiService
   end
 
   def get_availabilities_from_beds_24
-
     options = {
       "roomId": @target.beds_room_id,
       "from": Date.today.strftime("%Y%m%d").to_s,
@@ -1075,7 +1074,6 @@ class VrentalApiService
         end
       end
       selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
-      puts "these are the availabilities that are not available on beds: #{@target.availabilities.where.not(date: selected_dates).pluck(:date)}"
       @target.availabilities.where.not(date: selected_dates).destroy_all
     rescue => e
       puts "Error importing availability data for #{@target.name}: #{e.message}"
@@ -1197,8 +1195,6 @@ class VrentalApiService
     checkout_date = @target.available_from
     return if checkout_date.nil?
     no_check_in_from = checkout_date + days_after_checkout.days
-
-    puts "no check in from #{no_check_in_from}"
 
     dates = {}
 

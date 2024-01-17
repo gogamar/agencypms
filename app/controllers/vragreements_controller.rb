@@ -80,7 +80,7 @@ class VragreementsController < ApplicationController
     @years_possible_contract = @vrental.years_possible_contract
 
     @year = params[:year].to_i
-    @rates = @vrental.rates.where("extract(year from firstnight) = ?", @year).order(:firstnight)
+    @rates = @vrental.future_rates.where("extract(year from firstnight) = ?", @year).order(:firstnight)
     @contract_start_date = @rates.first.firstnight if @rates.present?
     @contract_end_date = @rates.last.lastnight if @rates.present?
     @place = @vrental.office.city if @vrental.office
@@ -195,6 +195,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
+    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :signature, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
   end
 end
