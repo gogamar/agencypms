@@ -13,6 +13,7 @@ import { initMagnificPopUp } from "./components/init_magnificPopUp";
 import { initSelect2 } from "./components/init_select2";
 import { initFlatpickr } from "./plugins/flatpickr";
 import { initFullCalendar } from "./plugins/full_calendar";
+import SignaturePad from "signature_pad";
 
 window.Rails = Rails;
 
@@ -25,6 +26,10 @@ document.addEventListener("turbo:load", function () {
   datepickers.forEach((datepicker) => {
     initFlatpickr(datepicker);
   });
+  const canvas = document.querySelector("#signature-pad");
+  if (canvas) {
+    const signaturePad = new SignaturePad(canvas);
+  }
 });
 
 document.addEventListener("turbo:frame-load", function () {

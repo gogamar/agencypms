@@ -6,6 +6,7 @@ class Vragreement < ApplicationRecord
   validates :year, uniqueness: { scope: :vrental_id }
   validates :vrentaltemplate_id, presence: true
   has_many_attached :photos
+  has_one_attached :signature
 
   def vrental_description
     case vrentaltemplate.language

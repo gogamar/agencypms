@@ -10,14 +10,14 @@ import { initFlatpickr } from "./flatpickr";
 export function initFullCalendar() {
   const calendarEl = document.getElementById("calendar");
   const currentLocale = document.body.getAttribute("data-locale");
-  const latestBookingDate =
-    document.getElementById("latest-date-js").dataset.latestBookingDate;
-  let latestDate = new Date();
-  if (latestBookingDate) {
-    latestDate = new Date(latestBookingDate);
-  }
 
   if (calendarEl) {
+    const latestBookingDate =
+      document.getElementById("latest-date-js").dataset.latestBookingDate;
+    let latestDate = new Date();
+    if (latestBookingDate) {
+      latestDate = new Date(latestBookingDate);
+    }
     const bookingsOnCalendarPath = calendarEl.dataset.bookingsOnCalendarPath;
     const calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin, interactionPlugin],

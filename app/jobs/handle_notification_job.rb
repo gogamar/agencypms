@@ -53,6 +53,11 @@ class HandleNotificationJob < ApplicationJob
     vrgroup_prevent_gaps = vrental.vrgroups.where.not(gap_days: nil).first
     if vrgroup_prevent_gaps.present?
       VrentalApiService.new(vrental).prevent_gaps_on_beds(vrgroup_prevent_gaps.gap_days)
+      virtual_vrentals = vrgroup_prevent_gaps.vrentals.where('unit_number > ?', 1)
+      virtual_vrentals.each do |virtual_vrental|
+        VrentalApiService.new(virtual_vrental).prevent_gaps_on_beds(vrgroup_prevent_gaps.gap_days)
+      end
     end
+    # fixme: it would be better to have an attribute "virtual" or similar
   end
 end
