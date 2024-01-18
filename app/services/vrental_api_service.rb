@@ -1054,6 +1054,8 @@ class VrentalApiService
 
       selected_availabilities = availability_data.select { |date, attributes| attributes["i"].to_i > 0 }
 
+      puts "selected_availabilities: #{selected_availabilities}"
+
       selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
         existing_availability = @target.availabilities.find_by(date: formatted_date)

@@ -1,6 +1,6 @@
 <h4 class="text-center mb-5"><%= t("vacation_rental_properties")  %></h4>
-<% if @vrentals && @vrentals.count > 3 %>
-  <div class="d-flex justify-content-md-between justify-content-lg-start align-items-center mbminus30 gap-2">
+<% if @vrentals %>
+  <div class="d-flex justify-content-md-between justify-content-lg-start align-items-center mbminus30 gap-2<%= ' d-none' if @vrentals.count < 3 %>">
     <%= form_with url: list_vrentals_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vrentals" }, class: "d-flex flex-row gap-2" do |form| %>
       <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->filter#search" } %>
       <% if @statuses.count > 1 %>
