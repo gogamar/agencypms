@@ -3,38 +3,38 @@
   <h6><%= t('property_rates') %></h6>
 </div>
 <% if @vrental.rate_master_id.nil? %>
-  <div class="mb-5 text-center">
-    <% if @vrental.future_rates.exists? && @vrental.future_rates.any? { |rate| rate.pricenight.nil? }  %>
-      <div class="alert position-relative alert-warning" role="alert">
-        <%= t('add_prices_to_rates') %>
-      </div>
-    <% elsif !@vrental.future_rates.exists? %>
-      <div class="alert position-relative alert-warning" role="alert">
-        <%= t('add_future_rates') %>
-      </div>
-    <% end %>
-  </div>
-  <div class="container d-flex justify-content-between gap-3 mb-3">
-    <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
-      <div>
-        <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
-          <i class="fa-solid fa-file-import me-2"></i>Importar tarifes des de Beds
-        <% end %>
-      </div>
-    <% end %>
+  <% if @vrental.future_rates.exists? && @vrental.future_rates.any? { |rate| rate.pricenight.nil? }  %>
+    <div class="alert position-relative alert-warning" role="alert">
+      <%= t('add_prices_to_rates') %>
+    </div>
+  <% elsif !@vrental.future_rates.exists? %>
+    <div class="alert position-relative alert-warning" role="alert">
+      <%= t('add_future_rates') %>
+    </div>
+  <% end %>
+  <div class="d-flex justify-content-between align-items-end">
     <div>
-      <%# if !@vrental.future_rates.exists? %>
       <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row align-items-center gap-3") do |form| %>
-        <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { class: "form-control", id: "select-rate-plan" } %>
-        <%= form.submit 'Carregar dates', class: 'btn btn-sm btn-primary' %>
+        <div class="input-group input-group-sm">
+          <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { class: "form-select" } %>
+          <button type="submit" class="btn btn-sm btn-primary">Carregar dates</button>
+        </div>
       <% end %>
-      <%# end %>
-      <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.pricenight.nil? }  %>
-        <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success" do %>
-          <i class="fas fa-paper-plane fa-sm me-2"></i> <%= t('send_rates_to_beds') %>
+    </div>
+    <div class="d-flex justify-content-between gap-3">
+      <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
+        <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.pricenight.nil? }  %>
+          <div data-controller="spinner-btn" class="d-flex justify-content-between gap-3">
+            <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success", data: { "spinner-btn-target" => "spinButton", "action" => "click->spinner-btn#spin", "spinning" => "#{t('sending_rates')}", "pending" => "#{t('still_working')}", "timer" => "60000"} do %>
+              <i class="fas fa-paper-plane fa-sm me-2"></i> <%= t('send_rates_to_beds') %>
+            <% end %>
+            <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger", data: { "spinner-target" => "spinButton", "action" => "click->spinner#spin", "spinning" => "#{t('deleting_rates')}", "pending" => "#{t('opening_pdf')}", "timer" => "60000"} do %>
+              <i class="fas fa-exclamation-triangle me-2"></i> <%= t('delete_rates_on_beds') %>
+            <% end %>
+          </div >
         <% end %>
-        <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger" do %>
-          <i class="fas fa-exclamation-triangle me-2"></i> Esborra les futures tarifes en Beds24
+        <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+          <i class="fa-solid fa-file-import me-2"></i><%= t('get_rates_from_beds') %>
         <% end %>
       <% end %>
     </div>

@@ -5,7 +5,7 @@
     <% end %>
     <div class="col-lg-2 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= l(rate.firstnight, format: :standard) %></div>
     <div class="col-lg-2 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= l(rate.lastnight, format: :standard) %> </div>
-    <div class="col-lg-2 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= t("#{rate.arrival_day}") %></div>
+    <div class="col-lg-2 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= t("#{Rate::ARRIVAL_DAY[rate.arrival_day]}") %></div>
     <div class="col-lg-1 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= rate.min_stay %></div>
     <div class="col-lg-1 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>""><%= rate.max_stay == 365 ? '' : rate.max_stay %></div>
     <div class="col-lg-2 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>"">

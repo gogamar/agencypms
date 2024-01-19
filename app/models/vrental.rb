@@ -103,6 +103,22 @@ class Vrental < ApplicationRecord
     2028 => Date.new(2028,4,8)
   }
 
+  NO_CHECKIN = {
+    1 => 'monday',
+    2 => 'tuesday',
+    3 => 'wednesday',
+    4 => 'thursday',
+    5 => 'friday',
+    6 => 'saturday',
+    0 => 'sunday',
+    7 => 'checkin_any_day'
+  }
+
+  CONTROL_RESTRICTIONS = [
+    "calendar_beds24",
+    "rates"
+  ]
+
   def vrental_company
     if office.present?
       office.company

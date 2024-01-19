@@ -31,7 +31,7 @@
         <% if current_user.admin? || current_user.manager? %>
           <div>
             <%= link_to edit_vrental_invoice_path(invoice.vrental, invoice), class: "text-secondary text-decoration-none" do %>
-              <i class="fas fa-edit fa-sm"></i>
+              <i class="fas fa-edit fa-sm"></i> <%= t('edit_invoice') %>
             <% end %>
             <% if Date.current == invoice.created_at.to_date && !invoice.statements.any? %>
               <%= link_to invoice, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta factura?"}, class: "text-danger text-decoration-none" do %>

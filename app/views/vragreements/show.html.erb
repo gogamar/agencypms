@@ -2,9 +2,9 @@
   <div>
     <%= link_to t('edit'), edit_vrental_vragreement_path(@vragreement.vrental, @vragreement), class: "btn btn-sm btn-secondary" %> <%= link_to t('delete'), @vragreement, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@vragreement.vrental.name}?"} %>
   </div>
-  <div data-controller="spinner" >
-    <%= link_to t('pdf_contract'), vragreement_path(@vragreement, format: :pdf), class: "btn btn-sm btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
-  </div>
+  <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <%= t('pdf_contract') %>
+  </button>
 </div>
 <div class="page mt-5">
   <%= sanitize @vrcontrato %>
@@ -14,4 +14,24 @@
   <% @vragreement.photos.each do |photo| %>
     <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill, class: "m-1" %>
   <% end %>
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"><%= @vragreement.vrental.name %>: <%= t('contract') %> <%= @vragreement.year %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
+      </div>
+      <div class="modal-body p-0" data-controller="spinner-pdf">
+        <div class="d-flex align-items-center p-5" data-spinner-pdf-target="pdfSpinner">
+          <span><%= t('preparing_pdf') %>...</span>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+        <iframe data-spinner-pdf-target="pdfViewer" width="100%" height="500" src="<%= vragreement_path(@vragreement, format: :pdf) %>" frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t('close') %></button>
+      </div>
+    </div>
+  </div>
 </div>

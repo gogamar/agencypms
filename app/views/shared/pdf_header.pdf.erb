@@ -15,13 +15,13 @@
         <img alt="Api Girona" src="https://res.cloudinary.com/dlzusxobf/image/upload/v1667826447/apigirona_y9ue0x.png" style="height: 100px;" />
       </div>
       <div class="text-center col-6">
-        <span class="font-weight-bold"><%= resource.company&.name %> · <%= resource.company&.vat_number %></span>
+        <span class="font-weight-bold"><%= resource.company&.name %><%= " | #{resource.company&.vat_number}" if resource.company&.vat_number.present? %></span>
         <br>
-        <span><%= @vrental.office&.street %>, <%= @vrental.office&.post_code %> <%= @vrental.office&.city %></span>
+        <span><%= @vrental.office&.street %><%= ", #{@vrental.office&.post_code}" if @vrental.office&.post_code.present? %> <%= @vrental.office&.city %></span>
         <br>
-        <span><%= @vrental.office&.email %> · <%= @vrental.office&.website %></span>
+        <span><%= @vrental.office&.email %><%= " | #{@vrental.office&.website}" if @vrental.office&.website.present? %></span>
         <br>
-        <span><%= @vrental.office&.phone %> · <%= @vrental.office&.mobile %></span>
+        <span><%= @vrental.office&.phone %><%= " | #{@vrental.office&.mobile}" if @vrental.office&.mobile.present? %></span>
       </div>
       <div class="col-3 text-end text-right">
         <% if @vrental.office.company.logo.attached? %>

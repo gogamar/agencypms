@@ -1,3 +1,4 @@
+---
 ca:
   DBL: D
   DSF: DS
@@ -73,14 +74,14 @@ ca:
         language: Idioma
         owner: Propietari
         phone: Telèfon
-      owner_payment:
-        amount: Import
-        date: Data
-        description: Mètode de pagament
       owner_booking:
         checkin: Entrada
         checkout: Sortida
         note: Comentaris
+      owner_payment:
+        amount: Import
+        date: Data
+        description: Mètode de pagament
       rate:
         arrival_day: Entrada
         firstnight: Des de
@@ -147,7 +148,6 @@ ca:
         commission: Comissió
         contract_type: Tipus de contracte
         cut_off_hour: Hora límit per reservar el mateix dia d'entrada
-        min_advance: Antelació mínima de reserva (en hores)
         description: Descripció
         description_ca: Descripció 2a part català
         description_en: Descripció 2a part anglès
@@ -167,6 +167,7 @@ ca:
         licence: Número HUT
         longitude: Longitud
         max_guests: Nombre màxim de persones
+        min_advance: Antelació mínima de reserva (en hores)
         min_price: Preu mínim per día
         min_stay: Estada mínima
         name: Nom de l'immoble
@@ -198,10 +199,11 @@ ca:
         language: Idioma
         title: Títol
       vrgroup:
-        name: Nom del grup
         gap_days: Màxim dies lliures entre reserves
+        name: Nom del grup
         office: Oficina
         photos: Fotos comunes del grup
+        rate_group: Aquest grup s'utilitza per definir les tarifes
   add_bathroom: Afegir bany
   add_bed: Afegir llit
   add_bedroom: Afegir habitació
@@ -210,13 +212,15 @@ ca:
   add_group: Afegir nou grup
   add_new_company: Afegir nova empresa
   add_new_contract_template: Afegir nou model de contracte
+  add_new_group: Afegir nou grup
+  add_new_rate: Afegir tarifa nova
   add_owner: Afegir propietari
   add_owner_booking: Afegir reserva propietari
+  add_owner_booking_explanation: Per afegir una reserva, fes clic sobre el dia que vulguis començar la reserva i arrastra el ratolí fins al dia que vulguis acabar la reserva.
   add_photos: Afegir fotos
   add_prices_to_rates: Falta afegir preus a les tarifes
   add_property: Afegir immoble
   add_rates_to_add_contract: Afegir tarifes per poder crear contracte
-  add_owner_booking_explanation: Per afegir una reserva, fes clic sobre el dia que vulguis començar la reserva i arrastra el ratolí fins al dia que vulguis acabar la reserva.
   admin: Administrador
   adults: Adults
   after_last_checkout: després de l'últim checkout, per prevenir forats
@@ -226,6 +230,7 @@ ca:
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionat
   amount: Import
+  annual_statement: Liquidació anual
   apartment: Apartament
   apartments: Apartaments
   approved: Aprovat
@@ -240,6 +245,7 @@ ca:
   available:
     one: disponible
     other: disponibles
+  available_from: Disponible des de %{date}
   balcony: Balcó
   bathroom:
     one: bany
@@ -309,11 +315,13 @@ ca:
   book_now: Reservar ara
   book_online: Reserva online
   booking: Reserva
+  booking_amount: Import reserva
   booking_dates_overlap: Les dates de reserva se solapen amb reserves existents.
   booking_price: Preu reserva
   bookings: Reserves
   browse_more_locations: Veure més ubicacions
   ca: Català
+  calendar_beds24: Calendari Beds24
   call_to_action_text_1: T'ajudarem a
   call_to_action_title: Planificant les teves properes vacances?
   call_to_action_typed_1: trobar la casa o apartament perfecte.
@@ -333,11 +341,15 @@ ca:
   check: Xec
   check_in: Entrada
   check_out: Sortida
+  checkin: Entrada
+  checkin_any_day: Entrada permesa qualsevol dia
+  checkout: Sortida
   children: Nens
   city_tax: Impost turístic
   city_tax_with_vat: Impost turístic amb IVA inclòs
   clear_filter: Esborrar filtre
   client_details: Detalls client
+  clients_opinions: Opinions dels nostres clients
   close: Tancar
   close_filter: Tancar filtres
   close_menu: Tancar menú
@@ -355,8 +367,10 @@ ca:
   contact_form_subject: Nou formulari de contacte web
   contact_form_success: El teu missatge ha estat enviat. Ens posarem en contacte amb tu el més aviat possible.
   contact_us: Contacta amb nosaltres
+  contract: Contracte
   contract_templates: Models de contracte
   contracts: Contractes
+  control_restrictions: Control·lar estada mínima i día d'arribada des de el Calendari Beds24 o des de les Tarifes
   cookie_consent: Aquest lloc web utilitza cookies per millorar la teva experiència. Si continues navegant, considerem que acceptes la nostra
   cookies_policy: política de cookies
   copy_vrental: Copiar l'immoble
@@ -473,6 +487,7 @@ ca:
   delete_bathroom: Eliminar bany
   delete_bed: Eliminar llit
   delete_bedroom: Eliminar habitació
+  delete_rates_on_beds: Eliminar tarifes a Beds24
   delete_vrental: Eliminar l'immoble
   descending: Ordenar per (preu més alt)
   description: Descripció
@@ -486,6 +501,9 @@ ca:
   edit_booking: Modificar reserva
   edit_company: Modificar l'empresa
   edit_conditions_warning: "Aquest immoble pertany a un grup d'immobles. Has de triar si aquest immoble utilitzarà les tarifes d'un altre immoble o no:"
+  edit_group: Modificar grup
+  edit_invoice: Modificar factura
+  edit_owner_booking: Modificar reserva propietari
   edit_profile: Editar perfil
   edit_property: Editar immoble
   edit_statement: Modificar la liquidació
@@ -501,6 +519,7 @@ ca:
   expenses: Despeses
   export_changes_to_beds24: Exportar canvis a Beds24
   "false": "No"
+  featured: Destacat
   featured_locations: Llocs destacats
   featured_text: A continuació us presentem una selecció dels nostres immobles destacats. Si no trobeu el que busqueu, no dubteu en contactar amb nosaltres.
   featured_title: Cases i apartaments destacats
@@ -512,12 +531,14 @@ ca:
   fixed_price: Preu fixe
   fr: Francès
   freezer: Congelador
+  friday: Divendres
   from: Des de
   future_reservations: Reserves futures
   gap_fill: Omplir forats
   garden: Jardí comunitari
   general_conditions: Condicions generals
   get_availabilities_from_beds24: Importar disponibilitat de Beds24
+  get_rates_from_beds: Importar tarifes
   get_reviews_from_airbnb: Importar comentaris d'Airbnb
   global:
     forms:
@@ -546,10 +567,14 @@ ca:
   import_owner_from_beds24: Importar propietari de Beds24
   import_photos: Importar fotos
   import_photos_from_beds24: Importar fotos de Beds24
+  import_photos_from_group: Importar fotos del grup
+  import_photos_from_this_property: Importar fotos d'aquest immoble
   in_centre: Al centre
   inactive: Inactiu
   invoice: Factura
   invoice_agency_fees: Honoraris gestió lloguer turístic
+  invoice_amount: Import factura
+  invoice_date: Data factura
   invoice_description_1: "Periode de gestió: del %{from} al %{to}"
   invoice_description_2: "%{commission} sobre las rendes de %{total}"
   invoice_title: Factura
@@ -576,13 +601,14 @@ ca:
   meta_titles:
     bookings: Reserves | Sistach Rentals
     contact: Contacte | Sistach Rentals
-    home: "Lloguer d'apartaments i cases | Barcelona & Costa Brava | Sistach Rentals"
+    home: Lloguer d'apartaments i cases | Barcelona & Costa Brava | Sistach Rentals
     map: Mapa | Sistach Rentals
     property: "%{property_type} %{rental_term} a %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microones
   min: Min.
   min_stay: Min. %{min_stay} nits
   min_stay_title: Min.
+  monday: Dilluns
   monthly: Mensual
   monument_view: Vista a la Sagrada Familia
   multiplier: Multiplicador
@@ -592,7 +618,6 @@ ca:
   new_contact_form_submitted: S'ha enviat un nou formulari de contacte web.
   new_contract_for: Nou contracte per %{prop_name} any %{year}
   new_owner_booking: Afegir reserva propietari
-  edit_owner_booking: Modificar reserva propietari
   new_property: Nou immoble
   new_vrental_step_1: "Pas 1: Propietari i condicions generals"
   new_web: Afegit a la web
@@ -603,6 +628,7 @@ ca:
     other: nits
   night_5: Nit (5-6)
   night_7: Nit (7)
+  night_title: nit
   "no": "No"
   no_availability_for_dates: No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus.
   no_availability_for_selection: No tenim disponibilitat per aquesta selecció.
@@ -628,6 +654,7 @@ ca:
   on_budget: Econòmics
   open_filter: Obrir filtres
   open_menu: Abrir menú
+  opening_pdf: Obrint PDF
   or_more: o més
   order_by: Ordenar per
   others: Altres
@@ -653,7 +680,10 @@ ca:
   parking_included: Parking inclòs
   parking_possible: Parking possible al carrer
   password: Contrassenya
+  pdf_annual_statement: Liquidació anual en PDF
   pdf_contract: Contracte PDF
+  pdf_invoice: Factura en PDF
+  pdf_statement: Liquidació en PDF
   pending: Pendent
   per_booking_offset: per reserva
   per_day_offset: per dia
@@ -666,10 +696,13 @@ ca:
   photos: Fotos
   pool: Piscina comunitària
   pool_private: Piscina privada
+  preparing_pdf: Preparant el PDF
+  prevent_gaps: Permetre reserves només %{gap} dies després de la sortida
   price: Preu
   price_night: Preu nit
   price_week: Preu setmana
   price_with_coupon: Preu amb codi descompte
+  print: Imprimir
   privacy_policy: Política de privacitat
   private_yard: Jardí privat
   properties: Immobles
@@ -695,21 +728,26 @@ ca:
   rate_master_warning: "Aquest immoble utilitza les tarifes d'un altre immoble. Per modificar-la, has de modificar la tarifa mestre:"
   rate_plans: Plans de tarifes
   rates: Tarifes
+  read_more: Llegir més
   real estate: Immobiliària
   realtor: Immobiliària
+  refresh_page: Refrescar la pàgina
   refresh_to_see_summary: Actualitza la pàgina per veure el resum
   refrigerator: Nevera
   registered: Registrat
   registry_addendum: Nota Simple Informativa de l’habitatge objecte del present contracte
+  remove_featured: Treure destacat
+  rental_groups: Grups d'immobles
   reports: Informes
   restriction: Tipus tarifa
+  retail_price: Preu de venda
   reviews: comentaris
   roof_terrace: Terrassa comunitària
   routes:
     owners: propietaris
     users: usuaris
     vrentals: immobles-lloguer-turistic
-  saturdays: Ds.-Ds.
+  saturday: Dissabte
   sea_view: Vista al mar
   search: Cercar
   search_by_name: Nom de l'immoble
@@ -719,15 +757,19 @@ ca:
   select_bathroom_type: Selecciona tipus de bany
   select_bed_type: Selecciona tipus de llit
   select_bedroom_type: Selecciona tipus d'habitació
+  select_date: Selecciona data
   select_dates: Selecciona dates
   select_or_add: Selecciona o afegeix propietari nou
   select_other_dates: Selecciona altres dates
+  select_owner: Selecciona propietari
   select_vrental: Seleccionar immoble
   send: Enviar
   send_photos_to_beds24: Enviar fotos a Beds24
   send_rates_to_beds: Enviar tarifes a Beds24
   send_to_beds: Enviar a Beds24
+  sending_rates: Enviat tarifes
   services: Serveis
+  set_featured: Destacar
   short_term: Lloguer turístic
   show_all: Mostrar tots
   show_all_contracts: Tots els contractes
@@ -752,9 +794,16 @@ ca:
   statement_period: Període de liquidació
   statement_title: Liquidació lloguers
   statements: Liquidacions
+  still_working: Encara treballant
   subject: Assumpte
+  sunday: Diumenge
   sure_delete: Estàs segur?
+  tasks: Tasques
   terms_of_service: Termes i condicions
+  there_are_no_contracts: Aquesta propietat encara no té cap contracte.
+  there_are_no_invoices: Aquesta propietat encara no té cap factura.
+  there_are_no_statements: Aquesta propietat encara no té cap liquidació.
+  thursday: Dijous
   to: Fins a
   to_confirm_booking: Per confirmar la reserva, cal omplir el formulari i pagar el %{res_fee} del preu de la reserva a la propera pàgina.
   toaster: Torradora
@@ -763,6 +812,7 @@ ca:
   tourist: Viatger
   transfer: Transferència
   "true": Sí
+  tuesday: Dimarts
   tv: TV
   type: tipus de immoble
   unique: Singulars
@@ -833,6 +883,7 @@ ca:
   vrentals: Immobles
   washer: Rentadora
   website: Pàgina web
+  wednesday: Dimecres
   week: Setmana
   weekly_discount: Descompte per setmana (opcional)
   weekly_discount_included: Aquest descompte ja estarà inclòs al preu setmanal de la tarifa. Vol dir que el preu per nit tindrà l'increment corresponent.
@@ -850,30 +901,3 @@ ca:
   without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
   "yes": Sí
-  clients_opinions: Opinions dels nostres clients
-  read_more: Llegir més
-  rental_groups: Grups d'immobles
-  add_new_group: Afegir nou grup
-  edit_group: Modificar grup
-  prevent_gaps: Permetre reserves només %{gap} dies després de la sortida
-  import_photos_from_this_property: Importar fotos d'aquest immoble
-  import_photos_from_group: Importar fotos del grup
-  night_title: nit
-  add_new_rate: Afegir tarifa nova
-  refresh_page: Refrescar la pàgina
-  set_featured: Destacar
-  remove_featured: Treure destacat
-  featured: Destacat
-  available_from: Disponible des de %{date}
-  checkin: Entrada
-  checkout: Sortida
-  select_date: Selecciona data
-  booking_amount: Import reserva
-  retail_price: Preu de venda
-  select_owner: Selecciona propietari
-  there_are_no_contracts: Aquesta propietat encara no té cap contracte.
-  there_are_no_invoices: Aquesta propietat encara no té cap factura.
-  there_are_no_statements: Aquesta propietat encara no té cap liquidació.
-  contract: Contracte
-  invoice_date: Data factura
-  invoice_amount: Import factura

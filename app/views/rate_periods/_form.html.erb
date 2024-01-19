@@ -22,7 +22,7 @@
       <%= f.input :min_stay %>
     </div>
     <div class="p-1 text-center">
-      <%= f.input :arrival_day, label: t("arrival_day"), collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
+      <%= f.input :arrival_day, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
     </div>
     <div class="p-1 text-center">
       <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>

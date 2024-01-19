@@ -51,11 +51,6 @@ const initSelect2 = () => {
     allowClear: true,
   });
 
-  $("#select-rate-plan").select2({
-    placeholder: "Seleccionar plà de tarifa",
-    allowClear: true,
-  });
-
   $("#shorty").select2({
     placeholder: "Show All",
     allowClear: true,

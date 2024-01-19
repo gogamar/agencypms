@@ -56,6 +56,6 @@ class VrgroupsController < ApplicationController
     end
 
     def vrgroup_params
-      params.require(:vrgroup).permit(:name, :office_id, :gap_days, photos: [])
+      params.require(:vrgroup).permit(:name, :office_id, :rate_group, :gap_days, photos: [])
     end
 end

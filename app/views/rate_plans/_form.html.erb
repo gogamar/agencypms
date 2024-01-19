@@ -6,7 +6,7 @@
     <%= f.input :start, as: :string, input_html: { class: "datepicker"} %>
     <%= f.input :end, as: :string, input_html: { class: "datepicker"} %>
     <%= f.input :gen_min %>
-    <%= f.input :gen_arrival, label: t("arrival_day"), collection: [[t("everyday"), "everyday"], [t("saturdays"), "saturdays"]], include_blank: false %>
+    <%= f.input :gen_arrival, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
   </div>
   <div class="form-actions text-end">
     <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>

@@ -1,4 +1,4 @@
-<table class="table">
+<table class="color-dark-blue table table-responsive">
   <thead>
     <tr>
       <th scope="col" class="pricetable"><%= t("from") %></th>
@@ -16,7 +16,12 @@
         <tr>
           <td class="pricetable nowrap"><%= l(rate.firstnight, format: :standard) %></td>
           <td class="pricetable nowrap"><%= l(rate.lastnight, format: :standard) %></td>
-          <td class="pricetable nowrap"><%= t("#{rate.arrival_day}") %></td>
+          <td class="pricetable nowrap">
+            <%= t("#{Rate::ARRIVAL_DAY[rate.arrival_day]}") %>
+            <% if @vrental.no_checkin.present? && rate.arrival_day == 7 %>
+              <span class="text-secondary">*</span>
+            <% end %>
+          </td>
           <td class="pricetable nowrap"><%= rate.min_stay %> <%= t("nights") %>
           </td>
           <td class="pricetable nowrap text-right text-end"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
@@ -31,3 +36,6 @@
     <% end %>
   </tbody>
 </table>
+<% if @vrental.no_checkin.present? %>
+  <p class="text-sm text-secondary font-italic fst-italic">* <%= t('no_checkin') %>: <%= t(Vrental::NO_CHECKIN[@vrental.no_checkin]) %></p>
+<% end %>

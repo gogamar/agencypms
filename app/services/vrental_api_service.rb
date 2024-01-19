@@ -756,8 +756,7 @@ class VrentalApiService
               lastnight: night_rate["lastNight"],
               pricenight: @target.price_per == "night" ? night_rate["roomPrice"].to_f : nil,
               beds_room_id: night_rate["roomId"],
-              min_stay: night_rate["minNights"].to_i,
-              arrival_day: 'everyday'
+              min_stay: night_rate["minNights"].to_i
             )
           else
             new_rate = Rate.create!(
@@ -768,7 +767,6 @@ class VrentalApiService
               pricenight: night_rate["pricesPer"] == "1" ? night_rate["roomPrice"].to_f : night_rate["roomPrice"].to_f / 7,
               beds_room_id: night_rate["roomId"],
               min_stay: night_rate["minNights"].to_i,
-              arrival_day: 'everyday'
             )
           end
         end
@@ -804,7 +802,7 @@ class VrentalApiService
       #     @target.rates.each do |rate|
       #       if rate.firstnight >= second_sat_july && rate.lastnight <= last_friday_august
       #         rate.min_stay = 7
-      #         rate.arrival_day = "saturdays"
+      #         rate.arrival_day = 6
       #       else
       #         rate.min_stay = 5
       #       end
@@ -819,39 +817,67 @@ class VrentalApiService
   end
 
   def send_rates_to_beds
-    # fixme: check that nightprice exists for every rate before sending
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       beds24rates = client.get_rates(@target.prop_key)
       future_beds24rates = beds24rates.select { |rate| rate["lastNight"].to_date > Date.today }
+    rescue => e
+      puts "Error getting rates for #{@target.name}: #{e.message}"
+    end
 
-      @target.future_rates.each do |rate|
-        rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
+    # find rates that don't exist locally and delete them on beds24
+    beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
+    vrental_rate_ids = @target.future_rates.map(&:beds_rate_id)
+    vrental_week_rate_ids = @target.future_rates.map(&:week_beds_rate_id)
+    rates_to_delete_on_beds = beds24_rate_ids - vrental_rate_ids - vrental_week_rate_ids
 
-        if rate.restriction.present?
-          rate_restriction = rate.restriction == "gap_fill" ? "2" : "0"
-        end
+    if rates_to_delete_on_beds.any?
 
-        vrental_rate =
-          {
-          roomId: "#{@target.beds_room_id}",
-          firstNight: rate.firstnight.strftime("%Y-%m-%d"),
-          lastNight: rate.lastnight.strftime("%Y-%m-%d"),
-          maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
-          minAdvance: rate.min_advance.to_s,
-          restrictionStrategy: rate_restriction,
-          allowEnquiry: "1",
-          color: "#{SecureRandom.hex(3)}",
-          roomPriceEnable: "1",
-          roomPriceGuests: "0",
-          disc6Nights: "7",
-          disc6Percent: @target.weekly_discount.present? ? @target.weekly_discount.to_s : "0"
-          }
+      rates_to_delete = []
+
+      rates_to_delete_on_beds.each do |rate_id|
+        rate_to_delete = {
+          action: "delete",
+          rateId: rate_id,
+          roomId: @target.beds_room_id
+        }
+        rates_to_delete << rate_to_delete
+      end
+
+      begin
+      client.set_rates(@target.prop_key, setRates: rates_to_delete)
+      rescue => e
+        puts "Error deleting rates for #{@target.name}: #{e.message}"
+      end
+    end
+
+    @target.future_rates.each do |rate|
+      rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
+
+      if rate.restriction.present?
+        rate_restriction = rate.restriction == "gap_fill" ? "2" : "0"
+      end
+
+      vrental_rate =
+        {
+        roomId: "#{@target.beds_room_id}",
+        firstNight: rate.firstnight.strftime("%Y-%m-%d"),
+        lastNight: rate.lastnight.strftime("%Y-%m-%d"),
+        maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
+        minAdvance: rate.min_advance.to_s,
+        restrictionStrategy: rate_restriction,
+        allowEnquiry: "1",
+        color: "#{SecureRandom.hex(3)}",
+        roomPriceEnable: "1",
+        roomPriceGuests: "0",
+        disc6Nights: "7",
+        disc6Percent: @target.weekly_discount.present? ? @target.weekly_discount.to_s : "0"
+        }
 
         nightly_rate = {
           action: rate_exists_on_beds ? "modify" : "new",
           pricesPer: "1",
-          minNights: rate.min_stay.to_s,
+          minNights: @target.control_restrictions == "rates" ? rate.min_stay.to_s : "0",
           roomPrice: rate.pricenight,
           name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)}",
         }
@@ -862,13 +888,17 @@ class VrentalApiService
           merged_nightly_rate.merge!(rateId: rate.beds_rate_id)
         end
 
+        begin
         response = client.set_rate(@target.prop_key, merged_nightly_rate)
 
         if response.parsed_response.is_a?(Hash) && response.parsed_response['success'] == 'new rate created'
-          rate.beds_rate_id = response.parsed_response["rateId"]
-          rate.save!
+        rate.beds_rate_id = response.parsed_response["rateId"]
+        rate.save!
         end
-        sleep 2
+        rescue => e
+          puts "Error importing rates for #{@target.name}: #{e.message}"
+        end
+
 
         if @target.price_per == "week"
           week_rate_exists_on_beds = false
@@ -893,62 +923,54 @@ class VrentalApiService
             merged_weekly_rate.merge!(rateId: rate.week_beds_rate_id)
           end
 
+          begin
           response = client.set_rate(@target.prop_key, merged_weekly_rate)
 
           if response.parsed_response.is_a?(Hash) && response.parsed_response['success'] == 'new rate created'
             rate.week_beds_rate_id = response.parsed_response["rateId"]
             rate.save!
           end
-          sleep 2
-        end
-        sleep 2
-      end
-
-      # find rates that don't exist locally and delete them on beds24
-      beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
-      vrental_rate_ids = @target.future_rates.map(&:beds_rate_id)
-      vrental_week_rate_ids = @target.future_rates.map(&:week_beds_rate_id)
-      rates_to_delete_on_beds = beds24_rate_ids - vrental_rate_ids - vrental_week_rate_ids
-
-      rates_to_delete = []
-
-      rates_to_delete_on_beds.each do |rate_id|
-        rate_to_delete = {
-          action: "delete",
-          rateId: rate_id,
-          roomId: @target.beds_room_id
-        }
-        rates_to_delete << rate_to_delete
-      end
-
-      client.set_rates(@target.prop_key, setRates: rates_to_delete)
-
-      # fixme: perhaps should create links for weekly rates too (for example if an apartment in Estartit has dependent apartments, to link the rates)
-
-      if @target.vrgroup.present? && @target.rate_master_id.nil?
-        rate_links = []
-        @target.future_rates.each do |rate|
-          beds24_rate_links = client.get_rate_links(@target.prop_key, rateId: rate.beds_rate_id)
-
-          @target.vrgroup.vrentals.where(rate_master_id: @target.id).each do |linked_vrental|
-            this_link_exists = beds24_rate_links.any? { |link| link["rateId"] == rate.beds_rate_id && link["roomId"] == linked_vrental.beds_room_id }
-            rate_link = {
-              "action": this_link_exists ? "modify" : "new",
-              "rateId": rate.beds_rate_id,
-              "roomId": linked_vrental.beds_room_id,
-              "offerId": "1",
-              "linkType": linked_vrental.rate_offset.present? ? "1" : "5",
-              "offset": linked_vrental.rate_offset.present? ? linked_vrental.rate_offset.to_s : "",
-            }
-            rate_links << rate_link
+          rescue => e
+            puts "Error exporting weekly rate for #{@target.name}: #{e.message}"
           end
         end
-        client.set_rate_links(@target.prop_key, setRateLinks: rate_links)
-      end
-    rescue => e
-      puts "Error exporting rates: #{e.message}"
+
+        if @target.control_restrictions == "calendar_beds24"
+          VrentalApiService.new(@target).send_availabilities_to_beds_24
+        end
+      sleep 4
     end
-    sleep 2
+
+    # fixme: perhaps should create links for weekly rates too (for example if an apartment in Estartit has dependent apartments, to link the rates)
+    if @target.vrgroups.present?
+      rate_group = @target.vrgroups.find_by(rate_group: true)
+    end
+
+    if rate_group && @target.rate_master_id.nil?
+      rate_links = []
+      @target.future_rates.each do |rate|
+        beds24_rate_links = client.get_rate_links(@target.prop_key, rateId: rate.beds_rate_id)
+
+        rate_group.vrentals.where(rate_master_id: @target.id).each do |linked_vrental|
+          this_link_exists = beds24_rate_links.any? { |link| link["rateId"] == rate.beds_rate_id && link["roomId"] == linked_vrental.beds_room_id }
+          rate_link = {
+            "action": this_link_exists ? "modify" : "new",
+            "rateId": rate.beds_rate_id,
+            "roomId": linked_vrental.beds_room_id,
+            "offerId": "1",
+            "linkType": linked_vrental.rate_offset.present? ? "1" : "5",
+            "offset": linked_vrental.rate_offset.present? ? linked_vrental.rate_offset.to_s : "",
+          }
+          rate_links << rate_link
+        end
+      end
+      begin
+      client.set_rate_links(@target.prop_key, setRateLinks: rate_links)
+      rescue => e
+        puts "Error setting rate links for #{@target.name}: #{e.message}"
+      end
+    end
+    sleep 4
   end
 
   # Availability
@@ -1054,8 +1076,6 @@ class VrentalApiService
 
       selected_availabilities = availability_data.select { |date, attributes| attributes["i"].to_i > 0 }
 
-      puts "selected_availabilities: #{selected_availabilities}"
-
       selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
         existing_availability = @target.availabilities.find_by(date: formatted_date)
@@ -1134,20 +1154,29 @@ class VrentalApiService
   end
 
   def send_availabilities_to_beds_24
-    # this one needs fixing!
     client = BedsHelper::Beds.new(@target.office.beds_key)
-
-    master_future_rates = @target.rate_master.present? ? @target.rate_master.future_rates : @target.future_rates
-
-    last_rate_lastnight = master_future_rates.order(lastnight: :desc).first.lastnight
+    vrental_future_rates = @target.future_rates
 
     dates = {}
 
-    @target.availabilities.each do |availability|
-      dates[availability.date.strftime("%Y%m%d")] = {
-        "x": availability.multiplier.to_s,
-        "o": availability.override.to_s
-      }
+    vrental_future_rates.each do |rate|
+      rate_dates = {}
+      rate_start_date = rate.firstnight > Date.today ? rate.firstnight : Date.today
+      (rate_start_date..rate.lastnight).each do |date|
+        rate_override = nil
+        if rate.arrival_day == date.wday
+          rate_override = 0
+        elsif rate.arrival_day == 7 && @target.no_checkin == date.wday
+          rate_override = 2
+        elsif rate.arrival_day != 7 && rate.arrival_day != date.wday
+          rate_override = 4
+        end
+        rate_dates[date.strftime("%Y%m%d")] = {
+          "o": rate_override.to_s,
+          "m": rate.min_stay.to_s
+        }
+      end
+      dates.merge!(rate_dates)
     end
 
     options = {
@@ -1155,31 +1184,10 @@ class VrentalApiService
       "dates": dates
     }
 
-    set_availability_data = client.set_room_dates(@target.prop_key, options)
-
     begin
-      availability_data = client.get_room_dates(@target.prop_key, options)
-      availability_data.each do |date, attributes|
-        formatted_date = Date.parse(date.to_s)
-        existing_availability = @target.availabilities.find_by(date: formatted_date)
-        if existing_availability
-          existing_availability.update!(
-            inventory: attributes["i"],
-            multiplier: attributes["x"],
-            override: attributes["o"]
-          )
-        else
-          Availability.create(
-            date: formatted_date,
-            inventory: attributes["i"].to_i,
-            multiplier: attributes["x"].to_i,
-            override: attributes["o"],
-            vrental_id: @target.id
-          )
-        end
-      end
+      response = client.set_room_dates(@target.prop_key, options)
     rescue => e
-      puts "Error importing availability data for #{@target.name}: #{e.message}"
+      puts "Error exporting availabilities for #{@target.name}: #{e.message}"
     end
     sleep 2
   end

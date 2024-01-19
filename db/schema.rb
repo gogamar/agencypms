@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_18_130608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -51,6 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "min_stay"
+    t.index ["date"], name: "index_availabilities_on_date"
     t.index ["vrental_id"], name: "index_availabilities_on_vrental_id"
   end
 
@@ -312,11 +314,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.date "firstnight"
     t.date "lastnight"
     t.integer "min_stay"
-    t.string "arrival_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "rate_plan_id"
     t.integer "nights"
+    t.integer "arrival_day"
     t.index ["rate_plan_id"], name: "index_rate_periods_on_rate_plan_id"
   end
 
@@ -325,10 +327,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.date "start"
     t.date "end"
     t.integer "gen_min"
-    t.string "gen_arrival"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id"
+    t.integer "gen_arrival"
     t.index ["company_id"], name: "index_rate_plans_on_company_id"
   end
 
@@ -338,7 +340,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.date "firstnight"
     t.date "lastnight"
     t.integer "min_stay"
-    t.string "arrival_day"
     t.float "priceweek"
     t.bigint "vrental_id"
     t.datetime "created_at", null: false
@@ -349,6 +350,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.integer "min_advance", default: 0
     t.string "restriction", default: "normal"
     t.string "week_beds_rate_id"
+    t.integer "arrival_day"
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
   end
 
@@ -553,6 +555,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.string "bookingcom_hotel_id"
     t.string "bookingcom_room_id"
     t.string "bookingcom_rate_id"
+    t.string "control_restrictions"
+    t.integer "no_checkin", default: 7
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -581,6 +585,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_083005) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "gap_days"
+    t.boolean "rate_group", default: false
     t.index ["office_id"], name: "index_vrgroups_on_office_id"
   end
 

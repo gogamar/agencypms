@@ -1,7 +1,8 @@
-# all_vrentals = Vrental.all
-# barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
-# barcelona_vrentals = barcelona_office.vrentals
-# estartit_vrentals = Office.where("name ILIKE ?", "%estartit%").first.vrentals
+all_vrentals = Vrental.all
+barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
+barcelona_vrentals = barcelona_office.vrentals
+estartit_office = Office.where("name ILIKE ?", "%estartit%").first
+estartit_vrentals = estartit_office.vrentals
 
 # barcelona_tourist_apts = barcelona_vrentals.where(rental_term: "short_term")
 # barcelona_tourist_interiors = barcelona_tourist_apts.where("name ILIKE ?", "%interior%")
@@ -11,6 +12,7 @@
 # barcelona_gaudi_monthly_apts = barcelona_monthly_apts.where.not("name ILIKE ?", "%tarradellas%")
 # barcelona_gaudi_monthly_interiors = barcelona_gaudi_monthly_apts.where("name ILIKE ?", "%interior%")
 # barcelona_gaudi_monthly_exteriors = barcelona_gaudi_monthly_apts.where("name ILIKE ?", "%exterior%")
+barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 
 # barcelona_tourist_apts.each do |vrental|
 #   vrental.price_per = 'night'
@@ -209,3 +211,8 @@
 #   VrentalApiService.new(vrental).get_bookings_from_beds(Date.today)
 #   puts "Got bookings for #{vrental.name}"
 # end
+
+estartit_vrentals.update_all(no_checkin: 0)
+barcelona_vrentals.update_all(control_restrictions: "rates")
+estartit_vrentals.update_all(control_restrictions: "calendar_beds24")
+barcelona_rate_group.update(rate_group: true)

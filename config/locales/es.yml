@@ -1,3 +1,4 @@
+---
 es:
   DBL: D
   DSF: DS
@@ -73,14 +74,14 @@ es:
         language: Idioma
         owner: Propietario
         phone: Teléfono
-      owner_payment:
-        amount: Importe
-        date: Fecha
-        description: Método de pago
       owner_booking:
         checkin: Entrada
         checkout: Salida
         note: Comentarios
+      owner_payment:
+        amount: Importe
+        date: Fecha
+        description: Método de pago
       rate:
         arrival_day: Día de llegada
         firstnight: Desde
@@ -208,13 +209,15 @@ es:
   add_group: Añadir nuevo grupo
   add_new_company: Añadir nueva empresa
   add_new_contract_template: Añadir nuevo modelo de contrato
+  add_new_group: Agregar nuevo grupo
+  add_new_rate: Añadir nueva tarifa
   add_owner: Añadir propietario
   add_owner_booking: Añadir reserva de propietario
+  add_owner_booking_explanation: Para agregar una reserva, haz clic en el día de inicio y arrastra el ratón hasta el día de finalización.
   add_photos: Añadir fotos
   add_prices_to_rates: Faltan añadir precios a las tarifas
   add_property: Añadir propiedad
   add_rates_to_add_contract: Añadir tarifas para poder crear contrato
-  add_owner_booking_explanation: Para agregar una reserva, haz clic en el día de inicio y arrastra el ratón hasta el día de finalización.
   admin: Administrador
   adults: Adultos
   after_last_checkout: después del último checkout, para prevenir huecos
@@ -224,6 +227,7 @@ es:
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionado
   amount: Importe
+  annual_statement: Liqudación anual
   apartment: Apartamento
   apartments: Apartamentos
   approved: Aprobado
@@ -238,6 +242,7 @@ es:
   available:
     one: disponible
     other: disponibles
+  available_from: Disponible desde %{date}
   balcony: Balcón
   bathroom:
     one: baño
@@ -307,11 +312,13 @@ es:
   book_now: Reservar ahora
   book_online: Reservar en línea
   booking: Reserva
+  booking_amount: Importe de la reserva
   booking_dates_overlap: Las fechas de reserva se superponen con reservas existentes.
   booking_price: Precio de la reserva
   bookings: Reservas
   browse_more_locations: Ver más ubicaciones
   ca: Catalán
+  calendar_beds24: Calendario de Beds24
   call_to_action_text_1: Te ayudaremos a
   call_to_action_title: ¿Planificando tus próximas vacaciones?
   call_to_action_typed_1: encontrar la casa o apartamento perfecto.
@@ -331,11 +338,15 @@ es:
   check: Cheque
   check_in: Entrada
   check_out: Salida
+  checkin: Entrada
+  checkin_any_day: Entrada permitida cualquier día
+  checkout: Salida
   children: Niños
   city_tax: Impuesto turístico
   city_tax_with_vat: Impuesto turístico con IVA incluido
   clear_filter: Borrar filtro
   client_details: Detalles del cliente
+  clients_opinions: Opiniones de nuestros clientes
   close: Cerrar
   close_filter: Cerrar filtros
   close_menu: Cerrar menú
@@ -353,8 +364,10 @@ es:
   contact_form_subject: Nuevo formulario de contacto web
   contact_form_success: Tu mensaje ha sido enviado. Nos pondremos en contacto contigo lo antes posible.
   contact_us: Contacta con nosotros
+  contract: Contrato
   contract_templates: Plantillas de contrato
   contracts: Contratos
+  control_restrictions: Controlar estancia mínima y día de llegada desde el Calendario de Beds24 o las Tarifas
   cookie_consent: Este sitio web utiliza cookies para mejorar tu experiencia. Si continúas navegando, consideramos que aceptas nuestra
   cookies_policy: política de cookies
   copy_vrental: Copiar la propiedad
@@ -471,6 +484,7 @@ es:
   delete_bathroom: Eliminar baño
   delete_bed: Eliminar cama
   delete_bedroom: Eliminar habitación
+  delete_rates_on_beds: Eliminar tarifas en Beds24
   delete_vrental: Eliminar la propiedad
   descending: Ordenar por (precio más alto)
   description: Descripción
@@ -484,6 +498,9 @@ es:
   edit_booking: Modificar reserva
   edit_company: Modificar la empresa
   edit_conditions_warning: "Esta propiedad pertenece a un grupo de propiedades. Debes elegir si esta propiedad utilizará las tarifas de otra propiedad o no:"
+  edit_group: Editar grupo
+  edit_invoice: Editar factura
+  edit_owner_booking: Modificar reserva propietario
   edit_profile: Editar perfil
   edit_property: Editar propiedad
   edit_statement: Modificar la liquidación
@@ -499,6 +516,7 @@ es:
   expenses: Gastos
   export_changes_to_beds24: Exportar cambios a Beds24
   "false": "No"
+  featured: Destacado
   featured_locations: Lugares destacados
   featured_text: A continuación te presentamos una selección de nuestras propiedades destacadas. Si no encuentras lo que buscas, no dudes en ponerte en contacto con nosotros.
   featured_title: Casas y apartamentos destacados
@@ -510,12 +528,14 @@ es:
   fixed_price: Precio fijo
   fr: Francés
   freezer: Congelador
+  friday: Viernes
   from: Desde
   future_reservations: Reservas futuras
   gap_fill: Omplir forats
   garden: Jardín comunitario
   general_conditions: Condiciones generales
   get_availabilities_from_beds24: Importar disponibilidad de Beds24
+  get_rates_from_beds: Importar tarifas
   get_reviews_from_airbnb: Importar comentarios de Airbnb
   global:
     forms:
@@ -544,10 +564,14 @@ es:
   import_owner_from_beds24: Importar propietario de Beds24
   import_photos: Importar fotos
   import_photos_from_beds24: Importar fotos de Beds24
+  import_photos_from_group: Importar fotos del grupo
+  import_photos_from_this_property: Importar fotos de esta propiedad
   in_centre: En el centro
   inactive: Inactivo
   invoice: Factura
   invoice_agency_fees: Honorarios gestión alquiler turístico
+  invoice_amount: Importe de la factura
+  invoice_date: Fecha de la factura
   invoice_description_1: "Período de gestión: del %{from} al %{to}"
   invoice_description_2: "%{commission} sobre las rentas de %{total}"
   invoice_title: Factura
@@ -568,7 +592,7 @@ es:
   meta_descriptions:
     bookings: ¡Reserva ahora tus vacaciones perfectas! Comprueba la disponibilidad, las tarifas y asegura tu estancia en Barcelona o la Costa Brava hoy mismo. ¡No te pierdas las ofertas exclusivas! Ahorra en tu escapada a Barcelona o la Costa Brava.
     contact: Formulario de contacto para cualquier pregunta o consulta. También puedes contactarnos por teléfono o correo electrónico.
-    home: "Agencia Inmobiliaria con más de 12 años de experiencia con oficinas en Barcelona y en l'Estartit, especializada en gestión de propiedades en la Costa Brava y Barcelona. Descubre apartamentos ideales para estancias cortas y largas."
+    home: Agencia Inmobiliaria con más de 12 años de experiencia con oficinas en Barcelona y en l'Estartit, especializada en gestión de propiedades en la Costa Brava y Barcelona. Descubre apartamentos ideales para estancias cortas y largas.
     map: Mapa interactivo con todas nuestras propiedades de alquiler turístico en Barcelona y la Costa Brava. Descubre la ubicación de nuestros apartamentos y casas.
     property: Reserva ahora para una escapada ideal. %{property_type} con %{property_features}.
   meta_titles:
@@ -579,8 +603,10 @@ es:
     property: "%{property_type} %{rental_term} en %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microondas
   min: Min.
+  min_advance: Antelación mínima para reservar (en horas)
   min_stay: Min. %{min_stay} noches
   min_stay_title: Min.
+  monday: Lunes
   monthly: Mensual
   monument_view: Vista a la Sagrada Familia
   multiplier: Multiplicador
@@ -590,7 +616,6 @@ es:
   new_contact_form_submitted: Se ha enviado un nuevo formulario de contacto web.
   new_contract_for: Nuevo contrato para %{prop_name} año %{year}
   new_owner_booking: Añadir reserva propietario
-  edit_owner_booking: Modificar reserva propietario
   new_property: Nueva propiedad
   new_vrental_step_1: "Paso 1: Propietario y condiciones generales"
   new_web: Añadido a la web
@@ -601,6 +626,7 @@ es:
     other: noches
   night_5: Noche (5-6)
   night_7: Noche (7)
+  night_title: noche
   "no": "No"
   no_availability_for_dates: No tenemos disponibilidad para estas fechas. Selecciona otras fechas para ver la disponibilidad y los precios.
   no_availability_for_selection: No tenemos disponibilidad para esta selección.
@@ -626,6 +652,7 @@ es:
   on_budget: Económicos
   open_filter: Abrir filtros
   open_menu: Abrir menú
+  opening_pdf: Abriendo el PDF
   or_more: o más
   order_by: Ordenar por
   others: Otros
@@ -651,7 +678,10 @@ es:
   parking_included: Aparcamiento incluido
   parking_possible: Posibilidad de aparcamiento en la calle
   password: Contraseña
+  pdf_annual_statement: Liqudación anual en PDF
   pdf_contract: Contrato en PDF
+  pdf_invoice: Factura en PDF
+  pdf_statement: Liqudación en PDF
   pending: Pendiente
   per_booking_offset: por reserva
   per_day_offset: por día
@@ -664,10 +694,13 @@ es:
   photos: Fotos
   pool: Piscina comunitaria
   pool_private: Piscina privada
+  preparing_pdf: Preparando el PDF
+  prevent_gaps: Permitir reservas solo %{gap} días después de la salida
   price: Precio
   price_night: Precio por noche
   price_week: Precio por semana
   price_with_coupon: Precio con código de descuento
+  print: Imprimir
   privacy_policy: Política de privacidad
   private_yard: Jardín privado
   properties: Inmuebles
@@ -693,21 +726,26 @@ es:
   rate_master_warning: "Este inmueble utiliza las tarifas de otro inmueble. Para modificarlas, debe modificar la tarifa maestra:"
   rate_plans: Planes de tarifas
   rates: Tarifas
+  read_more: Leer más
   real estate: Inmobiliaria
   realtor: Inmobiliaria
+  refresh_page: Actualizar página
   refresh_to_see_summary: Actualice la página para ver el resumen
   refrigerator: Nevera
   registered: Registrado
   registry_addendum: Nota Simple Informativa del inmueble objeto del presente contrato
+  remove_featured: Quitar destacado
+  rental_groups: Grupos de propiedades
   reports: Informes
   restriction: Tipo de tarifa
+  retail_price: Precio de venta
   reviews: comentarios
   roof_terrace: Terraza comunitaria
   routes:
     owners: propietarios
     users: usuarios
     vrentals: inmuebles-alquiler-turístico
-  saturdays: Sáb.-Sáb.
+  saturday: Sábado
   sea_view: Vista al mar
   search: Buscar
   search_by_name: Nombre del inmueble
@@ -717,15 +755,19 @@ es:
   select_bathroom_type: Seleccione tipo de baño
   select_bed_type: Seleccione tipo de cama
   select_bedroom_type: Seleccione tipo de habitación
+  select_date: Seleccionar fecha
   select_dates: Seleccione fechas
   select_or_add: Seleccione o añada nuevo propietario
   select_other_dates: Seleccione otras fechas
+  select_owner: Seleccionar propietario
   select_vrental: Seleccionar inmueble
   send: Enviar
   send_photos_to_beds24: Enviar fotos a Beds24
   send_rates_to_beds: Enviar tarifas a Beds24
   send_to_beds: Enviar a Beds24
+  sending_rates: Enviando tarifas
   services: Servicios
+  set_featured: Destacar
   short_term: Alquiler turístico
   show_all: Mostrar todos
   show_all_contracts: Todos los contratos
@@ -750,9 +792,16 @@ es:
   statement_period: Período de liquidación
   statement_title: Liquidación alquileres
   statements: Liquidaciones
+  still_working: Trabajando todavía
   subject: Asunto
+  sunday: Domingo
   sure_delete: ¿Está seguro?
+  tasks: Tareas
   terms_of_service: Términos y condiciones
+  there_are_no_contracts: Esta propiedad todavía no tiene ningún contrato.
+  there_are_no_invoices: Esta propiedad todavía no tiene ninguna factura.
+  there_are_no_statements: Esta propiedad todavía no tiene ninguna liquidación.
+  thursday: Jueves
   to: Hasta
   to_confirm_booking: Para confirmar la reserva, es necesario completar el formulario y pagar el %{res_fee} del precio de la reserva en la próxima página.
   toaster: Tostadora
@@ -761,6 +810,7 @@ es:
   tourist: Viajero
   transfer: Transferencia
   "true": Sí
+  tuesday: Martes
   tv: TV
   type: tipo de inmueble
   unique: Singulares
@@ -831,6 +881,7 @@ es:
   vrentals: Inmuebles
   washer: Lavadora
   website: Página web
+  wednesday: Miércoles
   week: Semana
   weekly_discount: Descuento por semana (opcional)
   weekly_discount_included: Este descuento ya estará incluido en el precio semanal de la tarifa. Significa que el precio por noche tendrá el aumento correspondiente.
@@ -848,31 +899,3 @@ es:
   without_view: Apartamentos Sagrada Familia sin vista
   yearly: Anual
   "yes": Sí
-  clients_opinions: Opiniones de nuestros clientes
-  read_more: Leer más
-  rental_groups: Grupos de propiedades
-  add_new_group: Agregar nuevo grupo
-  edit_group: Editar grupo
-  prevent_gaps: Permitir reservas solo %{gap} días después de la salida
-  import_photos_from_this_property: Importar fotos de esta propiedad
-  import_photos_from_group: Importar fotos del grupo
-  night_title: noche
-  add_new_rate: Añadir nueva tarifa
-  refresh_page: Actualizar página
-  set_featured: Destacar
-  remove_featured: Quitar destacado
-  featured: Destacado
-  available_from: Disponible desde %{date}
-  checkin: Entrada
-  checkout: Salida
-  select_date: Seleccionar fecha
-  min_advance: Antelación mínima para reservar (en horas)
-  booking_amount: Importe de la reserva
-  retail_price: Precio de venta
-  select_owner: Seleccionar propietario
-  there_are_no_contracts: Esta propiedad todavía no tiene ningún contrato.
-  there_are_no_invoices: Esta propiedad todavía no tiene ninguna factura.
-  there_are_no_statements: Esta propiedad todavía no tiene ninguna liquidación.
-  contract: Contrato
-  invoice_date: Fecha de la factura
-  invoice_amount: Importe de la factura

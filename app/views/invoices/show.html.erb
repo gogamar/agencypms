@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between mb-3">
     <% if current_user.admin? || current_user.manager? %>
       <div class="d-flex justify-content-between">
-        <div class="me-2"><%= link_to t('edit'), edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-secondary rounded-3" %></div>
+        <div class="me-2"><%= link_to t('edit'), edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-sm btn-secondary" %></div>
         <% if Date.current == @invoice.created_at.to_date %>
           <div class="me-2">
             <%= link_to t('delete'), vrental_invoice_path(@vrental, @invoice), class: "btn btn-danger",
@@ -11,9 +11,9 @@
         <% end %>
       </div>
     <% end %>
-    <div data-controller="spinner" >
-      <%= link_to 'Factura en PDF', vrental_invoice_path(@vrental, @invoice, format: :pdf), class: "btn btn-primary", target: "_blank", data: { "spinner-target" => "printbutton", "action" => "click->spinner#spin"}  %>
-    </div>
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <%= t('pdf_invoice') %>
+    </button>
   </div>
   <div class="container border">
     <div class="row mb-4">
@@ -98,6 +98,27 @@
     <div class="row">
       <div class="col-10 border-right font-weight-bold fw-bold p-2"><%= t("total").upcase %></div>
       <div class="col-2 text-right text-end font-weight-bold fw-bold p-2"><%= number_to_currency(@invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
+    </div>
+  </div>
+</div>
+<%# modal %>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"><%= @vrental.name %>: <%= t('invoice') %> #<%= @invoice.invoice_number_formatted %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
+      </div>
+      <div class="modal-body p-0" data-controller="spinner-pdf">
+        <div class="d-flex align-items-center p-5" data-spinner-pdf-target="pdfSpinner">
+          <span><%= t('preparing_pdf') %>...</span>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+        <iframe data-spinner-pdf-target="pdfViewer" width="100%" height="500" src="<%= vrental_invoice_path(@vrental, @invoice, format: :pdf) %>" frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t('close') %></button>
+      </div>
     </div>
   </div>
 </div>

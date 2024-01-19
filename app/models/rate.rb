@@ -6,6 +6,16 @@ class Rate < ApplicationRecord
   before_save :calculate_pricenight, if: -> { priceweek.present? }
 
   RESTRICTION = ['normal', 'gap_fill'].freeze
+  ARRIVAL_DAY = {
+    7 => 'everyday',
+    1 => 'monday',
+    2 => 'tuesday',
+    3 => 'wednesday',
+    4 => 'thursday',
+    5 => 'friday',
+    6 => 'saturday',
+    0 => 'sunday'
+  }
 
   def calculate_pricenight
     decimal_discount = vrental.weekly_discount / 100 if vrental.weekly_discount.present?
