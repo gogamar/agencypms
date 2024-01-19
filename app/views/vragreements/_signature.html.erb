@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 font-italic fst-italic text-right text-end"><span><%= @vragreement.place %><%= ", #{l(@vragreement.signdate, format: :long)}" if @vragreement.signdate.present? %></span></div>
+  </div>
+  <div class="row border bg-light text-center font-weight-bold">
+    <div class="col-6 p-2 border-right border-end"><%= t('signature_agency') %></div>
+    <div class="col-6 p-2"><%= t('signature_owner') %></div>
+  </div>
+  <div class="row border-bottom" style="height: 150px">
+    <div class="col-6 p-2 border-left border-right border-start border-end">&nbsp;</div>
+    <div class="col-6 p-2 border-right border-end">
+      <div class="d-flex flex-column align-items-center gap-4 mt-3" data-controller="signature-capture">
+        <div class="signature-container border rounded" data-signature-capture-target="signatureContainer" >
+          <canvas id="signature-pad" data-signature-capture-target="signaturePad" tabindex="0"></canvas>
+          <div class="signature-text" data-signature-capture-target="signatureText">
+            <!-- Your text here -->
+          </div>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+          <button id="clear-button" class="btn btn-sm btn-danger" data-action="click->signature-capture#clearCanvas"><%= t('delete') %></button>
+          <button id="save-png-button" class="btn btn-sm btn-success" data-signature-capture-target="submitBtn"><%= t('global.forms.submit') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

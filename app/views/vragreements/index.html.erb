@@ -6,10 +6,10 @@
       <% @vrental.vragreements.each do |vragreement| %>
         <div class="d-flex gap-4 justify-content-between align-items-center mb-3">
           <div>
-            <%= t(vragreement.status) %>
+            <%= t(vragreement.status) if vragreement.status.present? %>
           </div>
           <div>
-            <%= link_to "#{t('contract')} #{I18n.l(vragreement&.start_date)} - #{I18n.l(vragreement&.end_date)}", vrental_vragreement_path(@vrental, vragreement), class: "btn btn-sm btn-light-info" %>
+            <%= link_to "#{t('contract')} #{I18n.l(vragreement&.start_date) if vragreement.start_date.present? } - #{I18n.l(vragreement&.end_date) if vragreement.end_date.present? }", vrental_vragreement_path(@vrental, vragreement), class: "btn btn-sm btn-light-info" %>
           </div>
           <div>
             <span class="text-info"><%= t('owner') %></span>:

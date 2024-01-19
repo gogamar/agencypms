@@ -58,7 +58,7 @@
             <%= t(vragreement.status) if vragreement.status.present? %>
           </div>
           <div class="col border-start border-end nowrap">
-            <%= l(vragreement.signdate, format: :default) if vragreement.signdate %>
+            <%= l(vragreement.signdate, format: :default) if vragreement.signdate.present? %>
           </div>
           <div class="col border-start border-end nowrap text-primary">
             <%= link_to vragreement.vrental.name, vragreement.vrental%>

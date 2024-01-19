@@ -3,12 +3,11 @@ import SignaturePad from "signature_pad";
 
 export default class extends Controller {
   static targets = [
-    "signature",
+    "signatureContainer",
     "signaturePad",
     "signatureText",
     "deleteBtn",
     "submitBtn",
-    "text",
   ];
   connect() {
     console.log("Signature capture controller connected");
@@ -16,9 +15,15 @@ export default class extends Controller {
     // if (canvas) {
     //   const signaturePad = new SignaturePad(canvas);
     // }
-    const signature = this.signatureTarget;
+    const signatureContainer = this.signatureContainerTarget;
     const canvas = this.signaturePadTarget;
-    const signaturePad = new SignaturePad(canvas);
+    this.signaturePad = new SignaturePad(canvas);
+
+    const signatureDataUrl = signaturePad.toDataURL();
+    console.log("Signature Data URL:", signatureDataUrl);
+    const textDiv = this.signatureTextTarget;
+    textDiv.innerHTML = signatureDataUrl;
+
     let lastDownTarget;
     document.addEventListener(
       "mousedown",
@@ -52,9 +57,7 @@ export default class extends Controller {
     // console.log(signatureDataUrl);
   }
 
-  clearSignature() {
-    const canvas = this.signaturePadTarget;
-    const signaturePad = new SignaturePad(canvas);
-    signaturePad.clear();
+  clearCanvas() {
+    this.signaturePad.clear();
   }
 }
