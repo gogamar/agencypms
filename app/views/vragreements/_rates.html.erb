@@ -17,12 +17,12 @@
           <td class="pricetable nowrap"><%= l(rate.firstnight, format: :standard) %></td>
           <td class="pricetable nowrap"><%= l(rate.lastnight, format: :standard) %></td>
           <td class="pricetable nowrap">
-            <%= t("#{Rate::ARRIVAL_DAY[rate.arrival_day]}") %>
+            <%= t("#{Rate::ARRIVAL_DAY[rate.arrival_day]}") if rate.arrival_day.present? %>
             <% if @vrental.no_checkin.present? && rate.arrival_day == 7 %>
               <span class="text-secondary">*</span>
             <% end %>
           </td>
-          <td class="pricetable nowrap"><%= rate.min_stay %> <%= t("nights") %>
+          <td class="pricetable nowrap"><%= rate.min_stay %> <%= t('night', count: rate.min_stay) %>
           </td>
           <td class="pricetable nowrap text-right text-end"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
           <td class="pricetable nowrap text-right text-end"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
