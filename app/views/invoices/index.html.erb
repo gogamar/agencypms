@@ -17,7 +17,7 @@
         </div>
         <div class="text-sm"><%= t('invoice_amount') %>: <%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
         <div>
-          <%= link_to "#{t('invoice')}: #{invoice.invoice_number_formatted}", vrental_invoice_path(invoice, invoice.vrental), class: "btn btn-sm btn-light-info" %>
+          <%= link_to "#{t('invoice')}: #{invoice.invoice_number_formatted}", vrental_invoice_path(invoice.vrental, invoice), class: "btn btn-sm btn-light-info" %>
         </div>
         <div>
           <% if invoice.statements %>

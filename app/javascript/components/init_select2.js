@@ -80,11 +80,11 @@ const initSelect2 = () => {
     })
     .on("select2:select", function (e) {
       const currentURL = window.location.pathname;
-      const pattern = /\/(\d+)\/(.*)/;
-      const match = currentURL.match(pattern);
+      const segments = currentURL.split("/");
 
-      if (match && match.length > 2) {
-        window.location.href = e.params.data.id + "/" + match[2];
+      if (segments.length > 3) {
+        const partial_path = "/" + segments[3];
+        window.location.href = e.params.data.id + partial_path;
       } else {
         window.location.href = e.params.data.id;
       }

@@ -33,15 +33,15 @@
     <i class="fa-solid fa-house-laptop"></i><%= t("companies") %>
   <% end %>
 </li>
-<%# unless controller.controller_name == 'companies' %>
-<% if @company.offices %>
-  <li class="<%= 'active' if current_page?(company_offices_path(@company)) %>">
-    <%= link_to company_offices_path(@company) do %>
-      <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
-    <% end %>
-  </li>
+<% unless controller.controller_name == 'companies' %>
+  <% if @company.offices %>
+    <li class="<%= 'active' if current_page?(company_offices_path(@company)) %>">
+      <%= link_to company_offices_path(@company) do %>
+        <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
-<%# end %>
 <li class="<%= 'active' if current_page?(rate_plans_path) %>">
   <%= link_to rate_plans_path do %>
     <i class="fa-solid fa-tags"></i><%= t("rate_plans") %>

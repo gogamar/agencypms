@@ -5,7 +5,6 @@ export default class extends Controller {
 
   connect() {
     this.pdfViewerTarget.addEventListener("load", () => {
-      console.log("PDF loaded, spinner hidden");
       this.pdfSpinnerTarget.classList.remove("d-flex");
       this.pdfSpinnerTarget.classList.add("d-none");
     });
