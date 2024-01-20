@@ -2190,3 +2190,28 @@ li.nav-item.dropdown.language-dropdown a.nav-link:hover {
 .color-dark-blue {
   color: #4e5c79;
 }
+
+.border-gradient-rounded {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background: linear-gradient(to right, white, white),
+    linear-gradient(to left, transparent 70%, #a0abb8 30%);
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  padding: 12px;
+}
+
+.signature-key-up {
+  position: absolute;
+  top: -5%;
+  left: 30%;
+  max-width: 150px;
+}
+
+.signature-key-down {
+  position: absolute;
+  bottom: -5%;
+  left: 30%;
+  max-width: 150px;
+}

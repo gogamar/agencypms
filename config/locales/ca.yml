@@ -903,3 +903,6 @@ ca:
   "yes": Sí
   signature_agency: Agència - NOM EMPRESA
   signature_owner: Propietari - NOM PROPIETARI
+  sign: Signar
+  signed_by: Signat per
+  reset: Resetejar

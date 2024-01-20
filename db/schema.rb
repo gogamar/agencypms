@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_18_130608) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_19_131455) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -483,6 +483,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_130608) do
     t.string "status"
     t.integer "year"
     t.bigint "company_id"
+    t.integer "signatory"
     t.index ["company_id"], name: "index_vragreements_on_company_id"
     t.index ["vrental_id"], name: "index_vragreements_on_vrental_id"
     t.index ["vrentaltemplate_id"], name: "index_vragreements_on_vrentaltemplate_id"

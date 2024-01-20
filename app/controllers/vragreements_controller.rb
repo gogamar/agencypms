@@ -1,5 +1,6 @@
 class VragreementsController < ApplicationController
   require 'date'
+  require "base64"
   before_action :set_vragreement, only: [:show, :edit, :update, :destroy ]
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
@@ -29,7 +30,6 @@ class VragreementsController < ApplicationController
   end
 
   def show
-    authorize @vragreement
     @vrentaltemplates = Vrentaltemplate.all
     @vragreements = Vragreement.all
     @owner = @vragreement.vrental.owner
@@ -138,7 +138,6 @@ class VragreementsController < ApplicationController
   end
 
   def edit
-    authorize @vragreement
     @vrentaltemplates = policy_scope(Vrentaltemplate)
     @rates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
   end
@@ -157,7 +156,20 @@ class VragreementsController < ApplicationController
 
   def update
     @vragreement.vrental = @vrental
-    authorize @vragreement
+    signature_data = params[:vragreement][:signature_data]
+    if signature_data.present?
+      encoded_image = signature_data.split(',')[1]
+      decoded_image = Base64.decode64(encoded_image)
+      signature_blob = ActiveStorage::Blob.create_and_upload!(
+        io: StringIO.new(decoded_image),
+        filename: 'signature.png',
+        content_type: 'image/png'
+      )
+      @vragreement.signature_image.attach(signature_blob)
+      @vragreement.signatory = current_user.id
+      @vragreement.signdate = @vragreement.signature_image.created_at
+    end
+
     if @vragreement.update(vragreement_params)
       redirect_to @vragreement, notice: 'Has actualitzat el contracte.'
     else
@@ -166,7 +178,6 @@ class VragreementsController < ApplicationController
   end
 
   def destroy
-    authorize @vragreement
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
     @vragreement.destroy
 
@@ -181,6 +192,7 @@ class VragreementsController < ApplicationController
 
   def set_vragreement
     @vragreement = Vragreement.find(params[:id])
+    authorize @vragreement
   end
   def set_vrental
     @vrental = Vrental.find(params[:vrental_id])
@@ -195,6 +207,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :signature, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
+    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :signature_image, :signatory, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
   end
 end
