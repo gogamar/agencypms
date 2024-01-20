@@ -15,7 +15,16 @@
     <%= f.input :realtor_number %>
     <%= f.input :bank_account %>
     <%= f.input :administrator %>
-    <% if @company.logo.present? %>
+    <% if @company.signature.attached? %>
+      <div class="form-group">
+        <%= cl_image_tag @company.signature.key, width: 170, class: "img-fluid" %>
+        <%= link_to photo_path(@company.signature), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta firma?"}, class: "ms-3 text-danger" do %>
+          <i class="fa-solid fa-trash-can"></i>
+        <% end %>
+      </div>
+    <% end %>
+    <%= f.input :signature, as: :file %>
+    <% if @company.logo.attached? %>
       <div class="form-group">
         <%= cl_image_tag @company.logo.key, width: 170, class: "img-fluid" %>
         <%= link_to photo_path(@company.logo), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest logo?"}, class: "ms-3 text-danger" do %>

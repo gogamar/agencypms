@@ -126,6 +126,7 @@ en:
         owner: Owner
         owner_bookings: Owner Bookings
         phone: Phone
+        sign_online: To be signed online
         signdate: Signing Date
         start_date: Contract Start Date
         status: Status
@@ -406,10 +407,10 @@ en:
       - Friday
       - Saturday
     formats:
-      default: '%d/%m/%Y'
-      long: '%a, %d %b %Y'
-      short: '%d %b'
-      standard: '%a, %d/%m/%Y'
+      default: "%d/%m/%Y"
+      long: "%a, %d %b %Y"
+      short: "%d %b"
+      standard: "%a, %d/%m/%Y"
     month_names:
       - null
       - January
@@ -425,9 +426,9 @@ en:
       - November
       - December
     order:
-      - ':day'
-      - ':month'
-      - ':year'
+      - ":day"
+      - ":month"
+      - ":year"
   date_title: Date
   dates: Dates
   datetime:
@@ -456,19 +457,19 @@ en:
         other: over %{count} years
       x_days:
         one: 1 day
-        other: '%{count} days'
+        other: "%{count} days"
       x_minutes:
         one: 1 minute
-        other: '%{count} minutes'
+        other: "%{count} minutes"
       x_months:
         one: 1 month
-        other: '%{count} months'
+        other: "%{count} months"
       x_seconds:
         one: 1 second
-        other: '%{count} seconds'
+        other: "%{count} seconds"
       x_years:
         one: 1 year
-        other: '%{count} years'
+        other: "%{count} years"
     prompts:
       day: day
       hour: hour
@@ -485,19 +486,20 @@ en:
   delete_bed: Delete bed
   delete_bedroom: Delete bedroom
   delete_rates_on_beds: Delete rates on Beds24
+  delete_sign_again: Delete and sign again
   delete_vrental: Delete property
   descending: Sort by (highest price)
   description: Description
   discount: Discount
   discover_our_offers: Discover our offers
   dishwasher: Dishwasher
-  dont-fill: 'Attention! Below are connection credentials with Beds24:'
+  dont-fill: "Attention! Below are connection credentials with Beds24:"
   dryer: Dryer
   earnings: Earnings
   edit: Edit
   edit_booking: Edit booking
   edit_company: Edit company
-  edit_conditions_warning: 'This property belongs to a group of properties. You must choose whether this property will use the rates of another property or not:'
+  edit_conditions_warning: "This property belongs to a group of properties. You must choose whether this property will use the rates of another property or not:"
   edit_group: Edit Group
   edit_invoice: Edit invoice
   edit_owner_booking: Edit Owner Booking
@@ -515,7 +517,7 @@ en:
   everyday: Any day
   expenses: Expenses
   export_changes_to_beds24: Export changes to Beds24
-  'false': 'No'
+  "false": "No"
   featured: Featured
   featured_locations: Featured Locations
   featured_text: Below are a selection of our featured properties. If you can't find what you're looking for, feel free to contact us.
@@ -572,8 +574,8 @@ en:
   invoice_agency_fees: Tourist Rental Management Fees
   invoice_amount: Invoice amount
   invoice_date: Invoice date
-  invoice_description_1: 'Management Period: from %{from} to %{to}'
-  invoice_description_2: '%{commission} on rental income of %{total}'
+  invoice_description_1: "Management Period: from %{from} to %{to}"
+  invoice_description_2: "%{commission} on rental income of %{total}"
   invoice_title: Invoice
   invoice_zero_amount_error: The invoice must have at least one settlement with an amount greater than 0.
   invoices: Invoices
@@ -600,7 +602,7 @@ en:
     contact: Contact | Sistach Rentals
     home: "Apartment and House Rentals | Barcelona & Costa Brava |\_Sistach Rentals"
     map: Map | Sistach Rentals
-    property: '%{property_type} %{rental_term} in %{property_location} | %{property_name} | Sistach Rentals'
+    property: "%{property_type} %{rental_term} in %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microwave
   min: Min.
   min_advance: Minimum advance to book (in hours)
@@ -617,7 +619,7 @@ en:
   new_contract_for: New contract for %{prop_name} year %{year}
   new_owner_booking: Add Owner Booking
   new_property: New Property
-  new_vrental_step_1: 'Step 1: Owner and General Conditions'
+  new_vrental_step_1: "Step 1: Owner and General Conditions"
   new_web: Added to the website
   news: News
   next_getaway: your next getaway
@@ -627,7 +629,7 @@ en:
   night_5: Night (5-6)
   night_7: Night (7)
   night_title: night
-  'no': 'No'
+  "no": "No"
   no_availability_for_dates: We have no availability for these dates. Select other dates to view availability and prices.
   no_availability_for_selection: We have no availability for this selection.
   no_checkin: Check-in not allowed
@@ -671,8 +673,8 @@ en:
   page: Page
   pagy:
     nav:
-      next: '>>'
-      prev: '<<'
+      next: ">>"
+      prev: "<<"
   paid_by_agency: Paid by agency
   paid_to_owner: Paid to owner
   parking_included: Parking included
@@ -723,7 +725,7 @@ en:
   proposal: Proposal sent
   rate_master: Will this property's rates be used for other properties in the group?
   rate_master_vrental: If you want to apply another property's rate, select the property
-  rate_master_warning: 'This property uses rates from another property. To modify it, you must modify the master rate:'
+  rate_master_warning: "This property uses rates from another property. To modify it, you must modify the master rate:"
   rate_plans: Rate plans
   rates: Rates
   read_more: Read more
@@ -737,6 +739,7 @@ en:
   remove_featured: Remove from featured
   rental_groups: Rental Groups
   reports: Reports
+  reset: Reset
   restriction: Rate type
   retail_price: Retail price
   reviews: reviews
@@ -775,15 +778,19 @@ en:
   show_all_owners: Show all owners
   show_all_statuses: All statuses
   show_all_towns: All towns
+  sign: Sign
   sign_in: Sign in
   sign_out: Sign out
   sign_up: Sign up
+  signature_agency: Agency - COMPANY NAME
+  signature_owner: Owner - OWNER NAME
   signed: Signed
+  signed_by: Signed by
   simple_calendar:
     day: day
     month: month
-    next: '>>'
-    previous: '<<'
+    next: ">>"
+    previous: "<<"
     week: week
     year: year
   smoke_detector: Smoke detector
@@ -809,7 +816,7 @@ en:
   total_revenue: Total owner revenue
   tourist: Traveler
   transfer: Transfer
-  'true': 'Yes'
+  "true": "Yes"
   tuesday: Tuesday
   tv: TV
   type: property type
@@ -898,4 +905,4 @@ en:
   withdraw_access: Withdraw access
   without_view: Apartments Sagrada Familia without view
   yearly: Yearly
-  'yes': 'Yes'
+  "yes": "Yes"

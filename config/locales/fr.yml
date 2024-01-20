@@ -126,6 +126,7 @@ fr:
         owner: Propriétaire
         owner_bookings: Réservations du propriétaire
         phone: Téléphone
+        sign_online: Signer en ligne
         signdate: Date de signature
         start_date: Date de début du contrat
         status: Statut
@@ -485,6 +486,7 @@ fr:
   delete_bed: Supprimer le lit
   delete_bedroom: Supprimer la chambre
   delete_rates_on_beds: Supprimer les tarifs sur Beds24
+  delete_sign_again: Supprimer et resigner
   delete_vrental: Supprimer la propriété
   descending: Trier par (prix le plus élevé)
   description: Description
@@ -737,6 +739,7 @@ fr:
   remove_featured: Supprimer des propriétés en vedette
   rental_groups: Groupes de location
   reports: Rapports
+  reset: Réinitialiser
   restriction: Type de tarif
   retail_price: Prix de vente
   reviews: commentaires
@@ -775,10 +778,14 @@ fr:
   show_all_owners: Afficher tous les propriétaires
   show_all_statuses: Tous les statuts
   show_all_towns: Toutes les villes
+  sign: Signer
   sign_in: Se connecter
   sign_out: Déconnexion
   sign_up: S'inscrire
+  signature_agency: Agence - NOM DE L'ENTREPRISE
+  signature_owner: Propriétaire - NOM DU PROPRIÉTAIRE
   signed: Signé
+  signed_by: Signé par
   simple_calendar:
     day: jour
     month: mois

@@ -1,14 +1,15 @@
 <%= simple_form_for [ vrental, vragreement ], html: { data: { turbo: false }} do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row">
-    <div class="col">
-      <%= f.input :status, as: :select, collection: [[t("not sent"), 'not sent'], [t("pending"), 'pending'], [t("signed"), 'signed']], include_blank: true, selected: [t("not sent"), 'not sent'] %>
-    </div>
     <div class="col"><%= f.input :signdate, as: :string, input_html: { class: "datepicker", value: f.object.persisted? ? f.object.signdate : Date.today } %></div>
     <div class="col"><%= f.input :place, label: 'Lloc de la firma', input_html: { value: f.object.persisted? ? f.object.place : @place } %></div>
     <div class="col">
       <%# f.input :year, as: :select, collection: @years_possible_contract, include_blank: true, selected: @years_possible_contract.last if @years_possible_contract %>
       <%= f.input :year, value: @year, readonly: true %>
+    </div>
+    <div class="col"><%= f.input :sign_online, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %></div>
+    <div class="col">
+      <%= f.input :status, as: :select, collection: [[t("not sent"), 'not sent'], [t("pending"), 'pending'], [t("signed"), 'signed']], include_blank: true, selected: [t("not sent"), 'not sent'] %>
     </div>
   </div>
   <div class="row">

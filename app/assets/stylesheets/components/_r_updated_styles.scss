@@ -2191,27 +2191,27 @@ li.nav-item.dropdown.language-dropdown a.nav-link:hover {
   color: #4e5c79;
 }
 
-.border-gradient-rounded {
+.half-border-rounded {
+  border-radius: 10px;
+  border-top: 2px solid #a0abb8;
+  border-bottom: 2px solid #a0abb8;
+  border-left: 2px solid #a0abb8;
+  width: 100%;
+  height: 100%;
   position: relative;
-  border: 2px solid transparent;
-  border-radius: 20px;
-  background: linear-gradient(to right, white, white),
-    linear-gradient(to left, transparent 70%, #a0abb8 30%);
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  padding: 12px;
 }
-
 .signature-key-up {
+  background: white;
+  width: 70%;
   position: absolute;
-  top: -5%;
   left: 30%;
-  max-width: 150px;
+  top: -5%;
 }
 
 .signature-key-down {
+  background: white;
+  width: 70%;
   position: absolute;
-  bottom: -5%;
   left: 30%;
-  max-width: 150px;
+  bottom: -5%;
 }

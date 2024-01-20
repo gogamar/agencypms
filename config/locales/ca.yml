@@ -126,6 +126,7 @@ ca:
         owner: Propietari
         owner_bookings: Reserves per el propietari
         phone: Telèfon
+        sign_online: Signarà online
         signdate: Data firma
         start_date: Inici contracte
         status: Estat
@@ -488,6 +489,7 @@ ca:
   delete_bed: Eliminar llit
   delete_bedroom: Eliminar habitació
   delete_rates_on_beds: Eliminar tarifes a Beds24
+  delete_sign_again: Eliminar i tornar a signar
   delete_vrental: Eliminar l'immoble
   descending: Ordenar per (preu més alt)
   description: Descripció
@@ -739,6 +741,7 @@ ca:
   remove_featured: Treure destacat
   rental_groups: Grups d'immobles
   reports: Informes
+  reset: Resetejar
   restriction: Tipus tarifa
   retail_price: Preu de venda
   reviews: comentaris
@@ -777,10 +780,14 @@ ca:
   show_all_owners: Mostrar tots els propietaris
   show_all_statuses: Tots els estats
   show_all_towns: Tots els municipis
+  sign: Signar
   sign_in: Iniciar sessió
   sign_out: Tancar sessió
   sign_up: Registrar-se
+  signature_agency: Agència - NOM EMPRESA
+  signature_owner: Propietari - NOM PROPIETARI
   signed: Signat
+  signed_by: Signat per
   simple_calendar:
     day: dia
     month: mes
@@ -901,8 +908,3 @@ ca:
   without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
   "yes": Sí
-  signature_agency: Agència - NOM EMPRESA
-  signature_owner: Propietari - NOM PROPIETARI
-  sign: Signar
-  signed_by: Signat per
-  reset: Resetejar

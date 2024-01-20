@@ -10,6 +10,7 @@ class Company < ApplicationRecord
   has_many :features
   has_many :rate_plans
   has_one_attached :logo
+  has_one_attached :signature
   validate :only_one_active_company
   validates :name, presence: true, uniqueness: true
   validates :language, presence: true

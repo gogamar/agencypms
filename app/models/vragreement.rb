@@ -10,17 +10,14 @@ class Vragreement < ApplicationRecord
   attr_accessor :signature_data
 
   def vrental_description
-    case vrentaltemplate.language
-    when "ca"
-      vrental.short_description_ca + " " + vrental.description_ca
-    when "es"
-      vrental.short_description_es + " " + vrental.description_es
-    when "fr"
-      vrental.short_description_fr + " " +vrental.description_fr
-    when "en"
-      vrental.short_description_en + " " + vrental.description_en
+    language = vrentaltemplate.language.downcase
+    short_description = vrental.send("short_description_#{language}")
+    description = vrental.send("description_#{language}")
+
+    if short_description && description
+      short_description + " " + description
     else
-      ""
+      short_description || description || ""
     end
   end
 
