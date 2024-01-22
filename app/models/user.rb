@@ -11,8 +11,6 @@ class User < ApplicationRecord
   belongs_to :office, optional: true
   has_one_attached :photo, dependent: :destroy
 
-  attr_accessor :created_by_admin
-
   after_create :send_admin_mail
   enum role: [ "admin", "manager" ]
 
@@ -36,6 +34,11 @@ class User < ApplicationRecord
     recoverable
   end
 
+  def send_access_email(lang)
+    I18n.with_locale(lang) do
+      CustomDeviseMailer.grant_owner_access_reset_password(self).deliver_now
+    end
+  end
 
   def send_reset_password_instructions_with_locale(lang)
     I18n.with_locale(lang) do
@@ -64,6 +67,8 @@ class User < ApplicationRecord
   private
 
   def send_admin_mail
-    AdminMailer.new_user_waiting_for_approval(email).deliver
+    unless self.approved?
+      AdminMailer.new_user_waiting_for_approval(email).deliver
+    end
   end
 end

@@ -5,8 +5,8 @@
     </div>
   <% end %>
   <div class="row border bg-light text-center font-weight-bold">
-    <div class="col-6 p-2 border-right border-end"><%= t('signature_agency') %></div>
-    <div class="col-6 p-2"><%= t('signature_owner') %></div>
+    <div class="col-6 p-2 border-right border-end"><%= t('signature_agency') %> - <%= @company.name %></div>
+    <div class="col-6 p-2"><%= t('signature_owner') %> - <%= @vragreement.vrental.owner&.fullname %></div>
   </div>
   <div class="row border-bottom">
     <div class="col-6 p-2 border-left border-right border-start border-end">

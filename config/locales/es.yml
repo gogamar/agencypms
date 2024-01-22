@@ -71,6 +71,10 @@ es:
         document: DNI
         email: Correo electrónico
         fullname: Nombre y apellidos del Propietario
+        company_name: Nombre empresa
+        title: Título
+        firstname: Nombre
+        lastname: Apellidos
         language: Idioma
         owner: Propietario
         phone: Teléfono

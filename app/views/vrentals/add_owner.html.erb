@@ -9,7 +9,7 @@
     <div class="row g-3">
       <% if current_user.admin? || current_user.manager? %>
         <div class="col">
-          <select name="owners" id="owners" data-placeholder="<%= t('select_owner').capitalize %>" data-path="<%= vrental_path(@vrental) %>" required>
+          <select name="owners" id="select2-owners" data-placeholder="<%= t('select_owner').capitalize %>" data-path="<%= vrental_path(@vrental) %>" required>
             <option value="">&nbsp;</option>
             <% @owners.each do |owner| %>
               <option value="<%= owner.id %>" <%= 'selected' if owner.id == @vrental.owner_id %>><%= owner.fullname %></option>

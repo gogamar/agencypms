@@ -212,7 +212,48 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #   puts "Got bookings for #{vrental.name}"
 # end
 
-estartit_vrentals.update_all(no_checkin: 0)
-barcelona_vrentals.update_all(control_restrictions: "rates")
-estartit_vrentals.update_all(control_restrictions: "calendar_beds24")
-barcelona_rate_group.update(rate_group: true)
+# estartit_vrentals.update_all(no_checkin: 0)
+# barcelona_vrentals.update_all(control_restrictions: "rates")
+# estartit_vrentals.update_all(control_restrictions: "calendar_beds24")
+# barcelona_rate_group.update(rate_group: true)
+owners = Owner.all
+owners.each do |owner|
+  if owner.company_name.present?
+    words = owner.company_name.split(' ')
+    first_word_is_title = words[0].include?('.')
+    if first_word_is_title
+      owner.title = words[0]
+      owner.firstname = words[1]
+      owner.lastname = words[2..-1].join(' ')
+      owner.company_name = nil
+      if owner.user.present?
+        owner.user.title = words[0]
+        owner.user.firstname = words[1]
+        owner.user.lastname = words[2..-1].join(' ')
+      end
+    elsif words.length <= 3
+      owner.firstname = words[0]
+      owner.lastname = words[1..-1].join(' ')
+      owner.company_name = nil
+      if owner.user.present?
+        owner.user.firstname = words[0]
+        owner.user.lastname = words[1..-1].join(' ')
+      end
+    else
+      if owner.user.present?
+        owner.user.company_name = owner.company_name
+      end
+    end
+  end
+  owner.save
+  owner.user.save if owner.user.present?
+  puts "this is the owner: #{owner.title} - #{owner.firstname} - #{owner.lastname} - #{owner.company_name} "
+  if owner.title.present?
+    if owner.title == "Sr."
+      owner.title = "mr"
+    elsif owner.title == "Sra."
+      owner.title = "mrs"
+    end
+    owner.save
+  end
+end

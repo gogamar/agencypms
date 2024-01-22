@@ -91,7 +91,7 @@ const initSelect2 = () => {
     });
 
   function updateOwner(selectedOwnerId) {
-    const path = document.getElementById("owners").dataset.path;
+    const path = document.getElementById("select2-owners").dataset.path;
     fetch(path, {
       method: "PATCH",
       headers: {
@@ -136,9 +136,9 @@ const initSelect2 = () => {
     }
   }
 
-  $("#owners")
+  $("#select2-owners")
     .select2({
-      placeholder: $("#owners").data("placeholder"),
+      placeholder: $("#select2-owners").data("placeholder"),
       allowClear: true,
       debug: true,
     })
@@ -149,7 +149,7 @@ const initSelect2 = () => {
     })
     .on("select2:unselect", function (e) {
       hideButtons();
-      $("#owners").val(null).trigger("change");
+      $("#select2-owners").val(null).trigger("change");
       updateOwner(null);
     });
 };

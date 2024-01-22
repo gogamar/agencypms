@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:update, :destroy]
+  before_action :set_user, only: [:update, :destroy, :send_access_email]
 
   def purge_photo
     current_user.photo.purge
@@ -21,6 +21,11 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     redirect_back fallback_location: users_path, notice: 'Has esborrat l\'usuari.'
+  end
+
+  def send_access_email
+    lang = @user.owner&.language
+    @user.send_access_email(lang)
   end
 
   private

@@ -9,6 +9,8 @@ ca:
         current_password: Contrasenya actual
         current_sign_in_at: Inici de sessió actual a les
         current_sign_in_ip: Sessió actual amb la IP
+        firstname: Nom
+        lastname: Cognoms
         email: Adreça electrònica
         encrypted_password: Contrasenya xifrada
         failed_attempts: Intents fallits

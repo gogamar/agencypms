@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_20_093648) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_22_145848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -281,7 +281,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_093648) do
   end
 
   create_table "owners", force: :cascade do |t|
-    t.string "fullname"
+    t.string "company_name"
     t.string "language"
     t.string "document"
     t.string "address"
@@ -294,6 +294,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_093648) do
     t.bigint "user_id"
     t.bigint "office_id"
     t.string "access_type", default: "basic"
+    t.string "title"
+    t.string "firstname"
+    t.string "lastname"
     t.index ["office_id"], name: "index_owners_on_office_id"
     t.index ["user_id"], name: "index_owners_on_user_id"
   end
@@ -463,6 +466,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_093648) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.boolean "created_by_admin", default: false
+    t.string "firstname"
+    t.string "lastname"
+    t.string "title"
+    t.string "company_name"
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true

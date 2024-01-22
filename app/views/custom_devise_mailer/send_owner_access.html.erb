@@ -1,0 +1,4 @@
+<p><%= t('hello', recipient: @user.firstname) %></p>
+<%# fixme token not working %>
+<p><%= link_to t('create_password'), edit_password_url(@user, reset_password_token: @user.reset_password_token) %></p>
+<p><%= t('welcome_text') %></p>

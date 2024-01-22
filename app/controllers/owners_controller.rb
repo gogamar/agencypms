@@ -1,5 +1,5 @@
 class OwnersController < ApplicationController
-  before_action :set_owner, only: [:show, :edit, :update, :destroy, :grant_access]
+  before_action :set_owner, only: [:show, :edit, :update, :destroy, :grant_access, :send_access_email]
 
   def index
     all_owners = policy_scope(Owner).order(created_at: :desc)
@@ -9,9 +9,14 @@ class OwnersController < ApplicationController
   def filter
     @owners = policy_scope(Owner)
     @languages = Owner.pluck("language").uniq
+
+    search_term = "%#{params[:property_or_owner_name]}%"
+
     @owners = @owners.left_joins(:vrentals)
-    .where('owners.fullname ilike ? OR vrentals.name ilike ?', "%#{params[:property_or_owner_name]}%", "%#{params[:property_or_owner_name]}%")
-    .distinct if params[:property_or_owner_name].present?
+                      .where('owners.firstname ilike :term OR owners.lastname ilike :term OR owners.company_name ilike :term OR vrentals.name ilike :term',
+                             term: search_term)
+                      .distinct if params[:property_or_owner_name].present?
+
     @owners = @owners.where(language: params[:language]) if params[:language].present?
     @pagy, @owners = pagy(@owners, page: params[:page], items: 9)
     render(partial: 'owners', locals: { owners: @owners })
@@ -93,6 +98,12 @@ class OwnersController < ApplicationController
     redirect_to owners_path, notice: "S'ha concedit l'accés al propietari."
   end
 
+  def send_access_email
+    user = @owner.user
+    user.send_access_email(@owner.language)
+    redirect_to owners_path, notice: "S'ha enviat un correu electrònic al propietari."
+  end
+
   private
 
   def set_owner
@@ -101,6 +112,6 @@ class OwnersController < ApplicationController
   end
 
   def owner_params
-    params.require(:owner).permit(:fullname, :address, :phone, :email, :document, :account, :language, :beds_room_id, :beds_prop_id, :user_id)
+    params.require(:owner).permit(:fullname, :title, :firstname, :lastname, :company_name, :address, :phone, :email, :document, :account, :language, :beds_room_id, :beds_prop_id, :user_id)
   end
 end

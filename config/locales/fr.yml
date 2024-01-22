@@ -71,6 +71,10 @@ fr:
         document: Document d'identité
         email: E-mail
         fullname: Nom complet du propriétaire
+        company_name: Nom de l'entreprise
+        title: Titre
+        firstname: Prénom
+        lastname: Nom de famille
         language: Langue
         owner: Propriétaire
         phone: Téléphone

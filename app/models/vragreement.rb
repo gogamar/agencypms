@@ -28,33 +28,35 @@ class Vragreement < ApplicationRecord
   def generate_details(contract_rates)
     details = {}
     Vrentaltemplate::TEMPLATE_KEYS.each do |key|
-      details[key] = case key
-                     when :signdate, :start_date, :end_date
+      details[key] =  case key
+                      when :signdate, :start_date, :end_date
                         send(key).present? ? I18n.l(send(key), format: :long) : ''
-                     when :place, :clause
+                      when :place, :clause
                         send(key).to_s
-                     when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence
+                      when :vrental_name, :vrental_address, :vrental_cadastre, :vrental_habitability, :vrental_licence
                         vrental.present? ? vrental.send(key[8..]) : ''
-                     when :vrental_description
+                      when :vrental_description
                         vrental.present? ? vrental_description : ''
-                     when :owner_fullname, :owner_document, :owner_address, :owner_email, :owner_phone, :owner_account
+                      when :owner_fullname
+                        vrental.owner.present? ? vrental.owner.fullname : ''
+                      when :owner_document, :owner_address, :owner_email, :owner_phone, :owner_account
                         vrental.owner.present? ? vrental.owner.send(key[6..]) : ''
                       when :company_name, :company_street, :company_city, :company_post_code, :company_region, :company_country, :company_bank_account, :company_administrator, :company_vat_tax, :company_vat_number, :company_realtor_number
                         company.present? ? company.send(key[8..]) : ''
-                     when
+                      when
                       :office_name, :office_street, :office_city, :office_post_code, :office_region, :office_country, :office_phone, :office_mobile, :office_email, :office_website, :office_local_realtor_number
                         vrental.office.present? ? vrental.office.send(key[7..]) : ''
-                     when :contract_rates
+                      when :contract_rates
                         contract_rates.present? ? contract_rates : ''
-                     when :owner_bookings
+                      when :owner_bookings
                         owner_bookings
-                     when :vrental_features
+                      when :vrental_features
                         vrental_features.to_s
-                     when :vrental_commission
+                      when :vrental_commission
                         format("%.2f", vrental.commission.to_f * 100)
-                     else
+                      else
                         '' # default value
-                     end
+                      end
     end
     details
   end

@@ -2,7 +2,7 @@
 <div class="d-flex flex-column flex-md-row justify-content-between">
   <div class="d-flex flex-column flex-md-row justify-content-start align-items-center gap-2">
     <%= form_with url: filter_owners_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "owners" }, class: "d-flex flex-row gap-2" do |form| %>
-      <%= form.select :language,
+      <% form.select :language,
             options_for_select(
             [[t("ca"),'ca'],[t("en"),'en'],[t("es"),'es'],[t("fr"),'fr']],
             ),
@@ -26,56 +26,59 @@
 </div>
 <%= turbo_frame_tag "owners", class: "card-body" do %>
   <div class="container-fluid my-3">
-    <div>
-      <div class="row border border-top border-bottom fw-bold bg-light">
-        <div class="col col-lg-3 py-3 nowrap" id="owner-fullname" relative>
-          Nom i cognoms
-        </div>
-        <div class="col-lg-1 py-3" id="owner-language" relative>
-          Idioma
-        </div>
-        <div class="col-lg-2 py-3" id="owner-language" relative>
-          Accès a web
-        </div>
-        <div class="col-lg-1 py-3" id="owner-phone" relative>
-          Telèfon
-        </div>
-        <div class="col-lg-2 py-3" id="owner-email" relative>
-          Email
-        </div>
-        <div class="col-lg-2 py-3" id="owner-vrentals" relative>
-          Immobles
-        </div>
-        <div class="col-lg-1 py-3">
-        </div>
+    <div class="row border border-top border-bottom bg-light d-none d-lg-flex">
+      <div class="col col-lg-3 py-3 nowrap" id="owner-fullname" relative>
+        <%= t('owner') %>
+      </div>
+      <div class="col-lg-1 py-3" id="owner-language" relative>
+        <%= t('language') %>
+      </div>
+      <div class="col-lg-2 py-3" id="owner-language" relative>
+        <%= t('web_access') %>
+      </div>
+      <div class="col-lg-2 py-3" id="owner-phone" relative>
+        <%= t('phone') %>
+      </div>
+      <div class="col-lg-3 py-3" id="owner-email" relative>
+        <%= t('email') %>
+      </div>
+      <div class="col-lg-1 py-3">
       </div>
     </div>
     <div class="tbody">
       <% @owners.each do |owner| %>
         <div class="row border">
-          <div class="col-lg-3 align-self-center"><%= link_to owner.fullname, owner, class: "link" %></div>
+          <div class="col-lg-3 align-self-center">
+            <%= link_to owner.fullname, owner, class: "link" %><br>
+            <% owner.vrentals.each do |vrental| %>
+              <%= link_to vrental.name, vrental, class: "text-sm text-info" %><br>
+            <% end %>
+          </div>
           <div class="col-lg-1 align-self-center"><%= owner.language if owner.language %></div>
           <div class="col-lg-2 align-self-center">
             <% if owner.user.present? && !(owner.user.role == "admin" || owner.user.role == "manager") %>
-              <i class="fas fa-check-circle text-success me-2"></i>
-              <%= link_to t("withdraw_access"), owner.user,
+              <div>
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <%= link_to t("withdraw_access"), owner.user,
                 data: {turbo_method: :delete, turbo_confirm: t("are_you_sure")}, class: "text-danger text-decoration-none" %>
+              </div>
+              <div>
+                <% if owner.user.email.present? %>
+                  <%= link_to send_access_email_owner_path(owner) do %>
+                    <i class="fas fa-envelope text-secondary me-2"></i> <%= t('send_access_email') %>
+                  <% end %>
+                <% else %>
+                  <%= link_to edit_owner_path(owner) do %>
+                    <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
+                  <% end %>
+                <% end %>
+              </div>
             <% end  %>
             <% if owner.user.blank? %>
-              <span class="spinner-border spinner-border-sm d-none" id="grant-access-spinner" role="status" aria-hidden="true"></span>
-              <%= link_to t('grant_access'), grant_access_owner_path(owner), id: "grant-access-link", onclick: "showSpinner();" %>
-            <% end %>
-          </div>
-          <div class="col-lg-1 align-self-center"><%= owner.phone %></div>
-          <div class="col-lg-2 align-self-center"><%= owner.email %></div>
-          <div class="col-lg-2 align-self-center">
-            <% owner.vrentals.each do |vrental| %>
-              <%= link_to vrental.name, vrental, class: "link" %>
-              <% if vrental != owner.vrentals.last %>
-                <span class="text-secondary">,</span>
-              <% end %>
-            <% end %>
-          </div>
+              <%= link_to t('grant_access'), grant_access_owner_path(owner) %>
+            <% end %>          </div>
+          <div class="col-lg-2 align-self-center text-sm"><%= owner.phone %></div>
+          <div class="col-lg-3 align-self-center text-sm"><%= owner.email %></div>
           <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
             <%= link_to edit_owner_path(owner), class: "text-info text-decoration-none" do %>
               <i class="fas fa-edit fa-sm"></i>
@@ -92,10 +95,3 @@
     <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
   </div>
 <% end %>
-<script>
-  function showSpinner() {
-    document.getElementById("grant-access-link").style.display = "none";
-    document.getElementById("grant-access-spinner").classList.remove("d-none");
-    document.getElementById("grant-access-link").disabled = true;
-  }
-</script>

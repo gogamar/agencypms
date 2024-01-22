@@ -33,6 +33,10 @@ class OwnerPolicy < ApplicationPolicy
     user.admin? || user.manager?
   end
 
+  def send_access_email?
+    user.admin? || user.manager?
+  end
+
   def destroy?
     user.admin? || user.manager?
   end

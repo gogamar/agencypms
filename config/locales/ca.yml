@@ -70,7 +70,11 @@ ca:
         address: Adreça
         document: DNI
         email: Email
-        fullname: Nom i cognoms Propietari
+        fullname: Nom i cognoms propietari
+        company_name: Nom empresa
+        title: Títol
+        firstname: Nom
+        lastname: Cognoms
         language: Idioma
         owner: Propietari
         phone: Telèfon
@@ -784,8 +788,8 @@ ca:
   sign_in: Iniciar sessió
   sign_out: Tancar sessió
   sign_up: Registrar-se
-  signature_agency: Agència - NOM EMPRESA
-  signature_owner: Propietari - NOM PROPIETARI
+  signature_agency: Agència
+  signature_owner: Propietari
   signed: Signat
   signed_by: Signat per
   simple_calendar:
@@ -908,3 +912,19 @@ ca:
   without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
   "yes": Sí
+  send_access_email: Enviar email
+  add_email: Afegir email
+  firstname_lastname: Nom i cognoms
+  phone: Telèfon
+  web_access: Accés web
+  language: Idioma
+  welcome_owner_space: Benvingut a l'espai propietari
+  create_password: Crear contrassenya
+  welcome_text: Aquest és l'espai propietari. Aquí podràs veure les reserves dels teus immobles, les liquidacions i les factures. També podràs modificar les tarifes i les disponibilitats dels teus immobles.
+  if_owner_company: Si el propietari és una empresa
+  mr: Sr.
+  mrs: Sra.
+  ms: Sra.
+  address: Adreça
+  document: DNI
+  bank_account: Compte bancari

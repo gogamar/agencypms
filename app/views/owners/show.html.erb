@@ -3,7 +3,9 @@
     <div>
       <%= link_to t('edit'), edit_owner_path(@owner), class: "btn btn-sm btn-secondary" %>
       <% if current_user.admin? || current_user.manager? %>
-        <%= link_to t('grant_access'), grant_access_owner_path(@owner), class: "btn btn-sm btn-success" %>
+        <% unless @owner.user.present? %>
+          <%= link_to t('grant_access'), grant_access_owner_path(@owner), class: "btn btn-sm btn-success" %>
+        <% end %>
         <%= link_to t('delete'), @owner, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{@owner.fullname}?"} %>
       <% end %>
     </div>
@@ -13,34 +15,34 @@
   </div>
   <div class="card shadow mb-4 p-4">
     <p>
-      <strong>Nom i cognoms:</strong>
+      <strong><%= t('owner') %></strong>
       <%= @owner.fullname %>
     </p>
     <p>
-      <strong>Idioma:</strong>
+      <strong><%= t('language') %></strong>
       <%= @owner.language %>
     </p>
     <p>
-      <strong>Adreça:</strong>
+      <strong><%= t('address') %></strong>
       <%= @owner.address %>
     </p>
     <p>
-      <strong>Telèfon:</strong>
+      <strong><%= t('phone') %></strong>
       <%= @owner.phone %>
     </p>
     <p>
-      <strong>Email:</strong>
+      <strong><%= t('email') %></strong>
       <%= @owner.email %>
     </p>
     <p>
-      <strong>DNI:</strong>
+      <strong><%= t('document') %></strong>
       <%= @owner.document %>
     </p>
     <p>
-      <strong>Compte bancari:</strong>
+      <strong><%= t('bank_account') %></strong>
       <%= @owner.account %>
     </p>
-    <strong>Propietats:</strong>
+    <strong><%= t('properties') %></strong>
     <% @owner.vrentals.each do |vrental| %>
       <p><%= vrental.name %></p>
     <% end %>

@@ -9,6 +9,8 @@ es:
         current_password: Contraseña actual
         current_sign_in_at: Fecha del ingreso actual
         current_sign_in_ip: IP del ingreso actual
+        firstname: Nombre
+        lastname: Apellidos
         email: Email
         encrypted_password: Contraseña cifrada
         failed_attempts: Intentos fallidos

@@ -70,7 +70,11 @@ en:
         address: Address
         document: ID Document
         email: Email
-        fullname: Owner Name
+        fullname: Owner Name and Surname
+        company_name: Company Name
+        title: Title
+        firstname: First name
+        lastname: Surname
         language: Language
         owner: Owner
         phone: Phone
