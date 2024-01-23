@@ -81,4 +81,7 @@ module ApplicationHelper
    @devise_mapping ||= Devise.mappings[:user]
   end
 
+  def whatsapp_link(phone_number)
+    "https://wa.me/#{phone_number}"
+  end
 end

@@ -58,25 +58,28 @@
           <div class="col-lg-2 align-self-center">
             <% if owner.user.present? && !(owner.user.role == "admin" || owner.user.role == "manager") %>
               <div>
-                <i class="fas fa-check-circle text-success me-2"></i>
+                <i class="fas fa-check-circle text-success text-sm me-2"></i>
                 <%= link_to t("withdraw_access"), owner.user,
-                data: {turbo_method: :delete, turbo_confirm: t("are_you_sure")}, class: "text-danger text-decoration-none" %>
+                data: {turbo_method: :delete, turbo_confirm: t("are_you_sure")}, class: "text-danger text-sm" %>
               </div>
               <div>
                 <% if owner.user.email.present? %>
-                  <%= link_to send_access_email_owner_path(owner) do %>
-                    <i class="fas fa-envelope text-secondary me-2"></i> <%= t('send_access_email') %>
+                  <%= link_to send_access_email_owner_path(owner), class: "text-sm text-secondary" do %>
+                    <i class="fa-solid fa-paper-plane me-2"></i><%= t('send_access_email') %>
                   <% end %>
                 <% else %>
-                  <%= link_to edit_owner_path(owner) do %>
+                  <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
                     <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
                   <% end %>
                 <% end %>
               </div>
             <% end  %>
             <% if owner.user.blank? %>
-              <%= link_to t('grant_access'), grant_access_owner_path(owner) %>
-            <% end %>          </div>
+              <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>
+                <i class="fa-solid fa-square-arrow-up-right me-2"></i><%= t('grant_access') %>
+              <% end %>
+            <% end %>
+          </div>
           <div class="col-lg-2 align-self-center text-sm"><%= owner.phone %></div>
           <div class="col-lg-3 align-self-center text-sm"><%= owner.email %></div>
           <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">

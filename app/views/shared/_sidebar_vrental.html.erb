@@ -1,8 +1,31 @@
 <% if current_user.admin? || current_user.manager? %>
-  <%= render 'shared/sidebar_vrental_basic' %>
-  <%= render 'shared/sidebar_vrental_intermediate' %>
-  <%= render 'shared/sidebar_vrental_advanced' %>
-  <%= render 'shared/sidebar_vrental_admin' %>
+  <div class="d-flex flex-column">
+    <a class="text-secondary border-bottom p-3" data-bs-toggle="collapse" href="#intermediateAccess" role="button" aria-expanded="false" aria-controls="intermediateAccess">
+      <i class="fa-solid fa-angle-right me-2"></i>Editar immoble
+    </a>
+    <div class="collapse show" id="intermediateAccess">
+      <div class="card card-body">
+        <%= render 'shared/sidebar_vrental_intermediate' %>
+        <%= render 'shared/sidebar_vrental_advanced' %>
+      </div>
+    </div>
+    <a class="text-secondary border-bottom p-3" data-bs-toggle="collapse" href="#basicAccess" role="button" aria-expanded="false" aria-controls="basicAccess">
+      <i class="fa-solid fa-angle-right me-2"></i>Gestió bàsica
+    </a>
+    <div class="collapse" id="basicAccess">
+      <div class="card card-body">
+        <%= render 'shared/sidebar_vrental_basic' %>
+      </div>
+    </div>
+    <a class="text-secondary border-bottom p-3" data-bs-toggle="collapse" href="#adminAccess" role="button" aria-expanded="false" aria-controls="adminAccess">
+      <i class="fa-solid fa-angle-right me-2"></i>Gestió avançada
+    </a>
+    <div class="collapse" id="adminAccess">
+      <div class="card card-body">
+        <%= render 'shared/sidebar_vrental_admin' %>
+      </div>
+    </div>
+  </div>
 <% elsif current_user.owner&.access_type %>
   <%= render "shared/sidebar_vrental_#{current_user.owner.access_type}" %>
 <% end %>

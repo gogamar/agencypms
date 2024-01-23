@@ -838,7 +838,7 @@ en:
   view: View
   view_more_properties: View more properties
   view_more_reviews: View more reviews
-  view_on_website: Property Website
+  view_on_website: "View %{property}"
   view_photos: View photos
   view_property: View property
   view_vrental: View property

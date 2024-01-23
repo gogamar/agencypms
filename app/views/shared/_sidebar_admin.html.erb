@@ -3,11 +3,13 @@
     <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
   <% end %>
 </li>
+<!--
 <li class="<%= 'active' if current_page?(empty_vrentals_path) %>">
   <%= link_to empty_vrentals_path do %>
     <i class="fa-solid fa-calendar-check"></i><%= t('empty_vrentals') %>
   <% end %>
 </li>
+-->
 <li class="<%= 'active' if current_page?(vrentals_path) %>">
   <%= link_to vrentals_path do %>
     <i class="fa-solid fa-house-circle-check"></i><%= t("vrentals") %>
@@ -64,8 +66,10 @@
     <% end %>
   </li>
 <% end %>
+<!--
 <li class="<%= 'active' if current_page?(sidekiq_web_path) %>">
   <%= link_to sidekiq_web_path, target: "_blank" do %>
     <i class="fas fa-network-wired"></i> Sidekiq
   <% end %>
 </li>
+-->

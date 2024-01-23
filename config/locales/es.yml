@@ -838,7 +838,7 @@ es:
   view: Ver
   view_more_properties: Ver más inmuebles
   view_more_reviews: Ver más comentarios
-  view_on_website: Inmueble Web
+  view_on_website: Ver %{property}
   view_photos: Ver fotos
   view_property: Ver inmueble
   view_vrental: Ver el inmueble

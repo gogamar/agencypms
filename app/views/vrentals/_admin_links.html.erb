@@ -1,7 +1,7 @@
 <%= link_to edit_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("edit_vrental") do %>
   <i class="fa-solid fa-pen-to-square"></i>
 <% end %>
-<%= link_to copy_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("copy_vrental") do %>
+<%= link_to copy_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top", turbo_method: :copy, turbo_confirm: "Segur que vols copiar #{vrental.name}?"}, title: t("copy_vrental") do %>
   <i class="fa-solid fa-copy"></i>
 <% end %>
 <%= link_to vrental, class: "text-danger text-decoration-none",  data: { bs_toggle: "tooltip", bs_placement: "top", turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{vrental.name}?"}, title: t("delete_vrental")  do %>

@@ -45,7 +45,7 @@ class Vrental < ApplicationRecord
 
   scope :with_availabilities, -> {
     joins(:availabilities)
-      .where("availabilities.date >= ?", Date.today)
+      .where("availabilities.date >= ? AND availabilities.override = ?", Date.today, 0)
       .distinct
   }
 

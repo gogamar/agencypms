@@ -4,6 +4,7 @@ class VrentalsController < ApplicationController
   def index
     @vrentals = policy_scope(Vrental).order(created_at: :desc)
     @statuses = @vrentals.pluck(:status).uniq
+    @statuses.reject!(&:empty?)
     @towns = policy_scope(Town).order(name: :asc)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
     @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
@@ -14,6 +15,7 @@ class VrentalsController < ApplicationController
   def list
     @vrentals = policy_scope(Vrental)
     @statuses = @vrentals.pluck(:status).uniq
+    @statuses.reject!(&:empty?)
     @towns = Town.all
     @vrentals = @vrentals.includes(:owner)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
@@ -260,6 +262,7 @@ class VrentalsController < ApplicationController
       @new_vrental.save
       redirect_to @new_vrental, notice: "S'ha creat una còpia de l'immoble: #{@new_vrental.name}."
     else
+      puts "ERRORS copy: #{@new_vrental.errors.full_messages.to_sentence}"
       redirect_back(fallback_location: vrentals_path, alert: @new_vrental.errors.full_messages.to_sentence)
     end
   end

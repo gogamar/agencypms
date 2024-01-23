@@ -840,7 +840,7 @@ ca:
   view: Veure
   view_more_properties: Veure més immobles
   view_more_reviews: Veure més comentaris
-  view_on_website: Immoble Web
+  view_on_website: Veure %{property}
   view_photos: Veure fotos
   view_property: Veure immoble
   view_vrental: Veure l'immoble

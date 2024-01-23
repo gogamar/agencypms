@@ -2400,6 +2400,20 @@ table.table tr th {
   color: #ffffff !important;
 }
 
+.btn-light-secondary {
+  border-color: #d6dfe8;
+  color: #1b4167;
+  font-size: 15px;
+}
+
+.btn-light-secondary:hover,
+.btn-light-secondary:focus,
+.btn-light-secondary:active {
+  background: #eff4fc !important; /* Light grey when hovered, focused, or active */
+  border-color: #eff4fc !important;
+  color: #ffffff !important; /* White text when hovered, focused, or active */
+}
+
 .btn-info {
   background: #008aff;
   border-color: #008aff;
@@ -2686,9 +2700,9 @@ table.table tr th {
   color: #ffffff;
 }
 
-.btn-light-whites:hover,
-.btn-light-whites:focus,
-.btn-light-whites:active {
+.btn-light-white:hover,
+.btn-light-white:focus,
+.btn-light-white:active {
   background: #ffffff !important;
   border-color: #ffffff !important;
   color: #046acf !important;

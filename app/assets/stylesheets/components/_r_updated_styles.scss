@@ -2215,3 +2215,10 @@ li.nav-item.dropdown.language-dropdown a.nav-link:hover {
   left: 30%;
   bottom: -5%;
 }
+
+#whatsapp-container {
+  position: fixed;
+  top: 160px;
+  right: 20px;
+  z-index: 999;
+}

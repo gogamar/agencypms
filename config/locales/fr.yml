@@ -838,7 +838,7 @@ fr:
   view: Voir
   view_more_properties: Voir plus de propriétés
   view_more_reviews: Voir plus de commentaires
-  view_on_website: Voir la propriété sur le site Web
+  view_on_website: Voir %{property}
   view_photos: Voir les photos
   view_property: Voir la propriété
   view_vrental: Voir la propriété de location de vacances

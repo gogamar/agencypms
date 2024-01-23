@@ -1,7 +1,16 @@
 <div class="card">
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between align-items-center">
+    <% if @vrental.status.present? %>
+      <% if @vrental.status == "active" %>
+        <span class="badge badge-success ms-2"><%= t(@vrental.status) %></span>
+      <% elsif @vrental.status == "inactive" %>
+        <span class="badge badge-danger ms-2"><%= t(@vrental.status) %></span>
+      <% else %>
+        <span class="badge badge-warning ms-2"><%= t(@vrental.status) %></span>
+      <% end %>
+    <% end %>
     <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
-    <%= link_to copy_vrental_path(@vrental) do %>
+    <%= link_to copy_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
       <i class="fa-solid fa-copy me-2"></i><%= t("copy_vrental") %>
     <% end %>
   </div>
@@ -13,15 +22,6 @@
           <%= link_to @vrental.owner.fullname, owner_path(@vrental.owner), class: "link" %>
         </p>
       <% end %>
-      <p class="card-text">
-        <% if @vrental.status == "active" %>
-          <span class="bg-success text-white p-2 rounded"><%= t(@vrental.status) %></span>
-        <% elsif @vrental.status == "inactive" %>
-          <span class="bg-danger text-white p-2 rounded"><%= t(@vrental.status) %></span>
-        <% else %>
-          <span class="bg-warning text-white p-2 rounded"><%= t(@vrental.status) %></span>
-        <% end %>
-      </p>
       <p class="card-text">
         <strong>Número HUT:</strong>
         <%= @vrental.licence %>
