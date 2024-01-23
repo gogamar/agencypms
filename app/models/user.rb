@@ -35,8 +35,9 @@ class User < ApplicationRecord
   end
 
   def send_access_email(lang)
+    office = owner.vrentals.first.office if owner.present?
     I18n.with_locale(lang) do
-      CustomDeviseMailer.grant_owner_access_reset_password(self).deliver_now
+      CustomDeviseMailer.send_owner_access(self, office).deliver_now
     end
   end
 

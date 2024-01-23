@@ -1,5 +1,5 @@
 <div class="header header-light head-shadow change-logo">
-  <div class="container">
+  <div class="container-fluid px-3">
     <nav id="navigation" class="navigation navigation-landscape">
       <div class="nav-header">
         <%= link_to home_path, class: "nav-brand static-logo" do %>
@@ -89,7 +89,7 @@
           </li>
           <li><%= link_to t("contact"), contact_path %></li>
         </ul>
-        <ul class="nav-menu nav-menu-social align-to-right d-flex align-items-center">
+        <ul class="nav-menu nav-menu-social align-to-right d-none d-lg-flex align-items-center">
           <%= render 'shared/user_menu' %>
         </ul>
       </div>

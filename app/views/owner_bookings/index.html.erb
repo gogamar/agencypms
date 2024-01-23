@@ -1,21 +1,32 @@
 <div class="container my-4">
-  <h4><%= t('owner_bookings') %></h4>
-  <ul class="list-group mt-3">
-    <% @owner_bookings.each do |owner_booking| %>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <%= l(owner_booking.checkin, format: :standard) %> - <%= l(owner_booking.checkout, format: :standard) %>
-        <%= form_for owner_booking, url: vrental_owner_booking_path(@vrental, owner_booking), method: :patch, remote: true do |f| %>
-          <%= f.hidden_field :status, value: "0" %>
-          <%= f.button :submit, class: "btn btn-danger btn-sm" do %>
-            <i class="fas fa-trash-can fa-sm"></i>
-          <% end %>
+  <h4><%= t('bookings') %> <%= Date.today.year %></h4>
+  <div class="container-fluid my-3">
+    <% @all_bookings.each do |bk| %>
+      <div class="row border-bottom d-flex align-items-center<%= ' bg-light-warning' if bk.is_a?(OwnerBooking) %>">
+        <% if bk.is_a?(OwnerBooking) %>
+          <div class="col-2 border-end"><%= t('owner_booking') %></div>
+        <% else %>
+          <div class="col-2 border-end"><%= t('confirmed_booking') %></div>
         <% end %>
-      </li>
+        <div class="col-3"><%= l(bk.checkin, format: :standard) %></div>
+        <div class="col-3"><%= l(bk.checkout, format: :standard) %></div>
+        <% if bk.is_a?(OwnerBooking) %>
+          <div class="col-2"><%= bk.note %></div>
+          <div class="col-2 d-flex justify-content-end">
+            <%= form_for bk, url: vrental_owner_booking_path(@vrental, bk), method: :patch, remote: true do |f| %>
+              <%= f.hidden_field :status, value: "0" %>
+              <%= f.button :submit, class: "btn btn-danger btn-sm" do %>
+                <i class="fas fa-trash-can fa-sm"></i>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
   </ul>
 </div>
 <div class="alert position-relative alert-info" role="alert">
-  <%= t('add_owner_booking_explanation') %>
+  <i class="fa-solid fa-arrow-down me-2"></i><%= t('add_owner_booking_explanation') %>
 </div>
 <div id="latest-date-js" data-latest-booking-date="<%= @latest_owner_booking.checkin if @latest_owner_booking %>"></div>
 <div id="calendar" data-bookings-on-calendar-path="<%= bookings_on_calendar_vrental_path(@vrental) %>"></div>

@@ -1,4 +1,12 @@
 <p><%= t('hello_formal', recipient: @user.owner.fullname) %></p>
-<p><%= t('welcome_text') %></p>
+<p><%= t('welcome_text').html_safe %></p>
 <p><%= link_to t('create_password'), edit_password_url(@user, reset_password_token: @token) %></p>
-<p><%= t('owner_access_explanation') %></p>
+<p><%= t('any_doubts') %></p>
+<p><%= t('goodbye_formal') %></p>
+<hr>
+<% if @office.present? %>
+  <p><%= @office.company.administrator %></p>
+  <p><%= @office.company.name %></p>
+  <p><%= @office.address %></p>
+  <p><%= @office.email %></p>
+<% end %>

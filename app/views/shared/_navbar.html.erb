@@ -1,5 +1,5 @@
 <div class="header header-light head-shadow change-logo">
-  <div class="container">
+  <div class="container-fluid px-3">
     <nav id="navigation" class="navigation navigation-landscape">
       <div class="nav-header">
         <%= link_to home_path, class: "nav-brand static-logo" do %>
@@ -24,7 +24,7 @@
         <ul class="nav-menu">
           <% if current_user.admin? || current_user.manager? %>
             <% if @vrental || params[:controller] == 'vrentals' %>
-              <li class="form-group borders mx-2">
+              <li class="form-group borders">
                 <div class="input-with-icon">
                   <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
                     <option value="">&nbsp;</option>
@@ -96,7 +96,7 @@
             <% end %>
           <% end %>
         </ul>
-        <ul class="nav-menu nav-menu-social align-to-right d-flex align-items-center gap-3">
+        <ul class="nav-menu nav-menu-social align-to-right d-lg-flex d-none align-items-center gap-3">
           <% if current_user.admin? || current_user.manager? || current_user.owner.present? && (current_user.owner.access_type && current_user.owner.access_type != "basic") %>
             <li>
               <%= link_to new_vrental_path, class: "text-success" do %>

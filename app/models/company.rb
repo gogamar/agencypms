@@ -34,6 +34,12 @@ class Company < ApplicationRecord
     return [{ from: from_date, to: to_date }]
   end
 
+  def address
+    address_parts = [street]
+    address_parts << "#{post_code} #{city}" if post_code.present? && city.present?
+    address_parts.join(', ')
+  end
+
   private
 
   def only_one_active_company

@@ -17,33 +17,16 @@
     </div>
     <div class="listing-content">
       <div class="listing-detail-wrapper-box">
-        <div class="px-3">
-          <% if vrental.property_type.present? %>
-            <span class="label bg-light-danger text-danger d-inline-flex mb-1"><%= t(vrental.property_type) %></span>
-          <% end %>
-          <% if vrental.rental_term.present? && vrental.rental_term == "medium_term" && vrental.min_stay.present? %>
-            <span class="label bg-light-info text-info d-inline-flex mb-1"><%= t("min_stay", min_stay: vrental.min_stay) %></span>
-          <% end %>
-          <% if vrental.rental_term.present? && vrental.rental_term == "medium_term" && vrental.available_from.present? %>
-            <span class="label bg-light-seegreen text-seegreen d-inline-flex mb-1"><%= t("available_from", date: l(vrental.available_from)) %></span>
-          <% end %>
-        </div>
-        <div class="listing-detail-wrapper d-flex align-items-start justify-content-between">
-          <div class="listing-short-detail">
-            <h4 class="listing-name mb-0">
-              <% if user_signed_in? && current_user.admin? %>
-                <%= link_to vrental.name, edit_vrental_path(vrental) %>
-              <% else %>
-                <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) %>
-              <% end %>
-            </h4>
-            <% if vrental.reviews.present? %>
-              <div class="rating-single-on-list">
-                <div class="star-rating" data-rating="<%= vrental.reviews_median %>">
-                  <%= stars_for_rating(vrental.reviews_median) %>
-                  <span class="reviews_text fs-sm text-muted ms-2">(<%= vrental.reviews.count %> <%= t('reviews') %>)</span>
-                </div>
-              </div>
+        <div class="listing-short-detail d-flex justify-content-between">
+          <div class="px-3">
+            <% if vrental.property_type.present? %>
+              <span class="label bg-light-danger text-danger d-inline-flex mb-1"><%= t(vrental.property_type) %></span>
+            <% end %>
+            <% if vrental.rental_term.present? && vrental.rental_term == "medium_term" && vrental.min_stay.present? %>
+              <span class="label bg-light-info text-info d-inline-flex mb-1"><%= t("min_stay", min_stay: vrental.min_stay) %></span>
+            <% end %>
+            <% if vrental.rental_term.present? && vrental.rental_term == "medium_term" && vrental.available_from.present? %>
+              <span class="label bg-light-seegreen text-seegreen d-inline-flex mb-1"><%= t("available_from", date: l(vrental.available_from)) %></span>
             <% end %>
           </div>
           <div class="list-price d-flex flex-row align-items-center">
@@ -52,6 +35,21 @@
               <h6 class="listing-card-info-price text-primary"><%= number_to_currency(price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></h6>
             <% elsif params[:check_in].present? && params[:check_out].present? && params[:guests] %>
               <span class="label bg-light-warning text-warning d-inline-flex mb-1"><%= t("not_available") %></span>
+            <% end %>
+          </div>
+        </div>
+        <div class="listing-detail-wrapper d-flex align-items-start justify-content-between">
+          <div class="listing-short-detail">
+            <h4 class="listing-name mb-0">
+              <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) %>
+            </h4>
+            <% if vrental.reviews.present? %>
+              <div class="rating-single-on-list">
+                <div class="star-rating" data-rating="<%= vrental.reviews_median %>">
+                  <%= stars_for_rating(vrental.reviews_median) %>
+                  <span class="reviews_text fs-sm text-muted ms-2">(<%= vrental.reviews.count %> <%= t('reviews') %>)</span>
+                </div>
+              </div>
             <% end %>
           </div>
         </div>
@@ -80,7 +78,7 @@
       </div>
       <div class="listing-footer-wrapper">
         <div class="listing-locate">
-          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-pin me-2"></i><%= vrental.town&.name %></span>
+          <span class="listing-location text-muted-2"><i class="fa-solid fa-location-dot me-2"></i><%= vrental.town&.name %></span>
         </div>
         <div class="listing-detail-btn">
           <% if @available_vrentals_with_price.present? %>

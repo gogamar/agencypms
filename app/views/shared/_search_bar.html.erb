@@ -22,7 +22,7 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 p-md-0 elio">
           <div class="form-group border-start borders">
             <div class="input-with-icon">
-              <select name="guests" id="guests" class="form-control" data-placeholder="<%= t('guests').capitalize %>" required>
+              <select name="guests" id="guests" class="form-control" data-placeholder="<%= t('guests').capitalize %>">
                 <option value="">&nbsp;</option>
                 <% (1..20).each do |n| %>
                   <option value="<%= n %>"><%= n %> <%= t("guest", count: n) %></option>

@@ -920,7 +920,16 @@ ca:
   language: Idioma
   welcome_owner_space: Benvingut a l'espai propietari
   create_password: Crear contrassenya
-  welcome_text: Aquest és l'espai propietari. Aquí podràs veure les reserves dels teus immobles, les liquidacions i les factures. També podràs modificar les tarifes i les disponibilitats dels teus immobles.
+  welcome_text: "Li donem la benvinguda a l'extranet del propietari de Sistach Rentals. Aquí podrà:
+  <ul>
+    <li>Veure i signar el seu contracte.</li>
+    <li>Veure els contractes, les liquidacions i les factures de l'any passat.</li>
+    <li>Veure les reserves futures.</li>
+    <li>Bloquejar dates per al seu propi ús.</li>
+    <li>Per accedir a l'extranet, primer ha de triar una contrasenya.</li>
+    <li>El seu nom d'usuari serà la seva adreça de correu electrònic i la contrasenya que hagi triat.</li>
+  </ul>
+  Per accedir si us plau faci clic al següent enllaç per establir la seva contrasenya:"
   if_owner_company: Si el propietari és una empresa
   mr: Sr.
   mrs: Sra.
@@ -928,3 +937,6 @@ ca:
   address: Adreça
   document: DNI
   bank_account: Compte bancari
+  hello_formal: "Benvingut/Benvinguda %{recipient}:"
+  goodbye_formal: Salutacions cordials
+  any_doubts: Si té qualsevol dubte, pot contestar a aquest email.

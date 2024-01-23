@@ -1,5 +1,5 @@
 <nav class="navbar py-0 dark-top navbar-expand-lg py-md-0">
-  <div class="container d-flex justify-content-end gap-5">
+  <div class="container-fluid px-4 d-flex justify-content-end gap-5">
     <% if user_signed_in? %>
       <%= link_to root_path, class: "text-light", target: "_blank" do %>
         <i class="fa-solid fa-globe me-2"></i> <%= t('website') %>

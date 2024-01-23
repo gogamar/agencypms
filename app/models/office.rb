@@ -8,6 +8,14 @@ class Office < ApplicationRecord
   validates :beds_owner_id, presence: true, uniqueness: true
   encrypts :beds_key, deterministic: true
 
+  def address
+    address_parts = [street]
+    address_parts << "#{post_code} #{city}" if post_code.present? && city.present?
+    address_parts.join(', ')
+  end
+
+  # fixme move all this to a service
+
   def import_properties_from_beds(no_import=nil, import_name)
     client = BedsHelper::Beds.new(beds_key)
 
