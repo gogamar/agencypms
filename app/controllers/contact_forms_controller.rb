@@ -1,6 +1,5 @@
 class ContactFormsController < ApplicationController
   skip_before_action :authenticate_user!
-  layout 'booking_website'
 
   def new
     @contact_form = ContactForm.new

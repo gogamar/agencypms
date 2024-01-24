@@ -27,7 +27,7 @@
 <%= turbo_frame_tag "owners", class: "card-body" do %>
   <div class="container-fluid my-3">
     <div class="row border border-top border-bottom bg-light d-none d-lg-flex">
-      <div class="col col-lg-3 py-3 nowrap" id="owner-fullname" relative>
+      <div class="col-lg-3 py-3 nowrap" id="owner-fullname" relative>
         <%= t('owner') %>
       </div>
       <div class="col-lg-1 py-3" id="owner-language" relative>
@@ -57,22 +57,25 @@
           <div class="col-lg-1 align-self-center"><%= owner.language if owner.language %></div>
           <div class="col-lg-2 align-self-center">
             <% if owner.user.present? && !(owner.user.role == "admin" || owner.user.role == "manager") %>
-              <div>
-                <i class="fas fa-check-circle text-success text-sm me-2"></i>
-                <%= link_to t("withdraw_access"), owner.user,
+              <i class="fas fa-check-circle text-success text-sm me-2"></i>
+              <%= link_to t("withdraw_access"), owner.user,
                 data: {turbo_method: :delete, turbo_confirm: t("are_you_sure")}, class: "text-danger text-sm" %>
-              </div>
-              <div>
-                <% if owner.user.email.present? %>
-                  <%= link_to send_access_email_owner_path(owner), class: "text-sm text-secondary" do %>
-                    <i class="fa-solid fa-paper-plane me-2"></i><%= t('send_access_email') %>
-                  <% end %>
-                <% else %>
-                  <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
-                    <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
+              <% if owner.user.email.present? %>
+                <%= link_to send_access_email_owner_path(owner), class: "text-sm text-secondary" do %>
+                  <i class="fa-solid fa-paper-plane me-2"></i><%= t('send_access_email') %>
+                <% end %>
+                <% if owner.user.email_logs.present? %>
+                  <% last_access_email = owner.user.email_logs.where(email_type: 'owner_access')&.last %>
+                  <% if last_access_email.present? %>
+                    <span class="text-sm text-muted"><i class="fa-solid fa-clock me-2"></i>
+                      <%= t('sent') %>: <%= l(last_access_email.created_at, format: :default) %></span>
                   <% end %>
                 <% end %>
-              </div>
+              <% else %>
+                <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
+                  <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
+                <% end %>
+              <% end %>
             <% elsif owner.user.blank? %>
               <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>
                 <i class="fa-solid fa-square-arrow-up-right me-2"></i><%= t('grant_access') %>
@@ -95,7 +98,7 @@
       <% end %>
     </div>
   </div>
-  <div class="d-flex justify-content-center">
-    <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
-  </div>
 <% end %>
+<div class="d-flex justify-content-center">
+  <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+</div>

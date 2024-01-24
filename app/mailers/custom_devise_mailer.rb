@@ -9,5 +9,7 @@ class CustomDeviseMailer < Devise::Mailer
     mail(to: user.email, subject: t('welcome_owner_space')) do |format|
       format.html { render 'custom_devise_mailer/send_owner_access' }
     end
+
+    EmailLog.create(user: user, recipient_email: @user.email, email_type: 'owner_access')
   end
 end

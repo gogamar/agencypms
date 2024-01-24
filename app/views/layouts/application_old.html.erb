@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class="h-100">
+  <head>
+    <!-- Meta tags -->
+    <title>Sistach Rentals Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="turbo-visit-control" content="reload">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <!-- External styles -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.2/css/all.css">
+    <!-- Internal styles -->
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%# stylesheet_link_tag "booking_website", "data-turbo-track": "reload" %>
+    <%= favicon_link_tag asset_path('sistach_favicon.png') %>
+    <!-- External scripts -->
+    <%= javascript_include_tag Ckeditor.cdn_url %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Internal scripts -->
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+  <body class="d-flex flex-column" data-locale="<%= locale %>">
+    <div id="page-content">
+      <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+          <%= render "shared/flashes" %>
+          <% if user_signed_in? %>
+            <%# render "shared/topbar" %>
+            <%# render "shared/navbar_test" unless devise_controller? %>
+            <%= render "shared/navbar" unless devise_controller? %>
+            <%= render "shared/page_title", title: @vrental.name, subtitle: "#{@vrental.address}" if @vrental && @vrental.persisted? %>
+          <% end %>
+          <div id="content" class="flex-shrink-0">
+            <%= render 'shared/sidebar' if @admin_area %>
+            <%# render 'shared/sidebar' do %>
+              <%= yield %>
+              <%# end %>
+            </div>
+            <%= render 'shared/footer' unless controller.controller_name == 'companies' %>
+            <%= render 'shared/sign_up_modal' %>
+            <%= render 'shared/log_in_modal' %>
+            <%= render 'shared/log_out_modal' %>
+            <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="bi bi-arrow-up"></i></a>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>

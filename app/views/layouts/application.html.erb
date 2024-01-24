@@ -1,46 +1,46 @@
 <!DOCTYPE html>
-<html class="h-100">
+<html>
   <head>
     <!-- Meta tags -->
-    <title>Sistach Rentals Admin</title>
+    <title>Sistach Rentals</title>
+    <meta name="title" content="<%= @meta_title %>" />
+    <meta name="description" content="<%= @meta_description %>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="turbo-visit-control" content="reload">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <!-- External styles -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" >
     <!-- Internal styles -->
-    <%# stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "booking_website", "data-turbo-track": "reload" %>
-    <%= favicon_link_tag asset_path('sistach_favicon.png') %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= favicon_link_tag asset_path('https://res.cloudinary.com/dlzusxobf/image/upload/v1674377649/sistach_favicon_c9rb1y.png') %>
     <!-- External scripts -->
-    <%= javascript_include_tag Ckeditor.cdn_url %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
     <!-- Internal scripts -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
-  <body class="d-flex flex-column" data-locale="<%= locale %>">
-    <div id="page-content">
-      <div id="wrapper">
-        <div id="content-wrapper" class="d-flex flex-column">
-          <%= render "shared/flashes" %>
-          <% if user_signed_in? %>
-            <%= render "shared/topbar" %>
-            <%= render "shared/navbar" unless devise_controller? %>
-            <%= render "shared/page_title", title: @vrental.name, subtitle: "#{@vrental.address}" if @vrental && @vrental.persisted? %>
-          <% end %>
-          <div id="content" class="flex-shrink-0">
-            <%= render 'shared/sidebar' do %>
-              <% yield %>
-            <% end %>
-          </div>
-          <%= render 'shared/booking_website_footer' unless controller.controller_name == 'companies' %>
-          <%= render 'shared/log_in_modal' %>
-          <%= render 'shared/sign_up_modal' %>
-          <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="bi bi-arrow-up"></i></a>
-        </div>
-      </div>
+  <body class="darkblue-skin" data-locale="<%= locale %>">
+    <div id="main-wrapper">
+      <%= render 'shared/topbar' %>
+      <%= render 'shared/navbar' %>
+      <%= render 'shared/flashes' %>
+      <% if user_signed_in? && @admin_area && !devise_controller? %>
+        <% if @vrental.present? && @vrental.persisted? %>
+          <%= render "shared/page_title", title: @vrental.name, subtitle: "#{@vrental.address}" %>
+        <% end %>
+        <%= render 'shared/sidebar' %>
+      <% else %>
+        <%= yield %>
+      <% end %>
+      <%= render 'shared/cookie_consent' if session[:cookie_consent].nil? %>
+      <%= render 'shared/call_to_action' unless @admin_area %>
+      <%= render 'shared/footer' %>
+      <%= render 'shared/sign_up_modal' %>
+      <%= render 'shared/log_in_modal' %>
+      <%= render 'shared/log_out_modal' %>
+      <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="bi bi-arrow-up"></i></a>
     </div>
   </body>
 </html>

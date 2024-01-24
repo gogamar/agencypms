@@ -1,0 +1,58 @@
+<li><%= link_to t("home"), root_path %></li>
+<li><%= link_to t("book"), list_path %></li>
+<li><a href="JavaScript:void(0);"><%= t("costa_brava") %><span class="submenu-indicator"></span></a>
+  <ul class="nav-dropdown nav-submenu">
+    <li><a href="JavaScript:void(0);"><%= t("apartments") %><span class="submenu-indicator"></span></a>
+      <ul class="nav-dropdown nav-submenu">
+        <li><%= link_to list_path(location: "Costa Brava", pt: ["apartment"], pf: ["pool"]) do %>
+            <i class="fa-solid fa-person-swimming me-2"></i><%= t("with_pool") %>
+          <% end %>
+        </li>
+        <li><%= link_to list_path(location: "Costa Brava", pt: ["apartment"], pf: ["sea_view"]) do %>
+            <i class="fa-solid fa-water me-2"></i><%= t("with_sea_view") %>
+          <% end %>
+        </li>
+        <li><%= link_to list_path(location: "Costa Brava", pt: ["apartment"], budget: true) do %>
+            <i class="fa-solid fa-money-bill me-2"></i><%= t("on_budget") %>
+          <% end %>
+        </li>
+      </ul>
+    </li>
+    <li><a href="javascript:void(0);"><%= t("houses") %><span class="submenu-indicator"></span></a>
+      <ul class="nav-dropdown nav-submenu">
+        <li><%= link_to t("with_pool"), list_path(location: "Costa Brava", pt: ["house"], pf: ["pool"]) %></li>
+        <li><%= link_to t("with_private_pool"), list_path(location: "Costa Brava", pt: ["house"], pf: ["pool_private"]) %></li>
+        <li><%= link_to t("with_garden"), list_path(location: "Costa Brava", pt: ["house"], pf: ["garden"]) %></li>
+        <li><%= link_to t("with_private_garden"), list_path(location: "Costa Brava", pt: ["house"], pf: ["private_yard"]) %></li>
+        <!--
+                  <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: [t("house")], pf: ["sea_view"]) %></li>
+                  <li><a href="classical-property.html"><%= t("unique") %></a></li>
+                  -->
+      </ul>
+    </li>
+  </ul>
+</li>
+<li><a href="JavaScript:void(0);"><%= t("barcelona") %><span class="submenu-indicator"></span></a>
+  <ul class="nav-dropdown nav-submenu">
+    <li><a href="JavaScript:void(0);"><%= t("vacation_rentals") %><span class="submenu-indicator"></span></a>
+      <ul class="nav-dropdown nav-submenu">
+        <li><%= link_to t("with_monument_view"), list_path(location: "Barcelona", pt: ["apartment"], pf: ["monument_view"], rt: "short_term") %></li>
+        <li><%= link_to t("without_view"), list_path(location: "Barcelona", pt: ["apartment"], nv: true, rt: "short_term") %></li>
+      </ul>
+    </li>
+    <li><%= link_to t("medium_term"), list_path(location: "Barcelona", rt: "medium_term") %></li>
+  </ul>
+</li>
+<li><a href="JavaScript:void(0);"><%= t("services") %><span class="submenu-indicator"></span></a>
+  <ul class="nav-dropdown nav-submenu">
+    <li><a href="https://www.sistachfinques.com" target="_blank"><%= t("realtor") %></a></li>
+    <!--
+              <li>
+                <%# link_to new_vrental_path, class: "text-success" do %>
+                  <%# image_tag("submit.svg", class: "mr-2", width: "20", alt: "") %> <%# t("add_property") %>
+                <%# end %>
+              </li>
+              -->
+  </ul>
+</li>
+<li><%= link_to t("contact"), contact_path %></li>

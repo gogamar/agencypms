@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_22_145848) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_24_134843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -184,6 +184,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_22_145848) do
     t.bigint "statement_id"
     t.index ["booking_id"], name: "index_earnings_on_booking_id"
     t.index ["vrental_id"], name: "index_earnings_on_vrental_id"
+  end
+
+  create_table "email_logs", force: :cascade do |t|
+    t.string "recipient_email"
+    t.string "email_type"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_email_logs_on_user_id"
   end
 
   create_table "expenses", force: :cascade do |t|
@@ -612,6 +621,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_22_145848) do
   add_foreign_key "coupons", "offices"
   add_foreign_key "earnings", "bookings"
   add_foreign_key "earnings", "vrentals"
+  add_foreign_key "email_logs", "users"
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "companies"
   add_foreign_key "image_urls", "vrentals"

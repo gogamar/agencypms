@@ -941,3 +941,9 @@ ca:
   goodbye_formal: Salutacions cordials
   any_doubts: Si té qualsevol dubte, pot contestar a aquest email.
   this_user_is_admin: Aquest usuari no és propietari, és admin
+  sent: Enviat
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%b %d, %Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"

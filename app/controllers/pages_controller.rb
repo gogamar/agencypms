@@ -1,10 +1,10 @@
 class PagesController < ApplicationController
+  before_action :disable_admin_area
   before_action :filter_params
   before_action :load_vrentals, only: [:home, :list, :empty_vrentals]
   before_action :load_filters, only: [:home, :list]
   before_action :load_search_params, only: [:list]
   skip_before_action :authenticate_user!, except: [:dashboard, :empty_vrentals]
-  layout 'booking_website', except: [:dashboard]
   include ActionView::Helpers::NumberHelper
 
   def home
@@ -179,6 +179,10 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def disable_admin_area
+    @admin_area = false
+  end
 
   def filter_params
     params.reject! { |_, value| value.blank? }

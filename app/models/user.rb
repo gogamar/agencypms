@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_one :tourist, dependent: :nullify
   has_many :tasks, dependent: :destroy
   has_many :owned_companies, class_name: "Company", foreign_key: "user_id"
+  has_many :email_logs, dependent: :destroy
   belongs_to :company, optional: true
   belongs_to :office, optional: true
   has_one_attached :photo, dependent: :destroy

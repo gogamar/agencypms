@@ -1,0 +1,72 @@
+<% if current_user.admin? || current_user.manager? %>
+  <li><a href="JavaScript:void(0);"><%= t('management') %><span class="submenu-indicator"></span></a>
+    <ul class="nav-dropdown nav-submenu">
+      <li><%= link_to vrentals_path do %>
+          <i class="fa-solid fa-house-circle-check me-2"></i><%= t("vrentals") %>
+        <% end %></li>
+      <li><%= link_to owners_path do %>
+          <i class="fa-solid fa-house-user me-2"></i><%= t("owners") %>
+        <% end %></li>
+      <li><%= link_to vragreements_path do %>
+          <i class="fa-solid fa-file-signature me-2"></i><%= t("contracts") %>
+        <% end %></li>
+      <li><%= link_to vrentaltemplates_path do %>
+          <i class="fa-solid fa-file me-2"></i><%= t("contract_templates") %>
+        <% end %></li>
+    </ul>
+  </li>
+  <li><a href="JavaScript:void(0);"><%= t('reports') %><span class="submenu-indicator"></span></a>
+    <ul class="nav-dropdown nav-submenu">
+      <li><%= link_to total_earnings_vrentals_path do %>
+          <i class="fa-solid fa-arrow-trend-up me-2"></i><%= t('earnings') %>
+        <% end %></li>
+      <li><%= link_to expenses_path do %>
+          <i class="fa-solid fa-arrow-trend-down me-2"></i><%= t('expenses') %>
+        <% end %></li>
+      <li><%= link_to invoices_path do %>
+          <i class="fa-solid fa-file-invoice-dollar me-2"></i><%= t('invoices') %>
+        <% end %></li>
+    </ul>
+  </li>
+  <% if @vrental&.persisted? %>
+    <li><a href="JavaScript:void(0);">Beds24<span class="submenu-indicator"></span></a>
+      <ul class="nav-dropdown nav-submenu">
+        <li><%= link_to update_on_beds_vrental_path(@vrental) do %>
+            <i class="fa-solid fa-upload me-2"></i><%= @vrental.beds_prop_id.present? ? "#{@vrental.name}: #{t('export_changes_to_beds24')}" : "#{t('create')} #{@vrental.name} #{t('on_beds24')}" %>
+          <% end %></li>
+        <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
+          <li><%= link_to get_availabilities_from_beds_vrental_path(@vrental) do %>
+              <i class="fa-solid fa-download me-2"></i><%= "#{@vrental.name}: #{t('get_availabilities_from_beds24')}" %>
+            <% end %></li>
+          <li><%= link_to send_photos_vrental_path(@vrental) do %>
+              <i class="fa-solid fa-upload me-2"></i><%= "#{@vrental.name}: #{t('send_photos_to_beds24')}" %>
+            <% end %></li>
+          <li><%= link_to update_from_beds_vrental_path(@vrental) do %>
+              <i class="fa-solid fa-download me-2"></i> <%= "#{@vrental.name}: #{t('import_changes_from_beds24')}" %>
+            <% end %></li>
+          <li><%= link_to import_photos_vrental_path(@vrental) do %>
+              <i class="fa-solid fa-download me-2"></i><%= "#{@vrental.name}: #{t('import_photos_from_beds24')}" %>
+            <% end %></li>
+          <li><%= link_to update_owner_from_beds_vrental_path(@vrental) do %>
+              <i class="fa-solid fa-user-plus me-2"></i> <%= "#{@vrental.name}: #{t('import_owner_from_beds24')}" %>
+            <% end %></li>
+          <li><%= link_to get_reviews_from_airbnb_vrental_path(@vrental) do %>
+              <i class="fa-brands fa-airbnb me-2"></i> <%= "#{@vrental.name}: #{t('get_reviews_from_airbnb')}" %>
+            <% end %></li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+<% elsif (current_user.admin? || current_user.manager? || current_user.owner.present?) && (@vrental || params[:controller] == 'vrentals') && @all_vrentals.count >= 2 %>
+  <li>
+    <div class="input-with-icon">
+      <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
+        <option value="">&nbsp;</option>
+        <% @all_vrentals.each do |vrental| %>
+          <option value="<%= vrental_path(vrental) %>"><%= vrental.name %></option>
+        <% end %>
+      </select>
+      <i class="fas fa-home"></i>
+    </div>
+  </li>
+<% end %>

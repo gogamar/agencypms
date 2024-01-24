@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_vrentals, unless: :skip_pundit?
   before_action :set_company, unless: :companies_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
-  layout :layout_by_resource
+  before_action :set_admin_area
 
   include Pundit::Authorization
   include Pagy::Backend
@@ -74,11 +74,7 @@ class ApplicationController < ActionController::Base
       params[:controller] =~ /(^(rails_)?admin)|(^registrations$)|(^pages$)|(^contact_forms$)|(^api\/webhooks$)/
   end
 
-  def layout_by_resource
-    if devise_controller?
-      "booking_website"
-    else
-      "application"
-    end
+  def set_admin_area
+    @admin_area = true
   end
 end

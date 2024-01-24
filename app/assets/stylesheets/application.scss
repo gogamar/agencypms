@@ -1,7 +1,4 @@
-// Import Custom Template Variables (Overrides Default Bootstrap Variables)
-@import "config/fonts";
 @import "config/colors";
-@import "config/bootstrap_variables";
 
 // External libraries
 @import "bootstrap/scss/bootstrap";
@@ -9,12 +6,30 @@
 @import "flag-icon";
 @import "flatpickr/dist/flatpickr";
 @import "select2/dist/css/select2";
-@import "select2-bootstrap-5-theme/src/include-all";
+// @import "select2-bootstrap-5-theme/src/include-all";
 @import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder";
 
-// Import Custom Template Mixins and Components
-@import "config/global";
+@import "slick-carousel/slick/slick";
+@import "slick-carousel/slick/slick-theme";
+@import "magnific-popup/dist/magnific-popup.css";
+@import "lightbox2";
+// @import "@fullcalendar/core/main.css";
+// @import "@fullcalendar/daygrid/main.css";
+
+// Internal libraries
+@import "utilities/booking_website_animation";
+@import "pages/mapboxgl_custom";
 
 // Your CSS partials
 @import "components/index";
 @import "simple_calendar";
+
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap");
+
+@import "bootstrap-icons/font/bootstrap-icons";
+@font-face {
+  font-family: "bootstrap-icons";
+  src: font-url("bootstrap-icons/font/fonts/bootstrap-icons.woff2")
+      format("woff2"),
+    font-url("bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff");
+}
