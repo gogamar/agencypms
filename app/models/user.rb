@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_one_attached :photo, dependent: :destroy
 
   after_create :send_admin_mail
-  enum role: [ "admin", "manager" ]
+  enum role: [ "admin", "manager", "owner" ]
 
   def vrental_manager(this_record)
     manager? && office.present? && office.vrentals.exists?(this_record.vrental_id)

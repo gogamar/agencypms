@@ -940,3 +940,4 @@ ca:
   hello_formal: "Benvingut/Benvinguda %{recipient}:"
   goodbye_formal: Salutacions cordials
   any_doubts: Si té qualsevol dubte, pot contestar a aquest email.
+  this_user_is_admin: Aquest usuari no és propietari, és admin

@@ -4,7 +4,8 @@ class Owner < ApplicationRecord
   has_many :vragreements, through: :vrentals
   validates :fullname, presence: true
   validates :language, presence: true
-  validates :email, presence: true, uniqueness: true, format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
+  validates :email, presence: true, format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
+  validates :email, uniqueness: true
 
   TITLE = ["mr", "mrs", "ms"]
 
@@ -24,14 +25,32 @@ class Owner < ApplicationRecord
   end
 
   def grant_access(company)
-    temporary_password = Devise.friendly_token.first(8)
-    owner_user = User.new(email: self.email, password: temporary_password, password_confirmation: temporary_password, confirmed_at: Time.now, approved: true, company_id: company.id, created_by_admin: true, firstname: self.firstname, lastname: self.lastname, title: self.title, company_name: self.company_name)
+    owner_user = User.find_by(email: email)
 
-    if owner_user.save
-      self.user = owner_user
-      self.save
-    else
-      errors.add(:base, "No s'ha pogut crear l'usuari. Pot ser ja existeix.")
+    unless owner_user
+      temporary_password = Devise.friendly_token.first(8)
+      owner_user = User.create(
+        email: email,
+        password: temporary_password,
+        password_confirmation: temporary_password,
+        confirmed_at: Time.now,
+        approved: true,
+        company_id: company.id,
+        created_by_admin: true,
+        firstname: firstname,
+        lastname: lastname,
+        title: title,
+        company_name: company_name,
+        role: "owner"
+      )
+
+      unless owner_user.persisted?
+        errors.add(:base, "No s'ha pogut crear l'usuari. Pot ser ja existeix.")
+        return false
+      end
     end
+
+    self.user = owner_user
+    save
   end
 end

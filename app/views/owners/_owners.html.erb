@@ -73,11 +73,12 @@
                   <% end %>
                 <% end %>
               </div>
-            <% end  %>
-            <% if owner.user.blank? %>
+            <% elsif owner.user.blank? %>
               <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>
                 <i class="fa-solid fa-square-arrow-up-right me-2"></i><%= t('grant_access') %>
               <% end %>
+            <% elsif owner.user.present? && (owner.user.role == "admin" || owner.user.role == "manager") %>
+              <%= t('this_user_is_admin') %>
             <% end %>
           </div>
           <div class="col-lg-2 align-self-center text-sm"><%= owner.phone %></div>

@@ -44,11 +44,10 @@ class OwnersController < ApplicationController
   end
 
   def create
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
     @owner = Owner.new(owner_params)
-    @owner.user = current_user
-    @vrental.owner = @owner if @vrental.present?
     authorize @owner
+    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+    @vrental.owner = @owner if @vrental.present?
 
     request_context = params[:owner][:request_context]
 
@@ -62,7 +61,7 @@ class OwnersController < ApplicationController
         redirect_to owners_path, notice: 'Propietari creat.'
       end
     else
-      render @vrental.persisted? ? :new : :add_owner
+      redirect_to new_owner_path, alert: @owner.errors.full_messages.join(', ')
     end
   end
 
@@ -71,14 +70,19 @@ class OwnersController < ApplicationController
 
   def update
     @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+
     if @owner.update(owner_params)
+      # if owner's email has changed, update user's email
+      if @owner.user.present? && @owner.user.email != @owner.email
+        @owner.user.update(email: @owner.email)
+      end
       if params[:vrental_id].present?
         redirect_back(fallback_location: edit_vrental_path(@vrental), notice: 'Has modificat el propietari.')
       else
         redirect_to owners_path, notice: 'Has modificat el propietari.'
       end
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to edit_owner_path, alert: @owner.errors.full_messages.join(', ')
     end
   end
 

@@ -7,7 +7,7 @@
         <% else %>
           <img src="https://via.placeholder.com/1200x850" class="img-fluid" alt="" />
         <% end %>
-        <% if vrental.status %>
+        <% if vrental.status.present? %>
           <span class="label-status label-<%= vrental.status %>"><%= t("#{vrental.status}") %></span>
         <% end %>
         <% if vrental.featured %>
