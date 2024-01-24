@@ -5,7 +5,7 @@ module ApplicationHelper
     content_tag(:li, class: 'nav-item dropdown language-dropdown') do
       flag_code = set_flag(current_locale)
       concat(link_to("#", class: 'nav-link dropdown-toggle', id: 'languageDropdown', data: { bs_toggle: 'dropdown' }, 'aria-haspopup': true, 'aria-expanded': false) do
-        content_tag(:small) do
+        content_tag(:span) do
           concat(content_tag(:span, nil, class: "flag-icon flag-icon-#{flag_code}"))
           concat(" #{t(current_locale)}")
         end

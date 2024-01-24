@@ -912,6 +912,8 @@ ca:
   without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
   "yes": Sí
+  owner_area: Àrea propietari
+  admin_area: Àrea administrador
   send_access_email: Enviar email
   add_email: Afegir email
   firstname_lastname: Nom i cognoms

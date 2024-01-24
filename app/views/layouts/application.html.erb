@@ -23,7 +23,6 @@
   </head>
   <body class="darkblue-skin" data-locale="<%= locale %>">
     <div id="main-wrapper">
-      <%= render 'shared/topbar' %>
       <%= render 'shared/navbar' %>
       <%= render 'shared/flashes' %>
       <% if user_signed_in? && @admin_area && !devise_controller? %>

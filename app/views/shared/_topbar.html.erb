@@ -1,15 +1,18 @@
-<nav class="navbar py-0 dark-top navbar-expand-lg py-md-0">
+<nav class="navbar py-0 dark-top navbar-expand-lg py-md-0 text-sm mb-4">
   <div class="container-fluid px-4 d-flex justify-content-end gap-5">
-    <% if user_signed_in? %>
-      <%= link_to root_path, class: "text-light", target: "_blank" do %>
+    <% if user_signed_in? && @admin_area %>
+      <%= link_to root_path, class: "text-light" do %>
         <i class="fa-solid fa-globe me-2"></i> <%= t('website') %>
       <% end %>
+    <% elsif user_signed_in? && !@admin_area && current_user.owner.present? %>
+      <%= link_to vrentals_path, class: "text-light" do %>
+        <i class="fa-solid fa-user-gear me-2"></i><%= t('owner_area') %>
+      <% end %>
+    <% elsif user_signed_in? && !@admin_area && (current_user.admin? || current_user.manager?) %>
+      <%= link_to vrentals_path, class: "text-light" do %>
+        <i class="fa-solid fa-user-gear me-2"></i> <%= t('admin_area') %>
+      <% end %>
     <% end %>
-    <!--
-    <div>
-      <a class="text-light text-sm me-2" href="tel:0034679654028">Tel: +34 679 654 028</a>
-    </div>
-    -->
     <%= language_dropdown(I18n.locale || params[:locale]) %>
   </div>
 </nav>
