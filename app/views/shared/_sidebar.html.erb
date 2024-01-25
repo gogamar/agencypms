@@ -24,8 +24,9 @@
               <div class="d-navigation">
                 <ul>
                   <% if request.referer.present? && request.path != vrentals_path %>
-                    <%= link_to request.referer do %>
-                      <li class="list-group-item list-group-item-action list-group-item-light mb-3 py-2 px-3 border-bottom">
+                    <% parent = parent_route(request.path) %>
+                    <%= link_to parent do %>
+                      <li class="list-group-item list-group-item-action list-group-item-secondary mb-3 py-2 px-3 border-bottom">
                         <i class="fa-solid fa-circle-chevron-left me-2"></i><%= t('global.forms.back') %>
                       </li>
                     <% end %>

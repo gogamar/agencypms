@@ -119,6 +119,10 @@ class Vrental < ApplicationRecord
     "rates"
   ]
 
+  ADMIN_ATTRIBUTES = ["status", "property_type", "commission", "name", "address", "licence", "cadastre", "habitability", "max_guests", "min_stay", "res_fee", "free_cancel", "min_price", "contract_type", "rental_term",  "price_per", "weekly_discount", "min_advance", "cleaning_fee", "cut_off_hour", "checkin_start_hour", "checkin_end_hour", "checkout_end_hour", "title_ca", "title_es", "title_fr", "title_en", "short_description_en", "short_description_ca", "short_description_es", "short_description_fr", "description_ca",  "description_es", "description_fr", "description_en"]
+
+  OWNER_ATTRIBUTES = ["status", "property_type", "name", "address", "licence", "cadastre", "habitability", "max_guests", "min_stay", "rental_term", "price_per", "weekly_discount", "min_advance", "title_ca", "title_es", "title_fr", "title_en", "short_description_en", "short_description_ca", "short_description_es", "short_description_fr", "description_ca",  "description_es", "description_fr", "description_en"]
+
   def vrental_company
     if office.present?
       office.company

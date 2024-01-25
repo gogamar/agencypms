@@ -84,4 +84,14 @@ module ApplicationHelper
   def whatsapp_link(phone_number)
     "https://wa.me/#{phone_number}"
   end
+
+  def parent_route(current_route)
+    segments = current_route.split('/')
+    return root_path if segments.size <= 1
+
+    parent_segments = segments[0...-1]
+    parent_route = parent_segments.join('/')
+
+    return parent_route
+  end
 end

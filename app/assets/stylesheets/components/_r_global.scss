@@ -2128,7 +2128,8 @@ table.table tr th {
   transform: translate(0, -2px);
 }
 
-.badge-success {
+.badge-success,
+.badge-active {
   background-color: #009868;
 }
 
@@ -2140,11 +2141,13 @@ table.table tr th {
   background-color: #074da3;
 }
 
-.badge-warning {
+.badge-warning,
+.badge-proposal {
   background-color: #f69520;
 }
 
-.badge-danger {
+.badge-danger,
+.badge-inactive {
   background-color: #a70a29;
 }
 

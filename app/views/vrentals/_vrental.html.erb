@@ -1,10 +1,13 @@
 <div class="card my-4 border">
   <div class="row no-gutters">
     <div class="col-md-4 ps-0">
-      <% if vrental.image_urls.present? %>
-        <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid rounded-start", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
-      <% else %>
-        <img src="https://via.placeholder.com/1200x850" class="card-img" />
+      <% admin_main = (current_user.admin? || current_user.manager?) ? vrental_path(vrental) : vrental_owner_bookings_path(vrental) %>
+      <%= link_to admin_main do %>
+        <% if vrental.image_urls.present? %>
+          <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid rounded-start", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
+        <% else %>
+          <img src="https://via.placeholder.com/1200x850" class="img-fluid rounded-start" />
+        <% end %>
       <% end %>
       <% if vrental.status.present? %>
         <span class="label-status label-<%= vrental.status %>"><%= t("#{vrental.status}") %></span>

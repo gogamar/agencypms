@@ -1,20 +1,16 @@
 <div class="card">
   <div class="d-flex justify-content-between align-items-center">
     <% if @vrental.status.present? %>
-      <% if @vrental.status == "active" %>
-        <span class="badge badge-success ms-2"><%= t(@vrental.status) %></span>
-      <% elsif @vrental.status == "inactive" %>
-        <span class="badge badge-danger ms-2"><%= t(@vrental.status) %></span>
-      <% else %>
-        <span class="badge badge-warning ms-2"><%= t(@vrental.status) %></span>
-      <% end %>
+      <span class="badge badge-<%= @vrental.status %> me-2"><%= t(@vrental.status) %></span>
     <% end %>
     <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
-    <%= link_to copy_vrental_path(@vrental), class: "btn btn-sm btn-secondary" do %>
-      <i class="fa-solid fa-copy me-2"></i><%= t("copy_vrental") %>
-    <% end %>
   </div>
   <div class="card-body row d-flex justify-content-center gap-5">
+    <% if current_user.admin? || current_user.manager? %>
+      <%= link_to copy_vrental_path(@vrental), class: "btn btn-sm btn-primary" do %>
+        <i class="fa-solid fa-copy me-2"></i><%= t("copy_vrental") %>
+      <% end %>
+    <% end %>
     <div class="col">
       <% if @vrental.owner.present? %>
         <p class="card-text">
@@ -22,39 +18,10 @@
           <%= link_to @vrental.owner.fullname, owner_path(@vrental.owner), class: "link" %>
         </p>
       <% end %>
-      <p class="card-text">
-        <strong>Número HUT:</strong>
-        <%= @vrental.licence %>
-      </p>
-      <p class="card-text">
-        <strong>Comissió:</strong>
-        <%= format("%.2f", @vrental.commission.to_f * 100) %>
-      </p>
-      <p class="card-text">
-        <strong>Cadastre:</strong>
-        <%= @vrental.cadastre %>
-      </p>
-      <p class="card-text">
-        <strong>Cédula:</strong>
-        <%= @vrental.habitability %>
-      </p>
-      <p class="card-text">
-        <strong>Màxim d'hostes:</strong>
-        <%= @vrental.max_guests %>
-      </p>
       <% if current_user.admin? || current_user.manager? %>
-        <p class="card-text">
-          <strong>Oficina:</strong>
-          <%= @vrental.office.name if @vrental.office %>
-        </p>
-        <p class="card-text">
-          <strong>Clau secreta Beds24:</strong>
-          <%= @vrental.prop_key %>
-        </p>
-        <p class="card-text">
-          <strong>Referencia Beds24:</strong>
-          <%= @vrental.beds_room_id %>
-        </p>
+        <%= render 'admin_show_vrental' %>
+      <% else %>
+        <%= render 'owner_show_vrental' %>
       <% end %>
       <%= render 'shared/bedrooms_bathrooms_show' %>
       <p class="card-text">
