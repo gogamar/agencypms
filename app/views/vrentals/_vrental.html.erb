@@ -1,49 +1,49 @@
-<div class="col-md-12 col-sm-12 col-md-12">
-  <div class="singles-dashboard-list">
-    <div class="sd-list-left">
-      <div class="image-container">
-        <% if vrental.image_urls.present? %>
-          <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto rounded", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
-        <% else %>
-          <img src="https://via.placeholder.com/1200x850" class="img-fluid" alt="" />
-        <% end %>
-        <% if vrental.status.present? %>
-          <span class="label-status label-<%= vrental.status %>"><%= t("#{vrental.status}") %></span>
-        <% end %>
-        <% if vrental.featured %>
-          <span class="label-status label-featured"><%= t("featured") %></span>
-        <% end %>
-      </div>
-    </div>
-    <div class="sd-list-right">
-      <h4 class="listing_dashboard_title">
-        <% link_to_vrental = current_user.admin? || current_user.manager? || (current_user.owner.present? && current_user.owner.access_type != 'basic') ? vrental_path(vrental) : vrental_owner_bookings_path(vrental) %>
-        <%= link_to truncate(vrental.name, length: 50), link_to_vrental, class: "text-primary" %>
-      </h4>
-      <div class="user_dashboard_listed">
-        <%= t('activerecord.attributes.vrental.address') %>: <%= link_to truncate(vrental.address, length: 50), vrental %>
-      </div>
-      <div class="user_dashboard_listed">
-        <% if vrental.owner %>
-          <%= t('owner') %>: <%= link_to truncate(vrental.owner.fullname, length: 50), edit_vrental_owner_path(vrental, vrental.owner), target: "_blank", class: "text-primary"  %>
-        <% elsif current_user.admin? || current_user.manager? %>
-          <%= link_to t("add_owner"), edit_vrental_path(vrental, anchor: "owner-details"), target: "_blank" %>
-        <% end %>
-      </div>
-      <% if current_user.admin? || current_user.manager? %>
-        <div class="user_dashboard_listed">
-          <%= add_vragreement_links(vrental) %>
-        </div>
+<div class="card my-4 border">
+  <div class="row no-gutters">
+    <div class="col-md-4 ps-0">
+      <% if vrental.image_urls.present? %>
+        <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid rounded-start", alt:"#{t("vacation_rentals")} #{vrental.town&.name}" %>
+      <% else %>
+        <img src="https://via.placeholder.com/1200x850" class="card-img" />
       <% end %>
-      <div class="action">
+      <% if vrental.status.present? %>
+        <span class="label-status label-<%= vrental.status %>"><%= t("#{vrental.status}") %></span>
+      <% end %>
+      <% if vrental.featured %>
+        <span class="label-status label-featured"><%= t("featured") %></span>
+      <% end %>
+    </div>
+    <div class="col-md-8 sd-list-right p-lg-0">
+      <div class="card-body p-0">
+        <h4 class="listing_dashboard_title card-title">
+          <% link_to_vrental = current_user.admin? || current_user.manager? || (current_user.owner.present? && current_user.owner.access_type != 'basic') ? vrental_path(vrental) : vrental_owner_bookings_path(vrental) %>
+          <%= link_to truncate(vrental.name, length: 50), link_to_vrental, class: "text-primary" %>
+        </h4>
+        <div class="user_dashboard_listed">
+          <%= t('activerecord.attributes.vrental.address') %>: <%= link_to truncate(vrental.address, length: 50), vrental %>
+        </div>
+        <div class="user_dashboard_listed">
+          <% if vrental.owner %>
+            <%= t('owner') %>: <%= link_to truncate(vrental.owner.fullname, length: 50), edit_vrental_owner_path(vrental, vrental.owner), target: "_blank", class: "text-primary"  %>
+          <% elsif current_user.admin? || current_user.manager? %>
+            <%= link_to t("add_owner"), edit_vrental_path(vrental, anchor: "owner-details"), target: "_blank" %>
+          <% end %>
+        </div>
         <% if current_user.admin? || current_user.manager? %>
-          <%= render 'admin_links', vrental: vrental %>
-        <% elsif current_user.owner? %>
-          <%= render 'owner_links', vrental: vrental %>
+          <div class="user_dashboard_listed">
+            <%= add_vragreement_links(vrental) %>
+          </div>
         <% end %>
-        <%= link_to book_property_path(vrental_id: vrental.id), target: "_blank", data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
-          <i class="fa-solid fa-eye"></i>
-        <% end %>
+        <div class="action">
+          <% if current_user.admin? || current_user.manager? %>
+            <%= render 'admin_links', vrental: vrental %>
+          <% elsif current_user.owner? %>
+            <%= render 'owner_links', vrental: vrental %>
+          <% end %>
+          <%= link_to book_property_path(vrental_id: vrental.id), target: "_blank", data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
+            <i class="fa-solid fa-eye"></i>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
