@@ -174,6 +174,7 @@ fr:
         max_guests: Nombre maximum de personnes
         min_price: Prix minimum par jour
         min_stay: Séjour minimum
+        min_advance: Délai minimum de réservation (en heures)
         name: Nom de la propriété
         name_on_web: Afficher le nom sur le site web
         office: Bureau
@@ -262,6 +263,9 @@ fr:
     BATH_TUB:
       one: Salle de bains avec baignoire
       other: Salles de bains avec baignoire
+    TOILET:
+      one: Toilette
+      other: Toilettes
   bathrooms: salles de bains
   beach_front: En bord de mer
   beach_view: Vue sur la plage
@@ -609,7 +613,6 @@ fr:
     property: "%{property_type} %{rental_term} à %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Four à micro-ondes
   min: Min.
-  min_advance: Délai minimum de réservation (en heures)
   min_stay: Min. %{min_stay} nuits
   min_stay_title: Min.
   monday: Lundi
@@ -838,7 +841,7 @@ fr:
   view: Voir
   view_more_properties: Voir plus de propriétés
   view_more_reviews: Voir plus de commentaires
-  view_on_website: Voir %{property}
+  view_on_website: Voir %{property} en ligne
   view_photos: Voir les photos
   view_property: Voir la propriété
   view_vrental: Voir la propriété de location de vacances
@@ -912,3 +915,40 @@ fr:
   "yes": Oui
   owner_area: Espace propriétaire
   admin_area: Espace administrateur
+  send_access_email: Envoyer un e-mail
+  add_email: Ajouter un e-mail
+  firstname_lastname: Prénom et Nom de famille
+  phone: Téléphone
+  web_access: Accès web
+  language: Langue
+  welcome_owner_space: Bienvenue dans l'espace propriétaire
+  create_password: Créer un mot de passe
+  welcome_text: "<p>Nous vous souhaitons la bienvenue dans l'Espace Propriétaire de Sistach Rentals, où vous pouvez :</p>
+    <ul>
+    <li>Consulter et signer votre contrat en toute simplicité.</li>
+    <li>Bloquer des dates pour votre usage personnel et vérifier l'occupation du calendrier.</li>
+    <li>Consulter le contrat et les factures de l'année précédente.</li>
+    </ul>
+    <p>Pour accéder à l'Espace Propriétaire :</p>
+    <p>Utilisateur : %{email}</p>"
+  if_owner_company: Si le propriétaire est une entreprise
+  mr: M.
+  mrs: Mme
+  ms: Mlle
+  address: Adresse
+  document: Pièce d'identité
+  bank_account: Compte bancaire
+  hello: "Bonjour %{recipient} :"
+  hello_formal: "Bienvenue %{recipient} :"
+  thanks_trust: Merci de faire confiance à Sistach Rentals. Si vous avez des questions ou avez besoin d'aide, n'hésitez pas à nous contacter !
+  goodbye_formal: Cordialement
+  this_user_is_admin: Cet utilisateur n'est pas un propriétaire, c'est un administrateur
+  sent: Envoyé
+  select_log_out: Sélectionnez "Se déconnecter" si vous souhaitez vous déconnecter.
+  log_out: Se déconnecter
+  want_log_out: Souhaitez-vous vous déconnecter ?
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%d %b %Y %H:%M"
+      long: "%d %B %Y à %H:%M:%S"

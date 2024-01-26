@@ -1,0 +1,4 @@
+<% I18n.available_locales.each do |locale| %>
+  <h4><%= @vrental.send("title_#{locale}") %></h4>
+  <p><%= @vrental.full_description(locale).html_safe %></p>
+<% end %>

@@ -1,8 +1,9 @@
-<h4 class="text-center mb-5"><%= t("owners") %></h4>
-<div class="d-flex flex-column flex-md-row justify-content-between">
-  <div class="d-flex flex-column flex-md-row justify-content-start align-items-center gap-2">
-    <%= form_with url: filter_owners_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "owners" }, class: "d-flex flex-row gap-2" do |form| %>
-      <% form.select :language,
+<% if current_user.admin? || current_user.manager? %>
+  <h4 class="text-center mb-5"><%= t("owners") %></h4>
+  <div class="d-flex flex-column flex-md-row justify-content-between">
+    <div class="d-flex flex-column flex-md-row justify-content-start align-items-center gap-2">
+      <%= form_with url: filter_owners_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "owners" }, class: "d-flex flex-row gap-2" do |form| %>
+        <% form.select :language,
             options_for_select(
             [[t("ca"),'ca'],[t("en"),'en'],[t("es"),'es'],[t("fr"),'fr']],
             ),
@@ -10,20 +11,23 @@
             class: "form-select",
             data: { action: "change->filter#search" }
           %>
-      <%= form.text_field :property_or_owner_name,
+        <%= form.text_field :property_or_owner_name,
           placeholder: t('search_by_property_or_owner'),
           autocomplete: "off",
           class: "form-control w-auto",
           data: { action: "input->filter#search" } %>
-    <% end %>
-    <%= link_to owners_path, class: "text-secondary" do %>
-      <i class="fa-solid fa-filter-circle-xmark me-2"></i>
+      <% end %>
+      <%= link_to owners_path, class: "text-secondary" do %>
+        <i class="fa-solid fa-filter-circle-xmark me-2"></i>
+      <% end %>
+    </div>
+    <%= link_to new_owner_path, class: "btn btn-sm btn-success" do %>
+      <i class="fa fa-solid fa-plus me-2"></i><%= t('add_owner') %>
     <% end %>
   </div>
-  <%= link_to new_owner_path, class: "btn btn-sm btn-success" do %>
-    <i class="fa fa-solid fa-plus me-2"></i><%= t('add_owner') %>
-  <% end %>
-</div>
+<% else %>
+  <h4 class="text-center mb-5"><%= t("owner") %></h4>
+<% end %>
 <%= turbo_frame_tag "owners", class: "card-body" do %>
   <div class="container-fluid my-3">
     <div class="row border border-top border-bottom bg-light d-none d-lg-flex">
@@ -33,17 +37,19 @@
       <div class="col-lg-1 py-3" id="owner-language" relative>
         <%= t('language') %>
       </div>
-      <div class="col-lg-2 py-3" id="owner-language" relative>
-        <%= t('web_access') %>
-      </div>
       <div class="col-lg-2 py-3" id="owner-phone" relative>
         <%= t('phone') %>
       </div>
       <div class="col-lg-3 py-3" id="owner-email" relative>
         <%= t('email') %>
       </div>
-      <div class="col-lg-1 py-3">
-      </div>
+      <% if current_user.admin? || current_user.manager? %>
+        <div class="col-lg-2 py-3" id="owner-language" relative>
+          <%= t('web_access') %>
+        </div>
+        <div class="col-lg-1 py-3">
+        </div>
+      <% end %>
     </div>
     <div class="tbody">
       <% @owners.each do |owner| %>
@@ -55,49 +61,57 @@
             <% end %>
           </div>
           <div class="col-lg-1 align-self-center"><%= owner.language if owner.language %></div>
-          <div class="col-lg-2 align-self-center">
-            <% if owner.user.present? && !(owner.user.role == "admin" || owner.user.role == "manager") %>
-              <i class="fas fa-check-circle text-success text-sm me-2"></i>
-              <%= link_to t("withdraw_access"), owner.user,
+          <div class="col-lg-2 align-self-center text-sm"><%= owner.phone %></div>
+          <div class="col-lg-3 align-self-center text-sm"><%= owner.email %></div>
+          <% if current_user.admin? || current_user.manager? %>
+            <div class="col-lg-2 align-self-center">
+              <% if owner.user.present? && !(owner.user.role == "admin" || owner.user.role == "manager") %>
+                <i class="fas fa-check-circle text-success text-sm me-2"></i>
+                <%= link_to t("withdraw_access"), owner.user,
                 data: {turbo_method: :delete, turbo_confirm: t("are_you_sure")}, class: "text-danger text-sm" %>
-              <% if owner.user.email.present? %>
-                <%= link_to send_access_email_owner_path(owner), class: "text-sm text-secondary" do %>
-                  <i class="fa-solid fa-paper-plane me-2"></i><%= t('send_access_email') %>
-                <% end %>
-                <% if owner.user.email_logs.present? %>
-                  <% last_access_email = owner.user.email_logs.where(email_type: 'owner_access')&.last %>
-                  <% if last_access_email.present? %>
-                    <span class="text-sm text-muted"><i class="fa-solid fa-clock me-2"></i>
-                      <%= t('sent') %>: <%= l(last_access_email.created_at, format: :default) %></span>
+                <% if owner.user.email.present? %>
+                  <%= link_to send_access_email_owner_path(owner), class: "text-sm text-secondary" do %>
+                    <i class="fa-solid fa-paper-plane me-2"></i><%= t('send_access_email') %>
+                  <% end %>
+                  <% if owner.user.email_logs.present? %>
+                    <% last_access_email = owner.user.email_logs.where(email_type: 'owner_access')&.last %>
+                    <% if last_access_email.present? %>
+                      <span class="text-sm text-muted"><i class="fa-solid fa-clock me-2"></i>
+                        <%= t('sent') %>: <%= l(last_access_email.created_at, format: :default) %></span>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
+                    <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
                   <% end %>
                 <% end %>
-              <% else %>
+              <% elsif owner.email.present? && owner.user.blank? %>
+                <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>
+                  <i class="fa-solid fa-square-arrow-up-right me-2"></i><%= t('grant_access') %>
+                <% end %>
+              <% elsif owner.user.present? && (owner.user.role == "admin" || owner.user.role == "manager") %>
+                <%= t('this_user_is_admin') %>
+              <% elsif owner.email.blank? %>
                 <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
                   <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
                 <% end %>
               <% end %>
-            <% elsif owner.email.present? && owner.user.blank? %>
-              <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>
-                <i class="fa-solid fa-square-arrow-up-right me-2"></i><%= t('grant_access') %>
+            </div>
+            <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
+              <%= link_to edit_owner_path(owner), class: "text-info text-decoration-none" do %>
+                <i class="fas fa-edit fa-sm"></i>
               <% end %>
-            <% elsif owner.user.present? && (owner.user.role == "admin" || owner.user.role == "manager") %>
-              <%= t('this_user_is_admin') %>
-            <% elsif owner.email.blank? %>
-              <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
-                <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
+              <%= link_to owner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{owner.fullname}?"}, class: "text-danger text-decoration-none" do %>
+                <i class="fas fa-trash fa-sm"></i>
               <% end %>
-            <% end %>
-          </div>
-          <div class="col-lg-2 align-self-center text-sm"><%= owner.phone %></div>
-          <div class="col-lg-3 align-self-center text-sm"><%= owner.email %></div>
-          <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
-            <%= link_to edit_owner_path(owner), class: "text-info text-decoration-none" do %>
-              <i class="fas fa-edit fa-sm"></i>
-            <% end %>
-            <%= link_to owner, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar #{owner.fullname}?"}, class: "text-danger text-decoration-none" do %>
-              <i class="fas fa-trash fa-sm"></i>
-            <% end %>
-          </div>
+            </div>
+          <% else %>
+            <div class="col-lg-1 align-self-center nowrap d-flex justify-content-between">
+              <%= link_to edit_owner_path(owner), class: "text-info text-decoration-none" do %>
+                <i class="fas fa-edit fa-sm"></i>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>

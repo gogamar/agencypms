@@ -1,13 +1,8 @@
-        
-<p class="card-text">
-  <strong>Oficina:</strong>
-  <%= @vrental.office.name if @vrental.office %>
-</p>
-<p class="card-text">
-  <strong>Clau secreta Beds24:</strong>
-  <%= @vrental.prop_key %>
-</p>
-<p class="card-text">
-  <strong>Referencia Beds24:</strong>
-  <%= @vrental.beds_room_id %>
-</p>
+<% @vrental.admin_attr.each do |attr_name, attr_value| %>
+  <div class="col-6 border-end border-bottom">
+    <%= t("activerecord.attributes.vrental.#{attr_name}") %>
+  </div>
+  <div class="col-6 border-bottom">
+    <%= attr_value %>
+  </div>
+<% end %>

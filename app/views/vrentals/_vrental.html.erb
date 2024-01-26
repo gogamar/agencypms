@@ -19,8 +19,7 @@
     <div class="col-md-8 sd-list-right p-lg-0">
       <div class="card-body p-0">
         <h4 class="listing_dashboard_title card-title">
-          <% link_to_vrental = current_user.admin? || current_user.manager? || (current_user.owner.present? && current_user.owner.access_type != 'basic') ? vrental_path(vrental) : vrental_owner_bookings_path(vrental) %>
-          <%= link_to truncate(vrental.name, length: 50), link_to_vrental, class: "text-primary" %>
+          <%= link_to truncate(vrental.name, length: 50), vrental, class: "text-primary" %>
         </h4>
         <div class="user_dashboard_listed">
           <%= t('activerecord.attributes.vrental.address') %>: <%= link_to truncate(vrental.address, length: 50), vrental %>

@@ -119,9 +119,34 @@ class Vrental < ApplicationRecord
     "rates"
   ]
 
-  ADMIN_ATTRIBUTES = ["status", "property_type", "commission", "name", "address", "licence", "cadastre", "habitability", "max_guests", "min_stay", "res_fee", "free_cancel", "min_price", "contract_type", "rental_term",  "price_per", "weekly_discount", "min_advance", "cleaning_fee", "cut_off_hour", "checkin_start_hour", "checkin_end_hour", "checkout_end_hour", "title_ca", "title_es", "title_fr", "title_en", "short_description_en", "short_description_ca", "short_description_es", "short_description_fr", "description_ca",  "description_es", "description_fr", "description_en"]
+  def owner_attr
+    { "status" => status.present? ? I18n.t(status) : "",
+      "property_type" => property_type.present? ? I18n.t(property_type) : "",
+      "name" => name,
+      "address" => address,
+      "licence" => licence,
+      "cadastre" => cadastre,
+      "habitability" => habitability,
+      "max_guests" => max_guests,
+      "min_stay" => min_stay,
+      "rental_term" => rental_term.present? ? I18n.t(rental_term) : "",
+      "price_per" => price_per.present? ? I18n.t(price_per) : "",
+      "weekly_discount" => weekly_discount.present? ? number_to_percentage(weekly_discount, precision: 0, separator: ',') : "",
+      "min_advance" => min_advance.present? ? "#{min_advance}h" : "" }
+  end
 
-  OWNER_ATTRIBUTES = ["status", "property_type", "name", "address", "licence", "cadastre", "habitability", "max_guests", "min_stay", "rental_term", "price_per", "weekly_discount", "min_advance", "title_ca", "title_es", "title_fr", "title_en", "short_description_en", "short_description_ca", "short_description_es", "short_description_fr", "description_ca",  "description_es", "description_fr", "description_en"]
+  def admin_attr
+    { "contract_type" => contract_type.present? ? I18n.t(contract_type) : "",
+      "commission" => commission.present? ? number_to_percentage(commission * 100, precision: 2, separator: ',') : "",
+      "res_fee" => res_fee.present? ? number_to_percentage(res_fee * 100, precision: 2, separator: ',') : "",
+      "free_cancel" => free_cancel.present? ? "#{free_cancel} #{I18n.t('days')}" : "",
+      "min_price" => min_price.present? ? number_to_currency(min_price, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") : "",
+      "cleaning_fee" => cleaning_fee.present? && cleaning_fee != 0 ? number_to_currency(cleaning_fee, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") : "",
+      "cut_off_hour" => cut_off_hour.present? && cut_off_hour != 0 ? "#{cut_off_hour}h" : "",
+      "checkin_start_hour" => checkin_start_hour.present? && checkin_start_hour != '0.0' ? "#{checkin_start_hour}h" : "",
+      "checkin_end_hour" => checkin_end_hour.present? && checkin_end_hour != '0.0' ? "#{checkin_end_hour}h" : "",
+      "checkout_end_hour" => checkout_end_hour.present? && checkout_end_hour != '0.0' ? "#{checkout_end_hour}h" : "" }
+  end
 
   def vrental_company
     if office.present?
@@ -272,7 +297,7 @@ class Vrental < ApplicationRecord
     checkout_dates = checkout_dates_first + checkout_dates_first.map { |date| date + 1.day }
     checkout_dates = checkout_dates.uniq.sort
 
-    first_possible_checkout_date = checkin_date + rate_min_stay(checkin_date)
+    first_possible_checkout_date = checkin_date.present? ? checkin_date + rate_min_stay(checkin_date) : Date.today
 
     filtered_checkout_dates = []
 
@@ -299,7 +324,7 @@ class Vrental < ApplicationRecord
       return checkin_rate.min_stay
     end
 
-    self.min_stay
+    self.min_stay || 1
   end
 
 
@@ -796,11 +821,13 @@ class Vrental < ApplicationRecord
     short_desc = send("short_description_#{locale}")
     long_desc = send("description_#{locale}")
     if short_desc.present? && long_desc.present?
-      send("short_description_#{locale}") + " " + send("description_#{locale}")
+      "<p>#{send("short_description_#{locale}")}</p><p>#{send("description_#{locale}")}</p>"
     elsif short_desc.present?
-      send("short_description_#{locale}")
+      "<p>#{send("short_description_#{locale}")}</p>"
     elsif long_desc.present?
-      send("description_#{locale}")
+      "<p>#{send("description_#{locale}")}</p>"
+    else
+      ""
     end
   end
 

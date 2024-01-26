@@ -6,7 +6,7 @@
     </div>
     <div>
       <% if @vrental.present? && @vrental.persisted? %>
-        <%= link_to book_property_path(vrental_id: @vrental.id), target: '_blank', class: "ipn-subtitle me-5 pe-3" do %>
+        <%= link_to book_property_path(vrental_id: @vrental.id), target: '_blank', class: "text-light me-5 pe-3" do %>
           <i class="fa-solid fa-house-signal me-2"></i><%= t('view_on_website', property: @vrental.name) %>
         <% end %>
       <% end %>

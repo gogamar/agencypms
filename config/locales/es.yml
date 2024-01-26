@@ -172,6 +172,7 @@ es:
         licence: Número HUT
         longitude: Longitud
         max_guests: Número máximo de personas
+        min_advance: Antelación mínima para reservar (en horas)
         min_price: Precio mínimo por día
         min_stay: Estancia mínima
         name: Nombre de la propiedad
@@ -179,7 +180,7 @@ es:
         office: Oficina
         owner: Propietario
         photos: Fotos
-        price_per: El precio de la tarifa será por noche o por semana.
+        price_per: El precio de la tarifa será por noche o por semana?
         prop_key: Clave secreta de propiedad de Bed24
         property_type: Tipo de propiedad
         rate_master_id: ¿Especificar si esta propiedad utilizará sus propias tarifas o las tarifas de otra propiedad? (en este caso, seleccione cuál).
@@ -262,6 +263,9 @@ es:
     BATH_TUB:
       one: Baño con bañera
       other: Baños con bañera
+    TOILET:
+      one: Lavabo
+      other: Lavabos
   bathrooms: baños
   beach_front: Primera línea de playa
   beach_view: Vista a la playa
@@ -609,7 +613,6 @@ es:
     property: "%{property_type} %{rental_term} en %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microondas
   min: Min.
-  min_advance: Antelación mínima para reservar (en horas)
   min_stay: Min. %{min_stay} noches
   min_stay_title: Min.
   monday: Lunes
@@ -838,7 +841,7 @@ es:
   view: Ver
   view_more_properties: Ver más inmuebles
   view_more_reviews: Ver más comentarios
-  view_on_website: Ver %{property}
+  view_on_website: Ver %{property} en la web
   view_photos: Ver fotos
   view_property: Ver inmueble
   view_vrental: Ver el inmueble
@@ -912,3 +915,40 @@ es:
   "yes": Sí
   owner_area: Área de propietarios
   admin_area: Área de administración
+  send_access_email: Enviar email
+  add_email: Agregar email
+  firstname_lastname: Nombre y Apellidos
+  phone: Teléfono
+  web_access: Acceso web
+  language: Idioma
+  welcome_owner_space: Bienvenido al Espacio del Propietario
+  create_password: Crear contraseña
+  welcome_text: "<p>Te damos la bienvenida al Área del Propietario de Sistach Rentals, donde puedes:</p>
+    <ul>
+    <li>Ver y firmar tu contrato con comodidad.</li>
+    <li>Bloquear fechas para tu uso personal y revisar la ocupación del calendario.</li>
+    <li>Consultar contrato y facturas del año anterior.</li>
+    </ul>
+    <p>Para acceder al Área del Propietario:</p>
+    <p>Usuario: %{email}</p>"
+  if_owner_company: Si el propietario es una empresa
+  mr: Sr.
+  mrs: Sra.
+  ms: Sra.
+  address: Dirección
+  document: DNI
+  bank_account: Cuenta bancaria
+  hello: "Hola %{recipient}:"
+  hello_formal: "Bienvenido/Bienvenida %{recipient}:"
+  thanks_trust: Gracias por confiar en Sistach Rentals. Si tienes alguna pregunta o necesitas ayuda, ¡no dudes en contactarnos!
+  goodbye_formal: Saludos cordiales
+  this_user_is_admin: Este usuario no es propietario, es administrador
+  sent: Enviado
+  select_log_out: Selecciona "Cerrar sesión" si deseas salir.
+  log_out: Cerrar sesión
+  want_log_out: ¿Deseas cerrar la sesión?
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%b %d, %Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"

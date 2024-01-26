@@ -174,6 +174,7 @@ en:
         max_guests: Maximum Guests
         min_price: Minimum Price per Day
         min_stay: Minimum Stay
+        min_advance: Minimum advance to book (in hours)
         name: Property Name
         name_on_web: Show Name on Website
         office: Office
@@ -262,6 +263,9 @@ en:
     BATH_TUB:
       one: Bathroom with Bathtub
       other: Bathrooms with Bathtub
+    TOILET:
+      one: Toilet
+      other: Toilets
   bathrooms: bathrooms
   beach_front: Beach Front
   beach_view: Beach View
@@ -609,7 +613,6 @@ en:
     property: "%{property_type} %{rental_term} in %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microwave
   min: Min.
-  min_advance: Minimum advance to book (in hours)
   min_stay: Min. %{min_stay} nights
   min_stay_title: Min.
   monday: Monday
@@ -838,7 +841,7 @@ en:
   view: View
   view_more_properties: View more properties
   view_more_reviews: View more reviews
-  view_on_website: "View %{property}"
+  view_on_website: "View %{property} on the website"
   view_photos: View photos
   view_property: View property
   view_vrental: View property
@@ -912,3 +915,40 @@ en:
   "yes": "Yes"
   owner_area: Owner Area
   admin_area: Admin Area
+  send_access_email: Send email
+  add_email: Add email
+  firstname_lastname: First Name and Surname
+  phone: Phone
+  web_access: Web Access
+  language: Language
+  welcome_owner_space: Welcome to Owner Space
+  create_password: Create password
+  welcome_text: "<p>Welcome to the Owner Area of Sistach Rentals, where you can:</p>
+    <ul>
+    <li>View and sign your contract with ease.</li>
+    <li>Block dates for your personal use and review calendar occupancy.</li>
+    <li>Check contracts and invoices from the previous year.</li>
+    </ul>
+    <p>To access the Owner Area:</p>
+    <p>User: %{email}</p>"
+  if_owner_company: If the owner is a company
+  mr: Mr.
+  mrs: Mrs.
+  ms: Ms.
+  address: Address
+  document: ID
+  bank_account: Bank Account
+  hello: "Hello %{recipient}:"
+  hello_formal: "Welcome %{recipient}:"
+  thanks_trust: Thank you for trusting Sistach Rentals. If you have any questions or need assistance, please don't hesitate to contact us!
+  goodbye_formal: Best regards
+  this_user_is_admin: This user is not an owner, they are an admin
+  sent: Sent
+  select_log_out: Select "Log Out" if you want to log out.
+  log_out: Log Out
+  want_log_out: Do you want to log out?
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%b %d, %Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"

@@ -1,21 +1,8 @@
-      
-<p class="card-text">
-  <strong>Número HUT:</strong>
-  <%= @vrental.licence %>
-</p>
-<p class="card-text">
-  <strong>Comissió:</strong>
-  <%= format("%.2f", @vrental.commission.to_f * 100) %>
-</p>
-<p class="card-text">
-  <strong>Cadastre:</strong>
-  <%= @vrental.cadastre %>
-</p>
-<p class="card-text">
-  <strong>Cédula:</strong>
-  <%= @vrental.habitability %>
-</p>
-<p class="card-text">
-  <strong>Màxim d'hostes:</strong>
-  <%= @vrental.max_guests %>
-</p>
+<% @vrental.owner_attr.each do |attr_name, attr_value| %>
+  <div class="col-6 border-end border-bottom">
+    <%= t("activerecord.attributes.vrental.#{attr_name}") %>
+  </div>
+  <div class="col-6 border-bottom">
+    <%= attr_value %>
+  </div>
+<% end %>

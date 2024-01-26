@@ -265,6 +265,9 @@ ca:
     BATH_TUB:
       one: Bany amb banyera
       other: Banys amb banyera
+    TOILET:
+      one: Lavabo
+      other: Lavabos
   bathrooms: banys
   beach_front: Primera línia del mar
   beach_view: Vista a la platja
@@ -839,7 +842,7 @@ ca:
   view: Veure
   view_more_properties: Veure més immobles
   view_more_reviews: Veure més comentaris
-  view_on_website: Veure %{property}
+  view_on_website: Veure %{property} a la web
   view_photos: Veure fotos
   view_property: Veure immoble
   view_vrental: Veure l'immoble
