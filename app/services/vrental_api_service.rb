@@ -724,13 +724,10 @@ class VrentalApiService
     end
   end
 
-  def get_rates_from_beds
+  def delete_old_rates_on_beds(beds24rates)
+    return if beds24rates.empty?
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
-      beds24rates = client.get_rates(@target.prop_key)
-      return if beds24rates.empty?
-
-      # delete rates older than 2 years
       old_rates = []
       beds24rates.each do |rate|
         if rate["firstNight"].to_date.year < (Date.today.year - 2)
@@ -743,6 +740,20 @@ class VrentalApiService
         end
       end
       client.set_rates(@target.prop_key, setRates: old_rates)
+    rescue => e
+      puts "Error deleting old rates for #{@target.name}: #{e.message}"
+    end
+    sleep 2
+  end
+
+
+  def get_rates_from_beds
+    client = BedsHelper::Beds.new(@target.office.beds_key)
+    begin
+      beds24rates = client.get_rates(@target.prop_key)
+      return if beds24rates.empty?
+
+      delete_old_rates_on_beds(beds24rates)
 
       night_rates = beds24rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" }
 
@@ -820,6 +831,7 @@ class VrentalApiService
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       beds24rates = client.get_rates(@target.prop_key)
+      delete_old_rates_on_beds(beds24rates)
       future_beds24rates = beds24rates.select { |rate| rate["lastNight"].to_date > Date.today }
     rescue => e
       puts "Error getting rates for #{@target.name}: #{e.message}"
