@@ -364,7 +364,7 @@ ca:
   company: Empresa
   company_active: Empresa activa
   company_inactive: Empresa inactiva
-  confirm_password: Confirmar contrassenya
+  confirm_password: Confirmar contrasenya
   confirmed_booking: Reserva confirmada
   consult: Fer una pregunta
   contact: Contacte
@@ -563,7 +563,6 @@ ca:
   habitability_addendum: Còpia de la cèdula d’habitabilitat
   hair_dryer: Secador de cabells
   heating: Calefacció
-  hello: Hola
   hint_gap_fill: Per omplir forats de 3 nits d'un immoble que normalment té estada mínima de 5 nits, triar min. estada 3 nits o menys i máx. estada 3 nits.
   home: Inici
   house: Casa
@@ -685,7 +684,7 @@ ca:
   paid_to_owner: Pagat al propietari
   parking_included: Parking inclòs
   parking_possible: Parking possible al carrer
-  password: Contrassenya
+  password: Contrasenya
   pdf_annual_statement: Liquidació anual en PDF
   pdf_contract: Contracte PDF
   pdf_invoice: Factura en PDF
@@ -921,17 +920,15 @@ ca:
   web_access: Accés web
   language: Idioma
   welcome_owner_space: Benvingut a l'espai propietari
-  create_password: Crear contrassenya
-  welcome_text: "Li donem la benvinguda a l'extranet del propietari de Sistach Rentals. Aquí podrà:
+  create_password: Crear contrasenya
+  welcome_text: "<p>Et donem la benvinguda a l'Àrea Propietari de Sistach Rentals, on podràs:</p>
   <ul>
-    <li>Veure i signar el seu contracte.</li>
-    <li>Veure els contractes, les liquidacions i les factures de l'any passat.</li>
-    <li>Veure les reserves futures.</li>
-    <li>Bloquejar dates per al seu propi ús.</li>
-    <li>Per accedir a l'extranet, primer ha de triar una contrasenya.</li>
-    <li>El seu nom d'usuari serà la seva adreça de correu electrònic i la contrasenya que hagi triat.</li>
+  <li>Visualitzar i signar el teu contracte amb comoditat.</li>
+  <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li>
+  <li>Consultar els contractes i les factures de l'any passat.</li>
   </ul>
-  Per accedir si us plau faci clic al següent enllaç per establir la seva contrasenya:"
+  <p>Per entrar a l'Àrea Propietari:</p>
+  <p>Usuari: %{email}</p>"
   if_owner_company: Si el propietari és una empresa
   mr: Sr.
   mrs: Sra.
@@ -939,11 +936,15 @@ ca:
   address: Adreça
   document: DNI
   bank_account: Compte bancari
+  hello: "Hola %{recipient}:"
   hello_formal: "Benvingut/Benvinguda %{recipient}:"
+  thanks_trust: Gràcies per confiar en Sistach Rentals. Si tens alguna pregunta o necessites ajuda, no dubtis en posar-te en contacte amb nosaltres!
   goodbye_formal: Salutacions cordials
-  any_doubts: Si té qualsevol dubte, pot contestar a aquest email.
   this_user_is_admin: Aquest usuari no és propietari, és admin
   sent: Enviat
+  select_log_out: Selecciona "Sortir" si vols tancar la sessió.
+  log_out: Sortir
+  want_log_out: Vols tancar la sessió?
   time:
     formats:
       default: "%d/%m/%Y %H:%M"

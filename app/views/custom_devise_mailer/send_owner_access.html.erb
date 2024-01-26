@@ -1,8 +1,7 @@
-<p><%= t('hello_formal', recipient: @user.owner.fullname) %></p>
-<p><%= t('welcome_text').html_safe %></p>
-<p><%= link_to t('create_password'), edit_password_url(@user, reset_password_token: @token) %></p>
-<p><%= t('any_doubts') %></p>
-<p><%= t('goodbye_formal') %></p>
+<p><%= t('hello', recipient: @user.owner.firstname) %></p>
+<p><%= t('welcome_text', email: @user.email).html_safe %></p>
+<p><%= t('password') %>: <%= link_to t('create_password'), edit_password_url(@user, reset_password_token: @token) %></p>
+<p><%= t('thanks_trust') %></p>
 <hr>
 <% if @office.present? %>
   <p><%= @office.company.administrator %></p>

@@ -3,7 +3,7 @@
     <div class="modal-content" id="registermodal">
       <span class="mod-close" data-bs-dismiss="modal" aria-hidden="true"><i class="fas fa-times"></i></span>
       <div class="modal-body">
-        <h4 class="modal-header-title">Iniciar sessió</h4>
+        <h4 class="modal-header-title"><%= t("devise.sessions.new.sign_in") %></h4>
         <div class="login-form">
           <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: :false }) do |f| %>
             <div class="form-inputs">
@@ -17,15 +17,15 @@
               <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
             </div>
             <div class="form-actions">
-              <%= f.button :submit, "Entrar", class: "btn btn-lg btn-primary fw-medium full-width rounded-2" %>
+              <%= f.button :submit, t('devise.shared.links.sign_in'), class: "btn btn-lg btn-primary fw-medium full-width rounded-2" %>
             </div>
             <div class="text-center">
-              <p class="mt-2"><%= link_to "No recordes la contrasenya?", new_password_path(resource_name), class: "link" %></p>
+              <p class="mt-2"><%= link_to t("devise.shared.links.forgot_your_password"), new_password_path(resource_name), class: "link" %></p>
             </div>
           <% end %>
           <div class="modal-divider"><span>O</span></div>
           <div class="text-center">
-            <%= link_to "Apunta't", new_registration_path(resource_name), class: "link fw-medium" %>
+            <%= link_to t("devise.registrations.new.sign_up"), new_registration_path(resource_name), class: "link fw-medium" %>
           </div>
         </div>
       </div>

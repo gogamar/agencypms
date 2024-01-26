@@ -20,24 +20,38 @@
     </li>
     <li><a href="javascript:void(0);"><%= t("houses") %><span class="submenu-indicator"></span></a>
       <ul class="nav-dropdown nav-submenu">
-        <li><%= link_to t("with_pool"), list_path(location: "Costa Brava", pt: ["house"], pf: ["pool"]) %></li>
-        <li><%= link_to t("with_private_pool"), list_path(location: "Costa Brava", pt: ["house"], pf: ["pool_private"]) %></li>
-        <li><%= link_to t("with_garden"), list_path(location: "Costa Brava", pt: ["house"], pf: ["garden"]) %></li>
-        <li><%= link_to t("with_private_garden"), list_path(location: "Costa Brava", pt: ["house"], pf: ["private_yard"]) %></li>
-        <!--
+        <li><%= link_to list_path(location: "Costa Brava", pt: ["house"], pf: ["pool"]) do %>
+            <i class="fa-solid fa-person-swimming me-2"></i><%= t("with_pool") %>
+          <% end %></li>
+        <li><%= link_to list_path(location: "Costa Brava", pt: ["house"], pf: ["pool_private"]) do %>
+            <i class="fa-solid fa-water-ladder me-2"></i></i><%= t("with_private_pool") %>
+        <% end %></li>
+      <li><%= link_to list_path(location: "Costa Brava", pt: ["house"], pf: ["garden"]) do %>
+          <i class="fa-solid fa-baseball me-2"></i><%= t("with_garden") %>
+        <% end %></li>
+      <li><%= link_to list_path(location: "Costa Brava", pt: ["house"], pf: ["private_yard"]) do %>
+          <i class="fa-brands fa-pagelines me-2"></i><%= t("with_private_garden") %>
+        <% end %></li>
+      <!--
                   <li><%= link_to t("with_sea_view"), list_path(location: "Costa Brava", pt: [t("house")], pf: ["sea_view"]) %></li>
                   <li><a href="classical-property.html"><%= t("unique") %></a></li>
                   -->
-      </ul>
-    </li>
-  </ul>
+    </ul>
+  </li>
+</ul>
 </li>
 <li><a href="JavaScript:void(0);"><%= t("barcelona") %><span class="submenu-indicator"></span></a>
   <ul class="nav-dropdown nav-submenu">
     <li><a href="JavaScript:void(0);"><%= t("vacation_rentals") %><span class="submenu-indicator"></span></a>
       <ul class="nav-dropdown nav-submenu">
-        <li><%= link_to t("with_monument_view"), list_path(location: "Barcelona", pt: ["apartment"], pf: ["monument_view"], rt: "short_term") %></li>
-        <li><%= link_to t("without_view"), list_path(location: "Barcelona", pt: ["apartment"], nv: true, rt: "short_term") %></li>
+        <li><%= link_to list_path(location: "Barcelona", pt: ["apartment"], pf: ["monument_view"], rt: "short_term") do %>
+            <i class="fa-solid fa-building-circle-check me-2"></i><%= t("with_monument_view") %>
+          <% end %>
+        </li>
+        <li><%= link_to list_path(location: "Barcelona", pt: ["apartment"], nv: true, rt: "short_term") do %>
+            <i class="fa-solid fa-building-circle-xmarkt("devise.sessions.new.sign_in") me-2"></i><%= t("without_view") %>
+          <% end %>
+        </li>
       </ul>
     </li>
     <li><%= link_to t("medium_term"), list_path(location: "Barcelona", rt: "medium_term") %></li>

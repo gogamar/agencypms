@@ -9,23 +9,17 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="logoutModalLabel">Vols tancar la sessió?</h5>
+        <h5 class="modal-title" id="logoutModalLabel"><%= t('want_log_out') %></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=<%= t("close") %>>
         </button>
       </div>
       <div class="modal-body">
-        <i class="fas fa-sign-out-alt"></i> Selecciona "Sortir" si vols tancar la sessió.
+        <i class="fas fa-sign-out-alt me-2"></i><%= t('select_log_out') %>
       </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          data-dismiss="modal"
-        >
-          Cancel·lar
-        </button>
-        <%= button_to "Sortir", destroy_user_session_path, method: :delete, data: {turbo_method: :delete}, class: "btn btn-primary" %>
-      </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal"><%= t('cancel') %></button>
+            <%= button_to t('log_out'), destroy_user_session_path, method: :delete, data: {turbo_method: :delete}, class: "btn btn-primary" %>
+          </div>
         </div>
       </div>
     </div>

@@ -34,7 +34,9 @@
         <%= yield %>
       <% end %>
       <%= render 'shared/cookie_consent' if session[:cookie_consent].nil? %>
-      <%= render 'shared/call_to_action' unless @admin_area %>
+      <div class="d-none d-lg-block">
+        <%= render 'shared/call_to_action' unless @admin_area %>
+      </div>
       <%= render 'shared/footer' %>
       <%= render 'shared/sign_up_modal' %>
       <%= render 'shared/log_in_modal' %>
