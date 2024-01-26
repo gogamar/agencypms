@@ -4,7 +4,7 @@
     <%= form_with url: list_vragreements_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vragreements" }, class: "d-flex flex-row gap-2" do |form| %>
       <%= form.select :status,
               options_for_select([[t("active"),'active'], [t("proposal"),'proposal'], [t("inactive"),'inactive']]),
-              { include_blank: 'Tots els immobles' },
+              { include_blank: t('all_vrentals') },
               class: "form-select",
               data: { action: "change->filter#search" }
             %>
@@ -12,7 +12,7 @@
               options_for_select(
               [[Date.today.last_year.year],[Date.today.year],[Date.today.next_year.year]],
              ),
-              { include_blank: 'Tots els anys' },
+              { include_blank: t('all_years') },
               class: "form-select",
               data: { action: "change->filter#search" }
             %>
@@ -30,30 +30,32 @@
   <div class="container-fluid my-3">
     <div>
       <div class="row border border-top border-bottom fw-bold bg-light">
+        <div class="col py-3 border-start border-end"><%= t('contract') %></div>
         <div class="col py-3 border-start border-end" id="vrental" relative>
           <%= sort_indicator if params[:column] == "status" %>
-          <%= sort_link_vragreement(column: "status", label: "Estat") %>
+          <%= sort_link_vragreement(column: "status", label: t('activerecord.attributes.vragreement.status')) %>
         </div>
         <div class="col py-3 border-start border-end" id="vrdate" relative>
           <%= sort_indicator if params[:column] == "signdate" %>
-          <%= sort_link_vragreement(column: "signdate", label: "Data firma") %>
+          <%= sort_link_vragreement(column: "signdate", label: t('activerecord.attributes.vragreement.signdate')) %>
         </div>
         <div class="col py-3 border-start border-end nowrap" id="vrental" relative>
-          Immoble
+          <%= t('property', count: 1).capitalize %>
         </div>
         <div class="col py-3 border-start border-end nowrap" id="vrental" relative>
-          Idioma
+          <%= t('language') %>
         </div>
         <div class="col py-3 border-start border-end" id="comission" relative>
-          Comissió
+          <%= t('commission') %>
         </div>
-        <div class="col py-3 border-start border-end">Contracte</div>
-        <div class="col py-3 border-start border-end"></div>
       </div>
     </div>
     <div class="tbody">
       <% @vragreements.each do |vragreement| %>
         <div class="row border">
+          <div class="col border-start border-end nowrap">
+            <%= link_to "#{t('contract')} #{vragreement.year}", vragreement, class: "text-info" %>
+          </div>
           <div class="col border-start border-end">
             <%= t(vragreement.status) if vragreement.status.present? %>
           </div>
@@ -68,17 +70,6 @@
           </div>
           <div class="col border-start border-end nowrap">
             <%= number_to_percentage(vragreement.vrental.commission.to_f*100, precision: 2) if vragreement.vrental %>
-          </div>
-          <div class="col border-start border-end nowrap">
-            <%= add_vragreement_links(vragreement.vrental) %>
-          </div>
-          <div class="col border-start border-end nowrap d-flex justify-content-between">
-            <%= link_to edit_vrental_vragreement_path(vragreement.vrental, vragreement, year: vragreement.year), class: "text-info text-decoration-none" do %>
-              <i class="fas fa-edit fa-sm"></i>
-            <% end %>
-            <%= link_to vragreement, class: "text-danger text-decoration-none", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{vragreement.vrental.name}?"} do %>
-              <i class="fas fa-trash-can fa-sm"></i>
-            <% end %>
           </div>
         </div>
       <% end %>

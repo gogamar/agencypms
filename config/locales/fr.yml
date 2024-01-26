@@ -420,10 +420,10 @@ fr:
       - Vendredi
       - Samedi
     formats:
-      default: '%d/%m/%Y'
-      long: '%a, %d %b %Y'
-      short: '%d %b'
-      standard: '%a, %d/%m/%Y'
+      default: "%d/%m/%Y"
+      long: "%a, %d %b %Y"
+      short: "%d %b"
+      standard: "%a, %d/%m/%Y"
     month_names:
       - null
       - Janvier
@@ -439,9 +439,9 @@ fr:
       - Novembre
       - Décembre
     order:
-      - ':day'
-      - ':month'
-      - ':year'
+      - ":day"
+      - ":month"
+      - ":year"
   date_title: Date
   dates: Dates
   datetime:
@@ -470,19 +470,19 @@ fr:
         other: plus de %{count} ans
       x_days:
         one: 1 jour
-        other: '%{count} jours'
+        other: "%{count} jours"
       x_minutes:
         one: 1 minute
-        other: '%{count} minutes'
+        other: "%{count} minutes"
       x_months:
         one: 1 mois
-        other: '%{count} mois'
+        other: "%{count} mois"
       x_seconds:
         one: 1 seconde
-        other: '%{count} secondes'
+        other: "%{count} secondes"
       x_years:
         one: 1 an
-        other: '%{count} ans'
+        other: "%{count} ans"
     prompts:
       day: jour
       hour: heure
@@ -507,13 +507,13 @@ fr:
   discover_our_offers: Découvrez nos offres
   dishwasher: Lave-vaisselle
   document: Pièce d'identité
-  dont-fill: 'Attention ! Ci-dessous se trouvent les identifiants de connexion avec Beds24 :'
+  dont-fill: "Attention ! Ci-dessous se trouvent les identifiants de connexion avec Beds24 :"
   dryer: Sèche-linge
   earnings: Gains
   edit: Modifier
   edit_booking: Modifier la réservation
   edit_company: Modifier l'entreprise
-  edit_conditions_warning: 'Cette propriété appartient à un groupe de propriétés. Vous devez choisir si cette propriété utilisera les tarifs d''une autre propriété ou non :'
+  edit_conditions_warning: "Cette propriété appartient à un groupe de propriétés. Vous devez choisir si cette propriété utilisera les tarifs d'une autre propriété ou non :"
   edit_group: Modifier le groupe
   edit_invoice: Modifier la facture
   edit_owner: Modifier le propriétaire
@@ -532,7 +532,7 @@ fr:
   everyday: Tous les jours
   expenses: Dépenses
   export_changes_to_beds24: Exporter les modifications vers Beds24
-  'false': Non
+  "false": Non
   featured: En vedette
   featured_locations: Lieux en vedette
   featured_text: Voici une sélection de nos propriétés en vedette. Si vous ne trouvez pas ce que vous recherchez, n'hésitez pas à nous contacter.
@@ -573,8 +573,8 @@ fr:
   habitability_addendum: Copie du certificat d'habitabilité
   hair_dryer: Sèche-cheveux
   heating: Chauffage
-  hello: 'Bonjour %{recipient} :'
-  hello_formal: 'Bienvenue %{recipient} :'
+  hello: "Bonjour %{recipient} :"
+  hello_formal: "Bienvenue %{recipient} :"
   hint_gap_fill: Pour combler les trous de 3 nuits dans une propriété qui a normalement une durée de séjour minimale de 5 nuits, choisissez une durée de séjour minimale de 3 nuits ou moins et une durée de séjour maximale de 3 nuits.
   home: Accueil
   house: Maison
@@ -593,8 +593,8 @@ fr:
   invoice_agency_fees: Frais de gestion de location touristique
   invoice_amount: Montant de la facture
   invoice_date: Date de la facture
-  invoice_description_1: 'Période de gestion : du %{from} au %{to}'
-  invoice_description_2: '%{commission} sur les revenus locatifs de %{total}'
+  invoice_description_1: "Période de gestion : du %{from} au %{to}"
+  invoice_description_2: "%{commission} sur les revenus locatifs de %{total}"
   invoice_title: Facture
   invoice_zero_amount_error: La facture doit comporter au moins un règlement d'un montant supérieur à 0.
   invoices: Factures
@@ -623,7 +623,7 @@ fr:
     contact: Contact | Sistach Rentals
     home: Locations d'appartements et de maisons | Barcelone & Costa Brava | Sistach Rentals
     map: Carte | Sistach Rentals
-    property: '%{property_type} %{rental_term} à %{property_location} | %{property_name} | Sistach Rentals'
+    property: "%{property_type} %{rental_term} à %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Four à micro-ondes
   min: Min.
   min_stay: Min. %{min_stay} nuits
@@ -642,7 +642,7 @@ fr:
   new_contract_for: Nouveau contrat pour %{prop_name} année %{year}
   new_owner_booking: Ajouter la réservation du propriétaire
   new_property: Nouvelle propriété
-  new_vrental_step_1: 'Étape 1 : Propriétaire et conditions générales'
+  new_vrental_step_1: "Étape 1 : Propriétaire et conditions générales"
   new_web: Ajouté sur le site web
   news: Actualités
   next_getaway: votre prochaine escapade
@@ -652,7 +652,7 @@ fr:
   night_5: Nuit (5-6)
   night_7: Nuit (7)
   night_title: nuit
-  'no': Non
+  "no": Non
   no_availability_for_dates: Nous n'avons pas de disponibilité pour ces dates. Sélectionnez d'autres dates pour voir la disponibilité et les prix.
   no_availability_for_selection: Nous n'avons pas de disponibilité pour cette sélection.
   no_checkin: Enregistrement non autorisé
@@ -697,8 +697,8 @@ fr:
   page: Page
   pagy:
     nav:
-      next: '>>'
-      prev: '<<'
+      next: ">>"
+      prev: "<<"
   paid_by_agency: Payé par l'agence
   paid_to_owner: Payé au propriétaire
   parking_included: Parking inclus
@@ -750,7 +750,7 @@ fr:
   proposal: Proposition envoyée
   rate_master: Les tarifs de cette propriété seront-ils utilisés pour d'autres propriétés du groupe ?
   rate_master_vrental: Si vous souhaitez appliquer les tarifs d'une autre propriété, sélectionnez la propriété
-  rate_master_warning: 'Cette propriété utilise les tarifs d''une autre propriété. Pour les modifier, vous devez modifier le tarif principal :'
+  rate_master_warning: "Cette propriété utilise les tarifs d'une autre propriété. Pour les modifier, vous devez modifier le tarif principal :"
   rate_plans: Plans tarifaires
   rates: Tarifs
   read_more: Lire la suite
@@ -817,8 +817,8 @@ fr:
   simple_calendar:
     day: jour
     month: mois
-    next: '>>'
-    previous: '<<'
+    next: ">>"
+    previous: "<<"
     week: semaine
     year: an
   smoke_detector: Détecteur de fumée
@@ -841,9 +841,9 @@ fr:
   thursday: Jeudi
   time:
     formats:
-      default: '%d/%m/%Y %H:%M'
-      long: '%d %B %Y à %H:%M:%S'
-      short: '%d %b %Y %H:%M'
+      default: "%d/%m/%Y %H:%M"
+      long: "%d %B %Y à %H:%M:%S"
+      short: "%d %b %Y %H:%M"
   to: Jusqu'à
   to_confirm_booking: Pour confirmer la réservation, veuillez remplir le formulaire et payer les %{res_fee} du prix de la réservation sur la page suivante.
   toaster: Grille-pain
@@ -851,7 +851,7 @@ fr:
   total_revenue: Revenu total du propriétaire
   tourist: Touriste
   transfer: Virement
-  'true': Oui
+  "true": Oui
   tuesday: Mardi
   tv: Télévision
   type: type de propriété
@@ -930,7 +930,7 @@ fr:
   weekly_discount: Remise hebdomadaire (facultative)
   weekly_discount_included: Cette remise est déjà incluse dans le tarif hebdomadaire. Cela signifie que le tarif de nuit aura l'augmentation correspondante.
   welcome_owner_space: Bienvenue dans l'espace propriétaire
-  welcome_text: '<p>Nous vous souhaitons la bienvenue dans l''Espace Propriétaire de Sistach Rentals, où vous pouvez :</p> <ul> <li>Consulter et signer votre contrat en toute simplicité.</li> <li>Bloquer des dates pour votre usage personnel et vérifier l''occupation du calendrier.</li> <li>Consulter le contrat et les factures de l''année précédente.</li> </ul> <p>Pour accéder à l''Espace Propriétaire :</p> <p>Utilisateur : %{email}</p>'
+  welcome_text: "<p>Nous vous souhaitons la bienvenue dans l'Espace Propriétaire de Sistach Rentals, où vous pouvez :</p> <ul> <li>Consulter et signer votre contrat en toute simplicité.</li> <li>Bloquer des dates pour votre usage personnel et vérifier l'occupation du calendrier.</li> <li>Consulter le contrat et les factures de l'année précédente.</li> </ul> <p>Pour accéder à l'Espace Propriétaire :</p> <p>Utilisateur : %{email}</p>"
   where_to: Où cherchez-vous ?
   where_to_next: Où allons-nous en vacances ?
   wifi: Wifi
@@ -944,4 +944,6 @@ fr:
   withdraw_access: Retirer l'accès
   without_view: Appartements Sagrada Familia sans vue
   yearly: Annuel
-  'yes': Oui
+  "yes": Oui
+  all_vrentals: Toutes les propriétés
+  all_years: Toutes les années
