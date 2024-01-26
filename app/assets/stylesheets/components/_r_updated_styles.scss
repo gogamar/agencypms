@@ -2208,9 +2208,10 @@ li.nav-item.dropdown.language-dropdown a.nav-link:hover {
   z-index: 999;
 }
 
-.cover-image {
-  object-fit: cover; /* This will make the image cover the entire wrapper */
-  object-position: center center; /* This will center the image within the wrapper */
-  max-width: 100%; /* Ensure the image doesn't exceed the wrapper width */
-  height: auto; /* Allow the image's height to adjust proportionally */
+#smart-textimonials .slick-prev,
+#smart-textimonials .slick-next {
+  position: absolute;
+  top: 0;
+  background: lightgrey;
+  border-radius: 4px;
 }

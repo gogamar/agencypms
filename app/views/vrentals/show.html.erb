@@ -11,7 +11,7 @@
       <% if @vrental.status.present? %>
         <span class="badge badge-<%= @vrental.status %> me-2"><%= t(@vrental.status) %></span>
       <% end %>
-      <h5 class="card-header border-0"><%= @vrental.name %> <%= "(#{@vrental.address})" if @vrental.address %></h5>
+      <h5 class="card-header border-0"><%= @vrental.name %></h5>
     </div>
     <% if @vrental.owner.present? %>
       <p class="card-text">

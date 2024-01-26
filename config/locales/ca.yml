@@ -68,16 +68,16 @@ ca:
       owner:
         account: Compte bancari
         address: Adreça
+        company_name: Nom empresa
         document: DNI
         email: Email
-        fullname: Nom i cognoms propietari
-        company_name: Nom empresa
-        title: Títol
         firstname: Nom
-        lastname: Cognoms
+        fullname: Nom i cognoms propietari
         language: Idioma
+        lastname: Cognoms
         owner: Propietari
         phone: Telèfon
+        title: Títol
       owner_booking:
         checkin: Entrada
         checkout: Sortida
@@ -213,6 +213,7 @@ ca:
   add_bed: Afegir llit
   add_bedroom: Afegir habitació
   add_coupon: Afegir codi de descompte nou
+  add_email: Afegir email
   add_future_rates: Falta afegir tarifes
   add_group: Afegir nou grup
   add_new_company: Afegir nova empresa
@@ -226,7 +227,9 @@ ca:
   add_prices_to_rates: Falta afegir preus a les tarifes
   add_property: Afegir immoble
   add_rates_to_add_contract: Afegir tarifes per poder crear contracte
+  address: Adreça
   admin: Administrador
+  admin_area: Àrea administrador
   adults: Adults
   after_last_checkout: després de l'últim checkout, per prevenir forats
   agency: Agència
@@ -252,6 +255,7 @@ ca:
     other: disponibles
   available_from: Disponible des de %{date}
   balcony: Balcó
+  bank_account: Compte bancari
   bathroom:
     one: bany
     other: banys
@@ -384,6 +388,7 @@ ca:
   copy_vrental: Copiar l'immoble
   coupons: Codis de descompte
   create: Crear
+  create_password: Crear contrasenya
   dashboard: Panell de control
   date:
     abbr_day_names:
@@ -503,6 +508,7 @@ ca:
   discount: Descompte
   discover_our_offers: Descobreix les nostres suggerències
   dishwasher: Rentaplats
+  document: DNI
   dont-fill: "Atenció! A continuació son credencials de la conexió amb Beds24:"
   dryer: Assecadora
   earnings: Ingressos
@@ -512,6 +518,7 @@ ca:
   edit_conditions_warning: "Aquest immoble pertany a un grup d'immobles. Has de triar si aquest immoble utilitzarà les tarifes d'un altre immoble o no:"
   edit_group: Modificar grup
   edit_invoice: Modificar factura
+  edit_owner: Modificar propietari
   edit_owner_booking: Modificar reserva propietari
   edit_profile: Editar perfil
   edit_property: Editar immoble
@@ -537,6 +544,7 @@ ca:
   find_your: Troba
   fireplace: Xemeneia
   first_name: Nom
+  firstname_lastname: Nom i cognoms
   fixed_price: Preu fixe
   fr: Francès
   freezer: Congelador
@@ -557,6 +565,7 @@ ca:
       save_and_close: Desar i tancar
       submit: Desar
   good_choice: Bona elecció!
+  goodbye_formal: Salutacions cordials
   grant_access: Concedir accés
   grill: Barbacoa
   guest:
@@ -566,11 +575,14 @@ ca:
   habitability_addendum: Còpia de la cèdula d’habitabilitat
   hair_dryer: Secador de cabells
   heating: Calefacció
+  hello: "Hola %{recipient}:"
+  hello_formal: "Benvingut/Benvinguda %{recipient}:"
   hint_gap_fill: Per omplir forats de 3 nits d'un immoble que normalment té estada mínima de 5 nits, triar min. estada 3 nits o menys i máx. estada 3 nits.
   home: Inici
   house: Casa
   houses: Cases
   how_to_contact_us: Si vols posar-te en contacte amb nosaltres, pots contactar directament per email o telèfon o també pots omplir el formulari i el nostre equip et contestarà el més ràpid possible.
+  if_owner_company: Si el propietari és una empresa
   import_changes_from_beds24: Importar canvis de Beds24
   import_owner_from_beds24: Importar propietari de Beds24
   import_photos: Importar fotos
@@ -590,9 +602,11 @@ ca:
   invoices: Factures
   iron_board: Planxa
   kettle: Bullidor d'aigua
+  language: Idioma
   last_name: Cognoms
   legal_notice: Avís legal
   location: ubicació
+  log_out: Sortir
   long_term: Lloguer anual
   management: Gestió
   manager: Encarregat
@@ -619,6 +633,9 @@ ca:
   monday: Dilluns
   monthly: Mensual
   monument_view: Vista a la Sagrada Familia
+  mr: Sr.
+  mrs: Sra.
+  ms: Sra.
   multiplier: Multiplicador
   name: Nom
   net_owner: Net propietari
@@ -671,6 +688,7 @@ ca:
   oven: Forn
   override: Bloqueig
   owner: Propietari
+  owner_area: Àrea propietari
   owner_booking: Reserva propietari
   owner_booking_created: Reserva propietari creada
   owner_booking_edited: Reserva propietari modificada
@@ -701,6 +719,7 @@ ca:
   perfect_holiday: les teves vacances perfectes
   pets_considered: S'accepten mascotes
   pets_not_allowed: No s'accepten mascotes
+  phone: Telèfon
   photos: Fotos
   pool: Piscina comunitària
   pool_private: Piscina privada
@@ -768,15 +787,18 @@ ca:
   select_bedroom_type: Selecciona tipus d'habitació
   select_date: Selecciona data
   select_dates: Selecciona dates
+  select_log_out: Selecciona "Sortir" si vols tancar la sessió.
   select_or_add: Selecciona o afegeix propietari nou
   select_other_dates: Selecciona altres dates
   select_owner: Selecciona propietari
   select_vrental: Seleccionar immoble
   send: Enviar
+  send_access_email: Enviar email
   send_photos_to_beds24: Enviar fotos a Beds24
   send_rates_to_beds: Enviar tarifes a Beds24
   send_to_beds: Enviar a Beds24
   sending_rates: Enviat tarifes
+  sent: Enviat
   services: Serveis
   set_featured: Destacar
   short_term: Lloguer turístic
@@ -813,10 +835,17 @@ ca:
   sure_delete: Estàs segur?
   tasks: Tasques
   terms_of_service: Termes i condicions
+  thanks_trust: Gràcies per confiar en Sistach Rentals. Si tens alguna pregunta o necessites ajuda, no dubtis en posar-te en contacte amb nosaltres!
   there_are_no_contracts: Aquesta propietat encara no té cap contracte.
   there_are_no_invoices: Aquesta propietat encara no té cap factura.
   there_are_no_statements: Aquesta propietat encara no té cap liquidació.
+  this_user_is_admin: Aquest usuari no és propietari, és admin
   thursday: Dijous
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"
+      short: "%b %d, %Y %H:%M"
   to: Fins a
   to_confirm_booking: Per confirmar la reserva, cal omplir el formulari i pagar el %{res_fee} del preu de la reserva a la propera pàgina.
   toaster: Torradora
@@ -894,12 +923,16 @@ ca:
     one: immoble de lloguer turístic
     other: immobles de lloguer turístic
   vrentals: Immobles
+  want_log_out: Vols tancar la sessió?
   washer: Rentadora
+  web_access: Accés web
   website: Pàgina web
   wednesday: Dimecres
   week: Setmana
   weekly_discount: Descompte per setmana (opcional)
   weekly_discount_included: Aquest descompte ja estarà inclòs al preu setmanal de la tarifa. Vol dir que el preu per nit tindrà l'increment corresponent.
+  welcome_owner_space: Benvingut a l'espai propietari
+  welcome_text: "<p>Et donem la benvinguda a l'Àrea Propietari de Sistach Rentals, on podràs:</p> <ul> <li>Visualitzar i signar el teu contracte amb comoditat.</li> <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li> <li>Consultar els contractes i les factures de l'any passat.</li> </ul> <p>Per entrar a l'Àrea Propietari:</p> <p>Usuari: %{email}</p>"
   where_to: On busques?
   where_to_next: On anem de vacances?
   wifi: Wifi
@@ -914,42 +947,3 @@ ca:
   without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
   "yes": Sí
-  owner_area: Àrea propietari
-  admin_area: Àrea administrador
-  send_access_email: Enviar email
-  add_email: Afegir email
-  firstname_lastname: Nom i cognoms
-  phone: Telèfon
-  web_access: Accés web
-  language: Idioma
-  welcome_owner_space: Benvingut a l'espai propietari
-  create_password: Crear contrasenya
-  welcome_text: "<p>Et donem la benvinguda a l'Àrea Propietari de Sistach Rentals, on podràs:</p>
-  <ul>
-  <li>Visualitzar i signar el teu contracte amb comoditat.</li>
-  <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li>
-  <li>Consultar els contractes i les factures de l'any passat.</li>
-  </ul>
-  <p>Per entrar a l'Àrea Propietari:</p>
-  <p>Usuari: %{email}</p>"
-  if_owner_company: Si el propietari és una empresa
-  mr: Sr.
-  mrs: Sra.
-  ms: Sra.
-  address: Adreça
-  document: DNI
-  bank_account: Compte bancari
-  hello: "Hola %{recipient}:"
-  hello_formal: "Benvingut/Benvinguda %{recipient}:"
-  thanks_trust: Gràcies per confiar en Sistach Rentals. Si tens alguna pregunta o necessites ajuda, no dubtis en posar-te en contacte amb nosaltres!
-  goodbye_formal: Salutacions cordials
-  this_user_is_admin: Aquest usuari no és propietari, és admin
-  sent: Enviat
-  select_log_out: Selecciona "Sortir" si vols tancar la sessió.
-  log_out: Sortir
-  want_log_out: Vols tancar la sessió?
-  time:
-    formats:
-      default: "%d/%m/%Y %H:%M"
-      short: "%b %d, %Y %H:%M"
-      long: "%B %d, %Y %H:%M:%S"

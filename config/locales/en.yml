@@ -68,16 +68,16 @@ en:
       owner:
         account: Bank Account
         address: Address
+        company_name: Company Name
         document: ID Document
         email: Email
-        fullname: Owner Name and Surname
-        company_name: Company Name
-        title: Title
         firstname: First name
-        lastname: Surname
+        fullname: Owner Name and Surname
         language: Language
+        lastname: Surname
         owner: Owner
         phone: Phone
+        title: Title
       owner_booking:
         checkin: Check-in
         checkout: Check-out
@@ -172,9 +172,9 @@ en:
         licence: HUT Number
         longitude: Longitude
         max_guests: Maximum Guests
+        min_advance: Minimum advance to book (in hours)
         min_price: Minimum Price per Day
         min_stay: Minimum Stay
-        min_advance: Minimum advance to book (in hours)
         name: Property Name
         name_on_web: Show Name on Website
         office: Office
@@ -211,6 +211,7 @@ en:
   add_bed: Add Bed
   add_bedroom: Add Bedroom
   add_coupon: Add New Coupon Code
+  add_email: Add email
   add_future_rates: Missing Future Rates
   add_group: Add New Group
   add_new_company: Add New Company
@@ -224,7 +225,9 @@ en:
   add_prices_to_rates: Missing Prices for Rates
   add_property: Add Property
   add_rates_to_add_contract: Add Rates to Create Contract
+  address: Address
   admin: Administrator
+  admin_area: Admin Area
   adults: Adults
   after_last_checkout: after the last checkout, to prevent gaps
   agency: Agency
@@ -250,6 +253,7 @@ en:
     other: available
   available_from: Available from %{date}
   balcony: Balcony
+  bank_account: Bank Account
   bathroom:
     one: bathroom
     other: bathrooms
@@ -382,6 +386,7 @@ en:
   copy_vrental: Copy property
   coupons: Discount Codes
   create: Create
+  create_password: Create password
   dashboard: Dashboard
   date:
     abbr_day_names:
@@ -501,6 +506,7 @@ en:
   discount: Discount
   discover_our_offers: Discover our offers
   dishwasher: Dishwasher
+  document: ID
   dont-fill: "Attention! Below are connection credentials with Beds24:"
   dryer: Dryer
   earnings: Earnings
@@ -510,6 +516,7 @@ en:
   edit_conditions_warning: "This property belongs to a group of properties. You must choose whether this property will use the rates of another property or not:"
   edit_group: Edit Group
   edit_invoice: Edit invoice
+  edit_owner: Edit Owner
   edit_owner_booking: Edit Owner Booking
   edit_profile: Edit profile
   edit_property: Edit property
@@ -535,6 +542,7 @@ en:
   find_your: Find your
   fireplace: Fireplace
   first_name: First Name
+  firstname_lastname: First Name and Surname
   fixed_price: Fixed Price
   fr: French
   freezer: Freezer
@@ -555,6 +563,7 @@ en:
       save_and_close: Save and Close
       submit: Save
   good_choice: Good Choice!
+  goodbye_formal: Best regards
   grant_access: Grant Access
   grill: Grill
   guest:
@@ -564,12 +573,14 @@ en:
   habitability_addendum: Copy of Habitability Certificate
   hair_dryer: Hair Dryer
   heating: Heating
-  hello: Hello
+  hello: "Hello %{recipient}:"
+  hello_formal: "Welcome %{recipient}:"
   hint_gap_fill: To fill gaps of 3 nights in a property that normally has a minimum stay of 5 nights, choose a minimum stay of 3 nights or less and a maximum stay of 3 nights.
   home: Home
   house: House
   houses: Houses
   how_to_contact_us: If you want to get in touch with us, you can contact us directly by email or phone, or you can also fill out the form, and our team will respond as soon as possible.
+  if_owner_company: If the owner is a company
   import_changes_from_beds24: Import Changes from Beds24
   import_owner_from_beds24: Import Owner from Beds24
   import_photos: Import Photos
@@ -589,9 +600,11 @@ en:
   invoices: Invoices
   iron_board: Ironing Board
   kettle: Electric Kettle
+  language: Language
   last_name: Last Name
   legal_notice: Legal Notice
   location: location
+  log_out: Log Out
   long_term: Annual Rental
   management: Management
   manager: Manager
@@ -618,6 +631,9 @@ en:
   monday: Monday
   monthly: Monthly
   monument_view: View of the Sagrada Familia
+  mr: Mr.
+  mrs: Mrs.
+  ms: Ms.
   multiplier: Multiplier
   name: Name
   net_owner: Net Owner
@@ -670,6 +686,7 @@ en:
   oven: Oven
   override: Override
   owner: Owner
+  owner_area: Owner Area
   owner_booking: Owner booking
   owner_booking_created: Owner booking created
   owner_booking_edited: Owner booking edited
@@ -700,6 +717,7 @@ en:
   perfect_holiday: your perfect holiday
   pets_considered: Pets considered
   pets_not_allowed: Pets not allowed
+  phone: Phone
   photos: Photos
   pool: Community pool
   pool_private: Private pool
@@ -767,15 +785,18 @@ en:
   select_bedroom_type: Select bedroom type
   select_date: Select date
   select_dates: Select dates
+  select_log_out: Select "Log Out" if you want to log out.
   select_or_add: Select or add new owner
   select_other_dates: Select other dates
   select_owner: Select owner
   select_vrental: Select property
   send: Send
+  send_access_email: Send email
   send_photos_to_beds24: Send photos to Beds24
   send_rates_to_beds: Send rates to Beds24
   send_to_beds: Send to Beds24
   sending_rates: Sending rates
+  sent: Sent
   services: Services
   set_featured: Set as featured
   short_term: Short-term rental
@@ -812,10 +833,17 @@ en:
   sure_delete: Are you sure?
   tasks: Tasks
   terms_of_service: Terms and conditions
+  thanks_trust: Thank you for trusting Sistach Rentals. If you have any questions or need assistance, please don't hesitate to contact us!
   there_are_no_contracts: There are no contracts for this property.
   there_are_no_invoices: There are no invoices for this property.
   there_are_no_statements: There are no statements for this property.
+  this_user_is_admin: This user is not an owner, they are an admin
   thursday: Thursday
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"
+      short: "%b %d, %Y %H:%M"
   to: To
   to_confirm_booking: To confirm the booking, please fill out the form and pay %{res_fee} of the booking price on the next page.
   toaster: Toaster
@@ -841,7 +869,7 @@ en:
   view: View
   view_more_properties: View more properties
   view_more_reviews: View more reviews
-  view_on_website: "View %{property} on the website"
+  view_on_website: View %{property} on the website
   view_photos: View photos
   view_property: View property
   view_vrental: View property
@@ -893,12 +921,16 @@ en:
     one: vacation rental property
     other: vacation rental properties
   vrentals: Properties
+  want_log_out: Do you want to log out?
   washer: Washer
+  web_access: Web Access
   website: Website
   wednesday: Wednesday
   week: Week
   weekly_discount: Weekly discount (optional)
   weekly_discount_included: This discount is already included in the weekly rate price. It means that the nightly rate will have the corresponding increase.
+  welcome_owner_space: Welcome to Owner Space
+  welcome_text: "<p>Welcome to the Owner Area of Sistach Rentals, where you can:</p> <ul> <li>View and sign your contract with ease.</li> <li>Block dates for your personal use and review calendar occupancy.</li> <li>Check contracts and invoices from the previous year.</li> </ul> <p>To access the Owner Area:</p> <p>User: %{email}</p>"
   where_to: Where are you looking?
   where_to_next: Where are we going for vacation?
   wifi: Wifi
@@ -913,42 +945,3 @@ en:
   without_view: Apartments Sagrada Familia without view
   yearly: Yearly
   "yes": "Yes"
-  owner_area: Owner Area
-  admin_area: Admin Area
-  send_access_email: Send email
-  add_email: Add email
-  firstname_lastname: First Name and Surname
-  phone: Phone
-  web_access: Web Access
-  language: Language
-  welcome_owner_space: Welcome to Owner Space
-  create_password: Create password
-  welcome_text: "<p>Welcome to the Owner Area of Sistach Rentals, where you can:</p>
-    <ul>
-    <li>View and sign your contract with ease.</li>
-    <li>Block dates for your personal use and review calendar occupancy.</li>
-    <li>Check contracts and invoices from the previous year.</li>
-    </ul>
-    <p>To access the Owner Area:</p>
-    <p>User: %{email}</p>"
-  if_owner_company: If the owner is a company
-  mr: Mr.
-  mrs: Mrs.
-  ms: Ms.
-  address: Address
-  document: ID
-  bank_account: Bank Account
-  hello: "Hello %{recipient}:"
-  hello_formal: "Welcome %{recipient}:"
-  thanks_trust: Thank you for trusting Sistach Rentals. If you have any questions or need assistance, please don't hesitate to contact us!
-  goodbye_formal: Best regards
-  this_user_is_admin: This user is not an owner, they are an admin
-  sent: Sent
-  select_log_out: Select "Log Out" if you want to log out.
-  log_out: Log Out
-  want_log_out: Do you want to log out?
-  time:
-    formats:
-      default: "%d/%m/%Y %H:%M"
-      short: "%b %d, %Y %H:%M"
-      long: "%B %d, %Y %H:%M:%S"

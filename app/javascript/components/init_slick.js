@@ -13,7 +13,7 @@ const initSlick = () => {
   $("#smart-textimonials").slick({
     slidesToShow: 3,
     infinite: true,
-    arrows: false,
+    arrows: true,
     autoplay: true,
     responsive: [
       {

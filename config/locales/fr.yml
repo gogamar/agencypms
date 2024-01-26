@@ -68,16 +68,16 @@ fr:
       owner:
         account: Compte bancaire
         address: Adresse
+        company_name: Nom de l'entreprise
         document: Document d'identité
         email: E-mail
-        fullname: Nom complet du propriétaire
-        company_name: Nom de l'entreprise
-        title: Titre
         firstname: Prénom
-        lastname: Nom de famille
+        fullname: Nom complet du propriétaire
         language: Langue
+        lastname: Nom de famille
         owner: Propriétaire
         phone: Téléphone
+        title: Titre
       owner_booking:
         checkin: Enregistrement
         checkout: Départ
@@ -172,9 +172,9 @@ fr:
         licence: Numéro HUT
         longitude: Longitude
         max_guests: Nombre maximum de personnes
+        min_advance: Délai minimum de réservation (en heures)
         min_price: Prix minimum par jour
         min_stay: Séjour minimum
-        min_advance: Délai minimum de réservation (en heures)
         name: Nom de la propriété
         name_on_web: Afficher le nom sur le site web
         office: Bureau
@@ -211,6 +211,7 @@ fr:
   add_bed: Ajouter un lit
   add_bedroom: Ajouter une chambre
   add_coupon: Ajouter un nouveau code de réduction
+  add_email: Ajouter un e-mail
   add_future_rates: Tarifs futurs manquants
   add_group: Ajouter un nouveau groupe
   add_new_company: Ajouter une nouvelle entreprise
@@ -224,7 +225,9 @@ fr:
   add_prices_to_rates: Tarifs manquants pour les tarifs
   add_property: Ajouter une propriété
   add_rates_to_add_contract: Ajouter des tarifs pour créer un contrat
+  address: Adresse
   admin: Administrateur
+  admin_area: Espace administrateur
   adults: Adultes
   after_last_checkout: après le dernier départ, pour éviter les trous
   agency: Agence
@@ -250,6 +253,7 @@ fr:
     other: disponibles
   available_from: Disponible à partir du %{date}
   balcony: Balcon
+  bank_account: Compte bancaire
   bathroom:
     one: salle de bain
     other: salles de bains
@@ -382,6 +386,7 @@ fr:
   copy_vrental: Copier la propriété
   coupons: Codes de réduction
   create: Créer
+  create_password: Créer un mot de passe
   dashboard: Tableau de bord
   date:
     abbr_day_names:
@@ -415,10 +420,10 @@ fr:
       - Vendredi
       - Samedi
     formats:
-      default: "%d/%m/%Y"
-      long: "%a, %d %b %Y"
-      short: "%d %b"
-      standard: "%a, %d/%m/%Y"
+      default: '%d/%m/%Y'
+      long: '%a, %d %b %Y'
+      short: '%d %b'
+      standard: '%a, %d/%m/%Y'
     month_names:
       - null
       - Janvier
@@ -434,9 +439,9 @@ fr:
       - Novembre
       - Décembre
     order:
-      - ":day"
-      - ":month"
-      - ":year"
+      - ':day'
+      - ':month'
+      - ':year'
   date_title: Date
   dates: Dates
   datetime:
@@ -465,19 +470,19 @@ fr:
         other: plus de %{count} ans
       x_days:
         one: 1 jour
-        other: "%{count} jours"
+        other: '%{count} jours'
       x_minutes:
         one: 1 minute
-        other: "%{count} minutes"
+        other: '%{count} minutes'
       x_months:
         one: 1 mois
-        other: "%{count} mois"
+        other: '%{count} mois'
       x_seconds:
         one: 1 seconde
-        other: "%{count} secondes"
+        other: '%{count} secondes'
       x_years:
         one: 1 an
-        other: "%{count} ans"
+        other: '%{count} ans'
     prompts:
       day: jour
       hour: heure
@@ -501,15 +506,17 @@ fr:
   discount: Réduction
   discover_our_offers: Découvrez nos offres
   dishwasher: Lave-vaisselle
-  dont-fill: "Attention ! Ci-dessous se trouvent les identifiants de connexion avec Beds24 :"
+  document: Pièce d'identité
+  dont-fill: 'Attention ! Ci-dessous se trouvent les identifiants de connexion avec Beds24 :'
   dryer: Sèche-linge
   earnings: Gains
   edit: Modifier
   edit_booking: Modifier la réservation
   edit_company: Modifier l'entreprise
-  edit_conditions_warning: "Cette propriété appartient à un groupe de propriétés. Vous devez choisir si cette propriété utilisera les tarifs d'une autre propriété ou non :"
+  edit_conditions_warning: 'Cette propriété appartient à un groupe de propriétés. Vous devez choisir si cette propriété utilisera les tarifs d''une autre propriété ou non :'
   edit_group: Modifier le groupe
   edit_invoice: Modifier la facture
+  edit_owner: Modifier le propriétaire
   edit_owner_booking: Modifier la réservation du propriétaire
   edit_profile: Modifier le profil
   edit_property: Modifier la propriété
@@ -525,7 +532,7 @@ fr:
   everyday: Tous les jours
   expenses: Dépenses
   export_changes_to_beds24: Exporter les modifications vers Beds24
-  "false": Non
+  'false': Non
   featured: En vedette
   featured_locations: Lieux en vedette
   featured_text: Voici une sélection de nos propriétés en vedette. Si vous ne trouvez pas ce que vous recherchez, n'hésitez pas à nous contacter.
@@ -535,6 +542,7 @@ fr:
   find_your: Trouvez votre
   fireplace: Cheminée
   first_name: Prénom
+  firstname_lastname: Prénom et Nom de famille
   fixed_price: Prix fixe
   fr: Français
   freezer: Congélateur
@@ -555,6 +563,7 @@ fr:
       save_and_close: Enregistrer et fermer
       submit: Enregistrer
   good_choice: Bon choix !
+  goodbye_formal: Cordialement
   grant_access: Accorder l'accès
   grill: Barbecue
   guest:
@@ -564,12 +573,14 @@ fr:
   habitability_addendum: Copie du certificat d'habitabilité
   hair_dryer: Sèche-cheveux
   heating: Chauffage
-  hello: Bonjour
+  hello: 'Bonjour %{recipient} :'
+  hello_formal: 'Bienvenue %{recipient} :'
   hint_gap_fill: Pour combler les trous de 3 nuits dans une propriété qui a normalement une durée de séjour minimale de 5 nuits, choisissez une durée de séjour minimale de 3 nuits ou moins et une durée de séjour maximale de 3 nuits.
   home: Accueil
   house: Maison
   houses: Maisons
   how_to_contact_us: Si vous souhaitez nous contacter, vous pouvez le faire directement par e-mail ou par téléphone, ou vous pouvez également remplir le formulaire et notre équipe vous répondra dès que possible.
+  if_owner_company: Si le propriétaire est une entreprise
   import_changes_from_beds24: Importer les modifications depuis Beds24
   import_owner_from_beds24: Importer le propriétaire depuis Beds24
   import_photos: Importer les photos
@@ -582,16 +593,18 @@ fr:
   invoice_agency_fees: Frais de gestion de location touristique
   invoice_amount: Montant de la facture
   invoice_date: Date de la facture
-  invoice_description_1: "Période de gestion : du %{from} au %{to}"
-  invoice_description_2: "%{commission} sur les revenus locatifs de %{total}"
+  invoice_description_1: 'Période de gestion : du %{from} au %{to}'
+  invoice_description_2: '%{commission} sur les revenus locatifs de %{total}'
   invoice_title: Facture
   invoice_zero_amount_error: La facture doit comporter au moins un règlement d'un montant supérieur à 0.
   invoices: Factures
   iron_board: Planche à repasser
   kettle: Bouilloire électrique
+  language: Langue
   last_name: Nom de famille
   legal_notice: Mentions légales
   location: emplacement
+  log_out: Se déconnecter
   long_term: Location annuelle
   management: Gestion
   manager: Gestionnaire
@@ -610,7 +623,7 @@ fr:
     contact: Contact | Sistach Rentals
     home: Locations d'appartements et de maisons | Barcelone & Costa Brava | Sistach Rentals
     map: Carte | Sistach Rentals
-    property: "%{property_type} %{rental_term} à %{property_location} | %{property_name} | Sistach Rentals"
+    property: '%{property_type} %{rental_term} à %{property_location} | %{property_name} | Sistach Rentals'
   microwave: Four à micro-ondes
   min: Min.
   min_stay: Min. %{min_stay} nuits
@@ -618,6 +631,9 @@ fr:
   monday: Lundi
   monthly: Mensuel
   monument_view: Vue sur la Sagrada Familia
+  mr: M.
+  mrs: Mme
+  ms: Mlle
   multiplier: Multiplicateur
   name: Prénom
   net_owner: Propriétaire net
@@ -626,7 +642,7 @@ fr:
   new_contract_for: Nouveau contrat pour %{prop_name} année %{year}
   new_owner_booking: Ajouter la réservation du propriétaire
   new_property: Nouvelle propriété
-  new_vrental_step_1: "Étape 1 : Propriétaire et conditions générales"
+  new_vrental_step_1: 'Étape 1 : Propriétaire et conditions générales'
   new_web: Ajouté sur le site web
   news: Actualités
   next_getaway: votre prochaine escapade
@@ -636,7 +652,7 @@ fr:
   night_5: Nuit (5-6)
   night_7: Nuit (7)
   night_title: nuit
-  "no": Non
+  'no': Non
   no_availability_for_dates: Nous n'avons pas de disponibilité pour ces dates. Sélectionnez d'autres dates pour voir la disponibilité et les prix.
   no_availability_for_selection: Nous n'avons pas de disponibilité pour cette sélection.
   no_checkin: Enregistrement non autorisé
@@ -670,6 +686,7 @@ fr:
   oven: Four
   override: Remplacer
   owner: Propriétaire
+  owner_area: Espace propriétaire
   owner_booking: Réservation du propriétaire
   owner_booking_created: Réservation du propriétaire créée
   owner_booking_edited: Réservation du propriétaire modifiée
@@ -680,8 +697,8 @@ fr:
   page: Page
   pagy:
     nav:
-      next: ">>"
-      prev: "<<"
+      next: '>>'
+      prev: '<<'
   paid_by_agency: Payé par l'agence
   paid_to_owner: Payé au propriétaire
   parking_included: Parking inclus
@@ -700,6 +717,7 @@ fr:
   perfect_holiday: vos vacances parfaites
   pets_considered: Animaux acceptés
   pets_not_allowed: Animaux non autorisés
+  phone: Téléphone
   photos: Photos
   pool: Piscine commune
   pool_private: Piscine privée
@@ -732,7 +750,7 @@ fr:
   proposal: Proposition envoyée
   rate_master: Les tarifs de cette propriété seront-ils utilisés pour d'autres propriétés du groupe ?
   rate_master_vrental: Si vous souhaitez appliquer les tarifs d'une autre propriété, sélectionnez la propriété
-  rate_master_warning: "Cette propriété utilise les tarifs d'une autre propriété. Pour les modifier, vous devez modifier le tarif principal :"
+  rate_master_warning: 'Cette propriété utilise les tarifs d''une autre propriété. Pour les modifier, vous devez modifier le tarif principal :'
   rate_plans: Plans tarifaires
   rates: Tarifs
   read_more: Lire la suite
@@ -767,15 +785,18 @@ fr:
   select_bedroom_type: Sélectionnez le type de chambre
   select_date: Sélectionnez une date
   select_dates: Sélectionnez des dates
+  select_log_out: Sélectionnez "Se déconnecter" si vous souhaitez vous déconnecter.
   select_or_add: Sélectionnez ou ajoutez un nouveau propriétaire
   select_other_dates: Sélectionnez d'autres dates
   select_owner: Sélectionnez le propriétaire
   select_vrental: Sélectionnez la propriété
   send: Envoyer
+  send_access_email: Envoyer un e-mail
   send_photos_to_beds24: Envoyer des photos à Beds24
   send_rates_to_beds: Envoyer les tarifs à Beds24
   send_to_beds: Envoyer à Beds24
   sending_rates: Envoi des tarifs
+  sent: Envoyé
   services: Services
   set_featured: Définir comme en vedette
   short_term: Location touristique
@@ -796,8 +817,8 @@ fr:
   simple_calendar:
     day: jour
     month: mois
-    next: ">>"
-    previous: "<<"
+    next: '>>'
+    previous: '<<'
     week: semaine
     year: an
   smoke_detector: Détecteur de fumée
@@ -812,10 +833,17 @@ fr:
   sure_delete: Êtes-vous sûr ?
   tasks: Tâches
   terms_of_service: Conditions générales
+  thanks_trust: Merci de faire confiance à Sistach Rentals. Si vous avez des questions ou avez besoin d'aide, n'hésitez pas à nous contacter !
   there_are_no_contracts: Il n'y a pas de contrats pour cette propriété.
   there_are_no_invoices: Il n'y a pas de factures pour cette propriété.
   there_are_no_statements: Il n'y a pas d'états des lieux pour cette propriété.
+  this_user_is_admin: Cet utilisateur n'est pas un propriétaire, c'est un administrateur
   thursday: Jeudi
+  time:
+    formats:
+      default: '%d/%m/%Y %H:%M'
+      long: '%d %B %Y à %H:%M:%S'
+      short: '%d %b %Y %H:%M'
   to: Jusqu'à
   to_confirm_booking: Pour confirmer la réservation, veuillez remplir le formulaire et payer les %{res_fee} du prix de la réservation sur la page suivante.
   toaster: Grille-pain
@@ -823,7 +851,7 @@ fr:
   total_revenue: Revenu total du propriétaire
   tourist: Touriste
   transfer: Virement
-  "true": Oui
+  'true': Oui
   tuesday: Mardi
   tv: Télévision
   type: type de propriété
@@ -893,12 +921,16 @@ fr:
     one: propriété de location de vacances
     other: propriétés de location de vacances
   vrentals: Propriétés
+  want_log_out: Souhaitez-vous vous déconnecter ?
   washer: Lave-linge
+  web_access: Accès web
   website: Site Web
   wednesday: Mercredi
   week: Semaine
   weekly_discount: Remise hebdomadaire (facultative)
   weekly_discount_included: Cette remise est déjà incluse dans le tarif hebdomadaire. Cela signifie que le tarif de nuit aura l'augmentation correspondante.
+  welcome_owner_space: Bienvenue dans l'espace propriétaire
+  welcome_text: '<p>Nous vous souhaitons la bienvenue dans l''Espace Propriétaire de Sistach Rentals, où vous pouvez :</p> <ul> <li>Consulter et signer votre contrat en toute simplicité.</li> <li>Bloquer des dates pour votre usage personnel et vérifier l''occupation du calendrier.</li> <li>Consulter le contrat et les factures de l''année précédente.</li> </ul> <p>Pour accéder à l''Espace Propriétaire :</p> <p>Utilisateur : %{email}</p>'
   where_to: Où cherchez-vous ?
   where_to_next: Où allons-nous en vacances ?
   wifi: Wifi
@@ -912,43 +944,4 @@ fr:
   withdraw_access: Retirer l'accès
   without_view: Appartements Sagrada Familia sans vue
   yearly: Annuel
-  "yes": Oui
-  owner_area: Espace propriétaire
-  admin_area: Espace administrateur
-  send_access_email: Envoyer un e-mail
-  add_email: Ajouter un e-mail
-  firstname_lastname: Prénom et Nom de famille
-  phone: Téléphone
-  web_access: Accès web
-  language: Langue
-  welcome_owner_space: Bienvenue dans l'espace propriétaire
-  create_password: Créer un mot de passe
-  welcome_text: "<p>Nous vous souhaitons la bienvenue dans l'Espace Propriétaire de Sistach Rentals, où vous pouvez :</p>
-    <ul>
-    <li>Consulter et signer votre contrat en toute simplicité.</li>
-    <li>Bloquer des dates pour votre usage personnel et vérifier l'occupation du calendrier.</li>
-    <li>Consulter le contrat et les factures de l'année précédente.</li>
-    </ul>
-    <p>Pour accéder à l'Espace Propriétaire :</p>
-    <p>Utilisateur : %{email}</p>"
-  if_owner_company: Si le propriétaire est une entreprise
-  mr: M.
-  mrs: Mme
-  ms: Mlle
-  address: Adresse
-  document: Pièce d'identité
-  bank_account: Compte bancaire
-  hello: "Bonjour %{recipient} :"
-  hello_formal: "Bienvenue %{recipient} :"
-  thanks_trust: Merci de faire confiance à Sistach Rentals. Si vous avez des questions ou avez besoin d'aide, n'hésitez pas à nous contacter !
-  goodbye_formal: Cordialement
-  this_user_is_admin: Cet utilisateur n'est pas un propriétaire, c'est un administrateur
-  sent: Envoyé
-  select_log_out: Sélectionnez "Se déconnecter" si vous souhaitez vous déconnecter.
-  log_out: Se déconnecter
-  want_log_out: Souhaitez-vous vous déconnecter ?
-  time:
-    formats:
-      default: "%d/%m/%Y %H:%M"
-      short: "%d %b %Y %H:%M"
-      long: "%d %B %Y à %H:%M:%S"
+  'yes': Oui

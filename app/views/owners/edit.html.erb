@@ -1,5 +1,6 @@
-<h4 class="font-weight-bold text-primary text-center mb-2">Modificar el propietari <%= @owner.fullname %></h4>
+<h6 class="font-weight-bold text-primary text-center mb-2"><%= t('edit_owner') %> </h6>
+<h4 class="font-weight-bold text-primary text-center mb-2"><%= @owner.fullname %></h4>
 <hr>
-<div class="container mt-5 w-50">
+<div class="container mt-5">
   <%= render 'form', owner: @owner %>
 </div>

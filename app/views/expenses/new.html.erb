@@ -1,5 +1,5 @@
 <h4 class="font-weight-bold text-primary text-center mb-2">Nova despesa <%= @vrental.name if @vrental %></h4>
 <hr>
-<div class="container-fluid mt-5 pb-5 w-50">
+<div class="container-fluid mt-5 pb-5">
   <%= render "form", expense: @expense, vrental: (@vrental || nil) %>
 </div>

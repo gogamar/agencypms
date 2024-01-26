@@ -130,7 +130,7 @@ class Vrental < ApplicationRecord
       "max_guests" => max_guests,
       "min_stay" => min_stay,
       "rental_term" => rental_term.present? ? I18n.t(rental_term) : "",
-      "price_per" => price_per.present? ? I18n.t(price_per) : "",
+      "price_per" => price_per.present? ? I18n.t(price_per, count: 1) : "",
       "weekly_discount" => weekly_discount.present? ? number_to_percentage(weekly_discount, precision: 0, separator: ',') : "",
       "min_advance" => min_advance.present? ? "#{min_advance}h" : "" }
   end
