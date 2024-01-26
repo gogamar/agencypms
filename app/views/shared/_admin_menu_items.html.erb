@@ -1,4 +1,17 @@
 <% if current_user.admin? || current_user.manager? %>
+  <% if (@vrental || params[:controller] == 'vrentals') && @all_vrentals.count >= 2 %>
+    <li>
+      <div class="input-with-icon">
+        <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
+          <option value="">&nbsp;</option>
+          <% @all_vrentals.each do |vrental| %>
+            <option value="<%= vrental_path(vrental) %>"><%= vrental.name %></option>
+          <% end %>
+        </select>
+        <i class="fas fa-home"></i>
+      </div>
+    </li>
+  <% end %>
   <li><a href="JavaScript:void(0);"><%= t('management') %><span class="submenu-indicator"></span></a>
     <ul class="nav-dropdown nav-submenu">
       <li><%= link_to vrentals_path do %>
@@ -57,16 +70,4 @@
       </ul>
     </li>
   <% end %>
-<% elsif (current_user.admin? || current_user.manager? ) && (@vrental || params[:controller] == 'vrentals') && @all_vrentals.count >= 2 %>
-  <li>
-    <div class="input-with-icon">
-      <select name="select_vrental" id="select_vrental-select2" class="form-control" data-placeholder="<%= t('select_vrental').capitalize %>">
-        <option value="">&nbsp;</option>
-        <% @all_vrentals.each do |vrental| %>
-          <option value="<%= vrental_path(vrental) %>"><%= vrental.name %></option>
-        <% end %>
-      </select>
-      <i class="fas fa-home"></i>
-    </div>
-  </li>
 <% end %>

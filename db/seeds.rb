@@ -217,10 +217,12 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 # estartit_vrentals.update_all(control_restrictions: "calendar_beds24")
 # barcelona_rate_group.update(rate_group: true)
 owners = Owner.all
+
 owners.each do |owner|
   if owner.company_name.present?
     words = owner.company_name.split(' ')
     first_word_is_title = words[0].include?('.')
+
     if first_word_is_title
       owner.title = words[0]
       owner.firstname = words[1]
@@ -244,16 +246,29 @@ owners.each do |owner|
         owner.user.company_name = owner.company_name
       end
     end
+
+    # Save changes with error handling
+    unless owner.save
+      puts "Error saving Owner record: #{owner.errors.full_messages}"
+    end
+
+    if owner.user.present?
+      unless owner.user.save
+        puts "Error saving User record for Owner: #{owner.user.errors.full_messages}"
+      end
+    end
   end
-  owner.save
-  owner.user.save if owner.user.present?
-  puts "this is the owner: #{owner.title} - #{owner.firstname} - #{owner.lastname} - #{owner.company_name} "
+
   if owner.title.present?
     if owner.title == "Sr."
       owner.title = "mr"
     elsif owner.title == "Sra."
       owner.title = "mrs"
     end
-    owner.save
+
+    # Save changes with error handling
+    unless owner.save
+      puts "Error saving Owner record after title update: #{owner.errors.full_messages}"
+    end
   end
 end

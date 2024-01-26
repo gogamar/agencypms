@@ -9,25 +9,32 @@
         <%= link_to home_path, class: "nav-brand fixed-logo" do %>
           <%= image_tag("logo.png", class: "logo", alt: "") %>
         <% end %>
+        <% unless user_signed_in? %>
+          <div class="d-flex justify-content-end pe-5">
+            <ul class="nav-menu d-lg-none">
+              <li class="border-0">
+                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#login">
+                  <i class="fa-solid fa-arrow-right-from-bracket me-2"></i><%= t("sign_in") %>
+                </a>
+              </li>
+            </ul>
+          </div>
+        <% end %>
         <div class="nav-toggle"></div>
-        <div class="mobile_nav">
-          <ul>
-            <li>
-              <%= render 'shared/user_menu' %>
-            </li>
-          </ul>
-        </div>
       </div>
       <div class="nav-menus-wrapper" style="transition-property: none;">
         <ul class="nav-menu">
-          <% if user_signed_in? && @admin_area %>
-            <%= render 'shared/admin_menu_items' %>
+          <% if user_signed_in? %>
+            <% if @admin_area %>
+              <%= render 'shared/admin_menu_items' %>
+            <% end %>
+            <li class="d-lg-none bg-light"><%= render 'shared/user_menu_mobile' %></li>
           <% else %>
             <%= render 'shared/website_menu_items' %>
           <% end %>
         </ul>
         <ul class="nav-menu nav-menu-social align-to-right d-lg-flex d-none align-items-center gap-3">
-          <% if user_signed_in? %>
+          <% if user_signed_in? && @admin_area %>
             <% if current_user.admin? || current_user.manager? || current_user.owner.present? && (current_user.owner.access_type && current_user.owner.access_type != "basic") %>
               <li>
                 <%= link_to new_vrental_path, class: "text-success" do %>

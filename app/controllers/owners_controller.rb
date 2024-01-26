@@ -76,6 +76,9 @@ class OwnersController < ApplicationController
       if @owner.user.present? && @owner.user.email != @owner.email
         @owner.user.update(email: @owner.email)
       end
+      if @owner.user.present? && @owner.email.blank?
+        @owner.user.destroy
+      end
       if params[:vrental_id].present?
         redirect_back(fallback_location: edit_vrental_path(@vrental), notice: 'Has modificat el propietari.')
       else

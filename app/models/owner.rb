@@ -4,8 +4,7 @@ class Owner < ApplicationRecord
   has_many :vragreements, through: :vrentals
   validates :fullname, presence: true
   validates :language, presence: true
-  validates :email, presence: true, format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
-  validates :email, uniqueness: true
+  validates :email, format: { with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }, uniqueness: true, if: :email_present?
 
   TITLE = ["mr", "mrs", "ms"]
 
@@ -52,5 +51,11 @@ class Owner < ApplicationRecord
 
     self.user = owner_user
     save
+  end
+
+  private
+
+  def email_present?
+    email.present?
   end
 end

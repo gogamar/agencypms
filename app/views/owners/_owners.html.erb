@@ -76,12 +76,16 @@
                   <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
                 <% end %>
               <% end %>
-            <% elsif owner.user.blank? %>
+            <% elsif owner.email.present? && owner.user.blank? %>
               <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>
                 <i class="fa-solid fa-square-arrow-up-right me-2"></i><%= t('grant_access') %>
               <% end %>
             <% elsif owner.user.present? && (owner.user.role == "admin" || owner.user.role == "manager") %>
               <%= t('this_user_is_admin') %>
+            <% elsif owner.email.blank? %>
+              <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
+                <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
+              <% end %>
             <% end %>
           </div>
           <div class="col-lg-2 align-self-center text-sm"><%= owner.phone %></div>
