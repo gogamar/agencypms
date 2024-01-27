@@ -1,5 +1,5 @@
 <%= turbo_frame_tag rate, class: "card-body" do %>
-  <div class="row py-1 rate-dates">
+  <div class="row py-2 rate-dates border-bottom">
     <% unless params[:controller] == 'vragreements' %>
       <div class="col-lg-1 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>"><%= t(rate.restriction) %></div>
     <% end %>
@@ -16,7 +16,7 @@
       <% end %>
     </div>
     <% unless params[:controller] == 'vragreements' %>
-      <div class="col-lg-1 p-1 d-flex justify-content-between">
+      <div class="col-lg-1 d-flex justify-content-between gap-2">
         <%= link_to edit_vrental_rate_path(@vrental, rate), class: "btn btn-sm btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>

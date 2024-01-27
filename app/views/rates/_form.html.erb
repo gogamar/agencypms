@@ -2,40 +2,38 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div data-controller="unavailable-dates"
   data-defaultstart="<%= f.object.persisted? ? '' : @vrental.first_future_date_without_rate.to_json %>"
-  data-unavailable="<%= @vrental.dates_with_rates(f.object.firstnight, f.object.lastnight).to_json %>"
+  data-unavailable="<%= @vrental.dates_with_rates(f.object.firstnight, f.object.lastnight).to_json %>" class="d-lg-flex flex-lg-row justify-content-between align-items-center rate-dates"
   >
-    <div class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center rate-dates">
-      <% if vrental.rental_term == "short_term" %>
-        <div class="p-1 text-center">
-          <%= f.input :restriction, as: :select, collection: Rate::RESTRICTION.map { |restriction| [t(restriction), restriction]}, include_blank: false, input_html: { "data-unavailable-dates-target" => "restriction", "data-action" => "change->unavailable-dates#showGapFillFields" }  %>
-        </div>
-      <% end %>
+    <% if vrental.rental_term == "short_term" %>
       <div class="p-1 text-center">
-        <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" } %>
+        <%= f.input :restriction, as: :select, collection: Rate::RESTRICTION.map { |restriction| [t(restriction), restriction]}, include_blank: false, input_html: { "data-unavailable-dates-target" => "restriction", "data-action" => "change->unavailable-dates#showGapFillFields" }  %>
       </div>
-      <div class="p-1 text-center">
-        <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
+    <% end %>
+    <div class="p-1 text-center">
+      <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" } %>
+    </div>
+    <div class="p-1 text-center">
+      <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
+    </div>
+    <div class="p-1 text-center no-wrap">
+      <%= f.input :arrival_day, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
+    </div>
+    <div class="p-1 text-center">
+      <%= f.input :min_stay %>
+    </div>
+    <div class="p-1 text-center <%= 'd-none' unless f.object.restriction.present? && f.object.restriction == "gap_fill" %>" data-unavailable-dates-target="maxStay">
+      <%= f.input :max_stay %>
+    </div>
+    <% if vrental.price_per == "week" %>
+      <div class="p-1 text-center <%= 'd-none' if vrental.price_per == "night" || !vrental.price_per.present? %>" data-unavailable-dates-target="priceWeek">
+        <%= f.input :priceweek, required: vrental.price_per == "week" %>
       </div>
-      <div class="p-1 text-center no-wrap">
-        <%= f.input :arrival_day, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
-      </div>
-      <div class="p-1 text-center">
-        <%= f.input :min_stay %>
-      </div>
-      <div class="p-1 text-center <%= 'd-none' unless f.object.restriction.present? && f.object.restriction == "gap_fill" %>" data-unavailable-dates-target="maxStay">
-        <%= f.input :max_stay %>
-      </div>
-      <% if vrental.price_per == "week" %>
-        <div class="p-1 text-center <%= 'd-none' if vrental.price_per == "night" || !vrental.price_per.present? %>" data-unavailable-dates-target="priceWeek">
-          <%= f.input :priceweek, required: vrental.price_per == "week" %>
-        </div>
-      <% end %>
-      <div class="p-1 text-center <%= 'd-none' if vrental.price_per == "week" %>" data-unavailable-dates-target="priceNight">
-        <%= f.input :pricenight, required: vrental.price_per == "night" || !vrental.price_per.present? %>
-      </div>
-      <div class="p-1 text-center">
-        <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-primary mt-3' %>
-      </div>
+    <% end %>
+    <div class="p-1 text-center <%= 'd-none' if vrental.price_per == "week" %>" data-unavailable-dates-target="priceNight">
+      <%= f.input :pricenight, required: vrental.price_per == "night" || !vrental.price_per.present? %>
+    </div>
+    <div class="p-1 text-center">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-primary mt-3' %>
     </div>
     <span class="text-sm text-italics d-none" data-unavailable-dates-target="hint"><%= t('hint_gap_fill') %></span>
   </div>

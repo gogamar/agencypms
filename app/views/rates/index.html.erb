@@ -1,4 +1,4 @@
-<div class="mb-5 text-center">
+<div class="my-5 text-center">
   <h4 class="font-weight-bold text-primary mb-2"><%= @vrental.name %></h4>
   <h6><%= t('property_rates') %></h6>
 </div>
@@ -12,12 +12,12 @@
       <%= t('add_future_rates') %>
     </div>
   <% end %>
-  <div class="d-flex justify-content-between align-items-end">
+  <div class="d-flex justify-content-between align-items-end border-bottom py-3">
     <div>
       <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row align-items-center gap-3") do |form| %>
         <div class="input-group input-group-sm">
           <%= form.select :rate_plan_id, options_for_select(@rate_plans.map { |rate_plan| [rate_plan.name, rate_plan.id] }), { include_blank: true }, { class: "form-select" } %>
-          <button type="submit" class="btn btn-sm btn-primary">Carregar dates</button>
+          <button type="submit" class="btn btn-sm btn-primary"><%= t('upload_dates') %></button>
         </div>
       <% end %>
     </div>
@@ -39,9 +39,8 @@
       <% end %>
     </div>
   </div>
-  <hr>
-  <div class="container mb-5">
-    <div class="d-flex flex-column align-items-center mb-4">
+  <div class="container my-5">
+    <div class="d-flex flex-column align-items-center my-4">
       <h5 class="text-center text-info"><%= t('add_new_rate') %></h5>
       <%= link_to request.original_url, class: 'text-secondary' do %>
         <i class="fas fa-solid fa-sync me-2"></i> <%= t('refresh_page') %>
@@ -50,18 +49,20 @@
     <%= turbo_frame_tag "new_rate", src: new_vrental_rate_path(@vrental)%>
     <% @vrental.years_with_rates.each do |year| %>
       <% if @rates.where("DATE_PART('year', firstnight) = ?", year).exists? %>
-        <hr>
-        <h5 class="m-3 font-weight-bold text-primary text-center">Tarifes <%= year %></h5>
-        <div class="text-end">
-          <%= link_to delete_year_rates_vrental_path(@vrental, year: year), class: "text-danger" do %>
-            <i class="fas fa-solid fa-trash-can me-2"></i>Esborra les tarifes <%= year %>
-          <% end %>
-          <% if year <= Date.today.year %>
-            <%= link_to "Copiar tarifes de l\'any #{year} a l'any #{year + 1}", copy_rates_vrental_path(@vrental, year: year), class: "btn btn-sm btn-secondary" %>
-          <% end %>
+        <div class="row mt-5 py-2 border-bottom">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="font-weight-bold text-primary"><%= t('rates') %> <%= year %></h5>
+            <%= link_to delete_year_rates_vrental_path(@vrental, year: year), class: "btn btn-sm btn-danger d-none d-lg-flex" do %>
+              <i class="fa-solid fa-trash-can me-2"></i><%= (t('delete_rates')) %> <%= year %>
+            <% end %>
+            <% if year <= Date.today.year %>
+              <%= link_to copy_rates_vrental_path(@vrental, year: year), class: "btn btn-sm btn-secondary d-none d-lg-flex" do %>
+                <i class="fa-solid fa-copy me-2"></i><%= t('copy_rates_from_to', from_year: year, to_year: year + 1) %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
-        <hr>
-        <div class="row py-1 rate-dates">
+        <div class="row py-2 rate-dates d-none d-lg-flex">
           <div class="col-lg-1 nowrap fw-bold"><%= t('restriction') %></div>
           <div class="col-lg-2 nowrap fw-bold"><%= t('from') %></div>
           <div class="col-lg-2 nowrap fw-bold"><%= t('to') %></div>
@@ -71,7 +72,6 @@
           <div class="col-lg-2 nowrap fw-bold"><%= t('price') %></div>
           <div class="col-lg-1"></div>
         </div>
-        <hr>
         <div id="rates<%= year %>">
           <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
         </div>

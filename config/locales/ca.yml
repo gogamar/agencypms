@@ -214,7 +214,7 @@ ca:
   add_bedroom: Afegir habitació
   add_coupon: Afegir codi de descompte nou
   add_email: Afegir email
-  add_future_rates: Falta afegir tarifes
+  add_future_rates: Falta afegir tarifes a partir d'avui
   add_group: Afegir nou grup
   add_new_company: Afegir nova empresa
   add_new_contract_template: Afegir nou model de contracte
@@ -949,3 +949,6 @@ ca:
   "yes": Sí
   all_vrentals: Tots els immobles
   all_years: Tots els anys
+  delete_rates: Eliminar tarifes
+  copy_rates_from_to: Copiar tarifes de l'any %{from_year} a l'any %{to_year}
+  upload_dates: Importar dates

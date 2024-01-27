@@ -2120,7 +2120,8 @@ th.next.available,
   color: #fff;
 }
 
-li.nav-item.dropdown.language-dropdown a.nav-link:hover {
+li.nav-item.dropdown.language-dropdown a.nav-link:hover,
+li.nav-item.dropdown.language-dropdown a.nav-link:focus {
   color: lightgrey;
 }
 
