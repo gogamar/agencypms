@@ -889,7 +889,6 @@ class VrentalApiService
 
           weekly_rates << merged_weekly_rate
         end
-        sleep 4
       end
 
       begin
@@ -898,6 +897,7 @@ class VrentalApiService
         @target.future_rates.each_with_index do |rate, index|
           rate.update!(beds_rate_id: nightly_rates_response[index]["rateId"])
         end
+        sleep 3
       rescue => e
         puts "Error setting nightly rates for #{@target.name}: #{e.message}"
       end
@@ -908,6 +908,7 @@ class VrentalApiService
         @target.future_rates.each_with_index do |rate, index|
           rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
         end
+        sleep 3
       rescue => e
         puts "Error setting weekly rates for #{@target.name}: #{e.message}"
       end
@@ -945,7 +946,6 @@ class VrentalApiService
     rescue => e
       puts "Error sending rates for #{@target.name}: #{e.message}"
     end
-    sleep 4
   end
 
   # Availability

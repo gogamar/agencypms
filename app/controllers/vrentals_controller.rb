@@ -301,10 +301,9 @@ class VrentalsController < ApplicationController
   end
 
   def send_rates
-    VrentalApiService.new(@vrental).send_rates_to_beds
-    if @vrental.control_restrictions == "calendar_beds24"
-      VrentalApiService.new(@vrental).send_availabilities_to_beds_24
-    end
+    vrental_id = @vrental.id
+    SendRatesToBedsJob.perform_later(vrental_id)
+    sleep 15
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn enviades."
   end
 
