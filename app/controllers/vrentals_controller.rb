@@ -285,6 +285,7 @@ class VrentalsController < ApplicationController
 
   def delete_rates
     VrentalApiService.new(@vrental).delete_rates_on_beds
+    VrentalApiService.new(@vrental).delete_availabilities_on_beds
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn esborrades. Ara les pots tornar a enviar"
   end
 
@@ -300,10 +301,13 @@ class VrentalsController < ApplicationController
   end
 
   def send_rates
-    # vrental_id = @vrental.id
-    # SendRatesToBedsJob.perform_later(vrental_id)
+    vrental_id = @vrental.id
+    SendRatesToBedsJob.perform_later(vrental_id)
     # fixme: sidekiq job not working in production
-    VrentalApiService.new(@vrental).send_rates_to_beds
+    # VrentalApiService.new(@vrental).send_rates_to_beds
+    # if @vrental.control_restrictions == "calendar_beds24"
+    #   VrentalApiService.new(@vrental).send_availabilities_to_beds_24
+    # end
     redirect_to vrental_rates_path(@vrental), notice: "Les tarifes ja estàn enviades."
   end
 
