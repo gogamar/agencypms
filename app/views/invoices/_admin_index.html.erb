@@ -1,0 +1,36 @@
+<%= t('total') %>: <%= number_to_currency(@total_agency_fees_invoiced, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+<% unless @vrental.present? %>
+  <div class="container d-flex justify-content-end">
+    <%= link_to 'Baixar factures en excel', download_all_invoices_path, class: 'btn btn-primary' %>
+  </div>
+<% end %>
+<% @invoices.each do |invoice| %>
+  <div class="d-flex flex-column flex-md-row justify-content-between mb-3 align-items-end">
+    <div>
+      <span class="text-sm"><%= t('invoice_date') %>: <%= l(invoice.date) %></span>
+    </div>
+    <div class="text-sm"><%= t('invoice_amount') %>: <%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
+    <div>
+      <%= link_to "#{t('invoice')}: #{invoice.invoice_number_formatted}", vrental_invoice_path(invoice.vrental, invoice), class: "btn btn-sm btn-light-info" %>
+    </div>
+    <div>
+      <% if invoice.statements %>
+        <div class="d-flex flex-column">
+          <% invoice.statements.each do |statement| %>
+            <%= link_to "#{t('statement')}: #{l(statement.start_date)} - #{l(statement.end_date)}", vrental_statement_path(invoice.vrental, statement), class: "btn btn-sm btn-light-info" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <%= link_to edit_vrental_invoice_path(invoice.vrental, invoice), class: "text-secondary text-decoration-none" do %>
+        <i class="fas fa-edit fa-sm"></i> <%= t('edit_invoice') %>
+      <% end %>
+      <% if Date.current == invoice.created_at.to_date && !invoice.statements.any? %>
+        <%= link_to invoice, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta factura?"}, class: "text-danger text-decoration-none" do %>
+          <i class="fas fa-trash-can fa-sm"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

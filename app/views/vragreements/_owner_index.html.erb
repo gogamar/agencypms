@@ -1,0 +1,22 @@
+<% @vragreements.each do |vragreement| %>
+  <div class="d-flex flex-column flex-lg-row border-bottom justify-content-between gap-3 py-2">
+    <div>
+      <%= t('contract') %>:
+      <%= l(vragreement.start_date) if vragreement.start_date.present? %> - <%= l(vragreement.end_date) if vragreement.end_date.present? %>
+    </div>
+    <div>
+      <%= t('owner_language') %>: <%= t(vragreement.vrentaltemplate.language) if vragreement.vrentaltemplate.present? %>
+    </div>
+    <div>
+      <% if vragreement.signature_image.attached? %>
+        <%= t('contract_signed') %> <%= l(vragreement.signdate) if vragreement.signdate.present? %>
+      <% end %>
+    </div>
+    <div>
+      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <%= vragreement.year %>: <%= t('pdf_contract') %>
+      </button>
+    </div>
+  </div>
+  <%= render 'pdf_modal', vragreement: vragreement %>
+<% end %>

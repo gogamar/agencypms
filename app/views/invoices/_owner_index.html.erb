@@ -1,0 +1,22 @@
+<% @invoices.each do |invoice| %>
+  <div class="d-flex flex-column flex-lg-row border-bottom justify-content-between gap-3 py-2">
+    <div>
+      <%= t('invoice') %>:
+      <%= invoice.invoice_number_formatted %>
+    </div>
+    <div>
+      <%= t('invoice_date') %>:
+      <%= l(invoice.date) if invoice.date.present? %>
+    </div>
+    <div>
+      <%= t('invoice_amount') %>:
+      <%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+    </div>
+    <div>
+      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        #<%= invoice.invoice_number_formatted %>: <%= t('pdf_invoice') %>
+      </button>
+    </div>
+  </div>
+  <%= render 'pdf_modal', invoice: invoice %>
+<% end %>

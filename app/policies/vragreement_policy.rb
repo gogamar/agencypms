@@ -13,6 +13,10 @@ class VragreementPolicy < ApplicationPolicy
     user.admin? || user.manager? || user.vrental_owner(record)
   end
 
+  def sign_contract?
+    user.admin? || user.manager? || user.vrental_owner(record)
+  end
+
   def copy?
     return create?
   end

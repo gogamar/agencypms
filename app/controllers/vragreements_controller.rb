@@ -1,7 +1,7 @@
 class VragreementsController < ApplicationController
   require 'date'
   require "base64"
-  before_action :set_vragreement, only: [:show, :edit, :update, :destroy ]
+  before_action :set_vragreement, only: [:show, :edit, :update, :destroy, :sign_contract ]
   before_action :set_vrental, only: [ :new, :create, :edit, :update ]
 
   def index
@@ -154,8 +154,7 @@ class VragreementsController < ApplicationController
     end
   end
 
-  def update
-    @vragreement.vrental = @vrental
+  def sign_contract
     signature_data = params[:vragreement][:signature_data]
     if signature_data.present?
       encoded_image = signature_data.split(',')[1]
@@ -169,7 +168,12 @@ class VragreementsController < ApplicationController
       @vragreement.signatory = current_user.id
       @vragreement.signdate = @vragreement.signature_image.created_at
     end
+    @vragreement.save
+    redirect_to @vragreement, notice: t("contract_signed")
+  end
 
+  def update
+    @vragreement.vrental = @vrental
     if @vragreement.update(vragreement_params)
       redirect_to @vragreement, notice: 'Has actualitzat el contracte.'
     else
@@ -207,6 +211,6 @@ class VragreementsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vragreement_params
-    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :signature_image, :signatory, :sign_online, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
+    params.require(:vragreement).permit(:status, :year, :signdate, :place, :start_date, :end_date, :vrental_id, :signature_image, :signatory, :vrentaltemplate_id, :owner_bookings, :company_id, photos: [])
   end
 end

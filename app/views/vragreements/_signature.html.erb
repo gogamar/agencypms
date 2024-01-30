@@ -1,9 +1,7 @@
 <div class="container">
-  <% unless @vragreement.sign_online == true && !@vragreement.signature_image.attached? %>
-    <div class="row">
-      <div class="col-12 font-italic fst-italic text-right text-end"><span><%= @vragreement.place %><%= ", #{l(@vragreement.signdate, format: :long)}" if @vragreement.signdate.present? %></span></div>
-    </div>
-  <% end %>
+  <div class="row">
+    <div class="col-12 font-italic fst-italic text-right text-end"><span><%= @vragreement.place %><%= ", #{l(@vragreement.signdate, format: :long)}" if @vragreement.signdate.present? %></span></div>
+  </div>
   <div class="row border bg-light text-center font-weight-bold">
     <div class="col-6 p-2 border-right border-end"><%= t('signature_agency') %> - <%= @company.name %></div>
     <div class="col-6 p-2"><%= t('signature_owner') %> - <%= @vragreement.vrental.owner&.fullname %></div>
@@ -15,40 +13,39 @@
       <% end %>
     </div>
     <div class="col-6 p-2 border-right border-end">
-      <% if @vragreement.sign_online == true %>
-        <% if @vragreement.signature_image.attached? %>
-          <div class="half-border-rounded m-2">
-            <div class="signature-key-up pl-2 ps-2">
-              <span class="text-muted"><%= t('signed_by') %>:</span>
-            </div>
-            <div class="p-4">
-              <% if @vragreement.signatory %>
-                <% signatory_user = User.find_by(id: @vragreement.signatory) %>
-                <% signatory_owner_name = signatory_user.owner&.fullname %>
-              <% end %>
-              <p class="text-muted"> <%= signatory_owner_name %> <%= @vragreement.signature_image.created_at %> </p>
-              <%= cl_image_tag(@vragreement.signature_image.key, height: 120, crop: :fill) %>
-            </div>
-            <div class="signature-key-down pl-2 ps-2">
-              <span class="text-muted"><%= @vragreement.signature_image.key.truncate(20) %>...</span>
-            </div>
+      <% if @vragreement.signature_image.attached? %>
+        <div class="half-border-rounded m-2">
+          <div class="signature-key-up pl-2 ps-2">
+            <span class="text-muted"><%= t('signed_by') %>:</span>
           </div>
-        <% else %>
-          <div class="d-flex flex-column gap-4 mt-3" data-controller="signature-capture">
-            <div class="signature-container border rounded">
-              <canvas id="signature-pad" data-signature-capture-target="signaturePad" tabindex="0"></canvas>
-            </div>
-            <div class="d-flex justify-content-between gap-3">
-              <button id="clear-button" class="btn btn-sm btn-secondary" data-action="click->signature-capture#clearCanvas"><i class="fa-solid fa-repeat me-2"></i><%= t('reset') %></button>
-              <%= form_for [@vrental, @vragreement], data: {turbo: false} do |f| %>
-                <%= f.hidden_field :signature_data, data: {signature_capture_target: "signatureDataField"} %>
-                <div class="actions">
-                  <%= f.submit t('sign'), class: "btn btn-sm btn-success" %>
-                </div>
-              <% end %>
-            </div>
+          <div class="p-4">
+            <% if @vragreement.signatory %>
+              <% signatory_user = User.find_by(id: @vragreement.signatory) %>
+              <% signatory_owner_name = signatory_user.owner&.fullname %>
+            <% end %>
+            <p class="text-muted"> <%= signatory_owner_name %> <%= @vragreement.signature_image.created_at %> </p>
+            <%= cl_image_tag(@vragreement.signature_image.key, height: 120, crop: :fill) %>
           </div>
-        <% end %>
+          <div class="signature-key-down pl-2 ps-2">
+            <span class="text-muted"><%= @vragreement.signature_image.key.truncate(20) %>...</span>
+          </div>
+        </div>
+      <% else %>
+        <div class="d-flex flex-column gap-4 mt-3" data-controller="signature-capture">
+          <span class="no-printing text-muted text-sm text-center"><%= t('please_sign_here') %></span>
+          <div class="signature-container border rounded">
+            <canvas id="signature-pad" data-signature-capture-target="signaturePad" tabindex="0"></canvas>
+          </div>
+          <div class="d-flex justify-content-between gap-3">
+            <button id="clear-button" class="btn btn-sm btn-secondary" data-action="click->signature-capture#clearCanvas" data-signature-capture-target="resetBtn" disabled><i class="fa-solid fa-repeat me-2"></i><%= t('reset') %></button>
+            <%= form_with(model: [@vrental, @vragreement], url: sign_contract_vrental_vragreement_path(@vrental, @vragreement), data: { turbo: false }) do |f| %>
+              <%= f.hidden_field :signature_data, data: { signature_capture_target: "signatureDataField" } %>
+              <div class="actions">
+                <%= f.submit t('sign'), class: "btn btn-sm btn-success", data: { signature_capture_target: "signBtn" }, disabled: true %>
+              </div>
+            <% end %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>

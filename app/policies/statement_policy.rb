@@ -10,7 +10,7 @@ class StatementPolicy < ApplicationPolicy
   end
 
   def annual_statement?
-    user.admin? || user.manager? || user.vrental_owner(record)
+    (user.admin? || user.manager?) ? scope.all : scope.where(vrental_id: user.owner.vrentals.pluck(:id))
   end
 
   def show?

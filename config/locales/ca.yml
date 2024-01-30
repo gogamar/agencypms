@@ -135,7 +135,6 @@ ca:
         owner: Propietari
         owner_bookings: Reserves per el propietari
         phone: Telèfon
-        sign_online: Signarà online
         signdate: Data firma
         start_date: Inici contracte
         status: Estat
@@ -433,10 +432,10 @@ ca:
       - Divendres
       - Dissabte
     formats:
-      default: '%d/%m/%Y'
-      long: '%a, %d de %b de %Y'
-      short: '%d de %b'
-      standard: '%a, %d/%m/%Y'
+      default: "%d/%m/%Y"
+      long: "%a, %d de %b de %Y"
+      short: "%d de %b"
+      standard: "%a, %d/%m/%Y"
     month_names:
       - null
       - Gener
@@ -452,9 +451,9 @@ ca:
       - Novembre
       - Desembre
     order:
-      - ':day'
-      - ':month'
-      - ':year'
+      - ":day"
+      - ":month"
+      - ":year"
   date_title: Data
   dates: Dates
   datetime:
@@ -483,19 +482,19 @@ ca:
         other: més de %{count} anys
       x_days:
         one: 1 dia
-        other: '%{count} dies'
+        other: "%{count} dies"
       x_minutes:
         one: 1 minut
-        other: '%{count} minuts'
+        other: "%{count} minuts"
       x_months:
         one: 1 mes
-        other: '%{count} mesos'
+        other: "%{count} mesos"
       x_seconds:
         one: 1 segon
-        other: '%{count} segons'
+        other: "%{count} segons"
       x_years:
         one: 1 year
-        other: '%{count} years'
+        other: "%{count} years"
     prompts:
       day: dia
       hour: hora
@@ -522,14 +521,14 @@ ca:
   discover_our_offers: Descobreix les nostres suggerències
   dishwasher: Rentaplats
   document: DNI
-  dont-fill: 'Atenció! A continuació son credencials de la conexió amb Beds24:'
+  dont-fill: "Atenció! A continuació son credencials de la conexió amb Beds24:"
   dryer: Assecadora
   earnings: Ingressos
   easter: Setmana Santa
   edit: Modificar
   edit_booking: Modificar reserva
   edit_company: Modificar l'empresa
-  edit_conditions_warning: 'Aquest immoble pertany a un grup d''immobles. Has de triar si aquest immoble utilitzarà les tarifes d''un altre immoble o no:'
+  edit_conditions_warning: "Aquest immoble pertany a un grup d'immobles. Has de triar si aquest immoble utilitzarà les tarifes d'un altre immoble o no:"
   edit_group: Modificar grup
   edit_invoice: Modificar factura
   edit_owner: Modificar propietari
@@ -548,7 +547,7 @@ ca:
   everyday: Qualsevol dia
   expenses: Despeses
   export_changes_to_beds24: Exportar canvis a Beds24
-  'false': 'No'
+  "false": "No"
   featured: Destacat
   featured_locations: Llocs destacats
   featured_text: A continuació us presentem una selecció dels nostres immobles destacats. Si no trobeu el que busqueu, no dubteu en contactar amb nosaltres.
@@ -590,8 +589,8 @@ ca:
   habitability_addendum: Còpia de la cèdula d’habitabilitat
   hair_dryer: Secador de cabells
   heating: Calefacció
-  hello: 'Hola %{recipient}:'
-  hello_formal: 'Benvingut/Benvinguda %{recipient}:'
+  hello: "Hola %{recipient}:"
+  hello_formal: "Benvingut/Benvinguda %{recipient}:"
   hint_gap_fill: Per omplir forats de 3 nits d'un immoble que normalment té estada mínima de 5 nits, triar min. estada 3 nits o menys i máx. estada 3 nits.
   home: Inici
   house: Casa
@@ -611,8 +610,8 @@ ca:
   invoice_agency_fees: Honoraris gestió lloguer turístic
   invoice_amount: Import factura
   invoice_date: Data factura
-  invoice_description_1: 'Periode de gestió: del %{from} al %{to}'
-  invoice_description_2: '%{commission} sobre las rendes de %{total}'
+  invoice_description_1: "Periode de gestió: del %{from} al %{to}"
+  invoice_description_2: "%{commission} sobre las rendes de %{total}"
   invoice_title: Factura
   invoice_zero_amount_error: La factura ha de tenir almenys una liquidació amb import superior a 0.
   invoices: Factures
@@ -641,7 +640,7 @@ ca:
     contact: Contacte | Sistach Rentals
     home: Lloguer d'apartaments i cases | Barcelona & Costa Brava | Sistach Rentals
     map: Mapa | Sistach Rentals
-    property: '%{property_type} %{rental_term} a %{property_location} | %{property_name} | Sistach Rentals'
+    property: "%{property_type} %{rental_term} a %{property_location} | %{property_name} | Sistach Rentals"
   microwave: Microones
   min: Min.
   min_stay: Min. %{min_stay} nits
@@ -663,7 +662,7 @@ ca:
   new_owner_booking: Afegir reserva propietari
   new_property: Nou immoble
   new_rate_plan: Nou pla de tarifes
-  new_vrental_step_1: 'Pas 1: Propietari i condicions generals'
+  new_vrental_step_1: "Pas 1: Propietari i condicions generals"
   new_web: Afegit a la web
   news: Notícies
   next_getaway: la teva propera escapada
@@ -673,7 +672,7 @@ ca:
   night_5: Nit (5-6)
   night_7: Nit (7)
   night_title: nit
-  'no': 'No'
+  "no": "No"
   no_availability_for_dates: No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus.
   no_availability_for_selection: No tenim disponibilitat per aquesta selecció.
   no_checkin: Entrada no permesa
@@ -719,8 +718,8 @@ ca:
   page: Pàgina
   pagy:
     nav:
-      next: '>>'
-      prev: '<<'
+      next: ">>"
+      prev: "<<"
   paid_by_agency: Pagat per l'agència
   paid_to_owner: Pagat al propietari
   parking_included: Parking inclòs
@@ -772,7 +771,7 @@ ca:
   proposal: Proposta enviada
   rate_master: Les tarifes d'aquest immoble es faràn servir pels altres immobles del grup?
   rate_master_vrental: Si vols aplicar la tarifa d'un altre immoble, selecciona l'immoble
-  rate_master_warning: 'Aquest immoble utilitza les tarifes d''un altre immoble. Per modificar-la, has de modificar la tarifa mestre:'
+  rate_master_warning: "Aquest immoble utilitza les tarifes d'un altre immoble. Per modificar-la, has de modificar la tarifa mestre:"
   rate_periods: Períodes de tarifes
   rate_plan: Pla de tarifes
   rate_plans: Plans de tarifes
@@ -841,8 +840,8 @@ ca:
   simple_calendar:
     day: dia
     month: mes
-    next: '>>'
-    previous: '<<'
+    next: ">>"
+    previous: "<<"
     week: setmana
     year: any
   smoke_detector: Detector de fum
@@ -865,9 +864,9 @@ ca:
   thursday: Dijous
   time:
     formats:
-      default: '%d/%m/%Y %H:%M'
-      long: '%B %d, %Y %H:%M:%S'
-      short: '%b %d, %Y %H:%M'
+      default: "%d/%m/%Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"
+      short: "%b %d, %Y %H:%M"
   to: Fins a
   to_confirm_booking: Per confirmar la reserva, cal omplir el formulari i pagar el %{res_fee} del preu de la reserva a la propera pàgina.
   toaster: Torradora
@@ -875,7 +874,7 @@ ca:
   total_revenue: Total rendiment propietari
   tourist: Viatger
   transfer: Transferència
-  'true': Sí
+  "true": Sí
   tuesday: Dimarts
   tv: TV
   type: tipus de immoble
@@ -955,7 +954,7 @@ ca:
   weekly_discount: Descompte per setmana
   weekly_discount_included: Aquest descompte ja estarà inclòs al preu setmanal de la tarifa. Vol dir que el preu per nit tindrà l'increment corresponent.
   welcome_owner_space: Benvingut a l'espai propietari
-  welcome_text: '<p>Et donem la benvinguda a l''Àrea Propietari de Sistach Rentals, on podràs:</p> <ul> <li>Visualitzar i signar el teu contracte amb comoditat.</li> <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li> <li>Consultar els contractes i les factures de l''any passat.</li> </ul> <p>Per entrar a l''Àrea Propietari:</p> <p>Usuari: %{email}</p>'
+  welcome_text: "<p>Et donem la benvinguda a l'Àrea Propietari de Sistach Rentals, on podràs:</p> <ul> <li>Visualitzar i signar el teu contracte amb comoditat.</li> <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li> <li>Consultar els contractes i les factures de l'any passat.</li> </ul> <p>Per entrar a l'Àrea Propietari:</p> <p>Usuari: %{email}</p>"
   where_to: On busques?
   where_to_next: On anem de vacances?
   wifi: Wifi
@@ -969,4 +968,19 @@ ca:
   withdraw_access: Retirar accés
   without_view: Apartaments Sagrada Familia sense vista
   yearly: Anual
-  'yes': Sí
+  "yes": Sí
+  contract_signed: Contracte signat
+  signing_contract: Signant contracte
+  please_sign_here: Si us plau, signar aquí
+  new_statement: Nova liquidació
+  statements_total: Total imports liquidacions
+  total_net_owner: Total net propietari
+  total_paid_owner: Total pagat propietari
+  pending_payment_owner: Pendent pagar al propietari
+  owner_overpaid: El propietari ha cobrat de mès
+  all_paid: Tot pagat
+  add_invoice: Afegir factura
+  pending_add_expenses_for: Falta afegir despeses per
+  add_payment: Afegir pagament
+  year: Any
+  owner_language: Idioma propietari

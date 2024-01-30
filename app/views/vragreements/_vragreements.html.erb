@@ -1,4 +1,3 @@
-<h4 class="text-center mb-5"><%= t("contracts") %></h4>
 <div class="d-flex flex-column flex-md-row justify-content-between">
   <div class="d-flex flex-column flex-md-row justify-content-start align-items-center gap-2">
     <%= form_with url: list_vragreements_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vragreements" }, class: "d-flex flex-row gap-2" do |form| %>

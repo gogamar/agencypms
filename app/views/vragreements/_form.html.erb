@@ -7,7 +7,6 @@
       <%# f.input :year, as: :select, collection: @years_possible_contract, include_blank: true, selected: @years_possible_contract.last if @years_possible_contract %>
       <%= f.input :year, value: @year, readonly: true %>
     </div>
-    <div class="col"><%= f.input :sign_online, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %></div>
     <div class="col">
       <%= f.input :status, as: :select, collection: [[t("not sent"), 'not sent'], [t("pending"), 'pending'], [t("signed"), 'signed']], include_blank: true, selected: [t("not sent"), 'not sent'] %>
     </div>

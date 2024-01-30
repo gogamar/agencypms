@@ -536,6 +536,22 @@ class Vrental < ApplicationRecord
     total
   end
 
+  def total_net_owner_year(year)
+    total = 0
+    this_year_statements(year).each do |statement|
+      total += statement.net_income_owner
+    end
+    total
+  end
+
+  def total_owner_payments_year(year)
+    total = 0
+    this_year_statements(year).each do |statement|
+      total += statement.total_owner_payments if statement.total_owner_payments.present?
+    end
+    total
+  end
+
   def owner_payment_difference
     total_net_owner - total_owner_payments
   end

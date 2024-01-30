@@ -26,15 +26,20 @@ export function initFullCalendar() {
       initialDate: latestDate,
       editable: true,
       selectable: true,
+      selectAllow: function (info) {
+        return info.start >= new Date();
+      },
       locale: currentLocale,
       displayEventTime: false,
       events: bookingsOnCalendarPath + ".json",
       contentHeight: 800,
       eventClick: function (info) {
-        console.log(info.event);
         const eventTitle = info.event.title;
         const eventFormPath = info.event.extendedProps.form_path;
-        updateOwnerBooking(eventTitle, eventFormPath);
+        const dateNotPast = info.event.start >= new Date();
+        if (eventFormPath && dateNotPast) {
+          updateOwnerBooking(eventTitle, eventFormPath);
+        }
       },
       eventDidMount: function (info) {
         const eventElement = info.el;

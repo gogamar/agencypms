@@ -136,7 +136,6 @@ es:
         owner: Propietario
         owner_bookings: Reservas por el propietario
         phone: Teléfono
-        sign_online: Firmará online
         signdate: Fecha de firma
         start_date: Inicio del contrato
         status: Estado
@@ -968,3 +967,5 @@ es:
   without_view: Apartamentos Sagrada Familia sin vista
   yearly: Anual
   'yes': Sí
+  signing_contract: Firmando contrato
+  please_sign_here: Por favor, firme aquí

@@ -135,7 +135,6 @@ en:
         owner: Owner
         owner_bookings: Owner Bookings
         phone: Phone
-        sign_online: To be signed online
         signdate: Signing Date
         start_date: Contract Start Date
         status: Status
@@ -968,3 +967,5 @@ en:
   without_view: Apartments Sagrada Familia without view
   yearly: Yearly
   "yes": "Yes"
+  signing_contract: Signing contract
+  please_sign_here: Please sign here

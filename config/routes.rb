@@ -124,6 +124,7 @@ Rails.application.routes.draw do
       resources :vragreements do
         member do
           get 'copy'
+          patch 'sign_contract'
         end
         resources :photos, only: :destroy, shallow: true
       end

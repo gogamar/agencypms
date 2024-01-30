@@ -65,7 +65,7 @@ class VrentalsController < ApplicationController
         start: booking.checkin.to_datetime.change(hour: 15, min: 0, sec: 0),
         end: booking.checkout.to_datetime.change(hour: 10, min: 0, sec: 0),
         color: "#4caf50",
-        extendedProps: { form_path: show_booking_vrental_booking_path(@vrental, booking), top_position: top_class }
+        extendedProps: { top_position: top_class }
       }
     end
 
@@ -150,9 +150,8 @@ class VrentalsController < ApplicationController
   def annual_statement
     @owner = @vrental.owner
     @year = params[:year].to_i
-    @statements = policy_scope(Statement)
+    @statements = @vrental.statements
     @annual_statements = @vrental.statements.where("EXTRACT(year FROM start_date) = ?", params[:year])
-    authorize @annual_statements
     @annual_earnings = @vrental.earnings
                       .where(statement_id: @annual_statements.ids)
                       .where.not(amount: 0)

@@ -1,54 +1,57 @@
-<% if @vrental %>
-  <div class="container">
-    <h4 class="font-weight-bold text-primary text-start py-2"><%= t('contracts') %></h4>
-    <hr>
-    <% if @vrental.vragreements.present? %>
-      <% @vrental.vragreements.each do |vragreement| %>
-        <div class="d-flex gap-4 justify-content-between align-items-center mb-3">
-          <div>
-            <%= t(vragreement.status) if vragreement.status.present? %>
+<div class="container">
+  <h4 class="font-weight-bold text-primary text-start py-2"><%= t('contracts') %></h4>
+  <hr>
+  <% if current_user.admin? || current_user.manager? %>
+    <div class="container">
+      <% if @vrental %>
+        <hr>
+        <% if @vrental.vragreements.present? %>
+          <% @vrental.vragreements.each do |vragreement| %>
+            <div class="d-flex gap-4 justify-content-between align-items-center mb-3">
+              <div>
+                <%= t(vragreement.status) if vragreement.status.present? %>
+              </div>
+              <div>
+                <%= link_to "#{t('contract')} #{I18n.l(vragreement&.start_date) if vragreement.start_date.present? } - #{I18n.l(vragreement&.end_date) if vragreement.end_date.present? }", vrental_vragreement_path(@vrental, vragreement), class: "btn btn-sm btn-light-info" %>
+              </div>
+              <div>
+                <span class="text-info"><%= t('owner') %></span>:
+                <%= @vrental.owner&.fullname %>
+              </div>
+              <div class=" text-end d-flex justify-content-between">
+                <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
+                  <i class="fas fa-edit"></i>
+                <% end %>
+                <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
+                  <i class="fas fa-trash-can"></i>
+                <% end %>
+              </div>
+            <% end %>
           </div>
-          <div>
-            <%= link_to "#{t('contract')} #{I18n.l(vragreement&.start_date) if vragreement.start_date.present? } - #{I18n.l(vragreement&.end_date) if vragreement.end_date.present? }", vrental_vragreement_path(@vrental, vragreement), class: "btn btn-sm btn-light-info" %>
-          </div>
-          <div>
-            <span class="text-info"><%= t('owner') %></span>:
-            <%= @vrental.owner&.fullname %>
-          </div>
-          <% if current_user.admin? || current_user.manager? %>
-            <div class=" text-end d-flex justify-content-between">
-              <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
-                <i class="fas fa-edit"></i>
-              <% end %>
-              <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
-                <i class="fas fa-trash-can"></i>
-              <% end %>
-            </div>
+        <% else %>
+          <%= t('there_are_no_contracts') %>
+        <% end %>
+        <div class="my-5">
+          <% if @vrental.future_rates.exists? %>
+            <% @years_possible_contract.each do |year| %>
+              <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
+                <i class="fas fa-plus fa-sm"></i>
+                <span class="text"><%= t('new_contract_for', prop_name: @vrental.name, year: year) %></span>
+              <% end %> <br>
+            <% end %>
+          <% else %>
+            <%= link_to vrental_rates_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+              <i class="fa-regular fa-calendar-plus me-2"></i><%= t('add_rates_to_add_contract') %>
+            <% end %>
           <% end %>
         </div>
-      <% end %>
-    <% else %>
-      <%= t('there_are_no_contracts') %>
-    <% end %>
-  </div>
-  <% if current_user.admin? || current_user.manager? %>
-    <div class="my-5">
-      <% if @vrental.future_rates.exists? %>
-        <% @years_possible_contract.each do |year| %>
-          <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
-            <i class="fas fa-plus fa-sm"></i>
-            <span class="text"><%= t('new_contract_for', prop_name: @vrental.name, year: year) %></span>
-          <% end %> <br>
-        <% end %>
       <% else %>
-        <%= link_to vrental_rates_path(@vrental), class: "btn btn-sm btn-secondary" do %>
-          <i class="fa-regular fa-calendar-plus me-2"></i><%= t('add_rates_to_add_contract') %>
-        <% end %>
+        <div class="container-fluid">
+          <%= render "vragreements", vragreements: @vragreements %>
+        </div>
       <% end %>
     </div>
+  <% elsif current_user.owner.present? %>
+    <%= render 'owner_index' %>
   <% end %>
-<% else %>
-  <div class="container-fluid">
-    <%= render "vragreements", vragreements: @vragreements %>
-  </div>
-<% end %>
+</div>
