@@ -2,7 +2,7 @@ class VragreementsController < ApplicationController
   require 'date'
   require "base64"
   before_action :set_vragreement, only: [:show, :edit, :update, :destroy, :sign_contract ]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update ]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update, :sign_contract ]
 
   def index
     if params[:vrental_id].present?
@@ -169,13 +169,13 @@ class VragreementsController < ApplicationController
       @vragreement.signdate = @vragreement.signature_image.created_at
     end
     @vragreement.save
-    redirect_to @vragreement, notice: t("contract_signed")
+    redirect_to vrental_vragreement_path(@vrental, @vragreement), notice: t("contract_signed")
   end
 
   def update
     @vragreement.vrental = @vrental
     if @vragreement.update(vragreement_params)
-      redirect_to @vragreement, notice: 'Has actualitzat el contracte.'
+      redirect_to vrental_vragreement_path(@vrental, @vragreement), notice: 'Has actualitzat el contracte.'
     else
       render :edit
     end
