@@ -6,11 +6,6 @@ class RatePlansController < ApplicationController
   end
 
   def show
-    @rate_periods = @rate_plan.rate_periods.order(:firstnight)
-    @year = @rate_plan.start.year
-    @vrentals_with_rates = Vrental.joins(:rates)
-                                  .where("EXTRACT(YEAR FROM rates.firstnight) = ?", @year)
-                                  .distinct
   end
 
   def new
@@ -39,7 +34,11 @@ class RatePlansController < ApplicationController
     authorize @rate_plan
 
     if @rate_plan.save
-      redirect_to @rate_plan, notice: "Pla de tarifes creat."
+      if params[:commit] == t('global.forms.continue')
+        redirect_to rate_plan_rate_periods_path(@rate_plan)
+      else
+        redirect_to rate_plans_path(@rate_plan), notice: "Pla de tarifes creat."
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -47,7 +46,11 @@ class RatePlansController < ApplicationController
 
   def update
     if @rate_plan.update(rate_plan_params)
-      redirect_to @rate_plan, notice: "Pla de tarifes actualitzat."
+      if params[:commit] == t('global.forms.continue')
+        redirect_to rate_plan_rate_periods_path(@rate_plan)
+      else
+        redirect_to rate_plans_path(@rate_plan), notice: "Pla de tarifes actualitzat."
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -55,12 +58,12 @@ class RatePlansController < ApplicationController
 
   def destroy
     @rate_plan.destroy
-    redirect_to rate_plans_url, notice: "Pla de tarifes esborrat."
+    redirect_to rate_plans_path, notice: "Pla de tarifes esborrat."
   end
 
   def delete_periods
     @rate_plan.rate_periods.destroy_all
-    redirect_to @rate_plan, notice: "S'han esborrat tots els periodes."
+    redirect_back(fallback_location: rate_plan_rate_periods_path(@rate_plan), notice: "S'han esborrat tots els periodes.")
   end
 
   private

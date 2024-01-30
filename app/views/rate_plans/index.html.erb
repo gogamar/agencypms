@@ -1,18 +1,12 @@
-<div class="container d-flex justify-content-end">
-  <div class="d-flex align-items-center">
-    <%= link_to new_rate_plan_path, class: "btn btn-sm btn-primary" do %>
-      <i class="fas fa-plus"></i>
-      Nou plà de tarifa <%= current_user.company.name %>
-    <% end %>
-  </div>
+<div class="d-flex justify-content-end">
+  <%= link_to new_rate_plan_path, class: "btn btn-sm btn-primary" do %>
+    <i class="fas fa-plus fa-sm me-2"></i> <%= t('new_rate_plan') %>
+  <% end %>
+</div>
+<div class="d-flex flex-column align-items-center">
+  <h4 class="text-primary mb-2"><%= @company.name %></h4>
+  <p class="text-info"><%= t('rate_plans') %></p>
 </div>
 <div id="rate_plans">
-  <% @rate_plans.each do |rate_plan| %>
-    <div class="row border m-3 text-center">
-      <div class="col"><%= rate_plan.name %></div>
-      <div class="col"><%= l(rate_plan.start, format: :standard) %> - <%= l(rate_plan.end, format: :standard) %></div>
-      <div class="col"><%= link_to "Veure", rate_plan %></div>
-      <div class="col"><%= link_to "Modificar", edit_rate_plan_path(rate_plan) %></div>
-    </div>
-  <% end %>
+  <%= render @rate_plans %>
 </div>

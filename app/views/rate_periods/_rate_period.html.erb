@@ -1,20 +1,17 @@
-<%= turbo_frame_tag rate_period, class: "card-body" do %>
-  <div class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center">
-    <div class="p-1 text-center"><%= rate_period.name %></div>
-    <div class="p-1 text-center"><%= l(rate_period.firstnight, format: :standard) %></div>
-    <div class="p-1 text-center"><%= rate_period.nights %></div>
-    <div class="p-1 text-center"><%= l(rate_period.lastnight, format: :standard) %> </div>
-    <div class="p-1 text-center"><%= rate_period.min_stay %></div>
-    <div class="p-1 text-center"><%= t("#{Rate::ARRIVAL_DAY[rate_period.arrival_day]}") %></div>
-    <% unless params[:controller] == 'vragreements' %>
-      <div class="p-1 d-flex justify-content-between gap-3">
-        <%= link_to edit_rate_plan_rate_period_path(@rate_plan, rate_period), class: "btn btn-info" do %>
-          <i class="fas fa-pen fa-sm"></i>
-        <% end %>
-        <%= link_to rate_plan_rate_period_path(@rate_plan, rate_period), data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquest periode?"}, class: "btn btn-danger" do %>
-          <i class="fas fa-trash-can fa-sm"></i>
-        <% end %>
-      </div>
-    <% end %>
+<%= turbo_frame_tag rate_period do %>
+  <div class="row border-bottom py-2">
+    <div class="col-lg-2"><%= t(rate_period.name) %></div>
+    <div class="col-lg-3"><%= l(rate_period.firstnight, format: :standard) %></div>
+    <div class="col-lg-3"><%= l(rate_period.lastnight, format: :standard) %> </div>
+    <div class="col-lg-1"><%= rate_period.min_stay %></div>
+    <div class="col-lg-2"><%= t("#{Rate::ARRIVAL_DAY[rate_period.arrival_day]}") %></div>
+    <div class="col-lg-1 d-flex justify-content-between gap-3">
+      <%= link_to edit_rate_plan_rate_period_path(@rate_plan, rate_period), class: "btn btn-sm btn-info" do %>
+        <i class="fas fa-pen fa-sm"></i>
+      <% end %>
+      <%= link_to rate_plan_rate_period_path(@rate_plan, rate_period), data: {turbo_method: :delete, turbo_confirm: t('are_you_sure')}, class: "btn btn-sm btn-danger" do %>
+        <i class="fas fa-trash-can fa-sm"></i>
+      <% end %>
+    </div>
   </div>
 <% end %>

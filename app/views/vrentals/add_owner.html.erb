@@ -17,13 +17,13 @@
             </select>
           </div>
         <% end %>
-        <div class="col">
+        <div class="col text-sm">
           <button type="button" class="edit_owner-js mb-2 btn btn-secondary w-100 <%= 'd-none' unless @vrental.owner %>" data-bs-toggle="modal" data-bs-target="#editModalOwner">
-            <small><%= t('edit') %> <%= @vrental.owner.fullname if @vrental.owner %></small>
+            <span><%= t('edit') %></span> <span class="d-none d-lg-flex ms-2"><%= @vrental.owner.fullname if @vrental.owner %></span>
           </button>
           <% if (current_user.admin? || current_user.manager?) %>
             <button type="button" class="add_owner-js btn btn-secondary w-100 <%= 'd-none' if @vrental.owner %>" data-bs-toggle="modal" data-bs-target="#newModalOwner">
-              <small><%= t('add_owner') %></small>
+              <span><%= t('add_owner') %></span>
             </button>
           <% end %>
         </div>

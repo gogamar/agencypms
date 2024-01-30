@@ -1,14 +1,14 @@
 <%= simple_form_for(@rate_plan, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="form-inputs">
-    <%= f.hidden_field :company_id, value: current_user.company.id %>
+  <div data-controller="flatpickr-turbo">
+    <%= f.hidden_field :company_id, value: @company.id %>
     <%= f.input :name %>
-    <%= f.input :start, as: :string, input_html: { class: "datepicker"} %>
-    <%= f.input :end, as: :string, input_html: { class: "datepicker"} %>
+    <%= f.input :start, as: :string, input_html: { "data-flatpickr-turbo-target" => "start" } %>
+    <%= f.input :end, as: :string, input_html: { "data-flatpickr-turbo-target" => "end" } %>
     <%= f.input :gen_min %>
     <%= f.input :gen_arrival, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
-  </div>
-  <div class="form-actions text-end">
-    <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>
+    <div class="form-actions text-end">
+      <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-success mt-3' %>
+    </div>
   </div>
 <% end %>

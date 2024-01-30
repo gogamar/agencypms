@@ -1,0 +1,28 @@
+<h4 class="text-primary text-center"><%= t('rate_plan') %> <%= @rate_plan.name %></h4>
+<div class="text-center text-secondary"><%= t('from') %>: <%= l(@rate_plan.start) if @rate_plan.start %></div>
+<div class="text-center text-secondary"><%= t('to') %>: <%= l(@rate_plan.end) if @rate_plan.end %></div>
+<div class="d-flex justify-content-end py-3 border-top border-bottom">
+  <% if @rate_periods.present? %>
+    <%= link_to delete_periods_rate_plan_path(@rate_plan), data: {confirm: 'Estàs segur que vols esborrar tots els periodes?'}, class: "text-danger" do %>
+      <i class="fa-solid fa-trash-can me-2"></i> <%= t('delete_all_dates') %>
+    <% end %>
+  <% else %>
+    <%= form_with(url: upload_rate_dates_rate_plan_path(@rate_plan), method: :post) do |form| %>
+      <div class="input-group input-group-sm">
+        <label for="select-vrental" class="form-label me-2"><%= t('copy_dates_from_vrental') %></label>
+        <%= form.select :vrental_id, options_for_select(@vrentals_with_rates.map { |vrental| [vrental.name, vrental.id] }), { include_blank: true }, { class: "form-select", id: "select-vrental" } %>
+        <%= form.submit t('copy'), class: 'btn btn-sm btn-primary' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<div id="rate_periods">
+  <%= render @rate_periods %>
+</div>
+<div class="my-5 bg-light text-center py-4">
+  <h5 class="text-info"><%= t('add_new_rate_period') %></h5>
+  <%= link_to request.original_url, class: 'text-secondary' do %>
+    <i class="fas fa-solid fa-sync me-2"></i> <%= t('refresh_page') %>
+  <% end %>
+  <%= turbo_frame_tag "new_rate_period", src: new_rate_plan_rate_period_path(@rate_plan) %>
+</div>

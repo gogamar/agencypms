@@ -5,6 +5,10 @@ class RatePlanPolicy < ApplicationPolicy
     end
   end
 
+  def index?
+    # Define your authorization logic here
+  end
+
   def show?
     return true
   end

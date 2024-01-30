@@ -1,0 +1,17 @@
+<div class="row py-2">
+  <div class="col-lg-3">
+    <%= link_to rate_plan.name, edit_rate_plan_path(rate_plan), class: "text-info" %>
+  </div>
+  <div class="col-lg-2"><%= l(rate_plan.start, format: :standard) %></div>
+  <div class="col-lg-2"><%= l(rate_plan.end, format: :standard) %> </div>
+  <div class="col-lg-2"><%= rate_plan.gen_min %></div>
+  <div class="col-lg-2"><%= t("#{Rate::ARRIVAL_DAY[rate_plan.gen_arrival]}") %></div>
+  <div class="d-flex col-lg-1 justify-content-between gap-3">
+    <%= link_to edit_rate_plan_path(rate_plan), class: "btn btn-sm btn-info" do %>
+      <i class="fas fa-pen fa-sm"></i>
+    <% end %>
+    <%= link_to rate_plan_path(rate_plan), data: {turbo_method: :delete, turbo_confirm: t('are_you_sure')}, class: "btn btn-sm btn-danger" do %>
+      <i class="fas fa-trash-can fa-sm"></i>
+    <% end %>
+  </div>
+</div>

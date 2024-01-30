@@ -95,11 +95,16 @@ fr:
         pricenight: Prix par nuit
         priceweek: Prix par semaine
         restriction: Type de tarif
+      rate_period:
+        firstnight: À partir de
+        lastnight: Jusqu'à
+        min_stay: Min.
+        name: Nom
       rate_plan:
         end: Jusqu'à
         gen_arrival: Jour d'arrivée général
-        gen_min: Séjour minimum général
-        name: Nom du plan tarifaire
+        gen_min: Min. général
+        name: Nom
         start: À partir de
       statement:
         amount: Montant
@@ -199,7 +204,7 @@ fr:
         title_fr: Titre de la page en français
         unit_number: Numéro d'unité
         vrgroup: Groupe de propriétés
-        weekly_discount: Remise hebdomadaire (facultatif)
+        weekly_discount: Remise hebdomadaire
       vrentaltemplate:
         language: Langue
         title: Titre
@@ -218,6 +223,7 @@ fr:
   add_new_contract_template: Ajouter un nouveau modèle de contrat
   add_new_group: Ajouter un nouveau groupe
   add_new_rate: Ajouter un nouveau tarif
+  add_new_rate_period: Ajouter une nouvelle période tarifaire
   add_owner: Ajouter un propriétaire
   add_owner_booking: Ajouter une réservation du propriétaire
   add_owner_booking_explanation: Pour ajouter une réservation, cliquez sur le jour de début souhaité, puis faites glisser la souris jusqu'au jour de fin désiré.
@@ -235,6 +241,8 @@ fr:
   agency_plus_vat: Frais d'agence + TVA
   agency_vat: TVA 21%
   air_conditioning: Climatisation
+  all_vrentals: Toutes les propriétés
+  all_years: Toutes les années
   amount: Montant
   annual_statement: Relevé annuel
   apartment: Appartement
@@ -383,6 +391,9 @@ fr:
   control_restrictions: Contrôler le séjour minimum et le jour d'arrivée depuis le calendrier Beds24 ou les tarifs
   cookie_consent: Ce site web utilise des cookies pour améliorer votre expérience. Si vous continuez à naviguer, nous considérons que vous acceptez notre
   cookies_policy: politique de cookies
+  copy: Copier
+  copy_dates_from_vrental: Copier les dates d'une propriété
+  copy_rates_from_to: Copier les tarifs de %{from_year} à %{to_year}
   copy_vrental: Copier la propriété
   coupons: Codes de réduction
   create: Créer
@@ -495,9 +506,11 @@ fr:
   default_commission_info: La commission est de 25% plus TVA.
   default_texts_town: Cette information sera utilisée par défaut pour les propriétés de ce site. Si vous souhaitez la modifier pour une propriété spécifique, vous pouvez le faire dans la section des détails de la propriété.
   delete: Supprimer
+  delete_all_dates: Supprimer toutes les dates
   delete_bathroom: Supprimer la salle de bains
   delete_bed: Supprimer le lit
   delete_bedroom: Supprimer la chambre
+  delete_rates: Supprimer les tarifs
   delete_rates_on_beds: Supprimer les tarifs sur Beds24
   delete_sign_again: Supprimer et resigner
   delete_vrental: Supprimer la propriété
@@ -510,6 +523,7 @@ fr:
   dont-fill: "Attention ! Ci-dessous se trouvent les identifiants de connexion avec Beds24 :"
   dryer: Sèche-linge
   earnings: Gains
+  easter: Pâques
   edit: Modifier
   edit_booking: Modifier la réservation
   edit_company: Modifier l'entreprise
@@ -551,9 +565,10 @@ fr:
   future_reservations: Réservations futures
   gap_fill: Remplir les trous
   garden: Jardin communautaire
+  general: Général
   general_conditions: Conditions générales
   get_availabilities_from_beds24: Importer les disponibilités depuis Beds24
-  get_rates_from_beds: Importer les tarifs
+  get_rates_from_beds: Importer les tarifs depuis Beds24
   get_reviews_from_airbnb: Importer les avis depuis Airbnb
   global:
     forms:
@@ -587,6 +602,7 @@ fr:
   import_photos_from_beds24: Importer les photos depuis Beds24
   import_photos_from_group: Importer des photos du groupe
   import_photos_from_this_property: Importer des photos de cette propriété
+  importing_rates: Importation des tarifs
   in_centre: En centre-ville
   inactive: Inactif
   invoice: Facture
@@ -628,6 +644,8 @@ fr:
   min: Min.
   min_stay: Min. %{min_stay} nuits
   min_stay_title: Min.
+  modify_dates: Modifier les dates
+  modify_general_terms: Modifier les conditions générales
   monday: Lundi
   monthly: Mensuel
   monument_view: Vue sur la Sagrada Familia
@@ -642,6 +660,7 @@ fr:
   new_contract_for: Nouveau contrat pour %{prop_name} année %{year}
   new_owner_booking: Ajouter la réservation du propriétaire
   new_property: Nouvelle propriété
+  new_rate_plan: Nouveau plan tarifaire
   new_vrental_step_1: "Étape 1 : Propriétaire et conditions générales"
   new_web: Ajouté sur le site web
   news: Actualités
@@ -678,6 +697,7 @@ fr:
   open_filter: Ouvrir les filtres
   open_menu: Ouvrir le menu
   opening_pdf: Ouverture du PDF
+  or: ou
   or_more: ou plus
   order_by: Trier par
   others: Autres
@@ -751,6 +771,8 @@ fr:
   rate_master: Les tarifs de cette propriété seront-ils utilisés pour d'autres propriétés du groupe ?
   rate_master_vrental: Si vous souhaitez appliquer les tarifs d'une autre propriété, sélectionnez la propriété
   rate_master_warning: "Cette propriété utilise les tarifs d'une autre propriété. Pour les modifier, vous devez modifier le tarif principal :"
+  rate_periods: Périodes tarifaires
+  rate_plan: Plan tarifaire
   rate_plans: Plans tarifaires
   rates: Tarifs
   read_more: Lire la suite
@@ -858,6 +880,7 @@ fr:
   unique: Uniques
   unselect_all: Décocher tout
   update: Mettre à jour
+  upload_dates: Importer les dates
   user_mailer:
     welcome:
       subject: Bienvenue chez Sistach Rentals
@@ -927,7 +950,7 @@ fr:
   website: Site Web
   wednesday: Mercredi
   week: Semaine
-  weekly_discount: Remise hebdomadaire (facultative)
+  weekly_discount: Remise hebdomadaire
   weekly_discount_included: Cette remise est déjà incluse dans le tarif hebdomadaire. Cela signifie que le tarif de nuit aura l'augmentation correspondante.
   welcome_owner_space: Bienvenue dans l'espace propriétaire
   welcome_text: "<p>Nous vous souhaitons la bienvenue dans l'Espace Propriétaire de Sistach Rentals, où vous pouvez :</p> <ul> <li>Consulter et signer votre contrat en toute simplicité.</li> <li>Bloquer des dates pour votre usage personnel et vérifier l'occupation du calendrier.</li> <li>Consulter le contrat et les factures de l'année précédente.</li> </ul> <p>Pour accéder à l'Espace Propriétaire :</p> <p>Utilisateur : %{email}</p>"
@@ -945,5 +968,3 @@ fr:
   without_view: Appartements Sagrada Familia sans vue
   yearly: Annuel
   "yes": Oui
-  all_vrentals: Toutes les propriétés
-  all_years: Toutes les années

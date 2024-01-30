@@ -3,7 +3,9 @@ class RatePeriodsController < ApplicationController
   before_action :set_rate_plan, only: %i[ index new edit update create destroy ]
 
   def index
-    @rate_periods = policy_scope(RatePeriod).order(:firstnight)
+    @rate_periods = @rate_plan.rate_periods&.order(:firstnight)
+    @year = @rate_plan.start.year
+    @vrentals_with_rates = Vrental.joins(:rates).where("EXTRACT(YEAR FROM rates.firstnight) = ?", @year).distinct
   end
 
   def show
@@ -26,7 +28,7 @@ class RatePeriodsController < ApplicationController
     @rate_period.rate_plan = @rate_plan
 
     if @rate_period.save
-      redirect_to rate_plan_rate_periods_path(@rate_plan), notice: "Peride de tarifes creat."
+      render(partial: 'rate_period', locals: { rate_period: @rate_period })
     else
       render :new, status: :unprocessable_entity
     end
@@ -34,7 +36,7 @@ class RatePeriodsController < ApplicationController
 
   def update
     if @rate_period.update(rate_period_params)
-      redirect_to rate_plan_rate_periods_path(@rate_plan), notice: "Periode de tarifa actualitzat."
+      render(partial: 'rate_period', locals: { rate_period: @rate_period })
     else
       render :edit, status: :unprocessable_entity
     end
@@ -54,7 +56,6 @@ class RatePeriodsController < ApplicationController
 
     def set_rate_plan
       @rate_plan = RatePlan.find(params[:rate_plan_id])
-      authorize @rate_plan
     end
 
     def rate_period_params

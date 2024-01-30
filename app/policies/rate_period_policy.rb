@@ -5,6 +5,10 @@ class RatePeriodPolicy < ApplicationPolicy
     end
   end
 
+  def index?
+    user.admin?
+  end
+
   def show?
     return true
   end

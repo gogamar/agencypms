@@ -96,11 +96,16 @@ es:
         pricenight: Precio por noche
         priceweek: Precio por semana
         restriction: Tipo de tarifa
+      rate_period:
+        firstnight: Desde
+        lastnight: Hasta
+        min_stay: Min.
+        name: Nombre
       rate_plan:
         end: Hasta
         gen_arrival: Día de llegada general
-        gen_min: Estancia mínima general
-        name: Nombre del Plan de Tarifas
+        gen_min: Mín. general
+        name: Nombre
         start: Desde
       statement:
         amount: Importe
@@ -200,7 +205,7 @@ es:
         title_fr: Título de la página web en francés
         unit_number: Número de unidades
         vrgroup: Grupo de propiedades
-        weekly_discount: Descuento semanal (opcional)
+        weekly_discount: Descuento semanal
       vrentaltemplate:
         language: Idioma
         title: Título
@@ -219,6 +224,7 @@ es:
   add_new_contract_template: Añadir nuevo modelo de contrato
   add_new_group: Agregar nuevo grupo
   add_new_rate: Añadir nueva tarifa
+  add_new_rate_period: Agregar nuevo período de tarifas
   add_owner: Añadir propietario
   add_owner_booking: Añadir reserva de propietario
   add_owner_booking_explanation: Para agregar una reserva, haz clic en el día de inicio y arrastra el ratón hasta el día de finalización.
@@ -236,6 +242,8 @@ es:
   agency_plus_vat: Honorarios + IVA
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionado
+  all_vrentals: Todos los inmuebles
+  all_years: Todos los años
   amount: Importe
   annual_statement: Liqudación anual
   apartment: Apartamento
@@ -384,6 +392,9 @@ es:
   control_restrictions: Controlar estancia mínima y día de llegada desde el Calendario de Beds24 o las Tarifas
   cookie_consent: Este sitio web utiliza cookies para mejorar tu experiencia. Si continúas navegando, consideramos que aceptas nuestra
   cookies_policy: política de cookies
+  copy: Copiar
+  copy_dates_from_vrental: Copiar fechas de una propiedad
+  copy_rates_from_to: Copiar tarifas del %{from_year} al %{to_year}
   copy_vrental: Copiar la propiedad
   coupons: Códigos de descuento
   create: Crear
@@ -421,10 +432,10 @@ es:
       - Viernes
       - Sábado
     formats:
-      default: "%d/%m/%Y"
-      long: "%a, %d de %b de %Y"
-      short: "%d de %b"
-      standard: "%a, %d/%m/%Y"
+      default: '%d/%m/%Y'
+      long: '%a, %d de %b de %Y'
+      short: '%d de %b'
+      standard: '%a, %d/%m/%Y'
     month_names:
       - null
       - Enero
@@ -440,9 +451,9 @@ es:
       - Noviembre
       - Diciembre
     order:
-      - ":day"
-      - ":month"
-      - ":year"
+      - ':day'
+      - ':month'
+      - ':year'
   date_title: Fecha
   dates: Fechas
   datetime:
@@ -471,19 +482,19 @@ es:
         other: más de %{count} años
       x_days:
         one: 1 día
-        other: "%{count} días"
+        other: '%{count} días'
       x_minutes:
         one: 1 minuto
-        other: "%{count} minutos"
+        other: '%{count} minutos'
       x_months:
         one: 1 mes
-        other: "%{count} meses"
+        other: '%{count} meses'
       x_seconds:
         one: 1 segundo
-        other: "%{count} segundos"
+        other: '%{count} segundos'
       x_years:
         one: 1 año
-        other: "%{count} años"
+        other: '%{count} años'
     prompts:
       day: día
       hour: hora
@@ -496,9 +507,11 @@ es:
   default_commission_info: La comisión es del 25% más IVA.
   default_texts_town: Esta información se utilizará por defecto para las propiedades de este sitio. Si quieres modificarla para una propiedad en particular, puedes hacerlo en la sección de detalles de la propiedad.
   delete: Eliminar
+  delete_all_dates: Eliminar todas las fechas
   delete_bathroom: Eliminar baño
   delete_bed: Eliminar cama
   delete_bedroom: Eliminar habitación
+  delete_rates: Eliminar tarifas
   delete_rates_on_beds: Eliminar tarifas en Beds24
   delete_sign_again: Borrar y volver a firmar
   delete_vrental: Eliminar la propiedad
@@ -508,13 +521,14 @@ es:
   discover_our_offers: Descubre nuestras ofertas
   dishwasher: Lavavajillas
   document: DNI
-  dont-fill: "¡Atención! A continuación son credenciales de la conexión con Beds24:"
+  dont-fill: '¡Atención! A continuación son credenciales de la conexión con Beds24:'
   dryer: Secadora
   earnings: Ingresos
+  easter: Semana Santa
   edit: Modificar
   edit_booking: Modificar reserva
   edit_company: Modificar la empresa
-  edit_conditions_warning: "Esta propiedad pertenece a un grupo de propiedades. Debes elegir si esta propiedad utilizará las tarifas de otra propiedad o no:"
+  edit_conditions_warning: 'Esta propiedad pertenece a un grupo de propiedades. Debes elegir si esta propiedad utilizará las tarifas de otra propiedad o no:'
   edit_group: Editar grupo
   edit_invoice: Editar factura
   edit_owner_booking: Modificar reserva propietario
@@ -532,7 +546,7 @@ es:
   everyday: Cualquier día
   expenses: Gastos
   export_changes_to_beds24: Exportar cambios a Beds24
-  "false": "No"
+  'false': 'No'
   featured: Destacado
   featured_locations: Lugares destacados
   featured_text: A continuación te presentamos una selección de nuestras propiedades destacadas. Si no encuentras lo que buscas, no dudes en ponerte en contacto con nosotros.
@@ -551,9 +565,10 @@ es:
   future_reservations: Reservas futuras
   gap_fill: Omplir forats
   garden: Jardín comunitario
+  general: General
   general_conditions: Condiciones generales
   get_availabilities_from_beds24: Importar disponibilidad de Beds24
-  get_rates_from_beds: Importar tarifas
+  get_rates_from_beds: Importar tarifas de Beds24
   get_reviews_from_airbnb: Importar comentarios de Airbnb
   global:
     forms:
@@ -573,8 +588,8 @@ es:
   habitability_addendum: Copia de la cédula de habitabilidad
   hair_dryer: Secador de cabello
   heating: Calefacción
-  hello: "Hola %{recipient}:"
-  hello_formal: "Bienvenido/Bienvenida %{recipient}:"
+  hello: 'Hola %{recipient}:'
+  hello_formal: 'Bienvenido/Bienvenida %{recipient}:'
   hint_gap_fill: Para rellenar huecos de 3 noches en una propiedad que normalmente tiene una estancia mínima de 5 noches, elija una estancia mínima de 3 noches o menos y una estancia máxima de 3 noches.
   home: Inicio
   house: Casa
@@ -587,14 +602,15 @@ es:
   import_photos_from_beds24: Importar fotos de Beds24
   import_photos_from_group: Importar fotos del grupo
   import_photos_from_this_property: Importar fotos de esta propiedad
+  importing_rates: Importando tarifas
   in_centre: En el centro
   inactive: Inactivo
   invoice: Factura
   invoice_agency_fees: Honorarios gestión alquiler turístico
   invoice_amount: Importe de la factura
   invoice_date: Fecha de la factura
-  invoice_description_1: "Período de gestión: del %{from} al %{to}"
-  invoice_description_2: "%{commission} sobre las rentas de %{total}"
+  invoice_description_1: 'Período de gestión: del %{from} al %{to}'
+  invoice_description_2: '%{commission} sobre las rentas de %{total}'
   invoice_title: Factura
   invoice_zero_amount_error: La factura debe tener al menos un liquidación con un importe superior a 0.
   invoices: Facturas
@@ -623,11 +639,13 @@ es:
     contact: Contacto | Sistach Rentals
     home: "Alquiler de apartamentos y casas | Barcelona & Costa Brava |\_Sistach Rentals"
     map: Mapa | Sistach Rentals
-    property: "%{property_type} %{rental_term} en %{property_location} | %{property_name} | Sistach Rentals"
+    property: '%{property_type} %{rental_term} en %{property_location} | %{property_name} | Sistach Rentals'
   microwave: Microondas
   min: Min.
   min_stay: Min. %{min_stay} noches
   min_stay_title: Min.
+  modify_dates: Modificar fechas
+  modify_general_terms: Modificar condiciones generales
   monday: Lunes
   monthly: Mensual
   monument_view: Vista a la Sagrada Familia
@@ -642,7 +660,8 @@ es:
   new_contract_for: Nuevo contrato para %{prop_name} año %{year}
   new_owner_booking: Añadir reserva propietario
   new_property: Nueva propiedad
-  new_vrental_step_1: "Paso 1: Propietario y condiciones generales"
+  new_rate_plan: Nuevo plan de tarifas
+  new_vrental_step_1: 'Paso 1: Propietario y condiciones generales'
   new_web: Añadido a la web
   news: Noticias
   next_getaway: tu próxima escapada
@@ -652,7 +671,7 @@ es:
   night_5: Noche (5-6)
   night_7: Noche (7)
   night_title: noche
-  "no": "No"
+  'no': 'No'
   no_availability_for_dates: No tenemos disponibilidad para estas fechas. Selecciona otras fechas para ver la disponibilidad y los precios.
   no_availability_for_selection: No tenemos disponibilidad para esta selección.
   no_checkin: Entrada no permitida
@@ -678,6 +697,7 @@ es:
   open_filter: Abrir filtros
   open_menu: Abrir menú
   opening_pdf: Abriendo el PDF
+  or: o
   or_more: o más
   order_by: Ordenar por
   others: Otros
@@ -697,8 +717,8 @@ es:
   page: Página
   pagy:
     nav:
-      next: ">>"
-      prev: "<<"
+      next: '>>'
+      prev: '<<'
   paid_by_agency: Pagado por la agencia
   paid_to_owner: Pagado al propietario
   parking_included: Aparcamiento incluido
@@ -750,7 +770,9 @@ es:
   proposal: Propuesta enviada
   rate_master: ¿Las tarifas de este inmueble se aplicarán a los demás inmuebles del grupo?
   rate_master_vrental: Si desea aplicar la tarifa de otro inmueble, seleccione el inmueble
-  rate_master_warning: "Este inmueble utiliza las tarifas de otro inmueble. Para modificarlas, debe modificar la tarifa maestra:"
+  rate_master_warning: 'Este inmueble utiliza las tarifas de otro inmueble. Para modificarlas, debe modificar la tarifa maestra:'
+  rate_periods: Períodos de tarifas
+  rate_plan: Plan de tarifas
   rate_plans: Planes de tarifas
   rates: Tarifas
   read_more: Leer más
@@ -817,8 +839,8 @@ es:
   simple_calendar:
     day: día
     month: mes
-    next: ">>"
-    previous: "<<"
+    next: '>>'
+    previous: '<<'
     week: semana
     year: año
   smoke_detector: Detector de humo
@@ -841,9 +863,9 @@ es:
   thursday: Jueves
   time:
     formats:
-      default: "%d/%m/%Y %H:%M"
-      long: "%B %d, %Y %H:%M:%S"
-      short: "%b %d, %Y %H:%M"
+      default: '%d/%m/%Y %H:%M'
+      long: '%B %d, %Y %H:%M:%S'
+      short: '%b %d, %Y %H:%M'
   to: Hasta
   to_confirm_booking: Para confirmar la reserva, es necesario completar el formulario y pagar el %{res_fee} del precio de la reserva en la próxima página.
   toaster: Tostadora
@@ -851,13 +873,14 @@ es:
   total_revenue: Total rendimiento propietario
   tourist: Viajero
   transfer: Transferencia
-  "true": Sí
+  'true': Sí
   tuesday: Martes
   tv: TV
   type: tipo de inmueble
   unique: Singulares
   unselect_all: Desmarcar todos
   update: Actualizar
+  upload_dates: Importar fechas
   user_mailer:
     welcome:
       subject: Bienvenido a Sistach Rentals
@@ -927,10 +950,10 @@ es:
   website: Página web
   wednesday: Miércoles
   week: Semana
-  weekly_discount: Descuento por semana (opcional)
+  weekly_discount: Descuento por semana
   weekly_discount_included: Este descuento ya estará incluido en el precio semanal de la tarifa. Significa que el precio por noche tendrá el aumento correspondiente.
   welcome_owner_space: Bienvenido al Espacio del Propietario
-  welcome_text: "<p>Te damos la bienvenida al Área del Propietario de Sistach Rentals, donde puedes:</p> <ul> <li>Ver y firmar tu contrato con comodidad.</li> <li>Bloquear fechas para tu uso personal y revisar la ocupación del calendario.</li> <li>Consultar contrato y facturas del año anterior.</li> </ul> <p>Para acceder al Área del Propietario:</p> <p>Usuario: %{email}</p>"
+  welcome_text: '<p>Te damos la bienvenida al Área del Propietario de Sistach Rentals, donde puedes:</p> <ul> <li>Ver y firmar tu contrato con comodidad.</li> <li>Bloquear fechas para tu uso personal y revisar la ocupación del calendario.</li> <li>Consultar contrato y facturas del año anterior.</li> </ul> <p>Para acceder al Área del Propietario:</p> <p>Usuario: %{email}</p>'
   where_to: ¿Dónde buscas?
   where_to_next: ¿Dónde vamos de vacaciones?
   wifi: Wifi
@@ -944,6 +967,4 @@ es:
   withdraw_access: Retirar acceso
   without_view: Apartamentos Sagrada Familia sin vista
   yearly: Anual
-  "yes": Sí
-  all_vrentals: Todos los inmuebles
-  all_years: Todos los años
+  'yes': Sí

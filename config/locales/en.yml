@@ -95,11 +95,16 @@ en:
         pricenight: Price per Night
         priceweek: Price per Week
         restriction: Rate Type
+      rate_period:
+        firstnight: From
+        lastnight: To
+        min_stay: Min.
+        name: Name
       rate_plan:
         end: Until
-        gen_arrival: General Arrival Day
-        gen_min: General Minimum Stay
-        name: Rate Plan Name
+        gen_arrival: General Arrival
+        gen_min: General Min.
+        name: Name
         start: From
       statement:
         amount: Amount
@@ -199,7 +204,7 @@ en:
         title_fr: Page Title in French
         unit_number: Unit Number
         vrgroup: Property Group
-        weekly_discount: Weekly Discount (optional)
+        weekly_discount: Weekly Discount
       vrentaltemplate:
         language: Language
         title: Title
@@ -218,6 +223,7 @@ en:
   add_new_contract_template: Add New Contract Template
   add_new_group: Add New Group
   add_new_rate: Add new rate
+  add_new_rate_period: Add new rate period
   add_owner: Add Owner
   add_owner_booking: Add Owner Booking
   add_owner_booking_explanation: To add an owner booking, click on the starting day you want and drag the mouse to the ending day.
@@ -235,6 +241,8 @@ en:
   agency_plus_vat: Agency Fees + VAT
   agency_vat: VAT 21%
   air_conditioning: Air Conditioning
+  all_vrentals: All properties
+  all_years: All years
   amount: Amount
   annual_statement: Annual Statement
   apartment: Apartment
@@ -383,6 +391,9 @@ en:
   control_restrictions: Control minimum stay and arrival day from Beds24 Calendar or Rates
   cookie_consent: This website uses cookies to improve your experience. If you continue browsing, we consider that you accept our
   cookies_policy: cookies policy
+  copy: Copy
+  copy_dates_from_vrental: Copy dates from a property
+  copy_rates_from_to: Copy rates from %{from_year} to %{to_year}
   copy_vrental: Copy property
   coupons: Discount Codes
   create: Create
@@ -495,9 +506,11 @@ en:
   default_commission_info: The commission is 25% plus VAT.
   default_texts_town: This information will be used as default for properties on this site. If you want to modify it for a specific property, you can do so in the property details section.
   delete: Delete
+  delete_all_dates: Delete all dates
   delete_bathroom: Delete bathroom
   delete_bed: Delete bed
   delete_bedroom: Delete bedroom
+  delete_rates: Delete rates
   delete_rates_on_beds: Delete rates on Beds24
   delete_sign_again: Delete and sign again
   delete_vrental: Delete property
@@ -510,6 +523,7 @@ en:
   dont-fill: "Attention! Below are connection credentials with Beds24:"
   dryer: Dryer
   earnings: Earnings
+  easter: Easter
   edit: Edit
   edit_booking: Edit booking
   edit_company: Edit company
@@ -551,9 +565,10 @@ en:
   future_reservations: Future Reservations
   gap_fill: Fill Holes
   garden: Community Garden
+  general: General
   general_conditions: General Conditions
   get_availabilities_from_beds24: Import Availability from Beds24
-  get_rates_from_beds: Import rates
+  get_rates_from_beds: Import rates from Beds24
   get_reviews_from_airbnb: Import Reviews from Airbnb
   global:
     forms:
@@ -587,6 +602,7 @@ en:
   import_photos_from_beds24: Import Photos from Beds24
   import_photos_from_group: Import Photos from Group
   import_photos_from_this_property: Import Photos from this Property
+  importing_rates: Importing rates
   in_centre: In the Center
   inactive: Inactive
   invoice: Invoice
@@ -628,6 +644,8 @@ en:
   min: Min.
   min_stay: Min. %{min_stay} nights
   min_stay_title: Min.
+  modify_dates: Modify dates
+  modify_general_terms: Modify general terms
   monday: Monday
   monthly: Monthly
   monument_view: View of the Sagrada Familia
@@ -642,6 +660,7 @@ en:
   new_contract_for: New contract for %{prop_name} year %{year}
   new_owner_booking: Add Owner Booking
   new_property: New Property
+  new_rate_plan: New rate plan
   new_vrental_step_1: "Step 1: Owner and General Conditions"
   new_web: Added to the website
   news: News
@@ -678,6 +697,7 @@ en:
   open_filter: Open filters
   open_menu: Open menu
   opening_pdf: Opening PDF
+  or: or
   or_more: or more
   order_by: Order by
   others: Others
@@ -751,6 +771,8 @@ en:
   rate_master: Will this property's rates be used for other properties in the group?
   rate_master_vrental: If you want to apply another property's rate, select the property
   rate_master_warning: "This property uses rates from another property. To modify it, you must modify the master rate:"
+  rate_periods: Rate periods
+  rate_plan: Rate plan
   rate_plans: Rate plans
   rates: Rates
   read_more: Read more
@@ -858,6 +880,7 @@ en:
   unique: Unique
   unselect_all: Unselect all
   update: Update
+  upload_dates: Upload dates
   user_mailer:
     welcome:
       subject: Welcome to Sistach Rentals
@@ -927,7 +950,7 @@ en:
   website: Website
   wednesday: Wednesday
   week: Week
-  weekly_discount: Weekly discount (optional)
+  weekly_discount: Weekly discount
   weekly_discount_included: This discount is already included in the weekly rate price. It means that the nightly rate will have the corresponding increase.
   welcome_owner_space: Welcome to Owner Space
   welcome_text: "<p>Welcome to the Owner Area of Sistach Rentals, where you can:</p> <ul> <li>View and sign your contract with ease.</li> <li>Block dates for your personal use and review calendar occupancy.</li> <li>Check contracts and invoices from the previous year.</li> </ul> <p>To access the Owner Area:</p> <p>User: %{email}</p>"
@@ -945,5 +968,3 @@ en:
   without_view: Apartments Sagrada Familia without view
   yearly: Yearly
   "yes": "Yes"
-  all_vrentals: All properties
-  all_years: All years

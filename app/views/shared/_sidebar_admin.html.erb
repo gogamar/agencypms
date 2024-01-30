@@ -20,47 +20,47 @@
     <i class="fa-solid fa-house-user"></i><%= t("owners") %>
   <% end %>
 </li>
-<li class="<%= 'active' if current_page?(vrentaltemplates_path) %>">
+<li class="<%= 'active' if current_page?(vrentaltemplates_path) %> d-none d-lg-flex">
   <%= link_to vrentaltemplates_path do %>
     <i class="fa-solid fa-file"></i><%= t("contract_templates") %>
   <% end %>
 </li>
-<li class="<%= 'active' if current_page?(vragreements_path) %>">
+<li class="<%= 'active' if current_page?(vragreements_path) %> d-none d-lg-flex">
   <%= link_to vragreements_path do %>
     <i class="fa-solid fa-file-signature"></i><%= t("contracts") %>
   <% end %>
 </li>
-<li class="<%= 'active' if current_page?(companies_path) %>">
+<li class="<%= 'active' if current_page?(companies_path) %> d-none d-lg-flex">
   <%= link_to companies_path do %>
     <i class="fa-solid fa-house-laptop"></i><%= t("companies") %>
   <% end %>
 </li>
 <% unless controller.controller_name == 'companies' %>
   <% if @company.offices %>
-    <li class="<%= 'active' if current_page?(company_offices_path(@company)) %>">
+    <li class="<%= 'active' if current_page?(company_offices_path(@company)) %> d-none d-lg-flex">
       <%= link_to company_offices_path(@company) do %>
         <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
       <% end %>
     </li>
   <% end %>
 <% end %>
-<li class="<%= 'active' if current_page?(rate_plans_path) %>">
+<li class="<%= 'active' if current_page?(rate_plans_path) %> d-none d-lg-flex">
   <%= link_to rate_plans_path do %>
     <i class="fa-solid fa-tags"></i><%= t("rate_plans") %>
   <% end %>
 </li>
-<li class="<%= 'active' if current_page?(new_vrgroup_path) %>">
+<li class="<%= 'active' if current_page?(new_vrgroup_path) %> d-none d-lg-flex">
   <%= link_to new_vrgroup_path do %>
     <i class="fa-solid fa-link"></i><%= t("add_group") %>
   <% end %>
 </li>
 <% if @office %>
-  <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %>">
+  <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %> d-none d-lg-flex">
     <%= link_to company_office_coupons_path(@company, @office) do %>
       <i class="fa-solid fa-tags"></i><%= t("coupons") %>
     <% end %>
   </li>
-  <li class="<%= 'active' if current_page?(get_reviews_from_airbnb_office_path(@office)) %>">
+  <li class="<%= 'active' if current_page?(get_reviews_from_airbnb_office_path(@office)) %> d-none d-lg-flex">
     <%= link_to get_reviews_from_airbnb_office_path(@office) do %>
       <i class="fa-solid fa-tags"></i><%= t("get_reviews_from_airbnb") %>
     <% end %>

@@ -1,26 +1,21 @@
-<div class="card d-flex justify-content-between gap-3 pb-3">
-  <div class="card-header">
-    <h5><%= link_to "Pla de tarifes #{@rate_plan.name}", edit_rate_plan_path(@rate_plan), class: "text-decoration-none" %></h5>
-    <p><%= l(@rate_plan.start, format: :long) %> - <%= l(@rate_plan.end, format: :long) %></p>
-    <p>Dia d'arribada general: <%= t("#{@rate_plan.gen_arrival}") %></p>
-    <p>Estada mínima general: <%= @rate_plan.gen_min %></p>
-    <% if @rate_periods.present? %>
-      <%= link_to delete_periods_rate_plan_path(@rate_plan), data: {confirm: 'Estàs segur que vols esborrar tots els periodes?'}, class: "btn btn-danger" do %>
-        <i class="fas fa-exclamation-triangle"></i> Esborrar tots els periodes
-      <% end %>
-    <% else %>
-      <div class="d-flex justify-content-start gap-3 py-3">
-        Copiar les dates des de un immoble
-        <%= form_with(url: upload_rate_dates_rate_plan_path(@rate_plan), method: :post, class: "d-flex justify-content-start gap-3") do |form| %>
-          <%= form.select :vrental_id, options_for_select(@vrentals_with_rates.map { |vrental| [vrental.name, vrental.id] }), { include_blank: true }, { class: "js-example-responsive", id: "select-vrental" } %>
-          <%= form.submit 'Copiar dates', class: 'btn btn-primary' %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-  <% if @rate_periods %>
-    <div class="card-body">
-      <p class="card-text"><%= render @rate_periods %></p>
+<h4 class="text-primary text-center"><%= t('rate_plan') %> <%= @rate_plan.name %></h4>
+<div class="text-center py-2 border-bottom">
+  <span class="me-2"><%= t('from') %>: <%= l(@rate_plan.start) if @rate_plan.start %></span>
+  <span class="me-2"><%= t('to') %>: <%= l(@rate_plan.end) if @rate_plan.end %></span>
+  <span class="me-2"><%= t('activerecord.attributes.rate_plan.gen_min') %>: <%= @rate_plan.gen_min %></span>
+  <span class="me-2"><%= t('activerecord.attributes.rate_plan.gen_arrival') %>: <%= t("#{Rate::ARRIVAL_DAY[@rate_plan.gen_arrival]}") %></span>
+  <span class="span"><%= link_to t('edit'), edit_rate_plan_path(@rate_plan), class: "btn btn-sm btn-primary" %></span>
+</div>
+<% if @rate_plan.rate_periods.exists? %>
+  <% @rate_plan.rate_periods.each do |rate_period| %>
+    <div class="row py-2">
+      <div class="col-lg-3"><%= t(rate_period.name) %></div>
+      <div class="col-lg-3"><%= l(rate_period.firstnight, format: :standard) %></div>
+      <div class="col-lg-3"><%= l(rate_period.lastnight, format: :standard) %> </div>
+      <div class="col-lg-1"><%= rate_period.min_stay %></div>
+      <div class="col-lg-2"><%= t("#{Rate::ARRIVAL_DAY[rate_period.arrival_day]}") %></div>
     </div>
   <% end %>
-</div>
+<% else %>
+  <div class="text-center text-secondary"><%= link_to "add_rate_periods", rate_plan_rate_periods_path(@rate_plan), class: "btn btn-sm btn-success" %></div>
+<% end %>

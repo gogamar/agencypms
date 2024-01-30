@@ -4,9 +4,10 @@
       <div class="col-md-9">
         <%= f.select :bedroom_type, options_for_select(Bedroom::BEDROOM_TYPES.map { |type| [t("bedroom_types.#{type}"), type] }, selected: f.object.bedroom_type), { prompt: t("select_bedroom_type") }, class: "form-select" %>
       </div>
-      <div class="col-md-3 d-flex justify-content-end align-items-center">
-        <i class="fa-solid fa-trash-can text-danger me-2"></i>
-        <%= link_to_remove_association t('delete_bedroom'), f, class: "text-sm text-danger" %>
+      <div class="col-md-3 d-flex justify-content-end align-items-center ms-2">
+        <%= link_to_remove_association f, class: "text-sm text-danger d-flex align-items-center" do %>
+          <i class="fa-solid fa-trash-can text-danger me-2"></i> <span class="d-none d-lg-block"><%= t('delete_bedroom') %></span>
+        <% end %>
       </div>
     </div>
     <div class="p-4 border rounded">

@@ -28,6 +28,9 @@ application.register("fetch-earnings", FetchEarningsController)
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
+import FlatpickrTurboController from "./flatpickr_turbo_controller"
+application.register("flatpickr-turbo", FlatpickrTurboController)
+
 import IframeController from "./iframe_controller"
 application.register("iframe", IframeController)
 

@@ -1,9 +1,5 @@
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h4 class="font-weight-bold text-primary text-center mb-2">Modificar plà de tarifes</h4>
-    <hr>
-    <div class="container mt-5">
-      <%= render 'form', rate_plan: @rate_plan %>
-    </div>
-  </div>
+<div class="d-flex flex-column align-items-center">
+  <h4 class="text-primary"><%= t('rate_plan') %> <%= @rate_plan.name %></h4>
+  <h5 class="text-secondary"><%= t('modify_general_terms') %></h5>
 </div>
+<%= render "form", rate_plan: @rate_plan %>

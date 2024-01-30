@@ -1,31 +1,13 @@
-<%= simple_form_for [rate_plan, rate_period], data: {turbo: :false} do |f| %>
+<%= simple_form_for [rate_plan, rate_period], data: {turbo_frame: rate_period} do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div
-  class="d-flex flex-lg-row flex-sm-column justify-content-between align-items-center"
-  data-controller="unavailable-dates"
-  data-unavailable="<%= @rate_plan.unavailable_rate_periods.to_json %>"
-  data-defaultstart="<%= @rate_plan.default_start.to_json %>"
-  >
-    <div class="p-1 text-center">
-      <%= f.input :name, label: t("name"), priority: [t("general"), "general"], collection: [[t("general"), "general"], [t("easter"), "easter"]], include_blank: false %>
-    </div>
-    <div class="p-1 text-center">
-      <%= f.input :firstnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "start" } %>
-    </div>
-    <div class="p-1 text-center <%= 'd-none' if f.object.persisted? %>">
-      <%= f.input :nights, input_html: { "data-action" => "change->unavailable-dates#updateEnd" } %>
-    </div>
-    <div class="p-1 text-center">
-      <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
-    </div>
-    <div class="p-1 text-center">
-      <%= f.input :min_stay %>
-    </div>
-    <div class="p-1 text-center">
-      <%= f.input :arrival_day, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
-    </div>
-    <div class="p-1 text-center">
-      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-primary mt-3' %>
+  <div class="d-lg-flex justify-content-between align-items-end gap-2 px-2 py-4" data-controller="flatpickr-turbo" data-min="<%= rate_plan.start %>" data-max="<%= rate_plan.end %>">
+    <%= f.input :name, label: t("name"), priority: [t("general"), "general"], collection: [[t("general"), "general"], [t("easter"), "easter"]], include_blank: false %>
+    <%= f.input :firstnight, as: :string, input_html: { "data-flatpickr-turbo-target" => "start" } %>
+    <%= f.input :lastnight, as: :string, input_html: { "data-flatpickr-turbo-target" => "end" } %>
+    <%= f.input :min_stay %>
+    <%= f.input :arrival_day, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
+    <div class="form-actions mb-3 text-end">
+      <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-primary' %>
     </div>
   </div>
 <% end %>
