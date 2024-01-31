@@ -1,7 +1,8 @@
 <div class="d-flex justify-content-between">
-  <% if current_user && current_user.admin? || current_user.manager? %>
+  <% if current_user && (current_user.admin? || current_user.manager?) && !@vragreement.signature_image.attached? %>
     <div>
-      <%= link_to t('edit'), edit_vrental_vragreement_path(@vragreement.vrental, @vragreement), class: "btn btn-sm btn-secondary" %> <%= link_to t('delete'), @vragreement, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@vragreement.vrental.name}?"} %>
+      <%= link_to t('edit'), edit_vrental_vragreement_path(@vragreement.vrental, @vragreement), class: "btn btn-sm btn-secondary" %>
+      <%= link_to t('delete'), @vragreement, class: "btn btn-sm btn-danger", data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte de #{@vragreement.vrental.name}?"} %>
     </div>
   <% end %>
   <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexVragreement<%= @vragreement.id %>">
