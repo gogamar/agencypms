@@ -18,4 +18,6 @@
     </div>
   </div>
   <%= render 'vrentals/pdf_annual_statement_modal', vrental: @vrental, year: @last_year, locale: @vrental.owner.present? ? @vrental.owner.language : "ca" %>
+<% else %>
+  <%= t('there_are_no_statements') %>
 <% end %>
