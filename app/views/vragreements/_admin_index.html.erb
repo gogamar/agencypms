@@ -1,0 +1,30 @@
+<div class="my-5">
+  <% if @vrental.future_rates.exists? %>
+    <% @years_possible_contract.each do |year| %>
+      <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
+        <i class="fas fa-plus fa-sm"></i>
+        <span class="text"><%= t('new_contract_for', prop_name: @vrental.name, year: year) %></span>
+      <% end %> <br>
+    <% end %>
+  <% else %>
+    <%= link_to vrental_rates_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+      <i class="fa-regular fa-calendar-plus me-2"></i><%= t('add_rates_to_add_contract') %>
+    <% end %>
+  <% end %>
+</div>
+<% @vrental.vragreements.each do |vragreement| %>
+  <div class="d-flex gap-4 justify-content-between align-items-center mb-3">
+    <%= t(vragreement.status) if vragreement.status.present? %>
+    <%= link_to "#{t('contract')} #{I18n.l(vragreement&.start_date) if vragreement.start_date.present? } - #{I18n.l(vragreement&.end_date) if vragreement.end_date.present? }", vrental_vragreement_path(@vrental, vragreement), class: "btn btn-sm btn-light-info" %>
+    <span class="text-info"><%= t('owner') %></span>:
+    <%= @vrental.owner&.fullname %>
+    <div class=" text-end d-flex justify-content-between">
+      <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
+        <i class="fas fa-edit"></i>
+      <% end %>
+      <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
+        <i class="fas fa-trash-can"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>

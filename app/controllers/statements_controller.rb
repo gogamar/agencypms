@@ -6,6 +6,8 @@ class StatementsController < ApplicationController
     @statements = policy_scope(Statement)
     @statements = @vrental.present? ? @vrental.statements.order(start_date: :asc) : @statements.order(start_date: :asc)
     @booking_years = @vrental.bookings.pluck(:checkin).map(&:year).uniq.sort.reverse
+    @last_year_statements = @vrental.statements.where("EXTRACT(year FROM end_date) = ?", Date.current.year - 1)
+    @last_year = Date.current.year - 1
   end
 
   def show

@@ -30,7 +30,7 @@
             <span class="text-muted"><%= @vragreement.signature_image.key.truncate(20) %>...</span>
           </div>
         </div>
-      <% else %>
+      <% elsif current_user.owner.present? %>
         <div class="d-flex flex-column gap-4 mt-3" data-controller="signature-capture">
           <span class="no-printing text-muted text-sm text-center"><%= t('please_sign_here') %></span>
           <div class="signature-container border rounded">

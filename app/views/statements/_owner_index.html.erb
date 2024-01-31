@@ -1,21 +1,21 @@
-<% @booking_years.each do |year| %>
+<% if @last_year_statements %>
   <div class="d-flex flex-column flex-lg-row border-bottom justify-content-between gap-3 py-2">
     <div>
-      <%= year %>:
+      <%= @last_year %>:
     </div>
     <div>
       <%= t('total_net_owner') %>:
-      <%= number_to_currency(@vrental.total_net_owner_year(year), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+      <%= number_to_currency(@vrental.total_net_owner_year(@last_year), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
     </div>
     <div>
       <%= t('total_paid_owner') %>:
-      <%= number_to_currency(@vrental.total_owner_payments_year(year), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+      <%= number_to_currency(@vrental.total_owner_payments_year(@last_year), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
     </div>
     <div>
       <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        <%= year %>: <%= t('pdf_annual_statement') %>
+        <%= @last_year %>: <%= t('pdf_annual_statement') %>
       </button>
     </div>
   </div>
-  <%= render 'vrentals/pdf_annual_statement_modal', vrental: @vrental, year: year, locale: @vrental.owner.present? ? @vrental.owner.language : "ca" %>
+  <%= render 'vrentals/pdf_annual_statement_modal', vrental: @vrental, year: @last_year, locale: @vrental.owner.present? ? @vrental.owner.language : "ca" %>
 <% end %>
