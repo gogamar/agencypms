@@ -76,7 +76,9 @@ module Api
 
     def verify_authentication_token
       expected_token = ENV['WEBHOOK_TOKEN']
+      puts "expected_token: #{expected_token}"
       provided_token = request.headers['X-Webhook-Token']
+      puts "provided_token: #{provided_token}"
 
       unless ActiveSupport::SecurityUtils.secure_compare(expected_token, provided_token)
         render json: { error: 'Unauthorized' }, status: :unauthorized
