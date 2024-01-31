@@ -1,5 +1,23 @@
 <div class="container">
-  <h4 class="font-weight-bold text-primary text-start py-2"><%= t('contracts') %></h4>
+  <div class="d-flex justify-content-between">
+    <h4 class="font-weight-bold text-primary text-start py-2"><%= t('contracts') %></h4>
+    <% if current_user.admin? || current_user.manager? %>
+      <div class="text-end">
+        <% if @vrental.future_rates.exists? %>
+          <% @years_possible_contract.each do |year| %>
+            <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
+              <i class="fas fa-plus fa-sm"></i>
+              <span class="text"><%= t('new_contract_for', prop_name: @vrental.name, year: year) %></span>
+            <% end %> <br>
+          <% end %>
+        <% else %>
+          <%= link_to vrental_rates_path(@vrental), class: "btn btn-sm btn-secondary" do %>
+            <i class="fa-regular fa-calendar-plus me-2"></i><%= t('add_rates_to_add_contract') %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
   <hr>
   <% if @vrental %>
     <% if @vrental.vragreements.present? %>
