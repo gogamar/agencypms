@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          <%= t('edit_owner_booking') %>
+          <%= owner_booking.persisted? ? t('edit_owner_booking') : t('new_owner_booking') %>
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
       </div>
