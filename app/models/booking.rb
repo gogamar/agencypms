@@ -67,6 +67,17 @@ class Booking < ApplicationRecord
     charges.where(charge_type: "other")&.sum(:price)
   end
 
+  def name_on_calendar
+    if referrer == 'direct' || referrer == 'sistachrentals_web'
+      booking_origin = 'sistachrentals.com'
+    elsif referrer == 'setBooking JSON' || referrer == 'miquel'
+      booking_origin = 'Beds'
+    else
+      booking_origin = referrer
+    end
+    return "#{firstname} #{lastname} (#{booking_origin})"
+  end
+
   private
 
   def checkout_is_later_than_checkin

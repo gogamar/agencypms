@@ -61,7 +61,7 @@ class VrentalsController < ApplicationController
       top_class = booking.has_overbooking? ? "" : "top-position-0"
       {
         id: booking.id,
-        title: t('confirmed_booking'),
+        title: booking.name_on_calendar,
         start: booking.checkin.to_datetime.change(hour: 15, min: 0, sec: 0),
         end: booking.checkout.to_datetime.change(hour: 10, min: 0, sec: 0),
         color: "#4caf50",

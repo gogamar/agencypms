@@ -1,8 +1,8 @@
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="indexInvoice<%= invoice.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="indexInvoice<%= invoice.id %>Label" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel"><%= @vrental.name %>: <%= t('invoice') %> #<%= invoice.invoice_number_formatted %></h5>
+        <h5 class="modal-title" id="indexInvoice<%= invoice.id %>Label"><%= @vrental.name %>: <%= t('invoice') %> #<%= invoice.invoice_number_formatted %></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
       </div>
       <div class="modal-body p-0" data-controller="spinner-pdf">

@@ -1,0 +1,15 @@
+<div class="modal fade" id="ownerBooking<%= owner_booking.id if owner_booking.persisted? %>" tabindex="-1" aria-labelledby="ownerBookingLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <%= t('edit_owner_booking') %>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
+      </div>
+      <div class="modal-body">
+        <%= render 'list_form', owner_booking: owner_booking %>
+      </div>
+    </div>
+  </div>
+</div>

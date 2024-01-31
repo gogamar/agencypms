@@ -13,7 +13,7 @@
       <%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
     </div>
     <div>
-      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexInvoice<%= invoice.id %>">
         #<%= invoice.invoice_number_formatted %>: <%= t('pdf_invoice') %>
       </button>
     </div>

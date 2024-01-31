@@ -36,7 +36,7 @@ export function initFullCalendar() {
       eventClick: function (info) {
         const eventTitle = info.event.title;
         const eventFormPath = info.event.extendedProps.form_path;
-        const dateNotPast = info.event.start >= new Date();
+        const dateNotPast = info.event.end >= new Date();
         if (eventFormPath && dateNotPast) {
           updateOwnerBooking(eventTitle, eventFormPath);
         }

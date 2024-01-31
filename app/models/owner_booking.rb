@@ -1,10 +1,24 @@
 class OwnerBooking < ApplicationRecord
   belongs_to :vrental
   validate :no_overlapping
+  validates :checkin, :checkout, :vrental, presence: true
+  validates :checkout, comparison: { greater_than: :checkin }
+  validate :checkin_and_checkout_not_in_past
   # after_create :perform_api_calls
   # after_update :perform_api_calls
 
+
   private
+
+  def checkin_and_checkout_not_in_past
+    if checkin.present? && checkin < Date.today
+      errors.add(:checkin, t('cant_be_in_past'))
+    end
+
+    if checkout.present? && checkout < Date.today
+      errors.add(:checkout, t('cant_be_in_past'))
+    end
+  end
 
   def no_overlapping
     return unless checkin && checkout && vrental_id

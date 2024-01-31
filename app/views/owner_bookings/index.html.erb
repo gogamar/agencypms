@@ -1,22 +1,38 @@
 <div class="container my-4">
-  <h4><%= t('bookings') %> <%= Date.today.year %></h4>
+  <div class="row">
+    <div class="col-lg-9">
+      <h4><%= t('bookings') %> <%= Date.today.year %></h4>
+    </div>
+    <div class="col-lg-3 text-end">
+      <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#ownerBooking">
+        <%= t('new_owner_booking') %>
+      </button>
+    </div>
+  </div>
+  <%= render 'list_edit_modal', owner_booking: OwnerBooking.new %>
   <div class="container-fluid my-3">
     <% @all_bookings.each do |bk| %>
-      <div class="row border-bottom d-flex align-items-center<%= ' bg-light-warning' if bk.is_a?(OwnerBooking) %>">
+      <div class="row py-2 border-bottom d-flex align-items-center<%= ' bg-light-warning' if bk.is_a?(OwnerBooking) %>">
         <% if bk.is_a?(OwnerBooking) %>
-          <div class="col-2 border-end"><%= t('owner_booking') %></div>
+          <div class="col-lg-4"><%= t('owner_booking') %></div>
         <% else %>
-          <div class="col-2 border-end"><%= t('confirmed_booking') %></div>
+          <div class="col-lg-4"><%= bk.name_on_calendar %></div>
         <% end %>
-        <div class="col-3"><%= l(bk.checkin, format: :standard) %></div>
-        <div class="col-3"><%= l(bk.checkout, format: :standard) %></div>
+        <div class="col-lg-2"><%= l(bk.checkin, format: :standard) %></div>
+        <div class="col-lg-2"><%= l(bk.checkout, format: :standard) %></div>
         <% if bk.is_a?(OwnerBooking) %>
-          <div class="col-2"><%= bk.note %></div>
-          <div class="col-2 d-flex justify-content-end">
-            <%= form_for bk, url: vrental_owner_booking_path(@vrental, bk), method: :patch, remote: true do |f| %>
-              <%= f.hidden_field :status, value: "0" %>
-              <%= f.button :submit, class: "btn btn-danger btn-sm" do %>
-                <i class="fas fa-trash-can fa-sm"></i>
+          <div class="col-lg-2"><%= bk.note %></div>
+          <div class="col-lg-2 d-flex justify-content-between">
+            <% if bk.checkout >= Date.today %>
+              <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#ownerBooking<%= bk.id %>">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <%= render 'list_edit_modal', owner_booking: bk %>
+              <%= form_for bk, url: vrental_owner_booking_path(@vrental, bk), method: :patch, remote: true do |f| %>
+                <%= f.hidden_field :status, value: "0" %>
+                <%= f.button :submit, class: "btn btn-danger btn-sm" do %>
+                  <i class="fas fa-trash-can fa-sm"></i>
+                <% end %>
               <% end %>
             <% end %>
           </div>

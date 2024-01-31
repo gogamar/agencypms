@@ -12,7 +12,7 @@
       <%= number_to_currency(@vrental.total_owner_payments_year(@last_year), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
     </div>
     <div>
-      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexAnnualStatement">
         <%= @last_year %>: <%= t('pdf_annual_statement') %>
       </button>
     </div>
