@@ -291,31 +291,25 @@ class Vrental < ApplicationRecord
 
   def available_for_checkout(checkin_date=nil)
     if checkin_date
+      # return only the checkout dates that fulfill the min_stay requirement & there are no reservations in between
       checkin_date = checkin_date.is_a?(Date) ? checkin_date : Date.parse(checkin_date)
+      first_possible_checkout_date = (checkin_date + rate_min_stay(checkin_date).days) || (Date.today + 1.day)
+      available_after_checkin = future_availabilities.where("date >= ?", first_possible_checkout_date)
+      checkout_dates = available_after_checkin.pluck(:date)
 
-      checkout_dates_first = future_availabilities.where.not(override: [3, 4]).pluck(:date)
-
-      checkout_dates = checkout_dates_first + checkout_dates_first.map { |date| date + 1.day }
-      checkout_dates = checkout_dates.uniq.sort
-
-      checkin_min_stay = rate_min_stay(checkin_date)
-
-      first_possible_checkout_date = checkin_date.present? ? checkin_date + checkin_min_stay.days : Date.today
-
-      filtered_checkout_dates = []
-
+      viable_checkout_dates = []
       current_date = first_possible_checkout_date
 
-      while !checkout_dates.include?(current_date)
-        current_date = current_date + 1.day
-      end
-
       while checkout_dates.include?(current_date)
-        filtered_checkout_dates << current_date
+        available_date = available_after_checkin.find_by(date: current_date)
+        checkout_allowed = available_date.override != 3 && available_date.override != 4
+        if checkout_allowed
+          viable_checkout_dates << current_date
+        end
         current_date += 1.day
       end
 
-      filtered_checkout_dates
+      viable_checkout_dates
     else
       future_availabilities.where.not(override: [3, 4]).pluck(:date)
     end

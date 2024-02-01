@@ -72,8 +72,6 @@ export default class extends Controller {
 
       const checkoutDates = await response.json();
 
-      console.log("responseData checkoutDates", checkoutDates);
-
       if (checkoutDates) {
         this.checkoutPicker.set("enable", checkoutDates);
 
