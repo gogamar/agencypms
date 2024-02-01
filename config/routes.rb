@@ -155,7 +155,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :vragreements, only: [:index, :destroy] do
+    resources :vragreements, only: [:show, :index, :destroy] do
       collection do
         get 'list'
       end

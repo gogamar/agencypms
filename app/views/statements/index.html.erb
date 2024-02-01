@@ -1,11 +1,12 @@
 <div class="container">
   <h4 class="font-weight-bold text-primary text-start py-2"><%= t('statements') %></h4>
-  <hr>
   <% if @vrental.statements.present? %>
     <% if current_user.admin? || current_user.manager? %>
       <%= render 'admin_index' %>
     <% elsif current_user.owner.present? %>
       <%= render 'owner_index' %>
     <% end %>
+  <% else %>
+    <%= t('there_are_no_statements') %>
   <% end %>
 </div>

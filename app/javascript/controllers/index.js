@@ -19,6 +19,9 @@ application.register("booking-conditions", BookingConditionsController)
 import CheckboxController from "./checkbox_controller"
 application.register("checkbox", CheckboxController)
 
+import CollapsibleController from "./collapsible_controller"
+application.register("collapsible", CollapsibleController)
+
 import EarningCalculatorController from "./earning_calculator_controller"
 application.register("earning-calculator", EarningCalculatorController)
 

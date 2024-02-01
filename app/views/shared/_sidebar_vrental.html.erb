@@ -1,5 +1,5 @@
 <% if current_user.admin? || current_user.manager? %>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column" data-controller="collapsible">
     <a class="text-secondary border-bottom p-3" data-bs-toggle="collapse" href="#intermediateAccess" role="button" aria-expanded="false" aria-controls="intermediateAccess">
       <i class="fa-solid fa-angle-right me-2"></i>Editar immoble
     </a>

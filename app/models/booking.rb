@@ -40,11 +40,20 @@ class Booking < ApplicationRecord
   end
 
   def price_portal_no_commission
-    price_with_portal - (price_with_portal * 0.15).round(2)
+    # fixme this 0.15 should be a variable
+    if price_with_portal
+      price_with_portal - (price_with_portal * 0.15).round(2)
+    else
+      return 0
+    end
   end
 
   def price_no_portal
-    price_with_portal - commission
+    if commission
+      price_with_portal - commission
+    else
+      price_with_portal
+    end
   end
 
   def net_price

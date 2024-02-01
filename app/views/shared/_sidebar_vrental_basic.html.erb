@@ -1,4 +1,4 @@
-<li class="<%= 'active' if current_page?(vrental_owner_bookings_path(@vrental)) %>">
+<li class="<%= 'active' if current_page?(vrental_owner_bookings_path(@vrental)) %>" data-bs-parent="basicAccess">
   <%= link_to vrental_owner_bookings_path(@vrental) do %>
     <i class="fa-solid fa-calendar"></i><%= t('owner_bookings') %>
   <% end %>

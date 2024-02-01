@@ -1,0 +1,23 @@
+<div class="d-flex flex-column align-items-end gap-3 mt-3">
+  <% if statement.owner_payments.present? %>
+    <span class="text-success text-sm"><%= t('paid_to_owner') %></span>
+    <% statement.owner_payments.order(:date).each do |payment| %>
+      <div class="text-sm">
+        <i class="fas fa-check-circle text-success"></i>
+        <%= l(payment.date) %>: <%= link_to "#{number_to_currency(payment.amount, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")}", edit_statement_owner_payment_path(statement, payment), data: { bs_toggle: "modal", bs_target: "#ownerPayment#{statement.id}#{payment.id}"} %>
+        <%= render "owner_payment_modal", statement: statement, owner_payment: payment, pending_payment: statement.net_income_owner - statement.total_owner_payments %>
+        <% unless statement.invoice.present? && Date.current > statement.invoice.created_at.to_date %>
+          <%= link_to statement_owner_payment_path(statement, payment), class: "ms-4 text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el pagament de la liquidació #{statement.start_date}?"} do %>
+            <i class="fas fa-trash-can"></i>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+  <div>
+    <a type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ownerPayment<%= statement.id %>">
+      <i class="fa-solid fa-euro-sign me-2"></i><%= t('add_payment') %>
+    </a>
+    <%= render "owner_payment_modal", statement: statement, owner_payment: OwnerPayment.new, pending_payment: statement.net_income_owner - statement.total_owner_payments %>
+  </div>
+</div>
