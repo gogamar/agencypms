@@ -33,6 +33,7 @@ export default class extends Controller {
     }
 
     let availableCheckout = defaultEnableDates;
+
     if (this.element.dataset.availableCheckout) {
       availableCheckout = JSON.parse(this.element.dataset.availableCheckout);
     }
@@ -72,6 +73,7 @@ export default class extends Controller {
       const checkoutDates = await response.json();
 
       console.log("responseData checkoutDates", checkoutDates);
+
       if (checkoutDates) {
         this.checkoutPicker.set("enable", checkoutDates);
 

@@ -1054,6 +1054,7 @@ class VrentalApiService
       selected_availabilities.each do |date, attributes|
         formatted_date = Date.parse(date.to_s)
         existing_availability = @target.availabilities.find_by(date: formatted_date)
+
         if existing_availability
           existing_availability.update!(
             inventory: attributes["i"].to_i,
