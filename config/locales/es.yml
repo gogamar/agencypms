@@ -219,6 +219,7 @@ es:
   add_email: Agregar email
   add_future_rates: Faltan añadir tarifas
   add_group: Añadir nuevo grupo
+  add_invoice: Agregar factura
   add_new_company: Añadir nueva empresa
   add_new_contract_template: Añadir nuevo modelo de contrato
   add_new_group: Agregar nuevo grupo
@@ -227,6 +228,7 @@ es:
   add_owner: Añadir propietario
   add_owner_booking: Añadir reserva de propietario
   add_owner_booking_explanation: Para agregar una reserva, haz clic en el día de inicio y arrastra el ratón hasta el día de finalización.
+  add_payment: Agregar pago
   add_photos: Añadir fotos
   add_prices_to_rates: Faltan añadir precios a las tarifas
   add_property: Añadir propiedad
@@ -241,6 +243,7 @@ es:
   agency_plus_vat: Honorarios + IVA
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionado
+  all_paid: Todo pagado
   all_vrentals: Todos los inmuebles
   all_years: Todos los años
   amount: Importe
@@ -349,6 +352,7 @@ es:
   cancellation_details: Cobramos un %{res_fee} de prepago para garantizar la reserva. Si la notificación adecuada se proporciona hasta %{free_cancel} días antes de la llegada, le devolveremos su pago inicial. Si cancela %{free_cancel_minus_one} o menos días antes de la llegada, el %{res_fee} de prepago no será reembolsado.
   cancellation_policy: Política de cancelación
   cancelled_booking: Reserva cancelada
+  cant_be_in_past: No puede estar en el pasado
   cash: Efectivo
   ceiling_fan: Ventilador de techo
   charge_types:
@@ -660,6 +664,7 @@ es:
   new_owner_booking: Añadir reserva propietario
   new_property: Nueva propiedad
   new_rate_plan: Nuevo plan de tarifas
+  new_statement: Nueva liquidación
   new_vrental_step_1: 'Paso 1: Propietario y condiciones generales'
   new_web: Añadido a la web
   news: Noticias
@@ -711,6 +716,8 @@ es:
   owner_booking_edited: Reserva propietario modificada
   owner_bookings: Reservas propietario
   owner_bookings_default: El propietario aún no ha bloqueado ninguna fecha para su uso. Si desea bloquear algunas fechas, por favor contáctenos a %{email}.
+  owner_language: Idioma del propietario
+  owner_overpaid: El propietario ha pagado en exceso
   owner_speaks: El propietario %{name} habla %{language}
   owners: Propietarios
   page: Página
@@ -728,6 +735,8 @@ es:
   pdf_invoice: Factura en PDF
   pdf_statement: Liqudación en PDF
   pending: Pendiente
+  pending_add_expenses_for: Pendiente de agregar gastos para
+  pending_payment_owner: Pendiente de pago propietario
   per_booking_offset: por reserva
   per_day_offset: por día
   per_period_offset: por período
@@ -738,6 +747,7 @@ es:
   pets_not_allowed: No se permiten mascotas
   phone: Teléfono
   photos: Fotos
+  please_sign_here: Por favor, firme aquí
   pool: Piscina comunitaria
   pool_private: Piscina privada
   preparing_pdf: Preparando el PDF
@@ -775,6 +785,7 @@ es:
   rate_plans: Planes de tarifas
   rates: Tarifas
   read_more: Leer más
+  read_sign_contract: Leer y firmar el contrato
   real estate: Inmobiliaria
   realtor: Inmobiliaria
   refresh_page: Actualizar página
@@ -835,6 +846,7 @@ es:
   signature_owner: Propietario - NOMBRE DEL PROPIETARIO
   signed: Firmado
   signed_by: Firmado por
+  signing_contract: Firmando contrato
   simple_calendar:
     day: día
     month: mes
@@ -848,6 +860,7 @@ es:
   statement_period: Período de liquidación
   statement_title: Liquidación alquileres
   statements: Liquidaciones
+  statements_total: Total importes liquidaciones
   still_working: Trabajando todavía
   subject: Asunto
   sunday: Domingo
@@ -869,6 +882,8 @@ es:
   to_confirm_booking: Para confirmar la reserva, es necesario completar el formulario y pagar el %{res_fee} del precio de la reserva en la próxima página.
   toaster: Tostadora
   total: Total
+  total_net_owner: Total neto propietario
+  total_paid_owner: Total pagado propietario
   total_revenue: Total rendimiento propietario
   tourist: Viajero
   transfer: Transferencia
@@ -965,7 +980,6 @@ es:
   with_view: Con vista
   withdraw_access: Retirar acceso
   without_view: Apartamentos Sagrada Familia sin vista
+  year: Año
   yearly: Anual
   'yes': Sí
-  signing_contract: Firmando contrato
-  please_sign_here: Por favor, firme aquí

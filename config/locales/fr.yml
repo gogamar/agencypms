@@ -218,6 +218,7 @@ fr:
   add_email: Ajouter un e-mail
   add_future_rates: Tarifs futurs manquants
   add_group: Ajouter un nouveau groupe
+  add_invoice: Ajouter une facture
   add_new_company: Ajouter une nouvelle entreprise
   add_new_contract_template: Ajouter un nouveau modèle de contrat
   add_new_group: Ajouter un nouveau groupe
@@ -226,6 +227,7 @@ fr:
   add_owner: Ajouter un propriétaire
   add_owner_booking: Ajouter une réservation du propriétaire
   add_owner_booking_explanation: Pour ajouter une réservation, cliquez sur le jour de début souhaité, puis faites glisser la souris jusqu'au jour de fin désiré.
+  add_payment: Ajouter un paiement
   add_photos: Ajouter des photos
   add_prices_to_rates: Tarifs manquants pour les tarifs
   add_property: Ajouter une propriété
@@ -240,6 +242,7 @@ fr:
   agency_plus_vat: Frais d'agence + TVA
   agency_vat: TVA 21%
   air_conditioning: Climatisation
+  all_paid: Tout payé
   all_vrentals: Toutes les propriétés
   all_years: Toutes les années
   amount: Montant
@@ -348,6 +351,7 @@ fr:
   cancellation_details: Nous facturons un prépaiement de %{res_fee} pour garantir la réservation. Si un préavis approprié est fourni jusqu'à %{free_cancel} jours avant l'arrivée, nous vous rembourserons votre paiement initial. En cas d'annulation %{free_cancel_minus_one} jours ou moins avant l'arrivée, le prépaiement de %{res_fee} ne sera pas remboursé.
   cancellation_policy: Politique d'annulation
   cancelled_booking: Réservation annulée
+  cant_be_in_past: Ne peut pas être dans le passé
   cash: Espèces
   ceiling_fan: Ventilateur de plafond
   charge_types:
@@ -660,6 +664,7 @@ fr:
   new_owner_booking: Ajouter la réservation du propriétaire
   new_property: Nouvelle propriété
   new_rate_plan: Nouveau plan tarifaire
+  new_statement: Nouvelle liquidation
   new_vrental_step_1: "Étape 1 : Propriétaire et conditions générales"
   new_web: Ajouté sur le site web
   news: Actualités
@@ -711,6 +716,8 @@ fr:
   owner_booking_edited: Réservation du propriétaire modifiée
   owner_bookings: Réservations du propriétaire
   owner_bookings_default: Le propriétaire n'a pas encore bloqué de dates pour son propre usage. S'il souhaite bloquer des dates, veuillez nous contacter à l'adresse %{email}.
+  owner_language: Langue du propriétaire
+  owner_overpaid: Le propriétaire a trop payé
   owner_speaks: Le propriétaire %{name} parle %{language}
   owners: Propriétaires
   page: Page
@@ -728,6 +735,8 @@ fr:
   pdf_invoice: Facture en PDF
   pdf_statement: Relevé en PDF
   pending: En attente
+  pending_add_expenses_for: Ajouter des dépenses en attente pour
+  pending_payment_owner: Paiement en attente du propriétaire
   per_booking_offset: par réservation
   per_day_offset: par jour
   per_period_offset: par période
@@ -738,6 +747,7 @@ fr:
   pets_not_allowed: Animaux non autorisés
   phone: Téléphone
   photos: Photos
+  please_sign_here: Veuillez signer ici
   pool: Piscine commune
   pool_private: Piscine privée
   preparing_pdf: Préparation du PDF
@@ -775,6 +785,7 @@ fr:
   rate_plans: Plans tarifaires
   rates: Tarifs
   read_more: Lire la suite
+  read_sign_contract: Lire et signer le contrat
   real estate: Agence immobilière
   realtor: Agent immobilier
   refresh_page: Actualiser la page
@@ -835,6 +846,7 @@ fr:
   signature_owner: Propriétaire - NOM DU PROPRIÉTAIRE
   signed: Signé
   signed_by: Signé par
+  signing_contract: Signature du contrat
   simple_calendar:
     day: jour
     month: mois
@@ -848,6 +860,7 @@ fr:
   statement_period: Période de l'état des lieux
   statement_title: État des lieux de location
   statements: États des lieux
+  statements_total: Total des montants des liquidations
   still_working: Toujours en cours
   subject: Sujet
   sunday: Dimanche
@@ -869,6 +882,8 @@ fr:
   to_confirm_booking: Pour confirmer la réservation, veuillez remplir le formulaire et payer les %{res_fee} du prix de la réservation sur la page suivante.
   toaster: Grille-pain
   total: Total
+  total_net_owner: Total net du propriétaire
+  total_paid_owner: Total payé par le propriétaire
   total_revenue: Revenu total du propriétaire
   tourist: Touriste
   transfer: Virement
@@ -965,7 +980,6 @@ fr:
   with_view: Avec vue
   withdraw_access: Retirer l'accès
   without_view: Appartements Sagrada Familia sans vue
+  year: Année
   yearly: Annuel
   "yes": Oui
-  signing_contract: Signature du contrat
-  please_sign_here: Veuillez signer ici

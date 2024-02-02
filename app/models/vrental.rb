@@ -356,6 +356,7 @@ class Vrental < ApplicationRecord
   def years_possible_contract
     return if future_rates.empty?
     years_with_contract = vragreements.pluck(:year)
+    puts "years_with_contract: #{years_with_contract}"
     vrental_instance = rate_master.present? ? rate_master : self
 
     last_rate_year = vrental_instance.rates.order(firstnight: :desc).first.firstnight.year

@@ -1,22 +1,25 @@
-<% @this_year_vragreements.each do |vragreement| %>
-  <div class="d-flex flex-column flex-lg-row border-bottom justify-content-between gap-3 py-2">
-    <div>
-      <%= t('contract') %>:
-      <%= l(vragreement.start_date) if vragreement.start_date.present? %> - <%= l(vragreement.end_date) if vragreement.end_date.present? %>
+<% @vrental.vragreements.each do |vragreement| %>
+  <div class="row py-2">
+    <div class="col-lg-4">
+      <%= link_to vragreement do %>
+        <%= l(vragreement.start_date) if vragreement.start_date.present? %> - <%= l(vragreement.end_date) if vragreement.end_date.present? %>
+      <% end %>
     </div>
-    <div>
+    <div class="col-lg-2">
       <%= t('language') %>: <%= t(vragreement.vrentaltemplate.language) if vragreement.vrentaltemplate.present? %>
     </div>
-    <div>
-      <% if vragreement.signature_image.attached? %>
-        <%= t('contract_signed') %> <%= l(vragreement.signdate) if vragreement.signdate.present? %>
-      <% else %>
-        <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-warning" do %>
-          <i class="fa-solid fa-signature me-2"></i><%= t('read_sign_contract') %>
+    <div class="col-lg-4">
+      <% if vragreement.year.present? && vragreement.year == Date.current.year %>
+        <% if vragreement.signature_image.attached? %>
+          <%= t('contract_signed') %> <%= l(vragreement.signdate) if vragreement.signdate.present? %>
+        <% else %>
+          <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-warning" do %>
+            <i class="fa-solid fa-signature me-2"></i><%= t('read_sign_contract') %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
-    <div>
+    <div class="col-lg-2">
       <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexVragreement<%= vragreement.id %>">
         <%= vragreement.year %>: <%= t('pdf_contract') %>
       </button>

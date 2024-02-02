@@ -145,6 +145,7 @@ Rails.application.routes.draw do
       end
       member do
         get 'grant_access'
+        get 'remove_access'
         get 'send_access_email'
       end
     end

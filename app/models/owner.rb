@@ -26,7 +26,9 @@ class Owner < ApplicationRecord
   def grant_access(company)
     owner_user = User.find_by(email: email)
 
-    unless owner_user
+    if owner_user
+      owner_user.update(approved: true)
+    else
       temporary_password = Devise.friendly_token.first(8)
       owner_user = User.create(
         email: email,

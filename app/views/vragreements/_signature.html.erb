@@ -19,9 +19,9 @@
             <span class="text-muted"><%= t('signed_by') %>:</span>
           </div>
           <div class="p-4">
-            <% if @vragreement.signatory %>
+            <% if @vragreement.signatory.present? %>
               <% signatory_user = User.find_by(id: @vragreement.signatory) %>
-              <% signatory_owner_name = signatory_user.owner&.fullname %>
+              <% signatory_owner_name = signatory_user&.owner&.fullname %>
             <% end %>
             <p class="text-muted"> <%= signatory_owner_name %> <%= @vragreement.signature_image.created_at %> </p>
             <%= cl_image_tag(@vragreement.signature_image.key, height: 120, crop: :fill) %>
@@ -30,7 +30,7 @@
             <span class="text-muted"><%= @vragreement.signature_image.key.truncate(20) %>...</span>
           </div>
         </div>
-      <% elsif current_user.owner.present? %>
+      <% elsif current_user.owner.present? && @vragreement.year.present? && @vragreement.year == Date.current.year %>
         <div class="d-flex flex-column gap-4 mt-3" data-controller="signature-capture">
           <span class="no-printing text-muted text-sm text-center"><%= t('please_sign_here') %></span>
           <div class="signature-container border rounded">

@@ -1,5 +1,5 @@
 class OwnersController < ApplicationController
-  before_action :set_owner, only: [:show, :edit, :update, :destroy, :grant_access, :send_access_email]
+  before_action :set_owner, only: [:show, :edit, :update, :destroy, :grant_access, :remove_access, :send_access_email]
 
   def index
     all_owners = policy_scope(Owner).order(created_at: :desc)
@@ -103,6 +103,11 @@ class OwnersController < ApplicationController
   def grant_access
     @owner.grant_access(@company)
     redirect_to owners_path, notice: "S'ha concedit l'accés al propietari."
+  end
+
+  def remove_access
+    @owner.user.update(approved: false)
+    redirect_to owners_path, notice: "S'ha eliminat l'accés al propietari."
   end
 
   def send_access_email

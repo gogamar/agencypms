@@ -220,6 +220,7 @@ ca:
   add_email: Afegir email
   add_future_rates: Falta afegir tarifes a partir d'avui
   add_group: Afegir nou grup
+  add_invoice: Afegir factura
   add_new_company: Afegir nova empresa
   add_new_contract_template: Afegir nou model de contracte
   add_new_group: Afegir nou grup
@@ -228,6 +229,7 @@ ca:
   add_owner: Afegir propietari
   add_owner_booking: Afegir reserva propietari
   add_owner_booking_explanation: Per afegir una reserva, fes clic sobre el dia que vulguis començar la reserva i arrastra el ratolí fins al dia que vulguis acabar la reserva.
+  add_payment: Afegir pagament
   add_photos: Afegir fotos
   add_prices_to_rates: Falta afegir preus a les tarifes
   add_property: Afegir immoble
@@ -242,6 +244,7 @@ ca:
   agency_plus_vat: Honoraris + IVA
   agency_vat: IVA 21 %
   air_conditioning: Aire acondicionat
+  all_paid: Tot pagat
   all_vrentals: Tots els immobles
   all_years: Tots els anys
   amount: Import
@@ -350,6 +353,7 @@ ca:
   cancellation_details: Cobrem un %{res_fee} de prepagament per garantir la reserva. Si la notificació adequada es proporciona fins a %{free_cancel} dies abans de l'arribada, li retornarem el seu pagament inicial. Si cancel·la %{free_cancel_minus_one} o menys dies abans de l'arribada, el %{res_fee} de prepagament no serà reemborsat.
   cancellation_policy: Política de cancel·lació
   cancelled_booking: Reserva cancel·lada
+  cant_be_in_past: no pot ser en el passat
   cash: Efectiu
   ceiling_fan: Ventilador del sostre
   charge_types:
@@ -387,6 +391,7 @@ ca:
   contact_form_success: El teu missatge ha estat enviat. Ens posarem en contacte amb tu el més aviat possible.
   contact_us: Contacta amb nosaltres
   contract: Contracte
+  contract_signed: Contracte signat
   contract_templates: Models de contracte
   contracts: Contractes
   control_restrictions: Control·lar estada mínima i día d'arribada des de el Calendari Beds24 o des de les Tarifes
@@ -662,6 +667,7 @@ ca:
   new_owner_booking: Afegir reserva propietari
   new_property: Nou immoble
   new_rate_plan: Nou pla de tarifes
+  new_statement: Nova liquidació
   new_vrental_step_1: "Pas 1: Propietari i condicions generals"
   new_web: Afegit a la web
   news: Notícies
@@ -713,6 +719,8 @@ ca:
   owner_booking_edited: Reserva propietari modificada
   owner_bookings: Reserves propietari
   owner_bookings_default: El propietari encara no ha bloquejat cap data per al seu propi ús. Si vol bloquejar algunes dates, si us plau contacti amb nosaltres a %{email}.
+  owner_language: Idioma propietari
+  owner_overpaid: El propietari ha cobrat de mès
   owner_speaks: El propietari %{name} parla %{language}
   owners: Propietaris
   page: Pàgina
@@ -730,6 +738,8 @@ ca:
   pdf_invoice: Factura en PDF
   pdf_statement: Liquidació en PDF
   pending: Pendent
+  pending_add_expenses_for: Falta afegir despeses per
+  pending_payment_owner: Pendent pagar al propietari
   per_booking_offset: per reserva
   per_day_offset: per dia
   per_period_offset: per període
@@ -740,6 +750,7 @@ ca:
   pets_not_allowed: No s'accepten mascotes
   phone: Telèfon
   photos: Fotos
+  please_sign_here: Si us plau, signar aquí
   pool: Piscina comunitària
   pool_private: Piscina privada
   preparing_pdf: Preparant el PDF
@@ -777,6 +788,7 @@ ca:
   rate_plans: Plans de tarifes
   rates: Tarifes
   read_more: Llegir més
+  read_sign_contract: Llegir i signar el contracte
   real estate: Immobiliària
   realtor: Immobiliària
   refresh_page: Refrescar la pàgina
@@ -837,6 +849,7 @@ ca:
   signature_owner: Propietari
   signed: Signat
   signed_by: Signat per
+  signing_contract: Signant contracte
   simple_calendar:
     day: dia
     month: mes
@@ -850,6 +863,7 @@ ca:
   statement_period: Període de liquidació
   statement_title: Liquidació lloguers
   statements: Liquidacions
+  statements_total: Total imports liquidacions
   still_working: Encara treballant
   subject: Assumpte
   sunday: Diumenge
@@ -871,6 +885,8 @@ ca:
   to_confirm_booking: Per confirmar la reserva, cal omplir el formulari i pagar el %{res_fee} del preu de la reserva a la propera pàgina.
   toaster: Torradora
   total: Total
+  total_net_owner: Total net propietari
+  total_paid_owner: Total pagat propietari
   total_revenue: Total rendiment propietari
   tourist: Viatger
   transfer: Transferència
@@ -967,22 +983,6 @@ ca:
   with_view: Amb vista
   withdraw_access: Retirar accés
   without_view: Apartaments Sagrada Familia sense vista
+  year: Any
   yearly: Anual
   "yes": Sí
-  contract_signed: Contracte signat
-  signing_contract: Signant contracte
-  please_sign_here: Si us plau, signar aquí
-  new_statement: Nova liquidació
-  statements_total: Total imports liquidacions
-  total_net_owner: Total net propietari
-  total_paid_owner: Total pagat propietari
-  pending_payment_owner: Pendent pagar al propietari
-  owner_overpaid: El propietari ha cobrat de mès
-  all_paid: Tot pagat
-  add_invoice: Afegir factura
-  pending_add_expenses_for: Falta afegir despeses per
-  add_payment: Afegir pagament
-  year: Any
-  owner_language: Idioma propietari
-  read_sign_contract: Llegir i signar el contracte
-  cant_be_in_past: no pot ser en el passat

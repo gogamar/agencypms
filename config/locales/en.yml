@@ -218,6 +218,7 @@ en:
   add_email: Add email
   add_future_rates: Missing Future Rates
   add_group: Add New Group
+  add_invoice: Add invoice
   add_new_company: Add New Company
   add_new_contract_template: Add New Contract Template
   add_new_group: Add New Group
@@ -226,6 +227,7 @@ en:
   add_owner: Add Owner
   add_owner_booking: Add Owner Booking
   add_owner_booking_explanation: To add an owner booking, click on the starting day you want and drag the mouse to the ending day.
+  add_payment: Add payment
   add_photos: Add Photos
   add_prices_to_rates: Missing Prices for Rates
   add_property: Add Property
@@ -240,6 +242,7 @@ en:
   agency_plus_vat: Agency Fees + VAT
   agency_vat: VAT 21%
   air_conditioning: Air Conditioning
+  all_paid: All paid
   all_vrentals: All properties
   all_years: All years
   amount: Amount
@@ -348,6 +351,7 @@ en:
   cancellation_details: We charge a %{res_fee} prepayment to secure the booking. If proper notice is provided up to %{free_cancel} days before arrival, we will refund your initial payment. If canceled %{free_cancel_minus_one} or fewer days before arrival, the %{res_fee} prepayment will not be refunded.
   cancellation_policy: Cancellation Policy
   cancelled_booking: Canceled Booking
+  cant_be_in_past: Cannot be in the past
   cash: Cash
   ceiling_fan: Ceiling fan
   charge_types:
@@ -660,6 +664,7 @@ en:
   new_owner_booking: Add Owner Booking
   new_property: New Property
   new_rate_plan: New rate plan
+  new_statement: New statement
   new_vrental_step_1: "Step 1: Owner and General Conditions"
   new_web: Added to the website
   news: News
@@ -711,6 +716,8 @@ en:
   owner_booking_edited: Owner booking edited
   owner_bookings: Owner bookings
   owner_bookings_default: The owner has not yet blocked any dates for their own use. If they wish to block some dates, please contact us at %{email}.
+  owner_language: Owner language
+  owner_overpaid: Owner has overpaid
   owner_speaks: Owner %{name} speaks %{language}
   owners: Owners
   page: Page
@@ -728,6 +735,8 @@ en:
   pdf_invoice: PDF Invoice
   pdf_statement: PDF Statement
   pending: Pending
+  pending_add_expenses_for: Pending add expenses for
+  pending_payment_owner: Pending payment by owner
   per_booking_offset: per booking
   per_day_offset: per day
   per_period_offset: per period
@@ -738,6 +747,7 @@ en:
   pets_not_allowed: Pets not allowed
   phone: Phone
   photos: Photos
+  please_sign_here: Please sign here
   pool: Community pool
   pool_private: Private pool
   preparing_pdf: Preparing the PDF
@@ -775,6 +785,7 @@ en:
   rate_plans: Rate plans
   rates: Rates
   read_more: Read more
+  read_sign_contract: Read and sign the contract
   real estate: Real estate agency
   realtor: Realtor
   refresh_page: Refresh the page
@@ -835,6 +846,7 @@ en:
   signature_owner: Owner - OWNER NAME
   signed: Signed
   signed_by: Signed by
+  signing_contract: Signing contract
   simple_calendar:
     day: day
     month: month
@@ -848,6 +860,7 @@ en:
   statement_period: Statement period
   statement_title: Rental statements
   statements: Statements
+  statements_total: Total statement amounts
   still_working: Still working
   subject: Subject
   sunday: Sunday
@@ -869,6 +882,8 @@ en:
   to_confirm_booking: To confirm the booking, please fill out the form and pay %{res_fee} of the booking price on the next page.
   toaster: Toaster
   total: Total
+  total_net_owner: Total net owner
+  total_paid_owner: Total paid by owner
   total_revenue: Total owner revenue
   tourist: Traveler
   transfer: Transfer
@@ -965,7 +980,6 @@ en:
   with_view: With view
   withdraw_access: Withdraw access
   without_view: Apartments Sagrada Familia without view
+  year: Year
   yearly: Yearly
   "yes": "Yes"
-  signing_contract: Signing contract
-  please_sign_here: Please sign here
