@@ -1,20 +1,26 @@
 <h4 class="text-center mb-5"><%= t("vacation_rental_properties")  %></h4>
 <% if @vrentals %>
-  <div class="d-flex justify-content-md-between justify-content-lg-start align-items-center mbminus30 gap-2<%= ' d-none' if @vrentals.count < 3 %>">
-    <%= form_with url: list_vrentals_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vrentals" }, class: "d-flex flex-row gap-2" do |form| %>
-      <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->filter#search" } %>
-      <div class="d-none d-lg-flex justify-content-between gap-2">
-        <% if @statuses.count > 1 %>
-          <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all_statuses") }, class: "form-select", data: { action: "change->filter#search" } %>
-        <% end %>
-        <% if @towns.count > 1 %>
-          <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all_towns") }, class: "form-select", data: { action: "change->filter#search" } %>
-        <% end %>
+  <div class="d-lg-flex justify-content-lg-start align-items-center mbminus30 gap-2<%= ' d-none' if @vrentals.count < 3 %>">
+    <%= form_with url: list_vrentals_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vrentals" }, class: "d-lg-flex gap-2" do |form| %>
+      <div class="row my-2">
+        <div class="col-12 col-lg-5">
+          <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->filter#search" } %>
+        </div>
+        <div class="col-lg-7 d-none d-lg-flex gap-3">
+          <% if @statuses.count > 1 %>
+            <%= form.select :filter_status, options_for_select(@statuses.sort.map { |status| [t(status), status] }, params[:filter_status]), { include_blank: t("show_all_statuses") }, class: "form-select", data: { action: "change->filter#search" } %>
+          <% end %>
+          <% if @towns.count > 1 %>
+            <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all_towns") }, class: "form-select", data: { action: "change->filter#search" } %>
+          <% end %>
+        </div>
       </div>
     <% end %>
-    <%= link_to vrentals_path, class: "text-secondary" do %>
-      <i class="fa-solid fa-filter-circle-xmark me-2"></i>
-    <% end %>
+    <div class="d-none d-lg-flex">
+      <%= link_to vrentals_path, class: "text-secondary" do %>
+        <i class="fa-solid fa-filter-circle-xmark me-2"></i>
+      <% end %>
+    </div>
   </div>
   <%= turbo_frame_tag "vrentals" do %>
     <div class="d-none d-lg-flex justify-content-end gap-1 mb-3 mt-lg-0 mt-md-5">

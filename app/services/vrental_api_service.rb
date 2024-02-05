@@ -948,6 +948,27 @@ class VrentalApiService
     end
   end
 
+  def update_min_stay_on_beds
+    client = BedsHelper::Beds.new(@target.office.beds_key)
+    begin
+      bedsrental = [
+        {
+          action: "modify",
+          roomTypes: [
+            {
+              action: "modify",
+              roomId: @target.beds_room_id,
+              minStay: @target.min_stay
+            }
+          ]
+        }
+      ]
+      client.set_property(@target.prop_key, setProperty: bedsrental)
+    rescue => e
+      puts "Error updating min stay on Beds24: #{e.message}"
+    end
+  end
+
   # Availability
 
   def get_bookings_from_beds(from_date = nil)

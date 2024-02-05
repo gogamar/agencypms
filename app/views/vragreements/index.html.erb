@@ -4,7 +4,7 @@
       <h4 class="font-weight-bold text-primary text-start py-2"><%= t('contracts') %></h4>
       <% if current_user.admin? || current_user.manager? %>
         <div class="text-end">
-          <% if @vrental.future_rates.exists? %>
+          <% if @years_possible_contract.present? %>
             <% @years_possible_contract.each do |year| %>
               <%= link_to new_vrental_vragreement_path(@vrental, year: year), class: "btn btn-sm btn-secondary mt-2" do %>
                 <i class="fas fa-plus fa-sm"></i>

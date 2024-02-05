@@ -92,8 +92,8 @@ fr:
         lastnight: Jusqu'à
         max_stay: Max.
         min_stay: Min.
-        pricenight: Prix par nuit
-        priceweek: Prix par semaine
+        pricenight: Prix nuit
+        priceweek: Prix semaine
         restriction: Type de tarif
       rate_period:
         firstnight: À partir de
@@ -967,7 +967,7 @@ fr:
   weekly_discount: Remise hebdomadaire
   weekly_discount_included: Cette remise est déjà incluse dans le tarif hebdomadaire. Cela signifie que le tarif de nuit aura l'augmentation correspondante.
   welcome_owner_space: Bienvenue dans l'espace propriétaire
-  welcome_text: "<p>Nous vous souhaitons la bienvenue dans l'Espace Propriétaire de Sistach Rentals, où vous pouvez :</p> <ul> <li>Consulter et signer votre contrat en toute simplicité.</li> <li>Bloquer des dates pour votre usage personnel et vérifier l'occupation du calendrier.</li> <li>Consulter le contrat et les factures de l'année précédente.</li> </ul> <p>Pour accéder à l'Espace Propriétaire :</p> <p>Utilisateur : %{email}</p>"
+  welcome_text: "<p>Nous vous souhaitons la bienvenue dans l'Espace Propriétaire de Sistach Rentals, où vous pouvez :</p> <ul> <li>Consulter et signer votre contrat en toute simplicité.</li> <li>Bloquer des dates pour votre usage personnel et vérifier l'occupation du calendrier.</li> <li>Consulter le contrat et les factures de l'année précédente.</li> </ul> <p>Pour accéder à l'Espace Propriétaire :</p> <p>Utilisateur : %{email}</p> <p>Mot de passe temporaire: %{password}</p><p>Une fois que vous avez accédé à l'Espace Propriétaire, nous vous recommandons de changer votre mot de passe.</p>"
   where_to: Où cherchez-vous ?
   where_to_next: Où allons-nous en vacances ?
   wifi: Wifi

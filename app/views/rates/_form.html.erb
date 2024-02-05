@@ -16,7 +16,7 @@
       <%= f.input :lastnight, as: :string, required: true, input_html: { "data-unavailable-dates-target" => "end" } %>
     </div>
     <div class="p-1 text-center no-wrap">
-      <%= f.input :arrival_day, label: t("arrival_day"), collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
+      <%= f.input :arrival_day, collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
     </div>
     <div class="p-1 text-center">
       <%= f.input :min_stay %>

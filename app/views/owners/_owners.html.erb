@@ -66,9 +66,6 @@
           <% if current_user.admin? || current_user.manager? %>
             <div class="col-lg-2 align-self-center">
               <% if owner.user.present? && owner.user.approved == true && !(owner.user.role == "admin" || owner.user.role == "manager") %>
-                <%= link_to remove_access_owner_path(owner), data: { turbo_method: :remove_access, turbo_confirm: t('are_you_sure')}, class: "text-sm text-danger" do %>
-                  <i class="fas fa-check-circle text-success text-sm me-2"></i><%= t("withdraw_access") %>
-                <% end %>
                 <% if owner.user.email.present? && owner.user.approved == true %>
                   <%= link_to send_access_email_owner_path(owner), class: "text-sm text-secondary" do %>
                     <i class="fa-solid fa-paper-plane me-2"></i><%= t('send_access_email') %>
@@ -84,6 +81,9 @@
                   <%= link_to edit_owner_path(owner), class: "text-sm text-secondary" do %>
                     <i class="fas fa-envelope text-secondary me-2"></i> <%= t('add_email') %>
                   <% end %>
+                <% end %>
+                <%= link_to remove_access_owner_path(owner), data: { turbo_method: :remove_access, turbo_confirm: t('are_you_sure')}, class: "text-sm text-danger" do %>
+                  <i class="fas fa-check-circle text-success text-sm me-2"></i><%= t("withdraw_access") %>
                 <% end %>
               <% elsif owner.email.present? && (owner.user.blank? || owner.user.approved == false) %>
                 <%= link_to grant_access_owner_path(owner), class: "text-sm text-success" do %>

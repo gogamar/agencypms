@@ -1586,6 +1586,14 @@ span.remove_cross:before {
   cursor: pointer;
 }
 
+.show-pass.input-group-text {
+  border: #e0ecf5;
+  background: -internal-light-dark(
+    rgb(232, 240, 254),
+    rgba(70, 90, 126, 0.4)
+  ) !important;
+}
+
 .simple-input span.select2-selection.select2-selection--single {
   padding-left: 15px;
   border-radius: 4px;
@@ -2042,6 +2050,11 @@ th.next.available,
 .label-inactive {
   left: 5px;
   background: #a70a29;
+}
+
+.label-proposal {
+  left: 5px;
+  background: #0a4ea7;
 }
 
 .label-featured {

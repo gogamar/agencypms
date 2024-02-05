@@ -1,6 +1,6 @@
 class RatesController < ApplicationController
-  before_action :set_rate, only: [:show, :edit, :update, :destroy]
-  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show]
+  before_action :set_rate, only: [:show, :edit, :update, :destroy, :update_rate_and_vrental_min_stay]
+  before_action :set_vrental, only: [ :new, :create, :edit, :update, :index, :show, :update_rate_and_vrental_min_stay]
 
   def index
     @rates = policy_scope(Rate)
@@ -29,6 +29,7 @@ class RatesController < ApplicationController
     @rate.max_stay = 365 if params[:rate][:max_stay].blank?
     authorize @rate
     if @rate.save
+      update_rate_and_vrental_min_stay
       render(partial: 'rate', locals: { rate: @rate })
     else
       render :new, status: :unprocessable_entity
@@ -39,6 +40,7 @@ class RatesController < ApplicationController
     @vrental = @rate.vrental
     authorize @rate
     if @rate.update(rate_params)
+      update_rate_and_vrental_min_stay
       flash.now[:notice] = "Has actualitzat una tarifa de #{@rate.vrental.name}."
       redirect_to vrental_rates_path(@vrental)
     else
@@ -61,6 +63,14 @@ class RatesController < ApplicationController
 
   def set_rate
     @rate = Rate.find(params[:id])
+  end
+
+  def update_rate_and_vrental_min_stay
+    if @rate.min_stay < 7
+      @rate.update(arrival_day: 7)
+    end
+    rates_min_stay = @vrental.future_rates.where.not(min_stay: 0).minimum(:min_stay)
+    @vrental.update(min_stay: rates_min_stay)
   end
 
   def rate_params

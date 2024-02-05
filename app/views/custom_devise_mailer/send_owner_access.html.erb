@@ -1,6 +1,6 @@
 <p><%= t('hello', recipient: @user.owner.firstname) %></p>
-<p><%= t('welcome_text', email: @user.email).html_safe %></p>
-<p><%= t('password') %>: <%= link_to t('create_password'), edit_password_url(@user, reset_password_token: @token) %></p>
+<p><%= t('welcome_text', email: @user.email, password: @user.owner.temporary_password).html_safe %></p>
+<p><%= t('sign_in') %>: <%= link_to t('sign_in'), new_session_url(@user, 'user[email]' => @user.email), target: '_blank' %></p>
 <p><%= t('thanks_trust') %></p>
 <hr>
 <% if @office.present? %>

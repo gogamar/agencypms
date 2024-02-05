@@ -23,13 +23,35 @@ class Owner < ApplicationRecord
     end
   end
 
+  def temporary_password
+    fullname_without_spaces = fullname.gsub(/[ .]/, '')
+
+    if fullname_without_spaces.length >= 4
+      result = fullname_without_spaces[-4..-1] + "2498"
+    else
+      result = fullname_without_spaces + "2498"
+    end
+    return result
+  end
+
   def grant_access(company)
     owner_user = User.find_by(email: email)
 
     if owner_user
-      owner_user.update(approved: true)
+      owner_user.update(
+        password: temporary_password,
+        password_confirmation: temporary_password,
+        confirmed_at: Time.now,
+        approved: true,
+        company_id: company.id,
+        created_by_admin: true,
+        firstname: firstname,
+        lastname: lastname,
+        title: title,
+        company_name: company_name,
+        role: "owner"
+      )
     else
-      temporary_password = Devise.friendly_token.first(8)
       owner_user = User.create(
         email: email,
         password: temporary_password,

@@ -1,16 +1,16 @@
 <% @vrental.vragreements.each do |vragreement| %>
-  <div class="row border-bottom py-2">
+  <div class="row border-bottom py-2 gap-2 gap-lg-0">
     <div class="col-lg-4">
       <%= link_to "#{t('contract')} #{I18n.l(vragreement&.start_date) if vragreement.start_date.present? } - #{I18n.l(vragreement&.end_date) if vragreement.end_date.present? }", vrental_vragreement_path(@vrental, vragreement), class: "text-info" %>
     </div>
     <div class="col-lg-2">
       <%= t(vragreement.status) if vragreement.status.present? %>
     </div>
-    <div class="col-lg-4 d-flex justify-content-between">
+    <div class="col-lg-3 d-lg-flex justify-content-between">
       <% if vragreement.signature_image.attached? %>
         <%= t('contract_signed') %> <%= l(vragreement.signdate) if vragreement.signdate.present? %>
       <% else %>
-        <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none p-1" do %>
+        <%= link_to edit_vrental_vragreement_path(@vrental, vragreement), class: "text-primary text-decoration-none" do %>
           <i class="fas fa-edit me-2"></i><%= t('edit') %>
         <% end %> |
         <%= link_to vrental_vragreement_path(@vrental, vragreement), class: "text-danger text-decoration-none",  data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar el contracte per #{vragreement.year}?"} do %>
@@ -18,7 +18,7 @@
         <% end %>
       <% end %>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-3 text-end">
       <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexVragreement<%= vragreement.id %>">
         <%= vragreement.year %>: <%= t('pdf_contract') %>
       </button>

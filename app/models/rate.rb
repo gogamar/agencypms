@@ -5,6 +5,7 @@ class Rate < ApplicationRecord
   # validate :check_uniqueness
   before_save :calculate_pricenight, if: -> { priceweek.present? }
 
+
   RESTRICTION = ['normal', 'gap_fill'].freeze
   ARRIVAL_DAY = {
     7 => 'everyday',

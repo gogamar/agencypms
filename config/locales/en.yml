@@ -92,8 +92,8 @@ en:
         lastnight: Until
         max_stay: Max.
         min_stay: Min.
-        pricenight: Price per Night
-        priceweek: Price per Week
+        pricenight: Night Price
+        priceweek: Week Price
         restriction: Rate Type
       rate_period:
         firstnight: From
@@ -967,7 +967,7 @@ en:
   weekly_discount: Weekly discount
   weekly_discount_included: This discount is already included in the weekly rate price. It means that the nightly rate will have the corresponding increase.
   welcome_owner_space: Welcome to Owner Space
-  welcome_text: "<p>Welcome to the Owner Area of Sistach Rentals, where you can:</p> <ul> <li>View and sign your contract with ease.</li> <li>Block dates for your personal use and review calendar occupancy.</li> <li>Check contracts and invoices from the previous year.</li> </ul> <p>To access the Owner Area:</p> <p>User: %{email}</p>"
+  welcome_text: "<p>Welcome to the Owner Area of Sistach Rentals, where you can:</p> <ul> <li>View and sign your contract with ease.</li> <li>Block dates for your personal use and review calendar occupancy.</li> <li>Check contracts and invoices from the previous year.</li> </ul> <p>To access the Owner Area:</p> <p>User: %{email}</p> <p>Temporary password: %{password}</p><p>Once you have accessed the Owner Area, we recommend that you change your password.</p>"
   where_to: Where are you looking?
   where_to_next: Where are we going for vacation?
   wifi: Wifi

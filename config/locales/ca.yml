@@ -970,7 +970,7 @@ ca:
   weekly_discount: Descompte per setmana
   weekly_discount_included: Aquest descompte ja estarà inclòs al preu setmanal de la tarifa. Vol dir que el preu per nit tindrà l'increment corresponent.
   welcome_owner_space: Benvingut a l'espai propietari
-  welcome_text: "<p>Et donem la benvinguda a l'Àrea Propietari de Sistach Rentals, on podràs:</p> <ul> <li>Visualitzar i signar el teu contracte amb comoditat.</li> <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li> <li>Consultar els contractes i les factures de l'any passat.</li> </ul> <p>Per entrar a l'Àrea Propietari:</p> <p>Usuari: %{email}</p>"
+  welcome_text: "<p>Et donem la benvinguda a l'Àrea Propietari de Sistach Rentals, on podràs:</p> <ul> <li>Visualitzar i signar el teu contracte amb comoditat.</li> <li>Bloquejar dates per al teu ús personal i revisar les ocupacions del calendari.</li> <li>Consultar els contractes i les factures de l'any passat.</li> </ul> <p>Per entrar a l'Àrea Propietari:</p> <p>Usuari: %{email}</p> <p>Contrasenya temporal: %{password}</p><p>Un cop hagis accedit a l'Àrea del Propietari, et recomanem que canviis la contrasenya.</p>"
   where_to: On busques?
   where_to_next: On anem de vacances?
   wifi: Wifi
