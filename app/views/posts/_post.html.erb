@@ -1,52 +1,31 @@
-<div id="<%= dom_id post %>">
-  <p>
-    <strong>Title ca:</strong>
-    <%= post.title_ca %>
-  </p>
-
-  <p>
-    <strong>Title es:</strong>
-    <%= post.title_es %>
-  </p>
-
-  <p>
-    <strong>Title en:</strong>
-    <%= post.title_en %>
-  </p>
-
-  <p>
-    <strong>Title fr:</strong>
-    <%= post.title_fr %>
-  </p>
-
-  <p>
-    <strong>Content ca:</strong>
-    <%= post.content_ca %>
-  </p>
-
-  <p>
-    <strong>Content es:</strong>
-    <%= post.content_es %>
-  </p>
-
-  <p>
-    <strong>Content en:</strong>
-    <%= post.content_en %>
-  </p>
-
-  <p>
-    <strong>Content fr:</strong>
-    <%= post.content_fr %>
-  </p>
-
-  <p>
-    <strong>Category:</strong>
-    <%= post.category_id %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= post.user_id %>
-  </p>
-
+<% first_non_nil_attribute = @attribute_names.find { |attribute| post[attribute].present? } %>
+<% post_languages = @attribute_names.select { |attribute| post[attribute].present? }.map { |title_name| title_name[-2..-1] } %>
+<div class="row py-3 border-bottom <%= 'text-muted' if post.hidden? %>">
+  <div class="col-lg-4">
+    <%= link_to post.send(first_non_nil_attribute), post %>
+    <br>
+    <%= t('post_hidden') if post.hidden? %>
+  </div>
+  <div class="col-lg-4">
+    <%= t('languages') %>: <%= post_languages.map {|lang| t(lang)}.to_sentence %>
+  </div>
+  <div class="col-lg-2">
+    <% if post.hidden? %>
+      <%= link_to toggle_hidden_post_path(post, hidden: false), class: "btn btn-sm btn-success" do %>
+        <i class="fa-regular fa-eye me-2"></i><%= t('show_post') %>
+      <% end %>
+    <% else %>
+      <%= link_to toggle_hidden_post_path(post, hidden: true), class: "btn btn-sm btn-secondary" do %>
+        <i class="fa-regular fa-eye-slash me-2"></i><%= t('hide_post') %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-lg-2 d-flex justify-content-between">
+    <%= link_to edit_category_post_path(post.category, post), class: "btn btn-sm btn-secondary" do %>
+      <i class="fa-solid fa-pencil-square"></i>
+    <% end %>
+    <%= link_to post, class: "btn btn-sm btn-danger", data: { turbo_method: :delete, turbo_confirm: t('sure_delete') } do %>
+      <i class="fa-solid fa-trash-can"></i>
+    <% end %>
+  </div>
 </div>

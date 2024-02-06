@@ -103,9 +103,14 @@ class PagesController < ApplicationController
   end
 
   def news
-    @posts = policy_scope(Post).order(published_at: :desc)
+    @posts = policy_scope(Post)
+               .where(hidden: false)
+               .where.not("title_#{I18n.locale.to_s}" => nil)
+               .order(published_at: :desc)
+
     @category = Category.find_by(id: params[:category_id]) if params[:category_id]
     @posts = @posts.where(category_id: @category.id) if @category.present?
+
     @pagy, @posts = pagy(@posts, page: params[:page], items: 6)
   end
 

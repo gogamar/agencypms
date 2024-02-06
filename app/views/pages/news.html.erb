@@ -1,44 +1,27 @@
-			<!-- ============================ Page Title Start================================== -->
-<div class="page-title">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 col-md-12">
-        <h2 class="ipt-title">Notícies</h2>
-        <span class="ipn-subtitle">Les últimes notícies del sector</span>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ============================ Page Title End ================================== -->
-<!-- ============================ Agency List Start ================================== -->
 <section class="gray-simple">
   <div class="container">
-    <div class="row">
-      <div class="col text-center">
-        <div class="sec-heading center">
-          <h2>Notícies i retallades de premsa</h2>
-          <p>Descobreix les novetats del mercat immobiliari a Catalunya</p>
-        </div>
-      </div>
-    </div>
-    <!-- row Start -->
     <div class="row">
       <% @posts.each do |post| %>
         <div class="col-lg-4 col-md-6 my-3">
           <div class="blog-wrap-grid">
             <div class="blog-thumb">
               <%= link_to news_post_path(post) do %>
-                <img src="<%= post.image_url %>" class="img-fluid" alt="" />
+                <img src="<%= post.image_url %>" class="img-fluid" alt="<%= post.send("title_#{locale}") %>" />
               <% end %>
             </div>
-            <div class="blog-info">
+            <div class="blog-info d-flex justify-content-between">
               <span class="post-date"><i class="ti-calendar"></i><%= l(post.published_at) if post.published_at %></span>
+              <% if current_user && current_user.admin? %>
+                <%= link_to toggle_hidden_post_path(post, hidden: true), class: "btn btn-sm btn-secondary" do %>
+                  <i class="fa-regular fa-eye-slash me-2"></i><%= t('hide_post') %>
+                <% end %>
+              <% end %>
             </div>
             <div class="blog-body">
-              <h4 class="bl-title"><a href="blog-detail.html"><%= post.title_ca %></a></h4>
-              <p><%= post.content_ca %></p>
-              <% if post.feed_id.present? %>
-                <a href="<%= post.url %>" class="bl-continue" target="_blank"><%= t('read_on', source: Feed.find_by(id: post.feed_id)&.name) %></a>
+              <h4 class="bl-title"><a href="blog-detail.html"><%= post.send("title_#{locale}") %></a></h4>
+              <p><%= post.send("content_#{locale}")&.html_safe %></p>
+              <% if post.source.present? %>
+                <a href="<%= post.url %>" class="bl-continue" target="_blank"><%= t('read_on', source: post.source) %></a>
               <% else %>
                 <%= link_to t('global.forms.continue'), news_post_path(post), class: 'bl-continue' %>
               <% end %>
@@ -52,4 +35,3 @@
     </div>
   </div>
 </section>
-<!-- ============================ Agency List End ================================== -->

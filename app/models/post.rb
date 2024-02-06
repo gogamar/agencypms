@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :category
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :feed, optional: true
   has_one_attached :image
   # validate :image_presence

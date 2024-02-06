@@ -11,17 +11,22 @@ class GetPostsJob < ApplicationJob
         parsed_xml.entries.each do |entry|
           decoded_summary = CGI.unescapeHTML(entry.summary)
 
-          # parsed_uri = URI.parse(post.url)
-          # domain = parsed_uri.host
+          parsed_uri = URI.parse(post.url)
+          domain = parsed_uri.host
 
-          new_post = Post.create(
-            title_ca: entry.title,
-            content_ca: decoded_summary,
+          existing_post = Post.find_by(guid: entry.guid)
+          next if existing_post
+
+          Post.create(
+            "title_#{feed.language}": entry.title,
+            "content_#{feed.language}": decoded_summary,
             published_at: entry.published,
             url: entry.url,
-            category_id: Category.first.id,
+            category_id: feed.category_id,
             user_id: User.where(role: "admin").first.id,
-            image_url: entry.image
+            image_url: entry.image,
+            feed_id: feed.id,
+            source: domain
           )
         end
       end

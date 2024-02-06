@@ -28,4 +28,8 @@ class PostPolicy < ApplicationPolicy
   def destroy?
     user.admin? || user.manager?
   end
+
+  def toggle_hidden?
+    user.admin? || user.manager?
+  end
 end

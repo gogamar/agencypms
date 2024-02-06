@@ -114,7 +114,6 @@ gem 'sidekiq'
 gem "sidekiq-cron"
 gem 'feedjira'
 
-
 # for heroku stack heroku-22
 group :production do
     gem 'wkhtmltopdf-heroku', '2.12.6.1.pre.jammy'
