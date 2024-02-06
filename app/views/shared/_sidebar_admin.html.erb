@@ -54,6 +54,11 @@
     <i class="fa-solid fa-link"></i><%= t("add_group") %>
   <% end %>
 </li>
+<li class="<%= 'active' if current_page?(categories_path) %> d-none d-lg-flex">
+  <%= link_to categories_path do %>
+    <i class="fa-solid fa-edit"></i><%= t("add_post") %>
+  <% end %>
+</li>
 <% if @office %>
   <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %> d-none d-lg-flex">
     <%= link_to company_office_coupons_path(@company, @office) do %>

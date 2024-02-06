@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_24_134843) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_05_150729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -100,6 +100,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_134843) do
     t.boolean "locked", default: false
     t.index ["tourist_id"], name: "index_bookings_on_tourist_id"
     t.index ["vrental_id"], name: "index_bookings_on_vrental_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name_ca"
+    t.string "name_es"
+    t.string "name_en"
+    t.string "name_fr"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "charges", force: :cascade do |t|
@@ -222,6 +231,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_134843) do
     t.bigint "vrental_id", null: false
   end
 
+  create_table "feeds", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "image_urls", force: :cascade do |t|
     t.string "url"
     t.integer "position"
@@ -319,6 +336,28 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_134843) do
     t.datetime "updated_at", null: false
     t.string "beds_id"
     t.index ["booking_id"], name: "index_payments_on_booking_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title_ca"
+    t.string "title_es"
+    t.string "title_en"
+    t.string "title_fr"
+    t.string "content_ca"
+    t.string "content_es"
+    t.string "content_en"
+    t.string "content_fr"
+    t.bigint "category_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "feed_id"
+    t.datetime "published_at"
+    t.string "url"
+    t.string "image_url"
+    t.index ["category_id"], name: "index_posts_on_category_id"
+    t.index ["feed_id"], name: "index_posts_on_feed_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "rate_periods", force: :cascade do |t|
@@ -632,6 +671,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_134843) do
   add_foreign_key "owner_payments", "statements"
   add_foreign_key "owners", "users"
   add_foreign_key "payments", "bookings"
+  add_foreign_key "posts", "categories"
+  add_foreign_key "posts", "feeds"
+  add_foreign_key "posts", "users"
   add_foreign_key "rate_periods", "rate_plans"
   add_foreign_key "rate_plans", "companies"
   add_foreign_key "rates", "vrentals"

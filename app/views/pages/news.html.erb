@@ -1,0 +1,55 @@
+			<!-- ============================ Page Title Start================================== -->
+<div class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <h2 class="ipt-title">Notícies</h2>
+        <span class="ipn-subtitle">Les últimes notícies del sector</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================ Page Title End ================================== -->
+<!-- ============================ Agency List Start ================================== -->
+<section class="gray-simple">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <div class="sec-heading center">
+          <h2>Notícies i retallades de premsa</h2>
+          <p>Descobreix les novetats del mercat immobiliari a Catalunya</p>
+        </div>
+      </div>
+    </div>
+    <!-- row Start -->
+    <div class="row">
+      <% @posts.each do |post| %>
+        <div class="col-lg-4 col-md-6 my-3">
+          <div class="blog-wrap-grid">
+            <div class="blog-thumb">
+              <%= link_to news_post_path(post) do %>
+                <img src="<%= post.image_url %>" class="img-fluid" alt="" />
+              <% end %>
+            </div>
+            <div class="blog-info">
+              <span class="post-date"><i class="ti-calendar"></i><%= l(post.published_at) if post.published_at %></span>
+            </div>
+            <div class="blog-body">
+              <h4 class="bl-title"><a href="blog-detail.html"><%= post.title_ca %></a></h4>
+              <p><%= post.content_ca %></p>
+              <% if post.feed_id.present? %>
+                <a href="<%= post.url %>" class="bl-continue" target="_blank"><%= t('read_on', source: Feed.find_by(id: post.feed_id)&.name) %></a>
+              <% else %>
+                <%= link_to t('global.forms.continue'), news_post_path(post), class: 'bl-continue' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="d-flex justify-content-center">
+      <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+    </div>
+  </div>
+</section>
+<!-- ============================ Agency List End ================================== -->

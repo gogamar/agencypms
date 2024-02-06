@@ -216,59 +216,59 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 # barcelona_vrentals.update_all(control_restrictions: "rates")
 # estartit_vrentals.update_all(control_restrictions: "calendar_beds24")
 # barcelona_rate_group.update(rate_group: true)
-owners = Owner.all
+# owners = Owner.all
 
-owners.each do |owner|
-  if owner.company_name.present?
-    words = owner.company_name.split(' ')
-    first_word_is_title = words[0].include?('.')
+# owners.each do |owner|
+#   if owner.company_name.present?
+#     words = owner.company_name.split(' ')
+#     first_word_is_title = words[0].include?('.')
 
-    if first_word_is_title
-      owner.title = words[0]
-      owner.firstname = words[1]
-      owner.lastname = words[2..-1].join(' ')
-      owner.company_name = nil
-      if owner.user.present?
-        owner.user.title = words[0]
-        owner.user.firstname = words[1]
-        owner.user.lastname = words[2..-1].join(' ')
-      end
-    elsif words.length <= 3
-      owner.firstname = words[0]
-      owner.lastname = words[1..-1].join(' ')
-      owner.company_name = nil
-      if owner.user.present?
-        owner.user.firstname = words[0]
-        owner.user.lastname = words[1..-1].join(' ')
-      end
-    else
-      if owner.user.present?
-        owner.user.company_name = owner.company_name
-      end
-    end
+#     if first_word_is_title
+#       owner.title = words[0]
+#       owner.firstname = words[1]
+#       owner.lastname = words[2..-1].join(' ')
+#       owner.company_name = nil
+#       if owner.user.present?
+#         owner.user.title = words[0]
+#         owner.user.firstname = words[1]
+#         owner.user.lastname = words[2..-1].join(' ')
+#       end
+#     elsif words.length <= 3
+#       owner.firstname = words[0]
+#       owner.lastname = words[1..-1].join(' ')
+#       owner.company_name = nil
+#       if owner.user.present?
+#         owner.user.firstname = words[0]
+#         owner.user.lastname = words[1..-1].join(' ')
+#       end
+#     else
+#       if owner.user.present?
+#         owner.user.company_name = owner.company_name
+#       end
+#     end
 
-    # Save changes with error handling
-    unless owner.save
-      puts "Error saving Owner record: #{owner.errors.full_messages}"
-    end
+#     # Save changes with error handling
+#     unless owner.save
+#       puts "Error saving Owner record: #{owner.errors.full_messages}"
+#     end
 
-    if owner.user.present?
-      unless owner.user.save
-        puts "Error saving User record for Owner: #{owner.user.errors.full_messages}"
-      end
-    end
-  end
+#     if owner.user.present?
+#       unless owner.user.save
+#         puts "Error saving User record for Owner: #{owner.user.errors.full_messages}"
+#       end
+#     end
+#   end
 
-  if owner.title.present?
-    if owner.title == "Sr."
-      owner.title = "mr"
-    elsif owner.title == "Sra."
-      owner.title = "mrs"
-    end
+#   if owner.title.present?
+#     if owner.title == "Sr."
+#       owner.title = "mr"
+#     elsif owner.title == "Sra."
+#       owner.title = "mrs"
+#     end
 
-    # Save changes with error handling
-    unless owner.save
-      puts "Error saving Owner record after title update: #{owner.errors.full_messages}"
-    end
-  end
-end
+#     # Save changes with error handling
+#     unless owner.save
+#       puts "Error saving Owner record after title update: #{owner.errors.full_messages}"
+#     end
+#   end
+# end

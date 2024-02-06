@@ -2234,3 +2234,9 @@ li.nav-item.dropdown.language-dropdown a.nav-link:focus {
   background: lightgrey;
   border-radius: 4px;
 }
+
+.post-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}

@@ -1,0 +1,24 @@
+<div class="d-flex justify-content-between mb-3">
+  <h4><%= t('categories') %></h4>
+  <%= link_to t('new_category'), new_category_path, class: "btn btn-info" %>
+</div>
+<div class="row">
+  <% @categories.each do |category| %>
+    <div class="col-md-6">
+      <div class="card bg-light-primary p-3 mb-3">
+        <div class="d-flex justify-content-between mb-4">
+          <h5 class="card-title text-center"><%= category.name_ca %></h5>
+          <div class="d-flex gap-3 justify-content-end">
+            <%= link_to edit_category_path(category), class: "text-secondary" do %>
+              <i class="fa-solid fa-pencil-square"></i>
+            <% end %>
+            <%= link_to category, class: "text-danger", data: { turbo_method: :delete, turbo_confirm: t('sure_delete') } do %>
+              <i class="fa-solid fa-trash-can"></i>
+            <% end %>
+          </div>
+        </div>
+        <%= link_to t('add_post'), new_category_post_path(category), class: "btn btn-sm btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

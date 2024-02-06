@@ -3,3 +3,8 @@ update_availability:
   class: "UpdateAvailabilityJob"
   active_job: true
   description: "Update availability from beds24 every morning at 6 am"
+get_posts:
+  cron: "0 0 * * *"
+  class: "GetPostsJob"
+  active_job: true
+  description: "Get posts from the feed urls every day at midnight"

@@ -20,6 +20,20 @@ ca:
         bed_type: Tipus de llit
       bedroom:
         bedroom_type: Tipus d'habitació
+      category:
+        name_ca: Nom en català
+        name_en: Nom en anglès
+        name_es: Nom en castellà
+        name_fr: Nom en francès
+      post:
+        title_ca: Títol en català
+        title_en: Títol en anglès
+        title_es: Títol en castellà
+        title_fr: Títol en francès
+        content_ca: Contingut en català
+        content_en: Contingut en anglès
+        content_es: Contingut en castellà
+        content_fr: Contingut en francès
       company:
         active: Activa
         administrator: Administrador
@@ -986,3 +1000,13 @@ ca:
   year: Any
   yearly: Anual
   "yes": Sí
+  add_post: Afegir article
+  categories: Categories
+  new_category: Nova categoria
+  new_post: Nou article
+  category: Categoria
+  on: a
+  latest_news: Últimes notícies
+  ago: fa %{time_ago}
+  share: Compartir
+  read_on: Llegir més a %{source}

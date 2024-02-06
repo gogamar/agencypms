@@ -2,6 +2,7 @@ require "sidekiq/web"
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
+  resources :feeds
   namespace :api do
     match 'webhooks', to: 'webhooks#handle_notification', via: [:get, :post]
   end
@@ -13,6 +14,8 @@ Rails.application.routes.draw do
   end
 
   post 'cookie_consent', to: 'pages#cookie_consent', as: 'cookie_consent'
+
+  mount Ckeditor::Engine => '/ckeditor'
 
   localized do
     # Sidekiq Web UI, only for admins.
@@ -26,6 +29,11 @@ Rails.application.routes.draw do
     resources :tourists
     resources :regions
     resources :towns
+    resources :posts
+    resources :categories, except: [:show] do
+      resources :posts
+      get 'news', to: 'pages#news', as: 'news'
+    end
     resources :rate_plans do
       member do
         post :upload_rate_dates
@@ -183,8 +191,6 @@ Rails.application.routes.draw do
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'
 
-    mount Ckeditor::Engine => '/ckeditor'
-
     get 'about', to: 'pages#about'
     get 'list', to: 'pages#list'
     get 'sort_properties', to: 'pages#sort_properties'
@@ -198,8 +204,10 @@ Rails.application.routes.draw do
     get 'terms', to: 'pages#terms'
     get 'dashboard', to: 'vrentals#dashboard'
     get 'empty_vrentals', to: 'vrentals#empty_vrentals'
-    get '*path' => 'application#redirect_to_homepage'
+    get 'news', to: 'pages#news', as: 'news'
+    get 'news/:id', to: 'pages#news_post', as: 'news_post'
+    # get '*path' => 'application#redirect_to_homepage'
   end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
-  get '*path' => 'application#redirect_to_homepage'
+  # get '*path' => 'application#redirect_to_homepage'
 end

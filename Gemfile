@@ -112,6 +112,7 @@ gem 'ferrum'
 gem 'nokogiri'
 gem 'sidekiq'
 gem "sidekiq-cron"
+gem 'feedjira'
 
 
 # for heroku stack heroku-22

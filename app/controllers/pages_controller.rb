@@ -102,6 +102,19 @@ class PagesController < ApplicationController
     paginate_vrentals
   end
 
+  def news
+    @posts = policy_scope(Post).order(published_at: :desc)
+    @category = Category.find_by(id: params[:category_id]) if params[:category_id]
+    @posts = @posts.where(category_id: @category.id) if @category.present?
+    @pagy, @posts = pagy(@posts, page: params[:page], items: 6)
+  end
+
+  def news_post
+    @post = Post.find(params[:id])
+    @categories = Category.all
+    @latest_news = Post.order(created_at: :desc).limit(6)
+  end
+
   def get_availability
     @vrental = Vrental.find(params[:vrentalId])
     checkin = params[:checkIn]

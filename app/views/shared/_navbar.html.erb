@@ -27,6 +27,8 @@
           <% if user_signed_in? %>
             <% if @admin_area %>
               <%= render 'shared/admin_menu_items' %>
+            <% else %>
+              <%= render 'shared/website_menu_items' %>
             <% end %>
             <li class="d-lg-none bg-light"><%= render 'shared/user_menu_mobile' %></li>
           <% else %>

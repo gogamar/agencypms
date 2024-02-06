@@ -1,0 +1,56 @@
+<section class="blog-page gray-simple">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+        <div class="blog-details single-post-item format-standard">
+          <div class="post-details">
+            <div class="post-featured-img">
+              <% if @post.image_url %>
+                <img class="img-fluid" src="<%= @post.image_url %>" alt="<%= @post.title_ca %>">
+              <% elsif @post.image.attached? %>
+                <%= cl_image_tag @post.image.key, class: "img-fluid", alt: @post.title_ca %>
+              <% end %>
+            </div>
+            <h2 class="post-title"><%= @post.title_ca %></h2>
+            <p><%= @post.content_ca %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+        <div class="single-widgets widget_category">
+          <h4 class="title"><%= t('categories') %></h4>
+          <ul>
+            <% @categories.each do |category| %>
+              <li>
+                <%= link_to category_news_path(category) do %>
+                  <%= category.send("name_#{locale}") %><span><%= category.posts.count %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="single-widgets widget_thumb_post">
+          <h4 class="title"><%= t('latest_news') %></h4>
+          <ul>
+            <% @latest_news.each do |l_post| %>
+              <% short_title = l_post.send("title_#{locale}").truncate(40) if l_post.send("title_#{locale}") %>
+              <li>
+                <span class="left">
+                  <% if l_post.image_url %>
+                    <img src="<%= l_post.image_url %>" alt="<%= short_title %>" class="post-thumbnail">
+                  <% elsif l_post.image.attached? %>
+                    <%= cl_image_tag l_post.image.key, class: "post-thumbnail", alt: short_title %>
+                  <% end %>
+                </span>
+                <span class="right">
+                  <a class="feed-title" href="#"><%= short_title %></a>
+                  <span class="post-date"><i class="ti-calendar"></i><%= t("ago", time_ago:  time_ago_in_words(l_post.published_at)) %></span>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
