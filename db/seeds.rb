@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'nokogiri'
+
 all_vrentals = Vrental.all
 barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
 barcelona_vrentals = barcelona_office.vrentals
@@ -272,3 +275,89 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #     end
 #   end
 # end
+
+# costa_brava_feeds = Feed.where("name ILIKE ?", "%costa brava%")
+# costa_brava_feeds.each do |feed|
+#   xml = HTTParty.get(feed.url).body
+#   parsed_xml = Feedjira.parse(xml)
+
+#   puts "Getting posts for #{feed.name}..."
+
+#   if parsed_xml.entries.any?
+#     parsed_xml.entries.each do |entry|
+#       decoded_summary = CGI.unescapeHTML(entry.summary)
+
+#       puts "entry.url: #{entry.url}"
+
+#       begin
+#         doc = Nokogiri::HTML(URI.open(entry.url))
+#       rescue StandardError => e
+#         puts "Error: #{e.message}"
+#       end
+#       parraf = doc.css('p').first.text
+#       puts "paraf: #{parraf}"
+
+
+#       parsed_uri = URI.parse(entry.url)
+#       domain = parsed_uri.host
+
+#       # puts "entry: #{entry.inspect}"
+
+#       # existing_post = Post.find_by(url: entry.url)
+#       # next if existing_post
+
+#     #   Post.create(
+#     #     "title_#{feed.language}": entry.title,
+#     #     "content_#{feed.language}": decoded_summary,
+#     #     published_at: entry.published,
+#     #     url: entry.url,
+#     #     category_id: feed.category_id,
+#     #     user_id: User.where(role: "admin").first.id,
+#     #     image_url: entry.image,
+#     #     feed_id: feed.id,
+#     #     source: domain
+#     #   )
+#     end
+#   end
+# end
+[{"es" => "es"}, {"fr" => "fr"}, {"gb" => "en"}].each do |hash|
+  lang = hash.values.first
+  country = nil
+  if lang == "es"
+    search_query = "(barcelona OR costa) AND (apartamentos OR hoteles OR alojamiento OR inmuebles)"
+  elsif lang == "fr"
+    search_query = "(barcelona OR costa) AND (appartements OR hotels OR hebergement OR proprietes)"
+  elsif lang == "en"
+    search_query = "(barcelona OR costa) AND (apartments OR hotels OR accommodation OR properties)"
+  end
+
+puts "lang: #{lang}, country: #{country}"
+
+  response = NewsApiService.search(search_query, { lang: lang, country: country, max: 10 })
+
+  if response
+    articles = response['articles']
+
+    articles.each do |article|
+      cleaned_content = article["content"].sub(/\s*\[.*\]\z/, '')
+      existing_post = Post.find_by(url: article["url"])
+      if existing_post
+        existing_post.update("content_#{lang}": cleaned_content) if existing_post.present?
+      else
+        Post.create(
+          "title_#{lang}": article["title"],
+          "content_#{lang}": article["description"] + "<br>" + cleaned_content,
+          url: article["url"],
+          published_at: article["publishedAt"],
+          image_url: article["image"],
+          source: article["source"]["name"],
+          user_id: User.where(role: "admin").first.id,
+          category_id: Category.first.id
+        )
+      end
+    end
+  else
+    # Handle the error
+    puts 'Error performing GNews search'
+  end
+end

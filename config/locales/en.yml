@@ -983,3 +983,19 @@ en:
   year: Year
   yearly: Yearly
   "yes": "Yes"
+  add_post: Add Post
+  categories: Categories
+  new_category: New Category
+  new_post: New Post
+  category: Category
+  latest_news: Latest News
+  ago: "%{time_ago} ago"
+  share: Share
+  read_on: Read more at %{source}
+  news_feeds: News Feeds
+  leave_blank_if_no_language: If you don't want to publish this article in any language, leave the title and content for that language blank.
+  languages: Languages
+  post_hidden: Hidden Post
+  hide_post: Hide Post
+  show_post: Show Post
+  posts: Posts

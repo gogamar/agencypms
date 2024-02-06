@@ -2,7 +2,7 @@ require "sidekiq/web"
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
-  resources :feeds
+
   namespace :api do
     match 'webhooks', to: 'webhooks#handle_notification', via: [:get, :post]
   end
@@ -29,10 +29,13 @@ Rails.application.routes.draw do
     resources :tourists
     resources :regions
     resources :towns
-    resources :posts
+    resources :feeds
     resources :categories, except: [:show] do
-      resources :posts
+      resources :posts, except: [:destroy, :show]
       get 'news', to: 'pages#news', as: 'news'
+    end
+    resources :posts, only: [:index, :destroy] do
+      get 'toggle_hidden', on: :member
     end
     resources :rate_plans do
       member do

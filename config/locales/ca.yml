@@ -1010,3 +1010,9 @@ ca:
   share: Compartir
   read_on: Llegir més a %{source}
   news_feeds: Canals de notícies
+  leave_blank_if_no_language: Si no vols publicar aquest article en algun idioma, deixa el títol i el contingut d'aquest idioma en blanc.
+  languages: Idiomes
+  post_hidden: Article amagat
+  hide_post: Amagar article
+  show_post: Mostrar article
+  posts: Articles

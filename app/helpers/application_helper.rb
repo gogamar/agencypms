@@ -15,7 +15,7 @@ module ApplicationHelper
         (I18n.available_locales - [current_locale]).each do |locale|
           flag_code = set_flag(locale)
           # Extract and preserve the current query parameters
-          query_params = params.except(:locale).permit!.to_h
+          query_params = params.except(:locale, :page).permit!.to_h
 
           # query_params.each do |key, value|
           #   if key == "pf" || key == "pt"

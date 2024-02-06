@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_05_150729) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_06_113152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -237,6 +237,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_150729) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "language"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_feeds_on_category_id"
   end
 
   create_table "image_urls", force: :cascade do |t|
@@ -355,6 +358,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_150729) do
     t.datetime "published_at"
     t.string "url"
     t.string "image_url"
+    t.string "source"
+    t.string "guid"
+    t.boolean "hidden", default: false
     t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["feed_id"], name: "index_posts_on_feed_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -663,6 +669,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_150729) do
   add_foreign_key "email_logs", "users"
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "companies"
+  add_foreign_key "feeds", "categories"
   add_foreign_key "image_urls", "vrentals"
   add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "vrentals"

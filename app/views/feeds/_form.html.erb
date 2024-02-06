@@ -1,14 +1,15 @@
-
 <%= simple_form_for(@feed) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
   <div class="form-inputs">
+    <%= f.input :language, collection: I18n.available_locales.map { |locale| [t(locale), locale.to_s] }, selected: I18n.locale %>
+    <%= f.association :category,
+                 label_method: "name_#{locale}",
+                 label: t('category'), required: true %>
     <%= f.input :name %>
     <%= f.input :url %>
     <%= f.input :description %>
   </div>
-
   <div class="form-actions">
     <%= f.button :submit %>
   </div>

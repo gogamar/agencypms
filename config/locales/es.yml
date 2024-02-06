@@ -983,3 +983,19 @@ es:
   year: Año
   yearly: Anual
   "yes": Sí
+  add_post: Añadir artículo
+  categories: Categorías
+  new_category: Nueva categoría
+  new_post: Nuevo artículo
+  category: Categoría
+  latest_news: Últimas noticias
+  ago: hace %{time_ago}
+  share: Compartir
+  read_on: Leer más en %{source}
+  news_feeds: Canales de noticias
+  leave_blank_if_no_language: Si no quieres publicar este artículo en algún idioma, deja el título y el contenido de ese idioma en blanco.
+  languages: Idiomas
+  post_hidden: Artículo oculto
+  hide_post: Ocultar artículo
+  show_post: Mostrar artículo
+  posts: Artículos

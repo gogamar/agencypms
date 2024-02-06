@@ -26,6 +26,9 @@
     <div id="main-wrapper">
       <%= render 'shared/navbar' %>
       <%= render 'shared/flashes' %>
+      <% if controller_name == "pages" && action_name == "news" %>
+        <%= render "shared/page_title", title: t('news'), subtitle: t('latest_news') %>
+      <% end %>
       <% if user_signed_in? && @admin_area && !devise_controller? %>
         <% if @vrental.present? && @vrental.persisted? %>
           <%= render "shared/page_title", title: @vrental.name, subtitle: "#{@vrental.address}" %>
