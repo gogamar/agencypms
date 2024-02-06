@@ -741,8 +741,7 @@ class VrentalApiService
               firstnight: night_rate["firstNight"],
               lastnight: night_rate["lastNight"],
               pricenight: @target.price_per == "night" ? night_rate["roomPrice"].to_f : nil,
-              beds_room_id: night_rate["roomId"],
-              min_stay: night_rate["minNights"].to_i
+              beds_room_id: night_rate["roomId"]
             )
           else
             new_rate = Rate.create!(
@@ -751,8 +750,7 @@ class VrentalApiService
               firstnight: night_rate["firstNight"],
               lastnight: night_rate["lastNight"],
               pricenight: night_rate["pricesPer"] == "1" ? night_rate["roomPrice"].to_f : night_rate["roomPrice"].to_f / 7,
-              beds_room_id: night_rate["roomId"],
-              min_stay: night_rate["minNights"].to_i,
+              beds_room_id: night_rate["roomId"]
             )
           end
         end
@@ -845,17 +843,17 @@ class VrentalApiService
           allowEnquiry: "1",
           color: "#{SecureRandom.hex(3)}",
           roomPriceEnable: "1",
-          roomPriceGuests: "0",
-          disc6Nights: "7",
-          disc6Percent: @target.weekly_discount.present? ? @target.weekly_discount.to_s : "0"
+          roomPriceGuests: "0"
           }
 
         nightly_rate = {
           action: rate_exists_on_beds ? "modify" : "new",
+          name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@target.weekly_discount.present? ? @target.weekly_discount.to_s + '% descompte setmanal' : ''}",
           pricesPer: "1",
           minNights: @target.control_restrictions == "rates" ? rate.min_stay.to_s : "0",
           roomPrice: rate.pricenight,
-          name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)}",
+          disc6Nights: "7",
+          disc6Percent: @target.weekly_discount.present? ? @target.weekly_discount.to_s : "0"
         }
 
         merged_nightly_rate = vrental_rate.merge(nightly_rate)
@@ -875,10 +873,12 @@ class VrentalApiService
 
           weekly_rate = {
             action: week_rate_exists_on_beds ? "modify" : "new",
+            name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}setmanal #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)}",
             pricesPer: "7",
             minNights: "7",
             roomPrice: rate.priceweek,
-            name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}setmanal #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@target.weekly_discount.present? ? @target.weekly_discount.to_s + '% descompte setmanal només web propia' : ''}",
+            disc6Nights: "7",
+            disc6Percent: "0"
           }
 
           merged_weekly_rate = vrental_rate.merge!(weekly_rate)
@@ -1161,7 +1161,7 @@ class VrentalApiService
       rate_start_date = rate.firstnight > Date.today ? rate.firstnight : Date.today
       (rate_start_date..rate.lastnight).each do |date|
         rate_override = nil
-        if rate.arrival_day == date.wday
+        if rate.arrival_day == date.wday || rate.arrival_day.nil?
           rate_override = 0
         elsif rate.arrival_day == 7 && @target.no_checkin == date.wday
           rate_override = 2

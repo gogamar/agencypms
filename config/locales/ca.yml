@@ -1005,8 +1005,8 @@ ca:
   new_category: Nova categoria
   new_post: Nou article
   category: Categoria
-  on: a
   latest_news: Últimes notícies
   ago: fa %{time_ago}
   share: Compartir
   read_on: Llegir més a %{source}
+  news_feeds: Canals de notícies

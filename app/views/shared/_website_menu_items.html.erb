@@ -49,7 +49,7 @@
           <% end %>
         </li>
         <li><%= link_to list_path(location: "Barcelona", pt: ["apartment"], nv: true, rt: "short_term") do %>
-            <i class="fa-solid fa-building-circle-xmarkt("devise.sessions.new.sign_in") me-2"></i><%= t("without_view") %>
+            <i class="fa-solid fa-building-circle-xmark me-2"></i><%= t("without_view") %>
           <% end %>
         </li>
       </ul>
@@ -69,4 +69,5 @@
               -->
   </ul>
 </li>
+<li><%= link_to t("news"), news_path %></li>
 <li><%= link_to t("contact"), contact_path %></li>

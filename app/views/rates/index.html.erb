@@ -2,19 +2,19 @@
   <h4 class="font-weight-bold text-primary text-center mb-2"><%= t('rates') %></h4>
   <hr>
   <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>
-    <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.pricenight.nil? }  %>
-      <div data-controller="spinner-btn" class="d-flex flex-column flex-lg-row justify-content-lg-end gap-3 py-3">
+    <div data-controller="spinner-btn" class="d-flex flex-column flex-lg-row justify-content-lg-end gap-3 py-3">
+      <% if @vrental.future_rates.exists? && @vrental.future_rates.none? { |rate| rate.pricenight.nil? }  %>
         <%= link_to send_rates_vrental_path(@vrental), class: "btn btn-sm btn-success", data: { "spinner-btn-target" => "spinButton", "action" => "click->spinner-btn#spin", "spinning" => "#{t('sending_rates')}", "pending" => "#{t('still_working')}", "timer" => "60000"} do %>
           <i class="fas fa-paper-plane fa-sm me-2"></i> <%= t('send_rates_to_beds') %>
         <% end %>
-        <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger", data: { "spinner-target" => "spinButton", "action" => "click->spinner#spin", "spinning" => "#{t('deleting_rates')}", "pending" => "#{t('still_working')}", "timer" => "60000"} do %>
-          <i class="fas fa-exclamation-triangle me-2"></i> <%= t('delete_rates_on_beds') %>
-        <% end %>
-        <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary", data: { "spinner-target" => "spinButton", "action" => "click->spinner#spin", "spinning" => "#{t('importing_rates')}", "pending" => "#{t('still_working')}", "timer" => "60000"} do %>
-          <i class="fa-solid fa-file-import me-2"></i><%= t('get_rates_from_beds') %>
-        <% end %>
-      </div >
-    <% end %>
+      <% end %>
+      <%= link_to delete_rates_vrental_path(@vrental), class: "btn btn-sm btn-danger", data: { "spinner-target" => "spinButton", "action" => "click->spinner#spin", "spinning" => "#{t('deleting_rates')}", "pending" => "#{t('still_working')}", "timer" => "60000"} do %>
+        <i class="fas fa-exclamation-triangle me-2"></i> <%= t('delete_rates_on_beds') %>
+      <% end %>
+      <%= link_to get_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary", data: { "spinner-target" => "spinButton", "action" => "click->spinner#spin", "spinning" => "#{t('importing_rates')}", "pending" => "#{t('still_working')}", "timer" => "60000"} do %>
+        <i class="fa-solid fa-file-import me-2"></i><%= t('get_rates_from_beds') %>
+      <% end %>
+    </div >
   <% end %>
   <div class="d-flex flex-column flex-lg-row justify-content-lg-end my-3">
     <%= form_with(url: upload_dates_vrental_path(@vrental), method: :post, class: "d-flex flex-row align-items-center gap-3") do |form| %>

@@ -1,6 +1,6 @@
 class Rate < ApplicationRecord
   belongs_to :vrental
-  validates :firstnight, :lastnight, :min_stay, :max_stay, :arrival_day, presence: true
+  validates :firstnight, :lastnight, presence: true
   validates :lastnight, comparison: { greater_than: :firstnight }
   # validate :check_uniqueness
   before_save :calculate_pricenight, if: -> { priceweek.present? }
