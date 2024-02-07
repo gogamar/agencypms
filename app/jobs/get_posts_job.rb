@@ -1,35 +1,17 @@
 class GetPostsJob < ApplicationJob
-  require 'cgi'
   queue_as :default
 
   def perform
-    Feed.all.each do |feed|
-      xml = HTTParty.get(feed.url).body
-      parsed_xml = Feedjira.parse(xml)
+    FeedImporter.import_feeds
 
-      if parsed_xml.entries.any?
-        parsed_xml.entries.each do |entry|
-          decoded_summary = CGI.unescapeHTML(entry.summary)
+    [{ "es" => "es" }, { "fr" => "fr" }, { "gb" => "en" }].each do |hash|
+      from = 1.day.ago.strftime('%Y-%m-%dT00:00:00Z')
+      lang = hash.values.first
+      country = hash.keys.first
 
-          parsed_uri = URI.parse(post.url)
-          domain = parsed_uri.host
-
-          existing_post = Post.find_by(guid: entry.guid)
-          next if existing_post
-
-          Post.create(
-            "title_#{feed.language}": entry.title,
-            "content_#{feed.language}": decoded_summary,
-            published_at: entry.published,
-            url: entry.url,
-            category_id: feed.category_id,
-            user_id: User.where(role: "admin").first.id,
-            image_url: entry.image,
-            feed_id: feed.id,
-            source: domain
-          )
-        end
-      end
+      search_params = { from: from, lang: lang, country: country, max: 10, param1: params[:param1], param2: params[:param2], param3: params[:param3], param4: params[:param4]}
+      max = 5
+      NewsApiService.get_news_from_gnews(from, lang, country, max)
     end
   end
 end

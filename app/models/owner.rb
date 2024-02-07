@@ -24,7 +24,7 @@ class Owner < ApplicationRecord
   end
 
   def temporary_password
-    fullname_without_spaces = fullname.gsub(/[ .]/, '')
+    fullname_without_spaces = fullname.gsub(/[ .,]/, '')
 
     if fullname_without_spaces.length >= 4
       result = fullname_without_spaces[-4..-1] + "2498"

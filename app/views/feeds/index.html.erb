@@ -1,14 +1,48 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Feeds</h1>
-
-<div id="feeds">
+  <%= form_with url: get_news_path, method: 'get', class: "bg-light p-3" do |form| %>
+  <%= t("search_keywords") %>
+  <div class="d-flex justify-content-between">
+    <%= form.date_field :param1, class: 'datepicker', allow_blank: true %>
+    o
+    <%= form.text_field :param2, class: "form-control" %>
+  </div>
+  en combinació amb les paraules clau
+  <div class="d-flex justify-content-between">
+    <%= form.text_field :param3, class: "form-control" %>
+    o
+    <%= form.text_field :param4, class: "form-control" %>
+  </div>
+  <div class="field">
+    <%= form.label t("from") %>
+    <%= form.date_field :from, class: 'datepicker', allow_blank: true %>
+  </div>
+  <div class="field">
+    <%= form.label t("language") %>
+    <%= form.select :lang, options_for_select(I18n.available_locales.map { |locale| [t(locale), locale.to_s] }), {}, class: 'form-select' %>
+  </div>
+  <div class="field">
+    <%= form.label t("country") %>
+    <%= form.select :country, options_for_select([["", nil], [t('country_es'), "es"], [t("country_gb"), "gb"], [t("country_fr"), "fr"]]), {}, class: 'form-select' %>
+  </div>
+  <div class="field">
+    <%= form.label t("max_results") %>
+    <%= form.number_field :max, value: 5, class: "form-control" %>
+  </div>
+  <%= form.submit t('get_news'), class: "btn btn-sm btn-success" %>
+<% end %>
+<div id="feeds" class="mt-5">
+  <div class="row mb-5">
+    <div class="col-lg-8">
+      <h4><%= t('news_feeds') %></h4>
+    </div>
+    <div class="col-lg-4">
+      <%= link_to t('new_feed'), new_feed_path, class: "btn btn-sm btn-primary" %>
+    </div>
+  </div>
   <% @feeds.each do |feed| %>
-    <%= render feed %>
-    <p>
-      <%= link_to "Show this feed", feed %>
-    </p>
+    <div class="row py-2">
+      <div class="col-lg-8"><%= feed.name %></div>
+      <div class="col-lg-2"><%= link_to t('edit'), edit_feed_path(feed), class: "btn btn-sm btn-secondary" %></div>
+      <div class="col-lg-2"><%= link_to t('delete'), feed, class: "btn btn-sm btn-danger", data: { turbo_method: :delete, turbo_confirm: t('sure_delete') } %></div>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New feed", new_feed_path %>

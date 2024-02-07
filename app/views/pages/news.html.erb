@@ -12,8 +12,8 @@
             <div class="blog-info d-flex justify-content-between">
               <span class="post-date"><i class="ti-calendar"></i><%= l(post.published_at) if post.published_at %></span>
               <% if current_user && current_user.admin? %>
-                <%= link_to toggle_hidden_post_path(post, hidden: true), class: "btn btn-sm btn-secondary" do %>
-                  <i class="fa-regular fa-eye-slash me-2"></i><%= t('hide_post') %>
+                <%= link_to post, class: "text-danger", data: { turbo_method: :delete, turbo_confirm: t('sure_delete') } do %>
+                  <i class="fa-solid fa-trash-can"></i>
                 <% end %>
               <% end %>
             </div>

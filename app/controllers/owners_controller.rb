@@ -112,6 +112,7 @@ class OwnersController < ApplicationController
 
   def send_access_email
     user = @owner.user
+    user.update(password: @owner.temporary_password, password_confirmation: @owner.temporary_password)
     user.send_access_email(@owner.language)
     redirect_to owners_path, notice: "S'ha enviat un correu electrònic al propietari."
   end

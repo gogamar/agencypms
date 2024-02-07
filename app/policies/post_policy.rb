@@ -32,4 +32,8 @@ class PostPolicy < ApplicationPolicy
   def toggle_hidden?
     user.admin? || user.manager?
   end
+
+  def get_news?
+    user.admin? || user.manager?
+  end
 end

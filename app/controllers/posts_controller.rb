@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ edit update destroy toggle_hidden ]
-  before_action :set_category, except: %i[ index destroy toggle_hidden ]
+  before_action :set_category, except: %i[ index destroy toggle_hidden get_news ]
+  before_action :skip_authorization, only: %i[ get_news ]
 
   def index
     @posts = policy_scope(Post)
@@ -47,7 +48,19 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: "Post was successfully destroyed."
+    redirect_back fallback_location: posts_path, notice: "Post was successfully destroyed."
+  end
+
+  def get_news
+    FeedImporter.import_feeds
+
+    from = params[:from].to_date.strftime('%Y-%m-%dT00:00:00Z')
+    search_params = { from: from, lang: params[:lang], country: params[:country], max: params[:max], param1: params[:param1], param2: params[:param2], param3: params[:param3], param4: params[:param4]}
+
+    if lang != 'ca'
+      NewsApiService.get_news_from_gnews(search_params)
+    end
+    redirect_to posts_path, notice: "News imported successfully."
   end
 
   private
