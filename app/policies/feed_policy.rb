@@ -28,4 +28,8 @@ class FeedPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def get_news?
+    user.admin?
+  end
 end

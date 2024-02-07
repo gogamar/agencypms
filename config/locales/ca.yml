@@ -1016,3 +1016,9 @@ ca:
   hide_post: Amagar article
   show_post: Mostrar article
   posts: Articles
+  country_es: Espanya
+  country_fr: França
+  country_gb: Regne Unit
+  country: País
+  max_results: Màxim de resultats
+  get_news: Obtenir notícies
