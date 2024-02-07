@@ -119,7 +119,7 @@ class StatementsController < ApplicationController
   end
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
 
   def statement_params

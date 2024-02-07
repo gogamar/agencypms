@@ -106,6 +106,7 @@ gem "simple_calendar", "~> 2.4"
 gem "acts_as_list", "~> 1.1"
 gem 'lightbox2'
 gem 'route_translator'
+gem 'friendly_id', '~> 5.5.0'
 gem 'recaptcha'
 gem 'cocoon'
 gem 'ferrum'

@@ -3,7 +3,7 @@ class AvailabilitiesController < ApplicationController
   before_action :set_availability, only: [:edit, :update, :destroy]
 
   def index
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
     @availabilities = policy_scope(@vrental.availabilities).order(date: :asc)
     @available_dates = @availabilities.where('inventory > ?', 0)
     @availability = Availability.new
@@ -46,7 +46,7 @@ class AvailabilitiesController < ApplicationController
   private
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
     authorize @vrental
   end
 

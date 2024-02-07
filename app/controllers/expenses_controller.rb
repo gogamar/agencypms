@@ -4,7 +4,7 @@ class ExpensesController < ApplicationController
 
   def index
     @expenses = policy_scope(Expense)
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id]
     @expenses = @vrental.present? ? @vrental.expenses.order(created_at: :asc) : @expenses.order(created_at: :asc)
     @total_expenses_agency = @expenses.where(expense_type: 'agency').pluck(:amount)&.sum
     @total_expenses_owner = @expenses.where(expense_type: 'owner').pluck(:amount)&.sum
@@ -13,7 +13,7 @@ class ExpensesController < ApplicationController
   def new
     @expense = Expense.new
     authorize @expense
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id]
     @vrentals = policy_scope(Vrental)
   end
 
@@ -29,7 +29,7 @@ class ExpensesController < ApplicationController
 
     if @expense.save
       if params[:vrental_id].present?
-        @vrental = Vrental.find(params[:vrental_id])
+        @vrental = Vrental.friendly.find(params[:vrental_id])
         redirect_to vrental_expenses_path(@vrental), notice: "La despesa per #{@vrental.name} s'ha creat correctament."
       else
         redirect_to expenses_path, notice: "La despesa s'ha creat correctament."
@@ -53,7 +53,7 @@ class ExpensesController < ApplicationController
   def destroy
     authorize @expense
     if params[:vrental_id].present?
-      @vrental = Vrental.find(params[:vrental_id])
+      @vrental = Vrental.friendly.find(params[:vrental_id])
       @expense.destroy
       redirect_to vrental_expenses_path(@vrental), notice: "La despesa s'ha esborrat correctament."
     else
@@ -69,7 +69,7 @@ class ExpensesController < ApplicationController
   end
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
 
   def expense_params

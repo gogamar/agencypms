@@ -1,5 +1,6 @@
 class ContactFormsController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :disable_admin_area
 
   def new
     @contact_form = ContactForm.new
@@ -19,6 +20,10 @@ class ContactFormsController < ApplicationController
   end
 
   private
+
+  def disable_admin_area
+    @admin_area = false
+  end
 
   def contact_form_params
     params.require(:contact_form).permit(:name, :email, :subject, :message)

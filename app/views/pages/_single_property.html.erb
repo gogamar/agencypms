@@ -56,7 +56,7 @@
           <span class="listing-location"><i class="fas fa-map-marker-alt"></i><%= vrental.town&.name %></span>
         </div>
         <div class="listing-detail-btn">
-          <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "more-btn" %>
+          <%= link_to t("book").capitalize, book_property_path(vrental, checkin: checkin, checkout: checkout, guests: guests, price: price, discount: discount), class: "more-btn" %>
         </div>
       </div>
     </div>

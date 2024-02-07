@@ -58,7 +58,7 @@ class RatesController < ApplicationController
   private
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
 
   def set_rate

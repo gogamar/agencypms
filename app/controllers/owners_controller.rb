@@ -37,7 +37,7 @@ class OwnersController < ApplicationController
   end
 
   def new
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id]
     authorize @vrental if @vrental
     @owner = Owner.new
     authorize @owner
@@ -46,7 +46,7 @@ class OwnersController < ApplicationController
   def create
     @owner = Owner.new(owner_params)
     authorize @owner
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id].present?
     @vrental.owner = @owner if @vrental.present?
 
     request_context = params[:owner][:request_context]
@@ -69,7 +69,7 @@ class OwnersController < ApplicationController
   end
 
   def update
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id].present?
 
     if @owner.update(owner_params)
       # if owner's email has changed, update user's email

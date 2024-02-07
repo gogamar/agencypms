@@ -237,7 +237,7 @@ class VrentalsController < ApplicationController
   end
 
   def copy
-    @source = Vrental.find(params[:id])
+    @source = Vrental.friendly.find(params[:id])
     authorize @source
     @new_vrental = @source.dup
     authorize @new_vrental
@@ -484,7 +484,7 @@ class VrentalsController < ApplicationController
         create_new_image_urls(@vrental.photos)
         redirect_to add_photos_vrental_path(@vrental)
       elsif request_context == 'after_adding_photos'
-        redirect_to book_property_path(vrental_id: @vrental.id)
+        redirect_to book_property_path(@vrental)
       else
         redirect_to @vrental, notice: "Immoble modificat."
       end
@@ -515,7 +515,7 @@ class VrentalsController < ApplicationController
   end
 
   def set_vrental
-    @vrental = Vrental.find(params[:id])
+    @vrental = Vrental.friendly.find(params[:id])
     authorize @vrental
   end
 

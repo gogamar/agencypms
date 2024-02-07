@@ -2,7 +2,7 @@
   <% if controller_name == "pages" && action_name == "book_property" %>
     <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term)} #{vrental.town&.name}" if vrental.image_urls.present? %>
   <% else %>
-    <%= link_to book_property_path(vrental_id: vrental.id) do %>
+    <%= link_to book_property_path(vrental) do %>
       <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto", alt:"#{t(vrental.rental_term) if vrental.rental_term.present?} #{vrental.town&.name}" if vrental.image_urls.present? %>
     <% end %>
   <% end %>
@@ -13,9 +13,9 @@
     <% end %>
     <% unless controller_name == "pages" && action_name == "book_property" %>
       <% if @available_vrentals_with_price.present? %>
-        <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount), class: "btn btn-sm btn-success" %>
+        <%= link_to t("book").capitalize, book_property_path(vrental, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount), class: "btn btn-sm btn-success" %>
       <% else %>
-        <%= link_to t("view_vrental"), book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests), class: "btn btn-sm btn-primary" %>
+        <%= link_to t("view_vrental"), book_property_path(vrental, check_in: check_in, check_out: check_out, guests: guests), class: "btn btn-sm btn-primary" %>
       <% end %>
     <% end %>
   </div>

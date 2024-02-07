@@ -48,7 +48,7 @@ class OwnerBookingsController < ApplicationController
   end
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
 
   def owner_booking_params

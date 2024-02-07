@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_06_113152) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_07_145719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -621,9 +621,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_06_113152) do
     t.string "bookingcom_rate_id"
     t.string "control_restrictions"
     t.integer "no_checkin", default: 7
+    t.string "slug"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
+    t.index ["slug"], name: "index_vrentals_on_slug", unique: true
     t.index ["town_id"], name: "index_vrentals_on_town_id"
   end
 
