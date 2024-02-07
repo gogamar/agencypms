@@ -5,7 +5,7 @@ class EarningsController < ApplicationController
   def index
     all_earnings = policy_scope(Earning)
     @pagy, @earnings = pagy(all_earnings, page: params[:page], items: 10)
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id]
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id]
     @earnings = @vrental ? @vrental.earnings.order(date: :asc) : @earnings.order(date: :asc)
     @bookings = @vrental.bookings.where(checkin: @earnings.first.date..@earnings.last.date) if @vrental && @earnings.any?
   end
@@ -72,7 +72,7 @@ class EarningsController < ApplicationController
   private
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
 
   def set_earning

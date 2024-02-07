@@ -24,11 +24,11 @@
                 <div class="location-property-wrap rounded-4">
                   <div class="location-property-thumb">
                     <% if vrental.image_urls.present? %>
-                      <%= link_to book_property_path(vrental_id: vrental.id) do %>
+                      <%= link_to book_property_path(vrental) do %>
                         <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-custom-slide mx-auto rounded", alt: vrental.name %>
                       <% end %>
                     <% else %>
-                      <%= link_to book_property_path(vrental_id: vrental.id) do %>
+                      <%= link_to book_property_path(vrental) do %>
                         <img src="https://via.placeholder.com/1200x850" class="img-custom-slide mx-auto rounded" alt="<%= vrental.name %>" />
                       <% end %>
                     <% end %>
@@ -49,7 +49,7 @@
                       <% end %>
                     </div>
                     <h4 class="listing-name fw-semibold fs-5 mb-1">
-                      <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id) %>
+                      <%= link_to vrental.display_name, book_property_path(vrental) %>
                     </h4>
                     <% if vrental.reviews.present? %>
                       <div class="rating-single-on-list">
@@ -103,7 +103,7 @@
                     <%= t("night_title") %></span>
                 </div>
                 <div class="footer-flex">
-                  <%= link_to book_property_path(vrental_id: vrental.id), class: "prt-view" do %>
+                  <%= link_to book_property_path(vrental), class: "prt-view" do %>
                     <span class="svg-icon text-primary svg-icon-2hx">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.43 8.56949L10.744 15.1395C10.6422 15.282 10.5804 15.4492 10.5651 15.6236C10.5498 15.7981 10.5815 15.9734 10.657 16.1315L13.194 21.4425C13.2737 21.6097 13.3991 21.751 13.5557 21.8499C13.7123 21.9488 13.8938 22.0014 14.079 22.0015H14.117C14.3087 21.9941 14.4941 21.9307 14.6502 21.8191C14.8062 21.7075 14.9261 21.5526 14.995 21.3735L21.933 3.33649C22.0011 3.15918 22.0164 2.96594 21.977 2.78013C21.9376 2.59432 21.8452 2.4239 21.711 2.28949L15.43 8.56949Z" fill="currentColor"/>

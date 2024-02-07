@@ -159,6 +159,8 @@ GEM
       sass-rails
     font-awesome-sass (6.2.0)
       sassc (~> 2.0)
+    friendly_id (5.5.1)
+      activerecord (>= 4.0.0)
     fugit (1.9.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
@@ -381,6 +383,7 @@ DEPENDENCIES
   ferrum
   flag-icons-rails
   font-awesome-sass (~> 6.1)
+  friendly_id (~> 5.5.0)
   geocoder
   hotwire-rails
   jbuilder

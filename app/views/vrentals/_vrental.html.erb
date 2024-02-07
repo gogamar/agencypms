@@ -42,7 +42,7 @@
           <% elsif current_user.owner? %>
             <%= render 'owner_links', vrental: vrental %>
           <% end %>
-          <%= link_to book_property_path(vrental_id: vrental.id), target: "_blank", data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
+          <%= link_to book_property_path(vrental), target: "_blank", data: { bs_toggle: "tooltip", bs_placement: "top" }, title: t("view_vrental") do %>
             <i class="fa-solid fa-eye"></i>
           <% end %>
         </div>

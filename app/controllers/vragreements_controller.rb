@@ -6,7 +6,7 @@ class VragreementsController < ApplicationController
 
   def index
     if params[:vrental_id].present?
-      @vrental = Vrental.find(params[:vrental_id])
+      @vrental = Vrental.friendly.find(params[:vrental_id])
       @years_possible_contract = @vrental.years_possible_contract
     end
     active_vragreements = policy_scope(Vragreement)
@@ -182,7 +182,7 @@ class VragreementsController < ApplicationController
   end
 
   def destroy
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id].present?
     @vragreement.destroy
 
     if @vrental
@@ -199,7 +199,7 @@ class VragreementsController < ApplicationController
     authorize @vragreement
   end
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
   def set_owner
     @owner = Owner.find(params[:owner_id])

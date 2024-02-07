@@ -1,8 +1,8 @@
 class Vrental < ApplicationRecord
   require 'net/http'
-  # require "vessel"
-  # require 'nokogiri'
   include ActionView::Helpers::NumberHelper
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   belongs_to :owner, optional: true
   belongs_to :office, optional: true
   belongs_to :town, optional: true
@@ -62,21 +62,22 @@ class Vrental < ApplicationRecord
       .distinct(:id)
   }
 
-  geocoded_by :address
-  after_validation :geocode
+  # uncomment!
+  # geocoded_by :address
+  # after_validation :geocode
 
-  validates_presence_of :name, :address, :property_type
+  # validates_presence_of :name, :address, :property_type
+  # validates :name, uniqueness: true
+  # validates :commission, presence: true, if: -> { contract_type == 'commission' }
+  # uncomment! it was not commented before this line
+
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
   # validates_presence_of :min_price
-  validates :name, uniqueness: true
   # validates :contract_type, presence: true, inclusion: { in: CONTRACT_TYPES }
-  validates :commission, presence: true, if: -> { contract_type == 'commission' }
   # validates :price_per, presence: true, inclusion: { in: PRICE_PER }
-
   # fixme - on copying this kept giving error, perhaps because it's nil and nil == nil
   # validate :cannot_reference_self_as_rate_master
-
   # validates :fixed_price_amount, presence: true, if: -> { contract_type == 'fixed_price' }
   # validates :fixed_price_frequency, presence: true, inclusion: { in: FIXED_PRICE_FREQUENCIES }, if: -> { contract_type == 'fixed_price' }
 

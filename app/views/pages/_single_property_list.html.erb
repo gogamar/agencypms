@@ -10,7 +10,7 @@
         </div>
       <% end %>
       <% if vrental.image_urls.present? %>
-        <%= link_to book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) do %>
+        <%= link_to book_property_path(vrental, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) do %>
           <%= image_tag vrental.image_urls.order(position: :asc).first.url, class: "img-fluid mx-auto rounded", alt: vrental.name %>
         <% end %>
       <% end %>
@@ -41,7 +41,7 @@
         <div class="listing-detail-wrapper d-flex align-items-start justify-content-between">
           <div class="listing-short-detail">
             <h4 class="listing-name mb-0">
-              <%= link_to vrental.display_name, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) %>
+              <%= link_to vrental.display_name, book_property_path(vrental, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount) %>
             </h4>
             <% if vrental.reviews.present? %>
               <div class="rating-single-on-list">
@@ -82,7 +82,7 @@
         </div>
         <div class="listing-detail-btn">
           <% if @available_vrentals_with_price.present? %>
-            <%= link_to t("book").capitalize, book_property_path(vrental_id: vrental.id, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
+            <%= link_to t("book").capitalize, book_property_path(vrental, check_in: check_in, check_out: check_out, guests: guests, price: price, rate_price: rate_price, discount: discount), class: "btn btn-sm px-4 fw-medium btn-primary" %>
           <% elsif params[:check_in] && params[:check_out] && params[:guests] && !@available_vrentals_with_price.present? %>
             <a class="btn btn-sm btn-warning d-inline-flex mb-1 dates-missing-js"><%= t("select_other_dates") %></a>
           <% else %>

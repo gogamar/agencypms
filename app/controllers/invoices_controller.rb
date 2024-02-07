@@ -5,7 +5,7 @@ class InvoicesController < ApplicationController
 
   def index
     @invoices = policy_scope(Invoice)
-    @vrental = Vrental.find(params[:vrental_id]) if params[:vrental_id].present?
+    @vrental = Vrental.friendly.find(params[:vrental_id]) if params[:vrental_id].present?
     if @vrental.present?
       @invoices = @invoices.where(vrental_id: @vrental.id).order(number: :asc)
     else
@@ -137,7 +137,7 @@ class InvoicesController < ApplicationController
   end
 
   def set_vrental
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
   end
 
   def invoice_params

@@ -16,7 +16,7 @@ class RatePlansController < ApplicationController
   end
 
   def upload_rate_dates
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
     result = @vrental.upload_dates_to_plan(@rate_plan.start.year, @rate_plan)
     case result
     when :no_rates_found

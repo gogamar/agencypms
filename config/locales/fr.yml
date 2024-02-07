@@ -818,7 +818,37 @@ fr:
   reviews: commentaires
   roof_terrace: Terrasse sur le toit commune
   routes:
-    owners: propriétaires
+    privacy_policy: politiques-de-confidentialite
+    owner_bookings: reservations-proprietaire
+    agreements: contrats
+    statements: liquidations
+    invoices: factures
+    availabilities: disponibilites
+    bookings: reservations
+    earnings: revenus
+    expenses: depenses
+    rates: tarifs
+    owners: proprietaires
+    add_booking_conditions: ajouter-conditions-de-reservation
+    add_photos: ajouter-photos
+    add_bedrooms_bathrooms: ajouter-chambres-et-bains
+    add_features: ajouter-caracteristiques
+    add_descriptions: ajouter-descriptions
+    add_owner: ajouter-proprietaire
+    edit: modifier
+    new: nouveau
+    dashboard: tableau-de-bord
+    rate_plans: plans-de-tarifs
+    rate_periods: periodes-de-tarifs
+    companies: entreprises
+    offices: bureaux
+    rental_templates: modeles-de-contrat
+    terms_of_service: conditions-generales-d-utilisation
+    confirm_booking: confirmer-reservation
+    book: reserver
+    contact: contact
+    list: locations
+    news: actualites
     users: utilisateurs
     vrentals: locations-de-vacances
   saturday: Samedi

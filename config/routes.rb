@@ -199,7 +199,7 @@ Rails.application.routes.draw do
     get 'sort_properties', to: 'pages#sort_properties'
     get 'privacy_policy', to: 'pages#privacy_policy'
     get 'terms_of_service', to: 'pages#terms_of_service'
-    get 'book_property', to: 'pages#book_property'
+    get 'book/:id', to: 'pages#book_property', as: 'book_property'
     get 'confirm_booking', to: 'pages#confirm_booking'
     get 'get_availability', to: 'pages#get_availability'
     get 'get_checkout_dates', to: 'pages#get_checkout_dates'
@@ -210,8 +210,8 @@ Rails.application.routes.draw do
     get 'news', to: 'pages#news', as: 'news'
     get 'news/:id', to: 'pages#news_post', as: 'news_post'
     get 'get_news', to: 'posts#get_news'
-    # get '*path' => 'application#redirect_to_homepage'
+    get '*path' => 'application#redirect_to_homepage'
   end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
-  # get '*path' => 'application#redirect_to_homepage'
+  get '*path' => 'application#redirect_to_homepage'
 end

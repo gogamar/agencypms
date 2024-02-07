@@ -137,7 +137,7 @@ class PagesController < ApplicationController
   end
 
   def book_property
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:id])
     @property_images = @vrental.image_urls.order(position: :asc)
     @checkin = params[:check_in] || @vrental.default_checkin.strftime("%Y-%m-%d")
     @checkout = params[:check_out] || @vrental.default_checkout.strftime("%Y-%m-%d")
@@ -173,7 +173,7 @@ class PagesController < ApplicationController
   end
 
   def confirm_booking
-    @vrental = Vrental.find(params[:vrental_id])
+    @vrental = Vrental.friendly.find(params[:vrental_id])
     @checkin = params[:check_in].to_date if params[:check_in].present?
     @checkout = params[:check_out].to_date if params[:check_out].present?
     @nights = @checkout - @checkin if @checkin.present? && @checkout.present?
@@ -266,13 +266,32 @@ class PagesController < ApplicationController
     end
   end
 
+  # def advanced_search(pt, pb, pf, vrentals)
+  #   vrentals = vrentals.where(property_type: pt) if pt.present?
+  #   vrentals = vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
+  #   vrentals = vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", pf) if pf.present?
+
+  #   @vrentals = vrentals
+  # end
+
   def advanced_search(pt, pb, pf, vrentals)
     vrentals = vrentals.where(property_type: pt) if pt.present?
     vrentals = vrentals.joins(:bedrooms).group('vrentals.id').having('COUNT(bedrooms.id) >= ?', pb.to_i) if pb.present?
-    vrentals = vrentals.joins(:features).where("features.name ILIKE ANY (array[?])", pf) if pf.present?
 
-    @vrentals = vrentals
+    if pf.present?
+      vrental_ids_array = vrentals.joins(:features).where(features: { name: pf.first }).pluck(:id)
+
+      if pf.length > 1
+        pf[1..-1].each do |feature|
+          feature_array = Vrental.joins(:features).where(features: { name: feature }).pluck(:id)
+          vrental_ids_array = vrental_ids_array & feature_array
+        end
+      end
+    end
+
+    @vrentals = Vrental.where(id: vrental_ids_array)
   end
+
 
   def load_filters
     @featured_towns = Town.joins(:vrentals)

@@ -818,9 +818,39 @@ es:
   reviews: comentarios
   roof_terrace: Terraza comunitaria
   routes:
+    privacy_policy: politica-de-privacidad
+    owner_bookings: reservas-propietario
+    vragreements: contratos
+    statements: liquidaciones
+    invoices: facturas
+    availabilities: disponibilidades
+    bookings: reservas
+    earnings: ingresos
+    expenses: gastos
+    rates: tarifas
     owners: propietarios
+    add_booking_conditions: agregar-condiciones-de-reserva
+    add_photos: agregar-fotos
+    add_bedrooms_bathrooms: agregar-habitaciones-y-banos
+    add_features: agregar-caracteristicas
+    add_descriptions: agregar-descripciones
+    add_owner: agregar-propietario
+    edit: editar
+    new: nuevo
+    dashboard: panel-de-control
+    rate_plans: planes-de-tarifas
+    rate_periods: periodos-de-tarifas
+    companies: empresas
+    offices: oficinas
+    vrentaltemplates: modelos-contracte
+    terms_of_service: terminos-y-condiciones
+    confirm_booking: confirmar-reserva
+    book: reservar
+    contact: contacto
+    list: inmuebles
+    news: noticias
     users: usuarios
-    vrentals: inmuebles-alquiler-turístico
+    vrentals: inmuebles-alquiler-turistico
   saturday: Sábado
   sea_view: Vista al mar
   search: Buscar

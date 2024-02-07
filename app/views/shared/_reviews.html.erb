@@ -19,7 +19,7 @@
                   <div class="st-author-box">
                     <div class="st-author-info">
                       <h4 class="st-author-title">
-                        <%= link_to review.vrental.display_name, book_property_path(vrental_id: review.vrental.id), class: "link" %>
+                        <%= link_to review.vrental.display_name, book_property_path(review.vrental), class: "link" %>
                       </h4>
                     </div>
                   </div>
@@ -30,7 +30,7 @@
                       <%= truncate(review.send("comment_#{locale}"), length: 300, separator: ' ') %>
                       <br>
                       <% if review.send("comment_#{locale}").length > 300 %>
-                        <%= link_to book_property_path(vrental_id: review.vrental.id), class: "text-success" do %>
+                        <%= link_to book_property_path(review.vrental), class: "text-success" do %>
                           <i class="fa-solid fa-arrow-right me-2"></i> <%= t('read_more') %>
                         <% end %>
                       <% end %>

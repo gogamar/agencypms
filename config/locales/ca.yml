@@ -821,6 +821,37 @@ ca:
   reviews: comentaris
   roof_terrace: Terrassa comunitària
   routes:
+    privacy_policy: politica-de-privacitat
+    owner_bookings: reserves-propietari
+    vragreements: contractes
+    statements: liquidacions
+    invoices: factures
+    availabilities: disponibilitats
+    bookings: reserves
+    earnings: ingressos
+    expenses: despeses
+    rates: tarifes
+    owners: propietaris
+    add_booking_conditions: afegir-condicions-de-reserva
+    add_photos: afegir-fotos
+    add_bedrooms_bathrooms: afegir-habitacions-i-banys
+    add_features: afegir-caracteristiques
+    add_descriptions: afegir-descripcions
+    add_owner: afegir-propietari
+    edit: modificar
+    new: nou
+    dashboard: panell-de-control
+    rate_plans: plans-de-tarifes
+    rate_periods: periodes-de-tarifes
+    companies: empreses
+    offices: oficines
+    vrentaltemplates: models-contracte
+    terms_of_service: termes-i-condicions
+    confirm_booking: confirmar-reserva
+    book: reservar
+    contact: contacte
+    list: immobles
+    news: noticies
     owners: propietaris
     users: usuaris
     vrentals: immobles-lloguer-turistic

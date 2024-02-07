@@ -818,7 +818,37 @@ en:
   reviews: reviews
   roof_terrace: Community roof terrace
   routes:
+    privacy_policy: privacy-policy
+    owner_bookings: owner-bookings
+    agreements: agreements
+    statements: statements
+    invoices: invoices
+    availabilities: availabilities
+    bookings: bookings
+    earnings: earnings
+    expenses: expenses
+    rates: rates
     owners: owners
+    add_booking_conditions: add-booking-conditions
+    add_photos: add-photos
+    add_bedrooms_bathrooms: add-bedrooms-bathrooms
+    add_features: add-features
+    add_descriptions: add-descriptions
+    add_owner: add-owner
+    edit: edit
+    new: new
+    dashboard: dashboard
+    rate_plans: rate-plans
+    rate_periods: rate-periods
+    companies: companies
+    offices: offices
+    rental_templates: rental-templates
+    terms_of_service: terms-of-service
+    confirm_booking: confirm-booking
+    book: book
+    contact: contact
+    list: rentals
+    news: news
     users: users
     vrentals: vacation-rentals
   saturday: Saturday
