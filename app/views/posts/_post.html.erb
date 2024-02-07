@@ -21,7 +21,7 @@
     <% end %>
   </div>
   <div class="col-lg-2 d-flex justify-content-between">
-    <%= link_to edit_category_post_path(post.category, post), class: "btn btn-sm btn-secondary" do %>
+    <%= link_to edit_post_path(post), class: "btn btn-sm btn-secondary" do %>
       <i class="fa-solid fa-pencil-square"></i>
     <% end %>
     <%= link_to post, class: "btn btn-sm btn-danger", data: { turbo_method: :delete, turbo_confirm: t('sure_delete') } do %>

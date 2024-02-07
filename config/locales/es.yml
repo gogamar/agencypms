@@ -21,6 +21,22 @@ es:
         bed_type: Tipo de cama
       bedroom:
         bedroom_type: Tipo de habitación
+      category:
+        name_ca: Nombre en catalán
+        name_en: Nombre en inglés
+        name_es: Nombre en español
+        name_fr: Nombre en francés
+      post:
+        title_ca: Título en catalán
+        title_en: Título en inglés
+        title_es: Título en español
+        title_fr: Título en francés
+        content_ca: Contenido en catalán
+        content_en: Contenido en inglés
+        content_es: Contenido en español
+        content_fr: Contenido en francés
+        hidden: Esconder
+        image: Imagen
       company:
         active: Activa
         administrator: Administrador
@@ -1005,3 +1021,6 @@ es:
   country: País
   max_results: Máximo de resultados
   get_news: Obtener noticias
+  select_category: Selecciona categoria
+  search_keywords: Palabras clave
+  combined_with_these_words: Combinadas con estas palabras

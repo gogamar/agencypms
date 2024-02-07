@@ -1,10 +1,9 @@
 <p style="color: green"><%= notice %></p>
-
-<%= render @feed %>
-
+<%= @feed.name %>
+<%= @feed.url %>
+<%= @feed.description %>
 <div>
   <%= link_to "Edit this feed", edit_feed_path(@feed) %> |
   <%= link_to "Back to feeds", feeds_path %>
-
   <%= button_to "Destroy this feed", @feed, method: :delete %>
 </div>

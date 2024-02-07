@@ -1,12 +1,27 @@
 <section class="gray-simple">
   <div class="container">
+    <% if current_user && current_user.admin? %>
+      <div class="d-flex justify-content-end gap-3">
+        <%= link_to new_post_path, class: "btn btn-sm btn-primary" do %>
+          <i class="fa-solid fa-plus me-2"></i> <%= t('new_post') %>
+        <% end %>
+        <%= link_to feeds_path, class: "btn btn-sm btn-info" do %>
+          <i class="fa-solid fa-square-rss me-2"></i> <%= t('get_news') %>
+        <% end %>
+      </div>
+    <% end %>
     <div class="row">
       <% @posts.each do |post| %>
         <div class="col-lg-4 col-md-6 my-3">
           <div class="blog-wrap-grid">
             <div class="blog-thumb">
-              <%= link_to news_post_path(post) do %>
-                <img src="<%= post.image_url %>" class="img-fluid" alt="<%= post.send("title_#{locale}") %>" />
+              <% post_link = post.source.present? ? post.url : news_post_path(post) %>
+              <%= link_to post_link, target: "_blank" do %>
+                <% if post.image_url %>
+                  <img src="<%= post.image_url %>" class="img-fluid" alt="<%= post.send("title_#{locale}") %>" />
+                <% elsif post.image.attached? %>
+                  <%= cl_image_tag post.image.key, crop: :fill, class: "img-fluid", alt: post.send("title_#{locale}") %>
+                <% end %>
               <% end %>
             </div>
             <div class="blog-info d-flex justify-content-between">
@@ -18,13 +33,12 @@
               <% end %>
             </div>
             <div class="blog-body">
-              <h4 class="bl-title"><a href="blog-detail.html"><%= post.send("title_#{locale}") %></a></h4>
+              <h4 class="bl-title">
+                <%= link_to post.send("title_#{locale}"), post_link, target: "_blank" %>
+              </h4>
               <p><%= post.send("content_#{locale}")&.html_safe %></p>
-              <% if post.source.present? %>
-                <a href="<%= post.url %>" class="bl-continue" target="_blank"><%= t('read_on', source: post.source) %></a>
-              <% else %>
-                <%= link_to t('global.forms.continue'), news_post_path(post), class: 'bl-continue' %>
-              <% end %>
+              <% post_link_text = post.source.present? ? t('read_on', source: post.source) : t('global.forms.continue') %>
+              <%= link_to post_link_text, post_link, class: "bl-continue", target: "_blank" %>
             </div>
           </div>
         </div>

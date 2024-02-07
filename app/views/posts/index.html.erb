@@ -1,11 +1,6 @@
 <div class="d-flex justify-content-between">
-  <% if @category %>
-    <h4><%= t('posts') %> <%= t('category') %> <%= @category.send("name_#{locale}") %></h4>
-    <%= link_to "New post", new_category_post_path, class: "btn btn-sm btn-info" %>
-  <% else %>
-    <h4><%= t('posts') %></h4>
-    <%= link_to "New post", categories_path, class: "btn btn-sm btn-info" %>
-  <% end %>
+  <h4><%= t('posts') %> <%= "#{t('category')} #{@category.send("name_#{locale}")}" if @category %></h4>
+  <%= link_to "New post", new_post_path, class: "btn btn-sm btn-info" %>
 </div>
 <% @posts.each do |post| %>
   <%= render post %>

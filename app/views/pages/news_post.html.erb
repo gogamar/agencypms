@@ -12,7 +12,7 @@
               <% end %>
             </div>
             <h2 class="post-title"><%= @post.title_ca %></h2>
-            <p><%= @post.content_ca %></p>
+            <p><%= @post.content_ca.html_safe %></p>
           </div>
         </div>
       </div>
