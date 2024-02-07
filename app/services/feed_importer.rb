@@ -18,7 +18,7 @@ class FeedImporter
           doc = Nokogiri::HTML(content) if content
           first_img = doc.at('img') if doc
 
-          image = entry["image"].presence || first_img["src"].presence if first_img
+          image = entry["image"].presence || (first_img["src"].presence if first_img)
 
           url = entry["url"].presence || entry["link"].presence
 
