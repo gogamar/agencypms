@@ -62,14 +62,12 @@ class Vrental < ApplicationRecord
       .distinct(:id)
   }
 
-  # uncomment!
-  # geocoded_by :address
-  # after_validation :geocode
+  geocoded_by :address
+  after_validation :geocode
 
-  # validates_presence_of :name, :address, :property_type
-  # validates :name, uniqueness: true
-  # validates :commission, presence: true, if: -> { contract_type == 'commission' }
-  # uncomment! it was not commented before this line
+  validates_presence_of :name, :address, :property_type
+  validates :name, uniqueness: true
+  validates :commission, presence: true, if: -> { contract_type == 'commission' }
 
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
