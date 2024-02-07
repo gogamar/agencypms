@@ -8,6 +8,8 @@ class Post < ApplicationRecord
   private
 
   def image_presence
-    errors.add(:image, "must be attached") unless image.attached?
+    unless image_url.present? || image.attached?
+      errors.add(:image, "must be attached or image_url must be present")
+    end
   end
 end

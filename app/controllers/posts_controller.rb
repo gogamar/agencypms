@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
+  include NewsHelper
   before_action :set_post, only: %i[ edit update destroy toggle_hidden ]
-  before_action :set_category, except: %i[ index destroy toggle_hidden get_news ]
   before_action :skip_authorization, only: %i[ get_news ]
 
   def index
@@ -15,6 +15,9 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
     authorize @post
+    if params[:category_id].present?
+      @category = Category.find(params[:category_id])
+    end
   end
 
   def edit
@@ -24,10 +27,12 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     authorize @post
     @post.user = current_user
+    @post.published_at = params[:post][:published_at].to_datetime || Time.now
 
     if @post.save
-      redirect_to category_post_path(@category, @post), notice: "Post was successfully created."
+      redirect_to posts_path, notice: "Post was successfully created."
     else
+      puts "this is the post errors: #{@post.errors}"
       render :new, status: :unprocessable_entity
     end
   end
@@ -40,7 +45,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to category_post_path(@category, @post), notice: "Post was successfully updated."
+      redirect_to posts_path, notice: "Post was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -52,13 +57,14 @@ class PostsController < ApplicationController
   end
 
   def get_news
-    FeedImporter.import_feeds
+    if params[:context] == 'rss_feed'
+      FeedImporter.import_feeds
+    else
+      from = params[:from].to_date.strftime('%Y-%m-%dT00:00:00Z') if params[:from].present?
+      search_query = build_search_query(params)
+      search_params = { from: from, lang: params[:lang], country: params[:country], max: params[:max] }
 
-    from = params[:from].to_date.strftime('%Y-%m-%dT00:00:00Z')
-    search_params = { from: from, lang: params[:lang], country: params[:country], max: params[:max], param1: params[:param1], param2: params[:param2], param3: params[:param3], param4: params[:param4]}
-
-    if lang != 'ca'
-      NewsApiService.get_news_from_gnews(search_params)
+      NewsApiService.get_news_from_gnews(search_query, search_params)
     end
     redirect_to posts_path, notice: "News imported successfully."
   end
@@ -68,10 +74,6 @@ class PostsController < ApplicationController
   def set_post
     @post = Post.find(params[:id])
     authorize @post
-  end
-
-  def set_category
-    @category = Category.find(params[:category_id])
   end
 
   def post_params

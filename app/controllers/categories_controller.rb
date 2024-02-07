@@ -18,7 +18,7 @@ class CategoriesController < ApplicationController
     authorize @category
 
     if @category.save
-      redirect_to new_category_post_path(@category), notice: "Category was successfully created. Now you can add a post."
+      redirect_to new_post_path(category_id: @category.id), notice: "Category was successfully created. Now you can add a post."
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class CategoriesController < ApplicationController
 
   def update
     if @category.update(category_params)
-      redirect_to new_category_post_path(@category), notice: "Category was successfully updated. Now you can add a post."
+      redirect_to new_post_path(category_id: @category.id), notice: "Category was successfully updated. Now you can add a post."
     else
       render :edit, status: :unprocessable_entity
     end

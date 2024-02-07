@@ -20,6 +20,22 @@ fr:
         bed_type: Type de lit
       bedroom:
         bedroom_type: Type de chambre
+      category:
+        name_ca: Nom en catalan
+        name_en: Nom en anglais
+        name_es: Nom en espagnol
+        name_fr: Nom en français
+      post:
+        title_ca: Titre en catalan
+        title_en: Titre en anglais
+        title_es: Titre en espagnol
+        title_fr: Titre en français
+        content_ca: Contenu en catalan
+        content_en: Contenu en anglais
+        content_es: Contenu en espagnol
+        content_fr: Contenu en francés
+        hidden: Caché
+        image: Image
       company:
         active: Actif
         administrator: Administrateur
@@ -1005,3 +1021,6 @@ fr:
   country: Pays
   max_results: Maximum de résultats
   get_news: Obtenir les actualités
+  select_category: Sélectionner une catégorie
+  search_keywords: Rechercher par mots-clés
+  combined_with_these_words: Combiné avec ces mots

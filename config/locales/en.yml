@@ -20,6 +20,22 @@ en:
         bed_type: Bed Type
       bedroom:
         bedroom_type: Bedroom Type
+      category:
+        name_ca: Name in Catalan
+        name_en: Name in English
+        name_es: Name in Spanish
+        name_fr: Name in French
+      post:
+        title_ca: Title in Catalan
+        title_en: Title in English
+        title_es: Title in Spanish
+        title_fr: Title in French
+        content_ca: Content in Catalan
+        content_en: Content in English
+        content_es: Content in Spanish
+        content_fr: Content in French
+        hidden: Hidden
+        image: Image
       company:
         active: Active
         administrator: Administrator
@@ -1005,3 +1021,6 @@ en:
   country: Country
   max_results: Max Results
   get_news: Get News
+  select_category: Select Category
+  search_keywords: Search Keywords
+  combined_with_these_words: Combined with these words

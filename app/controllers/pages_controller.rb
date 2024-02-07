@@ -105,7 +105,7 @@ class PagesController < ApplicationController
   def news
     @posts = policy_scope(Post)
                .where(hidden: false)
-               .where.not("title_#{I18n.locale.to_s}" => nil)
+               .where.not("title_#{I18n.locale.to_s}" => [nil, ""])
                .order(published_at: :desc)
 
     @category = Category.find_by(id: params[:category_id]) if params[:category_id]

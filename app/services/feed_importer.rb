@@ -8,26 +8,36 @@ class FeedImporter
       xml = HTTParty.get(feed.url).body
       parsed_xml = Feedjira.parse(xml)
 
-      puts "this is the parsed xml: #{parsed_xml}"
-
       if parsed_xml.entries.any?
         parsed_xml.entries.each do |entry|
-          decoded_summary = CGI.unescapeHTML(entry.summary)
 
-          parsed_uri = URI.parse(entry.url)
+          desc = entry["description"].presence || entry["summary"].presence
+          decoded_summary = CGI.unescapeHTML(desc)
+          content = entry["content"].presence
+
+          doc = Nokogiri::HTML(content) if content
+          first_img = doc.at('img') if doc
+
+          image = entry["image"].presence || first_img["src"].presence if first_img
+
+          url = entry["url"].presence || entry["link"].presence
+
+          parsed_uri = URI.parse(url)
           domain = parsed_uri.host
 
-          existing_post = Post.find_by(url: entry.url)
+          publish_date = entry["published"].presence || entry["pubDate"].presence
+
+          existing_post = Post.find_by(url: url)
           next if existing_post
 
           Post.create(
             "title_#{feed.language}": entry.title,
             "content_#{feed.language}": decoded_summary,
-            published_at: entry.published,
-            url: entry.url,
+            published_at: publish_date,
+            url: url,
             category_id: feed.category_id,
             user_id: User.where(role: "admin").first.id,
-            image_url: entry.image,
+            image_url: image,
             feed_id: feed.id,
             source: domain
           )

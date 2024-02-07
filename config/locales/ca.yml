@@ -34,6 +34,8 @@ ca:
         content_en: Contingut en anglès
         content_es: Contingut en castellà
         content_fr: Contingut en francès
+        hidden: Amagat
+        image: Imatge
       company:
         active: Activa
         administrator: Administrador
@@ -1022,3 +1024,6 @@ ca:
   country: País
   max_results: Màxim de resultats
   get_news: Obtenir notícies
+  select_category: Selecciona categoria
+  search_keywords: Paraules clau
+  combined_with_these_words: Combinades amb aquestes paraules
