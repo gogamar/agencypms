@@ -111,6 +111,7 @@ ca:
         pricenight: Preu nit
         priceweek: Preu setmana
         restriction: Tipus tarifa
+        max_advance: Amb quants dies vista s'ha d'activar aquesta tarifa?
       rate_period:
         firstnight: Des de
         lastnight: Fins a
@@ -1058,3 +1059,4 @@ ca:
   select_category: Selecciona categoria
   search_keywords: Paraules clau
   combined_with_these_words: Combinades amb aquestes paraules
+  booking_date_less_max_advance: Aquesta tarifa només està disponible quan la data de reserva és anterior a %{max_advance} dies a partir d'avui.

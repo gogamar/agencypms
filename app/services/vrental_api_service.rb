@@ -732,6 +732,8 @@ class VrentalApiService
 
       night_rates = beds24rates.select { |rate| rate["pricesPer"] == "1" && rate["restrictionStrategy"] == "0" }
 
+      # fixme: should import gap fill rates as well
+
       night_rates.each do |night_rate|
         if Date.parse(night_rate["lastNight"]) > Date.today.last_year
           existing_rate = @target.rates.find_by("beds_rate_id = :rate_id OR (firstnight = :first_night AND lastnight = :last_night)", rate_id: night_rate["rateId"], first_night: night_rate["firstNight"].to_date, last_night: night_rate["lastNight"].to_date)
@@ -839,6 +841,7 @@ class VrentalApiService
           lastNight: rate.lastnight.strftime("%Y-%m-%d"),
           maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
           minAdvance: rate.min_advance.to_s,
+          maxAdvance: rate.max_advance.to_s,
           restrictionStrategy: rate_restriction,
           allowEnquiry: "1",
           color: "#{SecureRandom.hex(3)}",

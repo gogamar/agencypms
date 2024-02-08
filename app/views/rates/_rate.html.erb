@@ -1,5 +1,8 @@
 <%= turbo_frame_tag rate, class: "card-body" do %>
   <div class="row py-2 rate-dates border-bottom">
+    <% if rate.max_advance && rate.max_advance != 365 %>
+      <span class="text-sm text-muted"><%= t('booking_date_less_max_advance', max_advance: rate.max_advance) %></span>
+    <% end %>
     <% unless params[:controller] == 'vragreements' %>
       <div class="col-lg-1 nowrap <%= 'text-danger' if rate.restriction == "gap_fill" %>"><%= t(rate.restriction) %></div>
     <% end %>
