@@ -111,6 +111,7 @@ fr:
         pricenight: Prix nuit
         priceweek: Prix semaine
         restriction: Type de tarif
+        max_advance: Avec combien de jours à l'avance cette tarification doit-elle être activée?
       rate_period:
         firstnight: À partir de
         lastnight: Jusqu'à
@@ -1054,3 +1055,4 @@ fr:
   select_category: Sélectionner une catégorie
   search_keywords: Rechercher par mots-clés
   combined_with_these_words: Combiné avec ces mots
+  booking_date_less_max_advance: Cette tarification n'est disponible que lorsque la date de réservation est inférieure à %{max_advance} jours à partir d'aujourd'hui.

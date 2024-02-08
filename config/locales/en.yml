@@ -111,6 +111,7 @@ en:
         pricenight: Night Price
         priceweek: Week Price
         restriction: Rate Type
+        max_advance: How many days in advance should this rate be activated?
       rate_period:
         firstnight: From
         lastnight: To
@@ -1054,3 +1055,4 @@ en:
   select_category: Select Category
   search_keywords: Search Keywords
   combined_with_these_words: Combined with these words
+  booking_date_less_max_advance: This rate is only available when the booking date is less than %{max_advance} days from today.

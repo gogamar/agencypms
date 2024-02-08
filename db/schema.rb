@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_07_145719) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_08_094723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -408,6 +408,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_145719) do
     t.string "restriction", default: "normal"
     t.string "week_beds_rate_id"
     t.integer "arrival_day"
+    t.integer "max_advance", default: 365
     t.index ["vrental_id"], name: "index_rates_on_vrental_id"
   end
 

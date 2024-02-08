@@ -45,6 +45,8 @@ export default class extends Controller {
       },
     };
     this.endPicker = initFlatpickr(this.endTarget, endOptions);
+
+    this.showGapFillFields();
   }
 
   updateEnd(event) {
@@ -62,7 +64,7 @@ export default class extends Controller {
       this.enableDates();
       this.hintTarget.classList.remove("d-none");
       this.maxStayTarget.classList.remove("d-none");
-      if (this.priceWeekTarget) {
+      if (this.hasPriceWeekTarget) {
         this.priceWeekTarget.classList.add("d-none");
         this.priceWeekTarget.querySelector("input").removeAttribute("required");
         this.priceNightTarget.classList.remove("d-none");
@@ -75,7 +77,7 @@ export default class extends Controller {
       this.hintTarget.classList.add("d-none");
       this.maxStayTarget.classList.add("d-none");
       this.maxStayTarget.querySelector("input").value = 365;
-      if (this.priceWeekTarget) {
+      if (this.hasPriceWeekTarget) {
         this.priceWeekTarget.classList.remove("d-none");
         this.priceWeekTarget
           .querySelector("input")

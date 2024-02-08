@@ -74,6 +74,6 @@ class RatesController < ApplicationController
   end
 
   def rate_params
-    params.require(:rate).permit(:pricenight, :beds_room_id, :firstnight, :lastnight, :min_stay, :max_stay, :restriction, :arrival_day, :priceweek, :vrental_id, :nights, :beds_rate_id)
+    params.require(:rate).permit(:pricenight, :beds_room_id, :firstnight, :lastnight, :min_stay, :max_stay, :restriction, :arrival_day, :priceweek, :vrental_id, :nights, :beds_rate_id, :min_advance, :max_advance)
   end
 end

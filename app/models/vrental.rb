@@ -292,32 +292,40 @@ class Vrental < ApplicationRecord
     if checkin_date
       # return only the checkout dates that fulfill the min_stay requirement & there are no reservations in between
       checkin_date = checkin_date.is_a?(Date) ? checkin_date : Date.parse(checkin_date)
-      first_possible_checkout_date = (checkin_date + rate_min_stay(checkin_date).days) || (Date.today + 1.day)
-      available_after_checkin = future_availabilities.where("date >= ?", first_possible_checkout_date)
-      checkout_dates = available_after_checkin.pluck(:date)
+      first_possible_checkout_date = checkin_date + rate_min_stay(checkin_date).days
+      available_after_checkin = future_availabilities.where("date >= ?", checkin_date)
+      if available_after_checkin.present?
+        checkout_dates = available_after_checkin.pluck(:date).map { |date| date + 1.day }
+      end
 
       viable_checkout_dates = []
       current_date = first_possible_checkout_date
 
       while checkout_dates.include?(current_date)
-        available_date = available_after_checkin.find_by(date: current_date)
-        checkout_allowed = available_date.override != 3 && available_date.override != 4
-        if checkout_allowed
+        # fixme: currently not importing availabilities with inventory 0 so this wouldn't do anything if the date is not among availabilites
+        # available_date = availabilities.find_by(date: current_date)
+        # checkout_allowed = available_date.override != 3 && available_date.override != 4
+        # if checkout_allowed
           viable_checkout_dates << current_date
-        end
+        # end
         current_date += 1.day
       end
-
       viable_checkout_dates
     else
-      future_availabilities.where.not(override: [3, 4]).pluck(:date)
+      future_available_dates = future_availabilities.where.not(override: [3, 4])
+      if future_available_dates.present?
+        future_available_dates.pluck(:date).map { |date| date + 1.day }
+      end
     end
   end
 
   def rate_min_stay(checkin)
     checkin = checkin.is_a?(Date) ? checkin : Date.parse(checkin) if checkin.present?
     vrental_instance = rate_master_id.present? ? rate_master : self
-    checkin_rate = vrental_instance.rates.find_by("firstnight <= ? AND lastnight >= ?", checkin, checkin)
+    days_till_checkin = (checkin - Date.today).to_i
+    checkin_rates = vrental_instance.rates.where("firstnight <= ? AND lastnight >= ? AND max_advance >= ?", checkin, checkin, days_till_checkin)
+
+    checkin_rate = checkin_rates.order(:min_stay).first
     return (checkin_rate.present? && checkin_rate.min_stay != 0) ? checkin_rate.min_stay : (self.min_stay || 1)
   end
 
