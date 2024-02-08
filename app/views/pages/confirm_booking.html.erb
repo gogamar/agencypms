@@ -1,8 +1,8 @@
-<section class="gray-simple pt-3" data-controller="iframe">
+<section class="gray-simple pt-3" data-controller="iframe" data-coupon="<%= @vrental.coupons.first.name if @vrental.coupons.present? %>">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 col-md-12">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center px-4" id="charge-alerts-js">
           <% if @vrental.res_fee.present? %>
             <div class="col-xl-12 col-lg-12 col-md-12">
               <div class="alert alert-success alert-dismissible fade show property-1 position-relative" role="alert">
@@ -22,12 +22,9 @@
         </div>
       </div>
       <%# fixme check for valid coupons %>
-      <% if @vrental.coupons.present? %>
-        <span id="coupon-code" data-coupon="<%= @vrental.coupons.first.name %>"></span>
-      <% end %>
       <div class="col-lg-12 col-md-12">
         <div class="iframe-container h-100">
-          <iframe id="confirm-booking-js" src="https://beds24.com/booking.php?propid=<%= @vrental.beds_prop_id %>&page=book3&limitstart=0&lang=<%= params[:locale] %>&checkin=<%= @checkin %>&checkin_hide=<%= @checkin %>&checkout=<%= @checkout %>&checkout_hide=<%= @checkout %>&numnight=<%= @nights %>&numadult=<%= @guests %>&numchild=0&br1-<%= @vrental.beds_room_id %>=Book" style="width: 100%; height: 100%"></iframe>
+          <iframe id="confirm-booking-js" src="https://beds24.com/booking.php?propid=<%= @vrental.beds_prop_id %>&page=book3&limitstart=0&lang=<%= params[:locale] %>&checkin=<%= @checkin %>&checkin_hide=<%= @checkin %>&checkout=<%= @checkout %>&checkout_hide=<%= @checkout %>&numnight=<%= @nights %>&numadult=<%= @guests %>&numchild=0&br1-<%= @vrental.beds_room_id %>=Book" style="width: 100%; height: 2000px"></iframe>
         </div>
       </div>
     </div>
