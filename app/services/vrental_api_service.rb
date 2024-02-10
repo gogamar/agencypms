@@ -851,12 +851,12 @@ class VrentalApiService
 
         nightly_rate = {
           action: rate_exists_on_beds ? "modify" : "new",
-          name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{@target.weekly_discount.present? ? @target.weekly_discount.to_s + '% descompte setmanal' : ''}",
+          name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{(@target.weekly_discount.present? && rate.restriction != "gap_fill") ? @target.weekly_discount.to_s + '% descompte setmanal' : ''}",
           pricesPer: "1",
           minNights: @target.control_restrictions == "rates" ? rate.min_stay.to_s : "0",
           roomPrice: rate.pricenight,
           disc6Nights: "7",
-          disc6Percent: @target.weekly_discount.present? ? @target.weekly_discount.to_s : "0"
+          disc6Percent: (@target.weekly_discount.present? && rate.restriction != "gap_fill") ? @target.weekly_discount.to_s : "0"
         }
 
         merged_nightly_rate = vrental_rate.merge(nightly_rate)
@@ -867,7 +867,7 @@ class VrentalApiService
 
         nightly_rates << merged_nightly_rate
 
-        if @target.price_per == "week"
+        if @target.price_per == "week" && rate.restriction != "gap_fill"
           week_rate_exists_on_beds = false
 
           if rate.week_beds_rate_id.present?
