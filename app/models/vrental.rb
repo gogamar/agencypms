@@ -984,11 +984,7 @@ class Vrental < ApplicationRecord
   end
 
   def default_checkin
-    if availabilities.present?
-      self.available_from
-    else
-      Date.today + 14.days
-    end
+    available_for_checkin.first if available_for_checkin.present?
   end
 
   def default_checkout

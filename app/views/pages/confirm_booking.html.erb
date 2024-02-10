@@ -1,8 +1,9 @@
 <section class="gray-simple pt-3" data-controller="iframe" data-coupon="<%= @vrental.coupons.first.name if @vrental.coupons.present? %>">
   <div class="container">
     <div class="row">
+      <h4 class="text-center py-3"><%= @vrental.display_name %></h4>
       <div class="col-lg-12 col-md-12">
-        <div class="row justify-content-center px-4" id="charge-alerts-js">
+        <div class="row justify-content-center" id="charge-alerts-js">
           <% if @vrental.res_fee.present? %>
             <div class="col-xl-12 col-lg-12 col-md-12">
               <div class="alert alert-success alert-dismissible fade show property-1 position-relative" role="alert">
