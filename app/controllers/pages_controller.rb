@@ -139,8 +139,13 @@ class PagesController < ApplicationController
   def book_property
     @vrental = Vrental.friendly.find(params[:id])
     @property_images = @vrental.image_urls.order(position: :asc)
-    @checkin = params[:check_in] || @vrental.default_checkin.strftime("%Y-%m-%d")
-    @checkout = params[:check_out] || @vrental.default_checkout.strftime("%Y-%m-%d")
+    if params[:check_in].present? && params[:check_out].present?
+      @checkin = params[:check_in]
+      @checkout = params[:check_out]
+    elsif @vrental.default_checkin && @vrental.default_checkout
+      @checkin = @vrental.default_checkin.strftime("%Y-%m-%d")
+      @checkout = @vrental.default_checkout.strftime("%Y-%m-%d")
+    end
     @guests = params[:guests] || 1
     @price = params[:price]
     @rate_price = params[:rate_price]

@@ -6,7 +6,7 @@ class Rate < ApplicationRecord
   before_save :calculate_pricenight, if: -> { priceweek.present? }
 
 
-  RESTRICTION = ['normal', 'gap_fill'].freeze
+  RESTRICTION = ['normal', 'gap_fill', 'short_stay'].freeze
   ARRIVAL_DAY = {
     7 => 'everyday',
     1 => 'monday',
