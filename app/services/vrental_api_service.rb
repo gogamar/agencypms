@@ -1463,14 +1463,14 @@ class VrentalApiService
         return
       else
         booking.earning.update!(
-          date: booking.checkin,
+          date: booking.checkout,
           amount: price,
           discount: discount
         )
       end
     else
       Earning.create!(
-        date: booking.checkin,
+        date: booking.checkout,
         amount: price,
         discount: discount,
         booking_id: booking.id,
