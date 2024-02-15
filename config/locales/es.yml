@@ -819,6 +819,7 @@ es:
   reviews: comentarios
   roof_terrace: Terraza comunitaria
   routes:
+    home: inicio
     privacy_policy: politica-de-privacidad
     owner_bookings: reservas-propietario
     vragreements: contratos
