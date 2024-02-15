@@ -18,7 +18,7 @@ class Statement < ApplicationRecord
   end
 
   def statement_bookings
-    vrental.bookings.where(checkin: start_date..end_date)
+    vrental.bookings.where(checkout: start_date..end_date)
   end
 
   def statement_earnings
