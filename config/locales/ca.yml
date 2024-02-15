@@ -822,6 +822,7 @@ ca:
   reviews: comentaris
   roof_terrace: Terrassa comunitària
   routes:
+    home: inici
     privacy_policy: politica-de-privacitat
     owner_bookings: reserves-propietari
     vragreements: contractes
