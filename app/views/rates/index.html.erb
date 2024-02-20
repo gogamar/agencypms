@@ -1,4 +1,9 @@
 <% if @vrental.rate_master_id.nil? %>
+  <% unless @vrental.control_restrictions == "rates" %>
+    <p><%= t('to_control_from_rates') %>
+      <%= link_to t('control_from_rates'), restriction_rates_vrental_path(@vrental), class: "btn btn-sm btn-secondary" %>
+    </p>
+  <% end %>
   <h4 class="font-weight-bold text-primary text-center mb-2"><%= t('rates') %></h4>
   <hr>
   <% if @vrental.beds_prop_id.present? && @vrental.beds_room_id.present? && @vrental.prop_key.present? %>

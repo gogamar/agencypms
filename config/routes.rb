@@ -100,6 +100,7 @@ Rails.application.routes.draw do
         get :bookings_on_calendar
         get :get_reviews_from_airbnb
         get :toggle_featured
+        get :restriction_rates
       end
 
       resources :availabilities, except: [:show]

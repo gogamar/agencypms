@@ -411,7 +411,7 @@ ca:
   contract_signed: Contracte signat
   contract_templates: Models de contracte
   contracts: Contractes
-  control_restrictions: Control·lar estada mínima i día d'arribada des de el Calendari Beds24 o des de les Tarifes
+  control_restrictions: Control·lar estada mínima des de el Calendari Beds24 o des de les Tarifes
   cookie_consent: Aquest lloc web utilitza cookies per millorar la teva experiència. Si continues navegant, considerem que acceptes la nostra
   cookies_policy: política de cookies
   copy: Copiar
@@ -1062,3 +1062,6 @@ ca:
   combined_with_these_words: Combinades amb aquestes paraules
   booking_date_less_max_advance: Aquesta tarifa només està disponible quan per la data de reserva queden %{max_advance} dies o menys.
   short_stay: Estada curta
+  control_from_rates: Control.lar estada mín des de les tarifes
+  to_control_from_rates: Si vols introduir tarifes per omplir forats o caps de setmana, fes click aqui
+  to_use_gap_fill_select_rates: Si vols establir tarifes especials per omplir forats o estades més curtes i cares el cap de setmana, has de seleccionar 'Tarifes'

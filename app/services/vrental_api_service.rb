@@ -825,9 +825,10 @@ class VrentalApiService
       end
 
       nightly_rates = []
-      weekly_rates = []
 
-      @target.future_rates.each do |rate|
+      nightly_future_rates = @target.future_rates
+
+      nightly_future_rates.each do |rate|
         rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
 
         if rate.restriction.present?
@@ -849,14 +850,16 @@ class VrentalApiService
           roomPriceGuests: "0"
           }
 
+          rate_restriction_text = rate.restriction.present? ? " (#{I18n.t("#{rate.restriction}")}) " : ""
+
         nightly_rate = {
           action: rate_exists_on_beds ? "modify" : "new",
-          name: "Tarifa #{rate.restriction.present? && rate.restriction == 'gap_fill' ? 'omplir forats ' : ''}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{(@target.weekly_discount.present? && !rate.restriction.present? ) ? @target.weekly_discount.to_s + '% descompte setmanal' : ''}",
+          name: "Tarifa #{rate_restriction_text}per nit #{I18n.l(rate.firstnight, format: :short)} - #{I18n.l(rate.lastnight, format: :short)} #{(@target.weekly_discount.present? && rate.restriction == 'normal' ) ? @target.weekly_discount.to_s + '% descompte setmanal' : ''}",
           pricesPer: "1",
           minNights: @target.control_restrictions == "rates" ? rate.min_stay.to_s : "0",
           roomPrice: rate.pricenight,
           disc6Nights: "7",
-          disc6Percent: (@target.weekly_discount.present? && !rate.restriction.present?) ? @target.weekly_discount.to_s : "0"
+          disc6Percent: (@target.weekly_discount.present? && rate.restriction == 'normal') ? @target.weekly_discount.to_s : "0"
         }
 
         merged_nightly_rate = vrental_rate.merge(nightly_rate)
@@ -866,8 +869,24 @@ class VrentalApiService
         end
 
         nightly_rates << merged_nightly_rate
+      end
 
-        if @target.price_per == "week" && !rate.restriction.present?
+      begin
+        nightly_rates_response = client.set_rates(@target.prop_key, setRates: nightly_rates)
+
+        nightly_future_rates.each_with_index do |rate, index|
+          rate.update!(beds_rate_id: nightly_rates_response[index]["rateId"])
+        end
+        sleep 3
+      rescue => e
+        puts "Error setting nightly rates for #{@target.name}: #{e.message}"
+      end
+
+      if @target.price_per == "week"
+        weekly_rates = []
+        weekly_future_rates = @target.future_rates.select { |rate| rate.restriction == "normal" || rate.restriction.blank? }
+
+        weekly_future_rates.each do |rate|
           week_rate_exists_on_beds = false
 
           if rate.week_beds_rate_id.present?
@@ -891,29 +910,18 @@ class VrentalApiService
           end
 
           weekly_rates << merged_weekly_rate
+
+          begin
+            weekly_rates_response = client.set_rates(@target.prop_key, setRates: weekly_rates)
+
+            weekly_future_rates.each_with_index do |rate, index|
+              rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
+            end
+            sleep 3
+          rescue => e
+            puts "Error setting weekly rates for #{@target.name}: #{e.message}"
+          end
         end
-      end
-
-      begin
-        nightly_rates_response = client.set_rates(@target.prop_key, setRates: nightly_rates)
-
-        @target.future_rates.each_with_index do |rate, index|
-          rate.update!(beds_rate_id: nightly_rates_response[index]["rateId"])
-        end
-        sleep 3
-      rescue => e
-        puts "Error setting nightly rates for #{@target.name}: #{e.message}"
-      end
-
-      begin
-        weekly_rates_response = client.set_rates(@target.prop_key, setRates: weekly_rates)
-
-        @target.future_rates.each_with_index do |rate, index|
-          rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
-        end
-        sleep 3
-      rescue => e
-        puts "Error setting weekly rates for #{@target.name}: #{e.message}"
       end
 
       # fixme: perhaps should create links for weekly rates too (for example if an apartment in Estartit has dependent apartments, to link the rates)

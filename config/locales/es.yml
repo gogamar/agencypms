@@ -409,7 +409,7 @@ es:
   contract: Contrato
   contract_templates: Plantillas de contrato
   contracts: Contratos
-  control_restrictions: Controlar estancia mínima y día de llegada desde el Calendario de Beds24 o las Tarifas
+  control_restrictions: Controlar estancia mínima desde el Calendario de Beds24 o las Tarifas
   cookie_consent: Este sitio web utiliza cookies para mejorar tu experiencia. Si continúas navegando, consideramos que aceptas nuestra
   cookies_policy: política de cookies
   copy: Copiar
@@ -1058,3 +1058,6 @@ es:
   combined_with_these_words: Combinadas con estas palabras
   booking_date_less_max_advance: Esta tarifa solo está disponible cuando para la fecha de reserva quedan %{max_advance} días o menos.
   short_stay: Estancia corta
+  control_from_rates: Control mínimo de estancia a partir de tarifas
+  to_control_from_rates: Si desea introducir tarifas para cubrir huecos o para estancias más cortas, haga clic aquí
+  to_use_gap_fill_select_rates: Si desea establecer tarifas especiales para llenar huecos o para estancias más cortas y caras durante el fin de semana, debes seleccionar 'Tarifas'

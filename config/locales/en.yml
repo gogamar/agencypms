@@ -408,7 +408,7 @@ en:
   contract: Contract
   contract_templates: Contract Templates
   contracts: Contracts
-  control_restrictions: Control minimum stay and arrival day from Beds24 Calendar or Rates
+  control_restrictions: Control minimum stay from Beds24 Calendar or Rates
   cookie_consent: This website uses cookies to improve your experience. If you continue browsing, we consider that you accept our
   cookies_policy: cookies policy
   copy: Copy
@@ -1058,3 +1058,6 @@ en:
   combined_with_these_words: Combined with these words
   booking_date_less_max_advance: This rate is only available when the booking date is less than %{max_advance} days from today.
   short_stay: Short Stay
+  control_from_rates: Control minimum stay from rates
+  to_control_from_rates: If you'd like to introduce rates to fill gaps or for shorter stay, click here
+  to_use_gap_fill_select_rates: If you'd like to use gap fill or shorter stays on weekends, select 'Rates'

@@ -432,10 +432,20 @@ class VrentalsController < ApplicationController
     request_context = params[:vrental][:request_context]
 
     if @vrental.update(vrental_params)
+      if request_context == 'general_details' && @vrental.control_restrictions != "rates"
+        special_rates = @vrental.rates.where.not(restriction: "normal")
+        special_rates.destroy_all
+      end
       handle_update_success(request_context)
     else
       handle_update_failure
     end
+  end
+
+  def restriction_rates
+    @vrental.control_restrictions = "rates"
+    @vrental.save
+    redirect_back(fallback_location: vrental_rates_path(@vrental), notice: "Restriccions de estada minima es control.laran per les tarifes.")
   end
 
   def destroy
