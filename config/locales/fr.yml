@@ -1057,3 +1057,4 @@ fr:
   search_keywords: Rechercher par mots-clés
   combined_with_these_words: Combiné avec ces mots
   booking_date_less_max_advance: Cette tarification n'est disponible que lorsque la date de réservation est inférieure à %{max_advance} jours à partir d'aujourd'hui.
+  short_stay: Séjour court

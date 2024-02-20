@@ -60,7 +60,7 @@ export default class extends Controller {
 
   showGapFillFields() {
     const restrictionValue = this.restrictionTarget.value;
-    if (restrictionValue === "gap_fill") {
+    if (restrictionValue === "gap_fill" || restrictionValue === "short_stay") {
       this.enableDates();
       this.hintTarget.classList.remove("d-none");
       this.maxStayTarget.classList.remove("d-none");
