@@ -1060,4 +1060,5 @@ ca:
   select_category: Selecciona categoria
   search_keywords: Paraules clau
   combined_with_these_words: Combinades amb aquestes paraules
-  booking_date_less_max_advance: Aquesta tarifa només està disponible quan la data de reserva és anterior a %{max_advance} dies a partir d'avui.
+  booking_date_less_max_advance: Aquesta tarifa només està disponible quan per la data de reserva queden %{max_advance} dies o menys.
+  short_stay: Estada curta

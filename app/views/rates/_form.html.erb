@@ -10,7 +10,7 @@
           <%= f.label :max_advance %>
         </div>
         <div class="col-lg-2">
-          <%= f.input :max_advance, label: false, input_html: { value: rate.persisted? ? rate.max_advance : 14, min: '1' } %>
+          <%= f.input :max_advance, label: false, input_html: { min: '1' } %>
         </div>
         <div class="col-lg-2">
           <%= t('days') %>
@@ -33,18 +33,18 @@
         <%= f.input :arrival_day, collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
       </div>
       <div class="p-1 text-center">
-        <%= f.input :min_stay %>
+        <%= f.input :min_stay, input_html: { min: '0' } %>
       </div>
       <div class="p-1 text-center <%= 'd-none' unless f.object.restriction.present? && f.object.restriction == "gap_fill" %>" data-unavailable-dates-target="maxStay">
-        <%= f.input :max_stay %>
+        <%= f.input :max_stay, input_html: { min: '1' } %>
       </div>
       <% if vrental.price_per == "week" %>
         <div class="p-1 text-center <%= 'd-none' if vrental.price_per == "night" || !vrental.price_per.present? %>" data-unavailable-dates-target="priceWeek">
-          <%= f.input :priceweek, required: vrental.price_per == "week" %>
+          <%= f.input :priceweek, required: vrental.price_per == "week", input_html: { min: '1' } %>
         </div>
       <% end %>
       <div class="p-1 text-center <%= 'd-none' if vrental.price_per == "week" %>" data-unavailable-dates-target="priceNight">
-        <%= f.input :pricenight, required: vrental.price_per == "night" || !vrental.price_per.present? %>
+        <%= f.input :pricenight, required: vrental.price_per == "night" || !vrental.price_per.present?, input_html: { min: '1' } %>
       </div>
       <div class="p-1 text-center">
         <%= f.button :submit, t('global.forms.submit'), class: 'btn btn-sm btn-primary mt-3' %>
