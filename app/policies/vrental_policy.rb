@@ -43,6 +43,10 @@ class VrentalPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def restriction_rates?
+    user.admin?
+  end
+
   def show?
     user.admin? || user.manager? || record.owner == user.owner
   end

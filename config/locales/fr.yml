@@ -408,7 +408,7 @@ fr:
   contract: Contrat
   contract_templates: Modèles de contrat
   contracts: Contrats
-  control_restrictions: Contrôler le séjour minimum et le jour d'arrivée depuis le calendrier Beds24 ou les tarifs
+  control_restrictions: Contrôler le séjour minimum depuis le calendrier Beds24 ou les tarifs
   cookie_consent: Ce site web utilise des cookies pour améliorer votre expérience. Si vous continuez à naviguer, nous considérons que vous acceptez notre
   cookies_policy: politique de cookies
   copy: Copier
@@ -1058,3 +1058,6 @@ fr:
   combined_with_these_words: Combiné avec ces mots
   booking_date_less_max_advance: Cette tarification n'est disponible que lorsque la date de réservation est inférieure à %{max_advance} jours à partir d'aujourd'hui.
   short_stay: Séjour court
+  control_from_rates: Contrôler le séjour minimum à partir des tarifs
+  to_control_from_rates: Si vous souhaitez introduire des tarifs pour combler les lacunes ou pour un séjour plus court, cliquez ici
+  to_use_gap_fill_select_rates: Si vous souhaitez définir des tarifs spéciaux pour combler les lacunes ou pour des séjours plus courts le week-end, vous devez sélectionner 'tarifs'
