@@ -742,7 +742,7 @@ class VrentalApiService
             existing_rate.update!(
               firstnight: night_rate["firstNight"],
               lastnight: night_rate["lastNight"],
-              pricenight: @target.price_per == "night" ? night_rate["roomPrice"].to_f : nil,
+              pricenight: night_rate["roomPrice"].to_f,
               beds_room_id: night_rate["roomId"]
             )
           else
@@ -751,7 +751,7 @@ class VrentalApiService
               vrental_id: @target.id,
               firstnight: night_rate["firstNight"],
               lastnight: night_rate["lastNight"],
-              pricenight: night_rate["pricesPer"] == "1" ? night_rate["roomPrice"].to_f : night_rate["roomPrice"].to_f / 7,
+              pricenight: night_rate["roomPrice"].to_f,
               beds_room_id: night_rate["roomId"]
             )
           end
@@ -889,6 +889,21 @@ class VrentalApiService
         weekly_future_rates.each do |rate|
           week_rate_exists_on_beds = false
 
+          vrental_rate =
+          {
+          roomId: "#{@target.beds_room_id}",
+          firstNight: rate.firstnight.strftime("%Y-%m-%d"),
+          lastNight: rate.lastnight.strftime("%Y-%m-%d"),
+          maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
+          minAdvance: rate.min_advance.to_s,
+          maxAdvance: rate.max_advance.to_s,
+          restrictionStrategy: "0",
+          allowEnquiry: "1",
+          color: "#{SecureRandom.hex(3)}",
+          roomPriceEnable: "1",
+          roomPriceGuests: "0"
+          }
+
           if rate.week_beds_rate_id.present?
             week_rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.week_beds_rate_id }
           end
@@ -910,17 +925,17 @@ class VrentalApiService
           end
 
           weekly_rates << merged_weekly_rate
+        end
 
-          begin
-            weekly_rates_response = client.set_rates(@target.prop_key, setRates: weekly_rates)
+        begin
+          weekly_rates_response = client.set_rates(@target.prop_key, setRates: weekly_rates)
 
-            weekly_future_rates.each_with_index do |rate, index|
-              rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
-            end
-            sleep 3
-          rescue => e
-            puts "Error setting weekly rates for #{@target.name}: #{e.message}"
+          weekly_future_rates.each_with_index do |rate, index|
+            rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
           end
+          sleep 3
+        rescue => e
+          puts "Error setting weekly rates for #{@target.name}: #{e.message}"
         end
       end
 

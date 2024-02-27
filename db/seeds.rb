@@ -1,5 +1,5 @@
-require 'open-uri'
-require 'nokogiri'
+# require 'open-uri'
+# require 'nokogiri'
 
 all_vrentals = Vrental.all
 barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
@@ -320,3 +320,11 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #     end
 #   end
 # end
+
+estartit_vrentals.each do |vrental|
+  vrental.rates.each do |rate|
+    rate.update(min_advance: 2)
+  end
+  VrentalApiService.new(vrental).send_rates_to_beds
+  puts "Sent rates for #{vrental.name}"
+end
