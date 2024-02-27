@@ -68,6 +68,7 @@ class Vrental < ApplicationRecord
   validates_presence_of :name, :address, :property_type
   validates :name, uniqueness: true
   validates :commission, presence: true, if: -> { contract_type == 'commission' }
+  before_save :update_price_per
 
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
@@ -1002,6 +1003,14 @@ class Vrental < ApplicationRecord
   end
 
   private
+
+  def update_price_per
+    if control_restrictions == "rates"
+      self.price_per = "night"
+    elsif control_restrictions == "calendar_beds24"
+      self.price_per = "week"
+    end
+  end
 
   def cannot_reference_self_as_rate_master
     if id == rate_master_id
