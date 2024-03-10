@@ -101,6 +101,7 @@ Rails.application.routes.draw do
         get :get_reviews_from_airbnb
         get :toggle_featured
         get :restriction_rates
+        get :delete_all_photos
       end
 
       resources :availabilities, except: [:show]

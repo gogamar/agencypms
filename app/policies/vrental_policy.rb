@@ -174,4 +174,8 @@ class VrentalPolicy < ApplicationPolicy
   def import_from_group?
     return update?
   end
+
+  def delete_all_photos?
+    return update?
+  end
 end
