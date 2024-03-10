@@ -11,7 +11,9 @@
     </div>
     <div class="text-sm"><%= t('invoice_amount') %>: <%= number_to_currency(invoice.agency_total, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %></div>
     <div>
-      <%= link_to "#{t('invoice')}: #{invoice.invoice_number_formatted}", vrental_invoice_path(invoice.vrental, invoice), class: "btn btn-sm btn-light-info" %>
+      <% if invoice.vrental %>
+        <%= link_to "#{t('invoice')}: #{invoice.invoice_number_formatted}", vrental_invoice_path(invoice.vrental, invoice), class: "btn btn-sm btn-light-info" %>
+      <% end %>
     </div>
     <div>
       <% if invoice.statements %>
@@ -23,8 +25,10 @@
       <% end %>
     </div>
     <div>
-      <%= link_to edit_vrental_invoice_path(invoice.vrental, invoice), class: "text-secondary text-decoration-none" do %>
-        <i class="fas fa-edit fa-sm"></i> <%= t('edit_invoice') %>
+      <% if invoice.vrental %>
+        <%= link_to edit_vrental_invoice_path(invoice.vrental, invoice), class: "text-secondary text-decoration-none" do %>
+          <i class="fas fa-edit fa-sm"></i> <%= t('edit_invoice') %>
+        <% end %>
       <% end %>
       <% if Date.current == invoice.created_at.to_date && !invoice.statements.any? %>
         <%= link_to invoice, data: {turbo_method: :delete, turbo_confirm: "Segur que vols esborrar aquesta factura?"}, class: "text-danger text-decoration-none" do %>

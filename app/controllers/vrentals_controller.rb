@@ -435,6 +435,8 @@ class VrentalsController < ApplicationController
       if request_context == 'general_details' && @vrental.control_restrictions != "rates"
         special_rates = @vrental.rates.where.not(restriction: "normal")
         special_rates.destroy_all
+      elsif request_context == 'add_photos'
+        create_new_image_urls(@vrental.photos)
       end
       handle_update_success(request_context)
     else
@@ -452,6 +454,14 @@ class VrentalsController < ApplicationController
     authorize @vrental
     @vrental.destroy
     redirect_to vrentals_url, notice: 'S\'ha esborrat l\'immoble.'
+  end
+
+  def delete_all_photos
+    @vrental.image_urls.destroy_all
+    @vrental.photos.each do |photo|
+      photo.purge
+    end
+    redirect_to add_photos_vrental_path(@vrental), notice: "Totes les fotos s'han esborrat."
   end
 
   private
@@ -491,7 +501,6 @@ class VrentalsController < ApplicationController
       elsif request_context == 'add_rates'
         redirect_to add_photos_vrental_path(@vrental)
       elsif request_context == 'add_photos'
-        create_new_image_urls(@vrental.photos)
         redirect_to add_photos_vrental_path(@vrental)
       elsif request_context == 'after_adding_photos'
         redirect_to book_property_path(@vrental)
