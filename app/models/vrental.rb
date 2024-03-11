@@ -32,6 +32,7 @@ class Vrental < ApplicationRecord
   has_and_belongs_to_many :vrgroups
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
+
   scope :with_future_rates, lambda {
     where(
       "rate_master_id IS NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.id AND rates.firstnight > ?)" +
@@ -999,6 +1000,24 @@ class Vrental < ApplicationRecord
       self.default_checkin + rate_min.days
     else
       self.default_checkin + 1.day
+    end
+  end
+
+  def create_image_urls(target_photos=nil)
+    existing_urls = image_urls.pluck(:url).to_set
+
+    photos_to_process = target_photos.nil? ? photos : target_photos
+
+    photos_to_process.each_with_index do |photo, index|
+      url = photo.url
+      url_with_q_auto = url.gsub(/upload\//, 'upload/q_auto/')
+
+      if !existing_urls.include?(url) && !existing_urls.include?(url_with_q_auto)
+        image_urls.create(url: url_with_q_auto, position: index + 1, photo_id: photo.id)
+        existing_urls.add(url_with_q_auto)
+      elsif existing_urls.include?(url)
+        image_urls.find_by(url: url).update(url: url_with_q_auto)
+      end
     end
   end
 

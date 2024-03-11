@@ -19,7 +19,7 @@
       <% end %>
     <% end %>
   </div>
-  <%= simple_form_for(@vrental, html: { class: 'col-lg-5 d-flex flex-row align-items-end'}, data: { turbo: false }) do |f| %>
+  <%= simple_form_for(@vrental, html: { class: 'col-lg-5 d-flex flex-row align-items-end'}) do |f| %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <%= f.hidden_field :request_context, value: 'add_photos' %>
     <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false, placeholder: t("add_photos"), wrapper_html: { style: "margin-bottom: 0px !important"} %>

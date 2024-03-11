@@ -227,7 +227,7 @@ class VrentalsController < ApplicationController
 
   def import_from_group
     vrgroup = Vrgroup.find(params[:vrgroup_id])
-    create_new_image_urls(vrgroup.photos)
+    @vrental.create_image_urls(vrgroup.photos)
     redirect_to add_photos_vrental_path(@vrental), notice: "Importació del grup acabada."
   end
 
@@ -431,12 +431,17 @@ class VrentalsController < ApplicationController
     @owner = @vrental.owner
     request_context = params[:vrental][:request_context]
 
+    if params[:vrental][:photos].present? && params[:vrental][:photos].size > 10.megabytes
+      flash[:alert] = "Arxiu massa gran. Max 10 MB."
+      render :edit
+    end
+
     if @vrental.update(vrental_params)
       if request_context == 'general_details' && @vrental.control_restrictions != "rates"
         special_rates = @vrental.rates.where.not(restriction: "normal")
         special_rates.destroy_all
-      elsif request_context == 'add_photos'
-        create_new_image_urls(@vrental.photos)
+      elsif request_context == "add_photos"
+        @vrental.create_image_urls
       end
       handle_update_success(request_context)
     else
@@ -506,22 +511,6 @@ class VrentalsController < ApplicationController
         redirect_to book_property_path(@vrental)
       else
         redirect_to @vrental, notice: "Immoble modificat."
-      end
-    end
-  end
-
-  def create_new_image_urls(photos)
-    existing_urls = @vrental.image_urls.pluck(:url).to_set
-
-    photos.each_with_index do |photo, index|
-      url = photo.url
-      url_with_q_auto = url.gsub(/upload\//, 'upload/q_auto/')
-
-      if !existing_urls.include?(url) && !existing_urls.include?(url_with_q_auto)
-        @vrental.image_urls.create(url: url_with_q_auto, position: index + 1, photo_id: photo.id)
-        existing_urls.add(url_with_q_auto)
-      elsif existing_urls.include?(url)
-        @vrental.image_urls.find_by(url: url).update(url: url_with_q_auto)
       end
     end
   end
