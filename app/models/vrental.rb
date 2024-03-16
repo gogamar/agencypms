@@ -33,6 +33,8 @@ class Vrental < ApplicationRecord
   has_many :image_urls, dependent: :destroy
   has_many_attached :photos
 
+  scope :with_valid_prop_key, -> { where.not(prop_key: [nil, ""]) }
+
   scope :with_future_rates, lambda {
     where(
       "rate_master_id IS NULL AND EXISTS (SELECT 1 FROM rates WHERE rates.vrental_id = vrentals.id AND rates.firstnight > ?)" +
