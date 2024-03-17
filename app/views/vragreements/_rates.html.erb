@@ -1,41 +1,8 @@
-<table class="color-dark-blue table table-responsive">
-  <thead>
-    <tr>
-      <th scope="col" class="pricetable"><%= t("from") %></th>
-      <th scope="col" class="pricetable"><%= t("to") %></th>
-      <th scope="col" class="pricetable nowrap"><%= t("arrival_day") %></th>
-      <th scope="col" class="pricetable text-center"><%= t("min") %></th>
-      <th scope="col" class="pricetable nowrap text-center"><%= t("week") %></th>
-      <th scope="col" class="pricetable nowrap text-center"><%= t("night_7") %></th>
-      <th scope="col" class="pricetable nowrap text-center"><%= t("night_5") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @vrates %>
-      <% @vrates.each do |rate| %>
-        <tr>
-          <td class="pricetable nowrap"><%= l(rate.firstnight, format: :standard) %></td>
-          <td class="pricetable nowrap"><%= l(rate.lastnight, format: :standard) %></td>
-          <td class="pricetable nowrap">
-            <%= t("#{Rate::ARRIVAL_DAY[rate.arrival_day]}") if rate.arrival_day.present? %>
-            <% if @vrental.no_checkin.present? && rate.arrival_day == 7 %>
-              <span class="text-secondary">*</span>
-            <% end %>
-          </td>
-          <td class="pricetable nowrap"><%= rate.min_stay %> <%= t('night', count: rate.min_stay) %>
-          </td>
-          <td class="pricetable nowrap text-right text-end"><%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
-          <td class="pricetable nowrap text-right text-end"><%= number_to_currency((rate.priceweek / 7), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") if rate.priceweek %></td>
-          <td class="pricetable nowrap text-right text-end">
-            <% if rate.min_stay == 5 %>
-              <%= number_to_currency((rate.priceweek / 6.295), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
+<% if @vrates %>
+  <% @vrates.each do |rate| %>
+    <%= render 'rates/rate', rate: rate %>
+  <% end %>
+<% end %>
 <% if @vrental.no_checkin.present? %>
   <p class="text-sm text-secondary font-italic fst-italic">* <%= t('no_checkin') %>: <%= t(Vrental::NO_CHECKIN[@vrental.no_checkin]) %></p>
 <% end %>

@@ -34,7 +34,7 @@ class VragreementsController < ApplicationController
     @vragreements = Vragreement.all
     @owner = @vragreement.vrental.owner
     @vrental = @vragreement.vrental
-    @vrates = @vrental.rates.where.not(priceweek: nil).where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
+    @vrates = @vrental.rates.where("extract(year from firstnight) = ?", @vragreement.year).order(:firstnight)
 
     contract_rates = render_to_string(partial: 'rates')
     @vrcontrato = @vragreement.generate_contract_body(contract_rates)
