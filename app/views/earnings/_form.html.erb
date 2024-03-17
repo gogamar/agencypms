@@ -8,7 +8,7 @@
         <small><%= earning.booking.firstname %> <%= earning.booking.lastname %></small><br>
         <small><%= t('check_in') %> <%= I18n.l(earning.booking.checkin, format: :standard) %></small><br>
         <small><%= t('check_out') %> <%= I18n.l(earning.booking.checkout, format: :standard) %></small><br>
-        <small><%= t('night', count: earning.booking.nights).capitalize %> <%= earning.booking.nights %></small>
+        <small><%= t('night_count', count: earning.booking.nights).capitalize %> <%= earning.booking.nights %></small>
         <br>
         <% if earning.booking  %>
           <%= link_to edit_vrental_booking_path(earning.vrental, earning.booking), class: "btn btn-sm btn-info" do  %>

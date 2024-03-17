@@ -62,16 +62,6 @@
             <% end %>
           </div>
         </div>
-        <div class="row py-2 rate-dates d-none d-lg-flex">
-          <div class="col-lg-1 nowrap fw-bold"><%= t('restriction') %></div>
-          <div class="col-lg-2 nowrap fw-bold"><%= t('from') %></div>
-          <div class="col-lg-2 nowrap fw-bold"><%= t('to') %></div>
-          <div class="col-lg-2 nowrap fw-bold"><%= t('arrival_day') %></div>
-          <div class="col-lg-1 nowrap fw-bold"><%= t('min_stay_title') %></div>
-          <div class="col-lg-1 nowrap fw-bold"><%= t('max_stay_title') %></div>
-          <div class="col-lg-2 nowrap fw-bold"><%= t('price') %></div>
-          <div class="col-lg-1"></div>
-        </div>
         <div id="rates<%= year %>">
           <%= render @rates.where("DATE_PART('year', firstnight) = ?", year) %>
         </div>

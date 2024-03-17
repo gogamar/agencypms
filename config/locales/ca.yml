@@ -689,12 +689,12 @@ ca:
   new_web: Afegit a la web
   news: Notícies
   next_getaway: la teva propera escapada
-  night:
+  night: Nit
+  night_count:
     one: nit
     other: nits
   night_5: Nit (5-6)
   night_7: Nit (7)
-  night_title: nit
   "no": "No"
   no_availability_for_dates: No tenim disponibilitat per aquestes dates. Selecciona altres dates per veure la disponibilitat i preus.
   no_availability_for_selection: No tenim disponibilitat per aquesta selecció.

@@ -9,7 +9,7 @@
     <span><%= booking.firstname %> <%= booking.lastname %></span><br>
     <span><%= t('adults') %>: <%= booking.adults %></span><br>
     <span><%= t('children') %>: <%= booking.children %></span><br>
-    <span><%= booking.nights %> <%= t('night', count: booking.nights) %></span>
+    <span><%= booking.nights %> <%= t('night_count', count: booking.nights) %></span>
     <% if booking.status == "0" %>
       <span class="badge bg-danger"><%= t('cancelled_booking') %></span>
     <% end %>

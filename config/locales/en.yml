@@ -686,12 +686,12 @@ en:
   new_web: Added to the website
   news: News
   next_getaway: your next getaway
-  night:
+  night_count:
     one: night
     other: nights
   night_5: Night (5-6)
   night_7: Night (7)
-  night_title: night
+  night: Night
   "no": "No"
   no_availability_for_dates: We have no availability for these dates. Select other dates to view availability and prices.
   no_availability_for_selection: We have no availability for this selection.
