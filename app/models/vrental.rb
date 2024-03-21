@@ -656,38 +656,71 @@ class Vrental < ApplicationRecord
   end
 
   def copy_rates_to_next_year(current_year)
+    next_year = current_year.to_i + 1
+
     current_rates = rates.where("DATE_PART('year', firstnight) = ?", current_year)
-    current_rates.each do |existingrate|
-      next_year = existingrate.firstnight.year + 1
-      easter_season_firstnight = EASTER_SEASON_FIRSTNIGHT
+    current_easter_date = EASTER_SEASON_FIRSTNIGHT[current_year.to_i]
 
-      rate_firstnight = existingrate.firstnight + 364
-      rate_lastnight = existingrate.lastnight + 364
+    current_easter_rate = current_rates.where("firstnight = ? OR lastnight = ? OR (firstnight < ? AND lastnight > ?)", current_easter_date, current_easter_date, current_easter_date, current_easter_date).first
 
-      # if Easter Rate is 10 days long
-      if (easter_season_firstnight.value?(existingrate.firstnight) || easter_season_firstnight.value?(existingrate.firstnight - 10)) && (existingrate.lastnight - existingrate.firstnight).to_i == 10
-          rate_firstnight = easter_season_firstnight[next_year]
-          rate_lastnight = easter_season_firstnight[next_year] + 10
-      # if Easter rate is longer than 10 days
-      elsif easter_season_firstnight.value?(existingrate.firstnight) && (existingrate.lastnight - existingrate.firstnight).to_i > 10
-        rate_firstnight = easter_season_firstnight[next_year]
-        rate_lastnight = existingrate.lastnight + 364
-      # if it's Before Easter rate
-      elsif easter_season_firstnight.value?(existingrate.lastnight + 1)
-        rate_firstnight = existingrate.firstnight + 364,
-        rate_lastnight = easter_season_firstnight[next_year] - 1
+    next_easter_date = EASTER_SEASON_FIRSTNIGHT[next_year]
+
+    if current_easter_rate
+      puts "current_easter_rate: #{current_easter_rate.firstnight}"
+      starts_x_days_before_easter = (current_easter_date - current_easter_rate.firstnight).to_i
+      ends_x_days_after_easter = (current_easter_rate.lastnight - current_easter_date).to_i
+    end
+
+    current_rates.each do |current_rate|
+      rate_firstnight = current_rate.firstnight + 364
+      rate_lastnight = current_rate.lastnight + 364
+
+      if current_easter_rate
+        if current_rate == current_easter_rate
+          rate_firstnight = next_easter_date - starts_x_days_before_easter
+          rate_lastnight = next_easter_date + ends_x_days_after_easter
+          # if the rate is immediately before the easter rate
+        elsif current_rate.lastnight == current_easter_rate.firstnight - 1
+          rate_lastnight = next_easter_date - starts_x_days_before_easter - 1
+          rate_firstnight = rate_lastnight - (current_rate.lastnight - current_rate.firstnight).to_i
+          # if rate with normal restriction is overlapping before this one, move its lastnight back
+          overlapping_rates = rates.where("firstnight < :firstnight AND lastnight > :firstnight AND restriction = :restriction", firstnight: rate_firstnight, lastnight: rate_lastnight, restriction: current_rate.restriction)
+          if overlapping_rates.present?
+            overlapping_rates.each do |overlapping_rate|
+              overlapping_rate.update(lastnight: rate_firstnight - 1)
+            end
+          end
+        # if the rate is immediately after the easter rate
+        elsif current_rate.firstnight == current_easter_rate.lastnight + 1
+          rate_firstnight = next_easter_date + ends_x_days_after_easter + 1
+          rate_lastnight = rate_firstnight + (current_rate.lastnight - current_rate.firstnight).to_i
+          # if rate with normal restriction is overlapping after this one, move its firstnight forward
+          overlapping_rates = rates.where("firstnight < :lastnight AND lastnight > :lastnight AND restriction = :restriction", firstnight: rate_firstnight, lastnight: rate_lastnight, restriction: current_rate.restriction)
+          if overlapping_rates.present?
+            overlapping_rates.each do |overlapping_rate|
+              overlapping_rate.update(firstnight: rate_lastnight + 1)
+            end
+          end
+        end
       end
 
-      unless rates.where(firstnight: rate_firstnight).exists?
+      if self.rates.where(pricenight: current_rate.pricenight, firstnight: rate_firstnight, lastnight: rate_lastnight).exists?
+        next
+      else
         Rate.create!(
           firstnight: rate_firstnight,
           lastnight: rate_lastnight,
-          priceweek: existingrate.priceweek,
-          pricenight: existingrate.pricenight,
-          beds_room_id: existingrate.beds_room_id,
-          vrental_id: existingrate.vrental_id,
-          min_stay: existingrate.min_stay,
-          arrival_day: existingrate.arrival_day
+          priceweek: current_rate.priceweek,
+          pricenight: current_rate.pricenight,
+          beds_room_id: current_rate.beds_room_id,
+          vrental_id: current_rate.vrental_id,
+          min_stay: current_rate.min_stay,
+          arrival_day: current_rate.arrival_day,
+          nights: current_rate.nights,
+          max_stay: current_rate.max_stay,
+          min_advance: current_rate.min_advance,
+          restriction: current_rate.restriction,
+          max_advance: current_rate.max_advance
         )
       end
     end
@@ -1028,8 +1061,10 @@ class Vrental < ApplicationRecord
   def update_price_per
     if control_restrictions == "rates"
       self.price_per = "night"
-    elsif control_restrictions == "calendar_beds24"
-      self.price_per = "week"
+      self.rates.each do |rate|
+        rate.priceweek = nil
+        rate.save!
+      end
     end
   end
 

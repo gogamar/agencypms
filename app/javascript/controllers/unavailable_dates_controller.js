@@ -62,8 +62,6 @@ export default class extends Controller {
     const restrictionValue = this.restrictionTarget.value;
     if (restrictionValue === "gap_fill" || restrictionValue === "short_stay") {
       this.enableDates();
-      this.hintTarget.classList.remove("d-none");
-      this.maxStayTarget.classList.remove("d-none");
       if (this.hasPriceWeekTarget) {
         this.priceWeekTarget.classList.add("d-none");
         this.priceWeekTarget.querySelector("input").removeAttribute("required");
@@ -71,6 +69,15 @@ export default class extends Controller {
         this.priceNightTarget
           .querySelector("input")
           .setAttribute("required", "required");
+      }
+      if (restrictionValue === "gap_fill") {
+        // Corrected condition placement
+        this.hintTarget.classList.remove("d-none");
+        this.maxStayTarget.classList.remove("d-none");
+      } else if (restrictionValue === "short_stay") {
+        this.hintTarget.classList.add("d-none");
+        this.maxStayTarget.classList.add("d-none");
+        this.maxStayTarget.querySelector("input").value = 365;
       }
     } else {
       this.disableDates();
