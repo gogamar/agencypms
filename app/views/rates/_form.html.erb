@@ -33,7 +33,7 @@
         <%= f.input :arrival_day, collection: Rate::ARRIVAL_DAY.map { |key, value| [t(value), key] }, include_blank: false %>
       </div>
       <div class="p-1 text-center">
-        <%= f.input :min_stay, input_html: { min: '0' } %>
+        <%= f.input :min_stay, required: true, input_html: { min: '0' } %>
       </div>
       <div class="p-1 text-center <%= 'd-none' unless f.object.restriction.present? && f.object.restriction == "gap_fill" %>" data-unavailable-dates-target="maxStay">
         <%= f.input :max_stay, input_html: { min: '1' } %>
