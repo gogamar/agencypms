@@ -682,7 +682,8 @@ class Vrental < ApplicationRecord
           # if the rate is immediately before the easter rate
         elsif current_rate.lastnight == current_easter_rate.firstnight - 1
           rate_lastnight = next_easter_date - starts_x_days_before_easter - 1
-          rate_firstnight = rate_lastnight - (current_rate.lastnight - current_rate.firstnight).to_i
+          copy_duration_firstnight = rate_lastnight - (current_rate.lastnight - current_rate.firstnight).to_i
+          rate_firstnight = copy_duration_firstnight > rate_firstnight ? rate_firstnight : copy_duration_firstnight
           # if rate with normal restriction is overlapping before this one, move its lastnight back
           overlapping_rates = rates.where("firstnight < :firstnight AND lastnight > :firstnight AND restriction = :restriction", firstnight: rate_firstnight, lastnight: rate_lastnight, restriction: current_rate.restriction)
           if overlapping_rates.present?
@@ -693,7 +694,8 @@ class Vrental < ApplicationRecord
         # if the rate is immediately after the easter rate
         elsif current_rate.firstnight == current_easter_rate.lastnight + 1
           rate_firstnight = next_easter_date + ends_x_days_after_easter + 1
-          rate_lastnight = rate_firstnight + (current_rate.lastnight - current_rate.firstnight).to_i
+          copy_duration_lastnight = rate_firstnight + (current_rate.lastnight - current_rate.firstnight).to_i
+          rate_lastnight = copy_duration_lastnight < rate_lastnight ? rate_lastnight : copy_duration_lastnight
           # if rate with normal restriction is overlapping after this one, move its firstnight forward
           overlapping_rates = rates.where("firstnight < :lastnight AND lastnight > :lastnight AND restriction = :restriction", firstnight: rate_firstnight, lastnight: rate_lastnight, restriction: current_rate.restriction)
           if overlapping_rates.present?
