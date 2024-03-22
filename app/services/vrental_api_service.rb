@@ -800,6 +800,8 @@ class VrentalApiService
         end
       end
 
+      vrental_min_advance = (@target.min_advance / 24.0).ceil if @target.min_advance.present?
+
       # find future rates that don't exist locally and delete them on beds24
       future_beds24rates = beds24rates.select { |rate| rate["lastNight"].to_date > Date.today }
       beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
@@ -841,7 +843,7 @@ class VrentalApiService
           firstNight: rate.firstnight.strftime("%Y-%m-%d"),
           lastNight: rate.lastnight.strftime("%Y-%m-%d"),
           maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
-          minAdvance: rate.min_advance.to_s,
+          minAdvance: (rate.min_advance.present? && rate.min_advance != 0) ? rate.min_advance.to_s : vrental_min_advance.to_s,
           maxAdvance: rate.max_advance.to_s,
           restrictionStrategy: rate_restriction,
           allowEnquiry: "1",
@@ -895,7 +897,7 @@ class VrentalApiService
           firstNight: rate.firstnight.strftime("%Y-%m-%d"),
           lastNight: rate.lastnight.strftime("%Y-%m-%d"),
           maxNights: rate.max_stay.present? ? rate.max_stay.to_s : "365",
-          minAdvance: rate.min_advance.to_s,
+          minAdvance: (rate.min_advance.present? && rate.min_advance != 0) ? rate.min_advance.to_s : vrental_min_advance.to_s,
           maxAdvance: rate.max_advance.to_s,
           restrictionStrategy: "0",
           allowEnquiry: "1",
