@@ -787,7 +787,11 @@ class VrentalApiService
 
       rates_to_delete = []
       # find rates on beds24 older than 2 years and delete them on beds24
-      old_beds24rates = beds24rates.select { |rate| rate["firstNight"].to_date.year < (Date.today.year - 2) }
+
+      old_beds24rates = beds24rates.select do |rate|
+        first_night_date = rate["firstNight"]&.to_date
+        first_night_date && first_night_date.year < (Date.today.year - 2)
+      end
 
       if old_beds24rates.any?
         old_beds24rates.each do |rate|
