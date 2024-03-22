@@ -807,7 +807,13 @@ class VrentalApiService
       vrental_min_advance = (@target.min_advance / 24.0).ceil if @target.min_advance.present?
 
       # find future rates that don't exist locally and delete them on beds24
-      future_beds24rates = beds24rates.select { |rate| rate["lastNight"].to_date > Date.today }
+      future_beds24rates = beds24rates.select do |rate|
+        last_night_date = rate["lastNight"]&.to_date
+        last_night_date && last_night_date > Date.today
+      end
+
+      return unless future_beds24rates.any?
+
       beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
       vrental_rate_ids = @target.future_rates.map(&:beds_rate_id)
       vrental_week_rate_ids = @target.future_rates.map(&:week_beds_rate_id)
