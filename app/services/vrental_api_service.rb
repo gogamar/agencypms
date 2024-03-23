@@ -788,6 +788,8 @@ class VrentalApiService
       rates_to_delete = []
       # find rates on beds24 older than 2 years and delete them on beds24
 
+      old_beds24rates = []
+
       old_beds24rates = beds24rates.select do |rate|
         first_night_date = rate["firstNight"]&.to_date
         first_night_date && first_night_date.year < (Date.today.year - 2)
@@ -804,11 +806,15 @@ class VrentalApiService
         end
       end
 
+      future_beds24rates = []
+
       # find future rates that don't exist locally and delete them on beds24
       future_beds24rates = beds24rates.select do |rate|
         last_night_date = rate["lastNight"]&.to_date
         last_night_date && last_night_date > Date.today
       end
+
+      rates_to_delete_on_beds = []
 
       if future_beds24rates.any?
         beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
