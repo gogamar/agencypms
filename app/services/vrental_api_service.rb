@@ -898,8 +898,13 @@ class VrentalApiService
         nightly_rates_response = client.set_rates(@target.prop_key, setRates: nightly_rates)
 
         nightly_future_rates.each_with_index do |rate, index|
-          rate.update!(beds_rate_id: nightly_rates_response[index]["rateId"])
+          if nightly_rates_response && nightly_rates_response[index]
+            rate.update!(beds_rate_id: nightly_rates_response[index]["rateId"])
+          else
+            Rails.logger.warn "No response for rate #{rate} at index #{index}. Skipping update for this rate."
+          end
         end
+
         sleep 3
       rescue => e
         puts "Error setting nightly rates for #{@target.name}: #{e.message}"
@@ -954,7 +959,11 @@ class VrentalApiService
           weekly_rates_response = client.set_rates(@target.prop_key, setRates: weekly_rates)
 
           weekly_future_rates.each_with_index do |rate, index|
-            rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
+            if weekly_rates_response && weekly_rates_response[index]
+              rate.update!(week_beds_rate_id: weekly_rates_response[index]["rateId"])
+            else
+              Rails.logger.warn "No response for rate #{rate} at index #{index}. Skipping update for this weekly rate."
+            end
           end
           sleep 3
         rescue => e
