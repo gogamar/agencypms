@@ -897,6 +897,8 @@ class VrentalApiService
       begin
         nightly_rates_response = client.set_rates(@target.prop_key, setRates: nightly_rates)
 
+        puts "Nightly rates response: #{nightly_rates_response}"
+
         nightly_future_rates.each_with_index do |rate, index|
           if nightly_rates_response && nightly_rates_response[index]
             rate.update!(beds_rate_id: nightly_rates_response[index]["rateId"])
