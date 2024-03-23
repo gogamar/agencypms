@@ -804,20 +804,18 @@ class VrentalApiService
         end
       end
 
-      vrental_min_advance = (@target.min_advance / 24.0).ceil if @target.min_advance.present?
-
       # find future rates that don't exist locally and delete them on beds24
       future_beds24rates = beds24rates.select do |rate|
         last_night_date = rate["lastNight"]&.to_date
         last_night_date && last_night_date > Date.today
       end
 
-      return unless future_beds24rates.any?
-
-      beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
-      vrental_rate_ids = @target.future_rates.map(&:beds_rate_id)
-      vrental_week_rate_ids = @target.future_rates.map(&:week_beds_rate_id)
-      rates_to_delete_on_beds = beds24_rate_ids - vrental_rate_ids - vrental_week_rate_ids
+      if future_beds24rates.any?
+        beds24_rate_ids = future_beds24rates.map { |rate| rate["rateId"] }
+        vrental_rate_ids = @target.future_rates.map(&:beds_rate_id)
+        vrental_week_rate_ids = @target.future_rates.map(&:week_beds_rate_id)
+        rates_to_delete_on_beds = beds24_rate_ids - vrental_rate_ids - vrental_week_rate_ids
+      end
 
       if rates_to_delete_on_beds.any?
         rates_to_delete_on_beds.each do |rate_id|
@@ -830,18 +828,25 @@ class VrentalApiService
         end
       end
 
-      begin
-        client.set_rates(@target.prop_key, setRates: rates_to_delete)
-      rescue => e
-        puts "Error deleting rates for #{@target.name}: #{e.message}"
+      if rates_to_delete.any?
+        begin
+          client.set_rates(@target.prop_key, setRates: rates_to_delete)
+        rescue => e
+          puts "Error deleting rates for #{@target.name}: #{e.message}"
+        end
       end
+
+      vrental_min_advance = (@target.min_advance / 24.0).ceil if @target.min_advance.present?
 
       nightly_rates = []
 
       nightly_future_rates = @target.future_rates
 
       nightly_future_rates.each do |rate|
-        rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
+        rate_exists_on_beds = false
+        if future_beds24rates.any?
+          rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.beds_rate_id }
+        end
 
         if rate.restriction.present?
           rate_restriction = rate.restriction == "gap_fill" ? "2" : "0"
@@ -916,7 +921,7 @@ class VrentalApiService
           roomPriceGuests: "0"
           }
 
-          if rate.week_beds_rate_id.present?
+          if rate.week_beds_rate_id.present? && future_beds24rates.any?
             week_rate_exists_on_beds = future_beds24rates.any? { |beds_rate| beds_rate["rateId"] == rate.week_beds_rate_id }
           end
 
