@@ -321,13 +321,13 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #   end
 # end
 
-estartit_vrentals.each do |vrental|
-  vrental.update(min_advance: 48)
-  if vrental.status == "active" && vrental.prop_key.present? && vrental.future_rates.exists?
-    vrental.rates.each do |rate|
-      rate.update(min_advance: 2)
-    end
-    VrentalApiService.new(vrental).send_rates_to_beds
-    puts "Sent rates for #{vrental.name} with 2 nights min advance"
-  end
-end
+# estartit_vrentals.each do |vrental|
+#   vrental.update(min_advance: 48)
+#   if vrental.status == "active" && vrental.prop_key.present? && vrental.future_rates.exists?
+#     vrental.rates.each do |rate|
+#       rate.update(min_advance: 2)
+#     end
+#     VrentalApiService.new(vrental).send_rates_to_beds
+#     puts "Sent rates for #{vrental.name} with 2 nights min advance"
+#   end
+# end
