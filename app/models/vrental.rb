@@ -336,7 +336,7 @@ class Vrental < ApplicationRecord
       checkin_rates = vrental_instance.rates.where("firstnight <= ? AND lastnight >= ? AND max_advance >= ?", checkin, checkin, days_till_checkin)
 
       checkin_rate = checkin_rates.order(:min_stay).first
-      return (checkin_rate.present? && checkin_rate.min_stay != 0) ? checkin_rate.min_stay : (self.min_stay || 1)
+      return (checkin_rate.present? && checkin_rate.min_stay != 0) ? (checkin_rate.min_stay || self.min_stay || 1) : (self.min_stay || 1)
     else
       return self.min_stay || 1
     end
