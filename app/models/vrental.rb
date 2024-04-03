@@ -281,16 +281,21 @@ class Vrental < ApplicationRecord
     @available_dates ||= future_availabilities.pluck(:date)
   end
 
+
+
   def available_for_checkin
     @available_for_checkin ||= begin
       checkin_dates = future_availabilities.where.not(override: [2, 4]).pluck(:date)
-      available_dates.each do |date|
+
+      checkin_dates = checkin_dates.select do |date|
         possible_lastnight = date + (rate_min_stay(date) - 1)
-        checkin_dates.delete(date) if available_dates.exclude?(possible_lastnight)
+        available_dates.include?(possible_lastnight)
       end
+
       checkin_dates.sort
     end
   end
+
 
   def available_for_checkout(checkin_date=nil)
     if checkin_date
@@ -1000,30 +1005,33 @@ class Vrental < ApplicationRecord
   end
 
   def available_from
-    if availabilities.present?
-      available_dates = availabilities.where("inventory > 0").where("date > ?", Date.today)
-      if available_dates.present?
-        first_available_date = available_dates.order(:date).first.date
+    return nil if availabilities.blank?
+
+    available_dates = availabilities.where("inventory > 0").where("date > ?", Date.today)
+
+    return nil if available_dates.blank?
+
+    first_available_date = available_dates.order(:date).first.date
+    current_date = first_available_date
+    current_date_min_stay = rate_min_stay(current_date)
+    min_stay_end = current_date + current_date_min_stay.days
+
+    while current_date < min_stay_end
+      its_available = availabilities.find_by(date: current_date)
+
+      if its_available.present?
+        current_date += 1.day
+      else
+        first_available_date = availabilities.where("date > ?", current_date).order(:date).first&.date
+        return nil if first_available_date.nil?
+
         current_date = first_available_date
         current_date_min_stay = rate_min_stay(current_date)
         min_stay_end = current_date + current_date_min_stay.days
-
-        while current_date < min_stay_end
-          its_available = availabilities.find_by(date: current_date)
-
-          if its_available.present?
-            current_date += 1.day
-          else
-            first_available_date = availabilities.where("date > ?", current_date).order(:date).first.date
-            current_date = first_available_date
-            current_date_min_stay = rate_min_stay(current_date)
-            min_stay_end = current_date + current_date_min_stay.days
-          end
-        end
-
-        return first_available_date
       end
     end
+
+    first_available_date
   end
 
   def default_checkin
