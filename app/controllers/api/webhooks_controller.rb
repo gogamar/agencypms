@@ -4,6 +4,7 @@ module Api
     before_action :verify_authentication_token
 
     def handle_notification
+      puts "Received notification from Beds24: #{params}"
       begin
         bookid = params["bookid"]
         booking_status = params["booking_status"]
@@ -76,9 +77,7 @@ module Api
 
     def verify_authentication_token
       expected_token = ENV['WEBHOOK_TOKEN']
-      puts "expected_token: #{expected_token}"
       provided_token = request.headers['X-Webhook-Token']
-      puts "provided_token: #{provided_token}"
 
       unless ActiveSupport::SecurityUtils.secure_compare(expected_token, provided_token)
         render json: { error: 'Unauthorized' }, status: :unauthorized
