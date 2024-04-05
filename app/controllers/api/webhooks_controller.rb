@@ -4,7 +4,6 @@ module Api
     before_action :verify_authentication_token
 
     def handle_notification
-      puts "Received notification from Beds24: #{params}"
       begin
         bookid = params["bookid"]
         booking_status = params["booking_status"]
@@ -23,8 +22,11 @@ module Api
         if booking_status == "Cancelled" || booking_status == "Cancelado" || booking_status == "0"
           existing_booking = vrental.bookings.find_by(beds_booking_id: bookid)
           existing_booking&.destroy
+          existing_owner_booking = vrental.owner_bookings.find_by(beds_booking_id: bookid)
+          existing_owner_booking&.destroy
         else
           existing_booking = vrental.bookings.find_by(beds_booking_id: bookid)
+          existing_owner_booking = vrental.owner_bookings.find_by(beds_booking_id: bookid)
           num_nights = (checkout - checkin).to_i
 
           if existing_booking
@@ -40,6 +42,12 @@ module Api
               referrer: referrer,
               price: price,
               vrental_id: vrental.id
+            )
+          elsif existing_owner_booking
+            existing_owner_booking.update(
+              status: '1',
+              checkin: checkin,
+              checkout: checkout
             )
           else
             vrental.bookings.create(
