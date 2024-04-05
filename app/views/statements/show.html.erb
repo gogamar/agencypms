@@ -15,7 +15,7 @@
       <% if current_user.admin? || current_user.manager? %>
         <%= link_to new_vrental_invoice_path(@vrental), class: "btn btn-sm btn-success" do %>
           <i class="fa-solid fa-plus me-2"></i>
-          <%= ('add_invoice') %>
+          <%= t('add_invoice') %>
         <% end %>
       <% end %>
     <% end %>
@@ -27,7 +27,7 @@
         <% end %>
       <% end %>
     <% end %>
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexAnnualStatement">
       <%= t('pdf_statement') %>
     </button>
   </div>
