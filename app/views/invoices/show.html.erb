@@ -5,13 +5,13 @@
         <div class="me-2"><%= link_to t('edit'), edit_vrental_invoice_path(@vrental, @invoice), class: "btn btn-sm btn-secondary" %></div>
         <% if Date.current == @invoice.created_at.to_date %>
           <div class="me-2">
-            <%= link_to t('delete'), vrental_invoice_path(@vrental, @invoice), class: "btn btn-danger",
+            <%= link_to t('delete'), vrental_invoice_path(@vrental, @invoice), class: "btn btn-sm btn-danger",
               data: { turbo_method: :delete, turbo_confirm: "Segur que vols esborrar la factura de #{@vrental.name}?" } %>
           </div>
         <% end %>
       </div>
     <% end %>
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#indexInvoice<%= @invoice.id %>">
       <%= t('pdf_invoice') %>
     </button>
   </div>
