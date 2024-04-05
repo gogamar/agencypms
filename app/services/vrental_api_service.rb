@@ -1066,6 +1066,8 @@ class VrentalApiService
         selected_bookings = confirmed_bookings + cancelled_bookings_with_positive_payments
 
         selected_bookings.each do |beds_booking|
+          next if @target.owner_bookings.find_by(beds_booking_id: beds_booking["bookId"].to_i)
+
           if booking = @target.bookings.find_by(beds_booking_id: beds_booking["bookId"].to_i)
             if !beds_booking["guestEmail"].blank?
               existing_tourist = Tourist.find_by(email: beds_booking["guestEmail"])
