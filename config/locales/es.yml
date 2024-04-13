@@ -1061,3 +1061,5 @@ es:
   control_from_rates: Control mínimo de estancia a partir de tarifas
   to_control_from_rates: Si desea introducir tarifas para cubrir huecos o para estancias más cortas, haga clic aquí
   to_use_gap_fill_select_rates: Si desea establecer tarifas especiales para llenar huecos o para estancias más cortas y caras durante el fin de semana, debes seleccionar 'Tarifas'
+  per_month: mes
+  per_week: semana

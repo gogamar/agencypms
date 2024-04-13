@@ -1061,3 +1061,5 @@ fr:
   control_from_rates: Contrôler le séjour minimum à partir des tarifs
   to_control_from_rates: Si vous souhaitez introduire des tarifs pour combler les lacunes ou pour un séjour plus court, cliquez ici
   to_use_gap_fill_select_rates: Si vous souhaitez définir des tarifs spéciaux pour combler les lacunes ou pour des séjours plus courts le week-end, vous devez sélectionner 'tarifs'
+  per_month: mois
+  per_week: semaine
