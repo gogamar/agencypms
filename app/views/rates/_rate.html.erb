@@ -18,9 +18,22 @@
     <% if !params[:controller] == 'vragreements' && rate.max_stay %>
       <div class="col nowrap <%= special_rate_class %>"><%= t('night_count', count: rate.max_stay).downcase %> <%= rate.max_stay == 365 ? '' : rate.max_stay %></div>
     <% end%>
-    <div class="col nowrap <%= special_rate_class %>">
-      <%= number_to_currency(rate.pricenight, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('night_count', count: 1).downcase %>
-    </div>
+    <%# fixme: this is just a patch, introduce monthly price correctly %>
+    <% if params[:controller] == 'vragreements' && rate.vrental.monthly_option == true %>
+      <% if rate.min_stay == 32 %>
+        <div class="col nowrap <%= special_rate_class %>">
+          <%= number_to_currency((rate.pricenight * 30)&.round, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('per_month') %>
+        </div>
+      <% else %>
+        <div class="col nowrap">
+          <%= number_to_currency((rate.pricenight * 7)&.round, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('per_week') %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="col nowrap <%= special_rate_class %>">
+        <%= number_to_currency(rate.pricenight, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('night_count', count: 1).downcase %>
+      </div>
+    <% end %>
     <% if rate.vrental.price_per == "week" && rate.priceweek %>
       <div class="col nowrap <%= special_rate_class %>">
         <%= number_to_currency(rate.priceweek, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%>/<%= t('week').downcase %>
