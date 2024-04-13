@@ -1061,3 +1061,5 @@ en:
   control_from_rates: Control minimum stay from rates
   to_control_from_rates: If you'd like to introduce rates to fill gaps or for shorter stay, click here
   to_use_gap_fill_select_rates: If you'd like to use gap fill or shorter stays on weekends, select 'Rates'
+  per_month: month
+  per_week: week
