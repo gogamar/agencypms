@@ -158,6 +158,7 @@ ca:
         vrental: Casa o apartament
         year: Any contracte
       vrental:
+        monthly_option: Preu per mes (encara falta HUT)
         access_text_ca: Explicació com es fa el check-in català
         access_text_en: Explicació com es fa el check-in anglès
         access_text_es: Explicació com es fa el check-in castellà
@@ -1065,3 +1066,5 @@ ca:
   control_from_rates: Control.lar estada mín des de les tarifes
   to_control_from_rates: Si vols introduir tarifes per omplir forats o caps de setmana, fes click aqui
   to_use_gap_fill_select_rates: Si vols establir tarifes especials per omplir forats o estades més curtes i cares el cap de setmana, has de seleccionar 'Tarifes'
+  per_month: mes
+  per_week: setmana

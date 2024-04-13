@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_08_094723) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_13_073248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -253,6 +253,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_08_094723) do
     t.index ["vrental_id"], name: "index_image_urls_on_vrental_id"
   end
 
+  create_table "invoice_items", force: :cascade do |t|
+    t.string "description"
+    t.decimal "price"
+    t.integer "quantity"
+    t.decimal "vat"
+    t.bigint "invoice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+  end
+
+  create_table "invoicees", force: :cascade do |t|
+    t.string "fullname"
+    t.string "document"
+    t.string "address"
+    t.string "email"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.date "date"
     t.string "location"
@@ -261,7 +282,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_08_094723) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id"
+    t.bigint "invoicee_id"
     t.index ["company_id"], name: "index_invoices_on_company_id"
+    t.index ["invoicee_id"], name: "index_invoices_on_invoicee_id"
     t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
   end
 
@@ -623,6 +646,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_08_094723) do
     t.string "control_restrictions"
     t.integer "no_checkin", default: 7
     t.string "slug"
+    t.boolean "monthly_option", default: false
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -674,7 +698,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_08_094723) do
   add_foreign_key "features", "companies"
   add_foreign_key "feeds", "categories"
   add_foreign_key "image_urls", "vrentals"
+  add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "companies"
+  add_foreign_key "invoices", "invoicees"
   add_foreign_key "invoices", "vrentals"
   add_foreign_key "offices", "companies"
   add_foreign_key "owner_bookings", "vrentals"

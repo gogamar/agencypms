@@ -21,6 +21,7 @@
   <%= f.input :habitability %>
   <%= f.input :licence %>
   <%= f.input :control_restrictions, label: t("control_restrictions"), collection: Vrental::CONTROL_RESTRICTIONS.map { |value| [t(value), value] }, include_blank: false, hint: t('to_use_gap_fill_select_rates') %>
+  <%= f.input :monthly_option, as: :select, collection: [[t('true'), true], [t('false'), false]], include_blank: false %>
   <div class="form-actions text-end mb-5">
     <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
     <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
