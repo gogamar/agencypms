@@ -8,7 +8,7 @@
   <i class="fas fa-trash-can"></i>
 <% end %>
 <% if vrental.status == "active" %>
-  <%= link_to toggle_featured_vrental_path(vrental), data: { bs_toggle: "tooltip", bs_placement: "top" }, title: vrental.featured ? t('remove_featured') : t('set_featured') do %>
-    <i class="fa-solid fa-star <%= "text-warning" if vrental.featured %>"></i>
-  <% end %>
+  <a type="button" data-toggle-featured-target="toggleButton" data-action="click->toggle-featured#toggleFeatured" data-url="<%= toggle_featured_vrental_path(vrental) %>" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= vrental.featured ? t('remove_featured') : t('set_featured') %>">
+    <i data-toggle-featured-target="icon" class="fa-solid fa-star <%= "text-warning" if vrental.featured %>"></i>
+  </a>
 <% end %>

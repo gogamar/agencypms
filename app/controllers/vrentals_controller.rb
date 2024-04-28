@@ -2,28 +2,16 @@ class VrentalsController < ApplicationController
   before_action :set_vrental, except: [:new, :create, :copy, :index, :list, :list_earnings, :total_earnings, :total_city_tax, :download_city_tax, :dashboard, :empty_vrentals]
 
   def index
-    @vrentals = policy_scope(Vrental).order(created_at: :desc)
+    @vrentals = policy_scope(Vrental)
     @statuses = @vrentals.pluck(:status).uniq
     @statuses.reject!(&:empty?)
     @towns = policy_scope(Town).order(name: :asc)
     @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
     @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
     @vrentals = @vrentals.where(town_id: params[:filter_town]) if params[:filter_town].present?
-    @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
-  end
-
-  def list
-    @vrentals = policy_scope(Vrental)
-    @statuses = @vrentals.pluck(:status).uniq
-    @statuses.reject!(&:empty?)
-    @towns = Town.all
-    @vrentals = @vrentals.includes(:owner)
-    @vrentals = @vrentals.where('unaccent(name) ILIKE ?', "%#{params[:filter_name]}%") if params[:filter_name].present?
-    @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
-    @vrentals = @vrentals.where(town_id: params[:filter_town]) if params[:filter_town].present?
+    @vrentals = @vrentals.where(featured: params[:featured]) if params[:featured].present?
     @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
-    render(partial: 'vrentals', locals: { vrentals: @vrentals })
   end
 
   def dashboard
@@ -233,7 +221,6 @@ class VrentalsController < ApplicationController
 
   def toggle_featured
     @vrental.toggle!(:featured)
-    redirect_to vrentals_path, notice: "Immobles destacats actualitzats."
   end
 
   def copy

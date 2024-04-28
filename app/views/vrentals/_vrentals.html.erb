@@ -1,7 +1,7 @@
 <h4 class="text-center mb-5"><%= t("vacation_rental_properties")  %></h4>
 <% if @vrentals %>
   <div class="d-lg-flex justify-content-lg-start align-items-center mbminus30 gap-2<%= ' d-none' if @vrentals.count < 3 %>">
-    <%= form_with url: list_vrentals_path, method: :get, data: { controller: "filter", filter_target: "form", turbo_frame: "vrentals" }, class: "d-lg-flex gap-2" do |form| %>
+    <%= form_with url: vrentals_path, method: :get, data: { controller: "filter", filter_target: "form" }, class: "d-lg-flex gap-2" do |form| %>
       <div class="row my-2">
         <div class="col-12 col-lg-5">
           <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->filter#search" } %>
@@ -13,6 +13,9 @@
           <% if @towns.count > 1 %>
             <%= form.select :filter_town, options_for_select(@towns.sort.map { |town| [t(town.name), town.id] }, params[:filter_town]), { include_blank: t("show_all_towns") }, class: "form-select", data: { action: "change->filter#search" } %>
           <% end %>
+          <% if current_user.role == "admin" %>
+            <%= form.select :featured, options_for_select([[t('featured'), true], [t('not_featured'), false]], params[:featured]), { include_blank: t("show_all") }, class: "form-select", data: { action: "change->filter#search" } %>
+          <% end %>
         </div>
       </div>
     <% end %>
@@ -22,24 +25,8 @@
       <% end %>
     </div>
   </div>
-  <%= turbo_frame_tag "vrentals" do %>
-    <div class="d-none d-lg-flex justify-content-end gap-1 mb-3 mt-lg-0 mt-md-5">
-      <div relative>
-        <%= params[:column] == "featured" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-        <%= sort_link(column: "featured", label: "Destacats") %>
-      </div>
-      <div relative>
-        <%= params[:column] == "name" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-        <%= sort_link(column: "name", label: "Nom") %>
-      </div>
-      <div relative>
-        <%= params[:column] == "address" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
-        <%= sort_link(column: "address", label: "Adreça") %>
-      </div>
-    </div>
-    <%= render @vrentals %>
-    <div class="d-flex justify-content-center">
-      <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
-    </div>
-  <% end %>
+  <%= render @vrentals %>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
 <% end %>
