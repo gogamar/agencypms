@@ -25,6 +25,10 @@
   <%= turbo_frame_tag "vrentals" do %>
     <div class="d-none d-lg-flex justify-content-end gap-1 mb-3 mt-lg-0 mt-md-5">
       <div relative>
+        <%= params[:column] == "featured" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
+        <%= sort_link(column: "featured", label: "Destacats") %>
+      </div>
+      <div relative>
         <%= params[:column] == "name" ? sort_indicator : tag.i(class: "fas fa-fw fa-sort sort-color") %>
         <%= sort_link(column: "name", label: "Nom") %>
       </div>
