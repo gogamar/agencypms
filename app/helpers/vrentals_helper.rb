@@ -27,7 +27,7 @@ module VrentalsHelper
     query_params[:filter_name] = params[:filter_name] if params[:filter_name].present?
     query_params[:filter_status] = params[:filter_status] if params[:filter_status].present?
     direction = column == params[:column] ? next_direction : 'asc'
-    link_to(label, list_vrentals_path(column: column, direction: direction, **query_params))
+    link_to(label, vrentals_path(column: column, direction: direction, **query_params))
   end
 
   def sort_link_earnings(column:, label:)

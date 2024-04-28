@@ -67,6 +67,9 @@ application.register("spinner-btn", SpinnerBtnController)
 import SpinnerPdfController from "./spinner_pdf_controller"
 application.register("spinner-pdf", SpinnerPdfController)
 
+import ToggleFeaturedController from "./toggle_featured_controller"
+application.register("toggle-featured", ToggleFeaturedController)
+
 import TypedJsController from "./typed_js_controller"
 application.register("typed-js", TypedJsController)
 

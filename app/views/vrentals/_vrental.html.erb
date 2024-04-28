@@ -1,4 +1,4 @@
-<div class="card my-4 border">
+<div class="card my-4 border" data-controller="toggle-featured">
   <div class="row no-gutters">
     <div class="col-md-4 ps-0">
       <% admin_main = (current_user.admin? || current_user.manager?) ? vrental_path(vrental) : vrental_owner_bookings_path(vrental) %>
@@ -12,9 +12,7 @@
       <% if vrental.status.present? %>
         <span class="label-status label-<%= vrental.status %>"><%= t("#{vrental.status}") %></span>
       <% end %>
-      <% if vrental.featured %>
-        <span class="label-status label-featured"><%= t("featured") %></span>
-      <% end %>
+      <span class="label-status label-featured<%= " d-none" unless vrental.featured %>" data-toggle-featured-target="label"><%= t("featured") %></span>
     </div>
     <div class="col-md-8 sd-list-right p-lg-0">
       <div class="card-body p-0">
