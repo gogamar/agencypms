@@ -71,7 +71,7 @@ class Vrental < ApplicationRecord
   validates_presence_of :name, :address, :property_type
   validates :name, uniqueness: true
   validates :commission, presence: true, if: -> { contract_type == 'commission' }
-  before_save :update_price_per
+  before_update :update_slug
 
   # fixme check and apply validations
   # validates :unit_number, numericality: { greater_than_or_equal_to: 0 }
@@ -1084,6 +1084,10 @@ class Vrental < ApplicationRecord
   end
 
   private
+
+  def update_slug
+    self.slug = name.downcase.gsub(/\s+/, '_')
+  end
 
   def update_price_per
     if control_restrictions == "rates"
