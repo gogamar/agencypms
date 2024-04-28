@@ -4,7 +4,7 @@
     <%= form_with url: vrentals_path, method: :get, data: { controller: "filter", filter_target: "form" }, class: "d-lg-flex gap-2" do |form| %>
       <div class="row my-2">
         <div class="col-12 col-lg-5">
-          <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "input->filter#search" } %>
+          <%= form.text_field :filter_name, value: params[:filter_name], placeholder: t("search_by_name"), class: "form-control", autocomplete: "off", data: { action: "change->filter#search" } %>
         </div>
         <div class="col-lg-7 d-none d-lg-flex gap-3">
           <% if @statuses.count > 1 %>

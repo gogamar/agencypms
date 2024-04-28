@@ -10,7 +10,7 @@ class VrentalsController < ApplicationController
     @vrentals = @vrentals.where(status: params[:filter_status]) if params[:filter_status].present?
     @vrentals = @vrentals.where(town_id: params[:filter_town]) if params[:filter_town].present?
     @vrentals = @vrentals.where(featured: params[:featured]) if params[:featured].present?
-    @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
+    # @vrentals = @vrentals.order("#{params[:column]} #{params[:direction]}")
     @pagy, @vrentals = pagy(@vrentals, page: params[:page], items: 10)
   end
 
