@@ -1086,7 +1086,7 @@ class Vrental < ApplicationRecord
   private
 
   def update_slug
-    self.slug = name.downcase.gsub(/\s+/, '_')
+    self.slug = name.downcase.gsub(/\s+/, '-')
   end
 
   def update_price_per
