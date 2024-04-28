@@ -1057,13 +1057,30 @@ class Vrental < ApplicationRecord
       url = photo.url
       url_with_q_auto = url.gsub(/upload\//, 'upload/q_auto/')
 
-      if !existing_urls.include?(url) && !existing_urls.include?(url_with_q_auto)
+      unless existing_urls.include?(url_with_q_auto)
         image_urls.create(url: url_with_q_auto, position: index + 1, photo_id: photo.id)
-        existing_urls.add(url_with_q_auto)
-      elsif existing_urls.include?(url)
-        image_urls.find_by(url: url).update(url: url_with_q_auto)
+        existing_urls.add(url_with_q_auto)  # Add the new URL to the set
       end
     end
+  end
+
+  def create_image_urls(target_photos=nil)
+    existing_urls = image_urls.pluck(:url).to_set
+
+    photos_to_process = target_photos.nil? ? photos : target_photos
+
+    photos_to_process.each_with_index do |photo, index|
+      url = photo.url
+      url_with_q_auto = url.gsub(/upload\//, 'upload/q_auto/')
+
+      unless existing_urls.include?(url_with_q_auto)
+        image_urls.create(url: url_with_q_auto, position: index + 1, photo_id: photo.id)
+        existing_urls.add(url_with_q_auto)  # Add the new URL to the set
+      end
+    end
+  rescue => e
+    # Handle any errors that occur during the process
+    Rails.logger.error("Error creating image URLs: #{e.message}")
   end
 
   private

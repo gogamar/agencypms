@@ -441,7 +441,12 @@ class VrentalsController < ApplicationController
         special_rates = @vrental.rates.where.not(restriction: "normal")
         special_rates.destroy_all
       elsif request_context == "add_photos"
-        @vrental.create_image_urls
+        begin
+          @vrental.create_image_urls
+          flash[:success] = "Fotos afegides."
+        rescue => e
+          flash[:error] = "Error al afegir fotos: #{e.message}"
+        end
       end
       handle_update_success(request_context)
     else

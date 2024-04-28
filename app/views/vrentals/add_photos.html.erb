@@ -23,7 +23,7 @@
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <%= f.hidden_field :request_context, value: 'add_photos' %>
     <%= f.input :photos, as: :file, input_html: { multiple: true }, label: false, placeholder: t("add_photos"), wrapper_html: { style: "margin-bottom: 0px !important"} %>
-    <%= f.button :submit, t('add_photos'), class: 'btn btn-sm btn-primary ms-2' %>
+    <%= f.button :submit, t('upload'), class: 'btn btn-sm btn-primary ms-2' %>
   <% end %>
   <% if @vrental.photos.present? %>
     <%= link_to "Esborrar totes les fotos", delete_all_photos_vrental_path(@vrental), class: "btn btn-sm btn-danger" %>

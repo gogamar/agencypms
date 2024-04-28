@@ -18,14 +18,14 @@
   <%= f.input :short_description_fr, as: :text, maxlength: 500, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
   <%= f.input :description_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5 } %>
   <%# fixme: add default text to towns and show it here as default %>
-  <%= f.input :access_text_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_ca.present? ? f.object.access_text_ca : f.object.town.access_text_ca } %>
-  <%= f.input :access_text_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_es.present? ? f.object.access_text_es : f.object.town.access_text_es } %>
-  <%= f.input :access_text_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_en.present? ? f.object.access_text_en : f.object.town.access_text_en } %>
-  <%= f.input :access_text_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_fr.present? ? f.object.access_text_fr : f.object.town.access_text_fr } %>
-  <%= f.input :house_rules_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_ca.present? ? f.object.access_text_ca : f.object.town.access_text_ca } %>
-  <%= f.input :house_rules_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_es.present? ? f.object.access_text_es : f.object.town.access_text_es } %>
-  <%= f.input :house_rules_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_en.present? ? f.object.access_text_en : f.object.town.access_text_en } %>
-  <%= f.input :house_rules_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_fr.present? ? f.object.access_text_fr : f.object.town.access_text_fr } %>
+  <%= f.input :access_text_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_ca.present? ? f.object.access_text_ca : f.object.town&.access_text_ca } %>
+  <%= f.input :access_text_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_es.present? ? f.object.access_text_es : f.object.town&.access_text_es } %>
+  <%= f.input :access_text_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_en.present? ? f.object.access_text_en : f.object.town&.access_text_en } %>
+  <%= f.input :access_text_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_fr.present? ? f.object.access_text_fr : f.object.town&.access_text_fr } %>
+  <%= f.input :house_rules_ca, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_ca.present? ? f.object.access_text_ca : f.object.town&.access_text_ca } %>
+  <%= f.input :house_rules_es, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_es.present? ? f.object.access_text_es : f.object.town&.access_text_es } %>
+  <%= f.input :house_rules_en, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_en.present? ? f.object.access_text_en : f.object.town&.access_text_en } %>
+  <%= f.input :house_rules_fr, as: :text, :input_html => { class: 'test', :cols => 5, :rows => 5, value: f.object.access_text_fr.present? ? f.object.access_text_fr : f.object.town&.access_text_fr } %>
   <div class="form-actions text-end mb-5">
     <%= f.button :submit, t('global.forms.save_and_close'), class: 'btn btn-primary text-center' %>
     <%= f.button :submit, t('global.forms.continue'), class: 'btn btn-secondary text-center' %>
