@@ -485,10 +485,10 @@ class VrentalApiService
                           },
                           "texts": {
                             "propertyDescription1": {
-                              "EN": "#{@target.full_description("en").html_safe}",
-                              "CA": "#{@target.full_description("ca").html_safe}",
-                              "ES": "#{@target.full_description("es").html_safe}",
-                              "FR": "#{@target.full_description("fr").html_safe}"
+                              "EN": "#{@target.full_description("en")}",
+                              "CA": "#{@target.full_description("ca")}",
+                              "ES": "#{@target.full_description("es")}",
+                              "FR": "#{@target.full_description("fr")}"
                             }
                           },
                           "bookingData": {
@@ -558,10 +558,10 @@ class VrentalApiService
                                   "FR": "#{@target.title_fr}"
                                 },
                                 "contentDescriptionText": {
-                                  "EN": "#{@target.full_description("en").html_safe}",
-                                  "CA": "#{@target.full_description("ca").html_safe}",
-                                  "ES": "#{@target.full_description("es").html_safe}",
-                                  "FR": "#{@target.full_description("fr").html_safe}"
+                                  "EN": "#{@target.full_description("en")}",
+                                  "CA": "#{@target.full_description("ca")}",
+                                  "ES": "#{@target.full_description("es")}",
+                                  "FR": "#{@target.full_description("fr")}"
                                 },
                                 "accommodationType": {
                                   "EN": I18n.t(@target.property_type, locale: :en),
