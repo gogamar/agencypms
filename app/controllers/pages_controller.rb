@@ -14,7 +14,7 @@ class PagesController < ApplicationController
     # @featured_vrentals = @vrentals
     #                       .joins("INNER JOIN image_urls ON image_urls.vrental_id = vrentals.id")
     #                       .where("image_urls.url LIKE ? AND image_urls.position = (SELECT MIN(position) FROM image_urls WHERE image_urls.vrental_id = vrentals.id)", "%q_auto:good%")
-    @featured_vrentals = @vrentals.with_availabilities + @vrentals.where(featured: true)
+    @featured_vrentals = @vrentals.where(featured: true).exists? ? @vrentals.where(featured: true) : @vrentals.with_availabilities
     @featured_reviews = Vrental.all.map(&:top_review).compact
 
     if @featured_vrentals.count >= 6
