@@ -1,12 +1,49 @@
-<div class="row mb-4 gap-4">
-  <%= link_to t('rental_groups'), vrgroups_path, class: "text-primary" %></li>
-<% @vrgroups_prevent_gaps.each do |vrgroup| %>
-  <div class="col">
-    <span><%= vrgroup.name %>: <%= t('prevent_gaps', gap: vrgroup.gap_days) %> </span>
-    <%= link_to t('global.forms.submit'), prevent_gaps_vrgroup_path(vrgroup), class: "btn btn-sm btn-primary" %> <br>
-    <span class="text-sm secondary"><%= vrgroup.vrentals.map(&:name).to_sentence if vrgroup.vrentals %></span>
+<%= form_with url: cleaning_schedules_path, method: :post, local: true do |form| %>
+  <%= form.label :from_date, 'From Date' %>
+  <%= form.date_field :from_date %>
+  <%= form.label :to_date, 'To Date' %>
+  <%= form.date_field :to_date %>
+  <%= form.label :cleaning_company_id, 'Choose a cleaning company' %>
+  <%= form.collection_select :cleaning_company_id, @cleaning_companies, :id, :name, prompt: "Choose a cleaning company" %>
+  <%= form.label :cleaners_available, 'Number of Available Cleaners' %>
+  <%= form.number_field :cleaners_available, min: 0 %>
+  <%= form.submit 'Schedule Cleaning' %>
+<% end %>
+<%# f.input :last_date, as: :string, input_html: { class: "datepicker" }%>
+<hr>
+<% @cleaning_companies.each do |cleaning_company| %>
+  <div class="card">
+    <div class="card-header">
+      <%= cleaning_company.name %>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <strong><%= t('office') %></strong> <%= cleaning_company.office.name %>
+        </div>
+        <div class="col">
+          <strong><%= t('cost_per_hour') %></strong> <%= number_to_currency(cleaning_company.cost_per_hour, unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u") %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= link_to t('edit'), edit_cleaning_company_path(cleaning_company), class: "btn btn-sm btn-secondary" %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
+<%= link_to "Add a Cleaning Company", new_cleaning_company_path, class: "btn btn-sm btn-primary" %>
+<hr>
+<div class="row mb-4 gap-4">
+  <%= link_to t('rental_groups'), vrgroups_path, class: "text-primary" %>
+  <% @vrgroups_prevent_gaps.each do |vrgroup| %>
+    <div class="col">
+      <span><%= vrgroup.name %>: <%= t('prevent_gaps', gap: vrgroup.gap_days) %> </span>
+      <%= link_to t('global.forms.submit'), prevent_gaps_vrgroup_path(vrgroup), class: "btn btn-sm btn-primary" %> <br>
+      <span class="text-sm secondary"><%= vrgroup.vrentals.map(&:name).to_sentence if vrgroup.vrentals %></span>
+    </div>
+  <% end %>
 </div>
 <div class="row">
   <div class="col-xl-3 col-md-3 mb-4">

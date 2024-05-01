@@ -1,0 +1,7 @@
+<%= simple_form_for @cleaning_company, class: "d-md-flex justify-content-between" do |f| %>
+  <%= f.association :office %>
+  <%= f.input :name %>
+  <%= f.input :number_of_cleaners %>
+  <%= f.input :cost_per_hour %>
+  <%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %>
+<% end %>

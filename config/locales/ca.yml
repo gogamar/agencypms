@@ -858,6 +858,7 @@ ca:
     owners: propietaris
     users: usuaris
     vrentals: immobles-lloguer-turistic
+    cleaning_companies: empreses-neteja
   saturday: Dissabte
   sea_view: Vista al mar
   search: Cercar
@@ -1070,3 +1071,4 @@ ca:
   per_week: setmana
   upload: Importar
   not_featured: No destacat
+  cost_per_hour: Preu per hora

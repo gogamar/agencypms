@@ -8,6 +8,7 @@ class Vrental < ApplicationRecord
   belongs_to :town, optional: true
   belongs_to :rate_plan, optional: true
   belongs_to :rate_master, class_name: 'Vrental', optional: true
+  belongs_to :cleaning_company, optional: true
   has_many :sub_rate_vrentals, class_name: 'Vrental', foreign_key: 'rate_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
@@ -27,6 +28,7 @@ class Vrental < ApplicationRecord
   has_many :invoices
   has_many :availabilities, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :cleaning_schedules, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons
   has_and_belongs_to_many :vrgroups

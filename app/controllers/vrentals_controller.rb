@@ -20,6 +20,7 @@ class VrentalsController < ApplicationController
     @active_vrentals = @vrentals.where(status: 'active')
     @vragreements = policy_scope(Vragreement)
     @owners = policy_scope(Owner)
+    @cleaning_companies = CleaningCompany.all
     @task = Task.new
     @tasks = Task.where(start_date: Time.now.beginning_of_month.beginning_of_week..Time.now.end_of_month.end_of_week).order(start_date: :asc)
     @vrgroups_prevent_gaps = policy_scope(Vrgroup).where.not(gap_days: nil)

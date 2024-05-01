@@ -193,6 +193,9 @@ Rails.application.routes.draw do
     resources :coupons, only: [:destroy]
     resources :coupons_vrentals
 
+    resources :cleaning_companies
+    resources :cleaning_schedules
+
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'
 
