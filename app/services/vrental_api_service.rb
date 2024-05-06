@@ -1127,35 +1127,40 @@ class VrentalApiService
       "allowInventoryNegative": 1
     }
 
+    return unless @target.office && @target.prop_key
     client = BedsHelper::Beds.new(@target.office.beds_key)
 
     begin
       availability_data = client.get_room_dates(@target.prop_key, options)
 
-      selected_availabilities = availability_data.select { |date, attributes| attributes["i"].to_i > 0 }
+      if availability_data.key?("error")
+        raise StandardError, "Error in availability data: #{availability_data['error']}"
+      else
+        selected_availabilities = availability_data.select { |date, attributes| attributes["i"]&.to_i > 0 }
 
-      selected_availabilities.each do |date, attributes|
-        formatted_date = Date.parse(date.to_s)
-        existing_availability = @target.availabilities.find_by(date: formatted_date)
+        selected_availabilities.each do |date, attributes|
+          formatted_date = Date.parse(date.to_s)
+          existing_availability = @target.availabilities.find_by(date: formatted_date)
 
-        if existing_availability
-          existing_availability.update!(
-            inventory: attributes["i"].to_i,
-            multiplier: attributes["x"].to_i || 100,
-            override: attributes["o"].to_i || 0
-          )
-        else
-          Availability.create(
-            date: formatted_date,
-            inventory: attributes["i"].to_i,
-            multiplier: attributes["x"].to_i || 100,
-            override: attributes["o"].to_i || 0,
-            vrental_id: @target.id
-          )
+          if existing_availability
+            existing_availability.update!(
+              inventory: attributes["i"].to_i,
+              multiplier: (attributes["x"] || 100).to_i,
+              override: (attributes["o"] || 0).to_i
+            )
+          else
+            Availability.create(
+              date: formatted_date,
+              inventory: attributes["i"].to_i,
+              multiplier: (attributes["x"] || 100).to_i,
+              override: (attributes["o"] || 0).to_i,
+              vrental_id: @target.id
+            )
+          end
         end
+        selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
+        @target.availabilities.where.not(date: selected_dates).destroy_all
       end
-      selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
-      @target.availabilities.where.not(date: selected_dates).destroy_all
     rescue => e
       puts "Error importing availability data for #{@target.name}: #{e.message}"
     end
