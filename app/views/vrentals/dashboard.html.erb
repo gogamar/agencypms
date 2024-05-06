@@ -1,15 +1,4 @@
-<%= form_with url: cleaning_schedules_path, method: :post, local: true do |form| %>
-  <%= form.label :from_date, 'From Date' %>
-  <%= form.date_field :from_date %>
-  <%= form.label :to_date, 'To Date' %>
-  <%= form.date_field :to_date %>
-  <%= form.label :cleaning_company_id, 'Choose a cleaning company' %>
-  <%= form.collection_select :cleaning_company_id, @cleaning_companies, :id, :name, prompt: "Choose a cleaning company" %>
-  <%= form.label :cleaners_available, 'Number of Available Cleaners' %>
-  <%= form.number_field :cleaners_available, min: 0 %>
-  <%= form.submit 'Schedule Cleaning' %>
-<% end %>
-<%# f.input :last_date, as: :string, input_html: { class: "datepicker" }%>
+<%= link_to "Cleaning Plans", cleaning_plans_path, class: "btn btn-sm btn-primary" %>
 <hr>
 <% @cleaning_companies.each do |cleaning_company| %>
   <div class="card">

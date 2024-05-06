@@ -195,6 +195,7 @@ Rails.application.routes.draw do
 
     resources :cleaning_companies
     resources :cleaning_schedules
+    resources :cleaning_plans
 
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'

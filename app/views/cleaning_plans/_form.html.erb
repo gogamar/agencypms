@@ -1,0 +1,6 @@
+<%= simple_form_for @cleaning_plan, class: "d-md-flex justify-content-between" do |f| %>
+  <%= f.input :from, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.input :to, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.association :cleaning_company %>
+  <%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %>
+<% end %>

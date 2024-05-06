@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_01_232554) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -146,15 +146,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_01_232554) do
     t.index ["office_id"], name: "index_cleaning_companies_on_office_id"
   end
 
+  create_table "cleaning_plans", force: :cascade do |t|
+    t.date "from"
+    t.date "to"
+    t.bigint "cleaning_company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cleaning_company_id"], name: "index_cleaning_plans_on_cleaning_company_id"
+  end
+
   create_table "cleaning_schedules", force: :cascade do |t|
-    t.date "date"
     t.datetime "cleaning_start"
     t.datetime "cleaning_end"
-    t.bigint "cleaning_company_id"
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
+    t.bigint "cleaning_plan_id"
+    t.index ["cleaning_plan_id"], name: "index_cleaning_schedules_on_cleaning_plan_id"
     t.index ["vrental_id"], name: "index_cleaning_schedules_on_vrental_id"
   end
 
@@ -717,7 +725,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_01_232554) do
   add_foreign_key "bookings", "vrentals"
   add_foreign_key "charges", "bookings"
   add_foreign_key "cleaning_companies", "offices"
-  add_foreign_key "cleaning_schedules", "cleaning_companies"
+  add_foreign_key "cleaning_plans", "cleaning_companies"
+  add_foreign_key "cleaning_schedules", "cleaning_plans"
   add_foreign_key "cleaning_schedules", "vrentals"
   add_foreign_key "companies", "users"
   add_foreign_key "coupons", "offices"

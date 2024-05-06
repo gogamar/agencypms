@@ -1,7 +1,8 @@
 class CleaningCompaniesController < ApplicationController
   before_action :set_cleaning_company, only: [:show, :edit, :update, :destroy]
+
   def index
-    @cleaning_companies = CleaningCompany.all
+    @cleaning_companies = policy_scope(CleaningCompany)
   end
 
   def show

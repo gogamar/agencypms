@@ -1,0 +1,10 @@
+<h1>Cleaning Plans</h1>
+<div id="charges">
+  <% @cleaning_plans.each do |cleaning_plan| %>
+    <%= render cleaning_plan %>
+    <p>
+      <%= link_to "Show this cleaning_plan", cleaning_plan %>
+    </p>
+  <% end %>
+</div>
+<%= link_to "New cleaning_plan", new_cleaning_plan_path %>
