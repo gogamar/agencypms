@@ -753,6 +753,14 @@ class Vrental < ApplicationRecord
     feature_codes + bedroom_codes + bathroom_codes
   end
 
+  def wifi_status
+    if features && features.any? { |feature| feature.name == "wifi" }
+      "HAS_WIFI"
+    else
+      "NO_WIFI"
+    end
+  end
+
   def pets_json
     if features && features.any? { |feature| feature.name == "pets_considered" }
       {
