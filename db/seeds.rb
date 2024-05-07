@@ -331,3 +331,8 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #     puts "Sent rates for #{vrental.name} with 2 nights min advance"
 #   end
 # end
+
+estartit_vrentals.each do |vrental|
+  VrentalApiService.new(vrental).update_upsell_items_estartit
+  puts "Updated upsell items for #{vrental.name}"
+end
