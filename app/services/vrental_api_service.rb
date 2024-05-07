@@ -369,6 +369,7 @@ class VrentalApiService
                   "airbnbEnable": 1,
                   "airbnbComEnableInventory": 0,
                   "airbnbComEnableBooking": 0,
+                  "template1": @target.wifi_status,
                 }.merge(@target.beds_room_type)
               ]
             }
