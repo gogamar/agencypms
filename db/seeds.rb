@@ -332,7 +332,31 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #   end
 # end
 
-estartit_vrentals.each do |vrental|
-  VrentalApiService.new(vrental).update_upsell_items_estartit
-  puts "Updated upsell items for #{vrental.name}"
+estartit_vrentals_with_wifi = estartit_vrentals.joins(:features).where(features: { name: "wifi" }).distinct
+
+estartit_vrentals_without_wifi = estartit_vrentals.where.not(id: estartit_vrentals_with_wifi.pluck(:id))
+
+puts "estartit_vrentals_without_wifi are: #{estartit_vrentals_without_wifi.pluck(:name)}"
+
+estartit_vrentals_without_wifi.last do |vrental|
+  puts "Updating property #{vrental.name} on Beds24"
+  client = BedsHelper::Beds.new(vrental.office.beds_key)
+  begin
+      bedsrental = [
+          {
+            action: "modify",
+            roomTypes: [
+              {
+                action: "modify",
+                roomId: vrental.beds_room_id,
+                "template1": "NO_WIFI"
+              }
+            ]
+          }
+      ]
+      client.set_property(vrental.prop_key, setProperty: bedsrental)
+  rescue => e
+    puts "Error exporting property #{vrental.name}: #{e.message}"
+  end
+  sleep 2
 end
