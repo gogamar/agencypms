@@ -424,6 +424,7 @@ class VrentalApiService
     sleep 2
   end
 
+
   def set_content_on_beds
     client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
@@ -1235,34 +1236,6 @@ class VrentalApiService
       response = client.set_room_dates(@target.prop_key, options)
     rescue => e
       puts "Error exporting availabilities for #{@target.name}: #{e.message}"
-    end
-    sleep 2
-  end
-
-  def update_upsell_items_estartit
-    client = BedsHelper::Beds.new(@target.office.beds_key)
-    begin
-      content_array = [
-                        { "action": "modify",
-                          "bookingData": {
-                            "upsell": {
-                              "1": @target.baby_cot_json,
-                              "2": @target.pets_json,
-                              "3": @target.city_tax_daily_json ? @target.city_tax_daily_json : {
-                                "type": 0
-                                },
-                              "4": @target.city_tax_weekly_json ? @target.city_tax_weekly_json : {
-                                "type": 0
-                                },
-                              "5": @target.portable_wifi_json
-                            },
-                          }
-                        }
-                      ]
-
-      client.set_property_content(@target.prop_key, setPropertyContent: content_array)
-    rescue => e
-      puts "Error setting content for #{@target.name}: #{e.message}"
     end
     sleep 2
   end
