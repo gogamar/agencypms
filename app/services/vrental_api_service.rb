@@ -340,7 +340,7 @@ class VrentalApiService
   # Export Properties and Content
 
   def update_wifi_status
-    client = BedsHelper::Beds.new(vrental.office.beds_key)
+    client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
         bedsrental = [
             {
@@ -348,15 +348,15 @@ class VrentalApiService
               roomTypes: [
                 {
                   action: "modify",
-                  roomId: vrental.beds_room_id,
-                  "template1": vrental.wifi_status
+                  roomId: @target.beds_room_id,
+                  "template1": @target.wifi_status
                 }
               ]
             }
         ]
-        client.set_property(vrental.prop_key, setProperty: bedsrental)
+        client.set_property(@target.prop_key, setProperty: bedsrental)
     rescue => e
-      puts "Error exporting property #{vrental.name}: #{e.message}"
+      puts "Error exporting property #{@target.name}: #{e.message}"
     end
     sleep 2
   end
