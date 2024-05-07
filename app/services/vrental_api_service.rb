@@ -511,33 +511,15 @@ class VrentalApiService
                             "guestComments": "0"
                             },
                             "upsell": {
-                              "1": {
-                                "type": "1",
-                                # fixme
-                                "price": "15.0000",
-                                "unit": "0",
-                                "period": "0",
-                                "vat": "0.00",
-                                "image": "0",
-                                "description": {
-                                "EN": "Baby cot and high-chair",
-                                "CA": "Cuna i trona",
-                                "ES": "Cuna y trona",
-                                "FR": "Lit bébé et chaise haute"
-                                },
-                              },
-                              "2": @target.pets_json ? @target.pets_json : {
-                                "type": 0
-                                },
+                              "1": @target.baby_cot_json,
+                              "2": @target.pets_json,
                               "3": @target.city_tax_daily_json ? @target.city_tax_daily_json : {
                                 "type": 0
                                 },
                               "4": @target.city_tax_weekly_json ? @target.city_tax_weekly_json : {
                                 "type": 0
                                 },
-                              "5": @target.portable_wifi_json ? @target.portable_wifi_json : {
-                                "type": 0
-                              }
+                              "5": @target.portable_wifi_json
                             },
                           },
                           "roomIds": {
@@ -1031,6 +1013,7 @@ class VrentalApiService
 
   # Availability
 
+
   def get_bookings_from_beds(from_date = nil)
     from_date = from_date || Date.today.beginning_of_year.to_s
     client = BedsHelper::Beds.new(@target.office.beds_key)
@@ -1252,6 +1235,34 @@ class VrentalApiService
       response = client.set_room_dates(@target.prop_key, options)
     rescue => e
       puts "Error exporting availabilities for #{@target.name}: #{e.message}"
+    end
+    sleep 2
+  end
+
+  def update_upsell_items_estartit
+    client = BedsHelper::Beds.new(@target.office.beds_key)
+    begin
+      content_array = [
+                        { "action": "modify",
+                          "bookingData": {
+                            "upsell": {
+                              "1": @target.baby_cot_json,
+                              "2": @target.pets_json,
+                              "3": @target.city_tax_daily_json ? @target.city_tax_daily_json : {
+                                "type": 0
+                                },
+                              "4": @target.city_tax_weekly_json ? @target.city_tax_weekly_json : {
+                                "type": 0
+                                },
+                              "5": @target.portable_wifi_json
+                            },
+                          }
+                        }
+                      ]
+
+      client.set_property_content(@target.prop_key, setPropertyContent: content_array)
+    rescue => e
+      puts "Error setting content for #{@target.name}: #{e.message}"
     end
     sleep 2
   end
