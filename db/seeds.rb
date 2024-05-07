@@ -335,23 +335,5 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 
 estartit_vrentals.each do |vrental|
   puts "Updating property #{vrental.name} on Beds24"
-  client = BedsHelper::Beds.new(vrental.office.beds_key)
-  begin
-      bedsrental = [
-          {
-            action: "modify",
-            roomTypes: [
-              {
-                action: "modify",
-                roomId: vrental.beds_room_id,
-                "template1": vrental.wifi_status
-              }
-            ]
-          }
-      ]
-      client.set_property(vrental.prop_key, setProperty: bedsrental)
-  rescue => e
-    puts "Error exporting property #{vrental.name}: #{e.message}"
-  end
-  sleep 2
+  VrentalApiService.new(vrental).update_wifi_status
 end
