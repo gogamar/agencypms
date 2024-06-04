@@ -22,18 +22,20 @@
             </ul>
           </div>
         </div>
-        <% @company.offices.each do |office| %>
-          <div class="col-lg-3 col-md-3">
-            <div class="footer-widget">
-              <h4 class="widget-title"><%= t('office').capitalize %> <%= office.name %></h4>
-              <ul class="footer-menu">
-                <li><%= office.street %></li>
-                <li><%= office.post_code %> <%= office.city %> <%= "(#{office.region})" if office.region %></li>
-                <li><a href="tel:<%= office.phone.gsub(/[^0-9]/, '') if office.phone %>"><%= office.phone %></a></li>
-                <li><a href="mailto:<%= office.email %>"><%= office.email %></a></li>
-              </ul>
+        <% if @company %>
+          <% @company.offices.each do |office| %>
+            <div class="col-lg-3 col-md-3">
+              <div class="footer-widget">
+                <h4 class="widget-title"><%= t('office').capitalize %> <%= office.name %></h4>
+                <ul class="footer-menu">
+                  <li><%= office.street %></li>
+                  <li><%= office.post_code %> <%= office.city %> <%= "(#{office.region})" if office.region %></li>
+                  <li><a href="tel:<%= office.phone.gsub(/[^0-9]/, '') if office.phone %>"><%= office.phone %></a></li>
+                  <li><a href="mailto:<%= office.email %>"><%= office.email %></a></li>
+                </ul>
+              </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -43,7 +45,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-6">
           <p class="mb-0">
-            ©  <%= Date.current.year %> <%= @company.name %> | <%= link_to t('privacy_policy'), privacy_policy_path %> | <%= link_to t('terms_of_service'), terms_of_service_path %>
+            ©  <%= Date.current.year %> <%= @company.name if @company %> | <%= link_to t('privacy_policy'), privacy_policy_path %> | <%= link_to t('terms_of_service'), terms_of_service_path %>
           </p>
         </div>
         <!--

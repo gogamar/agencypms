@@ -15,7 +15,7 @@ class CompaniesTest < ApplicationSystemTestCase
     click_on "New company"
 
     fill_in "Address", with: @company.address
-    fill_in "Name", with: @company.name
+    fill_in "Name", with: @company&.name
     fill_in "Phone", with: @company.phone
     fill_in "User", with: @company.user_id
     fill_in "Vat", with: @company.vat
@@ -30,7 +30,7 @@ class CompaniesTest < ApplicationSystemTestCase
     click_on "Edit this company", match: :first
 
     fill_in "Address", with: @company.address
-    fill_in "Name", with: @company.name
+    fill_in "Name", with: @company&.name
     fill_in "Phone", with: @company.phone
     fill_in "User", with: @company.user_id
     fill_in "Vat", with: @company.vat

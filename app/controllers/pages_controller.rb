@@ -297,7 +297,6 @@ class PagesController < ApplicationController
     @vrentals = Vrental.where(id: vrental_ids_array)
   end
 
-
   def load_filters
     @featured_towns = Town.joins(:vrentals)
                 .where(vrentals: { id: @vrentals })
@@ -310,12 +309,15 @@ class PagesController < ApplicationController
 
     @property_types = Vrental::PROPERTY_TYPES.values.map { |ptype| [ptype, t(ptype)] }
     @property_features = Feature.where(highlight: true).map { |feature| [feature.name, t(feature.name)] }
-    max_bedsrooms = Vrental.left_joins(:bedrooms)
+    max_bedrooms = Vrental.left_joins(:bedrooms)
        .group('vrentals.id')
        .order('COUNT(bedrooms.id) DESC')
        .limit(1)
        .count('bedrooms.id')
-    property_bedrooms = (2..max_bedsrooms.values.first).to_a
-    @property_bedrooms = property_bedrooms.map { |num| [num, 'bedroom', 'or_more'] }
+
+    if max_bedrooms.present?
+      property_bedrooms = (2..max_bedrooms.values.first).to_a
+      @property_bedrooms = property_bedrooms.map { |num| [num, 'bedroom', 'or_more'] }
+    end
   end
 end

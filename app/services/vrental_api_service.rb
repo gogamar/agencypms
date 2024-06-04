@@ -8,7 +8,7 @@ class VrentalApiService
   # called on office
 
   def import_properties_from_beds(no_import = nil, import_name)
-    client = BedsHelper::Beds.new(beds_key)
+    client = BedsHelper::Beds.new(@target.beds_key)
     begin
       beds24rentals = client.get_properties
       # select only the ones that are not already imported
