@@ -3,7 +3,7 @@
     <div class="col-12 font-italic fst-italic text-right text-end"><span><%= @vragreement.place %><%= ", #{l(@vragreement.signdate, format: :long)}" if @vragreement.signdate.present? %></span></div>
   </div>
   <div class="row border bg-light text-center font-weight-bold">
-    <div class="col-6 p-2 border-right border-end"><%= t('signature_agency') %> - <%= @company.name %></div>
+    <div class="col-6 p-2 border-right border-end"><%= t('signature_agency') %> - <%= @company.name if @company %></div>
     <div class="col-6 p-2"><%= t('signature_owner') %> - <%= @vragreement.vrental.owner&.fullname %></div>
   </div>
   <div class="row border-bottom">

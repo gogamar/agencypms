@@ -14,7 +14,7 @@
   <%= link_to rate_plans_path do %>
     <i class="fa-solid fa-tags"></i><%= t("rate_plans") %>
   <% end %>
-  <% unless controller.controller_name == 'companies' %>
+  <% unless controller.controller_name == 'companies' || !@company %>
     <% link_to edit_company_path(@company) do %>
       <i class="fa-solid fa-house-laptop me-2"></i><%= t('company') %>
     <% end %>

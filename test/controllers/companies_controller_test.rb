@@ -34,7 +34,7 @@ class CompaniesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update company" do
-    patch company_url(@company), params: { company: { address: @company.address, name: @company.name, phone: @company.phone, user_id: @company.user_id, vat: @company.vat } }
+    patch company_url(@company), params: { company: { address: @company.address, name: @company&.name, phone: @company.phone, user_id: @company.user_id, vat: @company.vat } }
     assert_redirected_to company_url(@company)
   end
 

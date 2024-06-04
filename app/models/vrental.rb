@@ -755,8 +755,16 @@ class Vrental < ApplicationRecord
     feature_codes + bedroom_codes + bathroom_codes
   end
 
+  def wifi_status
+    if features && features.any? { |feature| feature.name == "wifi" }
+      "HAS_WIFI"
+    else
+      "NO_WIFI"
+    end
+  end
+
   def pets_json
-    if features.include?("pets_considered")
+    if features && features.any? { |feature| feature.name == "pets_considered" }
       {
         "type": "1",
         "price": "7.0000",
@@ -769,6 +777,21 @@ class Vrental < ApplicationRecord
           "CA": "Mascota",
           "ES": "Mascota",
           "FR": "Animal de compagnie"
+        }
+      }
+    else
+      {
+        "type": "",
+        "price": "",
+        "unit": "",
+        "period": "",
+        "vat": "",
+        "image": "",
+        "description": {
+          "EN": "",
+          "CA": "",
+          "ES": "",
+          "FR": ""
         }
       }
     end
@@ -814,8 +837,58 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def baby_cot_json
+    estartit_office = Office.where("name ILIKE ?", "%estartit%").first
+    if office && office == estartit_office
+      {
+        "type": "1",
+        "price": "15.0000",
+        "unit": "0",
+        "period": "0",
+        "vat": "21.00",
+        "image": "0",
+        "description": {
+        "EN": "Baby cot and high-chair",
+        "CA": "Cuna i trona",
+        "ES": "Cuna y trona",
+        "FR": "Lit bébé et chaise haute"
+        }
+      }
+    else
+      {
+        "type": "1",
+        "price": "0.0000",
+        "unit": "0",
+        "period": "0",
+        "vat": "0.00",
+        "image": "0",
+        "description": {
+        "EN": "Baby cot and high-chair",
+        "CA": "Cuna i trona",
+        "ES": "Cuna y trona",
+        "FR": "Lit bébé et chaise haute"
+        },
+      }
+    end
+  end
+
   def portable_wifi_json
-    unless features && features.include?("wifi")
+    if features && features.any? { |feature| feature.name == "wifi" }
+      {
+        "type": "",
+        "price": "",
+        "unit": "",
+        "period": "",
+        "vat": "",
+        "image": "",
+        "description": {
+          "EN": "",
+          "CA": "",
+          "ES": "",
+          "FR": ""
+        }
+      }
+    else
       {
         "type": "1",
         "price": "35.0000",
@@ -824,10 +897,10 @@ class Vrental < ApplicationRecord
         "vat": "21.00",
         "image": "0",
         "description": {
-        "EN": "Portable Wifi",
-        "CA": "Wifi portàtil",
-        "ES": "Wifi portátil",
-        "FR": "Wifi portable"
+          "EN": "Portable Wifi",
+          "CA": "Wifi portàtil",
+          "ES": "Wifi portátil",
+          "FR": "Wifi portable"
         }
       }
     end

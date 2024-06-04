@@ -36,7 +36,7 @@
   <% end %>
 </li>
 <% unless controller.controller_name == 'companies' %>
-  <% if @company.offices %>
+  <% if @company && @company.offices %>
     <li class="<%= 'active' if current_page?(company_offices_path(@company)) %> d-none d-lg-flex">
       <%= link_to company_offices_path(@company) do %>
         <i class="fa-solid fa-briefcase"></i><%= t("offices") %>
@@ -64,7 +64,7 @@
     <i class="fa-solid fa-edit"></i><%= t("news_feeds") %>
   <% end %>
 </li>
-<% if @office %>
+<% if @office && @office.persisted?%>
   <li class="<%= 'active' if current_page?(company_office_coupons_path(@company, @office)) %> d-none d-lg-flex">
     <%= link_to company_office_coupons_path(@company, @office) do %>
       <i class="fa-solid fa-tags"></i><%= t("coupons") %>

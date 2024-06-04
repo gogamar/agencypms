@@ -4,7 +4,7 @@
   <% end %>
 </div>
 <div class="d-flex flex-column align-items-center">
-  <h4 class="text-primary mb-2"><%= @company.name %></h4>
+  <h4 class="text-primary mb-2"><%= @company.name if @company %></h4>
   <p class="text-info"><%= t('rate_plans') %></p>
 </div>
 <div id="rate_plans">

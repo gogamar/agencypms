@@ -1,6 +1,6 @@
 <div class="full-search-2 eclip-search italian-search hero-search-radius shadow-hard">
   <div class="hero-search-content">
-    <%= form_with url: list_path, method: :get, data: { controller: 'search-bar', available: @company.future_available_dates.to_json } do |form| %>
+    <%= form_with url: list_path, method: :get, data: { controller: 'search-bar', available: @company&.future_available_dates.to_json } do |form| %>
       <%= form.hidden_field :request_context, value: "availability" %>
       <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 b-r">

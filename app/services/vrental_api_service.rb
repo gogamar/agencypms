@@ -8,7 +8,7 @@ class VrentalApiService
   # called on office
 
   def import_properties_from_beds(no_import = nil, import_name)
-    client = BedsHelper::Beds.new(beds_key)
+    client = BedsHelper::Beds.new(@target.beds_key)
     begin
       beds24rentals = client.get_properties
       # select only the ones that are not already imported
@@ -339,6 +339,28 @@ class VrentalApiService
 
   # Export Properties and Content
 
+  def update_wifi_status
+    client = BedsHelper::Beds.new(@target.office.beds_key)
+    begin
+        bedsrental = [
+            {
+              action: "modify",
+              roomTypes: [
+                {
+                  action: "modify",
+                  roomId: @target.beds_room_id,
+                  "template1": @target.wifi_status
+                }
+              ]
+            }
+        ]
+        client.set_property(@target.prop_key, setProperty: bedsrental)
+    rescue => e
+      puts "Error exporting property #{@target.name}: #{e.message}"
+    end
+    sleep 2
+  end
+
   def update_vrental_on_beds
     client = BedsHelper::Beds.new(@target.office.beds_key)
 
@@ -369,6 +391,7 @@ class VrentalApiService
                   "airbnbEnable": 1,
                   "airbnbComEnableInventory": 0,
                   "airbnbComEnableBooking": 0,
+                  "template1": @target.wifi_status,
                 }.merge(@target.beds_room_type)
               ]
             }
@@ -423,6 +446,7 @@ class VrentalApiService
     end
     sleep 2
   end
+
 
   def set_content_on_beds
     client = BedsHelper::Beds.new(@target.office.beds_key)
@@ -511,33 +535,15 @@ class VrentalApiService
                             "guestComments": "0"
                             },
                             "upsell": {
-                              "1": {
-                                "type": "1",
-                                # fixme
-                                "price": "15.0000",
-                                "unit": "0",
-                                "period": "0",
-                                "vat": "0.00",
-                                "image": "0",
-                                "description": {
-                                "EN": "Baby cot and high-chair",
-                                "CA": "Cuna i trona",
-                                "ES": "Cuna y trona",
-                                "FR": "Lit bébé et chaise haute"
-                                },
-                              },
-                              "2": @target.pets_json ? @target.pets_json : {
-                                "type": 0
-                                },
+                              "1": @target.baby_cot_json,
+                              "2": @target.pets_json,
                               "3": @target.city_tax_daily_json ? @target.city_tax_daily_json : {
                                 "type": 0
                                 },
                               "4": @target.city_tax_weekly_json ? @target.city_tax_weekly_json : {
                                 "type": 0
                                 },
-                              "5": @target.portable_wifi_json ? @target.portable_wifi_json : {
-                                "type": 0
-                              }
+                              "5": @target.portable_wifi_json
                             },
                           },
                           "roomIds": {
@@ -1031,6 +1037,7 @@ class VrentalApiService
 
   # Availability
 
+
   def get_bookings_from_beds(from_date = nil)
     from_date = from_date || Date.today.beginning_of_year.to_s
     client = BedsHelper::Beds.new(@target.office.beds_key)
@@ -1127,35 +1134,40 @@ class VrentalApiService
       "allowInventoryNegative": 1
     }
 
+    return unless @target.office && @target.prop_key
     client = BedsHelper::Beds.new(@target.office.beds_key)
 
     begin
       availability_data = client.get_room_dates(@target.prop_key, options)
 
-      selected_availabilities = availability_data.select { |date, attributes| attributes["i"].to_i > 0 }
+      if availability_data.key?("error")
+        raise StandardError, "Error in availability data: #{availability_data['error']}"
+      else
+        selected_availabilities = availability_data.select { |date, attributes| attributes["i"]&.to_i > 0 }
 
-      selected_availabilities.each do |date, attributes|
-        formatted_date = Date.parse(date.to_s)
-        existing_availability = @target.availabilities.find_by(date: formatted_date)
+        selected_availabilities.each do |date, attributes|
+          formatted_date = Date.parse(date.to_s)
+          existing_availability = @target.availabilities.find_by(date: formatted_date)
 
-        if existing_availability
-          existing_availability.update!(
-            inventory: attributes["i"].to_i,
-            multiplier: attributes["x"].to_i || 100,
-            override: attributes["o"].to_i || 0
-          )
-        else
-          Availability.create(
-            date: formatted_date,
-            inventory: attributes["i"].to_i,
-            multiplier: attributes["x"].to_i || 100,
-            override: attributes["o"].to_i || 0,
-            vrental_id: @target.id
-          )
+          if existing_availability
+            existing_availability.update!(
+              inventory: attributes["i"].to_i,
+              multiplier: (attributes["x"] || 100).to_i,
+              override: (attributes["o"] || 0).to_i
+            )
+          else
+            Availability.create(
+              date: formatted_date,
+              inventory: attributes["i"].to_i,
+              multiplier: (attributes["x"] || 100).to_i,
+              override: (attributes["o"] || 0).to_i,
+              vrental_id: @target.id
+            )
+          end
         end
+        selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
+        @target.availabilities.where.not(date: selected_dates).destroy_all
       end
-      selected_dates = selected_availabilities.keys.map { |date_str| Date.parse(date_str) }
-      @target.availabilities.where.not(date: selected_dates).destroy_all
     rescue => e
       puts "Error importing availability data for #{@target.name}: #{e.message}"
     end
