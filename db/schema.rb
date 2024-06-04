@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_01_221806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -139,10 +139,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
   create_table "cleaning_companies", force: :cascade do |t|
     t.string "name"
     t.integer "number_of_cleaners"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.decimal "cost_per_hour"
     t.bigint "office_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["office_id"], name: "index_cleaning_companies_on_office_id"
   end
 
@@ -158,10 +158,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
   create_table "cleaning_schedules", force: :cascade do |t|
     t.datetime "cleaning_start"
     t.datetime "cleaning_end"
+    t.bigint "cleaning_plan_id"
     t.bigint "vrental_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "cleaning_plan_id"
     t.index ["cleaning_plan_id"], name: "index_cleaning_schedules_on_cleaning_plan_id"
     t.index ["vrental_id"], name: "index_cleaning_schedules_on_vrental_id"
   end
@@ -216,14 +216,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.string "description"
     t.decimal "discount", precision: 10, scale: 4
     t.decimal "amount"
+    t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "vrental_id", null: false
     t.bigint "booking_id"
     t.date "date"
     t.boolean "locked", default: false
-    t.bigint "statement_id"
     t.index ["booking_id"], name: "index_earnings_on_booking_id"
+    t.index ["statement_id"], name: "index_earnings_on_statement_id"
     t.index ["vrental_id"], name: "index_earnings_on_vrental_id"
   end
 
@@ -243,9 +244,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.string "expense_number"
     t.string "expense_company"
     t.bigint "vrental_id"
+    t.bigint "statement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "statement_id"
+    t.index ["statement_id"], name: "index_expenses_on_statement_id"
     t.index ["vrental_id"], name: "index_expenses_on_vrental_id"
   end
 
@@ -285,27 +287,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.index ["vrental_id"], name: "index_image_urls_on_vrental_id"
   end
 
-  create_table "invoice_items", force: :cascade do |t|
-    t.string "description"
-    t.decimal "price"
-    t.integer "quantity"
-    t.decimal "vat"
-    t.bigint "invoice_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
-  end
-
-  create_table "invoicees", force: :cascade do |t|
-    t.string "fullname"
-    t.string "document"
-    t.string "address"
-    t.string "email"
-    t.string "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "invoices", force: :cascade do |t|
     t.date "date"
     t.string "location"
@@ -314,9 +295,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id"
-    t.bigint "invoicee_id"
     t.index ["company_id"], name: "index_invoices_on_company_id"
-    t.index ["invoicee_id"], name: "index_invoices_on_invoicee_id"
     t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
   end
 
@@ -376,12 +355,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.bigint "office_id"
     t.string "access_type", default: "basic"
     t.string "title"
     t.string "firstname"
     t.string "lastname"
-    t.index ["office_id"], name: "index_owners_on_office_id"
     t.index ["user_id"], name: "index_owners_on_user_id"
   end
 
@@ -567,15 +544,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "approved", default: false, null: false
-    t.bigint "company_id"
-    t.integer "role"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "approved", default: false, null: false
+    t.bigint "company_id"
+    t.integer "role", default: 0
     t.boolean "created_by_admin", default: false
     t.string "firstname"
     t.string "lastname"
@@ -583,6 +560,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
     t.string "company_name"
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["company_id"], name: "index_users_on_company_id"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -731,15 +709,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_02_004248) do
   add_foreign_key "companies", "users"
   add_foreign_key "coupons", "offices"
   add_foreign_key "earnings", "bookings"
+  add_foreign_key "earnings", "statements"
   add_foreign_key "earnings", "vrentals"
   add_foreign_key "email_logs", "users"
+  add_foreign_key "expenses", "statements"
   add_foreign_key "expenses", "vrentals"
   add_foreign_key "features", "companies"
   add_foreign_key "feeds", "categories"
   add_foreign_key "image_urls", "vrentals"
-  add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "companies"
-  add_foreign_key "invoices", "invoicees"
   add_foreign_key "invoices", "vrentals"
   add_foreign_key "offices", "companies"
   add_foreign_key "owner_bookings", "vrentals"
