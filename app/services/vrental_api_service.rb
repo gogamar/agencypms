@@ -41,10 +41,10 @@ class VrentalApiService
             longitude: bedsrental["longitude"]
           )
 
-          VrentalApiService.new(new_vrental).update_vrental_from_beds
-          sleep 2
-          VrentalApiService.new(new_vrental).get_content_from_beds
-          sleep 2
+          # VrentalApiService.new(new_vrental).update_vrental_from_beds
+          # sleep 2
+          # VrentalApiService.new(new_vrental).get_content_from_beds
+          # sleep 2
         end
       end
     rescue StandardError => e
