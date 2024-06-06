@@ -338,17 +338,19 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #   VrentalApiService.new(vrental).update_wifi_status
 # end
 
-company = Company.first
+first_company = Company.first
 
-unless company
+unless first_company
   Rails.logger.error "No company found to associate features with."
   return
 end
 
 Feature::FEATURES.each do |feature_name|
-  new_feature = Feature.find_or_create_by!(name: feature_name)
-  new_feature.update_columns(company_id: company.id)
-  Rails.logger.info "Feature '#{feature_name}' associated with company ID #{company.id}."
+  feature_exists = Feature.exists?(name: feature_name)
+  unless feature_exists
+    Feature.create!(name: feature_name, company: first_company)
+  end
+  puts "Feature '#{feature_name}' associated with company ID #{first_company.id}."
 rescue ActiveRecord::RecordInvalid => e
   Rails.logger.error "Error creating or updating feature '#{feature_name}': #{e.message}"
 end
