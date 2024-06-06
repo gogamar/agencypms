@@ -447,6 +447,25 @@ class VrentalApiService
     sleep 2
   end
 
+  def update_features_on_beds
+    client = BedsHelper::Beds.new(@target.office.beds_key)
+    begin
+      content_array = [
+        {
+          "action" => "modify",
+          "roomIds" => {
+            @target.beds_room_id.to_s => {
+              "featureCodes" => @target.feature_codes_bedroom_bathrooms
+            }
+          }
+        }
+      ]
+      client.set_property_content(@target.prop_key, setPropertyContent: content_array)
+    rescue => e
+      Rails.logger.error "Error setting content for #{@target.name}: #{e.message}"
+    end
+    sleep 2
+  end
 
   def set_content_on_beds
     client = BedsHelper::Beds.new(@target.office.beds_key)

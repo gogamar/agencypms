@@ -333,7 +333,34 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 # end
 
 
+# estartit_vrentals.each do |vrental|
+#   puts "Updating property #{vrental.name} on Beds24"
+#   VrentalApiService.new(vrental).update_wifi_status
+# end
+
+company = Company.first
+
+unless company
+  Rails.logger.error "No company found to associate features with."
+  return
+end
+
+Feature::FEATURES.each do |feature_name|
+  new_feature = Feature.find_or_create_by!(name: feature_name)
+  new_feature.update_columns(company_id: company.id)
+  Rails.logger.info "Feature '#{feature_name}' associated with company ID #{company.id}."
+rescue ActiveRecord::RecordInvalid => e
+  Rails.logger.error "Error creating or updating feature '#{feature_name}': #{e.message}"
+end
+
+kitchen_feature = Feature.find_by(name: "kitchen")
+
 estartit_vrentals.each do |vrental|
-  puts "Updating property #{vrental.name} on Beds24"
-  VrentalApiService.new(vrental).update_wifi_status
+  unless vrental.features.include?(kitchen_feature)
+    vrental.features << kitchen_feature
+    puts "Added kitchen feature to #{vrental.name}"
+  else
+    puts "#{vrental.name} already has the kitchen feature"
+  end
+  VrentalApiService.new(vrental).update_features_on_beds
 end

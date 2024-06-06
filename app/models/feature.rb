@@ -4,7 +4,7 @@ class Feature < ApplicationRecord
   # validates :name, uniqueness: true
 
   FEATURES = [
-    "washer", "oven", "toaster", "microwave", "hair_dryer",
+    "kitchen", "washer", "oven", "toaster", "microwave", "hair_dryer",
     "iron_board", "garden", "wifi", "refrigerator", "grill",
     "sea_view", "dishwasher", "pool_private", "pets_considered",
     "air_conditioning", "freezer", "elevator", "beach_view",
