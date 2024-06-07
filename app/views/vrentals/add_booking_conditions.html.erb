@@ -5,6 +5,9 @@
 <%= simple_form_for(@vrental, data: { turbo: false }) do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.hidden_field :request_context, value: 'add_booking_conditions' %>
+  <% if @vrental.features.exists?(name: 'wifi') %>
+    <%= f.input :wifi_pass, as: :text %>
+  <% end %>
   <% type_min_stay = f.object.rental_term == "medium_term" ? 32 : 5 %>
   <%= f.input :min_stay, value: f.object.rental_term.present? ? f.object.rental_term : type_min_stay %>
   <% if @vrental.control_restrictions == "calendar_beds24" %>

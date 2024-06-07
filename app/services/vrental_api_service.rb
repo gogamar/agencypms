@@ -388,6 +388,8 @@ class VrentalApiService
                 {
                   action: "modify",
                   roomId: @target.beds_room_id,
+                  "template1": @target.wifi_status,
+                  "template2": @target.wifi_pass,
                   "airbnbEnable": 1,
                   "airbnbComEnableInventory": 0,
                   "airbnbComEnableBooking": 0,
@@ -526,8 +528,14 @@ class VrentalApiService
                             "type": "0"
                             },
                           },
-                          "texts": {
-                            "propertyDescription1": {
+                         "texts":  {
+                            "headlineText": {
+                              "EN": "#{@target.title_en}",
+                              "CA": "#{@target.title_ca}",
+                              "ES": "#{@target.title_es}",
+                              "FR": "#{@target.title_fr}"
+                            },
+                            "propertyDescriptionText": {
                               "EN": "#{@target.full_description("en")}",
                               "CA": "#{@target.full_description("ca")}",
                               "ES": "#{@target.full_description("es")}",
@@ -587,6 +595,12 @@ class VrentalApiService
                                   "CA": "#{@target.full_description("ca")}",
                                   "ES": "#{@target.full_description("es")}",
                                   "FR": "#{@target.full_description("fr")}"
+                                },
+                                "displayName": {
+                                  "EN": "#{@target.display_name_max_guests("en")}",
+                                  "CA": "#{@target.display_name_max_guests("ca")}",
+                                  "ES": "#{@target.display_name_max_guests("es")}",
+                                  "FR": "#{@target.display_name_max_guests("fr")}"
                                 },
                                 "accommodationType": {
                                   "EN": I18n.t(@target.property_type, locale: :en),

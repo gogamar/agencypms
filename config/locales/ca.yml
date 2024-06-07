@@ -222,6 +222,7 @@ ca:
         unit_number: Número d'unitats
         vrgroup_ids: Grups d'immobles als que pertany
         weekly_discount: Descompte per setmana
+        wifi_pass: Contrasenya wifi
       vrentaltemplate:
         language: Idioma
         title: Títol

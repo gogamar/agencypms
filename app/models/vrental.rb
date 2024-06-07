@@ -172,6 +172,12 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def display_name_max_guests(language)
+    if property_type.present?
+      "#{I18n.t(property_type, locale: language)&.upcase} #{name&.upcase} (#{max_guests} #{I18n.t('guests', locale: language)} max.)"
+    end
+  end
+
   def real_bedrooms
     bedrooms.where(bedroom_type: "BEDROOM")
   end

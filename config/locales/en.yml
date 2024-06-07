@@ -196,6 +196,7 @@ en:
         min_advance: Minimum advance to book (in hours)
         min_price: Minimum Price per Day
         min_stay: Minimum Stay
+        wifi_pass: WiFi Password
         name: Property Name
         name_on_web: Show Name on Website
         office: Office

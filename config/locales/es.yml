@@ -196,6 +196,7 @@ es:
         max_guests: Número máximo de personas
         min_advance: Antelación mínima para reservar (en horas)
         min_price: Precio mínimo por día
+        wifi_pass: Contraseña de WiFi
         min_stay: Estancia mínima
         name: Nombre de la propiedad
         name_on_web: Mostrar nombre en la web
@@ -1066,3 +1067,4 @@ es:
   upload: Importar
   not_featured: No destacado
   kitchen: Cocina
+  wifi_pass: Contraseña Wifi

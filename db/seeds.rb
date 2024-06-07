@@ -338,31 +338,36 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #   VrentalApiService.new(vrental).update_wifi_status
 # end
 
-first_company = Company.first
+# first_company = Company.first
 
-unless first_company
-  Rails.logger.error "No company found to associate features with."
-  return
-end
+# unless first_company
+#   Rails.logger.error "No company found to associate features with."
+#   return
+# end
 
-Feature::FEATURES.each do |feature_name|
-  feature_exists = Feature.exists?(name: feature_name)
-  unless feature_exists
-    Feature.create!(name: feature_name, company: first_company)
-  end
-  puts "Feature '#{feature_name}' associated with company ID #{first_company.id}."
-rescue ActiveRecord::RecordInvalid => e
-  Rails.logger.error "Error creating or updating feature '#{feature_name}': #{e.message}"
-end
+# Feature::FEATURES.each do |feature_name|
+#   feature_exists = Feature.exists?(name: feature_name)
+#   unless feature_exists
+#     Feature.create!(name: feature_name, company: first_company)
+#   end
+#   puts "Feature '#{feature_name}' associated with company ID #{first_company.id}."
+# rescue ActiveRecord::RecordInvalid => e
+#   Rails.logger.error "Error creating or updating feature '#{feature_name}': #{e.message}"
+# end
 
-kitchen_feature = Feature.find_by(name: "kitchen")
+# kitchen_feature = Feature.find_by(name: "kitchen")
+
+# estartit_vrentals.each do |vrental|
+#   unless vrental.features.include?(kitchen_feature)
+#     vrental.features << kitchen_feature
+#     puts "Added kitchen feature to #{vrental.name}"
+#   else
+#     puts "#{vrental.name} already has the kitchen feature"
+#   end
+#   VrentalApiService.new(vrental).update_features_on_beds
+# end
 
 estartit_vrentals.each do |vrental|
-  unless vrental.features.include?(kitchen_feature)
-    vrental.features << kitchen_feature
-    puts "Added kitchen feature to #{vrental.name}"
-  else
-    puts "#{vrental.name} already has the kitchen feature"
-  end
-  VrentalApiService.new(vrental).update_features_on_beds
+  VrentalApiService.new(vrental).update_vrental_on_beds
+  VrentalApiService.new(vrental).set_content_on_beds
 end

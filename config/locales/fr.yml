@@ -195,6 +195,7 @@ fr:
         max_guests: Nombre maximum de personnes
         min_advance: Délai minimum de réservation (en heures)
         min_price: Prix minimum par jour
+        wifi_pass: Mot de passe Wi-Fi
         min_stay: Séjour minimum
         name: Nom de la propriété
         name_on_web: Afficher le nom sur le site web
@@ -1066,3 +1067,4 @@ fr:
   upload: Importer
   not_featured: Non en vedette
   kitchen: Cuisine
+  wifi_pass: Mot de passe Wifi
