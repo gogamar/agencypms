@@ -32,4 +32,8 @@ class CleaningSchedulePolicy < ApplicationPolicy
   def destroy?
     user.admin? || user.manager?
   end
+
+  def unlock?
+    user.admin? || user.manager?
+  end
 end

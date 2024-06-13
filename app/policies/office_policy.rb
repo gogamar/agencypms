@@ -48,4 +48,8 @@ class OfficePolicy < ApplicationPolicy
   def destroy_all_properties?
     user.admin?
   end
+
+  def create_or_update_schedules?
+    user.admin? || user.manager?
+  end
 end

@@ -3,6 +3,15 @@ ca:
   DBL: D
   DSF: DS
   SGL: IN
+  DOUBLE:
+    one: llit doble
+    other: llits dobles
+  DOUBLE_SOFA:
+    one: sofa doble
+    other: sofas dobles
+  SINGLE:
+    one: llit individual
+    other: llits individuals
   TOILET: Lavabo
   according_contract: Segons contracte
   active: Actiu
@@ -823,6 +832,7 @@ ca:
   reviews: comentaris
   roof_terrace: Terrassa comunitària
   routes:
+    cleaning_schedules: horaris-neteja
     home: inici
     privacy_policy: politica-de-privacitat
     owner_bookings: reserves-propietari
@@ -1072,3 +1082,22 @@ ca:
   upload: Importar
   not_featured: No destacat
   cost_per_hour: Preu per hora
+  vrental_title: Immoble
+  priority: Prioritat
+  cleaning_date: Data de neteja
+  next_booking_info: Següent reserva
+  cleaning_company: Empresa de neteja
+  same_day_arrival: Arribada el mateix dia
+  new_booking_possible: Nova reserva entremig possible
+  new_booking_impossible: Nova reserva entremig no possible
+  next_booking_date: Següent reserva
+  cleaning_schedules: Horaris de neteja
+  update_schedules: Actualitzar horaris
+  unblock: Desbloquejar
+  big_towel:
+    one: tov. gran
+    other: tov. grans
+  small_towel:
+    one: tov. petita
+    other: tov. petites
+  filter: Filtrar

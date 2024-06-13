@@ -1,0 +1,12 @@
+  <%= simple_form_for cleaning_schedule, data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="row py-2 rate-dates rborder-bottom">
+    <div class="col-md-2"><%= f.input :priority, label: false %></div>
+    <div class="col-md-2"><%= cleaning_schedule.booking.vrental.name %></div>
+    <div class="col-md-2"><%= f.input :cleaning_date, as: :string, input_html: { class: "datepicker" }, label: false %></div>
+    <div class="col-md-3"><%= l(cleaning_schedule.next_booking_date) %> <br>
+      <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span></div>
+    <div class="col-md-2"><%= f.association :cleaning_company.name, label: false %></div>
+    <div class="col-md-1"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %></div>
+  </div>
+<% end %>

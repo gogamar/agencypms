@@ -194,8 +194,14 @@ Rails.application.routes.draw do
     resources :coupons_vrentals
 
     resources :cleaning_companies
-    resources :cleaning_schedules
-    resources :cleaning_plans
+    resources :cleaning_schedules do
+      member do
+        get 'unlock'
+      end
+      collection do
+        post :create_or_update_schedules
+      end
+    end
 
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'

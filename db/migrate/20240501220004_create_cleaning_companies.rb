@@ -9,7 +9,6 @@ class CreateCleaningCompanies < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_reference :vrentals, :cleaning_company, foreign_key: true
     add_column :vrentals, :cleaning_hours, :float
     add_column :bookings, :checkin_time, :datetime
     add_column :bookings, :checkout_time, :datetime

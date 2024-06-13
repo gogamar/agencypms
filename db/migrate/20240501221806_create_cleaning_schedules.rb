@@ -1,18 +1,15 @@
 class CreateCleaningSchedules < ActiveRecord::Migration[7.0]
   def change
-    create_table :cleaning_plans do |t|
-      t.date :from
-      t.date :to
-      t.references :cleaning_company, null: false, foreign_key: true
-
-      t.timestamps
-    end
-
     create_table :cleaning_schedules do |t|
+      t.integer :priority
+      t.date :cleaning_date
       t.datetime :cleaning_start
       t.datetime :cleaning_end
-      t.references :cleaning_plan, foreign_key: true
-      t.references :vrental, null: false, foreign_key: true
+      t.date :next_booking_date
+      t.string :next_booking_info
+      t.boolean :locked, default: false
+      t.references :booking, foreign_key: true
+      t.references :cleaning_company, foreign_key: true
 
       t.timestamps
     end

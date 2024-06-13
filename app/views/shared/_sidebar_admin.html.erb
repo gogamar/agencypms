@@ -3,6 +3,11 @@
     <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
   <% end %>
 </li>
+<li class="<%= 'active' if current_page?(cleaning_schedules_path) %>">
+  <%= link_to cleaning_schedules_path do %>
+    <i class="fa-solid fa-broom"></i><%= t("cleaning_schedules") %>
+  <% end %>
+</li>
 <!--
 <li class="<%= 'active' if current_page?(empty_vrentals_path) %>">
   <%= link_to empty_vrentals_path do %>

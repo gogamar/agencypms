@@ -334,6 +334,13 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 
 
 estartit_vrentals.each do |vrental|
-  puts "Updating property #{vrental.name} on Beds24"
-  VrentalApiService.new(vrental).update_wifi_status
+  # puts "Updating property #{vrental.name} on Beds24"
+  # VrentalApiService.new(vrental).update_wifi_status
+  if vrental.bedrooms
+    if vrental.bedrooms.count == 1 || 2
+      vrental.update(cleaning_hours: 2)
+    else
+      vrental.update(cleaning_hours: vrental.bedrooms.count)
+    end
+  end
 end

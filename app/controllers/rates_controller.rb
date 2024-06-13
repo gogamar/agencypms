@@ -40,7 +40,6 @@ class RatesController < ApplicationController
     @vrental = @rate.vrental
     authorize @rate
     if @rate.update(rate_params)
-      puts "Rate updated"
       update_rate_and_vrental_min_stay
       flash.now[:notice] = "Has actualitzat una tarifa de #{@rate.vrental.name}."
       redirect_to vrental_rates_path(@vrental)
