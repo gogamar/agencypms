@@ -18,7 +18,7 @@ class CleaningCompaniesController < ApplicationController
     @cleaning_company = CleaningCompany.new(cleaning_company_params)
     authorize @cleaning_company
     if @cleaning_company.save
-      redirect_to dashboard_path, notice: "Has creat una nova empresa de neteja per la oficina #{@cleaning_company.office.name}."
+      render(partial: 'cleaning_company', locals: { cleaning_company: @cleaning_company})
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,7 +30,7 @@ class CleaningCompaniesController < ApplicationController
   def update
     if @cleaning_company.update(cleaning_company_params)
       flash.now[:notice] = "Has actualitzat l'empresa de neteja #{@cleaning_company.name}."
-      redirect_to dashboard_path
+      redirect_to cleaning_companies_path
     else
       render :edit, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class CleaningCompaniesController < ApplicationController
 
   def destroy
     @cleaning_company.destroy
-    redirect_to dashboard_path, notice: "Has esborrat l'empresa de neteja."
+    redirect_to cleaning_companies_path, notice: "Has esborrat l'empresa de neteja."
   end
 
   private

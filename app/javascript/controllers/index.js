@@ -43,6 +43,9 @@ application.register("map", MapController)
 import PasswordToggleController from "./password_toggle_controller"
 application.register("password-toggle", PasswordToggleController)
 
+import PdfModalController from "./pdf_modal_controller"
+application.register("pdf-modal", PdfModalController)
+
 import PricingController from "./pricing_controller"
 application.register("pricing", PricingController)
 

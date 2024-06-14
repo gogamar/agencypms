@@ -3,6 +3,15 @@ en:
   DBL: Double
   DSF: Twin
   SGL: Single
+  DOUBLE:
+    one: double bed
+    other: double beds
+  DOUBLE_SOFA:
+    one: double sofa
+    other: double sofas
+  SINGLE:
+    one: single bed
+    other: single beds
   TOILET: Toilet
   according_contract: According to contract
   active: Active
@@ -36,6 +45,11 @@ en:
         content_fr: Content in French
         hidden: Hidden
         image: Image
+      cleaning_company:
+        name: Company name
+        number_of_cleaners: Nº of cleaners
+        cost_per_hour: Cost per hour
+        office: Office
       company:
         active: Active
         administrator: Administrator
@@ -819,6 +833,7 @@ en:
   reviews: reviews
   roof_terrace: Community roof terrace
   routes:
+    cleaning_schedules: cleaning-schedules
     home: home
     privacy_policy: privacy-policy
     owner_bookings: owner-bookings
@@ -1066,3 +1081,30 @@ en:
   per_week: week
   upload: Upload
   not_featured: Not Featured
+  cost_per_hour: Cost per hour
+  vrental_title: Property
+  priority: Priority
+  cleaning_date: Cleaning date
+  next_booking_info: Next booking
+  cleaning_company: Cleaning company
+  same_day_arrival: Same day arrival
+  new_booking_possible: New booking possible
+  new_booking_impossible: New booking not possible
+  next_booking_date: Next booking date
+  cleaning_schedules: Cleaning schedules
+  update_schedules: Update schedules
+  unblock: Unblock
+  big_towel:
+    one: big towel
+    other: big towels
+  small_towel:
+    one: small towel
+    other: small towels
+  filter: Filter
+  show_them_all: Show all
+  download_pdf: Download PDF
+  get_bookings_from_beds: Get bookings from Beds24
+  update_bookings: Update bookings
+  cleaning_companies: Cleaning companies
+  number_of_cleaners: Number of cleaners
+  add_cleaning_company: Add cleaning company

@@ -3,6 +3,15 @@ fr:
   DBL: Double
   DSF: Twin
   SGL: Simple
+  DOUBLE:
+    one: lit double
+    other: lits doubles
+  DOUBLE_SOFA:
+    one: canapé double
+    other: canapés doubles
+  SINGLE:
+    one: lit simple
+    other: lits simples
   TOILET: Toilette
   according_contract: Selon le contrat
   active: Actif
@@ -36,6 +45,11 @@ fr:
         content_fr: Contenu en francés
         hidden: Caché
         image: Image
+      cleaning_company:
+        name: Nom
+        number_of_cleaners: Nº de nettoyeurs
+        cost_per_hour: Coût par heure
+        office: Bureau
       company:
         active: Actif
         administrator: Administrateur
@@ -819,6 +833,7 @@ fr:
   reviews: commentaires
   roof_terrace: Terrasse sur le toit commune
   routes:
+    cleaning_schedules: nettoyages
     home: accueil
     privacy_policy: politiques-de-confidentialite
     owner_bookings: reservations-proprietaire
@@ -1066,3 +1081,30 @@ fr:
   per_week: semaine
   upload: Importer
   not_featured: Non en vedette
+  cost_per_hour: Coût par heure
+  vrental_title: Propriété
+  priority: Priorité
+  cleaning_date: Date de nettoyage
+  next_booking_info: Prochaine réservation
+  cleaning_company: Société de nettoyage
+  same_day_arrival: Arrivée le même jour
+  new_booking_possible: Nouvelle réservation possible
+  new_booking_impossible: Nouvelle réservation impossible
+  next_booking_date: Prochaine réservation
+  cleaning_schedules: Horaires de nettoyage
+  update_schedules: Mettre à jour les horaires
+  unblock: Débloquer
+  big_towel:
+    one: grande serviette
+    other: grandes serviettes
+  small_towel:
+    one: petite serviette
+    other: petites serviettes
+  filter: Filtrer
+  show_them_all: Tout montrer
+  download_pdf: Télécharger le PDF
+  get_bookings_from_beds: Importer les réservations depuis Beds24
+  update_bookings: Mettre à jour les réservations
+  cleaning_companies: Entreprises de nettoyage
+  number_of_cleaners: Nombre de nettoyeurs
+  add_cleaning_company: Ajouter une entreprise de nettoyage

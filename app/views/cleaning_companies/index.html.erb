@@ -1,0 +1,14 @@
+<h6 class="mb-3"><%= t('add_cleaning_company') %></h6>
+<%= turbo_frame_tag "new_cleaning_company", src: new_cleaning_company_path %>
+<hr>
+<h6 class="mb-3"><%= t('cleaning_companies') %></h6>
+<div class="row py-2 rate-dates border-bottom fw-bold">
+  <div class="col-md-2 col"><%= t('office') %></div>
+  <div class="col-md-4 col"><%= t('name') %></div>
+  <div class="col-md-2 col"><%= t('number_of_cleaners') %></div>
+  <div class="col-md-3 col"><%= t('cost_per_hour') %></div>
+  <div class="col-md-1 col"></div>
+</div>
+<% @cleaning_companies.each do |cleaning_company| %>
+  <%= render cleaning_company  %>
+<% end %>

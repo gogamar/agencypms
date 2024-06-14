@@ -10,6 +10,7 @@ class CreateCleaningSchedules < ActiveRecord::Migration[7.0]
       t.boolean :locked, default: false
       t.references :booking, foreign_key: true
       t.references :cleaning_company, foreign_key: true
+      t.references :vrental, foreign_key: true
 
       t.timestamps
     end

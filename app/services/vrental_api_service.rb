@@ -1038,12 +1038,13 @@ class VrentalApiService
   # Availability
 
 
-  def get_bookings_from_beds(from_date = nil)
+  def get_bookings_from_beds(from_date = nil, to_date = nil)
     from_date = from_date || Date.today.beginning_of_year.to_s
+    to_date = to_date || Date.today.to_s
     client = BedsHelper::Beds.new(@target.office.beds_key)
     options = {
       "arrivalFrom": from_date,
-      # "arrivalTo": Date.today.to_s,
+      "arrivalTo": to_date,
       "includeInvoice": true,
     }
     beds24bookings = client.get_bookings(@target.prop_key, options)

@@ -1,51 +1,64 @@
-<%= form_tag create_or_update_schedules_cleaning_schedules_path, method: :post, class: "needs-validation" do %>
-  <div class="d-flex justify-content-start align-items-end">
-    <div class="form-group me-2">
-      <%= label_tag "office_id", t('office'), class: "control-label" %>
-      <%= select_tag "office_id", options_from_collection_for_select(@offices, "id", "name", @default_office&.id), { include_blank: false, class: "form-select", required: true } %>
-    </div>
-    <div class="form-group me-2">
-      <%= label_tag "to", t('to'), class: "control-label" %>
-      <%= text_field_tag "to", nil, class: "form-control datepicker", required: true %>
-    </div>
-    <div class="form-group">
-      <%= submit_tag t('update_schedules'), class: "btn btn-sm btn-primary" %>
+<div class="no-printing">
+  <%= render 'shared/get_all_bookings' %>
+  <div class="d-flex justify-content-between align-items-center">
+    <%= form_tag create_or_update_schedules_cleaning_schedules_path, method: :post, class: "needs-validation" do %>
+      <div class="d-flex justify-content-start align-items-end">
+        <div class="form-group me-2">
+          <%= label_tag "office_id", t('office'), class: "control-label" %>
+          <%= select_tag "office_id", options_from_collection_for_select(@offices, "id", "name", @default_office&.id), { include_blank: false, class: "form-select", required: true } %>
+        </div>
+        <div class="form-group me-2">
+          <%= label_tag "to", t('to'), class: "control-label" %>
+          <%= text_field_tag "to", nil, class: "form-control datepicker", required: true %>
+        </div>
+        <div class="form-group">
+          <%= submit_tag t('update_schedules'), class: "btn btn-sm btn-warning" %>
+        </div>
+      </div>
+    <% end %>
+    <%= link_to t('cleaning_companies'), cleaning_companies_path, class: "text-sm link" %>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <%= form_with(url: cleaning_schedules_path, method: "get") do %>
+      <div class="d-flex justify-content-start align-items-end">
+        <div class="form-group me-2">
+          <%= label_tag(:cleaning_company_id, t('cleaning_company')) %>
+          <%= select_tag(:cleaning_company_id,
+               options_for_select([[t('show_them_all'), nil]] + CleaningCompany.all.map { |cc| [cc.name, cc.id] }),
+               { include_blank: false, class: "form-select" }) %>
+        </div>
+        <div class="form-group me-2">
+          <%= label_tag(:to_cleaning_date, t('to')) %>
+          <%= text_field_tag(:to_cleaning_date, params[:to_cleaning_date], class: "form-control datepicker", type: "date") %>
+        </div>
+        <div class="form-group">
+          <%= submit_tag(t('filter'), class: "btn btn-sm btn-info") %>
+        </div>
+      </div>
+    <% end %>
+    <div class="no-printing" data-controller="pdf-modal">
+      <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#cleaningSchedules" data-action="click->pdf-modal#loadModal"
+        data-base-url="<%= cleaning_schedules_path %>"
+        data-cleaning-company-id="<%= params[:cleaning_company_id] %>" data-to-cleaning-date="<%= params[:to_cleaning_date] %>">
+        <%= t('download_pdf') %>
+      </button>
+      <%= render 'pdf_modal' %>
     </div>
   </div>
-<% end %>
+  <hr>
 </div>
-<hr>
-<div class="bg-secondary p-3">
-  <%= form_with(url: cleaning_schedules_path, method: "get") do %>
-    <div class="d-flex justify-content-start align-items-end">
-      <div class="form-group me-2">
-        <%= label_tag(:cleaning_company_id, t('cleaning_company'), class: "text-white") %>
-        <%= select_tag(:cleaning_company_id,
-               options_for_select([[t('show_all'), nil]] + CleaningCompany.all.map { |cc| [cc.name, cc.id] }),
-               { include_blank: false, class: "form-select" }) %>
-      </div>
-      <div class="form-group me-2">
-        <%= label_tag(:to_cleaning_date, t('to'), class: "text-white") %>
-        <%= text_field_tag(:to_cleaning_date, params[:to_cleaning_date], class: "form-control datepicker", type: "date") %>
-      </div>
-      <div class="form-group">
-        <%= submit_tag(t('filter'), class: "btn btn-sm btn-light") %>
-      </div>
-    </div>
-  <% end %>
-</div>
-<hr>
 <div class="mt-5">
-  <% @cleaning_schedules.group_by(&:cleaning_date).each do |cleaning_date, cleaning_schedules| %>
-    <h5 class="text-center"><%= l(cleaning_date) %></h5>
+  <% @grouped_cleaning_schedules.each do |cleaning_date, cleaning_schedules| %>
     <ul>
+      <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date) %></h5>
       <div class="row py-2 rate-dates border-bottom">
-        <div class="col-md-1"><%= t('priority') %></div>
-        <div class="col-md-3"><%= t('vrental_title') %></div>
-        <div class="col-md-2"><%= t('cleaning_date') %></div>
-        <div class="col-md-3"><%= t('next_booking_info') %></div>
-        <div class="col-md-2"><%= t('cleaning_company') %></div>
-        <div class="col-md-1"></div>
+        <div class="col-md-1 col no-printing"><%= t('priority') %></div>
+        <div class="col-md-3 col"><%= t('vrental_title') %></div>
+        <div class="col-md-2 col"><%= t('cleaning_date') %></div>
+        <div class="col-md-3 col"><%= t('next_booking_info') %></div>
+        <div class="col-md-2 col"><%= t('cleaning_company') %></div>
+        <div class="col-md-1 col no-printing"></div>
       </div>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
         <%= render cleaning_schedule  %>

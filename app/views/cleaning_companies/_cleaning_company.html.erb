@@ -1,0 +1,13 @@
+<%= turbo_frame_tag cleaning_company, class: "card-body" do %>
+  <div class="row py-2 rate-dates border-bottom d-flex align-items-end">
+    <div class="col-md-2"><%= cleaning_company.office.name %></div>
+    <div class="col-md-4"><%= cleaning_company.name %></div>
+    <div class="col-md-2"><%= cleaning_company.number_of_cleaners %></div>
+    <div class="col-md-3"><%= number_to_currency((cleaning_company.cost_per_hour), unit: "€", separator: ",", delimiter: ".", precision: 2, format: "%n%u")%></div>
+    <div class="col-md-1">
+      <%= link_to edit_cleaning_company_path(cleaning_company), class: "btn btn-sm btn-info" do %>
+        <i class="fas fa-pen fa-sm"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>

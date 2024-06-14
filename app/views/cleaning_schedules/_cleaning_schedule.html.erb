@@ -1,31 +1,40 @@
 <%= turbo_frame_tag cleaning_schedule, class: "card-body" do %>
   <div class="row py-2 rate-dates border-bottom">
-    <div class="col-md-1"><%= cleaning_schedule.priority %></div>
-    <div class="col-md-3"><%= cleaning_schedule.booking.vrental.name %> <br>
-      <span class="text-sm"><%= cleaning_schedule.booking.vrental.beds_detail_full_words.to_sentence if cleaning_schedule.booking && cleaning_schedule.booking.vrental.beds_detail_full_words %></span>
+    <div class="col-md-1 col no-printing"><%= cleaning_schedule.priority %></div>
+    <div class="col-md-3 col"><span class="fw-bold font-weight-bold"><%= cleaning_schedule.booking.vrental.name %></span><br>
+      <span class="text-sm">
+        <% if cleaning_schedule.booking && cleaning_schedule.booking.vrental.beds_detail_full_words %>
+          <% cleaning_schedule.booking.vrental.beds_detail_full_words.each do |bed_type_count| %>
+            <%= bed_type_count %>
+            <br>
+          <% end %>
+        <% end %>
+      </span>
       <br>
       <% towel_count = cleaning_schedule.booking.vrental.max_guests || (cleaning_schedule.booking.adults + (cleaning_schedule.booking.children || 0)) %>
       <span class="text-sm"><%= towel_count %> <%= t('big_towel', count: towel_count) %></span>
       <br>
       <span class="text-sm"><%= towel_count %> <%= t('small_towel', count: towel_count) %></span>
     </div>
-    <div class="col-md-2"><%= l(cleaning_schedule.cleaning_date) %><br>
+    <div class="col-md-2 col"><span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date) %></span><br>
       <span class="text-sm"><%= t('checkout') %>: <%= l(cleaning_schedule.booking.checkout) if cleaning_schedule.booking.checkout %></span></div>
-    <div class="col-md-3"><%= l(cleaning_schedule.next_booking_date) %> <br>
+    <div class="col-md-3 col"><%= l(cleaning_schedule.next_booking_date) %> <br>
       <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span>
     </div>
-    <div class="col-md-2"><%= cleaning_schedule.cleaning_company.name %></div>
-    <div class="col-md-1">
+    <div class="col-md-2 col"><%= cleaning_schedule.cleaning_company.name %></div>
+    <div class="col-md-1 no-printing">
       <%= link_to edit_cleaning_schedule_path(cleaning_schedule), class: "btn btn-sm btn-info" do %>
         <i class="fas fa-pen fa-sm"></i>
       <% end %>
     </div>
-    <% if cleaning_schedule.locked == true %>
-      <div class="text-end">
-        <%= link_to unlock_cleaning_schedule_path(cleaning_schedule), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest horari de neteja?" } do %>
-          <i class="fas fa-unlock fa-sm"></i><span> <%= t('unblock') %></span>
-        <% end %>
-      </div>
-    <% end %>
+    <div class="no-printing">
+      <% if cleaning_schedule.locked == true %>
+        <div class="text-end">
+          <%= link_to unlock_cleaning_schedule_path(cleaning_schedule), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest horari de neteja?" } do %>
+            <i class="fas fa-unlock fa-sm"></i><span> <%= t('unblock') %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>

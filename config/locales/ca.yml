@@ -45,6 +45,11 @@ ca:
         content_fr: Contingut en francès
         hidden: Amagat
         image: Imatge
+      cleaning_company:
+        name: Nom empresa
+        number_of_cleaners: Nº de netejadors
+        cost_per_hour: Preu per hora
+        office: Oficina
       company:
         active: Activa
         administrator: Administrador
@@ -1101,3 +1106,14 @@ ca:
     one: tov. petita
     other: tov. petites
   filter: Filtrar
+  show_them_all: Mostrar totes
+  download_pdf: Descarregar PDF
+  get_bookings_from_beds: Importar reserves de Beds des de la data...
+  update_bookings: Actualitzar reserves
+  cleaning_companies: Empreses de neteja
+  number_of_cleaners: Nº de netejadors
+  add_cleaning_company: Afegir empresa de neteja
+  cleaning_companies: Empreses de neteja
+  cleaning: Neteja
+  cleaning_schedules: Horaris de neteja
+  printed_on: "Imprès el %{date}"

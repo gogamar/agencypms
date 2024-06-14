@@ -13,12 +13,10 @@ class CleaningSchedulesService
     office_bookings.each do |booking|
       next_vrental_booking = booking.vrental.bookings.where('checkin >= ?', booking.checkout).order(:checkin).first
       cleaning_hours = booking.vrental.cleaning_hours
-      # available_cleaning_company = find_available_cleaning_company(cleaning_companies, cleaning_hours)
 
-      # just for testing
-      available_cleaning_company = cleaning_companies.first
+      prefer_cleaning_company = booking.vrental.cleaning_company.present? ? booking.vrental.cleaning_company : CleaningCompany.order(number_of_cleaners: :desc).first
 
-      next if available_cleaning_company.nil?
+      next if prefer_cleaning_company.nil?
 
       # cleaning_start = determine_cleaning_start_time(booking, next_booking, cleaning_hours)
       # cleaning_end = cleaning_start + cleaning_hours.hours
@@ -50,13 +48,13 @@ class CleaningSchedulesService
 
   private
 
-  def find_available_cleaning_company(cleaning_companies, cleaning_hours)
-    cleaning_companies.each do |company|
-      available_hours = company.available_hours_for_period(self.from, self.to)
-      return company if available_hours >= cleaning_hours / company.number_of_cleaners
-    end
-    nil
-  end
+  # def find_available_cleaning_company(cleaning_companies, cleaning_hours)
+  #   cleaning_companies.each do |company|
+  #     available_hours = company.available_hours_for_period(self.from, self.to)
+  #     return company if available_hours >= cleaning_hours / company.number_of_cleaners
+  #   end
+  #   nil
+  # end
 
   def determine_cleaning_date(booking, next_vrental_booking, cleaning_hours)
     if next_vrental_booking

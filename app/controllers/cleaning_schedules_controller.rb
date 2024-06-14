@@ -3,14 +3,20 @@ class CleaningSchedulesController < ApplicationController
 
   def index
     load_cleaning_schedules
-    if params[:cleaning_company_id].present?
-      @cleaning_schedules = @cleaning_schedules.where(cleaning_company_id: params[:cleaning_company_id])
-    end
+    filter_cleaning_schedules
+    @grouped_cleaning_schedules = @cleaning_schedules.group_by(&:cleaning_date)
+    @header_title = set_header_title
 
-    if params[:to_cleaning_date].present?
-      @to_cleaning_date = Date.parse(params[:to_cleaning_date])
-      @cleaning_schedules = @cleaning_schedules.where('cleaning_date <= ?', @to_cleaning_date)
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render_pdf
+      end
     end
+  end
+
+  def load_pdf_modal
+    render partial: 'pdf_modal', locals: { cleaning_schedules: @grouped_cleaning_schedules, cleaning_company_id: params[:cleaning_company_id], to_cleaning_date: params[:to_cleaning_date] }
   end
 
   def new
@@ -67,12 +73,64 @@ class CleaningSchedulesController < ApplicationController
 
   private
 
+  def filter_params
+    params.permit(:cleaning_company_id, :to_cleaning_date)
+  end
+
   def load_cleaning_schedules
     @offices = Office.all.order(:name)
     @default_office = @offices.where("name ILIKE ?", '%estartit%').first
     @cleaning_schedules = policy_scope(CleaningSchedule)
                                    .where("cleaning_date >= ?", Date.today)
                                    .order(:cleaning_date)
+  end
+
+  def filter_cleaning_schedules
+    if params[:cleaning_company_id].present?
+      @cleaning_schedules = @cleaning_schedules.where(cleaning_company_id: params[:cleaning_company_id])
+      @selected_cleaning_company = CleaningCompany.find(params[:cleaning_company_id])
+    end
+
+    if params[:to_cleaning_date].present?
+      @cleaning_schedules = @cleaning_schedules.where('cleaning_date <= ?', params[:to_cleaning_date])
+    end
+  end
+
+  def set_header_title
+    if @selected_cleaning_company.present? && params[:to_cleaning_date].present?
+      "#{t('cleaning_schedules')} #{t('to')} #{params[:to_cleaning_date]} -#{@selected_cleaning_company.name}"
+    elsif params[:to_cleaning_date].present?
+      "#{t('cleaning_schedules')} #{t('to')} #{params[:to_cleaning_date]}"
+    else
+      t('cleaning_schedules')
+    end
+  end
+
+  def render_pdf
+    render pdf: @header_title,
+           template: "cleaning_schedules/index",
+           locals: { cleaning_schedules: @grouped_cleaning_schedules, header_title: @header_title },
+           margin: { top: 70, bottom: 25, left: 10, right: 10 },
+           header: {
+            font_size: 9,
+            spacing: 30,
+            content: render_to_string(
+              'shared/pdf_header_cleaning',
+              locals: { header_title: @header_title}
+            )
+           },
+           formats: [:html],
+           disposition: :inline,
+           page_size: 'A4',
+           dpi: 75,
+           zoom: 1,
+           layout: 'pdf',
+           footer: {
+             font_size: 9,
+             spacing: 5,
+             right: "#{t('page')} [page] #{t('of')} [topage]",
+             left: t('printed_on', date: l(Date.current, format: :long))
+           }
   end
 
   def set_cleaning_schedule

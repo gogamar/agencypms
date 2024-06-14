@@ -1,7 +1,19 @@
-<%= simple_form_for @cleaning_company, class: "d-md-flex justify-content-between" do |f| %>
-  <%= f.association :office %>
-  <%= f.input :name %>
-  <%= f.input :number_of_cleaners %>
-  <%= f.input :cost_per_hour %>
-  <%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %>
+<%# this way after editing the page is reloaded %>
+<%= simple_form_for cleaning_company, data: (cleaning_company.new_record? ? { turbo_frame: cleaning_company } : { turbo_frame: "_top" }), class: "d-md-flex justify-content-between" do |f| %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="row py-2 rate-dates rborder-bottom d-flex align-items-center">
+    <div class="col-md-2"><%= f.association :office %></div>
+    <div class="col-md-4"><%= f.input :name %></div>
+    <div class="col-md-2"><%= f.input :number_of_cleaners %></div>
+    <div class="col-md-3">
+      <%= f.label :cost_per_hour, class: 'form-label' %>
+      <div class="input-group mb-3">
+        <%= f.input_field :cost_per_hour, class: 'form-control' %>
+        <div class="input-group-append">
+          <span class="input-group-text">€</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary mt-3" %></div>
+  </div>
 <% end %>
