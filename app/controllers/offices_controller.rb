@@ -1,6 +1,6 @@
 class OfficesController < ApplicationController
   before_action :set_office, only: %i[ show edit update destroy import_properties destroy_all_properties get_reviews_from_airbnb]
-  before_action :set_company, except: %i[ destroy import_properties destroy_all_properties get_reviews_from_airbnb]
+  before_action :set_company, except: %i[ destroy import_properties destroy_all_properties get_reviews_from_airbnb import_bookings]
 
   def index
     @offices = policy_scope(Office)
@@ -56,16 +56,14 @@ class OfficesController < ApplicationController
 
   def import_bookings
     office = Office.find(params[:office_id])
-    from_date = oldest_current_booking.check_in
+    authorize office
     to_date = params[:to]
+    puts "Importing bookings from Beds24 for #{office.name} to #{to_date}"
+
     office.vrentals.each do |vrental|
-      current_booking = vrental.bookings.where('checkin <= ? AND checkout >= ?', Date.today, Date.today)
-      if current_booking.present?
-        from_date = current_booking.first.check_in
-      else
-        from_date = Date.today
+      if vrental.prop_key.present?
+        VrentalApiService.new(vrental).get_bookings_from_beds(nil, to_date)
       end
-      VrentalApiService.new(vrental).get_bookings_from_beds(from_date, to_date)
     end
     redirect_to cleaning_schedules_path, notice: "Reserves actualitzades."
   end

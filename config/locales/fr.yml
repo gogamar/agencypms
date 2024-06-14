@@ -1111,3 +1111,8 @@ fr:
   add_cleaning_company: Ajouter une entreprise de nettoyage
   kitchen: Cuisine
   wifi_pass: Mot de passe Wifi
+  printed_on: "Imprimé le %{date}"
+  from_min: à partir
+  to_min: jusqu'à
+  preferred_cleaning_company: Entreprise de nettoyage préférée
+  used_for_cleaning_schedules: Utilisé pour les horaires de nettoyage

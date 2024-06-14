@@ -172,6 +172,8 @@ ca:
         vrental: Casa o apartament
         year: Any contracte
       vrental:
+        cleaning_company: Empresa de neteja (opcional)
+        cleaning_hours: Hores neteja approx.
         monthly_option: Preu per mes (encara falta HUT)
         access_text_ca: Explicació com es fa el check-in català
         access_text_en: Explicació com es fa el check-in anglès
@@ -1121,3 +1123,5 @@ ca:
   kitchen: Cuina
   from_min: des de
   to_min: fins a
+  preferred_cleaning_company: Empresa de neteja de preferencia
+  used_for_cleaning_schedules: Es fa servir per horaris de neteja

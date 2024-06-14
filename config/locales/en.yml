@@ -1110,3 +1110,8 @@ en:
   number_of_cleaners: Number of cleaners
   add_cleaning_company: Add cleaning company
   kitchen: Kitchen
+  printed_on: "Printed on %{date}"
+  from_min: from
+  to_min: to
+  preferred_cleaning_company: Preferred cleaning company
+  used_for_cleaning_schedules: Used for cleaning schedules

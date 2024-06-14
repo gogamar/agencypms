@@ -52,4 +52,8 @@ class OfficePolicy < ApplicationPolicy
   def create_or_update_schedules?
     user.admin? || user.manager?
   end
+
+  def import_bookings?
+    user.admin? || user.manager?
+  end
 end

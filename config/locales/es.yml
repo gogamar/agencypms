@@ -1111,3 +1111,8 @@ es:
   add_cleaning_company: Afegir empresa de neteja
   kitchen: Cocina
   wifi_pass: Contraseña Wifi
+  printed_on: "Imprimido el %{date}"
+  from_min: desde
+  to_min: hasta
+  preferred_cleaning_company: Empresa de limpieza de preferencia
+  used_for_cleaning_schedules: Se utiliza para los horarios de limpieza

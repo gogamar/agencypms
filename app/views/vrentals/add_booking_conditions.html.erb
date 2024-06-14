@@ -24,6 +24,8 @@
     <%= f.input :unit_number, input_html: { value: f.object.unit_number || 1} %>
     <%= f.input :res_fee %>
     <%= f.input :free_cancel %>
+    <%= f.input :cleaning_hours, hint: t('used_for_cleaning_schedules') %>
+    <%= f.association :cleaning_company, hint: t('preferred_cleaning_company') %>
     <div data-controller="booking-conditions">
       <%= f.input :price_per, collection: Vrental::PRICE_PER.map { |interval| [t(interval), interval] }, input_html: { "data-booking-conditions-target" => "pricePer", "data-action" => "change->booking-conditions#toggleDiscountIncluded"} %>
       <%= f.label :weekly_discount %>

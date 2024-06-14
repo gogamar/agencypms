@@ -30,7 +30,7 @@ class CleaningSchedulesService
           cleaning_date: cleaning_date_info[:cleaning_date],
           next_booking_info: cleaning_date_info[:cleaning_date_reason],
           next_booking_date: cleaning_date_info[:next_booking_date],
-          cleaning_company: available_cleaning_company
+          cleaning_company: prefer_cleaning_company
         }
 
         cleaning_schedule.save!
