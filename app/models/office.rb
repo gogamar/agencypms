@@ -2,6 +2,8 @@ class Office < ApplicationRecord
   belongs_to :company
   has_many :vrentals
   has_many :coupons
+  has_many :cleaning_companies
+  has_many :bookings, through: :vrentals
   has_many_attached :office_photos
   validates :name, presence: true, uniqueness: { scope: :company_id }
   validates :beds_key, presence: true, uniqueness: true

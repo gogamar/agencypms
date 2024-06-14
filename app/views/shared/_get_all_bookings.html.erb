@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-between align-items-center">
+  <%= form_tag import_bookings_path, method: :post, class: "needs-validation" do %>
+    <div class="d-flex justify-content-start align-items-end">
+      <div class="form-group me-2">
+        <%= label_tag "office_id", t('office'), class: "control-label" %>
+        <%= select_tag "office_id", options_from_collection_for_select(@offices, "id", "name", @default_office&.id), { include_blank: false, class: "form-select", required: true } %>
+      </div>
+      <div class="form-group me-2">
+        <%= label_tag "to", t('to'), class: "control-label" %>
+        <%= text_field_tag "to", nil, class: "form-control datepicker", required: true %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag t('update_bookings'), class: "btn btn-sm btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<hr>

@@ -193,9 +193,21 @@ Rails.application.routes.draw do
     resources :coupons, only: [:destroy]
     resources :coupons_vrentals
 
+    resources :cleaning_companies
+    resources :cleaning_schedules do
+      member do
+        get 'unlock'
+      end
+      collection do
+        post :create_or_update_schedules
+      end
+    end
+
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'
 
+    get 'import_bookings', to: 'offices#import_bookings'
+    get 'cleaning_schedules/load_pdf_modal', to: 'cleaning_schedules#load_pdf_modal'
     get 'about', to: 'pages#about'
     get 'list', to: 'pages#list'
     get 'sort_properties', to: 'pages#sort_properties'

@@ -1,4 +1,4 @@
-class CouponPolicy < ApplicationPolicy
+class CleaningSchedulePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all if user.admin? || user.manager?
@@ -30,6 +30,10 @@ class CouponPolicy < ApplicationPolicy
   end
 
   def destroy?
+    user.admin? || user.manager?
+  end
+
+  def unlock?
     user.admin? || user.manager?
   end
 end

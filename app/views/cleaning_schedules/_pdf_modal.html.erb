@@ -1,0 +1,20 @@
+<div class="modal fade" id="cleaningSchedules" tabindex="-1" aria-labelledby="cleaningSchedulesLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cleaningSchedulesLabel"><%= t('download_pdf') %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('close') %>"></button>
+      </div>
+      <div class="modal-body" data-pdf-modal-target="modalBody" data-controller="spinner-pdf">
+        <div class="d-flex align-items-center p-5" data-spinner-pdf-target="pdfSpinner">
+          <span><%= t('preparing_pdf') %>...</span>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+        <iframe data-spinner-pdf-target="pdfViewer" data-pdf-modal-target="pdfViewer" width="100%" height="500" frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t('close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

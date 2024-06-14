@@ -3,6 +3,15 @@ ca:
   DBL: D
   DSF: DS
   SGL: IN
+  DOUBLE:
+    one: llit doble
+    other: llits dobles
+  DOUBLE_SOFA:
+    one: sofa doble
+    other: sofas dobles
+  SINGLE:
+    one: llit individual
+    other: llits individuals
   TOILET: Lavabo
   according_contract: Segons contracte
   active: Actiu
@@ -36,6 +45,11 @@ ca:
         content_fr: Contingut en francès
         hidden: Amagat
         image: Imatge
+      cleaning_company:
+        name: Nom empresa
+        number_of_cleaners: Nº de netejadors
+        cost_per_hour: Preu per hora
+        office: Oficina
       company:
         active: Activa
         administrator: Administrador
@@ -824,6 +838,7 @@ ca:
   reviews: comentaris
   roof_terrace: Terrassa comunitària
   routes:
+    cleaning_schedules: horaris-neteja
     home: inici
     privacy_policy: politica-de-privacitat
     owner_bookings: reserves-propietari
@@ -859,6 +874,7 @@ ca:
     owners: propietaris
     users: usuaris
     vrentals: immobles-lloguer-turistic
+    cleaning_companies: empreses-neteja
   saturday: Dissabte
   sea_view: Vista al mar
   search: Cercar
@@ -1071,4 +1087,35 @@ ca:
   per_week: setmana
   upload: Importar
   not_featured: No destacat
+  cost_per_hour: Preu per hora
+  vrental_title: Immoble
+  priority: Prioritat
+  cleaning_date: Data de neteja
+  next_booking_info: Següent reserva
+  cleaning_company: Empresa de neteja
+  same_day_arrival: Arribada el mateix dia
+  new_booking_possible: Nova reserva entremig possible
+  new_booking_impossible: Nova reserva entremig no possible
+  next_booking_date: Següent reserva
+  cleaning_schedules: Horaris de neteja
+  update_schedules: Actualitzar horaris
+  unblock: Desbloquejar
+  big_towel:
+    one: tov. gran
+    other: tov. grans
+  small_towel:
+    one: tov. petita
+    other: tov. petites
+  filter: Filtrar
+  show_them_all: Mostrar totes
+  download_pdf: Descarregar PDF
+  get_bookings_from_beds: Importar reserves de Beds des de la data...
+  update_bookings: Actualitzar reserves
+  cleaning_companies: Empreses de neteja
+  number_of_cleaners: Nº de netejadors
+  add_cleaning_company: Afegir empresa de neteja
+  cleaning_companies: Empreses de neteja
+  cleaning: Neteja
+  cleaning_schedules: Horaris de neteja
+  printed_on: "Imprès el %{date}"
   kitchen: Cuina

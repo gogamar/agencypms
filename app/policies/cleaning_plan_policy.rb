@@ -1,4 +1,4 @@
-class CouponPolicy < ApplicationPolicy
+class CleaningPlanPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all if user.admin? || user.manager?

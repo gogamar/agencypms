@@ -54,6 +54,22 @@ class OfficesController < ApplicationController
     redirect_to vrentals_path, notice: "Immobles importats de Beds24."
   end
 
+  def import_bookings
+    office = Office.find(params[:office_id])
+    from_date = oldest_current_booking.check_in
+    to_date = params[:to]
+    office.vrentals.each do |vrental|
+      current_booking = vrental.bookings.where('checkin <= ? AND checkout >= ?', Date.today, Date.today)
+      if current_booking.present?
+        from_date = current_booking.first.check_in
+      else
+        from_date = Date.today
+      end
+      VrentalApiService.new(vrental).get_bookings_from_beds(from_date, to_date)
+    end
+    redirect_to cleaning_schedules_path, notice: "Reserves actualitzades."
+  end
+
   def get_reviews_from_airbnb
     @office.vrentals.each do |vrental|
       if vrental.prop_key.present? && vrental.airbnb_listing_id.present?

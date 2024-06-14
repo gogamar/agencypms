@@ -8,6 +8,7 @@ class Vrental < ApplicationRecord
   belongs_to :town, optional: true
   belongs_to :rate_plan, optional: true
   belongs_to :rate_master, class_name: 'Vrental', optional: true
+  belongs_to :cleaning_company, optional: true
   has_many :sub_rate_vrentals, class_name: 'Vrental', foreign_key: 'rate_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
@@ -924,6 +925,25 @@ class Vrental < ApplicationRecord
       abbr_type = abbreviation_mapping[bed_type] || "SGL"
 
       details << "#{count}#{I18n.t(abbr_type, count: count, locale: office.company.language)}"
+    end
+
+    details
+  end
+
+  def beds_detail_full_words
+    all_beds = bedrooms.flat_map { |bedroom| bedroom.beds.pluck(:bed_type) }
+
+    all_beds = all_beds.map { |bed_type| bed_type == "BED_BUNK" ? ["BED_SINGLE", "BED_SINGLE"] : bed_type }.flatten.tally
+
+    name_mapping = {
+      "BED_DOUBLE" => "DOUBLE",
+      "BED_SOFA" => "DOUBLE_SOFA"
+    }
+    details = []
+    all_beds.each do |bed_type, count|
+      bed_type = name_mapping[bed_type] || "SINGLE"
+
+      details << "#{count} #{I18n.t(bed_type, count: count)}"
     end
 
     details
