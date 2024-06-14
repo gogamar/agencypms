@@ -11,11 +11,13 @@ export default class extends Controller {
     // Get parameters from data attributes
     const cleaningCompanyId = event.currentTarget.dataset.cleaningCompanyId;
     const toCleaningDate = event.currentTarget.dataset.toCleaningDate;
+    const fromCleaningDate = event.currentTarget.dataset.fromCleaningDate;
 
     const baseUrl = event.currentTarget.dataset.baseUrl;
 
     const queryParams = new URLSearchParams({
       cleaning_company_id: cleaningCompanyId,
+      from_cleaning_date: fromCleaningDate,
       to_cleaning_date: toCleaningDate,
       format: "pdf",
     }).toString();

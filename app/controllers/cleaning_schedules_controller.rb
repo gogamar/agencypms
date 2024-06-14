@@ -16,7 +16,7 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def load_pdf_modal
-    render partial: 'pdf_modal', locals: { cleaning_schedules: @grouped_cleaning_schedules, cleaning_company_id: params[:cleaning_company_id], to_cleaning_date: params[:to_cleaning_date] }
+    render partial: 'pdf_modal', locals: { cleaning_schedules: @grouped_cleaning_schedules, cleaning_company_id: params[:cleaning_company_id], from_cleaning_date: params[:from_cleaning_date], to_cleaning_date: params[:to_cleaning_date] }
   end
 
   def new
@@ -64,6 +64,7 @@ class CleaningSchedulesController < ApplicationController
     from = Date.today
     to = params[:to].to_date
     CleaningSchedulesService.new(office, from, to).update_cleaning_schedules
+    redirect_to cleaning_schedules_path, notice: "S'han creat o actualitzat els horaris de neteja."
   end
 
   def unlock
@@ -73,16 +74,10 @@ class CleaningSchedulesController < ApplicationController
 
   private
 
-  def filter_params
-    params.permit(:cleaning_company_id, :to_cleaning_date)
-  end
-
   def load_cleaning_schedules
     @offices = Office.all.order(:name)
     @default_office = @offices.where("name ILIKE ?", '%estartit%').first
-    @cleaning_schedules = policy_scope(CleaningSchedule)
-                                   .where("cleaning_date >= ?", Date.today)
-                                   .order(:cleaning_date)
+    @cleaning_schedules = policy_scope(CleaningSchedule).order(:cleaning_date)
   end
 
   def filter_cleaning_schedules
@@ -91,19 +86,29 @@ class CleaningSchedulesController < ApplicationController
       @selected_cleaning_company = CleaningCompany.find(params[:cleaning_company_id])
     end
 
+    if params[:from_cleaning_date].present?
+      @cleaning_schedules = @cleaning_schedules.where('cleaning_date >= ?', params[:from_cleaning_date])
+    end
+
     if params[:to_cleaning_date].present?
       @cleaning_schedules = @cleaning_schedules.where('cleaning_date <= ?', params[:to_cleaning_date])
     end
   end
 
   def set_header_title
-    if @selected_cleaning_company.present? && params[:to_cleaning_date].present?
-      "#{t('cleaning_schedules')} #{t('to')} #{params[:to_cleaning_date]} -#{@selected_cleaning_company.name}"
-    elsif params[:to_cleaning_date].present?
-      "#{t('cleaning_schedules')} #{t('to')} #{params[:to_cleaning_date]}"
-    else
-      t('cleaning_schedules')
+    title_array = [t('cleaning_schedules')]
+    if @selected_cleaning_company.present?
+      title_array << @selected_cleaning_company.name
     end
+    if params[:from_cleaning_date].present?
+      from = Date.parse(params[:from_cleaning_date])
+      title_array << "#{t('from_min')} #{l(from, format: :long)}"
+    end
+    if params[:to_cleaning_date].present?
+      to = Date.parse(params[:to_cleaning_date])
+      title_array << "#{t('to_min')} #{l(to, format: :long)}"
+    end
+    title_array.join(' ')
   end
 
   def render_pdf

@@ -1119,3 +1119,5 @@ ca:
   cleaning_schedules: Horaris de neteja
   printed_on: "Imprès el %{date}"
   kitchen: Cuina
+  from_min: des de
+  to_min: fins a

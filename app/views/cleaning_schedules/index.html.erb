@@ -25,8 +25,14 @@
         <div class="form-group me-2">
           <%= label_tag(:cleaning_company_id, t('cleaning_company')) %>
           <%= select_tag(:cleaning_company_id,
-               options_for_select([[t('show_them_all'), nil]] + CleaningCompany.all.map { |cc| [cc.name, cc.id] }),
-               { include_blank: false, class: "form-select" }) %>
+               options_for_select([[t('show_them_all'), nil]] + CleaningCompany.all.map { |cc| [cc.name, cc.id] },
+               selected: params[:cleaning_company_id]),
+               include_blank: false,
+               class: "form-select") %>
+        </div>
+        <div class="form-group me-2">
+          <%= label_tag(:from_cleaning_date, t('from')) %>
+          <%= text_field_tag(:from_cleaning_date, params[:from_cleaning_date] || Date.today, class: "form-control datepicker", type: "date") %>
         </div>
         <div class="form-group me-2">
           <%= label_tag(:to_cleaning_date, t('to')) %>
@@ -40,7 +46,9 @@
     <div class="no-printing" data-controller="pdf-modal">
       <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#cleaningSchedules" data-action="click->pdf-modal#loadModal"
         data-base-url="<%= cleaning_schedules_path %>"
-        data-cleaning-company-id="<%= params[:cleaning_company_id] %>" data-to-cleaning-date="<%= params[:to_cleaning_date] %>">
+        data-cleaning-company-id="<%= params[:cleaning_company_id] %>"
+        data-from-cleaning-date="<%= params[:from_cleaning_date] %>"
+        data-to-cleaning-date="<%= params[:to_cleaning_date] %>">
         <%= t('download_pdf') %>
       </button>
       <%= render 'pdf_modal' %>
@@ -51,7 +59,7 @@
 <div class="mt-5">
   <% @grouped_cleaning_schedules.each do |cleaning_date, cleaning_schedules| %>
     <ul>
-      <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date) %></h5>
+      <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long) %></h5>
       <div class="row py-2 rate-dates border-bottom">
         <div class="col-md-1 col no-printing"><%= t('priority') %></div>
         <div class="col-md-3 col"><%= t('vrental_title') %></div>
