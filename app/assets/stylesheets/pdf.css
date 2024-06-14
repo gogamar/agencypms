@@ -76,6 +76,10 @@ div {
   page-break-inside: avoid;
 }
 
+.no-page-break {
+  page-break-inside: avoid;
+}
+
 .half-border-rounded {
   border-radius: 10px;
   border-top: 2px solid #a0abb8;
