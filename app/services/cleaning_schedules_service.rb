@@ -70,7 +70,7 @@ class CleaningSchedulesService
       end
     else
       # No next booking, just do the cleaning on the same day
-      return {cleaning_date: booking.checkout, priority: 2, cleaning_date_reason: "new_booking_possible", next_booking_date: next_vrental_booking.checkin}
+      return {cleaning_date: booking.checkout, priority: 2, cleaning_date_reason: "new_booking_possible", next_booking_date: nil}
     end
   end
 

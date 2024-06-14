@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-2 col"><span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></span><br>
       <span class="text-sm"><%= t('checkout') %>: <%= l(cleaning_schedule.booking.checkout, format: :long) if cleaning_schedule.booking.checkout %></span></div>
-    <div class="col-md-3 col"><%= l(cleaning_schedule.next_booking_date, format: :long) %> <br>
+    <div class="col-md-3 col"><%= l(cleaning_schedule.next_booking_date, format: :long) if cleaning_schedule.next_booking_date %> <br>
       <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span>
     </div>
     <div class="col-md-2 col"><%= cleaning_schedule.cleaning_company.name %></div>
