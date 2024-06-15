@@ -1,6 +1,6 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: %i[ show edit update destroy import_properties destroy_all_properties get_reviews_from_airbnb]
-  before_action :set_company, except: %i[ destroy import_properties destroy_all_properties get_reviews_from_airbnb import_bookings]
+  before_action :set_office, only: %i[ show edit update destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb]
+  before_action :set_company, except: %i[ destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb]
 
   def index
     @offices = policy_scope(Office)
@@ -55,17 +55,20 @@ class OfficesController < ApplicationController
   end
 
   def import_bookings
-    office = Office.find(params[:office_id])
-    authorize office
-    to_date = params[:to]
-    puts "Importing bookings from Beds24 for #{office.name} to #{to_date}"
-
-    office.vrentals.each do |vrental|
-      if vrental.prop_key.present?
-        VrentalApiService.new(vrental).get_bookings_from_beds(nil, to_date)
+    to_date = params[:to_date] || Date.today + 14.days
+    job = JobRecord.create(status: "pending")
+    if job.persisted?
+      begin
+        GetAllBookingsJob.perform_later(@office, to_date, job.id)
+        render json: { job_id_url: job_status_path(job_id: job.id) }
+      rescue => e
+        job.update(status: "failed")
+        puts "Error importing bookings: #{e.message}"
+        render json: { error: e.message }, status: :unprocessable_entity
       end
+    else
+      render json: { error: 'Failed to create job record' }, status: :unprocessable_entity
     end
-    redirect_to cleaning_schedules_path, notice: "Reserves actualitzades."
   end
 
   def get_reviews_from_airbnb

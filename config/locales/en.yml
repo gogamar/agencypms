@@ -45,6 +45,8 @@ en:
         content_fr: Content in French
         hidden: Hidden
         image: Image
+      cleaning_schedule:
+        notes: Notes
       cleaning_company:
         name: Company name
         number_of_cleaners: Nº of cleaners
@@ -1115,3 +1117,8 @@ en:
   to_min: to
   preferred_cleaning_company: Preferred cleaning company
   used_for_cleaning_schedules: Used for cleaning schedules
+  leaves_on: leaves on
+  loading: Loading...
+  still_loading: Still loading...
+  upload_completed: Upload completed
+  upload_failed: Upload failed

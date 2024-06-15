@@ -49,7 +49,7 @@ class OfficePolicy < ApplicationPolicy
     user.admin?
   end
 
-  def create_or_update_schedules?
+  def update_all?
     user.admin? || user.manager?
   end
 

@@ -7,6 +7,10 @@
     <div class="col-md-3"><%= l(cleaning_schedule.next_booking_date, format: :long) if cleaning_schedule.next_booking_date %> <br>
       <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span></div>
     <div class="col-md-2"><%= f.association :cleaning_company.name, label: false %></div>
-    <div class="col-md-1"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %></div>
+  </div>
+  <div class="row py-2 rate-dates rborder-bottom d-flex align-items-center">
+    <div class="col-md-11"><%= f.input :notes %></div>
+    <div class="col-md-1 mt-3"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %></div>
   </div>
 <% end %>
+<hr>

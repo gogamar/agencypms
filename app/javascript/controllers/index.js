@@ -37,6 +37,9 @@ application.register("flatpickr-turbo", FlatpickrTurboController)
 import IframeController from "./iframe_controller"
 application.register("iframe", IframeController)
 
+import ImportBookingsController from "./import_bookings_controller"
+application.register("import-bookings", ImportBookingsController)
+
 import MapController from "./map_controller"
 application.register("map", MapController)
 

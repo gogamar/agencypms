@@ -50,6 +50,8 @@ ca:
         number_of_cleaners: Nº de netejadors
         cost_per_hour: Preu per hora
         office: Oficina
+      cleaning_schedule:
+        notes: Observacions
       company:
         active: Activa
         administrator: Administrador
@@ -1125,3 +1127,8 @@ ca:
   to_min: fins a
   preferred_cleaning_company: Empresa de neteja de preferencia
   used_for_cleaning_schedules: Es fa servir per horaris de neteja
+  leaves_on: surt el
+  loading: Processant...
+  still_loading: Encara processant...
+  upload_completed: Importació completada
+  upload_failed: Importació ha fallat

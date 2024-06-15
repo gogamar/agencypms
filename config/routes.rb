@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :job_records, only: [:create, :update, :destroy]
+  get 'job_records/status', to: 'job_records#status', as: 'job_status'
+  get 'cleaning_schedules/load_pdf_modal', to: 'cleaning_schedules#load_pdf_modal'
   post 'cookie_consent', to: 'pages#cookie_consent', as: 'cookie_consent'
 
   mount Ckeditor::Engine => '/ckeditor'
@@ -53,13 +56,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :offices, only: [:destroy] do
-      member do
-        get "import_properties"
-        get "destroy_all_properties"
-        get "get_reviews_from_airbnb"
-      end
-    end
+
 
     resources :vrentals do
       collection do
@@ -194,20 +191,26 @@ Rails.application.routes.draw do
     resources :coupons_vrentals
 
     resources :cleaning_companies
-    resources :cleaning_schedules do
-      member do
-        get 'unlock'
+
+    resources :offices, only: [:destroy] do
+      resources :cleaning_schedules do
+        member do
+          get 'unlock'
+        end
+        collection do
+          post :update_all
+        end
       end
-      collection do
-        post :create_or_update_schedules
+      member do
+        get "import_bookings"
+        get "import_properties"
+        get "destroy_all_properties"
+        get "get_reviews_from_airbnb"
       end
     end
 
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'
-
-    get 'import_bookings', to: 'offices#import_bookings'
-    get 'cleaning_schedules/load_pdf_modal', to: 'cleaning_schedules#load_pdf_modal'
     get 'about', to: 'pages#about'
     get 'list', to: 'pages#list'
     get 'sort_properties', to: 'pages#sort_properties'
@@ -224,8 +227,8 @@ Rails.application.routes.draw do
     get 'news', to: 'pages#news', as: 'news'
     get 'news/:id', to: 'pages#news_post', as: 'news_post'
     get 'get_news', to: 'posts#get_news'
-    get '*path' => 'application#redirect_to_homepage'
+    # get '*path' => 'application#redirect_to_homepage'
   end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
-  get '*path' => 'application#redirect_to_homepage'
+  # get '*path' => 'application#redirect_to_homepage'
 end

@@ -105,3 +105,12 @@ div {
   left: 30%;
   bottom: -5%;
 }
+
+
+@media print {
+  .no-page-break {
+    page-break-before: avoid;
+    page-break-after: auto;
+    page-break-inside: avoid;
+  }
+}

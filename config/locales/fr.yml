@@ -45,6 +45,8 @@ fr:
         content_fr: Contenu en francés
         hidden: Caché
         image: Image
+      cleaning_schedule:
+        notes: Notes
       cleaning_company:
         name: Nom
         number_of_cleaners: Nº de nettoyeurs
@@ -1116,3 +1118,8 @@ fr:
   to_min: jusqu'à
   preferred_cleaning_company: Entreprise de nettoyage préférée
   used_for_cleaning_schedules: Utilisé pour les horaires de nettoyage
+  leaves_on: laisse le
+  loading: Processeur...
+  still_loading: Toujours en cours...
+  upload_completed: Téléchargement terminé
+  upload_failed: Échec du téléchargement

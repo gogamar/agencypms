@@ -58,7 +58,7 @@ class CleaningSchedulesController < ApplicationController
     redirect_to cleaning_schedules_path, notice: "Has esborrat el planning de neteja."
   end
 
-  def create_or_update_schedules
+  def update_all
     office = Office.find(params[:office_id])
     authorize office
     from = Date.today
@@ -115,10 +115,10 @@ class CleaningSchedulesController < ApplicationController
     render pdf: @header_title,
            template: "cleaning_schedules/index",
            locals: { cleaning_schedules: @grouped_cleaning_schedules, header_title: @header_title },
-           margin: { top: 70, bottom: 25, left: 10, right: 10 },
+           margin: { top: 50, bottom: 25, left: 10, right: 10 },
            header: {
             font_size: 9,
-            spacing: 30,
+            spacing: 10,
             content: render_to_string(
               'shared/pdf_header_cleaning',
               locals: { header_title: @header_title}
@@ -144,6 +144,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :cleaning_company_id, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked)
+    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :cleaning_company_id, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked, :notes, :next_client_name)
   end
 end

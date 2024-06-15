@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_13_215403) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_15_161520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -100,8 +100,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_13_215403) do
     t.boolean "locked", default: false
     t.datetime "checkin_time"
     t.datetime "checkout_time"
-    t.datetime "checkin_time"
-    t.datetime "checkout_time"
     t.index ["tourist_id"], name: "index_bookings_on_tourist_id"
     t.index ["vrental_id"], name: "index_bookings_on_vrental_id"
   end
@@ -160,6 +158,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_13_215403) do
     t.date "next_booking_date"
     t.boolean "locked", default: false
     t.bigint "booking_id"
+    t.string "notes"
+    t.string "next_client_name"
     t.index ["booking_id"], name: "index_cleaning_schedules_on_booking_id"
     t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
   end
@@ -295,6 +295,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_13_215403) do
     t.bigint "company_id"
     t.index ["company_id"], name: "index_invoices_on_company_id"
     t.index ["vrental_id"], name: "index_invoices_on_vrental_id"
+  end
+
+  create_table "job_records", force: :cascade do |t|
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "offices", force: :cascade do |t|

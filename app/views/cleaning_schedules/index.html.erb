@@ -1,7 +1,7 @@
 <div class="no-printing">
   <%= render 'shared/get_all_bookings' %>
   <div class="d-flex justify-content-between align-items-center">
-    <%= form_tag create_or_update_schedules_cleaning_schedules_path, method: :post, class: "needs-validation" do %>
+    <%= form_tag update_all_office_cleaning_schedules_path(@estartit_office), method: :post, class: "needs-validation" do %>
       <div class="d-flex justify-content-start align-items-end">
         <div class="form-group me-2">
           <%= label_tag "office_id", t('office'), class: "control-label" %>
@@ -20,7 +20,7 @@
   </div>
   <hr>
   <div class="d-flex justify-content-between align-items-center">
-    <%= form_with(url: cleaning_schedules_path, method: "get") do %>
+    <%= form_with(url: office_cleaning_schedules_path(@estartit_office), method: "get") do %>
       <div class="d-flex justify-content-start align-items-end">
         <div class="form-group me-2">
           <%= label_tag(:cleaning_company_id, t('cleaning_company')) %>
@@ -45,7 +45,7 @@
     <% end %>
     <div class="no-printing" data-controller="pdf-modal">
       <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#cleaningSchedules" data-action="click->pdf-modal#loadModal"
-        data-base-url="<%= cleaning_schedules_path %>"
+        data-base-url="<%= office_cleaning_schedules_path(@estartit_office) %>"
         data-cleaning-company-id="<%= params[:cleaning_company_id] %>"
         data-from-cleaning-date="<%= params[:from_cleaning_date] %>"
         data-to-cleaning-date="<%= params[:to_cleaning_date] %>">
@@ -56,11 +56,11 @@
   </div>
   <hr>
 </div>
-<div class="mt-5 no-page-break">
+<div class="mt-5">
   <% @grouped_cleaning_schedules.each do |cleaning_date, cleaning_schedules| %>
-    <ul>
+    <ul class="no-page-break py-3">
       <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long) %></h5>
-      <div class="row py-2 rate-dates border-bottom">
+      <div class="row py-2 rate-dates">
         <div class="col-md-1 col no-printing"><%= t('priority') %></div>
         <div class="col-md-3 col"><%= t('vrental_title') %></div>
         <div class="col-md-2 col"><%= t('cleaning_date') %></div>
@@ -68,8 +68,10 @@
         <div class="col-md-2 col"><%= t('cleaning_company') %></div>
         <div class="col-md-1 col no-printing"></div>
       </div>
+      <hr>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
         <%= render cleaning_schedule  %>
+        <hr>
       <% end %>
     </ul>
   <% end %>

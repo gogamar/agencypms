@@ -1,18 +1,27 @@
-<div class="d-flex justify-content-between align-items-center">
-  <%= form_tag import_bookings_path, method: :get, class: "needs-validation" do %>
+<div class="d-flex justify-content-between align-items-center" data-controller="import-bookings">
+  <%= form_tag import_bookings_office_path(@estartit_office), method: :test, class: "needs-validation", data: { action: "submit->import-bookings#submit", import_bookings_target: "form" } do %>
     <div class="d-flex justify-content-start align-items-end">
       <div class="form-group me-2">
-        <%= label_tag "office_id", t('office'), class: "control-label" %>
-        <%= select_tag "office_id", options_from_collection_for_select(@offices, "id", "name", @default_office&.id), { include_blank: false, class: "form-select", required: true } %>
-      </div>
-      <div class="form-group me-2">
-        <%= label_tag "to", t('to'), class: "control-label" %>
-        <%= text_field_tag "to", nil, class: "form-control datepicker", required: true %>
+        <%= label_tag "to_date", t('to'), class: "control-label" %>
+        <%= text_field_tag "to_date", nil, class: "form-control datepicker", required: true %>
       </div>
       <div class="form-group">
-        <%= submit_tag t('update_bookings'), class: "btn btn-sm btn-secondary" %>
+        <button class="btn btn-sm btn-secondary" type="submit" data-import-bookings-target="submitButton">
+          <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-import-bookings-target="spinner"></span>
+          <span
+            data-import-bookings-target="buttonText"
+            data-loading-text="<%= t('loading') %>"
+            data-original-text="<%= t('update_bookings') %>"
+          >
+            <%= t('update_bookings') %>
+          </span>
+        </button>
+        <span
+        data-loading="<%= t('still_loading') %>"
+        data-success="<%= t('upload_completed') %>"
+        data-failure="<%= t('upload_failed') %>"
+        data-import-bookings-target="statusMessage"></span>
       </div>
     </div>
   <% end %>
 </div>
-<hr>

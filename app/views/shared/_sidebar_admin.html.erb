@@ -3,9 +3,9 @@
     <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
   <% end %>
 </li>
-<li class="<%= 'active' if current_page?(cleaning_schedules_path) %>">
-  <%= link_to cleaning_schedules_path do %>
-    <i class="fa-solid fa-broom"></i><%= t("cleaning") %>
+<li class="<%= 'active' if current_page?(office_cleaning_schedules_path(@estartit_office)) %>">
+  <%= link_to office_cleaning_schedules_path(@estartit_office) do %>
+    <i class="fa-solid fa-broom"></i><%= t("cleaning") %> l'Estartit
   <% end %>
 </li>
 <!--
