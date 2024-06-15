@@ -47,7 +47,7 @@ class CleaningSchedulesController < ApplicationController
     if @cleaning_schedule.update(cleaning_schedule_params)
       @cleaning_schedule.update_priority
       @cleaning_schedule.update(locked: true)
-      redirect_to cleaning_schedules_path(@vrental)
+      redirect_to office_cleaning_schedules_path(@estartit_office)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -55,7 +55,7 @@ class CleaningSchedulesController < ApplicationController
 
   def destroy
     @cleaning_schedule.destroy
-    redirect_to cleaning_schedules_path, notice: "Has esborrat el planning de neteja."
+    redirect_to office_cleaning_schedules_path(@estartit_office), notice: "Has esborrat el planning de neteja."
   end
 
   def update_all
@@ -64,12 +64,12 @@ class CleaningSchedulesController < ApplicationController
     from = Date.today
     to = params[:to].to_date
     CleaningSchedulesService.new(office, from, to).update_cleaning_schedules
-    redirect_to cleaning_schedules_path, notice: "S'han creat o actualitzat els horaris de neteja."
+    redirect_to office_cleaning_schedules_path(@estartit_office), notice: "S'han creat o actualitzat els horaris de neteja."
   end
 
   def unlock
     @cleaning_schedule.update(locked: false)
-    redirect_to cleaning_schedules_path, notice: "Horari de neteja desprotegit i serà modificat al actualitzar els horaris de neteja."
+    redirect_to office_cleaning_schedules_path(@estartit_office), notice: "Horari de neteja desprotegit i serà modificat al actualitzar els horaris de neteja."
   end
 
   private

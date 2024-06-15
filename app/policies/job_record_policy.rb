@@ -1,4 +1,4 @@
-class InvoicePolicy < ApplicationPolicy
+class JobRecordPolicy < ApplicationPolicy
   def create?
     user.admin? || user.manager?
   end

@@ -4,10 +4,6 @@
     <%= form_tag update_all_office_cleaning_schedules_path(@estartit_office), method: :post, class: "needs-validation" do %>
       <div class="d-flex justify-content-start align-items-end">
         <div class="form-group me-2">
-          <%= label_tag "office_id", t('office'), class: "control-label" %>
-          <%= select_tag "office_id", options_from_collection_for_select(@offices, "id", "name", @default_office&.id), { include_blank: false, class: "form-select", required: true } %>
-        </div>
-        <div class="form-group me-2">
           <%= label_tag "to", t('to'), class: "control-label" %>
           <%= text_field_tag "to", nil, class: "form-control datepicker", required: true %>
         </div>
