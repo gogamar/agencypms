@@ -1098,8 +1098,8 @@ ca:
   next_booking_info: Següent reserva
   cleaning_company: Empresa de neteja
   same_day_arrival: Arribada el mateix dia
-  new_booking_possible: Nova reserva entremig possible
-  new_booking_impossible: Nova reserva entremig no possible
+  new_booking_possible: Nova reserva possible
+  new_booking_impossible: Nova reserva no possible
   next_booking_date: Següent reserva
   cleaning_schedules: Horaris de neteja
   update_schedules: Actualitzar horaris

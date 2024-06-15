@@ -1,4 +1,4 @@
-  <%= simple_form_for cleaning_schedule, data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
+  <%= simple_form_for [@office, cleaning_schedule], data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row py-2 rate-dates rborder-bottom">
     <div class="col-md-2"><%= f.input :priority, label: false %></div>
@@ -13,4 +13,3 @@
     <div class="col-md-1 mt-3"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %></div>
   </div>
 <% end %>
-<hr>

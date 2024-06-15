@@ -3,9 +3,10 @@
     <i class="fa-solid fa-gauge"></i><%= t("dashboard") %>
   <% end %>
 </li>
-<li class="<%= 'active' if current_page?(office_cleaning_schedules_path(@estartit_office)) %>">
-  <%= link_to office_cleaning_schedules_path(@estartit_office) do %>
-    <i class="fa-solid fa-broom"></i><%= t("cleaning") %> l'Estartit
+<% estartit_office = Office.where("name ILIKE ?", "%estartit%")&.first %>
+<li class="<%= 'active' if current_page?(office_cleaning_schedules_path(estartit_office)) %>">
+  <%= link_to office_cleaning_schedules_path(estartit_office) do %>
+    <i class="fa-solid fa-broom"></i><%= t("cleaning") %> <%= estartit_office.name %>
   <% end %>
 </li>
 <!--

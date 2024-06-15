@@ -31,7 +31,8 @@ class CleaningSchedulesService
           next_booking_info: cleaning_date_info[:cleaning_date_reason],
           next_booking_date: cleaning_date_info[:next_booking_date],
           next_client_name: "#{next_vrental_booking&.firstname} #{next_vrental_booking&.lastname}",
-          cleaning_company: prefer_cleaning_company
+          cleaning_company: prefer_cleaning_company,
+          office: @office
         }
 
         cleaning_schedule.save!

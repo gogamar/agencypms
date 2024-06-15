@@ -22,21 +22,24 @@
         <br>
         <span class="text-sm">(<%= cleaning_schedule.booking.firstname %> <%= cleaning_schedule.booking.lastname %> <%= t('leaves_on') %> <%= l(cleaning_schedule.booking.checkout, format: :long) if cleaning_schedule.booking.checkout %>)</span>
       </div>
-      <div class="col-md-3 col"><%= l(cleaning_schedule.next_booking_date, format: :long) if cleaning_schedule.next_booking_date %> <br>
-        <span class="text-sm"><%= cleaning_schedule.next_client_name if cleaning_schedule.next_client_name %></span>
-        <br>
-        <span class="text-sm">(<%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %>)</span>
+      <div class="col-md-3 col">
+        <% if cleaning_schedule.next_booking_date %>
+          <%= l(cleaning_schedule.next_booking_date, format: :long)  %> <br>
+          <span class="text-sm"><%= cleaning_schedule.next_client_name if cleaning_schedule.next_client_name %></span>
+          <br>
+        <% end %>
+        <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span>
       </div>
       <div class="col-md-2 col"><%= cleaning_schedule.cleaning_company.name %></div>
       <div class="col-md-1 no-printing">
-        <%= link_to edit_office_cleaning_schedule_path(@estartit_office, cleaning_schedule), class: "btn btn-sm btn-info" do %>
+        <%= link_to edit_office_cleaning_schedule_path(@office, cleaning_schedule), class: "btn btn-sm btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>
       </div>
       <div class="no-printing">
         <% if cleaning_schedule.locked == true %>
           <div class="text-end">
-            <%= link_to unlock_office_cleaning_schedule_path(@estartit_office, cleaning_schedule), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest horari de neteja?" } do %>
+            <%= link_to unlock_office_cleaning_schedule_path(@office, cleaning_schedule), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest horari de neteja?" } do %>
               <i class="fas fa-unlock fa-sm"></i><span> <%= t('unblock') %></span>
             <% end %>
           </div>

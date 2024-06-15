@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_15_161520) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_15_174457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -160,8 +160,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_161520) do
     t.bigint "booking_id"
     t.string "notes"
     t.string "next_client_name"
+    t.bigint "office_id"
     t.index ["booking_id"], name: "index_cleaning_schedules_on_booking_id"
     t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
+    t.index ["office_id"], name: "index_cleaning_schedules_on_office_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -710,6 +712,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_161520) do
   add_foreign_key "cleaning_companies", "offices"
   add_foreign_key "cleaning_schedules", "bookings"
   add_foreign_key "cleaning_schedules", "cleaning_companies"
+  add_foreign_key "cleaning_schedules", "offices"
   add_foreign_key "companies", "users"
   add_foreign_key "coupons", "offices"
   add_foreign_key "earnings", "bookings"

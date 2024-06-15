@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   before_action :set_company, unless: :companies_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_admin_area
-  before_action :set_estartit_office
 
   include Pundit::Authorization
   include Pagy::Backend
@@ -40,10 +39,6 @@ class ApplicationController < ActionController::Base
 
   def set_vrentals
     @all_vrentals = policy_scope(Vrental)
-  end
-
-  def set_estartit_office
-    @estartit_office = Office.where("name ILIKE ?", '%estartit%')&.first
   end
 
   def default_url_options

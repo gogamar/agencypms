@@ -1,8 +1,9 @@
 class CleaningSchedulesController < ApplicationController
   before_action :set_cleaning_schedule, only: [:edit, :update, :destroy, :unlock]
+  before_action :set_office, only: [:index, :new, :edit, :create, :destroy, :update, :update_all, :unlock, :load_pdf_modal]
 
   def index
-    load_cleaning_schedules
+    load_cleaning_schedules(@office)
     filter_cleaning_schedules
     @grouped_cleaning_schedules = @cleaning_schedules.group_by(&:cleaning_date)
     @header_title = set_header_title
@@ -22,24 +23,22 @@ class CleaningSchedulesController < ApplicationController
   def new
     @cleaning_schedule = CleaningSchedule.new
     authorize @cleaning_schedule
-    @offices = Office.all
     @cleaning_companies = CleaningCompany.all
   end
 
   def create
     @cleaning_schedule = CleaningSchedule.new(cleaning_schedule_params)
     authorize @cleaning_schedule
+    @cleaning_schedule.office = @office
     if @cleaning_schedule.save
       render(partial: 'cleaning_schedule', locals: { cleaning_schedule: @cleaning_schedule})
     else
-      @offices = Office.all
-      @cleaning_companies = CleaningCompany.all
+        @cleaning_companies = CleaningCompany.all
       render :new
     end
   end
 
   def edit
-    @offices = Office.all
     @cleaning_companies = CleaningCompany.all
   end
 
@@ -47,37 +46,35 @@ class CleaningSchedulesController < ApplicationController
     if @cleaning_schedule.update(cleaning_schedule_params)
       @cleaning_schedule.update_priority
       @cleaning_schedule.update(locked: true)
-      redirect_to office_cleaning_schedules_path(@estartit_office)
+      redirect_to office_cleaning_schedules_path(@office)
     else
+      puts "ERRORS cleaning schedule update: #{@cleaning_schedule.errors}"
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @cleaning_schedule.destroy
-    redirect_to office_cleaning_schedules_path(@estartit_office), notice: "Has esborrat el planning de neteja."
+    redirect_to office_cleaning_schedules_path(@office), notice: "Has esborrat el planning de neteja."
   end
 
   def update_all
-    office = Office.find(params[:office_id])
-    authorize office
+    authorize @office
     from = Date.today
     to = params[:to].to_date
-    CleaningSchedulesService.new(office, from, to).update_cleaning_schedules
-    redirect_to office_cleaning_schedules_path(@estartit_office), notice: "S'han creat o actualitzat els horaris de neteja."
+    CleaningSchedulesService.new(@office, from, to).update_cleaning_schedules
+    redirect_to office_cleaning_schedules_path(@office), notice: "S'han creat o actualitzat els horaris de neteja."
   end
 
   def unlock
     @cleaning_schedule.update(locked: false)
-    redirect_to office_cleaning_schedules_path(@estartit_office), notice: "Horari de neteja desprotegit i serà modificat al actualitzar els horaris de neteja."
+    redirect_to office_cleaning_schedules_path(@office), notice: "Horari de neteja desprotegit i serà modificat al actualitzar els horaris de neteja."
   end
 
   private
 
-  def load_cleaning_schedules
-    @offices = Office.all.order(:name)
-    @default_office = @offices.where("name ILIKE ?", '%estartit%').first
-    @cleaning_schedules = policy_scope(CleaningSchedule).order(:cleaning_date)
+  def load_cleaning_schedules(office)
+    @cleaning_schedules = office.cleaning_schedules.order(:cleaning_date)
   end
 
   def filter_cleaning_schedules
@@ -138,12 +135,16 @@ class CleaningSchedulesController < ApplicationController
            }
   end
 
+  def set_office
+    @office = Office.find(params[:office_id])
+  end
+
   def set_cleaning_schedule
     @cleaning_schedule = CleaningSchedule.find(params[:id])
     authorize @cleaning_schedule
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :cleaning_company_id, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked, :notes, :next_client_name)
+    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked, :notes, :next_client_name, :office_id, :cleaning_company_id)
   end
 end
