@@ -227,8 +227,8 @@ Rails.application.routes.draw do
     get 'news', to: 'pages#news', as: 'news'
     get 'news/:id', to: 'pages#news_post', as: 'news_post'
     get 'get_news', to: 'posts#get_news'
-    # get '*path' => 'application#redirect_to_homepage'
+    get '*path' => 'application#redirect_to_homepage'
   end
   get '/ca', to: redirect('/'), as: :redirect_default_locale
-  # get '*path' => 'application#redirect_to_homepage'
+  get '*path' => 'application#redirect_to_homepage'
 end

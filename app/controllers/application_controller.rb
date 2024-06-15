@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_estartit_office
-    @estartit_office = Office.where("name ILIKE ?", 'Estartit')&.first
+    @estartit_office = Office.where("name ILIKE ?", '%estartit%')&.first
   end
 
   def default_url_options
