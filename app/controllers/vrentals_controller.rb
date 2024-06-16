@@ -307,7 +307,7 @@ class VrentalsController < ApplicationController
   end
 
   def get_bookings
-    from_date = params[:from_date] if params[:from_date].present?
+    from_date = params[:from_date].to_date if params[:from_date].present?
     VrentalApiService.new(@vrental).get_bookings_from_beds(from_date)
     authorize @vrental
     if params[:request_context] == 'statements'
