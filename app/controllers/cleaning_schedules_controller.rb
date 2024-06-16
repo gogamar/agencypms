@@ -60,6 +60,8 @@ class CleaningSchedulesController < ApplicationController
 
   def update_all
     authorize @office
+    puts "update all cleaning schedules: #{params}"
+    puts "update all cleaning schedules the office is: #{@office.name}"
     from = Date.today
     to = params[:to].to_date
     CleaningSchedulesService.new(@office, from, to).update_cleaning_schedules
