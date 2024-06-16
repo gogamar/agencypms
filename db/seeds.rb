@@ -378,18 +378,3 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #     end
 #   end
 # end
-
-
-User.where(approved: true).each do |user|
-  if user.role == 2
-    user.update(role: 1)
-  elsif user.role == 0
-    user.update(role: 3)
-  elsif user.role == 1
-    user.update(role: 2)
-  end
-end
-
-User.where(approved: false).each do |user|
-  user.update(role: 0)
-end

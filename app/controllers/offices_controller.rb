@@ -55,7 +55,7 @@ class OfficesController < ApplicationController
   end
 
   def import_bookings
-    to_date = params[:to_date] || Date.today + 14.days
+    to_date = params[:to_date].to_date || Date.today + 14.days
     job = JobRecord.create(status: "pending")
     if job.persisted?
       begin

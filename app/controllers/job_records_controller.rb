@@ -38,6 +38,9 @@ class JobRecordsController < ApplicationController
 
     if job_record
       render json: { status: job_record.status }
+      if job_record.status == 'completed'
+        job_record.destroy
+      end
     else
       render json: { status: 'not_found' }, status: :not_found
     end
