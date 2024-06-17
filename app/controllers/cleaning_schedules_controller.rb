@@ -48,7 +48,7 @@ class CleaningSchedulesController < ApplicationController
     if @cleaning_schedule.update(cleaning_schedule_params)
       @cleaning_schedule.update_priority
       @cleaning_schedule.update(locked: true)
-      redirect_to office_cleaning_schedules_path(@office)
+      redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
     else
       puts "ERRORS cleaning schedule update: #{@cleaning_schedule.errors}"
       render :edit, status: :unprocessable_entity
