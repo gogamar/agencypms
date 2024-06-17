@@ -63,7 +63,7 @@ class CleaningSchedulesService
       if next_vrental_booking.checkin == booking.checkout
         # Priority 1: Same day cleaning
         return {cleaning_date: booking.checkout, priority: 1, cleaning_date_reason: "same_day_arrival", next_booking_date: next_vrental_booking.checkin}
-      elsif (next_vrental_booking.checkin - booking.checkout).to_i >= minimum_days_for_rate
+      elsif (next_vrental_booking.checkin - booking.checkout).to_i >= minimum_days_for_rate(booking.vrental, booking.checkout)
         # Priority 2: A new booking can still be made for the days in between, clean on the same day just in case
         return {cleaning_date: booking.checkout, priority: 2, cleaning_date_reason: "new_booking_possible", next_booking_date: next_vrental_booking.checkin}
       else
@@ -76,8 +76,7 @@ class CleaningSchedulesService
     end
   end
 
-  def minimum_days_for_rate
-    # Define the minimum days for rate here or fetch it from the relevant configuration
-    2
+  def minimum_days_for_rate(vrental, checkin_date)
+    vrental.rate_min_stay(checkin_date)
   end
 end
