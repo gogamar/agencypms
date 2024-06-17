@@ -1,15 +1,14 @@
 class GetAllBookingsJob < ApplicationJob
   queue_as :default
 
-  def perform(office, to_date, job_id)
+  def perform(office, job_id)
     begin
-      puts "Importing bookings from Beds24 for #{office.name} to #{to_date}. The job id is #{job_id}"
 
       from_date = Date.today
 
       office.vrentals.each do |vrental|
         if vrental.prop_key.present?
-          VrentalApiService.new(vrental).get_bookings_from_beds(from_date, to_date)
+          VrentalApiService.new(vrental).get_bookings_from_beds(from_date)
         end
       end
 

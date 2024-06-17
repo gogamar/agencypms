@@ -55,11 +55,10 @@ class OfficesController < ApplicationController
   end
 
   def import_bookings
-    to_date = params[:to_date].to_date || Date.today + 14.days
     job = JobRecord.create(status: "pending")
     if job.persisted?
       begin
-        GetAllBookingsJob.perform_later(@office, to_date, job.id)
+        GetAllBookingsJob.perform_later(@office, job.id)
         render json: { job_id_url: job_status_path(job_id: job.id) }
       rescue => e
         job.update(status: "failed")

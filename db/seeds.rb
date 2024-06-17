@@ -80,7 +80,7 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 # end
 
 # barcelona_monthly_apts.each do |vrental|
-#   VrentalApiService.new(vrental).get_bookings_from_beds
+#   VrentalApiService.new(vrental).get_bookings_from_beds(from_date)
 #   sleep 3
 #   puts "Got bookings for #{vrental.name}"
 # end

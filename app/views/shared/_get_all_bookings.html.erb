@@ -1,10 +1,6 @@
 <div class="d-flex justify-content-between align-items-center" data-controller="import-bookings">
-  <%= form_tag import_bookings_office_path(office), method: :test, class: "needs-validation", data: { action: "submit->import-bookings#submit", import_bookings_target: "form" } do %>
+  <%= form_tag import_bookings_office_path(office), method: :get, class: "needs-validation", data: { action: "submit->import-bookings#submit", import_bookings_target: "form" } do %>
     <div class="d-flex justify-content-start align-items-end">
-      <div class="form-group me-2">
-        <%= label_tag "to_date", t('to'), class: "control-label" %>
-        <%= text_field_tag "to_date", nil, class: "form-control datepicker", required: true %>
-      </div>
       <div class="form-group">
         <button class="btn btn-sm btn-secondary" type="submit" data-import-bookings-target="submitButton">
           <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-import-bookings-target="spinner"></span>

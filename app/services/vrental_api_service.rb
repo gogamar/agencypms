@@ -1070,17 +1070,24 @@ class VrentalApiService
   # Availability
 
 
-  def get_bookings_from_beds(from_date = nil, to_date = nil)
-    from_date = from_date || Date.today.beginning_of_year
-    to_date = to_date || Date.today
+  def get_bookings_from_beds(from_date = nil)
+    departure_from = from_date.present? ? from_date.strftime("%Y%m%d").to_s : Date.today.beginning_of_year.strftime("%Y%m%d").to_s
+    departure_to = (Date.today + 2.years).strftime("%Y%m%d")
+
+
     client = BedsHelper::Beds.new(@target.office.beds_key)
 
     options = {
-      "departureFrom": from_date.strftime("%Y%m%d").to_s,
-      "departureTo": to_date.strftime("%Y%m%d").to_s,
+      "departureFrom": departure_from,
+      "departureTo": departure_to,
       "includeInvoice": true,
     }
+
+    puts "printing options: #{options}"
+
     beds24bookings = client.get_bookings(@target.prop_key, options)
+
+    puts "this is beds24bookings: #{beds24bookings}"
 
     if beds24bookings.success?
       parsed_response = beds24bookings.parsed_response

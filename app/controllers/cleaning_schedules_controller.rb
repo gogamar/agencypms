@@ -3,7 +3,9 @@ class CleaningSchedulesController < ApplicationController
   before_action :set_office, only: [:index, :new, :edit, :create, :destroy, :update, :update_all, :unlock, :load_pdf_modal]
 
   def index
-    load_cleaning_schedules(@office)
+    from_date = params[:from_cleaning_date].present? ? Date.parse(params[:from_cleaning_date]) : Date.today
+    to_date = params[:to_cleaning_date].present? ? Date.parse(params[:to_cleaning_date]) : Date.today + 14.days
+    load_cleaning_schedules(@office, from_date, to_date)
     filter_cleaning_schedules
     @grouped_cleaning_schedules = @cleaning_schedules.group_by(&:cleaning_date)
     @header_title = set_header_title
@@ -75,8 +77,10 @@ class CleaningSchedulesController < ApplicationController
 
   private
 
-  def load_cleaning_schedules(office)
-    @cleaning_schedules = office.cleaning_schedules.order(:cleaning_date)
+  def load_cleaning_schedules(office, from_date, to_date)
+    @cleaning_schedules = office.cleaning_schedules
+                                 .where("cleaning_date BETWEEN ? AND ?", from_date, to_date)
+                                 .order(:cleaning_date)
   end
 
   def filter_cleaning_schedules

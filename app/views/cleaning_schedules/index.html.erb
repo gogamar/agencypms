@@ -32,7 +32,7 @@
         </div>
         <div class="form-group me-2">
           <%= label_tag(:to_cleaning_date, t('to')) %>
-          <%= text_field_tag(:to_cleaning_date, params[:to_cleaning_date], class: "form-control datepicker", type: "date") %>
+          <%= text_field_tag(:to_cleaning_date, params[:to_cleaning_date] || Date.today + 14.days, class: "form-control datepicker", type: "date") %>
         </div>
         <div class="form-group">
           <%= submit_tag(t('filter'), class: "btn btn-sm btn-info") %>
