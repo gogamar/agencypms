@@ -52,6 +52,7 @@ ca:
         office: Oficina
       cleaning_schedule:
         notes: Observacions
+        full: Neteja completa
       company:
         active: Activa
         administrator: Administrador
@@ -241,6 +242,7 @@ ca:
         vrgroup_ids: Grups d'immobles als que pertany
         weekly_discount: Descompte per setmana
         wifi_pass: Contrasenya wifi
+        parking_details: Número parking
       vrentaltemplate:
         language: Idioma
         title: Títol
@@ -807,7 +809,7 @@ ca:
     one: immoble disponible
     other: immobles disponibles
   property_bedrooms: Número d'habitacions
-  property_booking_conditions: Condicions de reserva
+  property_other_details: Altres detalls
   property_descriptions: Descripcions immoble
   property_details: Detalls immoble
   property_features: Característiques immoble
@@ -1132,3 +1134,7 @@ ca:
   still_loading: Encara processant...
   upload_completed: Importació completada
   upload_failed: Importació ha fallat
+  cleaning_not_finished: "No se ha fet la neteja. El %{date} només s'ha recollit la roba bruta!!!"
+  incomplete_cleaning: Neteja no acabada! Només s'ha recollit la roba bruta
+  cleaning_done_upto: Neteja programada fins al %{date}
+  cleaning_pending: "Cal actualitzar els horaris de neteja per incloure aquestes reserves noves:"

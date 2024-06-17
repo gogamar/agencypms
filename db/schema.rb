@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_15_174457) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_17_102054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -161,6 +161,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_174457) do
     t.string "notes"
     t.string "next_client_name"
     t.bigint "office_id"
+    t.boolean "full", default: true
     t.index ["booking_id"], name: "index_cleaning_schedules_on_booking_id"
     t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
     t.index ["office_id"], name: "index_cleaning_schedules_on_office_id"
@@ -666,6 +667,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_174457) do
     t.float "cleaning_hours"
     t.text "wifi_pass"
     t.bigint "cleaning_company_id"
+    t.string "parking_details"
     t.index ["cleaning_company_id"], name: "index_vrentals_on_cleaning_company_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"

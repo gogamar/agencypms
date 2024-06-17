@@ -42,9 +42,29 @@
   </div>
   <hr>
 </div>
+<% if @last_cleaning_date.present? %>
+  <p class="alert alert-info position-relative"><%= t('cleaning_done_upto', date: l(@last_cleaning_date)) %></p>
+<% end %>
+<% if @bookings_without_cleaning.present? %>
+  <p class="alert alert-warning position-relative"><%= t('cleaning_pending') %>
+    <% @bookings_without_cleaning.each do |booking| %>
+      <br>
+      <%= l(booking.checkout) %> <%= booking.firstname %> <%= booking.lastname %>
+      <br>
+    <% end %>
+  </p>
+<% end %>
+<% if @incomplete_cleaning_schedules.present? %>
+  <div class="mt-5 p-3 alert alert-danger position-relative">
+    <h5 class="text-start text-left fw-bold font-weight-bold"><%= t('incomplete_cleaning') %></h5>
+    <% @incomplete_cleaning_schedules.each do |cleaning_schedule| %>
+      <%= render cleaning_schedule  %>
+    <% end %>
+  </div>
+<% end %>
 <div class="mt-5">
   <% @grouped_cleaning_schedules.each do |cleaning_date, cleaning_schedules| %>
-    <ul class="no-page-break py-3">
+    <div class="no-page-break pt-3">
       <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long) %></h5>
       <div class="row py-2 rate-dates">
         <div class="col-md-1 col no-printing"><%= t('priority') %></div>

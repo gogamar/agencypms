@@ -5,6 +5,10 @@ class CleaningSchedulesController < ApplicationController
   def index
     from_date = params[:from_cleaning_date].present? ? Date.parse(params[:from_cleaning_date]) : Date.today
     to_date = params[:to_cleaning_date].present? ? Date.parse(params[:to_cleaning_date]) : Date.today + 14.days
+    @incomplete_cleaning_schedules = @office.cleaning_schedules.where(full: false).where('cleaning_date < ?', Date.today).order(:cleaning_date)
+
+    find_bookings_without_cleaning
+
     load_cleaning_schedules(@office, from_date, to_date)
     filter_cleaning_schedules
     @grouped_cleaning_schedules = @cleaning_schedules.group_by(&:cleaning_date)
@@ -46,7 +50,8 @@ class CleaningSchedulesController < ApplicationController
 
   def update
     if @cleaning_schedule.update(cleaning_schedule_params)
-      @cleaning_schedule.update_priority
+      cleaning_company = @cleaning_schedule.cleaning_company
+      cleaning_company.update_priority(@cleaning_schedule.cleaning_date)
       @cleaning_schedule.update(locked: true)
       redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
     else
@@ -76,6 +81,25 @@ class CleaningSchedulesController < ApplicationController
   end
 
   private
+
+  def find_bookings_without_cleaning
+    if @office.cleaning_schedules.present?
+      office_cleaning_dates = @office.cleaning_schedules.pluck(:cleaning_date)
+      first_cleaning_date = office_cleaning_dates.min
+      @last_cleaning_date = office_cleaning_dates.max
+
+      if first_cleaning_date && @last_cleaning_date
+        @bookings_without_cleaning = @office.bookings
+                                            .where(checkout: first_cleaning_date..@last_cleaning_date)
+                                            .where.not(id: @office.cleaning_schedules.pluck(:booking_id))
+                                            .order(:checkout)
+      else
+        @bookings_without_cleaning = []
+      end
+    else
+      @bookings_without_cleaning = []
+    end
+  end
 
   def load_cleaning_schedules(office, from_date, to_date)
     @cleaning_schedules = office.cleaning_schedules
@@ -151,6 +175,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked, :notes, :next_client_name, :office_id, :cleaning_company_id)
+    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked, :notes, :next_client_name, :full, :office_id, :cleaning_company_id)
   end
 end

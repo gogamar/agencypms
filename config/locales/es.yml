@@ -48,6 +48,7 @@ es:
         image: Imagen
       cleaning_schedule:
         notes: Observaciones
+        full: Limpieza completa
       cleaning_company:
         name: Nombre
         number_of_cleaners: Nº de limpiadoras
@@ -213,6 +214,7 @@ es:
         min_advance: Antelación mínima para reservar (en horas)
         min_price: Precio mínimo por día
         wifi_pass: Contraseña de WiFi
+        parking_details: Número de parking
         min_stay: Estancia mínima
         name: Nombre de la propiedad
         name_on_web: Mostrar nombre en la web
@@ -801,7 +803,7 @@ es:
     one: inmueble disponible
     other: inmuebles disponibles
   property_bedrooms: Número de habitaciones
-  property_booking_conditions: Condiciones de reserva
+  property_other_details: Otros detalles
   property_descriptions: Descripciones inmueble
   property_details: Detalles inmueble
   property_features: Características inmueble
@@ -1123,3 +1125,7 @@ es:
   still_loading: Todavía procesando...
   upload_completed: Importación completada
   upload_failed: Importación fallida
+  cleaning_not_finished: "No se ha hecho la limpieza! El %{date} sólo se ha recogido la ropa sucia!!!"
+  incomplete_cleaning: Limpieza no está hecha. Sólo se ha recogido la ropa sucia.
+  cleaning_done_upto: Limpieza hecha hasta el %{date}
+  cleaning_pending: "Es necesario actualizar los horarios de limpieza para incluir estas nuevas reservas:"

@@ -47,6 +47,7 @@ en:
         image: Image
       cleaning_schedule:
         notes: Notes
+        full: Full cleaning
       cleaning_company:
         name: Company name
         number_of_cleaners: Nº of cleaners
@@ -213,6 +214,7 @@ en:
         min_price: Minimum Price per Day
         min_stay: Minimum Stay
         wifi_pass: WiFi Password
+        parking_details: Parking Details
         name: Property Name
         name_on_web: Show Name on Website
         office: Office
@@ -801,7 +803,7 @@ en:
     one: available property
     other: available properties
   property_bedrooms: Number of bedrooms
-  property_booking_conditions: Booking conditions
+  property_other_details: Other details
   property_descriptions: Property descriptions
   property_details: Property details
   property_features: Property features
@@ -1122,3 +1124,7 @@ en:
   still_loading: Still loading...
   upload_completed: Upload completed
   upload_failed: Upload failed
+  cleaning_not_finished: "Cleaning not finished. Only dirty laundry picked up on %{date}"
+  incomplete_cleaning: Incomplete cleaning
+  cleaning_done_upto: Cleaning done up to %{date}
+  cleaning_pending: "It is necessary to update the cleaning schedules to include these new bookings:"

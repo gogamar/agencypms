@@ -17,6 +17,12 @@ class CleaningCompany < ApplicationRecord
     total_available_hours
   end
 
+  def update_priority(cleaning_date)
+    cleaning_schedules.where(cleaning_date: cleaning_date).order(:priority).each_with_index do |schedule, index|
+      schedule.update(priority: index + 1)
+    end
+  end
+
   private
   def max_working_hours_per_day
     8 # for example, 8 hours per day
