@@ -1115,7 +1115,7 @@ ca:
   filter: Filtrar
   show_them_all: Mostrar totes
   download_pdf: Descarregar PDF
-  get_bookings_from_beds: Importar reserves de Beds des de la data...
+  get_bookings_from_beds: Importar reserves de Beds des de la data de checkout...
   update_bookings: Actualitzar reserves
   cleaning_companies: Empreses de neteja
   number_of_cleaners: Nº de netejadors

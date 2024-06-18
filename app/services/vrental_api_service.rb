@@ -1071,15 +1071,19 @@ class VrentalApiService
 
 
   def get_bookings_from_beds(from_date = nil)
+    arrival_from = Date.today.beginning_of_year.strftime("%Y%m%d").to_s
     departure_from = from_date.present? ? from_date.strftime("%Y%m%d").to_s : Date.today.beginning_of_year.strftime("%Y%m%d").to_s
-    departure_to = (Date.today + 2.years).strftime("%Y%m%d")
-
+    two_years = (Date.today + 2.years).strftime("%Y%m%d").to_s
 
     client = BedsHelper::Beds.new(@target.office.beds_key)
 
+    # necessary to include arrivalFrom, otherwise it will default to today
+
     options = {
+      "arrivalFrom": arrival_from,
+      "arrivalTo": two_years,
       "departureFrom": departure_from,
-      "departureTo": departure_to,
+      "departureTo": two_years,
       "includeInvoice": true,
     }
 
@@ -1153,7 +1157,7 @@ class VrentalApiService
           end
         end
 
-        bookings_to_delete = @target.bookings.where('checkin >= ?', from_date.to_date).where.not(beds_booking_id: selected_bookings.map { |beds_booking| beds_booking['bookId'] })
+        bookings_to_delete = @target.bookings.where('checkout >= ?', departure_from.to_date).where.not(beds_booking_id: selected_bookings.map { |beds_booking| beds_booking['bookId'] })
 
         if bookings_to_delete.any?
           bookings_to_delete.destroy_all
