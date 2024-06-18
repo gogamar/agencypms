@@ -7,7 +7,9 @@ class CleaningSchedulesService
   end
 
   def update_cleaning_schedules
-    office_bookings = @office.bookings.where('checkout >= ? AND checkout <= ?', @from, @to).order(:checkout)
+    office_client_bookings = @office.bookings.where('checkout >= ? AND checkout <= ?', @from, @to).order(:checkout)
+    office_owner_bookings = @office.owner_bookings.where('checkout >= ? AND checkout <= ?', @from, @to).order(:checkout)
+    office_bookings = office_client_bookings + office_owner_bookings
     cleaning_companies = @office.cleaning_companies
 
     office_bookings.each do |booking|
