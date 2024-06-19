@@ -49,6 +49,9 @@ Rails.application.routes.draw do
     end
     resources :companies do
       resources :offices, except: [:destroy] do
+        member do
+          get "organize_cleaning"
+        end
         resources :coupons, only: [:new, :create, :index, :edit, :update] do
           member do
             get 'apply_to_all'

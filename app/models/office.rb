@@ -163,4 +163,8 @@ class Office < ApplicationRecord
     end
   end
 
+  def cleaned_5_days_ago(date)
+    # check if this vrental was cleaned more than 5 days ago
+    vrental.joins(:cleaning_schedules).order.last.where("cleaning_date = ?", date - 5.days)
+  end
 end

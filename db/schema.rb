@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_17_102054) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_19_094621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -147,24 +147,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_17_102054) do
   end
 
   create_table "cleaning_schedules", force: :cascade do |t|
-    t.datetime "cleaning_start"
-    t.datetime "cleaning_end"
+    t.integer "priority"
+    t.date "cleaning_date"
+    t.bigint "cleaning_company_id"
+    t.bigint "vrental_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "cleaning_company_id"
-    t.date "cleaning_date"
-    t.string "next_booking_info"
-    t.integer "priority"
-    t.date "next_booking_date"
-    t.boolean "locked", default: false
-    t.bigint "booking_id"
     t.string "notes"
-    t.string "next_client_name"
     t.bigint "office_id"
-    t.boolean "full", default: true
-    t.index ["booking_id"], name: "index_cleaning_schedules_on_booking_id"
     t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
     t.index ["office_id"], name: "index_cleaning_schedules_on_office_id"
+    t.index ["vrental_id"], name: "index_cleaning_schedules_on_vrental_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -664,11 +657,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_17_102054) do
     t.integer "no_checkin", default: 7
     t.string "slug"
     t.boolean "monthly_option", default: false
-    t.float "cleaning_hours"
     t.text "wifi_pass"
-    t.bigint "cleaning_company_id"
     t.string "parking_details"
-    t.index ["cleaning_company_id"], name: "index_vrentals_on_cleaning_company_id"
     t.index ["office_id"], name: "index_vrentals_on_office_id"
     t.index ["owner_id"], name: "index_vrentals_on_owner_id"
     t.index ["rate_plan_id"], name: "index_vrentals_on_rate_plan_id"
@@ -712,9 +702,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_17_102054) do
   add_foreign_key "bookings", "vrentals"
   add_foreign_key "charges", "bookings"
   add_foreign_key "cleaning_companies", "offices"
-  add_foreign_key "cleaning_schedules", "bookings"
   add_foreign_key "cleaning_schedules", "cleaning_companies"
   add_foreign_key "cleaning_schedules", "offices"
+  add_foreign_key "cleaning_schedules", "vrentals"
   add_foreign_key "companies", "users"
   add_foreign_key "coupons", "offices"
   add_foreign_key "earnings", "bookings"
@@ -750,7 +740,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_17_102054) do
   add_foreign_key "vragreements", "companies"
   add_foreign_key "vragreements", "vrentals"
   add_foreign_key "vragreements", "vrentaltemplates"
-  add_foreign_key "vrentals", "cleaning_companies"
   add_foreign_key "vrentals", "offices"
   add_foreign_key "vrentals", "owners"
   add_foreign_key "vrentals", "rate_plans"

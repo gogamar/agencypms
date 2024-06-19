@@ -1,5 +1,5 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: %i[ show edit update destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb]
+  before_action :set_office, only: %i[ show edit update destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb organize_cleaning]
   before_action :set_company, except: %i[ destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb]
 
   def index
@@ -68,6 +68,10 @@ class OfficesController < ApplicationController
     else
       render json: { error: 'Failed to create job record' }, status: :unprocessable_entity
     end
+  end
+
+  def organize_cleaning
+
   end
 
   def get_reviews_from_airbnb

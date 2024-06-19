@@ -5,9 +5,6 @@ class CleaningSchedulesController < ApplicationController
   def index
     from_date = params[:from_cleaning_date].present? ? Date.parse(params[:from_cleaning_date]) : Date.today
     to_date = params[:to_cleaning_date].present? ? Date.parse(params[:to_cleaning_date]) : Date.today + 14.days
-    @incomplete_cleaning_schedules = @office.cleaning_schedules.where(full: false).where('cleaning_date < ?', Date.today).order(:cleaning_date)
-
-    find_bookings_without_cleaning
 
     load_cleaning_schedules(@office, from_date, to_date)
     filter_cleaning_schedules
@@ -65,15 +62,13 @@ class CleaningSchedulesController < ApplicationController
     redirect_to office_cleaning_schedules_path(@office), notice: "Has esborrat el planning de neteja."
   end
 
-  def update_all
-    authorize @office
-    puts "update all cleaning schedules: #{params}"
-    puts "update all cleaning schedules the office is: #{@office.name}"
-    from = Date.today
-    to = params[:to].to_date
-    CleaningSchedulesService.new(@office, from, to).update_cleaning_schedules
-    redirect_to office_cleaning_schedules_path(@office), notice: "S'han creat o actualitzat els horaris de neteja."
-  end
+  # def update_all
+  #   authorize @office
+  #   from = Date.today
+  #   to = params[:to].to_date
+  #   CleaningSchedulesService.new(@office, from, to).update_cleaning_schedules
+  #   redirect_to office_cleaning_schedules_path(@office), notice: "S'han creat o actualitzat els horaris de neteja."
+  # end
 
   def unlock
     @cleaning_schedule.update(locked: false)
@@ -81,25 +76,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   private
-
-  def find_bookings_without_cleaning
-    if @office.cleaning_schedules.present?
-      office_cleaning_dates = @office.cleaning_schedules.pluck(:cleaning_date)
-      first_cleaning_date = office_cleaning_dates.min
-      @last_cleaning_date = office_cleaning_dates.max
-
-      if first_cleaning_date && @last_cleaning_date
-        @bookings_without_cleaning = @office.bookings
-                                            .where(checkout: first_cleaning_date..@last_cleaning_date)
-                                            .where.not(id: @office.cleaning_schedules.pluck(:booking_id))
-                                            .order(:checkout)
-      else
-        @bookings_without_cleaning = []
-      end
-    else
-      @bookings_without_cleaning = []
-    end
-  end
 
   def load_cleaning_schedules(office, from_date, to_date)
     @cleaning_schedules = office.cleaning_schedules
@@ -175,6 +151,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_start, :cleaning_end, :booking_id, :cleaning_date, :next_booking_info, :priority, :next_booking_date, :locked, :notes, :next_client_name, :full, :office_id, :cleaning_company_id)
+    params.require(:cleaning_schedule).permit(:cleaning_date, :priority, :notes, :office_id, :vrental_id, :cleaning_company_id)
   end
 end

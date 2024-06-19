@@ -1,0 +1,35 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col"><%= t('date_title') %></th>
+      <th scope="col"><%= t('previous_booking') %></th>
+      <th scope="col"><%= t('rental_details') %></th>
+      <th scope="col"><%= t('next_booking') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% (Date.today..Date.today + 14.days).each do |date| %>
+      <% @office.bookings.where('checkout = ?', date).each do |booking| %>
+        <% booking_vrental = booking.vrental %>
+        <% previous_booking = booking_vrental.previous_booking(date) %>
+        <% next_booking = booking_vrental.next_booking(date) %>
+        <%= render "booking_details", date: date, booking_vrental: booking_vrental, previous_booking: previous_booking, next_booking: next_booking, reason: "has_checkout", last_cleaning: "no_display" %>
+      <% end %>
+      <% @office.owner_bookings.where('checkout = ?', date).each do |owner_booking| %>
+        <% booking_vrental = owner_booking.vrental %>
+        <% previous_booking = booking_vrental.previous_booking(date) %>
+        <% next_booking = booking_vrental.next_booking(date) %>
+        <%= render "booking_details", date: date, booking_vrental: booking_vrental, previous_booking: previous_booking, next_booking: next_booking, reason: "has_owner_checkout", last_cleaning: "no_display"  %>
+      <% end %>
+      <% @office.bookings.where('checkin = ?', date).each do |booking| %>
+        <% booking_vrental = booking.vrental %>
+        <% if booking_vrental.cleaned_more_than_5_days_ago?(date) %>
+          <% last_cleaning = booking.vrental.last_cleaning(date) %>
+          <% previous_booking = booking_vrental.previous_booking(date) %>
+          <% next_booking = booking_vrental.next_booking(date) %>
+          <%= render "booking_details", date: date, booking_vrental: booking_vrental, previous_booking: previous_booking, next_booking: next_booking, reason: "needs_cleaning", last_cleaning: last_cleaning %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

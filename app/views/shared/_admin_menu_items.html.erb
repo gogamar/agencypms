@@ -26,10 +26,16 @@
       <li><%= link_to vrentaltemplates_path do %>
           <i class="fa-solid fa-file me-2"></i><%= t("contract_templates") %>
         <% end %></li>
-      <% estartit_office = Office.where("name ILIKE ?", "%estartit%")&.first %>
-      <li><%= link_to office_cleaning_schedules_path(estartit_office) do %>
-          <i class="fa-solid fa-broom me-2"></i><%= t("cleaning") %>
-        <% end %></li>
+      <% if Office.any? %>
+        <% estartit_office = Office.where("name ILIKE ?", "%estartit%")&.first %>
+        <% if estartit_office.present? %>
+          <li>
+            <%= link_to organize_cleaning_company_office_path(@company, estartit_office) do %>
+              <i class="fa-solid fa-broom me-2"></i><%= t("cleaning") %> <%= estartit_office.name %>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
     </ul>
   </li>
   <li><a href="JavaScript:void(0);"><%= t('reports') %><span class="submenu-indicator"></span></a>

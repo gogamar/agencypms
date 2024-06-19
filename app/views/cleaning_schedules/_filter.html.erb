@@ -1,0 +1,27 @@
+  
+<div class="d-flex justify-content-between align-items-center">
+  <%= form_with(url: office_cleaning_schedules_path(@office), method: "get") do %>
+    <div class="d-flex justify-content-start align-items-end">
+      <div class="form-group me-2">
+        <%= label_tag(:cleaning_company_id, t('cleaning_company')) %>
+        <%= select_tag(:cleaning_company_id,
+               options_for_select([[t('show_them_all'), nil]] + CleaningCompany.all.map { |cc| [cc.name, cc.id] },
+               selected: params[:cleaning_company_id]),
+               include_blank: false,
+               class: "form-select") %>
+      </div>
+      <div class="form-group me-2">
+        <%= label_tag(:from_cleaning_date, t('from')) %>
+        <%= text_field_tag(:from_cleaning_date, params[:from_cleaning_date] || Date.today, class: "form-control datepicker", type: "date") %>
+      </div>
+      <div class="form-group me-2">
+        <%= label_tag(:to_cleaning_date, t('to')) %>
+        <%= text_field_tag(:to_cleaning_date, params[:to_cleaning_date] || Date.today + 14.days, class: "form-control datepicker", type: "date") %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag(t('filter'), class: "btn btn-sm btn-info") %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<hr>

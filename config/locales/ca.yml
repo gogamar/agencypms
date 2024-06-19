@@ -480,6 +480,7 @@ ca:
       long: "%a, %d de %b de %Y"
       short: "%d de %b"
       standard: "%a, %d/%m/%Y"
+      long_day: "%A, %d de %B de %Y"
     month_names:
       - null
       - Gener

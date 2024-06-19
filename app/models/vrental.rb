@@ -8,7 +8,6 @@ class Vrental < ApplicationRecord
   belongs_to :town, optional: true
   belongs_to :rate_plan, optional: true
   belongs_to :rate_master, class_name: 'Vrental', optional: true
-  belongs_to :cleaning_company, optional: true
   has_many :sub_rate_vrentals, class_name: 'Vrental', foreign_key: 'rate_master_id'
   has_many :bedrooms, dependent: :destroy
   has_many :bathrooms, dependent: :destroy
@@ -28,6 +27,7 @@ class Vrental < ApplicationRecord
   has_many :invoices
   has_many :availabilities, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :cleaning_schedules, dependent: :destroy
   has_and_belongs_to_many :features
   has_and_belongs_to_many :coupons
   has_and_belongs_to_many :vrgroups
@@ -1180,6 +1180,37 @@ class Vrental < ApplicationRecord
   rescue => e
     # Handle any errors that occur during the process
     Rails.logger.error("Error creating image URLs: #{e.message}")
+  end
+
+  def cleaned_more_than_5_days_ago?(date)
+    past_cleaning_schedules = cleaning_schedules.where("cleaning_date < ?", date)
+
+    if past_cleaning_schedules.any?
+      latest_cleaning_schedule = past_cleaning_schedules.order(:cleaning_date).last
+      return latest_cleaning_schedule.cleaning_date < date - 5.days
+    elsif bookings.where("checkout = ?", date).any?
+      return false
+    elsif owner_bookings.where("checkout = ?", date).any?
+      return false
+    else
+      return true  # No past cleaning schedules, so return true (assuming it needs cleaning)
+    end
+  end
+
+  def previous_booking(date)
+    previous_guest_booking = bookings.where("checkin < ?", date).order(checkin: :asc).first
+    previous_owner_booking = owner_bookings.where("checkin < ?", date).order(checkin: :asc).first
+    return [previous_guest_booking, previous_owner_booking].compact.max_by(&:checkin)
+  end
+
+  def next_booking(date)
+    next_guest_booking = bookings.where("checkin > ?", date).order(checkin: :asc).first
+    next_owner_booking = owner_bookings.where("checkin > ?", date).order(checkin: :asc).first
+    return [next_guest_booking, next_owner_booking].compact.min_by(&:checkin)
+  end
+
+  def last_cleaning(date)
+    cleaning_schedules.where("cleaning_date < ?", date).order(cleaning_date: :desc).first
   end
 
   private

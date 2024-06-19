@@ -56,4 +56,8 @@ class OfficePolicy < ApplicationPolicy
   def import_bookings?
     user.admin? || user.manager?
   end
+
+  def organize_cleaning?
+    user.admin? || user.manager?
+  end
 end

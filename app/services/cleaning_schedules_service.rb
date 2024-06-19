@@ -14,14 +14,10 @@ class CleaningSchedulesService
 
     office_bookings.each do |booking|
       next_vrental_booking = booking.vrental.bookings.where('checkin >= ?', booking.checkout).order(:checkin).first
-      # cleaning_hours = booking.vrental.cleaning_hours
 
       prefer_cleaning_company = booking.vrental.cleaning_company.present? ? booking.vrental.cleaning_company : cleaning_companies.order(number_of_cleaners: :desc).first
 
       next if prefer_cleaning_company.nil?
-
-      # cleaning_start = determine_cleaning_start_time(booking, next_booking, cleaning_hours)
-      # cleaning_end = cleaning_start + cleaning_hours.hours
 
       cleaning_date_info = determine_cleaning_date(booking, next_vrental_booking)
 
@@ -52,15 +48,7 @@ class CleaningSchedulesService
 
   private
 
-  # def find_available_cleaning_company(cleaning_companies, cleaning_hours)
-  #   cleaning_companies.each do |company|
-  #     available_hours = company.available_hours_for_period(self.from, self.to)
-  #     return company if available_hours >= cleaning_hours / company.number_of_cleaners
-  #   end
-  #   nil
-  # end
-
-  def determine_cleaning_date(booking, next_vrental_booking, cleaning_hours = nil)
+  def determine_cleaning_date(booking, next_vrental_booking)
     if next_vrental_booking
       if next_vrental_booking.checkin == booking.checkout
         # Priority 1: Same day cleaning

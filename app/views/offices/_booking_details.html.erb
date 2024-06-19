@@ -1,0 +1,47 @@
+<tr>
+  <th scope="row"><%= l(date, format: :long_day) %></th>
+  <td>
+    <% if previous_booking.present? %>
+      <% if previous_booking.is_a?(Booking) %>
+        checkout: <%= l(previous_booking.checkout, format: :long_day) %>
+        <br>
+        <%= previous_booking.firstname %> <%= previous_booking.lastname %> <br>
+      <% elsif previous_booking.is_a?(OwnerBooking) %>
+        checkout: <%= l(previous_booking.checkin, format: :long_day) %> <br>
+        owner
+        <%= previous_booking.note %>
+      <% end %>
+    <% else %>
+      No previous booking
+    <% end %>
+    <br>
+  </td>
+  <td><%= booking_vrental.name %> <%= reason %>
+    <% if last_cleaning.present? %>
+      <% unless last_cleaning == "no_display" %>
+        last cleaned: <%= last_cleaning.cleaning_date %>
+        <br>
+        last cleaning: <%# last_cleaning.cleaning_type %>
+      <% end %>
+    <% else %>
+      last cleaned: never
+    <% end %>
+  </td>
+  <td>
+    <% if next_booking.present? %>
+      <% if next_booking.is_a?(Booking) %>
+        checkin: <%= l(next_booking.checkin, format: :long_day) %>
+        <br>
+        <%= next_booking.firstname %> <%= next_booking.lastname %> <br>
+        <%= next_booking.adults %> adults <%= next_booking.children %> children
+      <% elsif next_booking.is_a?(OwnerBooking) %>
+        <%= l(next_booking.checkin, format: :long_day) %> <br>
+        <%= next_booking.note %>
+      <% end %>
+    <% else %>
+      No next booking
+    <% end %>
+    <br>
+    Bed linen: <%= booking_vrental.max_guests %>
+  </td>
+</tr>
