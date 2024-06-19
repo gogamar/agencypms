@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_19_094621) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_19_140717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -155,8 +155,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_19_094621) do
     t.datetime "updated_at", null: false
     t.string "notes"
     t.bigint "office_id"
+    t.string "cleaning_type"
+    t.bigint "booking_id"
+    t.bigint "owner_booking_id"
+    t.index ["booking_id"], name: "index_cleaning_schedules_on_booking_id"
     t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
     t.index ["office_id"], name: "index_cleaning_schedules_on_office_id"
+    t.index ["owner_booking_id"], name: "index_cleaning_schedules_on_owner_booking_id"
     t.index ["vrental_id"], name: "index_cleaning_schedules_on_vrental_id"
   end
 
@@ -702,8 +707,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_19_094621) do
   add_foreign_key "bookings", "vrentals"
   add_foreign_key "charges", "bookings"
   add_foreign_key "cleaning_companies", "offices"
+  add_foreign_key "cleaning_schedules", "bookings"
   add_foreign_key "cleaning_schedules", "cleaning_companies"
   add_foreign_key "cleaning_schedules", "offices"
+  add_foreign_key "cleaning_schedules", "owner_bookings"
   add_foreign_key "cleaning_schedules", "vrentals"
   add_foreign_key "companies", "users"
   add_foreign_key "coupons", "offices"

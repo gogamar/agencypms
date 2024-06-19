@@ -33,10 +33,12 @@ class CleaningSchedulesController < ApplicationController
     @cleaning_schedule = CleaningSchedule.new(cleaning_schedule_params)
     authorize @cleaning_schedule
     @cleaning_schedule.office = @office
+    # @cleaning_schedule.booking_id = params[:cleaning_schedule][:booking_id]
+    # @cleaning_schedule.owner_booking_id = params[:cleaning_schedule][:owner_booking_id]
     if @cleaning_schedule.save
-      render(partial: 'cleaning_schedule', locals: { cleaning_schedule: @cleaning_schedule})
+      redirect_to organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja creat."
     else
-        @cleaning_companies = CleaningCompany.all
+      @cleaning_companies = CleaningCompany.all
       render :new
     end
   end
@@ -59,7 +61,7 @@ class CleaningSchedulesController < ApplicationController
 
   def destroy
     @cleaning_schedule.destroy
-    redirect_to office_cleaning_schedules_path(@office), notice: "Has esborrat el planning de neteja."
+    redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
   end
 
   # def update_all
@@ -151,6 +153,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_date, :priority, :notes, :office_id, :vrental_id, :cleaning_company_id)
+    params.require(:cleaning_schedule).permit(:cleaning_date, :cleaning_type, :priority, :notes, :office_id, :vrental_id, :booking_id, :owner_booking_id, :cleaning_company_id)
   end
 end

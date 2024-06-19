@@ -1,5 +1,6 @@
 <tr>
-  <th scope="row"><%= l(date, format: :long_day) %></th>
+  <th scope="row">Data proposada:<%= l(date, format: :long_day) %>
+  </th>
   <td>
     <% if previous_booking.present? %>
       <% if previous_booking.is_a?(Booking) %>
@@ -38,10 +39,26 @@
         <%= l(next_booking.checkin, format: :long_day) %> <br>
         <%= next_booking.note %>
       <% end %>
+      <br>
+      Max capacity: <%= booking_vrental.max_guests %>
     <% else %>
       No next booking
     <% end %>
     <br>
-    Bed linen: <%= booking_vrental.max_guests %>
+  </td>
+</tr>
+<tr>
+  <td colspan="4">
+    <% booking.cleaning_schedules.each do |cleaning_schedule| %>
+      <%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: cleaning_schedule, booking: booking %>
+    <% end %>
+    <% unless booking.cleaning_schedules.exists?(cleaning_type: "full_cleaning") %>
+      <% if booking.is_a?(Booking) %>
+        <% booking_id = booking.id %>
+      <% elsif booking.is_a?(OwnerBooking) %>
+        <% owner_booking_id = booking.id %>
+      <% end %>
+      <%= turbo_frame_tag "new_cleaning_schedule", src: new_office_cleaning_schedule_path(@office, cleaning_date: date, vrental_id: booking_vrental.id, booking_id: booking_id, owner_booking_id: owner_booking_id) %>
+    <% end %>
   </td>
 </tr>

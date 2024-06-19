@@ -38,7 +38,7 @@
       </div>
       <hr>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
-        <%= render cleaning_schedule  %>
+        <%= render cleaning_schedule, booking: cleaning_schedule.booking || cleaning_schedule.owner_booking %>
         <hr>
       <% end %>
     </ul>

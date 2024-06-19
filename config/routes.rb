@@ -196,7 +196,7 @@ Rails.application.routes.draw do
     resources :cleaning_companies
 
     resources :offices, only: [:destroy] do
-      resources :cleaning_schedules, except: [:destroy] do
+      resources :cleaning_schedules do
         member do
           get 'unlock'
         end
@@ -211,8 +211,6 @@ Rails.application.routes.draw do
         get "get_reviews_from_airbnb"
       end
     end
-
-    resources :cleaning_schedules, only: [:destroy]
 
     get 'contact', to: 'contact_forms#new', as: 'contact'
     post 'contact_forms', to: 'contact_forms#create'

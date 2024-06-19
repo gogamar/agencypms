@@ -2,20 +2,21 @@
   <div class="py-3">
     <div class="row mt-2 rate-dates">
       <div class="col-md-1 col no-printing"><%= cleaning_schedule.priority %></div>
-      <div class="col-md-3 col"><span class="fw-bold font-weight-bold <%= "text-danger" if cleaning_schedule.full == false %>"><%= cleaning_schedule.booking.vrental.name %></span><br>
-        <% if cleaning_schedule.full == false %>
-          <span class="text-danger"><%= t('cleaning_not_finished', date: l(cleaning_schedule.cleaning_date)) %></span>
-        <% end %>
+      <div class="col-md-2 col">
+        <span class="fw-bold font-weight-bold">
+          <%= cleaning_schedule.vrental.name %>
+        </span>
+        <br>
         <span class="text-sm">
-          <% if cleaning_schedule.booking && cleaning_schedule.booking.vrental.beds_detail_full_words %>
-            <% cleaning_schedule.booking.vrental.beds_detail_full_words.each do |bed_type_count| %>
+          <% if cleaning_schedule.vrental.beds_detail_full_words %>
+            <% cleaning_schedule.vrental.beds_detail_full_words.each do |bed_type_count| %>
               <%= bed_type_count %>
               <br>
             <% end %>
           <% end %>
         </span>
         <br>
-        <% towel_count = cleaning_schedule.booking.vrental.max_guests || (cleaning_schedule.booking.adults + (cleaning_schedule.booking.children || 0)) %>
+        <% towel_count = cleaning_schedule.vrental.max_guests || (booking.adults + (booking.children || 0)) %>
         <span class="text-sm"><%= towel_count %> <%= t('big_towel', count: towel_count) %></span>
         <br>
         <span class="text-sm"><%= towel_count %> <%= t('small_towel', count: towel_count) %></span>
@@ -23,29 +24,24 @@
       <div class="col-md-2 col">
         <span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></span>
         <br>
-        <span class="text-sm">(<%= cleaning_schedule.booking.firstname %> <%= cleaning_schedule.booking.lastname %> <%= t('leaves_on') %> <%= l(cleaning_schedule.booking.checkout, format: :long) if cleaning_schedule.booking.checkout %>)</span>
+        <span class="text-sm">(<%= booking_or_owner_name(booking) %> <%= t('leaves_on') %> <%= l(cleaning_schedule.booking.checkout, format: :long) if booking.checkout %>)</span>
       </div>
       <div class="col-md-3 col">
-        <% if cleaning_schedule.next_booking_date %>
-          <%= l(cleaning_schedule.next_booking_date, format: :long)  %> <br>
-          <span class="text-sm"><%= cleaning_schedule.next_client_name if cleaning_schedule.next_client_name %></span>
-          <br>
+        <% next_booking = cleaning_schedule.vrental.next_booking(booking.checkout) %>
+        <% if next_booking %>
+          <%= l(next_booking.checkin, format: :long)  %> <br>
+          <span class="text-sm"><%= booking_or_owner_name(next_booking) %></span>
         <% end %>
-        <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span>
+        <br>
+        <span class="text-sm">next booking info if needed</span>
       </div>
       <div class="col-md-2 col"><%= cleaning_schedule.cleaning_company.name %></div>
-      <div class="col-md-1 no-printing">
+      <div class="col-md-2 no-printing">
         <%= link_to edit_office_cleaning_schedule_path(@office, cleaning_schedule), class: "btn btn-sm btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>
-      </div>
-      <div class="no-printing">
-        <% if cleaning_schedule.locked == true %>
-          <div class="text-end">
-            <%= link_to unlock_office_cleaning_schedule_path(@office, cleaning_schedule), class: "text-warning text-decoration-none", data: {turbo_method: :unlock, turbo_confirm: "Segur que vols desbloquejar aquest horari de neteja?" } do %>
-              <i class="fas fa-unlock fa-sm"></i><span> <%= t('unblock') %></span>
-            <% end %>
-          </div>
+        <%= link_to office_cleaning_schedule_path(@office, cleaning_schedule), method: :delete, class: "btn btn-sm btn-danger", remote: true, data: { confirm: 'Are you sure?', turbo_method: :delete } do %>
+          <i class="fas fa-trash fa-sm"></i>
         <% end %>
       </div>
     </div>

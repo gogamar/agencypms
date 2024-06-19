@@ -1204,8 +1204,8 @@ class Vrental < ApplicationRecord
   end
 
   def next_booking(date)
-    next_guest_booking = bookings.where("checkin > ?", date).order(checkin: :asc).first
-    next_owner_booking = owner_bookings.where("checkin > ?", date).order(checkin: :asc).first
+    next_guest_booking = bookings.where("checkin >= ?", date).order(checkin: :asc).first
+    next_owner_booking = owner_bookings.where("checkin >= ?", date).order(checkin: :asc).first
     return [next_guest_booking, next_owner_booking].compact.min_by(&:checkin)
   end
 
