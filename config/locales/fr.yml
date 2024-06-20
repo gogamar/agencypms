@@ -1129,3 +1129,9 @@ fr:
   incomplete_cleaning: Nettoyage incomplet
   cleaning_done_upto: Nettoyage effectué jusqu'à
   cleaning_pending: "Il est nécessaire de mettre à jour les horaires de nettoyage pour inclure ces nouvelles réservations:"
+  checkout_full_cleaning: Nettoyage et linge après le départ.
+  checkout_laundry_pickup: Ramasser le linge sale après le départ. Nouvelle réservation loin.
+  checkout_no_laundry: Seulement nettoyage. Pas de linge. Nouvelle réservation loin.
+  checkin_full_cleaning: Nettoyage et linge. Appartement vide.
+  checkin_set_laundry: Seulement mettre le linge. Appartement propre.
+  checkin_no_laundry: Seulement nettoyage. Pas de linge (client ou propriétaire ne veut pas de linge).

@@ -27,6 +27,7 @@ class CleaningSchedulesController < ApplicationController
     @cleaning_schedule = CleaningSchedule.new
     authorize @cleaning_schedule
     @cleaning_companies = CleaningCompany.all
+    @reason = params[:reason]
   end
 
   def create
@@ -45,13 +46,13 @@ class CleaningSchedulesController < ApplicationController
 
   def edit
     @cleaning_companies = CleaningCompany.all
+    @reason = @cleaning_schedule.reason
   end
 
   def update
     if @cleaning_schedule.update(cleaning_schedule_params)
       cleaning_company = @cleaning_schedule.cleaning_company
       cleaning_company.update_priority(@cleaning_schedule.cleaning_date)
-      @cleaning_schedule.update(locked: true)
       redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
     else
       puts "ERRORS cleaning schedule update: #{@cleaning_schedule.errors}"
@@ -153,6 +154,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_date, :cleaning_type, :priority, :notes, :office_id, :vrental_id, :booking_id, :owner_booking_id, :cleaning_company_id)
+    params.require(:cleaning_schedule).permit(:cleaning_date, :cleaning_type, :priority, :notes, :reason, :office_id, :vrental_id, :booking_id, :owner_booking_id, :cleaning_company_id)
   end
 end

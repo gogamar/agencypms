@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_19_140717) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_20_151722) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -158,6 +158,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_19_140717) do
     t.string "cleaning_type"
     t.bigint "booking_id"
     t.bigint "owner_booking_id"
+    t.string "reason"
     t.index ["booking_id"], name: "index_cleaning_schedules_on_booking_id"
     t.index ["cleaning_company_id"], name: "index_cleaning_schedules_on_cleaning_company_id"
     t.index ["office_id"], name: "index_cleaning_schedules_on_office_id"

@@ -1,16 +1,26 @@
-  <%= simple_form_for [@office, cleaning_schedule], data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
+  <%= simple_form_for [@office, @cleaning_schedule], data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.input :vrental_id, as: :hidden, input_html: { value: @cleaning_schedule.vrental_id || params[:vrental_id] } %>
+  <%= f.input :booking_id, as: :hidden, input_html: { value: @cleaning_schedule.booking_id || params[:booking_id] } %>
+  <%= f.input :owner_booking_id, as: :hidden, input_html: { value: @cleaning_schedule.owner_booking_id || params[:owner_booking_id] } %>
+  <%= f.input :reason, as: :hidden, input_html: { value: @reason } %>
   <div class="row py-2 rate-dates rborder-bottom">
-    <div class="col-md-2"><%= f.input :priority, label: false %></div>
-    <div class="col-md-2"><%= cleaning_schedule.booking.vrental.name %></div>
-    <div class="col-md-2"><%= f.input :cleaning_date, as: :string, input_html: { class: "datepicker" }, label: false %></div>
-    <div class="col-md-3"><%= l(cleaning_schedule.next_booking_date, format: :long) if cleaning_schedule.next_booking_date %> <br>
-      <span class="text-sm"><%= t(cleaning_schedule.next_booking_info) if cleaning_schedule.next_booking_info %></span></div>
-    <div class="col-md-2"><%= f.association :cleaning_company.name, label: false %></div>
+    <div class="col-md-3">
+      <%= f.input :cleaning_date, label: t('cleaning_date'), as: :string, input_html: { value: @cleaning_schedule.cleaning_date || params[:cleaning_date], class: "datepicker" } %>
+    </div>
+    <div class="col-md-2"><%= f.input :priority, label: t('priority'), input_html: {value: 1} %>
+    </div>
+    <div class="col-md-4">
+      <% if @reason == "checkout" %>
+        <%= f.input :cleaning_type, label: t('cleaning_type'), collection: CleaningSchedule::CLEANING_TYPES_CHECKOUT.map {|type| [I18n.t("#{type}"), type]} %>
+      <% elsif @reason == "checkin" %>
+        <%= f.input :cleaning_type, label: t('cleaning_type'), collection: CleaningSchedule::CLEANING_TYPES_CHECKIN.map {|type| [I18n.t("#{type}"), type]} %>
+      <% end %>
+    </div>
+    <div class="col-md-3"><%= f.association :cleaning_company, label: t('cleaning_company') %></div>
   </div>
   <div class="row py-2 rate-dates rborder-bottom d-flex align-items-center">
-    <div class="col-md-8"><%= f.input :notes %></div>
-    <div class="col-md-3 mt-3"><%= f.input :full %></div>
+    <div class="col-md-11"><%= f.input :notes %></div>
     <div class="col-md-1 mt-3"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %></div>
   </div>
 <% end %>

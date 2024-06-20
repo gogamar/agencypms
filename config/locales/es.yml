@@ -1129,3 +1129,9 @@ es:
   incomplete_cleaning: Limpieza no está hecha. Sólo se ha recogido la ropa sucia.
   cleaning_done_upto: Limpieza hecha hasta el %{date}
   cleaning_pending: "Es necesario actualizar los horarios de limpieza para incluir estas nuevas reservas:"
+  checkout_full_cleaning: Limpieza y ropa después de la salida.
+  checkout_laundry_pickup: Recoger ropa sucia después de la salida. Nueva reserva lejos.
+  checkout_no_laundry: Solo limpieza. No poner ropa. La siguiente reserva lejos.
+  checkin_full_cleaning: Limpieza y ropa. Apartamento vacío.
+  checkin_set_laundry: Solo poner ropa. Apartamento limpio.
+  checkin_no_laundry: Solo limpieza. No poner ropa (cliente o propietario no quiere ropa).

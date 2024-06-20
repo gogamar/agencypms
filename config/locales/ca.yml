@@ -1139,3 +1139,25 @@ ca:
   incomplete_cleaning: Neteja no acabada! Només s'ha recollit la roba bruta
   cleaning_done_upto: Neteja programada fins al %{date}
   cleaning_pending: "Cal actualitzar els horaris de neteja per incloure aquestes reserves noves:"
+  checkout_full_cleaning: Neteja completa (neteja i roba després de la sortida)
+  checkout_laundry_pickup: Recollir roba bruta després de la sortida (la següent reserva lluny)
+  checkout_no_laundry: Només netejar. No posar roba (la següent reserva lluny)
+  checkin_full_cleaning: Neteja completa (neteja i roba). Apartament buit
+  checkin_set_laundry: Només posar roba. Apartament net
+  checkin_no_laundry: Només netejar. No posar roba (client o propietari no vol roba)
+  suggested_date: Data suggerida
+  booking_info: Informació sobre la reserva
+  scheduled_cleaning: Neteja programada
+  add_cleaning_schedule: Afegir horari de neteja
+  previous_checkout: Sortida anterior
+  no_previous_checkout: No hi ha sortida anterior
+  next_checkin: Entrada següent
+  no_next_checkin: No hi ha entrada següent
+  no_cleaning_records: No consta cap neteja anterior
+  vrental_max_guests: Màxim de persones en aquest immoble
+  cleaning_date: Data neteja
+  cleaning_type: Tipus neteja
+  priority: Prioritat
+  cleaning_company: Empresa de neteja
+  view_and_print_schedules: Veure i imprimir horaris
+  organize_cleaning: Organitzar neteja

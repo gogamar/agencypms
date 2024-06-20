@@ -1128,3 +1128,9 @@ en:
   incomplete_cleaning: Incomplete cleaning
   cleaning_done_upto: Cleaning done up to %{date}
   cleaning_pending: "It is necessary to update the cleaning schedules to include these new bookings:"
+  checkout_full_cleaning: Cleaning and bedlinen after checkout.
+  checkout_laundry_pickup: Pick up dirty laundry after checkout. New reservation far away.
+  checkout_no_laundry: Only cleaning. No laundry. New reservation far away.
+  checkin_full_cleaning: Cleaning and laundry. Empty apartment.
+  checkin_set_laundry: Only set laundry. Clean apartment.
+  checkin_no_laundry: Only cleaning. No laundry (client or owner does not want laundry).

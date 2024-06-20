@@ -1,18 +1,3 @@
-  <%= turbo_frame_tag @cleaning_schedule do %>
-  <%= simple_form_for [@office, @cleaning_schedule], data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
-    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-    <%= f.input :vrental_id, as: :hidden, input_html: { value: params[:vrental_id] } %>
-    <%= f.input :booking_id, as: :hidden, input_html: { value: params[:booking_id] } %>
-    <%= f.input :owner_booking_id, as: :hidden, input_html: { value: params[:owner_booking_id] } %>
-    <div class="row py-2 rate-dates rborder-bottom">
-      <div class="col-md-2"><%= f.input :priority, input_html: {value: 1} %></div>
-      <div class="col-md-3"><%= f.input :cleaning_date, as: :string, input_html: { value: params[:cleaning_date], class: "datepicker" } %></div>
-      <div class="col-md-4"><%= f.input :cleaning_type, collection: CleaningSchedule::CLEANING_TYPES, prompt: 'Select Cleaning Type' %></div>
-      <div class="col-md-3"><%= f.association :cleaning_company.name %></div>
-    </div>
-    <div class="row py-2 rate-dates rborder-bottom d-flex align-items-center">
-      <div class="col-md-11"><%= f.input :notes %></div>
-      <div class="col-md-1 mt-3"><%= f.button :submit, t('global.forms.submit'), class: "btn btn-sm btn-primary" %></div>
-    </div>
-  <% end %>
+<%= turbo_frame_tag @cleaning_schedule do %>
+  <%= render "form", cleaning_schedule: @cleaning_schedule %>
 <% end %>

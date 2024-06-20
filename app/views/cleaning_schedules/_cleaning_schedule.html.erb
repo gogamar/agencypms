@@ -1,13 +1,13 @@
+<span class="text-success"><%= t('scheduled_cleaning') %></span>
 <%= turbo_frame_tag cleaning_schedule, class: "card-body" do %>
   <div class="py-3">
     <div class="row mt-2 rate-dates">
-      <div class="col-md-1 col no-printing"><%= cleaning_schedule.priority %></div>
-      <div class="col-md-2 col">
+      <div class="col-md-3 col">
         <span class="fw-bold font-weight-bold">
           <%= cleaning_schedule.vrental.name %>
         </span>
         <br>
-        <span class="text-sm">
+        <span>
           <% if cleaning_schedule.vrental.beds_detail_full_words %>
             <% cleaning_schedule.vrental.beds_detail_full_words.each do |bed_type_count| %>
               <%= bed_type_count %>
@@ -17,26 +17,46 @@
         </span>
         <br>
         <% towel_count = cleaning_schedule.vrental.max_guests || (booking.adults + (booking.children || 0)) %>
-        <span class="text-sm"><%= towel_count %> <%= t('big_towel', count: towel_count) %></span>
+        <span><%= towel_count %> <%= t('big_towel', count: towel_count) %></span>
         <br>
-        <span class="text-sm"><%= towel_count %> <%= t('small_towel', count: towel_count) %></span>
-      </div>
-      <div class="col-md-2 col">
-        <span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></span>
-        <br>
-        <span class="text-sm">(<%= booking_or_owner_name(booking) %> <%= t('leaves_on') %> <%= l(cleaning_schedule.booking.checkout, format: :long) if booking.checkout %>)</span>
+        <span><%= towel_count %> <%= t('small_towel', count: towel_count) %></span>
       </div>
       <div class="col-md-3 col">
-        <% next_booking = cleaning_schedule.vrental.next_booking(booking.checkout) %>
-        <% if next_booking %>
-          <%= l(next_booking.checkin, format: :long)  %> <br>
-          <span class="text-sm"><%= booking_or_owner_name(next_booking) %></span>
+        <span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></span>
+        <br>
+        <span class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></span>
+        <% if next_booking.present? && next_booking != "no_display" && next_booking.checkin == cleaning_schedule.cleaning_date %>
+          <br>
+          <span class="fw-bold font-weight-bold text-danger"><%= t('same_day_arrival') %></span>
+        <% end %>
+      </div>
+      <div class="col-md-3 col">
+        <% if next_booking.present? && next_booking != "no_display" %>
+          <% if next_booking.present? %>
+            <span class="fw-bold font-weight-bold"><%= t('next_checkin') %></span>
+            <br>
+            <span><%= next_booking_info(next_booking) %></span>
+          <% else %>
+            <span><%= t('no_next_checkin') %></span>
+          <% end %>
         <% end %>
         <br>
-        <span class="text-sm">next booking info if needed</span>
+        <% if previous_booking.present? && previous_booking != "no_display"  %>
+          <% if previous_booking.present?  %>
+            <span class="fw-bold font-weight-bold"><%= t('previoius_checkout') %></span>
+            <br>
+            <span><%= previous_booking_info(previous_booking) %></span>
+          <% else %>
+            <span><%= t('no_previous_checkout') %></span>
+          <% end %>
+        <% end %>
       </div>
-      <div class="col-md-2 col"><%= cleaning_schedule.cleaning_company.name %></div>
-      <div class="col-md-2 no-printing">
+      <div class="col-md-2 col">
+        <span class="fw-bold font-weight-bold"><%= t('cleaning_company') %></span>
+        <br>
+        <span><%= cleaning_schedule.cleaning_company.name %></span>
+      </div>
+      <div class="col-md-1 no-printing">
         <%= link_to edit_office_cleaning_schedule_path(@office, cleaning_schedule), class: "btn btn-sm btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>
@@ -47,7 +67,7 @@
     </div>
     <div class="row">
       <div class="col-md-12 px-3 py-2">
-        <div class="text-sm fst-italic font-italic text-primary"><%= cleaning_schedule.notes %></div>
+        <div class="fw-bold font-weight-bold text-primary"><%= cleaning_schedule.notes %></div>
       </div>
     </div>
   </div>

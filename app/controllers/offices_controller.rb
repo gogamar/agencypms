@@ -71,7 +71,15 @@ class OfficesController < ApplicationController
   end
 
   def organize_cleaning
+    @dates_cleaning_pending = @office.cleaning_schedules.where(cleaning_type: ["checkout_laundry_pickup", "checkout_no_laundry"])
+                                    .pluck(:cleaning_date)
+                                    .map(&:to_date)
+                                    .uniq
 
+    @display_dates = (Date.today.beginning_of_year..(Date.today + 14.days)).to_a
+    # fixme change to Date.today
+
+    @merged_dates = (@display_dates + @dates_cleaning_pending).uniq.sort
   end
 
   def get_reviews_from_airbnb

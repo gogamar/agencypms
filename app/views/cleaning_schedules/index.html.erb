@@ -1,5 +1,8 @@
 <div class="no-printing">
-  <%= render 'shared/get_all_bookings', office: @office %>
+  <div class="d-flex justify-content-between">
+    <%= render 'shared/get_all_bookings', office: @office %>
+    <%= link_to t('organize_cleaning'), organize_cleaning_company_office_path(@company, @office), class: "btn btn-sm btn-primary" %>
+  </div>
   <%= link_to t('cleaning_companies'), cleaning_companies_path, class: "text-sm link" %>
   <hr>
   <%= render "filter" %>
@@ -16,29 +19,18 @@
     <% end %>
   </p>
 <% end %>
-<% if @incomplete_cleaning_schedules.present? %>
-  <div class="mt-5 p-3 alert alert-danger position-relative">
-    <h5 class="text-start text-left fw-bold font-weight-bold"><%= t('incomplete_cleaning') %></h5>
-    <% @incomplete_cleaning_schedules.each do |cleaning_schedule| %>
-      <%= render cleaning_schedule  %>
-    <% end %>
-  </div>
-<% end %>
 <div class="mt-5">
   <% @grouped_cleaning_schedules.each do |cleaning_date, cleaning_schedules| %>
     <div class="no-page-break pt-3">
       <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long) %></h5>
-      <div class="row py-2 rate-dates">
-        <div class="col-md-1 col no-printing"><%= t('priority') %></div>
-        <div class="col-md-3 col"><%= t('vrental_title') %></div>
-        <div class="col-md-2 col"><%= t('cleaning_date') %></div>
-        <div class="col-md-3 col"><%= t('next_booking_info') %></div>
-        <div class="col-md-2 col"><%= t('cleaning_company') %></div>
-        <div class="col-md-1 col no-printing"></div>
-      </div>
       <hr>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
-        <%= render cleaning_schedule, booking: cleaning_schedule.booking || cleaning_schedule.owner_booking %>
+        <% booking = cleaning_schedule.booking || cleaning_schedule.owner_booking %>
+        <% if cleaning_schedule.reason == "checkout"  %>
+          <%= render cleaning_schedule, booking: booking, next_booking: cleaning_schedule.vrental.next_booking(booking.checkin), previous_booking: "no_display" %>
+        <% elsif cleaning_schedule.reason == "checkin"  %>
+          <%= render cleaning_schedule, booking: booking, next_booking: "no_display", previous_booking: cleaning_schedule.vrental.previous_booking(booking.checkin) %>
+        <% end %>
         <hr>
       <% end %>
     </ul>

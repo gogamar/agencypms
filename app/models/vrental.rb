@@ -1197,15 +1197,23 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def this_year_confirmed_guest_bookings
+    bookings.where.not(status: "0").where("checkin >= ?", Date.today.beginning_of_year)
+  end
+
+  def this_year_confirmed_owner_bookings
+    owner_bookings.where.not(status: "0").where("checkin >= ?", Date.today.beginning_of_year)
+  end
+
   def previous_booking(date)
-    previous_guest_booking = bookings.where("checkin < ?", date).order(checkin: :asc).first
-    previous_owner_booking = owner_bookings.where("checkin < ?", date).order(checkin: :asc).first
+    previous_guest_booking = this_year_confirmed_guest_bookings.where("checkin < ?", date).order(checkin: :asc).first
+    previous_owner_booking = this_year_confirmed_owner_bookings.where("checkin < ?", date).order(checkin: :asc).first
     return [previous_guest_booking, previous_owner_booking].compact.max_by(&:checkin)
   end
 
   def next_booking(date)
-    next_guest_booking = bookings.where("checkin >= ?", date).order(checkin: :asc).first
-    next_owner_booking = owner_bookings.where("checkin >= ?", date).order(checkin: :asc).first
+    next_guest_booking = this_year_confirmed_guest_bookings.where("checkin >= ?", date).order(checkin: :asc).first
+    next_owner_booking = this_year_confirmed_owner_bookings.where("checkin >= ?", date).order(checkin: :asc).first
     return [next_guest_booking, next_owner_booking].compact.min_by(&:checkin)
   end
 
