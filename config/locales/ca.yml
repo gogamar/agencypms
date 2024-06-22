@@ -1100,7 +1100,7 @@ ca:
   cleaning_date: Data de neteja
   next_booking_info: Següent reserva
   cleaning_company: Empresa de neteja
-  same_day_arrival: Arribada el mateix dia
+  same_day_arrival: Entrada el mateix dia
   new_booking_possible: Nova reserva possible
   new_booking_impossible: Nova reserva no possible
   next_booking_date: Següent reserva
@@ -1130,7 +1130,7 @@ ca:
   to_min: fins a
   preferred_cleaning_company: Empresa de neteja de preferencia
   used_for_cleaning_schedules: Es fa servir per horaris de neteja
-  leaves_on: surt el
+  leaves_on: surt el %{date}
   loading: Processant...
   still_loading: Encara processant...
   upload_completed: Importació completada
@@ -1149,15 +1149,23 @@ ca:
   booking_info: Informació sobre la reserva
   scheduled_cleaning: Neteja programada
   add_cleaning_schedule: Afegir horari de neteja
-  previous_checkout: Sortida anterior
+  previous_checkout: Sortida
   no_previous_checkout: No hi ha sortida anterior
   next_checkin: Entrada següent
   no_next_checkin: No hi ha entrada següent
   no_cleaning_records: No consta cap neteja anterior
-  vrental_max_guests: Màxim de persones en aquest immoble
+  vrental_max_guests: Capacitat màxima
   cleaning_date: Data neteja
   cleaning_type: Tipus neteja
   priority: Prioritat
   cleaning_company: Empresa de neteja
   view_and_print_schedules: Veure i imprimir horaris
   organize_cleaning: Organitzar neteja
+  checkouts: Sortides
+  checkins: Entrades
+  previous_cleaning: Neteja anterior
+  previous_cleaning_type: Tipus de neteja feta
+  same_day_checkout: Sortida i entrada el mateix dia
+  same_day: el mateix dia
+  left_on: Va sortir el %{date}
+  cleaning_done: Neteja feta

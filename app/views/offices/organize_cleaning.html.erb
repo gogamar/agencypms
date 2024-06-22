@@ -1,29 +1,29 @@
 <div class="py-2 d-flex justify-content-end">
   <%= link_to t('view_and_print_schedules'), office_cleaning_schedules_path(@office), class: "btn btn-sm btn-primary" %>
 </div>
-<table class="table table-striped">
+<table class="table table-striped mt-5">
   <thead>
+    <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> <%= l(@end_date, format: :long_day) %></h5>
   </thead>
   <tbody>
-    <% @merged_dates.each do |date| %>
-      <% @office.bookings.where('checkout = ?', date).each do |booking| %>
-        <% booking_vrental = booking.vrental %>
-        <% next_booking = booking_vrental.next_booking(date) %>
-        <%= render "booking_details", office: @office, date: date, booking: booking, booking_vrental: booking_vrental, previous_booking: "no_display", next_booking: next_booking, reason: "checkout", last_cleaning: "no_display" %>
-      <% end %>
-      <% @office.owner_bookings.where('checkout = ?', date).each do |owner_booking| %>
-        <% booking_vrental = owner_booking.vrental %>
-        <% next_booking = booking_vrental.next_booking(date) %>
-        <%= render "booking_details", office: @office, date: date, booking: owner_booking, booking_vrental: booking_vrental, previous_booking: "no_display", next_booking: next_booking, reason: "checkout", last_cleaning: "no_display"  %>
-      <% end %>
-      <% @office.bookings.where('checkin = ?', date).each do |booking| %>
-        <% booking_vrental = booking.vrental %>
-        <% if booking_vrental.cleaned_more_than_5_days_ago?(date) %>
-          <% last_cleaning = booking.vrental.last_cleaning(date) %>
-          <% previous_booking = booking_vrental.previous_booking(date) %>
-          <%= render "booking_details", office: @office, date: date, booking: booking, booking_vrental: booking_vrental, previous_booking: previous_booking, next_booking: "no_display", reason: "checkin", last_cleaning: last_cleaning %>
-        <% end %>
-      <% end %>
+    <% @checkout_all.each do |booking| %>
+      <% next_booking = booking.vrental.next_booking(booking.checkout) %>
+      <%= render "checkout_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkout_date: booking.checkout, next_booking: next_booking, reason: "checkout" %>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<hr>
+<br>
+<table class="table table-striped mt-5">
+  <thead>
+    <h5><span class="text-primary text-uppercase"><%= t('checkins') %></span> <%= l(@start_date, format: :long_day) %> <%= l(@end_date, format: :long_day) %></h5>
+  </thead>
+  <tbody>
+    <% @checkin_all.each do |booking| %>
+      <% previous_booking = booking.vrental.previous_booking(booking.checkin) %>
+      <% last_cleaning = booking.vrental.last_cleaning(booking.checkin) %>
+      <%= render "checkin_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkin_date: booking.checkin, previous_booking: previous_booking, reason: "checkin", last_cleaning: last_cleaning %>
     <% end %>
   </tbody>
 </table>

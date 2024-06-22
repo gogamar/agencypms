@@ -1,5 +1,5 @@
 class CleaningSchedulesController < ApplicationController
-  before_action :set_cleaning_schedule, only: [:edit, :update, :destroy, :unlock]
+  before_action :set_cleaning_schedule, only: [:show, :edit, :update, :destroy, :unlock]
   before_action :set_office, only: [:index, :new, :edit, :create, :destroy, :update, :update_all, :unlock, :load_pdf_modal]
 
   def index
@@ -17,6 +17,12 @@ class CleaningSchedulesController < ApplicationController
         render_pdf
       end
     end
+  end
+
+  def show
+    @cleaning_schedule_booking = @cleaning_schedule.booking || @cleaning_schedule.owner_booking
+    @next_booking = @cleaning_schedule.vrental&.next_booking(@cleaning_schedule_booking.checkout)
+    @office = @cleaning_schedule.office
   end
 
   def load_pdf_modal

@@ -163,6 +163,17 @@ class Office < ApplicationRecord
     end
   end
 
+
+  # confirmed bookings and owner bookings that have no cleaning schedule or have a cleaning schedule that is incomplete or if it's been more than 5 days before the last checkout cleaning
+
+  def checkin_bookings(scope, start_date, end_date)
+    scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date)
+  end
+
+  def checkout_bookings(scope, start_date, end_date)
+    scope.where.not(status: "0").where("checkout >= ? AND checkout <= ?", start_date, end_date)
+  end
+
   def cleaned_5_days_ago(date)
     # check if this vrental was cleaned more than 5 days ago
     vrental.joins(:cleaning_schedules).order.last.where("cleaning_date = ?", date - 5.days)

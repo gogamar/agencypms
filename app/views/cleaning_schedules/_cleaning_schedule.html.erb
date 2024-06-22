@@ -1,4 +1,3 @@
-<span class="text-success"><%= t('scheduled_cleaning') %></span>
 <%= turbo_frame_tag cleaning_schedule, class: "card-body" do %>
   <div class="py-3">
     <div class="row mt-2 rate-dates">
@@ -22,33 +21,21 @@
         <span><%= towel_count %> <%= t('small_towel', count: towel_count) %></span>
       </div>
       <div class="col-md-3 col">
+        <h6 class="text-success"><%= t('scheduled_cleaning') %></h6>
         <span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></span>
         <br>
         <span class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></span>
-        <% if next_booking.present? && next_booking != "no_display" && next_booking.checkin == cleaning_schedule.cleaning_date %>
-          <br>
-          <span class="fw-bold font-weight-bold text-danger"><%= t('same_day_arrival') %></span>
-        <% end %>
       </div>
       <div class="col-md-3 col">
-        <% if next_booking.present? && next_booking != "no_display" %>
-          <% if next_booking.present? %>
-            <span class="fw-bold font-weight-bold"><%= t('next_checkin') %></span>
-            <br>
-            <span><%= next_booking_info(next_booking) %></span>
+        <% if next_booking.present? %>
+          <% if next_booking.checkin == cleaning_schedule.cleaning_date %>
+            <div class="fw-bold font-weight-bold text-danger"><%= t('same_day_arrival') %></div>
           <% else %>
-            <span><%= t('no_next_checkin') %></span>
+            <div class="fw-bold font-weight-bold"><%= t('checkin') %></div>
           <% end %>
-        <% end %>
-        <br>
-        <% if previous_booking.present? && previous_booking != "no_display"  %>
-          <% if previous_booking.present?  %>
-            <span class="fw-bold font-weight-bold"><%= t('previoius_checkout') %></span>
-            <br>
-            <span><%= previous_booking_info(previous_booking) %></span>
-          <% else %>
-            <span><%= t('no_previous_checkout') %></span>
-          <% end %>
+          <span><%= next_booking_info(next_booking) %></span>
+        <% else %>
+          <span><%= t('no_next_checkin') %></span>
         <% end %>
       </div>
       <div class="col-md-2 col">

@@ -1206,9 +1206,9 @@ class Vrental < ApplicationRecord
   end
 
   def previous_booking(date)
-    previous_guest_booking = this_year_confirmed_guest_bookings.where("checkin < ?", date).order(checkin: :asc).first
-    previous_owner_booking = this_year_confirmed_owner_bookings.where("checkin < ?", date).order(checkin: :asc).first
-    return [previous_guest_booking, previous_owner_booking].compact.max_by(&:checkin)
+    previous_guest_booking = this_year_confirmed_guest_bookings.where("checkout <= ?", date)&.order(checkout: :desc).first
+    previous_owner_booking = this_year_confirmed_owner_bookings.where("checkout <= ?", date)&.order(checkout: :desc).first
+    return [previous_guest_booking, previous_owner_booking].compact.max_by(&:checkout)
   end
 
   def next_booking(date)
@@ -1217,8 +1217,14 @@ class Vrental < ApplicationRecord
     return [next_guest_booking, next_owner_booking].compact.min_by(&:checkin)
   end
 
-  def last_cleaning(date)
-    cleaning_schedules.where("cleaning_date < ?", date).order(cleaning_date: :desc).first
+  def last_cleaning(checkin_date)
+    previous_booking_checkout = previous_booking(checkin_date).checkout
+    cleaning_schedules.where("cleaning_date <= ? AND cleaning_date >= ?", checkin_date, previous_booking_checkout).order(cleaning_date: :desc).first
+  end
+
+  def needs_cleaning(checkin_date)
+    cleaning_schedules.none? ||
+      last_cleaning(checkin_date).cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
   end
 
   private
