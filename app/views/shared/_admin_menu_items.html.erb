@@ -33,7 +33,7 @@
             <%= link_to organize_cleaning_company_office_path(@company, estartit_office) do %>
               <i class="fa-solid fa-broom me-2"></i><%= t("cleaning") %> <%= estartit_office.name %>
             <% end %>
-            <%= link_to office_cleaning_schedules_path(@office) do %>
+            <%= link_to office_cleaning_schedules_path(estartit_office) do %>
               <i class="fa-solid fa-print me-2"></i><%= t('view_and_print_schedules') %>
             <% end %>
           </li>
