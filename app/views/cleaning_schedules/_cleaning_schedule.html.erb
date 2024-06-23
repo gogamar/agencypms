@@ -29,14 +29,22 @@
         <% end %>
       </div>
       <div class="col-md-3 col">
-        <% if next_booking.present? %>
-          <% if next_booking.checkin == cleaning_schedule.cleaning_date %>
-            <div class="fw-bold font-weight-bold text-danger"><%= t('same_day_arrival') %></div>
+        <% if cleaning_schedule.reason == "checkout" && next_booking.present? %>
+          <% if booking.checkout == next_booking.checkin %>
+            <div class="fw-bold font-weight-bold text-danger"><%= t('same_day_checkout') %></div>
           <% else %>
             <div class="fw-bold font-weight-bold"><%= t('checkin') %></div>
           <% end %>
           <div><%= l(next_booking.checkin, format: :long) %></div>
           <div><%= booking_info(next_booking) %></div>
+        <% elsif cleaning_schedule.reason == "checkin" %>
+          <% if booking.checkin == cleaning_schedule.cleaning_date %>
+            <div class="fw-bold font-weight-bold text-danger"><%= t('same_day_arrival') %></div>
+          <% else %>
+            <div class="fw-bold font-weight-bold"><%= t('checkin') %></div>
+          <% end %>
+          <div><%= l(booking.checkin, format: :long) %></div>
+          <div><%= booking_info(booking) %></div>
         <% else %>
           <div><%= t('no_next_checkin') %></div>
         <% end %>
