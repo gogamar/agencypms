@@ -46,6 +46,7 @@ class CleaningSchedulesController < ApplicationController
       redirect_back(fallback_location: organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja creat.")
     else
       @cleaning_companies = CleaningCompany.all
+      puts "ERRORS cleaning schedule create: #{cleaning_schedule.errors}"
       render :new
     end
   end
@@ -68,7 +69,7 @@ class CleaningSchedulesController < ApplicationController
 
   def destroy
     @cleaning_schedule.destroy
-    redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
+    redirect_to organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja actualitzat."
   end
 
   # def update_all
