@@ -372,14 +372,12 @@ finished_bookings = estartit_office.bookings.where("checkout > ? AND checkout < 
 finished_owner_bookings = estartit_office.owner_bookings.where("checkout > ? AND checkout < ?", Date.today - 30.days, Date.today)
 highest_cleaners_company = CleaningCompany.order(number_of_cleaners: :desc).first
 
-finished_bookings.each do |booking|
-  puts "Creating cleaning schedule for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
-  booking.cleaning_schedules.create(vrental: booking.vrental, booking: booking, cleaning_date: booking.checkout, reason: "checkout", office: estartit_office, cleaning_company: highest_cleaners_company, cleaning_type: CleaningSchedule::CLEANING_TYPES_CHECKOUT[1])
-  puts "Cleaning schedule created for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
-end
+# finished_bookings.each do |booking|
+#   booking.cleaning_schedules.create(vrental: booking.vrental, booking: booking, cleaning_date: booking.checkout, reason: "checkout", office: estartit_office, cleaning_company: highest_cleaners_company, cleaning_type: CleaningSchedule::CLEANING_TYPES_CHECKOUT[1])
+#   puts "Cleaning schedule created for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
+# end
 
 finished_owner_bookings.each do |booking|
-  puts "Creating cleaning schedule for booking owner booking #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
   booking.cleaning_schedules.create(vrental: booking.vrental, owner_booking: booking, cleaning_date: booking.checkout, reason: "checkout", office: estartit_office, cleaning_company: highest_cleaners_company, cleaning_type: CleaningSchedule::CLEANING_TYPES_CHECKOUT[1])
-  puts "Cleaning schedule created for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
+  puts "Cleaning schedule created for owner booking...Current cleaning schedules: #{booking.cleaning_schedules.count}"
 end
