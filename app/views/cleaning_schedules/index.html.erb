@@ -20,7 +20,7 @@
       <hr>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
         <% booking = cleaning_schedule.booking || cleaning_schedule.owner_booking %>
-        <%= render cleaning_schedule, booking: booking, previous_booking: cleaning_schedule.vrental.previous_booking(booking.checkin), next_booking: cleaning_schedule.vrental.next_booking(booking.checkin) %>
+        <%= render cleaning_schedule, booking: booking, previous_booking: cleaning_schedule.vrental.previous_booking(booking.checkin), next_booking: cleaning_schedule.vrental.next_booking(booking.checkout) %>
         <hr>
       <% end %>
     </ul>
