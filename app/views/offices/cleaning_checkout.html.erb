@@ -3,7 +3,7 @@
 </div>
 <table class="table table-striped mt-5">
   <thead>
-    <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> <%= l(@end_date, format: :long_day) %></h5>
+    <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
   </thead>
   <tbody>
     <% @checkout_all.each do |booking| %>

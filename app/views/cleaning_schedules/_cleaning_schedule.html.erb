@@ -19,7 +19,7 @@
       </div>
       <div class="col-md-5 col">
         <h6 class="text-success"><%= t('scheduled_cleaning') %></h6>
-        <div class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></div>
+        <div class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long_day) %></div>
         <div class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></div>
         <div class="fw-bold font-weight-bold"><%= t('cleaning_company') %></div>
         <div><%= cleaning_schedule.cleaning_company.name %></div>

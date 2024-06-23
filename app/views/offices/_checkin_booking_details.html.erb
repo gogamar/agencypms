@@ -25,10 +25,10 @@
     <% end %>
     <% if last_cleaning.present? %>
       <% if last_cleaning.cleaning_date < Date.today %>
-        <div><%= t('cleaning_done') %>: <%= link_to l(last_cleaning.cleaning_date), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary", target: "_blank" %></div>
+        <div><%= t('cleaning_done') %>: <%= link_to l(last_cleaning.cleaning_date, format: :long_day), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary", target: "_blank" %></div>
         <div><%= t(last_cleaning.cleaning_type) %></div>
       <% else %>
-        <div><%= t('scheduled_cleaning') %>: <%= link_to l(last_cleaning.cleaning_date), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary", target: "_blank"  %></div>
+        <div><%= t('scheduled_cleaning') %>: <%= link_to l(last_cleaning.cleaning_date, format: :long_day), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary", target: "_blank"  %></div>
         <div><%= t(last_cleaning.cleaning_type) %></div>
       <% end %>
       <% if last_cleaning.cleaning_date < (checkin_date - 5.days) %>

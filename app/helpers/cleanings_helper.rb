@@ -6,9 +6,9 @@ module CleaningsHelper
 
   def previous_booking_info(previous_booking)
     if previous_booking.is_a?(Booking)
-      previous_booking.checkout < Date.today ? "#{previous_booking.firstname} #{previous_booking.lastname} #{t('left_on', date: l(previous_booking.checkout))}".html_safe : "#{previous_booking.firstname} #{previous_booking.lastname} #{t('leaves_on', date: l(previous_booking.checkout))}".html_safe
+      previous_booking.checkout < Date.today ? "#{previous_booking.firstname} #{previous_booking.lastname} #{t('left_on', date: l(previous_booking.checkout, format: :long_day))}".html_safe : "#{previous_booking.firstname} #{previous_booking.lastname} #{t('leaves_on', date: l(previous_booking.checkout, format: :long_day))}".html_safe
     elsif previous_booking.is_a?(OwnerBooking)
-      previous_booking.checkout < Date.today ? "#{t('owner')} (#{previous_booking.note}) #{t('left_on', date: l(previous_booking.checkout))}".html_safe : "#{t('owner')} (#{previous_booking.note}) #{t('leaves_on', date: l(previous_booking.checkout))}".html_safe
+      previous_booking.checkout < Date.today ? "#{t('owner')} (#{previous_booking.note}) #{t('left_on', date: l(previous_booking.checkout, format: :long_day))}".html_safe : "#{t('owner')} (#{previous_booking.note}) #{t('leaves_on', date: l(previous_booking.checkout, format: :long_day))}".html_safe
     end
   end
 
