@@ -9,6 +9,7 @@ class GetAllBookingsJob < ApplicationJob
       office.vrentals.each do |vrental|
         if vrental.prop_key.present?
           VrentalApiService.new(vrental).get_bookings_from_beds(from_date)
+          sleep 3
         end
       end
 
