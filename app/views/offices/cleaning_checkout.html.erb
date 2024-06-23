@@ -1,5 +1,7 @@
-<div class="d-flex justify-content-start">
-  <%= link_to t('global.forms.back'), organize_cleaning_company_office_path(@company, @office), class: "btn btn-sm btn-info" %>
+<div class="d-flex justify-content-start mb-3">
+  <%= link_to organize_cleaning_company_office_path(@company, @office), class: "btn btn-sm btn-secondary" do %>
+    <i class="fa-solid fa-circle-chevron-left me-2"></i><%= t('global.forms.back') %>
+  <% end %>
 </div>
 <table class="table table-striped mt-5">
   <thead>

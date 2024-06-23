@@ -19,10 +19,10 @@
   <% end %>
 </div>
 <div>
-  <%= link_to t('organize_cleaning_by_checkouts'), cleaning_checkout_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
+  <%= link_to t('organize_cleaning_by_checkouts'), cleaning_checkout_company_office_path(@company, @office), class: "link" %> <%= l(@start_date) %> - <%= l(@end_date) %>
 </div>
 <div>
-  <%= link_to t('organize_cleaning_by_checkins'), cleaning_checkin_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
+  <%= link_to t('organize_cleaning_by_checkins'), cleaning_checkin_company_office_path(@company, @office), class: "link" %> <%= l(@start_date) %> - <%= l(@end_date) %>
 </div>
 </div>
 <hr>
