@@ -8,7 +8,7 @@
       <%= link_to edit_cleaning_company_path(cleaning_company), class: "btn btn-sm btn-info" do %>
         <i class="fas fa-pen fa-sm"></i>
       <% end %>
-      <%= link_to cleaning_company, method: :delete, class: "btn btn-sm btn-danger", remote: true, data: { confirm: t('are_you_sure'), turbo_method: :delete } do %>
+      <%= link_to cleaning_company, data: {turbo_method: :delete, turbo_confirm: t('sure_delete')}, class: "btn btn-sm btn-danger"  do %>
         <i class="fas fa-trash fa-sm"></i>
       <% end %>
     </div>

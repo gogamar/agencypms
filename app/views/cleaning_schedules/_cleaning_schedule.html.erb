@@ -22,7 +22,11 @@
         <div class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long_day) %></div>
         <div class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></div>
         <div class="fw-bold font-weight-bold"><%= t('cleaning_company') %></div>
-        <div><%= cleaning_schedule.cleaning_company.name %></div>
+        <% if cleaning_schedule.cleaning_company %>
+          <div><%= cleaning_schedule.cleaning_company.name %></div>
+        <% else %>
+          <div class="text-danger"><%= t('add_cleaning_company') %></div>
+        <% end %>
       </div>
       <div class="col-md-3 col">
         <% if next_booking.present? %>
@@ -41,7 +45,7 @@
         <%= link_to edit_office_cleaning_schedule_path(@office, cleaning_schedule), class: "btn btn-sm btn-info" do %>
           <i class="fas fa-pen fa-sm"></i>
         <% end %>
-        <%= link_to office_cleaning_schedule_path(@office, cleaning_schedule), method: :delete, class: "btn btn-sm btn-danger", remote: true, data: { confirm: 'Are you sure?', turbo_method: :delete } do %>
+        <%= link_to office_cleaning_schedule_path(@office, cleaning_schedule), data: {turbo_method: :delete, turbo_confirm: t('sure_delete')}, class: "btn btn-sm btn-danger"  do %>
           <i class="fas fa-trash fa-sm"></i>
         <% end %>
       </div>
