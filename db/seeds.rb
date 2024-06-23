@@ -3,9 +3,9 @@
 
 all_vrentals = Vrental.all
 barcelona_office = Office.where("name ILIKE ?", "%barcelona%").first
-barcelona_vrentals = barcelona_office.vrentals
+barcelona_vrentals = barcelona_office.vrentals if barcelona_office
 estartit_office = Office.where("name ILIKE ?", "%estartit%").first
-estartit_vrentals = estartit_office.vrentals
+estartit_vrentals = estartit_office.vrentals if estartit_office
 
 # barcelona_tourist_apts = barcelona_vrentals.where(rental_term: "short_term")
 # barcelona_tourist_interiors = barcelona_tourist_apts.where("name ILIKE ?", "%interior%")
@@ -366,3 +366,20 @@ barcelona_rate_group = Vrgroup.where("name ILIKE ?", "%gaud%")
 #   end
 #   VrentalApiService.new(vrental).update_features_on_beds
 # end
+
+
+finished_bookings = estartit_office.bookings.where("checkout > ? AND checkout < ?", Date.today - 30.days, Date.today)
+finished_owner_bookings = estartit_office.owner_bookings.where("checkout > ? AND checkout < ?", Date.today - 30.days, Date.today)
+highest_cleaners_company = CleaningCompany.order(number_of_cleaners: :desc).first
+
+finished_bookings.each do |booking|
+  puts "Creating cleaning schedule for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
+  booking.cleaning_schedules.create(vrental: booking.vrental, booking: booking, cleaning_date: booking.checkout, reason: "checkout", office: estartit_office, cleaning_company: highest_cleaners_company, cleaning_type: CleaningSchedule::CLEANING_TYPES_CHECKOUT[1])
+  puts "Cleaning schedule created for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
+end
+
+finished_owner_bookings.each do |booking|
+  puts "Creating cleaning schedule for booking owner booking #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
+  booking.cleaning_schedules.create(vrental: booking.vrental, owner_booking: booking, cleaning_date: booking.checkout, reason: "checkout", office: estartit_office, cleaning_company: highest_cleaners_company, cleaning_type: CleaningSchedule::CLEANING_TYPES_CHECKOUT[1])
+  puts "Cleaning schedule created for booking #{booking.firstname} #{booking.checkin}...Current cleaning schedules: #{booking.cleaning_schedules.count}"
+end

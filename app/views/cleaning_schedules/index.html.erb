@@ -1,10 +1,4 @@
 <div class="no-printing">
-  <div class="d-flex justify-content-between">
-    <%= render 'shared/get_all_bookings', office: @office %>
-    <%= link_to t('organize_cleaning'), organize_cleaning_company_office_path(@company, @office), class: "btn btn-sm btn-primary" %>
-  </div>
-  <%= link_to t('cleaning_companies'), cleaning_companies_path, class: "text-sm link" %>
-  <hr>
   <%= render "filter" %>
 </div>
 <% if @last_cleaning_date.present? %>

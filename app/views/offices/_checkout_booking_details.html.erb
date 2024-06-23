@@ -27,7 +27,7 @@
         <% end %>
       </div>
       <div><%= l(next_booking.checkin, format: :long_day) %></div>
-      <%= next_booking_info(next_booking) %>
+      <%= booking_info(next_booking) %>
     <% else %>
       <div class="fw-normal"><%= t('no_next_checkin') %></div>
     <% end %>

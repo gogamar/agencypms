@@ -2,29 +2,27 @@
   <div class="py-3">
     <div class="row mt-2 rate-dates">
       <div class="col-md-3 col">
-        <span class="fw-bold font-weight-bold">
+        <div class="fw-bold font-weight-bold">
           <%= cleaning_schedule.vrental.name %>
-        </span>
-        <br>
-        <span>
+        </div>
+        <div>
           <% if cleaning_schedule.vrental.beds_detail_full_words %>
             <% cleaning_schedule.vrental.beds_detail_full_words.each do |bed_type_count| %>
               <%= bed_type_count %>
               <br>
             <% end %>
           <% end %>
-        </span>
-        <br>
+        </div>
         <% towel_count = cleaning_schedule.vrental.max_guests || (booking.adults + (booking.children || 0)) %>
-        <span><%= towel_count %> <%= t('big_towel', count: towel_count) %></span>
-        <br>
-        <span><%= towel_count %> <%= t('small_towel', count: towel_count) %></span>
+        <div><%= towel_count %> <%= t('big_towel', count: towel_count) %></div>
+        <div><%= towel_count %> <%= t('small_towel', count: towel_count) %></div>
       </div>
-      <div class="col-md-3 col">
+      <div class="col-md-5 col">
         <h6 class="text-success"><%= t('scheduled_cleaning') %></h6>
-        <span class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></span>
-        <br>
-        <span class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></span>
+        <div class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long) %></div>
+        <div class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></div>
+        <div class="fw-bold font-weight-bold"><%= t('cleaning_company') %></div>
+        <div><%= cleaning_schedule.cleaning_company.name %></div>
       </div>
       <div class="col-md-3 col">
         <% if next_booking.present? %>
@@ -33,15 +31,10 @@
           <% else %>
             <div class="fw-bold font-weight-bold"><%= t('checkin') %></div>
           <% end %>
-          <span><%= next_booking_info(next_booking) %></span>
+          <div><%= booking_info(next_booking) %></div>
         <% else %>
-          <span><%= t('no_next_checkin') %></span>
+          <div><%= t('no_next_checkin') %></div>
         <% end %>
-      </div>
-      <div class="col-md-2 col">
-        <span class="fw-bold font-weight-bold"><%= t('cleaning_company') %></span>
-        <br>
-        <span><%= cleaning_schedule.cleaning_company.name %></span>
       </div>
       <div class="col-md-1 no-printing">
         <%= link_to edit_office_cleaning_schedule_path(@office, cleaning_schedule), class: "btn btn-sm btn-info" do %>

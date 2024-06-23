@@ -1169,3 +1169,6 @@ ca:
   same_day: el mateix dia
   left_on: Va sortir el %{date}
   cleaning_done: Neteja feta
+  last_cleaning: L'última neteja feta el
+  finish_cleaning: Acabar neteja
+  last_cleaning_5_days_ago: Fa mes de 5 dies des de l'ultima neteja

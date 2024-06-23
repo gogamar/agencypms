@@ -1,3 +1,8 @@
+<div class="d-flex justify-content-between">
+  <%= render 'shared/get_all_bookings', office: @office %>
+</div>
+<%= link_to t('cleaning_companies'), cleaning_companies_path, class: "text-sm link" %>
+<hr>
 <div class="py-2 d-flex justify-content-end">
   <%= link_to t('view_and_print_schedules'), office_cleaning_schedules_path(@office), class: "btn btn-sm btn-primary" %>
 </div>

@@ -24,25 +24,27 @@
       <span class="fw-normal"><%= t('no_previous_checkout') %></span>
     <% end %>
     <% if last_cleaning.present? %>
-      <% if last_cleaning.cleaning_date < (checkin_date - 5.days) %>
-        Rental last cleaned on <%= link_to l(last_cleaning.cleaning_date), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary" %>. <%= last_cleaning.cleaning_type %> Could need some light cleaning.
-      <% elsif last_cleaning.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
-        Rental last cleaned on <%= link_to l(last_cleaning.cleaning_date), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary" %>. Only partial cleaning was done (<%= last_cleaning.cleaning_type %>), needs to be finished.
-      <% end %>
       <% if last_cleaning.cleaning_date < Date.today %>
-        <div><%= t('cleaning_done') %>: <%= l(last_cleaning.cleaning_date) %></div>
+        <div><%= t('cleaning_done') %>: <%= link_to l(last_cleaning.cleaning_date), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary", target: "_blank" %></div>
         <div><%= t(last_cleaning.cleaning_type) %></div>
       <% else %>
-        <div><%= t('scheduled_cleaning') %>: <%= l(last_cleaning.cleaning_date) %></div>
+        <div><%= t('scheduled_cleaning') %>: <%= link_to l(last_cleaning.cleaning_date), office_cleaning_schedule_path(@office, last_cleaning), class: "btn btn-sm btn-secondary", target: "_blank"  %></div>
         <div><%= t(last_cleaning.cleaning_type) %></div>
       <% end %>
+      <% if last_cleaning.cleaning_date < (checkin_date - 5.days) %>
+        <div class="text-info"><%= t('last_cleaning_5_days_ago') %></div>
+      <% end %>
+      <% if last_cleaning.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
+        <div class="text-danger"><%= t('finish_cleaning') %></div>
+      <% end %>
     <% else %>
-      <span class="fw-normal"><%= t('no_cleaning_records') %></span>
+      <div class="fw-normal"><%= t('no_cleaning_records') %></div>
     <% end %>
   </td>
   <td>
     <h6 class="text-warning"><%= t(reason) %></h6>
     <div><%= l(checkin_date, format: :long_day) %></div>
+    <div><%= booking_info(booking) %></div>
   </td>
 </tr>
 <tr>

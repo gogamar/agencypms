@@ -1223,8 +1223,8 @@ class Vrental < ApplicationRecord
   end
 
   def needs_cleaning(checkin_date)
-    cleaning_schedules.none? ||
-      last_cleaning(checkin_date).cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
+    last_cleaning_schedule = last_cleaning(checkin_date)
+    last_cleaning_schedule.nil? || (last_cleaning_schedule.present? && last_cleaning_schedule.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]))
   end
 
   private

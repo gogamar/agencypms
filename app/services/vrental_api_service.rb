@@ -1087,11 +1087,7 @@ class VrentalApiService
       "includeInvoice": true,
     }
 
-    puts "printing options: #{options}"
-
     beds24bookings = client.get_bookings(@target.prop_key, options)
-
-    puts "this is beds24bookings: #{beds24bookings}"
 
     if beds24bookings.success?
       parsed_response = beds24bookings.parsed_response
