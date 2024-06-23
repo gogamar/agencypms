@@ -1,5 +1,5 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: %i[ show edit update destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb organize_cleaning]
+  before_action :set_office, only: %i[ show edit update destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb organize_cleaning cleaning_checkout cleaning_checkin]
   before_action :set_company, except: %i[ destroy import_properties import_bookings destroy_all_properties get_reviews_from_airbnb]
 
   def index
@@ -73,15 +73,26 @@ class OfficesController < ApplicationController
   def organize_cleaning
     @start_date = Date.today
     @end_date = Date.today + 14.days
+  end
+
+  def cleaning_checkout
+    @start_date = Date.today
+    @end_date = Date.today + 14.days
     checkout_bookings = @office.checkout_bookings(@office.bookings, @start_date, @end_date)
     checkout_owner_bookings = @office.checkout_bookings(@office.owner_bookings, @start_date, @end_date)
 
     @checkout_all = (checkout_bookings + checkout_owner_bookings).sort_by { |booking| [booking[:checkout]] }
+    @pagy, @checkout_all = pagy_array(@checkout_all, page: params[:page], items: 10)
+  end
 
+  def cleaning_checkin
+    @start_date = Date.today
+    @end_date = Date.today + 14.days
     checkin_bookings = @office.checkin_bookings(@office.bookings, @start_date, @end_date)
     checkin_owner_bookings = @office.checkin_bookings(@office.owner_bookings, @start_date, @end_date)
 
     @checkin_all = (checkin_bookings + checkin_owner_bookings).sort_by { |booking| [booking[:checkin]] }
+    @pagy, @checkin_all = pagy_array(@checkin_all, page: params[:page], items: 10)
   end
 
   def get_reviews_from_airbnb

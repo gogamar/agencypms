@@ -1172,3 +1172,5 @@ ca:
   last_cleaning: L'última neteja feta el
   finish_cleaning: Acabar neteja
   last_cleaning_5_days_ago: Fa mes de 5 dies des de l'ultima neteja
+  organize_cleaning_by_checkouts: Organitzar neteja per sortides
+  organize_cleaning_by_checkins: Organitzar neteja per entrades

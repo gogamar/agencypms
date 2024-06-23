@@ -1,34 +1,15 @@
 <div class="d-flex justify-content-between">
   <%= render 'shared/get_all_bookings', office: @office %>
-</div>
-<%= link_to t('cleaning_companies'), cleaning_companies_path, class: "text-sm link" %>
-<hr>
-<div class="py-2 d-flex justify-content-end">
+  <%= link_to t('cleaning_companies'), cleaning_companies_path, class: "btn btn-sm btn-primary" %>
   <%= link_to t('view_and_print_schedules'), office_cleaning_schedules_path(@office), class: "btn btn-sm btn-primary" %>
 </div>
-<table class="table table-striped mt-5">
-  <thead>
-    <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> <%= l(@end_date, format: :long_day) %></h5>
-  </thead>
-  <tbody>
-    <% @checkout_all.each do |booking| %>
-      <% next_booking = booking.vrental.next_booking(booking.checkout) %>
-      <%= render "checkout_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkout_date: booking.checkout, next_booking: next_booking, reason: "checkout" %>
-    <% end %>
-  </tbody>
-</table>
-<br>
 <hr>
-<br>
-<table class="table table-striped mt-5">
-  <thead>
-    <h5><span class="text-primary text-uppercase"><%= t('checkins') %></span> <%= l(@start_date, format: :long_day) %> <%= l(@end_date, format: :long_day) %></h5>
-  </thead>
-  <tbody>
-    <% @checkin_all.each do |booking| %>
-      <% previous_booking = booking.vrental.previous_booking(booking.checkin) %>
-      <% last_cleaning = booking.vrental.last_cleaning(booking.checkin) %>
-      <%= render "checkin_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkin_date: booking.checkin, previous_booking: previous_booking, reason: "checkin", last_cleaning: last_cleaning %>
-    <% end %>
-  </tbody>
-</table>
+<div>
+  <div>
+    <%= link_to t('organize_cleaning_by_checkouts'), cleaning_checkout_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
+  </div>
+  <div>
+    <%= link_to t('organize_cleaning_by_checkins'), cleaning_checkin_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
+  </div>
+</div>
+<hr>

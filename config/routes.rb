@@ -51,6 +51,8 @@ Rails.application.routes.draw do
       resources :offices, except: [:destroy] do
         member do
           get "organize_cleaning"
+          get "cleaning_checkout"
+          get "cleaning_checkin"
         end
         resources :coupons, only: [:new, :create, :index, :edit, :update] do
           member do

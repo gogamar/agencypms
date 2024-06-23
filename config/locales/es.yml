@@ -475,6 +475,7 @@ es:
       long: "%a, %d de %b de %Y"
       short: "%d de %b"
       standard: "%a, %d/%m/%Y"
+      long_day: "%A, %d de %B de %Y"
     month_names:
       - null
       - Enero
@@ -1135,3 +1136,32 @@ es:
   checkin_full_cleaning: Limpieza y ropa. Apartamento vacío.
   checkin_set_laundry: Solo poner ropa. Apartamento limpio.
   checkin_no_laundry: Solo limpieza. No poner ropa (cliente o propietario no quiere ropa).
+  suggested_date: Fecha sugerida
+  booking_info: Información sobre la reserva
+  scheduled_cleaning: Limpieza programada
+  add_cleaning_schedule: Añadir horario de limpieza
+  previous_checkout: Salida anterior
+  no_previous_checkout: No hay salida anterior
+  next_checkin: Próxima entrada
+  no_next_checkin: No hay próxima entrada
+  no_cleaning_records: No hay registros de limpieza anteriores
+  vrental_max_guests: Capacidad máxima
+  cleaning_date: Fecha de limpieza
+  cleaning_type: Tipo de limpieza
+  priority: Prioridad
+  cleaning_company: Empresa de limpieza
+  view_and_print_schedules: Ver e imprimir horarios
+  organize_cleaning: Organizar limpieza
+  checkouts: Salidas
+  checkins: Entradas
+  previous_cleaning: Limpieza anterior
+  previous_cleaning_type: Tipo de limpieza anterior
+  same_day_checkout: Salida y entrada el mismo día
+  same_day: El mismo día
+  left_on: Salió el %{date}
+  cleaning_done: Limpieza hecha
+  last_cleaning: Última limpieza realizada el
+  finish_cleaning: Finalizar limpieza
+  last_cleaning_5_days_ago: La última limpieza fue hace más de 5 días
+  organize_cleaning_by_checkouts: Organizar limpieza por salidas
+  organize_cleaning_by_checkins: Organizar limpieza por entradas

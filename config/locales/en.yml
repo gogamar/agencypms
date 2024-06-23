@@ -474,6 +474,7 @@ en:
       long: "%a, %d %b %Y"
       short: "%d %b"
       standard: "%a, %d/%m/%Y"
+      long_day: "%A %d %B %Y"
     month_names:
       - null
       - January
@@ -1134,3 +1135,32 @@ en:
   checkin_full_cleaning: Cleaning and laundry. Empty apartment.
   checkin_set_laundry: Only set laundry. Clean apartment.
   checkin_no_laundry: Only cleaning. No laundry (client or owner does not want laundry).
+  suggested_date: Suggested Date
+  booking_info: Booking Information
+  scheduled_cleaning: Scheduled Cleaning
+  add_cleaning_schedule: Add Cleaning Schedule
+  previous_checkout: Previous Checkout
+  no_previous_checkout: No Previous Checkout
+  next_checkin: Next Check-in
+  no_next_checkin: No Next Check-in
+  no_cleaning_records: No Previous Cleaning Records
+  vrental_max_guests: Maximum Capacity
+  cleaning_date: Cleaning Date
+  cleaning_type: Cleaning Type
+  priority: Priority
+  cleaning_company: Cleaning Company
+  view_and_print_schedules: View and Print Schedules
+  organize_cleaning: Organize Cleaning
+  checkouts: Checkouts
+  checkins: Check-ins
+  previous_cleaning: Previous Cleaning
+  previous_cleaning_type: Previous Cleaning Type
+  same_day_checkout: Same Day Checkout and Check-in
+  same_day: Same Day
+  left_on: Left on %{date}
+  cleaning_done: Cleaning Done
+  last_cleaning: Last Cleaning Done On
+  finish_cleaning: Finish Cleaning
+  last_cleaning_5_days_ago: Last Cleaning Was More Than 5 Days Ago
+  organize_cleaning_by_checkouts: Organize Cleaning by Checkouts
+  organize_cleaning_by_checkins: Organize Cleaning by Check-ins

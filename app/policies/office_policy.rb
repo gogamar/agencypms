@@ -60,4 +60,12 @@ class OfficePolicy < ApplicationPolicy
   def organize_cleaning?
     user.admin? || user.manager?
   end
+
+  def cleaning_checkout?
+    user.admin? || user.manager?
+  end
+
+  def cleaning_checkin?
+    user.admin? || user.manager?
+  end
 end
