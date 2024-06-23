@@ -1218,9 +1218,7 @@ class Vrental < ApplicationRecord
   end
 
   def last_cleaning(checkin_date)
-    return if previous_booking(checkin_date).nil?
-    previous_booking_checkout = previous_booking(checkin_date).checkout
-    cleaning_schedules.where("cleaning_date <= ? AND cleaning_date >= ?", checkin_date, previous_booking_checkout).order(cleaning_date: :desc).first
+    cleaning_schedules.where("cleaning_date <= ?", checkin_date).order(cleaning_date: :desc).first
   end
 
   def needs_cleaning(checkin_date)

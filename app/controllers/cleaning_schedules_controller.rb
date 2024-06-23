@@ -40,13 +40,12 @@ class CleaningSchedulesController < ApplicationController
     @cleaning_schedule = CleaningSchedule.new(cleaning_schedule_params)
     authorize @cleaning_schedule
     @cleaning_schedule.office = @office
-    # @cleaning_schedule.booking_id = params[:cleaning_schedule][:booking_id]
-    # @cleaning_schedule.owner_booking_id = params[:cleaning_schedule][:owner_booking_id]
+    puts "cleaning_schedule_params: #{cleaning_schedule_params}"
     if @cleaning_schedule.save
       redirect_back(fallback_location: organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja creat.")
     else
       @cleaning_companies = CleaningCompany.all
-      puts "ERRORS cleaning schedule create: #{cleaning_schedule.errors}"
+      puts "ERRORS cleaning schedule create: #{@cleaning_schedule.errors.full_messages}"
       render :new
     end
   end

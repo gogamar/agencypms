@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-end">
+<div class="d-flex justify-content-start">
   <%= link_to t('global.forms.back'), cleaning_checkin_company_office_path(@company, @office), class: "btn btn-sm btn-primary" %>
 </div>
-<%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: @cleaning_schedule, booking: @cleaning_schedule_booking, previous_booking: "no_display", next_booking: @next_booking %>
+<%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: @cleaning_schedule, booking: @cleaning_schedule_booking, next_booking: @next_booking %>
