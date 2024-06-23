@@ -4,7 +4,7 @@ class OwnerBooking < ApplicationRecord
   validate :no_overlapping
   validates :checkin, :checkout, :vrental, presence: true
   validates :checkout, comparison: { greater_than: :checkin }
-  validate :checkin_and_checkout_not_in_past
+  # validate :checkin_and_checkout_not_in_past
   # after_create :perform_api_calls
   # after_update :perform_api_calls
 
