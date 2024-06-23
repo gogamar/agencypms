@@ -13,11 +13,11 @@ class OwnerBooking < ApplicationRecord
 
   def checkin_and_checkout_not_in_past
     if checkin.present? && checkin < Date.today
-      errors.add(:checkin, t('cant_be_in_past'))
+      errors.add(:checkin, I18n.t('cant_be_in_past'))
     end
 
     if checkout.present? && checkout < Date.today
-      errors.add(:checkout, t('cant_be_in_past'))
+      errors.add(:checkout, I18n.t('cant_be_in_past'))
     end
   end
 
