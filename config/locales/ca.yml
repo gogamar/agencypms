@@ -1174,3 +1174,4 @@ ca:
   last_cleaning_5_days_ago: Fa mes de 5 dies des de l'ultima neteja
   organize_cleaning_by_checkouts: Organitzar neteja per sortides
   organize_cleaning_by_checkins: Organitzar neteja per entrades
+  cleaning_overlaps_booking: La neteja en mig d'una reserva. Tornar a programar la neteja!

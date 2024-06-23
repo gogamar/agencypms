@@ -1228,6 +1228,25 @@ class Vrental < ApplicationRecord
     last_cleaning_schedule.nil? || (last_cleaning_schedule.present? && last_cleaning_schedule.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]))
   end
 
+  def cleanings_overlap_booking
+    overlap_cleanings = []
+
+    this_year_confirmed_guest_bookings.each do |booking|
+      overlapping_cleanings = cleaning_schedules.where("cleaning_date > ? AND cleaning_date < ?", booking.checkin, booking.checkout)
+      overlapping_cleanings.each do |cleaning|
+        overlap_cleanings << { booking: booking, cleaning: cleaning }
+      end
+    end
+
+    this_year_confirmed_owner_bookings.each do |booking|
+      overlapping_cleanings = cleaning_schedules.where("cleaning_date > ? AND cleaning_date < ?", booking.checkin, booking.checkout)
+      overlapping_cleanings.each do |cleaning|
+        overlap_cleanings << { booking: booking, cleaning: cleaning }
+      end
+    end
+    overlap_cleanings
+  end
+
   private
 
   def update_slug

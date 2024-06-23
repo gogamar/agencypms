@@ -163,9 +163,6 @@ class Office < ApplicationRecord
     end
   end
 
-
-  # confirmed bookings and owner bookings that have no cleaning schedule or have a cleaning schedule that is incomplete or if it's been more than 5 days before the last checkout cleaning
-
   def checkin_bookings(scope, start_date, end_date)
     scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date)
   end

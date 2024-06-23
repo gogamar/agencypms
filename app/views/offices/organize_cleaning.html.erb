@@ -5,11 +5,24 @@
 </div>
 <hr>
 <div>
-  <div>
-    <%= link_to t('organize_cleaning_by_checkouts'), cleaning_checkout_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
-  </div>
-  <div>
-    <%= link_to t('organize_cleaning_by_checkins'), cleaning_checkin_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
-  </div>
+  <% @office.vrentals.each do |vrental| %>
+    <% if vrental.cleanings_overlap_booking.any? %>
+      <div class="alert alert-warning position-relative">
+        <% vrental.cleanings_overlap_booking.each do |overlap_cleaning| %>
+          <div><%= t('cleaning_overlaps_booking') %></div>
+          <div><%= overlap_cleaning[:booking].vrental&.name %></div>
+          <div><%= t('scheduled_cleaning') %> <%= link_to l(overlap_cleaning[:cleaning].cleaning_date), office_cleaning_schedule_path(@office, overlap_cleaning[:cleaning]) %></div>
+          <div><%= t('booking') %>: <%= l(overlap_cleaning[:booking].checkin) %> - <%= l(overlap_cleaning[:booking].checkout) %></div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<div>
+  <%= link_to t('organize_cleaning_by_checkouts'), cleaning_checkout_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
+</div>
+<div>
+  <%= link_to t('organize_cleaning_by_checkins'), cleaning_checkin_company_office_path(@company, @office), class: "link", target: "_blank" %> <%= l(@start_date) %> - <%= l(@end_date) %>
+</div>
 </div>
 <hr>
