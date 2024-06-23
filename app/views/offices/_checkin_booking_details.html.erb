@@ -37,8 +37,6 @@
       <% if last_cleaning.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
         <div class="text-danger"><%= t('finish_cleaning') %></div>
       <% end %>
-    <% else %>
-      <div class="fw-normal"><%= t('no_cleaning_records') %></div>
     <% end %>
   </td>
   <td>
