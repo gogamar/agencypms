@@ -1,7 +1,7 @@
 class CleaningCompany < ApplicationRecord
   belongs_to :office
-  has_many :cleaning_schedules
-  has_many :vrentals
+  has_many :cleaning_schedules, dependent: :nullify
+  has_many :vrentals, dependent: :nullify
 
   # Assuming each cleaning company has a defined number of staff and working hours per day
   def available_hours_for_period(start_date, end_date)
