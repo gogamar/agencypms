@@ -1527,18 +1527,41 @@ class VrentalApiService
   end
 
   def add_description_charges_payments(booking)
-    max_charge = booking.charges.order(price: :desc).first
-    max_charge.update(charge_type: "rent") if max_charge
-    booking.charges.each do |charge|
-      if charge.description.match?(/0,99|tax|taxa|taxe|tasa|impuesto|impost|0\.99/i)
-        charge.update(charge_type: "city_tax")
-      elsif charge.description.match?(/neteja|cleaning|nettoyage|limpieza/i)
-        charge.update(charge_type: "cleaning")
-      elsif charge != max_charge
-        charge.update(charge_type: "other")
+    begin
+      max_charge = booking.charges.order(price: :desc).first
+      max_charge.update(charge_type: "rent") if max_charge
+
+      booking.charges.each do |charge|
+        if charge.description.match?(/0,99|tax|taxa|taxe|tasa|impuesto|impost|0\.99/i)
+          charge.update(charge_type: "city_tax")
+        elsif charge.description.match?(/neteja|cleaning|nettoyage|limpieza/i)
+          charge.update(charge_type: "cleaning")
+        elsif charge != max_charge
+          charge.update(charge_type: "other")
+        end
       end
+    rescue => e
+      # Log the error and details about the charge causing the issue
+      Rails.logger.error("Error in add_description_charges_payments: #{e.message}")
+      Rails.logger.error("Booking ID: #{booking.id}")
+
+      booking.charges.each_with_index do |charge, index|
+        begin
+          if charge.frozen?
+            Rails.logger.error("Charge #{index + 1} (frozen): ID #{charge.id}, Description: #{charge.description}")
+          else
+            Rails.logger.error("Charge #{index + 1}: ID #{charge.id}, Description: #{charge.description}")
+          end
+        rescue => charge_error
+          Rails.logger.error("Error inspecting charge #{index + 1}: #{charge_error.message}")
+        end
+      end
+
+      # Raise the error to propagate it further if needed
+      raise e
     end
   end
+
 
   def destroy_deleted_charges_payments(booking, beds_booking_invoice)
     if beds_booking_invoice.nil? || beds_booking_invoice.empty?
