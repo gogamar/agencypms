@@ -43,7 +43,7 @@ class CleaningSchedulesController < ApplicationController
     # @cleaning_schedule.booking_id = params[:cleaning_schedule][:booking_id]
     # @cleaning_schedule.owner_booking_id = params[:cleaning_schedule][:owner_booking_id]
     if @cleaning_schedule.save
-      redirect_to organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja creat."
+      redirect_back(fallback_location: organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja creat.")
     else
       @cleaning_companies = CleaningCompany.all
       render :new
