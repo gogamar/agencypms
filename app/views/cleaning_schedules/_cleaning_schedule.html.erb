@@ -31,6 +31,7 @@
           <% else %>
             <div class="fw-bold font-weight-bold"><%= t('checkin') %></div>
           <% end %>
+          <div><%= l(next_booking.checkin, format: :long) %></div>
           <div><%= booking_info(next_booking) %></div>
         <% else %>
           <div><%= t('no_next_checkin') %></div>
