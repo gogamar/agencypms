@@ -40,12 +40,10 @@ class CleaningSchedulesController < ApplicationController
     @cleaning_schedule = CleaningSchedule.new(cleaning_schedule_params)
     authorize @cleaning_schedule
     @cleaning_schedule.office = @office
-    puts "cleaning_schedule_params: #{cleaning_schedule_params}"
     if @cleaning_schedule.save
       redirect_back(fallback_location: organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja creat.")
     else
       @cleaning_companies = CleaningCompany.all
-      puts "ERRORS cleaning schedule create: #{@cleaning_schedule.errors.full_messages}"
       render :new
     end
   end
@@ -57,11 +55,8 @@ class CleaningSchedulesController < ApplicationController
 
   def update
     if @cleaning_schedule.update(cleaning_schedule_params)
-      cleaning_company = @cleaning_schedule.cleaning_company
-      cleaning_company.update_priority(@cleaning_schedule.cleaning_date)
       redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
     else
-      puts "ERRORS cleaning schedule update: #{@cleaning_schedule.errors}"
       render :edit, status: :unprocessable_entity
     end
   end

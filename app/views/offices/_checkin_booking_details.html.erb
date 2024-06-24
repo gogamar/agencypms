@@ -1,7 +1,7 @@
-<div class="border mb-4">
-  <div class="bg-light p-3">
-    <div class="d-flex justify-content-between">
-      <div class="p-3">
+<div class="border mb-5">
+  <div class="container bg-light py-3">
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-3 p-3">
         <h6><%= booking_vrental.name %></h6>
         <span class="text-sm fw-normal">
           <%= t('vrental_max_guests') %>: <%= booking_vrental.max_guests %>
@@ -14,7 +14,7 @@
           <% end %>
         </span>
       </div>
-      <div>
+      <div class="col-md-5 p-3">
         <% if previous_booking.present? %>
           <% if previous_booking.checkout == checkin_date %>
             <h6 class="text-danger"><%= t('same_day_checkout') %></h6>
@@ -41,14 +41,17 @@
           <% end %>
         <% end %>
       </div>
-      <div>
+      <div class="col-md-4 p-3">
         <h6 class="text-warning"><%= t(reason) %></h6>
         <div><%= l(checkin_date, format: :long_day) %></div>
         <div><%= booking_info(booking) %></div>
       </div>
     </div>
     <% if booking.is_a?(Booking) && booking.notes.present? %>
-      <div class="p-3 text-primary mt-2 border-top"><%= booking.notes %></div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 text-primary mt-2"><%= booking.notes %></div>
+      </div>
     <% end %>
   </div>
   <% if booking_vrental.needs_cleaning(checkin_date) %>

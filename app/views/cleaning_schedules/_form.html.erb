@@ -8,7 +8,7 @@
     <div class="col-md-3">
       <%= f.input :cleaning_date, label: t('cleaning_date'), as: :string, input_html: { value: @cleaning_schedule.cleaning_date || params[:cleaning_date], class: "datepicker" } %>
     </div>
-    <div class="col-md-2"><%= f.input :priority, label: t('priority'), input_html: {value: 1} %>
+    <div class="col-md-2"><%= f.input :priority, label: t('priority'), input_html: {value: @cleaning_schedule.priority || 2} %>
     </div>
     <div class="col-md-4">
       <% if @reason == "checkout" %>
