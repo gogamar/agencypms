@@ -1,9 +1,6 @@
   <%= simple_form_for [@office, @cleaning_schedule], data: { turbo_frame: "_top" }, class: "d-md-flex justify-content-between" do |f| %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <%= f.input :vrental_id, as: :hidden, input_html: { value: @cleaning_schedule.vrental_id || params[:vrental_id] } %>
-  <%= f.input :booking_id, as: :hidden, input_html: { value: @cleaning_schedule.booking_id || params[:booking_id] } %>
-  <%= f.input :owner_booking_id, as: :hidden, input_html: { value: @cleaning_schedule.owner_booking_id || params[:owner_booking_id] } %>
-  <%= f.input :reason, as: :hidden, input_html: { value: @reason } %>
   <div class="row py-2 rate-dates rborder-bottom">
     <div class="col-md-3">
       <%= f.input :cleaning_date, label: t('cleaning_date'), as: :string, input_html: { value: @cleaning_schedule.cleaning_date || params[:cleaning_date], class: "datepicker" } %>
@@ -11,11 +8,7 @@
     <div class="col-md-2"><%= f.input :priority, label: t('priority'), input_html: {value: @cleaning_schedule.priority || 2} %>
     </div>
     <div class="col-md-4">
-      <% if @reason == "checkout" %>
-        <%= f.input :cleaning_type, label: t('cleaning_type'), collection: CleaningSchedule::CLEANING_TYPES_CHECKOUT.map {|type| [I18n.t("#{type}"), type]} %>
-      <% elsif @reason == "checkin" %>
-        <%= f.input :cleaning_type, label: t('cleaning_type'), collection: CleaningSchedule::CLEANING_TYPES_CHECKIN.map {|type| [I18n.t("#{type}"), type]} %>
-      <% end %>
+      <%= f.input :cleaning_type, label: t('cleaning_type'), collection: CleaningSchedule::CLEANING_TYPES.map {|type| [I18n.t("#{type}"), type]} %>
     </div>
     <div class="col-md-3"><%= f.association :cleaning_company, label: t('cleaning_company') %></div>
   </div>

@@ -3,7 +3,6 @@ class Booking < ApplicationRecord
   belongs_to :tourist, optional: true
   has_many :charges, dependent: :destroy
   has_many :payments, dependent: :destroy
-  has_many :cleaning_schedules, dependent: :destroy
   has_one :earning, dependent: :destroy
   accepts_nested_attributes_for :charges, allow_destroy: true
   validates :checkin, presence: true

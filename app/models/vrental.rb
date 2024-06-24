@@ -1217,27 +1217,22 @@ class Vrental < ApplicationRecord
     return [next_guest_booking, next_owner_booking].compact.min_by(&:checkin)
   end
 
-  def last_cleaning(checkin_date)
+  def previous_cleanings(checkin_date)
     previous_booking = previous_booking(checkin_date)
     if previous_booking.present?
-      cleaning_schedules.where("cleaning_date <= ? AND cleaning_date >= ?", checkin_date, previous_booking.checkout).order(cleaning_date: :desc).first
+      cleaning_schedules.where("cleaning_date <= ? AND cleaning_date >= ?", checkin_date, previous_booking.checkout).order(cleaning_date: :asc)
     else
-      cleaning_schedules.where("cleaning_date <= ?", checkin_date).order(cleaning_date: :desc).first
+      cleaning_schedules.where("cleaning_date <= ?", checkin_date).order(cleaning_date: :asc)
     end
   end
 
-  def after_cleanings(checkout_date)
+  def next_cleanings(checkout_date)
     next_booking = next_booking(checkout_date)
     if next_booking.present?
       cleaning_schedules.where("cleaning_date >= ? AND cleaning_date <= ?", checkout_date, next_booking.checkin).order(cleaning_date: :asc)
     else
       cleaning_schedules.where("cleaning_date >= ?", checkout_date).order(cleaning_date: :asc)
     end
-  end
-
-  def needs_cleaning(checkin_date)
-    last_cleaning_schedule = last_cleaning(checkin_date)
-    last_cleaning_schedule.nil? || (last_cleaning_schedule.present? && last_cleaning_schedule.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]))
   end
 
   def cleanings_overlap_booking

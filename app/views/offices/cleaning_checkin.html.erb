@@ -7,8 +7,8 @@
   <h5><span class="text-primary text-uppercase"><%= t('checkins') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
   <% @checkin_all.each do |booking| %>
     <% previous_booking = booking.vrental.previous_booking(booking.checkin) %>
-    <% last_cleaning = booking.vrental.last_cleaning(booking.checkin) %>
-    <%= render "checkin_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkin_date: booking.checkin, previous_booking: previous_booking, reason: "checkin", last_cleaning: last_cleaning %>
+    <% previous_cleanings = booking.vrental.previous_cleanings(booking.checkin) %>
+    <%= render "booking_details", office: @office, checkout_booking: previous_booking, booking_vrental: booking.vrental, checkin_booking: booking, relevant_cleanings: previous_cleanings %>
   <% end %>
 </div>
 <div class="d-flex justify-content-center">

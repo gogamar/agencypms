@@ -19,8 +19,9 @@
       <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long) %></h5>
       <hr>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
-        <% booking = cleaning_schedule.booking || cleaning_schedule.owner_booking %>
-        <%= render cleaning_schedule, booking: booking, previous_booking: cleaning_schedule.vrental.previous_booking(booking.checkin), next_booking: cleaning_schedule.vrental.next_booking(booking.checkout) %>
+        <% checkout_booking = cleaning_schedule.vrental.previous_booking(cleaning_date) %>
+        <% checkin_booking = cleaning_schedule.vrental.next_booking(cleaning_date) %>
+        <%= render cleaning_schedule, checkin_booking: checkin_booking, checkout_booking: checkout_booking %>
         <hr>
       <% end %>
     </ul>

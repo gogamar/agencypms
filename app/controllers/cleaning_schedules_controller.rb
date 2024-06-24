@@ -33,7 +33,6 @@ class CleaningSchedulesController < ApplicationController
     @cleaning_schedule = CleaningSchedule.new
     authorize @cleaning_schedule
     @cleaning_companies = CleaningCompany.all
-    @reason = params[:reason]
   end
 
   def create
@@ -50,7 +49,6 @@ class CleaningSchedulesController < ApplicationController
 
   def edit
     @cleaning_companies = CleaningCompany.all
-    @reason = @cleaning_schedule.reason
   end
 
   def update
@@ -155,6 +153,6 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def cleaning_schedule_params
-    params.require(:cleaning_schedule).permit(:cleaning_date, :cleaning_type, :priority, :notes, :reason, :office_id, :vrental_id, :booking_id, :owner_booking_id, :cleaning_company_id)
+    params.require(:cleaning_schedule).permit(:cleaning_date, :cleaning_type, :priority, :notes, :office_id, :vrental_id, :cleaning_company_id)
   end
 end

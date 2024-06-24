@@ -1,6 +1,5 @@
 class OwnerBooking < ApplicationRecord
   belongs_to :vrental
-  has_many :cleaning_schedules, dependent: :destroy
   validate :no_overlapping
   validates :checkin, :checkout, :vrental, presence: true
   validates :checkout, comparison: { greater_than: :checkin }
