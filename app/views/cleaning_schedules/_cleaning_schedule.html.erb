@@ -42,7 +42,7 @@
           <div class="text-warning fw-bold font-weight-bold"><%= t('checkin') %></div>
         <% end %>
         <% if checkin_booking.present? %>
-          <div><%= l(checkin_booking.checkin, format: :long) %></div>
+          <div><%= l(checkin_booking.checkin, format: :long_day) %></div>
           <div><%= booking_info(checkin_booking) %></div>
         <% else %>
           <div><%= t('no_next_checkin') %></div>
