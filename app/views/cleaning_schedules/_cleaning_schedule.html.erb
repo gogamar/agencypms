@@ -13,7 +13,7 @@
             <% end %>
           <% end %>
         </div>
-        <% towel_count = cleaning_schedule.vrental.max_guests || (booking.adults + (booking.children || 0)) %>
+        <% towel_count = cleaning_schedule.vrental&.max_guests %>
         <div><%= towel_count %> <%= t('big_towel', count: towel_count) %></div>
         <div><%= towel_count %> <%= t('small_towel', count: towel_count) %></div>
       </div>

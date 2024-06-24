@@ -82,7 +82,7 @@ class OfficesController < ApplicationController
     checkout_owner_bookings = @office.checkout_bookings(@office.owner_bookings, @start_date, @end_date)
 
     @checkout_all = (checkout_bookings + checkout_owner_bookings).sort_by { |booking| [booking[:checkout]] }
-    @pagy, @checkout_all = pagy_array(@checkout_all, page: params[:page], items: 10)
+    @pagy, @checkout_all = pagy_array(@checkout_all, page: params[:page], items: 5)
   end
 
   def cleaning_checkin
@@ -91,8 +91,20 @@ class OfficesController < ApplicationController
     checkin_bookings = @office.checkin_bookings(@office.bookings, @start_date, @end_date)
     checkin_owner_bookings = @office.checkin_bookings(@office.owner_bookings, @start_date, @end_date)
 
-    @checkin_all = (checkin_bookings + checkin_owner_bookings).sort_by { |booking| [booking[:checkin]] }
-    @pagy, @checkin_all = pagy_array(@checkin_all, page: params[:page], items: 10)
+    # Filter bookings based on vrental's previous cleanings conditions
+    no_previous_cleaning = checkin_bookings.select do |booking|
+      previous_cleanings = booking.vrental.previous_cleanings(booking.checkin)
+      previous_cleanings.none? || previous_cleanings.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
+    end
+
+    no_previous_cleaning_owner = checkin_owner_bookings.select do |booking|
+      previous_cleanings = booking.vrental.previous_cleanings(booking.checkin)
+      previous_cleanings.none? || previous_cleanings.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
+    end
+
+    @checkin_all = (no_previous_cleaning + no_previous_cleaning_owner).sort_by { |booking| [booking[:checkin]] }
+
+    @pagy, @checkin_all = pagy_array(@checkin_all, page: params[:page], items: 5)
   end
 
   def get_reviews_from_airbnb
