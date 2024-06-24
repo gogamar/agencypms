@@ -1121,7 +1121,7 @@ fr:
   to_min: jusqu'à
   preferred_cleaning_company: Entreprise de nettoyage préférée
   used_for_cleaning_schedules: Utilisé pour les horaires de nettoyage
-  leaves_on: laisse le
+  leaves_on: laisse le %{date}
   loading: Processeur...
   still_loading: Toujours en cours...
   upload_completed: Téléchargement terminé

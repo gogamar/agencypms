@@ -1121,7 +1121,7 @@ es:
   to_min: hasta
   preferred_cleaning_company: Empresa de limpieza de preferencia
   used_for_cleaning_schedules: Se utiliza para los horarios de limpieza
-  leaves_on: sale el
+  leaves_on: sale el %{date}
   loading: Procesando...
   still_loading: Todavía procesando...
   upload_completed: Importación completada

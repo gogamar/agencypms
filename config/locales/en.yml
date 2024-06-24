@@ -1120,7 +1120,7 @@ en:
   to_min: to
   preferred_cleaning_company: Preferred cleaning company
   used_for_cleaning_schedules: Used for cleaning schedules
-  leaves_on: leaves on
+  leaves_on: leaves on %{date}
   loading: Loading...
   still_loading: Still loading...
   upload_completed: Upload completed
