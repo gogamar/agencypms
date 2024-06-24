@@ -16,7 +16,7 @@
 <div class="mt-5">
   <% @grouped_cleaning_schedules.each do |cleaning_date, cleaning_schedules| %>
     <div class="no-page-break pt-3">
-      <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long) %></h5>
+      <h5 class="text-start text-left fw-bold font-weight-bold"><%= l(cleaning_date, format: :long_day) %></h5>
       <hr>
       <% cleaning_schedules.sort_by(&:priority).each do |cleaning_schedule| %>
         <% checkout_booking = cleaning_schedule.vrental.previous_booking(cleaning_date) %>
