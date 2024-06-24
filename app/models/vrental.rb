@@ -1226,6 +1226,15 @@ class Vrental < ApplicationRecord
     end
   end
 
+  def after_cleanings(checkout_date)
+    next_booking = next_booking(checkout_date)
+    if next_booking.present?
+      cleaning_schedules.where("cleaning_date >= ? AND cleaning_date <= ?", checkout_date, next_booking.checkin).order(cleaning_date: :asc)
+    else
+      cleaning_schedules.where("cleaning_date >= ?", checkout_date).order(cleaning_date: :asc)
+    end
+  end
+
   def needs_cleaning(checkin_date)
     last_cleaning_schedule = last_cleaning(checkin_date)
     last_cleaning_schedule.nil? || (last_cleaning_schedule.present? && last_cleaning_schedule.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]))

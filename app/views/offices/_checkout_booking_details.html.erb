@@ -42,12 +42,12 @@
       </div>
     <% end %>
   </div>
-  <% if booking.cleaning_schedules.any? %>
-    <% booking.cleaning_schedules.each do |cleaning_schedule| %>
-      <%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: cleaning_schedule, booking: booking, next_booking: next_booking %>
+  <% if after_cleanings.any? %>
+    <% after_cleanings.each do |cleaning_schedule| %>
+      <%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: cleaning_schedule, booking: cleaning_schedule.booking, next_booking: next_booking %>
     <% end %>
   <% end %>
-  <% if booking.cleaning_schedules.none? || booking.cleaning_schedules.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
+  <% if after_cleanings.none? || after_cleanings.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
     <% if booking.is_a?(Booking) %>
       <% booking_id = booking.id %>
     <% elsif booking.is_a?(OwnerBooking) %>
