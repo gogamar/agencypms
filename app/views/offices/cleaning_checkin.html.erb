@@ -3,18 +3,14 @@
     <i class="fa-solid fa-circle-chevron-left me-2"></i><%= t('global.forms.back') %>
   <% end %>
 </div>
-<table class="table table-striped mt-5">
-  <thead>
-    <h5><span class="text-primary text-uppercase"><%= t('checkins') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
-  </thead>
-  <tbody>
-    <% @checkin_all.each do |booking| %>
-      <% previous_booking = booking.vrental.previous_booking(booking.checkin) %>
-      <% last_cleaning = booking.vrental.last_cleaning(booking.checkin) %>
-      <%= render "checkin_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkin_date: booking.checkin, previous_booking: previous_booking, reason: "checkin", last_cleaning: last_cleaning %>
-    <% end %>
-  </tbody>
-</table>
+<div>
+  <h5><span class="text-primary text-uppercase"><%= t('checkins') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
+  <% @checkin_all.each do |booking| %>
+    <% previous_booking = booking.vrental.previous_booking(booking.checkin) %>
+    <% last_cleaning = booking.vrental.last_cleaning(booking.checkin) %>
+    <%= render "checkin_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkin_date: booking.checkin, previous_booking: previous_booking, reason: "checkin", last_cleaning: last_cleaning %>
+  <% end %>
+</div>
 <div class="d-flex justify-content-center">
   <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
 </div>

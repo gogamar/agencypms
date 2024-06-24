@@ -76,6 +76,6 @@ class BookingsController < ApplicationController
     end
 
     def booking_params
-      params.require(:booking).permit(:status, :checkin, :checkout, :price, :commission, :referrer, :beds_booking_id, charges_attributes: [:id, :description, :quantity, :price, :charge_type], payment_attributes: [:id, :description, :quantity, :price])
+      params.require(:booking).permit(:status, :checkin, :checkout, :price, :commission, :referrer, :beds_booking_id, :notes, charges_attributes: [:id, :description, :quantity, :price, :charge_type], payment_attributes: [:id, :description, :quantity, :price])
     end
 end

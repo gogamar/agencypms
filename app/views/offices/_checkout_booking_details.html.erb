@@ -1,58 +1,56 @@
-<tr>
-  <th scope="row">
-    <h6><%= booking_vrental.name %></h6>
-    <span class="text-sm fw-normal">
-      <%= t('vrental_max_guests') %>: <%= booking_vrental.max_guests %>
-      <br>
-      <% if booking_vrental.beds_detail_full_words %>
-        <% booking_vrental.beds_detail_full_words.each do |bed_type_count| %>
-          <%= bed_type_count %>
-          <br>
+<div class="bg-light p-3 mb-3">
+  <div class="d-flex justify-content-between">
+    <div class="p-3">
+      <h6><%= booking_vrental.name %></h6>
+      <span class="text-sm fw-normal">
+        <%= t('vrental_max_guests') %>: <%= booking_vrental.max_guests %>
+        <br>
+        <% if booking_vrental.beds_detail_full_words %>
+          <% booking_vrental.beds_detail_full_words.each do |bed_type_count| %>
+            <%= bed_type_count %>
+            <br>
+          <% end %>
         <% end %>
+      </span>
+    </div>
+    <div class="py-3">
+      <div class="text-warning fw-bold"><%= t(reason) %></div>
+      <div><%= l(checkout_date, format: :long_day) %></div>
+      <div><%= booking_or_owner_name(booking) %></div>
+    </div>
+    <div class="py-3">
+      <% if next_booking.present? %>
+        <div>
+          <% if next_booking.checkin == checkout_date %>
+            <span class="text-danger fw-bold font-weight-bold"><%= t('same_day_arrival') %></span>
+          <% else %>
+            <span class="text-warning fw-bold"><%= t('checkin') %></span>
+          <% end %>
+        </div>
+        <div><%= l(next_booking.checkin, format: :long_day) %></div>
+        <%= booking_info(next_booking) %>
+      <% else %>
+        <div class="fw-normal"><%= t('no_next_checkin') %></div>
       <% end %>
-    </span>
-  </th>
-  <td>
-    <div class="text-warning fw-bold"><%= t(reason) %></div>
-    <div><%= l(checkout_date, format: :long_day) %></div>
-    <div><%= booking_or_owner_name(booking) %></div>
-  </td>
-  <td>
-    <% if next_booking.present? %>
-      <div>
-        <% if next_booking.checkin == checkout_date %>
-          <span class="text-danger fw-bold font-weight-bold"><%= t('same_day_arrival') %></span>
-        <% else %>
-          <span class="text-warning fw-bold"><%= t('checkin') %></span>
-        <% end %>
-      </div>
-      <div><%= l(next_booking.checkin, format: :long_day) %></div>
-      <%= booking_info(next_booking) %>
-    <% else %>
-      <div class="fw-normal"><%= t('no_next_checkin') %></div>
-    <% end %>
-  </td>
-  <td>
-    <% if booking.is_a?(Booking) && booking.notes.present? %>
-      <div class="text-primary"><%= booking.notes %></div>
-    <% end %>
-  </td>
-</tr>
-<tr>
-  <td colspan="4">
-    <% if booking.cleaning_schedules.any? %>
-      <% booking.cleaning_schedules.each do |cleaning_schedule| %>
-        <%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: cleaning_schedule, booking: booking, next_booking: next_booking %>
-      <% end %>
-    <% end %>
-    <% if booking.cleaning_schedules.none? || booking.cleaning_schedules.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
-      <% if booking.is_a?(Booking) %>
-        <% booking_id = booking.id %>
-      <% elsif booking.is_a?(OwnerBooking) %>
-        <% owner_booking_id = booking.id %>
-      <% end %>
-      <h6 class="text_warning"><%= t('add_cleaning_schedule') %></h6>
-      <%= turbo_frame_tag "new_cleaning_schedule", src: new_office_cleaning_schedule_path(@office, cleaning_date: checkout_date, vrental_id: booking_vrental.id, booking_id: booking_id, owner_booking_id: owner_booking_id, reason: reason) %>
-    <% end %>
-  </td>
-</tr>
+    </div>
+  </div>
+  <% if booking.is_a?(Booking) && booking.notes.present? %>
+    <div class="p-3 text-primary mt-2 border-top"><%= booking.notes %></div>
+  <% end %>
+</div>
+<% if booking.cleaning_schedules.any? %>
+  <% booking.cleaning_schedules.each do |cleaning_schedule| %>
+    <%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: cleaning_schedule, booking: booking, next_booking: next_booking %>
+  <% end %>
+<% end %>
+<% if booking.cleaning_schedules.none? || booking.cleaning_schedules.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
+  <% if booking.is_a?(Booking) %>
+    <% booking_id = booking.id %>
+  <% elsif booking.is_a?(OwnerBooking) %>
+    <% owner_booking_id = booking.id %>
+  <% end %>
+  <div class="p-3">
+    <h6 class="text_warning"><%= t('add_cleaning_schedule') %></h6>
+    <%= turbo_frame_tag "new_cleaning_schedule", src: new_office_cleaning_schedule_path(@office, cleaning_date: checkout_date, vrental_id: booking_vrental.id, booking_id: booking_id, owner_booking_id: owner_booking_id, reason: reason) %>
+  </div>
+<% end %>

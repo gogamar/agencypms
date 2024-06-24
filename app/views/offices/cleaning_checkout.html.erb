@@ -3,17 +3,13 @@
     <i class="fa-solid fa-circle-chevron-left me-2"></i><%= t('global.forms.back') %>
   <% end %>
 </div>
-<table class="table table-striped mt-5">
-  <thead>
-    <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
-  </thead>
-  <tbody>
-    <% @checkout_all.each do |booking| %>
-      <% next_booking = booking.vrental.next_booking(booking.checkout) %>
-      <%= render "checkout_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkout_date: booking.checkout, next_booking: next_booking, reason: "checkout" %>
-    <% end %>
-  </tbody>
-</table>
+<div>
+  <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
+  <% @checkout_all.each do |booking| %>
+    <% next_booking = booking.vrental.next_booking(booking.checkout) %>
+    <%= render "checkout_booking_details", office: @office, booking: booking, booking_vrental: booking.vrental, checkout_date: booking.checkout, next_booking: next_booking, reason: "checkout" %>
+  <% end %>
+</div>
 <div class="d-flex justify-content-center">
   <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
 </div>
