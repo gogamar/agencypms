@@ -8,7 +8,9 @@
   <% @checkin_all.each do |booking| %>
     <% previous_booking = booking.vrental.previous_booking(booking.checkin) %>
     <% previous_cleanings = booking.vrental.previous_cleanings(booking.checkin) %>
-    <%= render "booking_details", office: @office, checkout_booking: previous_booking, booking_vrental: booking.vrental, checkin_booking: booking, relevant_cleanings: previous_cleanings %>
+    <% if previous_cleanings.none? || previous_cleanings.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"]) %>
+      <%= render "booking_details", office: @office, checkout_booking: previous_booking, booking_vrental: booking.vrental, checkin_booking: booking, relevant_cleanings: previous_cleanings %>
+    <% end %>
   <% end %>
 </div>
 <div class="d-flex justify-content-center">
