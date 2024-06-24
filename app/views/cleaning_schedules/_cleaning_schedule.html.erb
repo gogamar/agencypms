@@ -18,15 +18,22 @@
         <div><%= towel_count %> <%= t('small_towel', count: towel_count) %></div>
       </div>
       <div class="col-md-5 col">
-        <h6 class="text-success"><%= t('scheduled_cleaning') %></h6>
-        <div class="fw-bold font-weight-bold"><%= l(cleaning_schedule.cleaning_date, format: :long_day) %></div>
-        <div class="fw-bold font-weight-bold text-primary"><%= t(cleaning_schedule.cleaning_type) %></div>
-        <div class="fw-bold font-weight-bold"><%= t('cleaning_company') %></div>
-        <% if cleaning_schedule.cleaning_company %>
-          <div><%= cleaning_schedule.cleaning_company.name %></div>
-        <% else %>
-          <div class="text-danger"><%= t('add_cleaning_company') %></div>
-        <% end %>
+        <div class="mb-2"><%= t('checkout') %>:
+          <% if checkout_booking.present? %>
+            <span><%= l(checkout_booking.checkout, format: :long_day) %></span>
+          <% else %>
+            <span><%= t('no_previous_checkout') %></span>
+          <% end %>
+        </div>
+        <div><%= t('scheduled_cleaning') %>: </div>
+        <h6><span class="text-success"><%= l(cleaning_schedule.cleaning_date, format: :long_day) %></span>
+          <% if cleaning_schedule.cleaning_company %>
+            <span>(<%= cleaning_schedule.cleaning_company.name %>)</span>
+          <% else %>
+            <span class="text-danger"><%= t('add_cleaning_company') %></span>
+          <% end %>
+        </h6>
+        <div class="fw-bold font-weight-bold"><%= t(cleaning_schedule.cleaning_type) %></div>
       </div>
       <div class="col-md-3 col">
         <% if checkin_booking.present? && checkout_booking.present? && checkin_booking.checkin == checkout_booking.checkout %>

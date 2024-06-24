@@ -20,8 +20,9 @@ class CleaningSchedulesController < ApplicationController
   end
 
   def show
-    @cleaning_schedule_booking = @cleaning_schedule.booking || @cleaning_schedule.owner_booking
-    @next_booking = @cleaning_schedule.vrental&.next_booking(@cleaning_schedule_booking.checkout)
+    @vrental = @cleaning_schedule.vrental
+    @checkin_booking = @vrental.next_booking(@cleaning_schedule.cleaning_date)
+    @checkout_booking = @vrental.previous_booking(@cleaning_schedule.cleaning_date)
     @office = @cleaning_schedule.office
   end
 
@@ -55,7 +56,8 @@ class CleaningSchedulesController < ApplicationController
     if @cleaning_schedule.update(cleaning_schedule_params)
       redirect_back(fallback_location: office_cleaning_schedules_path(@office), notice: "Horari de neteja actualitzat.")
     else
-      render :edit, status: :unprocessable_entity
+      flash[:alert] = @cleaning_schedule.errors.full_messages.join(", ")
+      redirect_back(fallback_location: edit_office_cleaning_schedule_path(@office, @cleaning_schedule))
     end
   end
 
