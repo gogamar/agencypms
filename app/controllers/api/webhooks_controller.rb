@@ -6,16 +6,17 @@ module Api
     def handle_notification
       begin
         bookid = params["bookid"]
-        booking_status = params["booking_status"]
-        property = params["property"]
-        firstname = params["firstname"]
-        lastname = params["lastname"]
-        checkin = params["checkin"].to_date
-        checkout = params["checkout"].to_date
-        adults = params["adults"]
-        children = params["children"]
-        referrer = params["referrer"]
-        price = params["price"]
+        booking_status = params["bs"]
+        property = params["prop"]
+        firstname = params["fn"]
+        lastname = params["ln"]
+        checkin = params["in"].to_date
+        checkout = params["out"].to_date
+        adults = params["ad"]
+        children = params["ch"]
+        price = params["pr"]
+        notes = params["nt"]
+        referrer = params["ref"]
 
         vrental = Vrental.find_by(beds_prop_id: property)
 
@@ -40,6 +41,7 @@ module Api
               adults: adults,
               children: children,
               referrer: referrer,
+              notes: notes,
               price: price,
               vrental_id: vrental.id
             )
@@ -61,6 +63,7 @@ module Api
               adults: adults,
               children: children,
               referrer: referrer,
+              notes: notes,
               price: price,
               vrental_id: vrental.id
             )

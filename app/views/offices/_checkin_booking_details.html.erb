@@ -44,6 +44,11 @@
     <div><%= l(checkin_date, format: :long_day) %></div>
     <div><%= booking_info(booking) %></div>
   </td>
+  <td>
+    <% if booking.is_a?(Booking) && booking.notes.present? %>
+      <div class="text-primary"><%= booking.notes %></div>
+    <% end %>
+  </td>
 </tr>
 <tr>
   <td colspan="4">

@@ -32,6 +32,11 @@
       <div class="fw-normal"><%= t('no_next_checkin') %></div>
     <% end %>
   </td>
+  <td>
+    <% if booking.is_a?(Booking) && booking.notes.present? %>
+      <div class="text-primary"><%= booking.notes %></div>
+    <% end %>
+  </td>
 </tr>
 <tr>
   <td colspan="4">

@@ -1454,7 +1454,8 @@ class VrentalApiService
       beds_booking_id: beds_booking["bookId"],
       referrer: beds_booking["referer"],
       commission: beds_booking["commission"],
-      price: beds_booking["price"]
+      price: beds_booking["price"],
+      notes: beds_booking["notes"]
     )
   end
 
@@ -1472,6 +1473,7 @@ class VrentalApiService
       referrer: beds_booking["referer"],
       commission: beds_booking["commission"],
       price: beds_booking["price"],
+      notes: beds_booking["notes"],
       tourist_id: tourist.present? ? tourist.id : nil
     )
   end
