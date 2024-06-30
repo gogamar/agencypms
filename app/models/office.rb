@@ -175,4 +175,10 @@ class Office < ApplicationRecord
     # check if this vrental was cleaned more than 5 days ago
     vrental.joins(:cleaning_schedules).order.last.where("cleaning_date = ?", date - 5.days)
   end
+
+  def unscheduled_cleaning(scope, start_date, end_date)
+    last_cleaning_schedule = cleaning_schedules&.last
+    return if last_cleaning_schedule.nil?
+    scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date).where("#{scope.table_name}.created_at > ?", last_cleaning_schedule.created_at)
+  end
 end

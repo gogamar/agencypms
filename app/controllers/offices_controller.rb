@@ -72,7 +72,10 @@ class OfficesController < ApplicationController
 
   def organize_cleaning
     @start_date = Date.today
-    @end_date = Date.today + 14.days
+    @end_date = 14.days.from_now
+    @unscheduled_cleaning = (@office.unscheduled_cleaning(@office.bookings, @start_date, @end_date) +
+                             @office.unscheduled_cleaning(@office.owner_bookings, @start_date, @end_date))
+                           .sort_by(&:checkin)
   end
 
   def cleaning_checkout

@@ -1165,3 +1165,4 @@ es:
   last_cleaning_5_days_ago: La última limpieza fue hace más de 5 días
   organize_cleaning_by_checkouts: Organizar limpieza por salidas
   organize_cleaning_by_checkins: Organizar limpieza por entradas
+  cleaning_schedule_pending: "Se debe actualizar los horarios de limpieza para incluir estas nuevas reservas:"

@@ -1175,3 +1175,4 @@ ca:
   organize_cleaning_by_checkouts: Organitzar neteja per sortides
   organize_cleaning_by_checkins: Organitzar neteja per entrades
   cleaning_overlaps_booking: La neteja en mig d'una reserva. Tornar a programar la neteja!
+  cleaning_schedule_pending: "Cal actualitzar els horaris de neteja per incloure aquestes reserves noves:"

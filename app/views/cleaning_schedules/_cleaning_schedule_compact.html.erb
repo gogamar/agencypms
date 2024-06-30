@@ -1,0 +1,66 @@
+<%= turbo_frame_tag cleaning_schedule, class: "card-body" do %>
+  <div class="p-3">
+    <div class="row mt-2 rate-dates">
+      <div class="col-md-3 col">
+        <div class="fw-bold font-weight-bold">
+          <%= cleaning_schedule.vrental.name %>
+        </div>
+        <div>
+          <% if cleaning_schedule.vrental.beds_detail_full_words %>
+            <% cleaning_schedule.vrental.beds_detail_full_words.each do |bed_type_count| %>
+              <%= bed_type_count %>
+              <br>
+            <% end %>
+          <% end %>
+        </div>
+        <% towel_count = cleaning_schedule.vrental&.max_guests %>
+        <div><%= towel_count %> <%= t('big_towel', count: towel_count) %></div>
+        <div><%= towel_count %> <%= t('small_towel', count: towel_count) %></div>
+      </div>
+      <div class="col-md-5 col">
+        <div class="mb-2"><%= t('checkout') %>:
+          <% if checkout_booking.present? %>
+            <span><%= l(checkout_booking.checkout, format: :long_day) %></span>
+          <% else %>
+            <span><%= t('no_previous_checkout') %></span>
+          <% end %>
+        </div>
+        <div><%= t('scheduled_cleaning') %>: </div>
+        <h6><span class="text-success"><%= l(cleaning_schedule.cleaning_date, format: :long_day) %></span>
+          <% if cleaning_schedule.cleaning_company %>
+            <span>(<%= cleaning_schedule.cleaning_company.name %>)</span>
+          <% else %>
+            <span class="text-danger"><%= t('add_cleaning_company') %></span>
+          <% end %>
+        </h6>
+        <div class="fw-bold font-weight-bold"><%= t(cleaning_schedule.cleaning_type) %></div>
+      </div>
+      <div class="col-md-3 col">
+        <% if checkin_booking.present? && checkout_booking.present? && checkin_booking.checkin == checkout_booking.checkout %>
+          <div class="fw-bold font-weight-bold text-danger"><%= t('same_day_checkout') %></div>
+        <% else %>
+          <div class="text-warning fw-bold font-weight-bold"><%= t('checkin') %></div>
+        <% end %>
+        <% if checkin_booking.present? %>
+          <div><%= l(checkin_booking.checkin, format: :long_day) %></div>
+          <div><%= booking_info(checkin_booking) %></div>
+        <% else %>
+          <div><%= t('no_next_checkin') %></div>
+        <% end %>
+      </div>
+      <div class="col-md-1 no-printing">
+        <%= link_to edit_office_cleaning_schedule_path(@office, cleaning_schedule), class: "btn btn-sm btn-info" do %>
+          <i class="fas fa-pen fa-sm"></i>
+        <% end %>
+        <%= link_to office_cleaning_schedule_path(@office, cleaning_schedule), data: {turbo_method: :delete, turbo_confirm: t('sure_delete')}, class: "btn btn-sm btn-danger"  do %>
+          <i class="fas fa-trash fa-sm"></i>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 px-3 py-2">
+        <div class="fw-bold font-weight-bold text-primary"><%= cleaning_schedule.notes %></div>
+      </div>
+    </div>
+  </div>
+<% end %>

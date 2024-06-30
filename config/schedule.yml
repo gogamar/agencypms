@@ -8,3 +8,8 @@ get_posts:
   class: "GetPostsJob"
   active_job: true
   description: "Get posts from the feed urls every day at midnight"
+update_bookings:
+  cron: "0 4 * * *"
+  class: "UpdateBookingsJob"
+  active_job: true
+  description: "Update all the bookings from beds24 every morning at 4 am"

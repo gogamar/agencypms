@@ -3,7 +3,6 @@ class GetAllBookingsJob < ApplicationJob
 
   def perform(office, job_id)
     begin
-
       from_date = Date.today
 
       office.vrentals.each do |vrental|

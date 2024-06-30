@@ -1164,3 +1164,4 @@ en:
   last_cleaning_5_days_ago: Last Cleaning Was More Than 5 Days Ago
   organize_cleaning_by_checkouts: Organize Cleaning by Checkouts
   organize_cleaning_by_checkins: Organize Cleaning by Check-ins
+  cleaning_schedule_pending: "Cleaning schedules need to be updated to include these new bookings:"
