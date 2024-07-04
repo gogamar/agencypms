@@ -3,10 +3,6 @@ class VrentalApiService
     @target = target
   end
 
-  # fixme return error messages to controller so that an appropriate flash message can be displayed
-
-  # called on office
-
   def import_properties_from_beds(no_import = nil, import_name)
     client = BedsHelper::Beds.new(@target.beds_key)
     begin
@@ -196,7 +192,7 @@ class VrentalApiService
   end
 
   def delete_non_valid_images_on_beds
-    client = BedsHelper::Beds.new(office.beds_key)
+    client = BedsHelper::Beds.new(@target.office.beds_key)
     begin
       beds24photos_property = get_property_photos_from_beds
       beds24photos_room = get_room_photos_from_beds
@@ -1068,7 +1064,6 @@ class VrentalApiService
   end
 
   # Availability
-
 
   def get_bookings_from_beds(from_date = nil)
     arrival_from = Date.today.beginning_of_year.strftime("%Y%m%d").to_s

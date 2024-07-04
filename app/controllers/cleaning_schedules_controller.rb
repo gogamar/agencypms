@@ -66,14 +66,6 @@ class CleaningSchedulesController < ApplicationController
     redirect_to organize_cleaning_company_office_path(@office.company, @office), notice: "Horari de neteja actualitzat."
   end
 
-  # def update_all
-  #   authorize @office
-  #   from = Date.today
-  #   to = params[:to].to_date
-  #   CleaningSchedulesService.new(@office, from, to).update_cleaning_schedules
-  #   redirect_to office_cleaning_schedules_path(@office), notice: "S'han creat o actualitzat els horaris de neteja."
-  # end
-
   def unlock
     @cleaning_schedule.update(locked: false)
     redirect_to office_cleaning_schedules_path(@office), notice: "Horari de neteja desprotegit i serà modificat al actualitzar els horaris de neteja."

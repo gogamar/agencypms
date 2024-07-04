@@ -16,11 +16,6 @@ export default class extends Controller {
 
     const params = new URLSearchParams(formData);
 
-    // Debugging line to check the content of the URL and parameters
-    console.log("formData: ", Array.from(formData.entries()));
-    console.log("url with params: ", url.toString() + "?" + params.toString());
-
-    // Append query parameters to the URL
     url.search = params.toString();
 
     fetch(url, {
