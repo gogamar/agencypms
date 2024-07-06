@@ -167,8 +167,22 @@ class Office < ApplicationRecord
     scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date)
   end
 
-  def checkout_bookings(scope, start_date, end_date)
-    scope.where.not(status: "0").where("checkout >= ? AND checkout <= ?", start_date, end_date)
+  def checkout_bookings(scope, start_date, end_date, rental = nil, checkout_from = nil, checkout_to = nil)
+    checkout_bookings = scope.where.not(status: "0").where("checkout >= ? AND checkout <= ?", start_date, end_date)
+
+    if rental.present?
+      checkout_bookings = checkout_bookings.where(vrental_id: rental.id)
+    end
+
+    if checkout_from.present? && checkout_to.present?
+      checkout_bookings = checkout_bookings.where("checkout >= ? AND checkout <= ?", checkout_from, checkout_to)
+    elsif checkout_from.present?
+      checkout_bookings = checkout_bookings.where("checkout >= ?", checkout_from)
+    elsif checkout_to.present?
+      checkout_bookings = checkout_bookings.where("checkout <= ?", checkout_to)
+    end
+
+    checkout_bookings
   end
 
   def cleaned_5_days_ago(date)

@@ -81,10 +81,17 @@ class OfficesController < ApplicationController
   def cleaning_checkout
     @start_date = Date.today
     @end_date = Date.today + 14.days
-    checkout_bookings = @office.checkout_bookings(@office.bookings, @start_date, @end_date)
-    checkout_owner_bookings = @office.checkout_bookings(@office.owner_bookings, @start_date, @end_date)
+    @vrentals = @office.vrentals.order(:name)
+    checkout_from = params[:checkout_from]
+    checkout_to = params[:checkout_to]
+    rental = @office.vrentals.find_by(id: params[:vrental_id]) if params[:vrental_id].present?
+
+    checkout_bookings = @office.checkout_bookings(@office.bookings, @start_date, @end_date, rental, checkout_from, checkout_to)
+
+    checkout_owner_bookings = @office.checkout_bookings(@office.owner_bookings, @start_date, @end_date, rental, checkout_from, checkout_to)
 
     @checkout_all = (checkout_bookings + checkout_owner_bookings).sort_by { |booking| [booking[:checkout]] }
+
     @pagy, @checkout_all = pagy_array(@checkout_all, page: params[:page], items: 5)
   end
 

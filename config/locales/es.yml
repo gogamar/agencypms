@@ -1166,3 +1166,5 @@ es:
   organize_cleaning_by_checkouts: Organizar limpieza por salidas
   organize_cleaning_by_checkins: Organizar limpieza por entradas
   cleaning_schedule_pending: "Se debe actualizar los horarios de limpieza para incluir estas nuevas reservas:"
+  checkout_from: Salida desde
+  checkout_to: Salida hasta

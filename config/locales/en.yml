@@ -1165,3 +1165,5 @@ en:
   organize_cleaning_by_checkouts: Organize Cleaning by Checkouts
   organize_cleaning_by_checkins: Organize Cleaning by Check-ins
   cleaning_schedule_pending: "Cleaning schedules need to be updated to include these new bookings:"
+  checkout_from: Checkout from
+  checkout_to: Checkout to

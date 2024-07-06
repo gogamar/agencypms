@@ -1166,3 +1166,5 @@ fr:
   organize_cleaning_by_checkouts: Organiser le nettoyage par départs
   organize_cleaning_by_checkins: Organiser le nettoyage par arrivées
   cleaning_schedule_pending: "Il est nécessaire de mettre à jour les horaires de nettoyage pour inclure ces nouvelles réservations :"
+  checkout_from: Date de repart
+  checkout_to: Date de retour

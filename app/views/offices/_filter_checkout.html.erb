@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between align-items-center">
+  <%= form_with(url: cleaning_checkout_company_office_path(@company, @office), method: "get") do %>
+    <div class="d-flex justify-content-start align-items-end">
+      <div class="form-group me-2">
+        <%= label_tag(:vrental_id, t('vrental_title')) %>
+        <%= select_tag(:vrental_id,
+               options_for_select([[t('show_them_all'), nil]] + @vrentals.map { |vr| [vr.name, vr.id] },
+               selected: params[:vrental_id]),
+               include_blank: false,
+               class: "form-select") %>
+      </div>
+      <div class="form-group me-2">
+        <%= label_tag(:checkout_from, t('checkout_from')) %>
+        <%= text_field_tag(:checkout_from, params[:checkout_from] || Date.today, class: "form-control datepicker", type: "date") %>
+      </div>
+      <div class="form-group me-2">
+        <%= label_tag(:checkout_to, t('checkout_to')) %>
+        <%= text_field_tag(:checkout_to, params[:checkout_to] || Date.today + 14.days, class: "form-control datepicker", type: "date") %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag(t('filter'), class: "btn btn-sm btn-info") %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<hr>

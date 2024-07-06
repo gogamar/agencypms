@@ -9,11 +9,13 @@
     <%= t('cleaning_schedule_pending') %>
     <ul>
       <% @unscheduled_cleaning.each do |booking| %>
-        <li>
-          <%= booking.vrental&.name %>:
-          <%= l(booking.checkin, format: :long_day) %> -
-          <%= l(booking.checkout, format: :long_day) %>
-        </li>
+        <% if booking.vrental.present? %>
+          <li>
+            <%= link_to booking.vrental.name, cleaning_checkout_company_office_path(@company, @office, vrental_id: booking.vrental.id) %>:
+            <%= l(booking.checkin, format: :long_day) %> -
+            <%= l(booking.checkout, format: :long_day) %>
+          </li>
+        <% end %>
       <% end %>
     </ul>
   </div>
