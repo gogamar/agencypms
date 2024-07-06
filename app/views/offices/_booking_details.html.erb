@@ -49,12 +49,10 @@
       <%= render "cleaning_schedules/cleaning_schedule", cleaning_schedule: cleaning_schedule, vrental: cleaning_schedule.vrental, checkin_booking: checkin_booking, checkout_booking: checkout_booking %>
     <% end %>
   <% end %>
-  <% last_cleaning = relevant_cleanings.order(cleaning_date: :desc).first %>
   <% dusting_needed = false %>
-  <% if checkin_booking.present? && last_cleaning && last_cleaning.cleaning_date < (checkin_booking.checkin - 6.days) %>
-    <% dusting_needed = true %>
-  <% elsif checkout_booking.present? && last_cleaning && last_cleaning.cleaning_date < (Date.today - 6.days) %>
-    <% dusting_needed = true %>
+  <% if checkin_booking %>
+    <% last_cleaning = booking_vrental.last_cleaning(checkin_booking.checkin) %>
+    <% dusting_needed = true if last_cleaning && last_cleaning.cleaning_date < (checkin_booking.checkin - 6.days) %>
   <% end %>
   <% if relevant_cleanings.none? || (last_cleaning && last_cleaning.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])) || dusting_needed %>
     <div class="p-3">

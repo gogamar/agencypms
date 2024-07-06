@@ -33,7 +33,7 @@
             <span class="text-danger"><%= t('add_cleaning_company') %></span>
           <% end %>
         </h6>
-        <div class="fw-bold font-weight-bold"><%= t(cleaning_schedule.cleaning_type) %></div>
+        <div class="fw-bold font-weight-bold <%= "text-uppercase" if cleaning_schedule.cleaning_type == "dusting_needed" %>"><%= t(cleaning_schedule.cleaning_type) %></div>
       </div>
       <div class="col-md-3 col">
         <% if checkin_booking.present? && checkout_booking.present? && checkin_booking.checkin == checkout_booking.checkout %>
