@@ -1127,7 +1127,7 @@ es:
   upload_completed: Importación completada
   upload_failed: Importación fallida
   cleaning_not_finished: "No se ha hecho la limpieza! El %{date} sólo se ha recogido la ropa sucia!!!"
-  incomplete_cleaning: Limpieza no está hecha. Sólo se ha recogido la ropa sucia.
+  incomplete_cleaning: La limpieza no acabada!
   cleaning_done_upto: Limpieza hecha hasta el %{date}
   cleaning_pending: "Es necesario actualizar los horarios de limpieza para incluir estas nuevas reservas:"
   checkout_full_cleaning: Limpieza y ropa después de la salida.
@@ -1162,7 +1162,7 @@ es:
   cleaning_done: Limpieza hecha
   last_cleaning: Última limpieza realizada el
   finish_cleaning: Finalizar limpieza
-  last_cleaning_5_days_ago: La última limpieza fue hace más de 5 días
+  last_cleaning_6_days_ago: La última limpieza hecha más de 6 días antes de la entrada
   organize_cleaning_by_checkouts: Organizar limpieza por salidas
   organize_cleaning_by_checkins: Organizar limpieza por entradas
   cleaning_schedule_pending: "Se debe actualizar los horarios de limpieza para incluir estas nuevas reservas:"

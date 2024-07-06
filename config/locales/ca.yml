@@ -1136,7 +1136,7 @@ ca:
   upload_completed: Importació completada
   upload_failed: Importació ha fallat
   cleaning_not_finished: "No se ha fet la neteja. El %{date} només s'ha recollit la roba bruta!!!"
-  incomplete_cleaning: Neteja no acabada! Només s'ha recollit la roba bruta
+  incomplete_cleaning: Neteja no acabada!
   cleaning_done_upto: Neteja programada fins al %{date}
   cleaning_pending: "Cal actualitzar els horaris de neteja per incloure aquestes reserves noves:"
   checkout_full_cleaning: Neteja completa (neteja i roba després de la sortida)
@@ -1171,10 +1171,10 @@ ca:
   cleaning_done: Neteja feta
   last_cleaning: L'última neteja feta el
   finish_cleaning: Acabar neteja
-  last_cleaning_5_days_ago: Fa mes de 5 dies des de l'ultima neteja
+  last_cleaning_6_days_ago: L'ultima neteja feta 6 díes abans de la entrada
   organize_cleaning_by_checkouts: Organitzar neteja per sortides
   organize_cleaning_by_checkins: Organitzar neteja per entrades
   cleaning_overlaps_booking: La neteja en mig d'una reserva. Tornar a programar la neteja!
-  cleaning_schedule_pending: "Cal actualitzar els horaris de neteja per incloure aquestes reserves noves:"
+  cleaning_schedule_pending: "Cal actualitzar els horaris de neteja:"
   checkout_from: Sortida des de
   checkout_to: Sortida fins a

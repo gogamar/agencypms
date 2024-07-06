@@ -1126,7 +1126,7 @@ en:
   upload_completed: Upload completed
   upload_failed: Upload failed
   cleaning_not_finished: "Cleaning not finished. Only dirty laundry picked up on %{date}"
-  incomplete_cleaning: Incomplete cleaning
+  incomplete_cleaning: Incomplete cleaning!
   cleaning_done_upto: Cleaning done up to %{date}
   cleaning_pending: "It is necessary to update the cleaning schedules to include these new bookings:"
   checkout_full_cleaning: Cleaning and bedlinen after checkout.
@@ -1161,7 +1161,7 @@ en:
   cleaning_done: Cleaning Done
   last_cleaning: Last Cleaning Done On
   finish_cleaning: Finish Cleaning
-  last_cleaning_5_days_ago: Last Cleaning Was More Than 5 Days Ago
+  last_cleaning_6_days_ago: Last cleaning more than 6 days before the checkin
   organize_cleaning_by_checkouts: Organize Cleaning by Checkouts
   organize_cleaning_by_checkins: Organize Cleaning by Check-ins
   cleaning_schedule_pending: "Cleaning schedules need to be updated to include these new bookings:"

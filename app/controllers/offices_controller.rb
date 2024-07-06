@@ -73,22 +73,24 @@ class OfficesController < ApplicationController
   def organize_cleaning
     @start_date = Date.today
     @end_date = 14.days.from_now
-    @unscheduled_cleaning = (@office.unscheduled_cleaning(@office.bookings, @start_date, @end_date) +
-                             @office.unscheduled_cleaning(@office.owner_bookings, @start_date, @end_date))
-                           .sort_by(&:checkin)
+    @no_previous_cleaning = (@office.no_previous_cleaning(@office.bookings, @start_date, @end_date) + @office.no_previous_cleaning(@office.owner_bookings, @start_date, @end_date)).sort_by(&:checkin)
+
+    @cleaned_6_days_ago = (@office.cleaned_6_days_ago(@office.bookings, @start_date, @end_date) + @office.cleaned_6_days_ago(@office.owner_bookings, @start_date, @end_date)).sort_by(&:checkin)
+
+    @previous_cleaning_incomplete = (@office.previous_cleaning_incomplete(@office.bookings, @start_date, @end_date) + @office.previous_cleaning_incomplete(@office.owner_bookings, @start_date, @end_date)).sort_by(&:checkin)
   end
 
   def cleaning_checkout
     @start_date = Date.today
     @end_date = Date.today + 14.days
     @vrentals = @office.vrentals.order(:name)
-    checkout_from = params[:checkout_from]
-    checkout_to = params[:checkout_to]
+    from = params[:from]
+    to = params[:to]
     rental = @office.vrentals.find_by(id: params[:vrental_id]) if params[:vrental_id].present?
 
-    checkout_bookings = @office.checkout_bookings(@office.bookings, @start_date, @end_date, rental, checkout_from, checkout_to)
+    checkout_bookings = @office.checkout_bookings(@office.bookings, @start_date, @end_date, rental, from, to)
 
-    checkout_owner_bookings = @office.checkout_bookings(@office.owner_bookings, @start_date, @end_date, rental, checkout_from, checkout_to)
+    checkout_owner_bookings = @office.checkout_bookings(@office.owner_bookings, @start_date, @end_date, rental, from, to)
 
     @checkout_all = (checkout_bookings + checkout_owner_bookings).sort_by { |booking| [booking[:checkout]] }
 
@@ -98,21 +100,14 @@ class OfficesController < ApplicationController
   def cleaning_checkin
     @start_date = Date.today
     @end_date = Date.today + 14.days
-    checkin_bookings = @office.checkin_bookings(@office.bookings, @start_date, @end_date)
-    checkin_owner_bookings = @office.checkin_bookings(@office.owner_bookings, @start_date, @end_date)
+    @vrentals = @office.vrentals.order(:name)
+    from = params[:from]
+    to = params[:to]
+    rental = @office.vrentals.find_by(id: params[:vrental_id]) if params[:vrental_id].present?
+    checkin_bookings = @office.checkin_bookings(@office.bookings, @start_date, @end_date, rental, from, to)
+    checkin_owner_bookings = @office.checkin_bookings(@office.owner_bookings, @start_date, @end_date, rental, from, to)
 
-    # Filter bookings based on vrental's previous cleanings conditions
-    no_previous_cleaning = checkin_bookings.select do |booking|
-      previous_cleanings = booking.vrental.previous_cleanings(booking.checkin)
-      previous_cleanings.none? || previous_cleanings.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
-    end
-
-    no_previous_cleaning_owner = checkin_owner_bookings.select do |booking|
-      previous_cleanings = booking.vrental.previous_cleanings(booking.checkin)
-      previous_cleanings.none? || previous_cleanings.last.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
-    end
-
-    @checkin_all = (no_previous_cleaning + no_previous_cleaning_owner).sort_by { |booking| [booking[:checkin]] }
+    @checkin_all = (checkin_bookings + checkin_owner_bookings).sort_by { |booking| [booking[:checkin]] }
 
     @pagy, @checkin_all = pagy_array(@checkin_all, page: params[:page], items: 5)
   end

@@ -163,8 +163,22 @@ class Office < ApplicationRecord
     end
   end
 
-  def checkin_bookings(scope, start_date, end_date)
-    scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date)
+  def checkin_bookings(scope, start_date, end_date, rental = nil, checkin_from = nil, checkin_to = nil)
+    checkin_bookings = scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date)
+
+    if rental.present?
+      checkin_bookings = checkin_bookings.where(vrental_id: rental.id)
+    end
+
+    if checkin_from.present? && checkin_to.present?
+      checkin_bookings = checkin_bookings.where("checkout >= ? AND checkout <= ?", checkin_from, checkin_to)
+    elsif checkin_from.present?
+      checkin_bookings = checkin_bookings.where("checkout >= ?", checkin_from)
+    elsif checkin_to.present?
+      checkin_bookings = checkin_bookings.where("checkout <= ?", checkin_to)
+    end
+
+    checkin_bookings
   end
 
   def checkout_bookings(scope, start_date, end_date, rental = nil, checkout_from = nil, checkout_to = nil)
@@ -185,14 +199,23 @@ class Office < ApplicationRecord
     checkout_bookings
   end
 
-  def cleaned_5_days_ago(date)
-    # check if this vrental was cleaned more than 5 days ago
-    vrental.joins(:cleaning_schedules).order.last.where("cleaning_date = ?", date - 5.days)
+  def cleaned_6_days_ago(scope, start_date, end_date)
+    checkin_bookings(scope, start_date, end_date).select do |booking|
+      last_cleaning = booking.vrental.last_cleaning(booking.checkin)
+      last_cleaning.present? && last_cleaning.cleaning_date < (booking.checkin - 6.days) && !last_cleaning.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
+    end
   end
 
-  def unscheduled_cleaning(scope, start_date, end_date)
-    last_cleaning_schedule = cleaning_schedules&.last
-    return if last_cleaning_schedule.nil?
-    scope.where.not(status: "0").where("checkin >= ? AND checkin <= ?", start_date, end_date).where("#{scope.table_name}.created_at > ?", last_cleaning_schedule.created_at)
+  def no_previous_cleaning(scope, start_date, end_date)
+    checkin_bookings(scope, start_date, end_date).select do |booking|
+      booking.vrental.previous_cleanings(booking.checkin).none?
+    end
+  end
+
+  def previous_cleaning_incomplete(scope, start_date, end_date)
+    checkin_bookings(scope, start_date, end_date).select do |booking|
+      last_cleaning = booking.vrental.last_cleaning(booking.checkin)
+      last_cleaning.present? && last_cleaning.cleaning_type.in?(["checkout_laundry_pickup", "checkout_no_laundry"])
+    end
   end
 end

@@ -5,7 +5,7 @@
 </div>
 <div>
   <h5><span class="text-primary text-uppercase"><%= t('checkouts') %></span> <%= l(@start_date, format: :long_day) %> - <%= l(@end_date, format: :long_day) %></h5>
-  <%= render "filter_checkout" %>
+  <%= render "filter", path: cleaning_checkout_company_office_path(@company, @office) %>
   <% @checkout_all.each do |booking| %>
     <% next_booking = booking.vrental.next_booking(booking.checkout) %>
     <% next_cleanings = booking.vrental.next_cleanings(booking.checkout) %>

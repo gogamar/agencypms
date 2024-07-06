@@ -4,16 +4,56 @@
   <%= link_to t('view_and_print_schedules'), office_cleaning_schedules_path(@office), class: "btn btn-sm btn-primary" %>
 </div>
 <hr>
-<% if @unscheduled_cleaning.any? %>
-  <div class="alert alert-warning position-relative">
-    <%= t('cleaning_schedule_pending') %>
+<% if @no_previous_cleaning.any? %>
+  <div class="alert alert-danger position-relative">
+    <%= t('add_cleaning_schedule') %>
     <ul>
-      <% @unscheduled_cleaning.each do |booking| %>
+      <% @no_previous_cleaning.each do |booking| %>
         <% if booking.vrental.present? %>
           <li>
-            <%= link_to booking.vrental.name, cleaning_checkout_company_office_path(@company, @office, vrental_id: booking.vrental.id) %>:
+            <%= link_to booking.vrental.name, cleaning_checkin_company_office_path(@company, @office, vrental_id: booking.vrental.id) %>:
             <%= l(booking.checkin, format: :long_day) %> -
             <%= l(booking.checkout, format: :long_day) %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if @previous_cleaning_incomplete.any? %>
+  <div class="alert alert-warning position-relative">
+    <%= t('incomplete_cleaning') %>
+    <ul>
+      <% @previous_cleaning_incomplete.each do |booking| %>
+        <% if booking.vrental.present? %>
+          <li>
+            <%= link_to booking.vrental.name, cleaning_checkin_company_office_path(@company, @office, vrental_id: booking.vrental.id) %>:
+            <%= l(booking.checkin, format: :long_day) %> -
+            <%= l(booking.checkout, format: :long_day) %>
+            <br>
+            <span class="text-secondary text-sm">
+              <%= t('last_cleaning') %>: <%= l(booking.vrental.last_cleaning(booking.checkin).cleaning_date) %> <%= booking.vrental.last_cleaning(booking.checkin).cleaning_company.name %> <%= t(booking.vrental.last_cleaning(booking.checkin).cleaning_type) %>
+            </span>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if @cleaned_6_days_ago.any? %>
+  <div class="alert alert-info position-relative">
+    <%= t('last_cleaning_6_days_ago') %>
+    <ul>
+      <% @cleaned_6_days_ago.each do |booking| %>
+        <% if booking.vrental.present? %>
+          <li>
+            <%= link_to booking.vrental.name, cleaning_checkin_company_office_path(@company, @office, vrental_id: booking.vrental.id) %>:
+            <%= l(booking.checkin, format: :long_day) %> -
+            <%= l(booking.checkout, format: :long_day) %>
+            <br>
+            <span class="text-secondary text-sm">
+              <%= t('last_cleaning') %>: <%= l(booking.vrental.last_cleaning(booking.checkin).cleaning_date) %> <%= booking.vrental.last_cleaning(booking.checkin).cleaning_company.name %>
+            </span>
           </li>
         <% end %>
       <% end %>

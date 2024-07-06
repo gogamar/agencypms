@@ -1127,7 +1127,7 @@ fr:
   upload_completed: Téléchargement terminé
   upload_failed: Échec du téléchargement
   cleaning_not_finished: "Le ménage n'a pas été fait ! Le %{date}, seuls les vêtements sales ont été collectés !!!"
-  incomplete_cleaning: Nettoyage incomplet
+  incomplete_cleaning: Nettoyage incomplet!
   cleaning_done_upto: Nettoyage effectué jusqu'à
   cleaning_pending: "Il est nécessaire de mettre à jour les horaires de nettoyage pour inclure ces nouvelles réservations:"
   checkout_full_cleaning: Nettoyage et linge après le départ.
@@ -1162,7 +1162,7 @@ fr:
   cleaning_done: Nettoyage effectué
   last_cleaning: Dernier nettoyage effectué le
   finish_cleaning: Terminer le nettoyage
-  last_cleaning_5_days_ago: Le dernier nettoyage a eu lieu il y a plus de 5 jours
+  last_cleaning_6_days_ago: Le dernier nettoyage a eu lieu il y a plus de 6 jours
   organize_cleaning_by_checkouts: Organiser le nettoyage par départs
   organize_cleaning_by_checkins: Organiser le nettoyage par arrivées
   cleaning_schedule_pending: "Il est nécessaire de mettre à jour les horaires de nettoyage pour inclure ces nouvelles réservations :"

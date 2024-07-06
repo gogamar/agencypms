@@ -1182,21 +1182,6 @@ class Vrental < ApplicationRecord
     Rails.logger.error("Error creating image URLs: #{e.message}")
   end
 
-  def cleaned_more_than_5_days_ago?(date)
-    past_cleaning_schedules = cleaning_schedules.where("cleaning_date < ?", date)
-
-    if past_cleaning_schedules.any?
-      latest_cleaning_schedule = past_cleaning_schedules.order(:cleaning_date).last
-      return latest_cleaning_schedule.cleaning_date < date - 5.days
-    elsif bookings.where("checkout = ?", date).any?
-      return false
-    elsif owner_bookings.where("checkout = ?", date).any?
-      return false
-    else
-      return true  # No past cleaning schedules, so return true (assuming it needs cleaning)
-    end
-  end
-
   def this_year_confirmed_guest_bookings
     bookings.where.not(status: "0").where("checkin >= ?", Date.today.beginning_of_year)
   end
@@ -1252,6 +1237,11 @@ class Vrental < ApplicationRecord
       end
     end
     overlap_cleanings
+  end
+
+  def last_cleaning(checkin_date)
+    previous_cleanings = previous_cleanings(checkin_date)
+    previous_cleanings.any? && previous_cleanings.order(cleaning_date: :asc).last
   end
 
   private
