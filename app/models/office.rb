@@ -208,7 +208,8 @@ class Office < ApplicationRecord
 
   def no_previous_cleaning(scope, start_date, end_date)
     checkin_bookings(scope, start_date, end_date).select do |booking|
-      booking.vrental.previous_cleanings(booking.checkin).none?
+      last_cleaning = booking.vrental.last_cleaning(booking.checkin)
+      booking.vrental.previous_cleanings(booking.checkin).none? || !last_cleaning.cleaning_type.in?(["no_cleaning"])
     end
   end
 

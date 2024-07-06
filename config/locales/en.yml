@@ -1167,3 +1167,4 @@ en:
   cleaning_schedule_pending: "Cleaning schedules need to be updated to include these new bookings:"
   checkout_from: Checkout from
   checkout_to: Checkout to
+  no_cleaning: No Cleaning

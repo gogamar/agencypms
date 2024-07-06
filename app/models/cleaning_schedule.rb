@@ -11,7 +11,8 @@ class CleaningSchedule < ApplicationRecord
     'checkout_no_laundry',
     'checkin_full_cleaning',
     'checkin_set_laundry',
-    'checkin_no_laundry'
+    'checkin_no_laundry',
+    'no_cleaning'
   ]
 
   CLEANING_REASON = [

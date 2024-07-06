@@ -1168,3 +1168,4 @@ es:
   cleaning_schedule_pending: "Se debe actualizar los horarios de limpieza para incluir estas nuevas reservas:"
   checkout_from: Salida desde
   checkout_to: Salida hasta
+  no_cleaning: No limpiar

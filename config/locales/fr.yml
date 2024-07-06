@@ -1168,3 +1168,4 @@ fr:
   cleaning_schedule_pending: "Il est nécessaire de mettre à jour les horaires de nettoyage pour inclure ces nouvelles réservations :"
   checkout_from: Date de repart
   checkout_to: Date de retour
+  no_cleaning: Pas Nettoyage

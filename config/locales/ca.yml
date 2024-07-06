@@ -1178,3 +1178,4 @@ ca:
   cleaning_schedule_pending: "Cal actualitzar els horaris de neteja:"
   checkout_from: Sortida des de
   checkout_to: Sortida fins a
+  no_cleaning: No fer neteja
