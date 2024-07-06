@@ -12,6 +12,7 @@ class CleaningSchedule < ApplicationRecord
     'checkin_full_cleaning',
     'checkin_set_laundry',
     'checkin_no_laundry',
+    'dusting_needed',
     'no_cleaning'
   ]
 

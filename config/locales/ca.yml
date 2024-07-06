@@ -1171,7 +1171,7 @@ ca:
   cleaning_done: Neteja feta
   last_cleaning: L'última neteja feta el
   finish_cleaning: Acabar neteja
-  last_cleaning_6_days_ago: L'ultima neteja feta 6 díes abans de la entrada
+  last_cleaning_6_days_ago: L'ultima neteja feta més de 6 dies abans de la entrada
   organize_cleaning_by_checkouts: Organitzar neteja per sortides
   organize_cleaning_by_checkins: Organitzar neteja per entrades
   cleaning_overlaps_booking: La neteja en mig d'una reserva. Tornar a programar la neteja!
@@ -1179,3 +1179,4 @@ ca:
   checkout_from: Sortida des de
   checkout_to: Sortida fins a
   no_cleaning: No fer neteja
+  dusting_needed: Net i roba posada, només repasar i ventilar
